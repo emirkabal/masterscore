@@ -1,9 +1,10 @@
-import mongoose, { Schema } from "mongoose"
+import { model, Schema } from "mongoose"
+
 const schema: Schema = new Schema(
   {
     entertainment: {
       type: Schema.Types.ObjectId,
-      ref: "entertainment"
+      ref: "Entertainment"
     },
     likes: {
       type: Number,
@@ -15,4 +16,4 @@ const schema: Schema = new Schema(
   }
 )
 
-export default mongoose.model("like", schema)
+export default model("Like", schema)

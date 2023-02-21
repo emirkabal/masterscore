@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose"
+import { model, Schema } from "mongoose"
 
 const schema: Schema = new Schema(
   {
@@ -25,25 +25,25 @@ const schema: Schema = new Schema(
     likes: [
       {
         type: Schema.Types.ObjectId,
-        ref: "entertainment"
+        ref: "Entertainment"
       }
     ],
     reviews: [
       {
         type: Schema.Types.ObjectId,
-        ref: "entertainment"
+        ref: "Entertainment"
       }
     ],
     watchlist: [
       {
         type: Schema.Types.ObjectId,
-        ref: "entertainment"
+        ref: "Entertainment"
       }
     ],
     watcheds: [
       {
         type: Schema.Types.ObjectId,
-        ref: "entertainment"
+        ref: "Entertainment"
       }
     ]
   },
@@ -53,4 +53,4 @@ const schema: Schema = new Schema(
   }
 )
 
-export default mongoose.model("user", schema)
+export default model("User", schema)
