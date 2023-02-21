@@ -16,10 +16,15 @@ export default defineEventHandler(async (event) => {
       entertainment: id,
       author: event.context.user._id
     })
+      .populate({
+        path: "author",
+        model: UserModel,
+        select: "_id username"
+      })
       .select("-entertainment -_id")
       .lean()
   }
-  const reviews: IReview[] | null = await ReviewModel.find({
+  let reviews: IReview[] | null = await ReviewModel.find({
     entertainment: id
   })
     .sort({ createdAt: -1 })
@@ -31,6 +36,13 @@ export default defineEventHandler(async (event) => {
       select: "_id username"
     })
     .lean()
+
+  if (review && reviews) {
+    reviews = reviews.filter(
+      (r) => r.author._id?.toString() != review?.author._id?.toString()
+    )
+    reviews.unshift(review)
+  }
 
   const average = await ReviewModel.aggregate([
     {

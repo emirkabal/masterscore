@@ -29,8 +29,10 @@ const comments = ref([])
 const showDetailsDev = ref(false)
 const reviewDataFromServer = reactive({
   rating: 0,
-  comment: ""
+  comment: "",
+  loading: true
 })
+const masterRating = ref(0)
 const backgroundBright = computed(() => {
   return backgroundColor.value[0] * 0.299 +
     backgroundColor.value[1] * 0.587 +
@@ -114,6 +116,31 @@ const like = async () => {
   })
   likes.value = entertainmentLikes
 }
+const fetchLikes = async () => {
+  const { likes: entertainmentLikes } = await $fetch(
+    `/api/likes/${data.value.localId}`
+  )
+  likes.value = entertainmentLikes
+}
+const fetchReviews = async () => {
+  reviewDataFromServer.loading = true
+  const review = await $fetch(`/api/reviews/${localId.value}`, {
+    headers: generateHeaders()
+  })
+  if ("message" in review) {
+    console.log(review.message)
+    return
+  }
+  comments.value = review.reviews
+  if (review.review && review.review.rating) {
+    reviewDataFromServer.rating = review.review.rating
+    if (review.review.content)
+      reviewDataFromServer.comment = review.review.content
+  }
+  reviews.value = review.count
+  masterRating.value = review.averageRating
+  reviewDataFromServer.loading = false
+}
 
 const openReview = () => {
   if (!isLoggedIn) {
@@ -145,6 +172,7 @@ const submitReview = async () => {
     }),
     headers: generateHeaders()
   })
+  fetchReviews()
 }
 
 watch(data, async () => {
@@ -158,26 +186,8 @@ watch(data, async () => {
     backgroundColor.value = [0, 0, 0]
   }
 
-  const { likes: entertainmentLikes } = await $fetch(
-    `/api/likes/${data.value.localId}`
-  )
-  likes.value = entertainmentLikes
-  ;(async () => {
-    const review = await $fetch(`/api/reviews/${localId.value}`, {
-      headers: generateHeaders()
-    })
-    if ("message" in review) {
-      console.log(review.message)
-      return
-    }
-    if (review.review && review.review.rating) {
-      reviewDataFromServer.rating = review.review.rating
-      if (review.review.content)
-        reviewDataFromServer.comment = review.review.content
-    }
-    reviews.value = review.count
-    comments.value = review.reviews
-  })()
+  fetchLikes()
+  fetchReviews()
 })
 
 watch(reviewRating, () => {
@@ -337,6 +347,10 @@ watch(reviewRating, () => {
                       <IconImdb class="w-auto h-7" />
                       {{ imdbScore || data.vote_average.toFixed(1) }}
                     </a>
+                    <RottenTomatoes
+                      v-if="data.localData?.info?.ratings?.rotten_tomatoes"
+                      :score="data.localData?.info?.ratings?.rotten_tomatoes"
+                    />
                   </div>
                 </div>
               </div>
@@ -366,13 +380,13 @@ watch(reviewRating, () => {
                   <IconStar v-else class="w-6 h-6" />
                   {{ userReviewed ? "Reviewed" : "Review" }}
                 </button>
-                <button
+                <!-- <button
                   class="bg-white flex gap-1 items-center text-black px-4 py-2 font-semibold rounded hover:bg-opacity-80 transition"
                 >
                   <IconList class="w-6 h-6" />
-                  <!-- <IconListChecked class="w-6 h-6" /> -->
+                  <IconListChecked class="w-6 h-6" />
                   Add to watchlist
-                </button>
+                </button> -->
               </div>
               <div
                 :class="{
@@ -382,7 +396,8 @@ watch(reviewRating, () => {
                 class="mt-2 flex gap-2 divide-x-2 text-sm"
               >
                 <p>{{ likes }} likes</p>
-                <p class="px-2">{{ reviews }} reviews</p>
+                <p class="pl-2">{{ reviews }} reviews</p>
+                <p class="pl-2">masterscore: {{ masterRating }}</p>
               </div>
             </div>
           </div>
@@ -390,7 +405,10 @@ watch(reviewRating, () => {
       </div>
     </div>
     <div class="container m-auto mt-8 mb-28">
-      <div v-if="comments.length > 0">
+      <div class="flex justify-center" v-if="reviewDataFromServer.loading">
+        <Spinner color="#000" />
+      </div>
+      <div v-else-if="comments.length > 0">
         <h1 class="text-2xl font-semibold">Latest Reviews</h1>
         <hr class="my-4" />
         <div class="space-y-4">
@@ -438,6 +456,13 @@ watch(reviewRating, () => {
                 }}
               </p>
             </div>
+            <button
+              v-if="comment.author._id === user?._id"
+              @click="openReview"
+              class="bg-white shadow rounded font-semibold px-2 py-1 ml-auto text-xs hover:bg-gray-50 transition"
+            >
+              Edit Review
+            </button>
           </div>
         </div>
       </div>

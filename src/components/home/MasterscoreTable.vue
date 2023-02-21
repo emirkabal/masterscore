@@ -1,4 +1,6 @@
 <script setup>
+import IMDB from "~/components/IMDB.vue"
+import RottenTomatoes from "~/components/RottenTomatoes.vue"
 const headers = [
   { text: "# Rank", value: "rank", sortable: true },
   { text: "Entertainment", value: "entertainment.info.title", sortable: true },
@@ -14,35 +16,64 @@ const headers = [
 
 const items = ref([])
 
-const { data, pending } = useLazyFetch("/api/reviews?limit=100", {
-  headers: generateHeaders()
+const listType = ref("movie")
+const pending = ref(true)
+const fetch = async () => {
+  pending.value = true
+  const data = await $fetch("/api/reviews?limit=100&type=" + listType.value, {
+    headers: generateHeaders()
+  })
+  items.value = data.map((e, i) => {
+    return {
+      rank: i + 1,
+      ...e,
+      rating: e.entertainment.info.ratings
+    }
+  })
+  pending.value = false
+}
+
+onMounted(() => {
+  fetch()
 })
 
-watchEffect(() => {
-  if (pending.value === false) {
-    items.value = data.value.map((e, i) => {
-      return {
-        rank: i + 1,
-        ...e
-      }
-    })
-  }
+watch(listType, () => {
+  fetch()
 })
 </script>
 
 <template>
-  <div>
-    <router-link
-      v-if="$route.path !== '/table'"
-      to="/table"
-      class="text-2xl block font-bold my-4 md:border-l-4 pl-2 border-blue-700 hover:border-blue-500 transition-colors"
-    >
-      Masterscore Table
-    </router-link>
+  <div v-if="pending">
+    <div class="flex justify-center items-center h-64">
+      <Spinner color="#000" />
+    </div>
+  </div>
+  <div v-else>
+    <div class="flex justify-between items-center">
+      <div v-if="$route.path !== '/table'">
+        <router-link
+          to="/table"
+          class="text-2xl block font-bold my-4 md:border-l-4 pl-2 border-blue-700 hover:border-blue-500 transition-colors"
+        >
+          Masterscore Table
+        </router-link>
+      </div>
+      <div v-else>{{ listType }}</div>
+      <select
+        class="h-12"
+        :value="listType"
+        @input="(e) => (listType = e.target.value)"
+      >
+        <option value="">All</option>
+        <option value="movie">Movies</option>
+        <option value="tv">TV Shows</option>
+      </select>
+    </div>
+
     <EasyDataTable
       :headers="headers"
       :items="items"
-      :loading="loading"
+      :loading="pending"
       :rows-items="[5, 10, 25, 50]"
       buttons-pagination
     >
@@ -75,16 +106,14 @@ watchEffect(() => {
           {{ average.toFixed(1) }}
         </div>
       </template>
-      <template #item-otherRatings="item">
+      <template #item-otherRatings="{ rating }">
         <div class="flex justify-start gap-2">
-          <IMDB
-            v-if="item.entertainment.info.ratings?.imdb"
-            :score="item.entertainment.info.ratings?.imdb || 0"
-          ></IMDB>
-          <RottenTomatoes
-            v-if="item.entertainment.info.ratings?.rotten_tomatoes"
-            :score="item.entertainment.info.ratings?.rotten_tomatoes || 0"
-          ></RottenTomatoes>
+          <component v-if="rating.imdb" :is="IMDB" :score="rating.imdb" />
+          <component
+            v-if="rating.rotten_tomatoes"
+            :is="RottenTomatoes"
+            :score="rating.rotten_tomatoes"
+          />
         </div>
       </template>
     </EasyDataTable>

@@ -2,7 +2,10 @@ import { IEntertainment } from "~~/src/@types"
 import ReviewModel from "../../models/Review.model"
 
 export default defineEventHandler(async (event) => {
-  const { limit } = getQuery(event) as { limit: number | undefined }
+  const { limit, type } = getQuery(event) as {
+    limit: number | undefined
+    type: string | undefined
+  }
 
   const average: {
     _id: string
@@ -32,6 +35,7 @@ export default defineEventHandler(async (event) => {
     {
       $unwind: "$entertainment"
     },
+    (type && { $match: { "entertainment.type": type } }) || { $match: {} },
     {
       $sort: {
         average: -1

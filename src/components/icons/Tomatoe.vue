@@ -10,15 +10,6 @@
     xmlns:cc="http://creativecommons.org/ns#"
     xmlns:dc="http://purl.org/dc/elements/1.1/"
   >
-    <metadata id="metadata3396">
-      <rdf:RDF>
-        <cc:Work rdf:about="">
-          <dc:format>image/svg+xml</dc:format>
-          <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-          <dc:title />
-        </cc:Work>
-      </rdf:RDF>
-    </metadata>
     <g id="layer1" fill="#f93208">
       <path
         id="path3412"

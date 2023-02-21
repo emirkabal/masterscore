@@ -41,7 +41,14 @@ const userStore = useUserStore()
               <router-link
                 class="hover:bg-gray-50 p-2 rounded-lg block"
                 to="/users/@me"
-                >View Profile</router-link
+                >Profile</router-link
+              >
+            </MenuItem>
+            <MenuItem>
+              <router-link
+                class="hover:bg-gray-50 p-2 rounded-lg block"
+                to="/users/@me/reviews"
+                >Reviews</router-link
               >
             </MenuItem>
             <MenuItem>

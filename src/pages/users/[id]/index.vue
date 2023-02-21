@@ -64,20 +64,11 @@ if (params.id === "me") {
     <p class="text-gray-500">{{ error }}</p>
   </div>
   <div v-else>
-    <div
-      :style="`background-image: url(${user.banner})`"
-      class="w-full h-64 bg-gray-500 relative bg-cover bg-center"
-    >
-      <router-link
-        v-if="user.username === localUser?.username"
-        to="/users/@me/edit"
-        class="px-4 py-2 rounded hover:bg-gray-50 bg-white text-black font-bold absolute bottom-0 right-0 m-4 transition-colors"
-        >Edit Profile</router-link
-      >
-      <div class="absolute md:-bottom-16 md:left-10 -bottom-12 left-8">
-        <Avatar class="md:w-32 md:h-32 w-24 h-24" :username="user.username" />
-      </div>
-    </div>
+    <ProfileBanner
+      :banner="user?.banner || ''"
+      :username="user.username"
+      :is-me="user.username === localUser?.username"
+    />
     <div class="container px-4 m-auto 2xl:mt-10 mt-16">
       <div class="flex items-center justify-between border-b p-2 md:p-6 mb-8">
         <h1 class="font-bold text-xl md:text-4xl">@{{ user.username }}</h1>
@@ -106,9 +97,15 @@ if (params.id === "me") {
             </p>
           </div>
           <div>
-            <h2 class="font-bold text-xl md:text-2xl mb-4 border-b pb-2">
-              Latest Activity
-            </h2>
+            <div class="border-b pb-2 mb-4 flex justify-between items-center">
+              <h2 class="font-bold text-xl md:text-2xl">Latest Activity</h2>
+              <router-link
+                :to="'/users/' + user.username + '/reviews'"
+                class="px-4 py-2 bg-white shadow rounded font-semibold text-sm hover:bg-gray-50 transition-colors"
+              >
+                View Reviews
+              </router-link>
+            </div>
 
             <div v-if="activities.loading" class="flex justify-center">
               <Spinner color="#000" />

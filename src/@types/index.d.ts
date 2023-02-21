@@ -204,11 +204,7 @@ export interface IReview {
   _id?: string
   rating: number
   content?: string
-  entertainment: {
-    id: string
-    type: string
-    data: TMDBMovie | TMDBTV
-  }
+  entertainment: IEntertainment
   attribute?: string
   rating: number
   content?: string
