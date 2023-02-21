@@ -19,19 +19,8 @@ const disabled = computed(() => {
     email.value.length === 0 ||
     password.value.length === 0 ||
     confirmPassword.value.length === 0 ||
-    password.value !== confirmPassword.value ||
     inviteCode.value.length === 0
   )
-})
-
-console.log(disabled.value)
-
-watch([password, confirmPassword], () => {
-  if (password.value !== confirmPassword.value) {
-    error.value = "Passwords do not match"
-  } else {
-    error.value = ""
-  }
 })
 
 if (userStore.isLoggedIn) {
@@ -40,6 +29,12 @@ if (userStore.isLoggedIn) {
 
 const submit = async (event) => {
   event.preventDefault()
+  if (password.value !== confirmPassword.value) {
+    error.value = "Passwords do not match"
+    return
+  } else {
+    error.value = ""
+  }
   const data = await $fetch("/api/auth/signup", {
     method: "POST",
     body: JSON.stringify({

@@ -17,7 +17,6 @@ if (userStore.isLoggedIn) {
 const submit = async (event) => {
   event.preventDefault()
   const data = await userStore.login(username.value, password.value)
-  console.log(data)
   if (data.status === 200) {
     error.value = ""
     useRouter().push("/")
