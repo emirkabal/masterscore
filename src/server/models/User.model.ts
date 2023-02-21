@@ -25,25 +25,25 @@ const schema: Schema = new Schema(
     likes: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Entertainment"
+        ref: "entertainment"
       }
     ],
     reviews: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Entertainment"
+        ref: "entertainment"
       }
     ],
     watchlist: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Entertainment"
+        ref: "entertainment"
       }
     ],
     watcheds: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Entertainment"
+        ref: "entertainment"
       }
     ]
   },
@@ -53,4 +53,4 @@ const schema: Schema = new Schema(
   }
 )
 
-export default model("User", schema)
+export default model("user", schema)

@@ -12,11 +12,11 @@ const schema: Schema = new Schema(
     },
     entertainment: {
       type: Schema.Types.ObjectId,
-      ref: "Entertainment"
+      ref: "entertainment"
     },
     author: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user",
       required: true
     }
   },
@@ -26,4 +26,4 @@ const schema: Schema = new Schema(
   }
 )
 
-export default model("Review", schema)
+export default model("review", schema)

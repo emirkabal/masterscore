@@ -3,7 +3,7 @@ const schema: Schema = new Schema(
   {
     entertainment: {
       type: Schema.Types.ObjectId,
-      ref: "Entertainment"
+      ref: "entertainment"
     },
     likes: {
       type: Number,
@@ -15,4 +15,4 @@ const schema: Schema = new Schema(
   }
 )
 
-export default model("Like", schema)
+export default model("like", schema)

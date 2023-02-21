@@ -69,4 +69,4 @@ const schema: Schema = new Schema(
   }
 )
 
-export default model("Entertainment", schema)
+export default model("entertainment", schema)
