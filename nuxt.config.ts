@@ -2,6 +2,9 @@
 export default defineNuxtConfig({
   srcDir: "src/",
   ssr: false,
+  nitro: {
+    preset: "vercel"
+  },
   app: {
     head: {
       title: "Masterscore",
