@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { useUserStore } from "~/store/user"
 import Avatar from "~/components/Avatar.vue"
-import IconHeartFilled from "~/components/Icons/HeartFilled.vue"
-import IconStarFilled from "~/components/Icons/StarFilled.vue"
 import { IActivity, IUser } from "~/@types"
 const { params } = useRoute()
 
@@ -125,11 +123,11 @@ if (params.id === "me") {
                   :to="`/details/${activity.entertainment.type}/${activity.entertainment.id}`"
                 >
                   <div class="relative">
-                    <IconHeartFilled
+                    <IconsHeartFilled
                       v-if="activity.type === 'like'"
                       class="text-red-600"
                     />
-                    <IconStarFilled v-else class="text-yellow-400" />
+                    <IconsStarFilled v-else class="text-yellow-400" />
                     <span
                       v-if="activity.type === 'review' && activity.attribute"
                       class="absolute top-0 mt-1.5 right-0 left-0 text-[8px] font-bold text-black text-center"
