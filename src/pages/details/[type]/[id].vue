@@ -425,7 +425,7 @@ watch(reviewRating, () => {
               <div class="flex items-center gap-2">
                 <router-link
                   :to="`/users/@${
-                    comment.author._id == user._id
+                    comment.author._id == user?._id
                       ? 'me'
                       : comment.author.username
                   }`"

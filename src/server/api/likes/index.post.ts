@@ -31,7 +31,8 @@ export default defineEventHandler(async (event) => {
     )
     await ActivityModel.findOneAndDelete({
       type: "like",
-      entertainment: id
+      entertainment: id,
+      author: user._id as string
     })
 
     return { status: 200, message: "Unliked", likes }
