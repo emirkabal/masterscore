@@ -2,16 +2,26 @@
 import IMDB from "~/components/IMDB.vue"
 import RottenTomatoes from "~/components/RottenTomatoes.vue"
 const headers = [
-  { text: "# Rank", value: "rank", sortable: true },
-  { text: "Entertainment", value: "entertainment.info.title", sortable: true },
+  { text: "Rank", value: "rank", sortable: true, width: 40 },
+  {
+    text: "Entertainment",
+    value: "entertainment.info.title",
+    sortable: true
+  },
   {
     text: "Release Date",
     value: "entertainment.info.release_date",
-    sortable: true
+    sortable: true,
+    width: 120
   },
-  { text: "Runtime", value: "entertainment.info.runtime", sortable: true },
-  { text: "MasterRating", value: "average", sortable: true },
-  { text: "Other Ratings", value: "otherRatings", sortable: false }
+  {
+    text: "Runtime",
+    value: "entertainment.info.runtime",
+    sortable: true,
+    width: 80
+  },
+  { text: "Rating", value: "average", sortable: true, width: 80 },
+  { text: "Other Ratings", value: "otherRatings", sortable: false, width: 1 }
 ]
 
 const items = ref([])
@@ -75,12 +85,16 @@ watch(listType, () => {
       :items="items"
       :loading="pending"
       :rows-items="[5, 10, 25, 50]"
+      body-row-class-name="text-center"
+      body-item-class-name="text-center"
       buttons-pagination
     >
-      <template #item-rank="{ rank }"> #{{ rank }} </template>
+      <template #item-rank="{ rank }">
+        <span class="w-full text-center text-lg">#{{ rank }}</span>
+      </template>
       <template #item-entertainment.info.title="{ entertainment }">
         <router-link
-          class="hover:underline flex items-center gap-2"
+          class="hover:underline flex items-center gap-2 text-lg font-semibold"
           :to="`/details/${entertainment.type}/${entertainment.id}`"
         >
           <img
@@ -101,13 +115,13 @@ watch(listType, () => {
         }}
       </template>
       <template #item-average="{ average }">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 justify-center">
           <IconsStarFilled class="w-4 h-4 text-yellow-400" />
           {{ average.toFixed(1) }}
         </div>
       </template>
       <template #item-otherRatings="{ rating }">
-        <div class="flex justify-start gap-2">
+        <div class="flex justify-start gap-2 px-2">
           <component v-if="rating.imdb" :is="IMDB" :score="rating.imdb" />
           <component
             v-if="rating.rotten_tomatoes"

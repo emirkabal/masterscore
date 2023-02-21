@@ -23,10 +23,10 @@ table {
   @apply border-collapse border border-gray-200 bg-white;
 }
 table th {
-  @apply border border-gray-200 p-2;
+  @apply border border-gray-200;
 }
 table td {
-  @apply border border-gray-200 p-2;
+  @apply border border-gray-200;
 }
 table tr:nth-child(even) {
   @apply bg-gray-100;
@@ -111,7 +111,7 @@ p-1 transition duration-300;
   @apply border-b;
 }
 .vue3-easy-data-table__body tr td {
-  @apply p-4 py-5 text-sm font-normal;
+  @apply p-1 text-sm font-normal;
 }
 /* Table body tr */
 .vue3-easy-data-table__body.row-alternation tr {
@@ -119,9 +119,9 @@ p-1 transition duration-300;
 }
 
 /* Expand slot */
-.vue3-easy-data-table__body tr td.expand {
+/* .vue3-easy-data-table__body tr td.expand {
   @apply px-3 py-1;
-}
+} */
 
 /* Expand Icon  */
 .expand-icon {
