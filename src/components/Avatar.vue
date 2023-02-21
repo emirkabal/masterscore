@@ -11,7 +11,9 @@ const props = defineProps({
     class="overflow-hidden rounded-full border-4 flex items-center justify-center bg-white"
   >
     <img
-      :src="'https://api.dicebear.com/5.x/micah/svg?seed=' + props.username"
+      :src="
+        'https://api.dicebear.com/5.x/open-peeps/svg?seed=' + props.username
+      "
       draggable="false"
       alt="User Avatar"
     />

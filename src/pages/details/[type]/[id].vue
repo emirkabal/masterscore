@@ -424,7 +424,11 @@ watch(reviewRating, () => {
             <div class="flex flex-col ml-4">
               <div class="flex items-center gap-2">
                 <router-link
-                  :to="`/users/@${comment.author.username}`"
+                  :to="`/users/@${
+                    comment.author._id == user._id
+                      ? 'me'
+                      : comment.author.username
+                  }`"
                   class="font-semibold text-lg hover:underline"
                 >
                   @{{ comment.author.username }}
