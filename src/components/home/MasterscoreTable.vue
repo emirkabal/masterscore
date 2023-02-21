@@ -32,6 +32,13 @@ watchEffect(() => {
 
 <template>
   <div>
+    <router-link
+      v-if="$route.path !== '/table'"
+      to="/table"
+      class="text-2xl block font-bold my-4 md:border-l-4 pl-2 border-blue-700 hover:border-blue-500 transition-colors"
+    >
+      Masterscore Table
+    </router-link>
     <EasyDataTable
       :headers="headers"
       :items="items"

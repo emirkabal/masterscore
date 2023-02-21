@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   })
     .limit(limit || 10)
     .sort({ likes: -1 })
-    .populate("entertainment", "id type info.title info.poster -_id")
+    .populate("entertainment", "id type info.title info.poster")
     .lean()
   return entertainments
 })

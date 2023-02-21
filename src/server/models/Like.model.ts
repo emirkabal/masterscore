@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose"
+import mongoose, { Schema } from "mongoose"
 const schema: Schema = new Schema(
   {
     entertainment: {
@@ -15,4 +15,4 @@ const schema: Schema = new Schema(
   }
 )
 
-export default model("like", schema)
+export default mongoose.model("like", schema)
