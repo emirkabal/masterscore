@@ -3,7 +3,8 @@ import Joi from "joi"
 export const UserSchema = Joi.object({
   username: Joi.string().alphanum().min(3).max(16).required(),
   password: Joi.string().min(8).max(32).required(),
-  email: Joi.string().email().min(5).max(255).required()
+  email: Joi.string().email().min(5).max(255).required(),
+  inviteCode: Joi.string()
 })
 
 export const UserPatchableSchema = Joi.object({

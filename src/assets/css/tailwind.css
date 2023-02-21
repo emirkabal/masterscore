@@ -3,3 +3,234 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.fade-enter-active {
+  animation: fade 250ms reverse;
+}
+.fade-leave-active {
+  animation: fade 250ms;
+}
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+table {
+  @apply border-collapse border border-gray-200 bg-white;
+}
+table th {
+  @apply border border-gray-200 p-2;
+}
+table td {
+  @apply border border-gray-200 p-2;
+}
+table tr:nth-child(even) {
+  @apply bg-gray-100;
+}
+
+.vue3-easy-data-table {
+  @apply w-full overflow-x-auto rounded-lg bg-white shadow;
+}
+
+/* Table container */
+.vue3-easy-data-table__main {
+  @apply overflow-x-auto;
+}
+
+/* Scrollbar styles */
+.vue3-easy-data-table__main::-webkit-scrollbar {
+  @apply h-[9px] cursor-pointer bg-transparent;
+}
+
+.vue3-easy-data-table__main::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+.vue3-easy-data-table__main::-webkit-scrollbar-thumb {
+  @apply cursor-pointer bg-slate-300 transition  hover:bg-slate-400;
+}
+
+/* Border cell */
+.vue3-easy-data-table .border-cell tr td,
+.vue3-easy-data-table .border-cell tr th {
+  @apply border-r border-slate-200 last:border-none;
+}
+
+.vue3-easy-data-table .border-cell tr td.can-expand,
+.vue3-easy-data-table .border-cell tr th {
+  @apply border-r-0;
+}
+
+/* Table */
+.vue3-easy-data-table table {
+  width: 100%;
+}
+
+/* Teableheader row */
+.vue3-easy-data-table__header tr {
+  @apply border-b bg-slate-100;
+}
+
+/* Table header th tag */
+.vue3-easy-data-table__header tr th {
+  @apply relative select-none whitespace-nowrap p-4 text-left text-sm font-medium capitalize;
+}
+
+/* Fixed header */
+
+.vue3-easy-data-table__main.fixed-header.show-shadow.table-fixed .shadow {
+  @apply border-r bg-white;
+}
+
+/* table head sort icons */
+/* None */
+.vue3-easy-data-table__header tr th.sortable.none .sortType-icon {
+  @apply ml-3 inline-block -rotate-45 cursor-pointer border border-slate-400 p-1 transition duration-300  
+hover:bg-blue-400;
+}
+/* Asce */
+.vue3-easy-data-table__header tr th.sortable.asc .sortType-icon {
+  @apply ml-3 inline-block -rotate-45 cursor-pointer border-t-2 border-r-2 border-blue-600  
+p-1 transition duration-300;
+}
+/* Desc */
+.vue3-easy-data-table__header tr th.sortable.desc .sortType-icon {
+  @apply ml-3 inline-block -rotate-45 cursor-pointer border-b-2 border-l-2 border-blue-600  
+p-1 transition duration-300;
+}
+/* make sortable headers use cursor pointer */
+.vue3-easy-data-table__header tr th.sortable {
+  @apply cursor-pointer;
+}
+
+/* Table body td tag */
+.vue3-easy-data-table__body tr td {
+  @apply border-b;
+}
+.vue3-easy-data-table__body tr td {
+  @apply p-4 py-5 text-sm font-normal;
+}
+/* Table body tr */
+.vue3-easy-data-table__body.row-alternation tr {
+  @apply transition even:bg-slate-50  hover:bg-slate-100;
+}
+
+/* Expand slot */
+.vue3-easy-data-table__body tr td.expand {
+  @apply px-3 py-1;
+}
+
+/* Expand Icon  */
+.expand-icon {
+  @apply inline-block -rotate-45 cursor-pointer border-t border-r border-slate-500  
+p-1 transition duration-300;
+}
+.expand-icon.expanding {
+  @apply rotate-[225deg] border-blue-600 bg-blue-600;
+}
+
+/* Footer */
+
+.vue3-easy-data-table__footer {
+  @apply flex w-full flex-col items-start gap-5 border-t px-6 py-5 text-sm  lg:flex-row lg:items-center;
+}
+
+/* Rows per page */
+
+.pagination__rows-per-page {
+  @apply flex gap-x-3 text-sm capitalize;
+}
+
+/* Row selector */
+.easy-data-table__rows-selector {
+  @apply relative flex;
+}
+
+/* Select input box */
+.rows-input__wrapper {
+  @apply flex cursor-pointer items-center justify-between gap-x-2 border-b  border-slate-400 px-3 pb-1;
+}
+.rows-input__wrapper .triangle {
+  @apply inline-block h-2 w-2 border-4 border-transparent border-t-blue-600;
+}
+/* Selction dropdown */
+.vue3-easy-data-table__footer .select-items {
+  @apply hidden divide-y overflow-hidden rounded-md bg-white shadow-md transition duration-300;
+}
+
+.vue3-easy-data-table__footer .select-items.show {
+  @apply absolute -top-[120px] block;
+}
+
+/* Select items inside dropdown */
+.vue3-easy-data-table__footer .select-items.show li {
+  @apply cursor-pointer px-2 py-1 hover:bg-blue-300;
+}
+.vue3-easy-data-table__footer .select-items.show li.selected {
+  @apply bg-blue-600 text-white;
+}
+
+/* Paging buttons */
+.buttons-pagination {
+  @apply flex items-center gap-x-2;
+}
+/* Button items */
+.buttons-pagination .item.button {
+  @apply flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border text-xs transition;
+}
+.buttons-pagination .item.button.active {
+  @apply border-blue-600 bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 text-white;
+}
+
+/* Page index */
+.pagination__items-index {
+  @apply grow;
+}
+
+/* Paging arrows */
+.previous-page__click-button,
+.next-page__click-button {
+  @apply my-0 mx-1 hidden cursor-pointer lg:block;
+}
+.previous-page__click-button .arrow,
+.next-page__click-button .arrow {
+  @apply inline-block h-2 w-2 border-t-2 border-l-2 border-slate-400;
+}
+.previous-page__click-button .arrow.arrow-left,
+.next-page__click-button .arrow.arrow-left {
+  @apply rotate-[135deg];
+}
+
+.previous-page__click-button .arrow.arrow-right,
+.next-page__click-button .arrow.arrow-right {
+  @apply rotate-[-45deg];
+}
+
+/* Check box */
+.easy-checkbox {
+  @apply relative my-0 h-5 w-5;
+}
+.easy-checkbox label {
+  @apply cursor-pointer before:absolute before:inset-y-0 
+before:h-5 before:w-5;
+}
+
+/* Table message */
+.vue3-easy-data-table__message {
+  @apply py-10 text-center;
+}
+
+/* Table default loader */
+.loading-entity {
+  @apply flex cursor-wait flex-col items-center gap-5 py-10 text-center after:text-slate-500 after:content-['Loading...'];
+}
+.lds-ring {
+  @apply relative inline-block h-16 w-16;
+}
+.lds-ring div {
+  @apply absolute m-2 block h-[80%] w-[80%] animate-spin rounded-full border-4
+  border-blue-600 border-t-transparent;
+}

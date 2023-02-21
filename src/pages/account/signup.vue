@@ -10,6 +10,7 @@ const username = ref("")
 const email = ref("")
 const password = ref("")
 const confirmPassword = ref("")
+const inviteCode = ref("")
 const error = ref("")
 
 const disabled = computed(() => {
@@ -18,7 +19,8 @@ const disabled = computed(() => {
     email.value.length === 0 ||
     password.value.length === 0 ||
     confirmPassword.value.length === 0 ||
-    password.value !== confirmPassword.value
+    password.value !== confirmPassword.value ||
+    inviteCode.value.length === 0
   )
 })
 
@@ -43,7 +45,8 @@ const submit = async (event) => {
     body: JSON.stringify({
       username: username.value,
       email: email.value,
-      password: password.value
+      password: password.value,
+      inviteCode: inviteCode.value
     })
   })
 
@@ -93,6 +96,14 @@ const submit = async (event) => {
           :value="confirmPassword"
           @input="(e) => (confirmPassword = e.target.value)"
           type="password"
+          class="rounded w-full"
+        />
+
+        <p>Invite Code</p>
+        <input
+          :value="inviteCode"
+          @input="(e) => (inviteCode = e.target.value)"
+          type="text"
           class="rounded w-full"
         />
 

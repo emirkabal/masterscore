@@ -2,12 +2,24 @@ import UserModel from "~/server/models/User.model"
 import { UserSchema } from "~/server/validation"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-
+const config = useRuntimeConfig()
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
   const { error } = UserSchema.validate(body)
   if (error) return { status: 400, message: error.message }
+
+  if (!body.inviteCode)
+    return {
+      status: 400,
+      message: "Invite code is required"
+    }
+
+  if (body.inviteCode !== config.INVITE_CODE)
+    return {
+      status: 400,
+      message: "Invalid invite code"
+    }
 
   const exists = await UserModel.findOne({
     $or: [

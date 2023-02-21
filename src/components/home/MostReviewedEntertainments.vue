@@ -1,6 +1,6 @@
 <script setup>
 import Spinner from "~/components/Spinner.vue"
-const { data, pending } = useLazyFetch("/api/likes?limit=9")
+const { data, pending } = useLazyFetch("/api/reviews?limit=9")
 </script>
 
 <template>
@@ -9,8 +9,8 @@ const { data, pending } = useLazyFetch("/api/likes?limit=9")
   </div>
   <div v-else class="w-full m-auto px-4 md:px-0">
     <div class="flex justify-center md:justify-start w-full md:w-fit">
-      <h1 class="text-2xl font-bold my-4 md:border-l-4 pl-2 border-red-600">
-        Most Liked
+      <h1 class="text-2xl font-bold my-4 md:border-l-4 pl-2 border-yellow-500">
+        Most Rated
       </h1>
     </div>
     <div
@@ -36,8 +36,10 @@ const { data, pending } = useLazyFetch("/api/likes?limit=9")
                 {{ likedEntertainment.entertainment.info.title }}
               </h1>
               <div class="flex gap-1 items-center">
-                <IconsHeartFilled class="text-red-600 w-6 h-6" />
-                <p class="text-sm">{{ likedEntertainment.likes }} likes</p>
+                <IconsStarFilled class="text-yellow-500 w-6 h-6" />
+                <p class="text-sm">
+                  {{ likedEntertainment.average.toFixed(1) }}
+                </p>
               </div>
             </div>
           </div>

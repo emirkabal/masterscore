@@ -13,7 +13,7 @@ export interface IEntertainment {
     rated?: string
     imbdId?: string
     runtime?: number
-    rating?: {
+    ratings?: {
       imdb?: number
       tmdb?: number
       rotten_tomatoes?: number

@@ -398,7 +398,7 @@ watch(reviewRating, () => {
           <div
             v-for="(comment, i) in comments"
             :key="i"
-            class="flex items-start bg-white rounded p-4 shadow"
+            class="flex bg-white rounded p-4 shadow items-start"
           >
             <Avatar
               :username="comment.author.username"
@@ -426,8 +426,17 @@ watch(reviewRating, () => {
                 </p>
               </div>
 
-              <p class="text-base truncate break-all whitespace-normal">
-                {{ comment.content }}
+              <p
+                class="text-base truncate break-all whitespace-normal"
+                :class="{
+                  'text-gray-500': !comment.content
+                }"
+              >
+                {{
+                  comment.content
+                    ? comment.content
+                    : "No comment for this review."
+                }}
               </p>
             </div>
           </div>

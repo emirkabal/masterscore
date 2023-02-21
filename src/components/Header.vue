@@ -8,7 +8,7 @@ const userStore = useUserStore()
 <template>
   <header class="flex h-16 px-12 items-center justify-between bg-gray-50">
     <div class="flex items-center">
-      <router-link to="/" class="font-black text-xl mr-8 font-maven"
+      <router-link to="/" class="font-black text-xl mr-8 font-maven select-none"
         >masterscore</router-link
       >
     </div>
