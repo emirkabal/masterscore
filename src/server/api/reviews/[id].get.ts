@@ -1,6 +1,7 @@
 import { Types } from "mongoose"
 import { ErrorResponse, IReview } from "~/@types"
 import ReviewModel from "~/server/models/Review.model"
+import UserModel from "../../models/User.model"
 
 export default defineEventHandler(async (event) => {
   const id = event?.context?.params?.id as string
@@ -24,7 +25,11 @@ export default defineEventHandler(async (event) => {
     .sort({ createdAt: -1 })
     .limit(10)
     .select("-entertainment -_id")
-    .populate("author", "_id username")
+    .populate({
+      path: "author",
+      model: UserModel,
+      select: "_id username"
+    })
     .lean()
 
   const average = await ReviewModel.aggregate([

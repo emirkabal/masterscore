@@ -1,5 +1,6 @@
 import { ILike } from "~/@types"
 import LikeModel from "~/server/models/Like.model"
+import EntertainmentModel from "../../models/Entertainment.model"
 
 export default defineEventHandler(async (event) => {
   const { limit } = getQuery(event) as { limit: number | undefined }
@@ -8,7 +9,11 @@ export default defineEventHandler(async (event) => {
   })
     .limit(limit || 10)
     .sort({ likes: -1 })
-    .populate("entertainment", "id type info.title info.poster")
+    .populate({
+      path: "entertainment",
+      model: EntertainmentModel,
+      select: "id type info.title info.poster"
+    })
     .lean()
   return entertainments
 })
