@@ -1,5 +1,5 @@
-import { ILike } from "~~/@types"
-import LikeModel from "~~/server/models/Like.model"
+import { ILike } from "~/@types"
+import LikeModel from "~/server/models/Like.model"
 
 export default defineEventHandler(async (event) => {
   const { limit } = getQuery(event) as { limit: number | undefined }

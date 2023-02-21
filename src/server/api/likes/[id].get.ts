@@ -1,5 +1,5 @@
-import { ErrorResponse, ILike } from "~~/@types"
-import LikeModel from "~~/server/models/Like.model"
+import { ErrorResponse, ILike } from "~/@types"
+import LikeModel from "~/server/models/Like.model"
 
 export default defineEventHandler(async (event) => {
   const id = event?.context?.params?.id as string

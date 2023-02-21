@@ -1,5 +1,5 @@
-import { TMDBMovie, TMDBTV } from "~~/@types"
-import EntertainmentModel from "~~/server/models/Entertainment.model"
+import { TMDBMovie, TMDBTV } from "~/@types"
+import EntertainmentModel from "~/server/models/Entertainment.model"
 import { Redis } from "@upstash/redis"
 
 const config = useRuntimeConfig()

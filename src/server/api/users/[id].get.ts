@@ -1,5 +1,5 @@
-import { ErrorResponse, IUser } from "~~/@types"
-import UserModel from "~~/server/models/User.model"
+import { ErrorResponse, IUser } from "~/@types"
+import UserModel from "~/server/models/User.model"
 
 export default defineEventHandler(async (event) => {
   const id = event.context.params?.id as string

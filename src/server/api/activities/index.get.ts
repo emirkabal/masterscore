@@ -1,5 +1,5 @@
-import { IActivity } from "~~/@types"
-import ActivityModel from "~~/server/models/Activity.model"
+import { IActivity } from "~/@types"
+import ActivityModel from "~/server/models/Activity.model"
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)

@@ -1,6 +1,6 @@
 import { Types } from "mongoose"
-import { ErrorResponse, IReview } from "~~/@types"
-import ReviewModel from "~~/server/models/Review.model"
+import { ErrorResponse, IReview } from "~/@types"
+import ReviewModel from "~/server/models/Review.model"
 
 export default defineEventHandler(async (event) => {
   const id = event?.context?.params?.id as string

@@ -1,5 +1,5 @@
-import { ErrorResponse, IUser, TMDBSearchResult } from "~~/@types"
-import UserModel from "~~/server/models/User.model"
+import { ErrorResponse, IUser, TMDBSearchResult } from "~/@types"
+import UserModel from "~/server/models/User.model"
 
 const config = useRuntimeConfig()
 export default defineEventHandler(async (event) => {

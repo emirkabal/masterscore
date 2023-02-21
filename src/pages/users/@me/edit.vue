@@ -1,5 +1,5 @@
 <script setup>
-import { useUserStore } from "~~/store/user"
+import { useUserStore } from "~/store/user"
 definePageMeta({
   middleware: ["auth"]
 })

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useUserStore } from "~~/store/user"
+import { useUserStore } from "~/store/user"
 import Avatar from "~/components/Avatar.vue"
 import IconHeartFilled from "~/components/Icons/HeartFilled.vue"
 import IconStarFilled from "~/components/Icons/StarFilled.vue"

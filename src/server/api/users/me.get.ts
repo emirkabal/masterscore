@@ -1,4 +1,4 @@
-import { ErrorResponse, IUser } from "~~/@types"
+import { ErrorResponse, IUser } from "~/@types"
 
 export default defineEventHandler(async (event) => {
   if (!event.context.user) {

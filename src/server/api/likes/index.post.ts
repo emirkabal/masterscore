@@ -1,8 +1,8 @@
-import { ErrorResponse, IEntertainment } from "~~/@types"
-import ActivityModel from "~~/server/models/Activity.model"
-import LikeModel from "~~/server/models/Like.model"
-import UserModel from "~~/server/models/User.model"
-import grabUserWithoutPassword from "~~/utils/grabUserWithoutPassword"
+import { ErrorResponse, IEntertainment } from "~/@types"
+import ActivityModel from "~/server/models/Activity.model"
+import LikeModel from "~/server/models/Like.model"
+import UserModel from "~/server/models/User.model"
+import grabUserWithoutPassword from "~/utils/grabUserWithoutPassword"
 
 export default defineEventHandler(async (event) => {
   if (!event.context.user) {

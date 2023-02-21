@@ -1,5 +1,5 @@
 <script setup>
-import { useUserStore } from "~~/store/user"
+import { useUserStore } from "~/store/user"
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue"
 
 const userStore = useUserStore()

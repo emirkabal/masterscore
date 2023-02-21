@@ -1,5 +1,5 @@
-import UserModel from "~~/server/models/User.model"
-import { UserSchema } from "~~/server/validation"
+import UserModel from "~/server/models/User.model"
+import { UserSchema } from "~/server/validation"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 

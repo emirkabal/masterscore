@@ -1,15 +1,15 @@
 <script setup>
 import ColorThief from "colorthief"
-import IconImdb from "@/components/icons/Imdb.vue"
-import IconHeart from "@/components/icons/Heart.vue"
-import IconHeartFilled from "@/components/icons/HeartFilled.vue"
-import IconStar from "@/components/icons/Star.vue"
-import IconStarFilled from "@/components/icons/StarFilled.vue"
-import IconList from "@/components/icons/List.vue"
-import IconListChecked from "@/components/icons/ListChecked.vue"
-import ModalView from "@/components/Modal.vue"
-import Avatar from "@/components/Avatar.vue"
-import { useUserStore } from "~~/store/user"
+import IconImdb from "~/components/icons/Imdb.vue"
+import IconHeart from "~/components/icons/Heart.vue"
+import IconHeartFilled from "~/components/icons/HeartFilled.vue"
+import IconStar from "~/components/icons/Star.vue"
+import IconStarFilled from "~/components/icons/StarFilled.vue"
+import IconList from "~/components/icons/List.vue"
+import IconListChecked from "~/components/icons/ListChecked.vue"
+import ModalView from "~/components/Modal.vue"
+import Avatar from "~/components/Avatar.vue"
+import { useUserStore } from "~/store/user"
 const { $moment } = useNuxtApp()
 const { params } = useRoute()
 const colorThief = new ColorThief()

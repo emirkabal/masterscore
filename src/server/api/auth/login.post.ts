@@ -1,7 +1,7 @@
-import UserModel from "~~/server/models/User.model"
+import UserModel from "~/server/models/User.model"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import { IUser } from "~~/@types"
+import { IUser } from "~/@types"
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)

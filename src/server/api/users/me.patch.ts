@@ -1,6 +1,6 @@
-import { ErrorResponse, IUser } from "~~/@types"
-import UserModel from "~~/server/models/User.model"
-import { UserPatchableSchema } from "~~/server/validation"
+import { ErrorResponse, IUser } from "~/@types"
+import UserModel from "~/server/models/User.model"
+import { UserPatchableSchema } from "~/server/validation"
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)

@@ -1,5 +1,5 @@
-import { ErrorResponse } from "~~/@types"
-import getDataFromTMDB from "~~/utils/getDataFromTMDB"
+import { ErrorResponse } from "~/@types"
+import getDataFromTMDB from "~/utils/getDataFromTMDB"
 
 // @ts-ignore
 export default defineEventHandler(async (event) => {
