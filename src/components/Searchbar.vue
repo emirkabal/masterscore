@@ -31,7 +31,7 @@ const searchInput = (e) => {
   <div class="flex-grow max-w-lg relative">
     <div
       v-if="search.length > 0"
-      class="fixed bg-black/20 top-0 left-0 w-full h-screen z-10 backdrop-blur"
+      class="fixed bg-black/20 top-0 left-0 w-full h-screen z-20 backdrop-blur"
     ></div>
     <div class="w-full relative z-20">
       <IconsSearch

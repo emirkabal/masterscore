@@ -23,7 +23,7 @@ const props = defineProps({
 <template>
   <div
     :style="`background-image: url(${props.banner})`"
-    class="w-full h-64 bg-gray-500 relative bg-cover bg-center"
+    class="w-full h-64 bg-gray-500 relative bg-cover bg-center bg-no-repeat"
   >
     <div class="absolute bottom-0 right-0 m-4 flex gap-2">
       <router-link

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useUserStore } from "~/store/user"
-import Avatar from "~/components/Avatar.vue"
 import { IActivity, IUser } from "~/@types"
 const { params } = useRoute()
 
@@ -100,7 +99,9 @@ if (params.id === "me") {
             <div class="border-b pb-2 mb-4 flex justify-between items-center">
               <h2 class="font-bold text-xl md:text-2xl">Latest Activity</h2>
               <router-link
-                :to="'/users/' + user.username + '/reviews'"
+                :to="`/users/@${
+                  user._id === localUser?._id ? 'me' : user.username
+                }/reviews`"
                 class="px-4 py-2 bg-white shadow rounded font-semibold text-sm hover:bg-gray-50 transition-colors"
               >
                 View Reviews

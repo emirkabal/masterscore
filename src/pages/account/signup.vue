@@ -62,50 +62,88 @@ const submit = async (event) => {
 </script>
 
 <template>
-  <div class="flex items-center justify-center h-screen bg-zinc-900">
+  <div
+    class="flex items-center justify-center h-screen bg-white md:bg-gray-500 px-4 md:px-0"
+  >
     <div class="md:bg-white max-w-xl w-full rounded-3xl md:p-8 z-10">
-      <h1 class="font-black font-maven text-4xl text-center">masterscore</h1>
+      <h1 class="font-black font-maven text-4xl text-center">
+        <span class="text-yellow-500">m</span>asterscore
+      </h1>
       <p class="font-black font-maven text-lg text-center">Create account</p>
       <p v-if="error.length > 0" class="text-center text-red-600">
         {{ error }}
       </p>
       <form @submit="submit" class="space-y-4 mt-2">
-        <p>Username</p>
-        <input
-          :value="username"
-          @input="(e) => (username = e.target.value)"
-          type="text"
-          class="rounded w-full"
-        />
-        <p>Email</p>
-        <input
-          :value="email"
-          @input="(e) => (email = e.target.value)"
-          type="email"
-          class="rounded w-full"
-        />
-        <p>Password</p>
-        <input
-          :value="password"
-          @input="(e) => (password = e.target.value)"
-          type="password"
-          class="rounded w-full"
-        />
-        <p>Confirm Password</p>
-        <input
-          :value="confirmPassword"
-          @input="(e) => (confirmPassword = e.target.value)"
-          type="password"
-          class="rounded w-full"
-        />
-
-        <p>Invite Code</p>
-        <input
-          :value="inviteCode"
-          @input="(e) => (inviteCode = e.target.value)"
-          type="text"
-          class="rounded w-full"
-        />
+        <div class="relative">
+          <input
+            :value="username"
+            @input="(e) => (username = e.target.value)"
+            type="text"
+            placeholder=" "
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          />
+          <label
+            for="floating_outlined"
+            class="absolute text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 left-1 pointer-events-none"
+            >Username</label
+          >
+        </div>
+        <div class="relative">
+          <input
+            :value="email"
+            @input="(e) => (email = e.target.value)"
+            type="email"
+            placeholder=" "
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          />
+          <label
+            for="floating_outlined"
+            class="absolute text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 left-1 pointer-events-none"
+            >Email</label
+          >
+        </div>
+        <div class="relative">
+          <input
+            :value="password"
+            @input="(e) => (password = e.target.value)"
+            type="password"
+            placeholder=" "
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          />
+          <label
+            for="floating_outlined"
+            class="absolute text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 left-1 pointer-events-none"
+            >Password</label
+          >
+        </div>
+        <div class="relative">
+          <input
+            :value="confirmPassword"
+            @input="(e) => (confirmPassword = e.target.value)"
+            type="password"
+            placeholder=" "
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          />
+          <label
+            for="floating_outlined"
+            class="absolute text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 left-1 pointer-events-none"
+            >Confirm Password</label
+          >
+        </div>
+        <div class="relative">
+          <input
+            :value="inviteCode"
+            @input="(e) => (inviteCode = e.target.value)"
+            type="text"
+            placeholder=" "
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          />
+          <label
+            for="floating_outlined"
+            class="absolute text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 left-1 pointer-events-none"
+            >Invite Code</label
+          >
+        </div>
 
         <input
           type="submit"
@@ -124,8 +162,8 @@ const submit = async (event) => {
       </p>
     </div>
     <img
-      src="~/assets/images/bg2.jpg"
-      class="absolute top-0 left-0 h-screen w-full object-cover opacity-10"
+      src="~/assets/images/bg.jpg"
+      class="absolute top-0 left-0 h-screen w-full object-cover hidden md:block opacity-30"
     />
   </div>
 </template>

@@ -29,9 +29,11 @@ const submit = async (event) => {
 
 <template>
   <div class="w-full h-screen flex">
-    <div class="md:bg-zinc-900 bg-white md:max-w-md w-full h-screen p-8 z-10">
+    <div class="bg-white md:max-w-md w-full h-screen p-8 z-10">
       <div class="md:bg-white mt-48 rounded-3xl md:p-8">
-        <h1 class="font-black font-maven text-4xl text-center">masterscore</h1>
+        <h1 class="font-black font-maven text-4xl text-center">
+          <span class="text-yellow-500">m</span>asterscore
+        </h1>
         <p class="font-black font-maven text-lg text-center">
           Login to account
         </p>
@@ -39,20 +41,34 @@ const submit = async (event) => {
           {{ error }}
         </p>
         <form @submit="submit" class="space-y-4 mt-2">
-          <p>Username</p>
-          <input
-            :value="username"
-            @input="(e) => (username = e.target.value)"
-            type="text"
-            class="rounded w-full"
-          />
-          <p>Password</p>
-          <input
-            :value="password"
-            @input="(e) => (password = e.target.value)"
-            type="password"
-            class="rounded w-full"
-          />
+          <div class="relative">
+            <input
+              :value="username"
+              @input="(e) => (username = e.target.value)"
+              type="text"
+              placeholder=" "
+              class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            />
+            <label
+              for="floating_outlined"
+              class="absolute text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 left-1 pointer-events-none"
+              >Username</label
+            >
+          </div>
+          <div class="relative">
+            <input
+              :value="password"
+              @input="(e) => (password = e.target.value)"
+              type="password"
+              placeholder=" "
+              class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            />
+            <label
+              for="floating_outlined"
+              class="absolute text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 left-1 pointer-events-none"
+              >Password</label
+            >
+          </div>
           <input
             type="submit"
             value="Login"

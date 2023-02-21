@@ -1,7 +1,12 @@
 <script setup>
 import { useUserStore } from "~/store/user"
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue"
-
+import { onClickOutside } from "@vueuse/core"
+const isMenuOpen = ref(false)
+const menuRef = ref(null)
+onClickOutside(menuRef, () => {
+  isMenuOpen.value = false
+})
 const userStore = useUserStore()
 </script>
 
@@ -9,18 +14,20 @@ const userStore = useUserStore()
   <header class="flex h-16 px-12 items-center justify-between bg-gray-50">
     <div class="flex items-center">
       <router-link to="/" class="font-black text-xl mr-8 font-maven select-none"
-        >masterscore</router-link
+        ><span class="text-yellow-500">m</span>asterscore</router-link
       >
     </div>
     <Searchbar />
     <div v-if="userStore.isLoading">Loading...</div>
     <Menu
       as="div"
-      class="relative inline-block text-left"
+      class="relative inline-block text-left z-10"
       v-else-if="userStore.isLoggedIn"
+      ref="menuRef"
     >
       <div>
         <MenuButton
+          @click="isMenuOpen = !isMenuOpen"
           class="inline-flex w-full justify-center rounded-md bg-black bg-opacity-50 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-40 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 select-none"
           >@{{ userStore.user.username }}</MenuButton
         >
@@ -33,43 +40,46 @@ const userStore = useUserStore()
         leave-from-class="transform opacity-100 scale-100"
         leave-to-class="transform opacity-0 scale-95"
       >
-        <MenuItems
-          class="absolute z-10 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-        >
-          <div class="px-1 py-1">
-            <MenuItem>
-              <router-link
-                class="hover:bg-gray-50 p-2 rounded-lg block"
-                to="/users/@me"
-                >Profile</router-link
-              >
-            </MenuItem>
-            <MenuItem>
-              <router-link
-                class="hover:bg-gray-50 p-2 rounded-lg block"
-                to="/users/@me/reviews"
-                >Reviews</router-link
-              >
-            </MenuItem>
-            <MenuItem>
-              <router-link
-                class="hover:bg-gray-50 p-2 rounded-lg block"
-                to="/users/@me/edit"
-                >Edit Profile</router-link
-              >
-            </MenuItem>
-          </div>
-          <div class="px-1 py-1">
-            <MenuItem>
-              <a
-                @click="userStore.logout"
-                class="hover:bg-red-200 text-red-700 cursor-pointer p-2 rounded-lg block"
-              >
-                Logout
-              </a>
-            </MenuItem>
-          </div>
-        </MenuItems>
+        <div v-show="isMenuOpen" @click="isMenuOpen = !isMenuOpen">
+          <MenuItems
+            :static="true"
+            class="absolute z-10 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+          >
+            <div class="px-1 py-1">
+              <MenuItem>
+                <router-link
+                  class="hover:bg-gray-50 p-2 rounded-lg block"
+                  to="/users/@me"
+                  >Profile</router-link
+                >
+              </MenuItem>
+              <MenuItem>
+                <router-link
+                  class="hover:bg-gray-50 p-2 rounded-lg block"
+                  to="/users/@me/reviews"
+                  >Reviews</router-link
+                >
+              </MenuItem>
+              <MenuItem>
+                <router-link
+                  class="hover:bg-gray-50 p-2 rounded-lg block"
+                  to="/users/@me/edit"
+                  >Edit Profile</router-link
+                >
+              </MenuItem>
+            </div>
+            <div class="px-1 py-1">
+              <MenuItem>
+                <a
+                  @click="userStore.logout"
+                  class="hover:bg-red-200 text-red-700 cursor-pointer p-2 rounded-lg block"
+                >
+                  Logout
+                </a>
+              </MenuItem>
+            </div>
+          </MenuItems>
+        </div>
       </Transition>
     </Menu>
     <div v-else class="welcome">

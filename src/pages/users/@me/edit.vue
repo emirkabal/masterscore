@@ -86,6 +86,7 @@ const submit = async (e) => {
           :value="banner"
           @input="(e) => (banner = e.target.value)"
           :maxlength="128"
+          placeholder="https://i.imgur.com/BiwjCWt.jpg"
           class="w-full form-input resize-none"
           type="text"
         />
