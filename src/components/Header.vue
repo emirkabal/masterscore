@@ -13,7 +13,9 @@ const userStore = useUserStore()
 <template>
   <header class="flex h-16 px-12 items-center justify-between bg-gray-50">
     <div class="flex items-center">
-      <router-link to="/" class="font-black text-xl mr-8 font-maven select-none"
+      <router-link
+        to="/"
+        class="font-black text-2xl mr-8 font-maven select-none"
         ><span class="text-yellow-500">m</span>asterscore</router-link
       >
     </div>
@@ -26,11 +28,11 @@ const userStore = useUserStore()
       ref="menuRef"
     >
       <div>
-        <MenuButton
-          @click="isMenuOpen = !isMenuOpen"
-          class="inline-flex w-full justify-center rounded-md bg-black bg-opacity-50 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-40 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 select-none"
-          >@{{ userStore.user.username }}</MenuButton
-        >
+        <MenuButton @click="isMenuOpen = !isMenuOpen"
+          ><Avatar
+            :username="userStore.user.username"
+            class="w-10 h-10 hover:opacity-90"
+        /></MenuButton>
       </div>
       <Transition
         enter-active-class="transition ease-out duration-100"
@@ -46,11 +48,23 @@ const userStore = useUserStore()
             class="absolute z-10 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
           >
             <div class="px-1 py-1">
+              <span class="block px-2 py-1"
+                >@{{ userStore.user.username }}</span
+              >
+            </div>
+            <div class="px-1 py-1">
               <MenuItem>
                 <router-link
                   class="hover:bg-gray-50 p-2 rounded-lg block"
                   to="/users/@me"
                   >Profile</router-link
+                >
+              </MenuItem>
+              <MenuItem>
+                <router-link
+                  class="hover:bg-gray-50 p-2 rounded-lg block"
+                  to="/users/@me/watchlist"
+                  >Watchlist</router-link
                 >
               </MenuItem>
               <MenuItem>

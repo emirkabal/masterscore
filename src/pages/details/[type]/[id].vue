@@ -5,10 +5,11 @@ import IconHeart from "~/components/icons/Heart.vue"
 import IconHeartFilled from "~/components/icons/HeartFilled.vue"
 import IconStar from "~/components/icons/Star.vue"
 import IconStarFilled from "~/components/icons/StarFilled.vue"
-import IconList from "~/components/icons/List.vue"
+import IconList from "~~/src/components/icons/ListAdd.vue"
 import ModalView from "~/components/Modal.vue"
 import Avatar from "~/components/Avatar.vue"
 import { useUserStore } from "~/store/user"
+import { onClickOutside } from "@vueuse/core"
 const { $moment } = useNuxtApp()
 const { params } = useRoute()
 const colorThief = new ColorThief()
@@ -27,8 +28,13 @@ const reviewRating = ref(0.5)
 const reviewComment = ref("")
 const comments = ref([])
 const showDetailsDev = ref(false)
+const emojiPicker = ref(null)
+const isEmojiSelector = ref(false)
+onClickOutside(emojiPicker, () => {
+  isEmojiSelector.value = false
+})
 const reviewDataFromServer = reactive({
-  rating: 0,
+  rating: 0.5,
   comment: "",
   loading: true
 })
@@ -91,6 +97,10 @@ const userLiked = computed(() => {
 
 const userReviewed = computed(() => {
   return user?.reviews?.includes(localId.value)
+})
+
+const userAddedWatchlist = computed(() => {
+  return user?.watchlist?.includes(localId.value)
 })
 
 const localId = computed(() => {
@@ -175,6 +185,46 @@ const submitReview = async () => {
   fetchReviews()
 }
 
+const deleteReview = async () => {
+  if (!isLoggedIn) {
+    return useRouter().push("/account/login")
+  }
+  if (user.reviews.includes(localId.value)) {
+    user.reviews = user.reviews.filter((e) => e !== localId.value)
+    reviews.value -= 1
+  }
+  reviewModal.value = false
+
+  reviewDataFromServer.rating = 0.5
+  reviewDataFromServer.comment = ""
+  await $fetch(`/api/reviews`, {
+    method: "DELETE",
+    body: JSON.stringify({
+      entertainment: localId.value
+    }),
+    headers: generateHeaders()
+  })
+  fetchReviews()
+}
+
+const submitToWatchlist = async () => {
+  if (!isLoggedIn) {
+    return useRouter().push("/account/login")
+  }
+  if (user.watchlist.includes(localId.value)) {
+    user.watchlist = user.watchlist.filter((e) => e !== localId.value)
+  } else {
+    user.watchlist.push(localId.value)
+  }
+  await $fetch(`/api/users/me/watchlist`, {
+    method: "POST",
+    body: JSON.stringify({
+      id: localId.value
+    }),
+    headers: generateHeaders()
+  })
+}
+
 watch(data, async () => {
   const image = new Image()
   image.setAttribute("crossOrigin", "Anonymous")
@@ -195,6 +245,11 @@ watch(reviewRating, () => {
     reviewRating.value = 0.5
   }
 })
+
+const onSelectEmoji = (emoji) => {
+  console.log(emoji)
+  reviewComment.value += emoji.i
+}
 </script>
 
 <template>
@@ -209,7 +264,22 @@ watch(reviewRating, () => {
       <template v-slot:body>
         <div class="space-y-4">
           <div>
-            <p class="font-semibold text-lg">Your Rating: {{ reviewRating }}</p>
+            <p class="font-semibold text-lg flex items-center gap-2">
+              Your Rating:
+              <input
+                class="w-11 h-6 p-0 text-center focus:outline-none focus:ring-0"
+                type="number"
+                :max="10"
+                :min="0.5"
+                step="0.1"
+                @input="
+                  (e) => {
+                    reviewRating = e.target.value
+                  }
+                "
+                :value="reviewRating"
+              />
+            </p>
             <StarRating
               :animate="true"
               :increment="0.1"
@@ -229,7 +299,25 @@ watch(reviewRating, () => {
             ></StarRating>
           </div>
           <div>
-            <p class="font-semibold text-lg select-none">Comment</p>
+            <div class="flex justify-between mb-2 items-center relative">
+              <p class="font-semibold text-lg select-none">Comment</p>
+              <button
+                @click="isEmojiSelector = !isEmojiSelector"
+                class="text-2xl"
+              >
+                <span class="select-none hover:bg-gray-50 p-1">😀</span>
+              </button>
+              <Transition name="fade">
+                <EmojiPicker
+                  v-show="isEmojiSelector"
+                  ref="emojiPicker"
+                  class="absolute z-20 right-0"
+                  :display-recent="true"
+                  :native="true"
+                  @select="onSelectEmoji"
+                />
+              </Transition>
+            </div>
             <div class="relative">
               <textarea
                 type="text"
@@ -271,11 +359,21 @@ watch(reviewRating, () => {
       >
         <div class="w-full h-full flex px-32">
           <div class="flex items-center gap-16 drop-shadow-2xl">
-            <img
-              class="w-72 h-auto object-cover object-center rounded"
-              draggable="false"
-              :src="posterURL"
-            />
+            <div class="relative flex-shrink-0">
+              <img
+                class="w-72 h-auto object-cover object-center rounded"
+                draggable="false"
+                :src="posterURL"
+              />
+              <div
+                class="absolute bg-white rounded-3xl px-3 py-2 text-black -m-4 font-semibold top-0 right-0"
+              >
+                <span class="font-maven font-extrabold text-yellow-500 text-xl"
+                  >m</span
+                >
+                {{ masterRating.toFixed(1) }}
+              </div>
+            </div>
             <div class="max-w-2xl">
               <div class="flex flex-col-reverse">
                 <h1
@@ -380,13 +478,22 @@ watch(reviewRating, () => {
                   <IconStar v-else class="w-6 h-6" />
                   {{ userReviewed ? "Reviewed" : "Review" }}
                 </button>
-                <!-- <button
-                  class="bg-white flex gap-1 items-center text-black px-4 py-2 font-semibold rounded hover:bg-opacity-80 transition"
+                <button
+                  v-if="!userAddedWatchlist"
+                  @click="submitToWatchlist"
+                  class="bg-transparent border border-white flex gap-1 items-center text-white px-4 py-2 font-semibold rounded hover:opacity-80 transition"
                 >
-                  <IconList class="w-6 h-6" />
-                  <IconListChecked class="w-6 h-6" />
+                  <IconsListAdd class="w-6 h-6" />
                   Add to watchlist
-                </button> -->
+                </button>
+                <button
+                  v-else
+                  @click="submitToWatchlist"
+                  class="bg-white flex gap-1 items-center text-black px-4 py-2 font-semibold rounded hover:opacity-80 transition"
+                >
+                  <IconsListRemove class="w-6 h-6" />
+                  Remove from watchlist
+                </button>
               </div>
               <div
                 :class="{
@@ -397,7 +504,6 @@ watch(reviewRating, () => {
               >
                 <p>{{ likes }} likes</p>
                 <p class="pl-2">{{ reviews }} reviews</p>
-                <p class="pl-2">masterscore: {{ masterRating }}</p>
               </div>
             </div>
           </div>
@@ -460,13 +566,22 @@ watch(reviewRating, () => {
                 }}
               </p>
             </div>
-            <button
-              v-if="comment.author._id === user?._id"
-              @click="openReview"
-              class="bg-white shadow rounded font-semibold px-2 py-1 ml-auto text-xs hover:bg-gray-50 transition"
-            >
-              Edit Review
-            </button>
+            <div class="ml-auto flex gap-2 items-center">
+              <button
+                v-if="comment.author._id === user?._id"
+                @click="deleteReview"
+                class="bg-red-100 text-red-500 shadow rounded font-semibold px-2 py-1 ml-auto text-xs hover:bg-red-200 transition"
+              >
+                <IconsTrash class="w-4 h-4" />
+              </button>
+              <button
+                v-if="comment.author._id === user?._id"
+                @click="openReview"
+                class="bg-white shadow rounded font-semibold px-2 py-1 ml-auto text-xs hover:bg-gray-50 transition"
+              >
+                <IconsPencil class="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

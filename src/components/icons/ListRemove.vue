@@ -1,7 +1,7 @@
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    class="icon icon-tabler icon-tabler-list-check"
+    class="icon icon-tabler icon-tabler-playlist-x"
     width="24"
     height="24"
     viewBox="0 0 24 24"
@@ -12,11 +12,10 @@
     stroke-linejoin="round"
   >
     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-    <path d="M3.5 5.5l1.5 1.5l2.5 -2.5"></path>
-    <path d="M3.5 11.5l1.5 1.5l2.5 -2.5"></path>
-    <path d="M3.5 17.5l1.5 1.5l2.5 -2.5"></path>
-    <path d="M11 6l9 0"></path>
-    <path d="M11 12l9 0"></path>
-    <path d="M11 18l9 0"></path>
+    <path d="M19 8h-14"></path>
+    <path d="M5 12h7"></path>
+    <path d="M12 16h-7"></path>
+    <path d="M16 14l4 4"></path>
+    <path d="M20 14l-4 4"></path>
   </svg>
 </template>

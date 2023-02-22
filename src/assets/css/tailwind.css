@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button {
+    opacity: 1;
+  }
+}
+
 .fade-enter-active {
   animation: fade 250ms reverse;
 }

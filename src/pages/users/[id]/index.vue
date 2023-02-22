@@ -53,6 +53,15 @@ if (params.id === "me") {
     }
   })
 }
+
+const getActivityTitle = (type: string) => {
+  const types = {
+    like: "Liked:",
+    review: "Reviewed:",
+    watchlist: "Added to watchlist:"
+  } as Record<string, string>
+  return types[type] || "Unknown"
+}
 </script>
 
 <template>
@@ -99,14 +108,24 @@ if (params.id === "me") {
           <div>
             <div class="border-b pb-2 mb-4 flex justify-between items-center">
               <h2 class="font-bold text-xl md:text-2xl">Latest Activity</h2>
-              <router-link
-                :to="`/users/@${
-                  user._id === localUser?._id ? 'me' : user.username
-                }/reviews`"
-                class="px-4 py-2 bg-white shadow rounded font-semibold text-sm hover:bg-gray-50 transition-colors"
-              >
-                View Reviews
-              </router-link>
+              <div class="flex gap-2 items-center">
+                <router-link
+                  :to="`/users/@${
+                    user._id === localUser?._id ? 'me' : user.username
+                  }/watchlist`"
+                  class="px-4 py-2 bg-white shadow rounded font-semibold text-sm hover:bg-gray-50 transition-colors"
+                >
+                  Watchlist
+                </router-link>
+                <router-link
+                  :to="`/users/@${
+                    user._id === localUser?._id ? 'me' : user.username
+                  }/reviews`"
+                  class="px-4 py-2 bg-white shadow rounded font-semibold text-sm hover:bg-gray-50 transition-colors"
+                >
+                  Reviews
+                </router-link>
+              </div>
             </div>
 
             <div v-if="activities.loading" class="flex justify-center">
@@ -123,19 +142,23 @@ if (params.id === "me") {
                 >
                   <div class="relative">
                     <IconsHeartFilled
-                      v-if="activity.type === 'like'"
+                      v-if="activity?.type === 'like'"
                       class="text-red-600"
+                    />
+                    <IconsListAdd
+                      v-else-if="activity?.type === 'watchlist'"
+                      class="text-black-600"
                     />
                     <IconsStarFilled v-else class="text-yellow-400" />
                     <span
-                      v-if="activity.type === 'review' && activity.attribute"
+                      v-if="activity?.type === 'review' && activity.attribute"
                       class="absolute top-0 mt-1.5 right-0 left-0 text-[8px] font-bold text-black text-center"
                     >
                       {{ activity.attribute }}
                     </span>
                   </div>
                   <div class="break-words line-clamp-1">
-                    {{ activity.type === "like" ? "Liked:" : "Reviewed:" }}
+                    {{ getActivityTitle(activity.type) }}
                     <span class="group-hover:underline font-semibold">{{
                       activity.entertainment.info.title
                     }}</span>

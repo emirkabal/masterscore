@@ -42,6 +42,7 @@
     "nuxt-icon": "^0.2.10",
     "pinia": "^2.0.29",
     "vue-star-rating": "^2.1.0",
-    "vue3-easy-data-table": "^1.5.29"
+    "vue3-easy-data-table": "^1.5.29",
+    "vue3-emoji-picker": "^1.1.7"
   }
 }

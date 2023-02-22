@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useUserStore } from "~/store/user"
-import { IActivity, IReview, IUser } from "~/@types"
+import { IReview, IUser } from "~/@types"
 const { params } = useRoute()
 
 definePageMeta({
@@ -17,10 +17,6 @@ const reviews = reactive({
   loading: true,
   items: [] as IReview[]
 })
-const activities = reactive({
-  loading: true,
-  items: [] as IActivity[]
-})
 const error = ref("")
 const user = ref<Omit<IUser, "password"> | undefined>(undefined)
 
@@ -29,12 +25,12 @@ if (params.id.toString().startsWith("@")) {
 }
 
 if (params.id === localUser?.username) {
-  useRouter().push("/users/@me")
+  useRouter().push("/users/@me/reviews")
 }
 
 const fetchReviews = async () => {
   reviews.loading = true
-  const data = await $fetch(`/api/userreviews/${user.value?._id}`, {
+  const data = await $fetch(`/api/users/${user.value?._id}/reviews`, {
     headers: generateHeaders()
   })
   reviews.loading = false
@@ -43,16 +39,6 @@ const fetchReviews = async () => {
   }
   reviews.items = data
 }
-
-watch(loading, async () => {
-  const userId = user.value?._id
-  console.log(userId)
-  if (userId) {
-    const data = await $fetch(`/api/activities?author=${userId}`)
-    activities.items = data
-    activities.loading = false
-  }
-})
 
 if (params.id === "me") {
   loading.value = false

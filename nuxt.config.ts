@@ -13,13 +13,26 @@ export default defineNuxtConfig({
       },
       meta: [
         { charset: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" }
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        {
+          hid: "description",
+          name: "description",
+          content: "Masterscore"
+        }
+      ],
+      link: [
+        {
+          rel: "icon",
+          type: "image/x-icon",
+          href: "/favicon.ico"
+        }
       ]
     }
   },
 
   modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss"],
   css: [
+    "vue3-emoji-picker/css",
     "@fontsource/maven-pro/400.css",
     "@fontsource/maven-pro/500.css",
     "@fontsource/maven-pro/600.css",
