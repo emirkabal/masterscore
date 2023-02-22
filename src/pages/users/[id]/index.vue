@@ -20,8 +20,9 @@ const activities = reactive({
 const error = ref("")
 const user = ref<Omit<IUser, "password"> | undefined>(undefined)
 
-if (params.id.toString().startsWith("@")) {
-  params.id = params.id.toString().slice(1)
+params.id = params.id.toString().toLowerCase()
+if (params.id.startsWith("@")) {
+  params.id = params.id.slice(1)
 }
 
 if (params.id === localUser?.username) {
