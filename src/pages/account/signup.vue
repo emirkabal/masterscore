@@ -38,8 +38,8 @@ const submit = async (event) => {
   const data = await $fetch("/api/auth/signup", {
     method: "POST",
     body: JSON.stringify({
-      username: username.value,
-      email: email.value,
+      username: username.value.toLowerCase(),
+      email: email.value.toLowerCase(),
       password: password.value,
       inviteCode: inviteCode.value
     })

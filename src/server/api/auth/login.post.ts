@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
   const user: IUser = await UserModel.findOne({
-    username: body.username
+    username: body.username.toLowerCase()
   }).lean()
 
   if (!user)
