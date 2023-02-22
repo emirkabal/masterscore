@@ -70,7 +70,7 @@ watch(listType, () => {
       </div>
       <div v-else>{{ listType }}</div>
       <select
-        class="h-12"
+        class="h-12 dark:bg-zinc-900 dark:border-zinc-800"
         :value="listType"
         @input="(e) => (listType = e.target.value)"
       >

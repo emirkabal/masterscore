@@ -30,16 +30,13 @@ const submit = async (event) => {
   <div class="w-full h-screen flex">
     <div class="bg-white md:max-w-md w-full h-screen p-8 z-10">
       <div class="md:bg-white mt-48 rounded-3xl md:p-8">
-        <h1 class="font-black font-maven text-4xl text-center">
-          <span class="text-yellow-500">m</span>asterscore
+        <h1 class="text-center">
+          <Logo class="text-4xl !text-black" />
         </h1>
-        <p class="font-black font-maven text-lg text-center">
-          Login to account
-        </p>
         <p v-if="error.length > 0" class="text-center text-red-600">
           {{ error }}
         </p>
-        <form @submit="submit" class="space-y-4 mt-2">
+        <form @submit="submit" class="space-y-4 mt-2 !text-black">
           <div class="relative">
             <input
               :value="username"
@@ -74,7 +71,7 @@ const submit = async (event) => {
             class="bg-blue-700 cursor-pointer hover:bg-blue-600 rounded-full text-white px-4 py-4 w-full"
           />
         </form>
-        <p class="text-center mt-3">
+        <p class="text-center mt-3 !text-black">
           Don't have an account?
           <router-link
             to="/account/signup"

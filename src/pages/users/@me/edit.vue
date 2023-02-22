@@ -39,13 +39,15 @@ const submit = async (e) => {
 </script>
 <template>
   <div class="container m-auto mt-12">
-    <h1 class="border-b pb-4 mb-8 text-2xl font-bold">Edit Profile</h1>
+    <h1 class="border-b dark:border-zinc-900 pb-4 mb-8 text-2xl font-bold">
+      Edit Profile
+    </h1>
 
     <div class="flex justify-center" v-if="loading">
       <Spinner color="#000" />
     </div>
     <form v-else @submit="submit" class="space-y-2">
-      <div class="border-b pb-4 space-y-2">
+      <div class="border-b dark:border-zinc-900 pb-4 space-y-2">
         <span class="text-xl font-bold">About</span>
         <button
           type="button"
@@ -56,7 +58,7 @@ const submit = async (e) => {
         </button>
         <p
           v-if="preview"
-          class="text-gray-500 break-words whitespace-pre-wrap truncate line-clamp-5 max-w-6xl"
+          class="text-gray-500 dark:text-gray-100 break-words whitespace-pre-wrap truncate line-clamp-5 max-w-6xl"
         >
           {{ about }}
         </p>
@@ -65,10 +67,12 @@ const submit = async (e) => {
             :value="about"
             :maxlength="512"
             @input="(e) => (about = e.target.value)"
-            class="w-full h-36 resize-none"
+            class="w-full h-36 resize-none dark:bg-zinc-900 dark:border-zinc-800"
           >
           </textarea>
-          <div class="text-gray-500 text-sm absolute z-10 bottom-0 right-0 m-4">
+          <div
+            class="text-gray-500 dark:text-gray-300 text-sm absolute z-10 bottom-0 right-0 m-4"
+          >
             {{ about?.length || 0 }} / 512
           </div>
         </div>
@@ -77,7 +81,7 @@ const submit = async (e) => {
       <div class="pb-4 space-y-2">
         <span class="text-xl font-bold"
           >Banner URL
-          <span class="text-gray-400 text-base"
+          <span class="text-gray-400 dark:text-gray-300 text-base"
             >(Imgur is recommended)</span
           ></span
         >
@@ -87,7 +91,7 @@ const submit = async (e) => {
           @input="(e) => (banner = e.target.value)"
           :maxlength="128"
           placeholder="https://i.imgur.com/BiwjCWt.jpg"
-          class="w-full form-input resize-none"
+          class="w-full form-input resize-none dark:bg-zinc-900 dark:border-zinc-800"
           type="text"
         />
       </div>

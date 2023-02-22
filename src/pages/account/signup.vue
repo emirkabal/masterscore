@@ -61,14 +61,16 @@ const submit = async (event) => {
     class="flex items-center justify-center h-screen bg-white md:bg-gray-500 px-4 md:px-0"
   >
     <div class="md:bg-white max-w-xl w-full rounded-3xl md:p-8 z-10">
-      <h1 class="font-black font-maven text-4xl text-center">
-        <span class="text-yellow-500">m</span>asterscore
+      <h1 class="text-center">
+        <Logo class="text-4xl !text-black" />
       </h1>
-      <p class="font-black font-maven text-lg text-center">Create account</p>
+      <p class="font-black font-maven text-lg text-center !text-black">
+        Create account
+      </p>
       <p v-if="error.length > 0" class="text-center text-red-600">
         {{ error }}
       </p>
-      <form @submit="submit" class="space-y-4 mt-2">
+      <form @submit="submit" class="space-y-4 mt-2 !text-black">
         <div class="relative">
           <input
             :value="username"
@@ -147,7 +149,7 @@ const submit = async (event) => {
           class="bg-blue-700 cursor-pointer disabled:bg-gray-400 disabled:cursor-default hover:bg-blue-600 rounded-full text-white px-4 py-4 w-full"
         />
       </form>
-      <p class="text-center mt-4">
+      <p class="text-center mt-4 !text-black">
         Already have an account?
         <router-link
           to="/account/login"

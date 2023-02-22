@@ -80,7 +80,7 @@ const searchInput = (e) => {
           }
         "
         type="text"
-        class="w-full pl-10 rounded-lg bg-white shadow border-none"
+        class="w-full pl-10 rounded-lg bg-white dark:bg-black shadow border-none dark:placeholder:text-gray-300"
         :class="{
           'rounded-tl-2xl rounded-tr-2xl rounded-bl-none rounded-br-none focus:ring-0 pt-4':
             search.length > 0
@@ -90,17 +90,21 @@ const searchInput = (e) => {
     </div>
     <div
       v-if="search.length > 0"
-      class="absolute w-full bg-white p-4 rounded-bl-2xl rounded-br-2xl z-20"
+      class="absolute w-full bg-white dark:bg-black p-4 rounded-bl-2xl rounded-br-2xl z-20"
     >
       <div class="flex justify-center" v-if="loading">
         <Spinner color="#000" />
       </div>
       <div v-else-if="results.length === 0 && users.length === 0">
-        <p class="text-center text-gray-500">No results found</p>
+        <p class="text-center text-gray-500 dark:text-gray-300">
+          No results found
+        </p>
       </div>
       <div v-else>
         <div v-if="results.length !== 0">
-          <div class="text-gray-500 font-bold mb-2">Movies & TV Shows</div>
+          <div class="text-gray-500 dark:text-gray-300 font-bold mb-2">
+            Movies & TV Shows
+          </div>
 
           <div v-for="(result, i) in results" :key="i">
             <router-link
@@ -110,8 +114,8 @@ const searchInput = (e) => {
               @click="search = ''"
               :data-index="i"
               :class="{
-                'bg-gray-100': i === selectedIndex,
-                'bg-white': i !== selectedIndex
+                'bg-gray-100 dark:bg-zinc-900': i === selectedIndex,
+                'bg-white dark:bg-black': i !== selectedIndex
               }"
             >
               <div class="flex items-center w-full">
@@ -130,7 +134,7 @@ const searchInput = (e) => {
                   <p class="font-bold text-ellipsis truncate">
                     {{ result.title || result.name }}
                   </p>
-                  <p class="text-gray-500">
+                  <p class="text-gray-500 dark:text-gray-300">
                     {{
                       (result.first_air_date || result.release_date).split(
                         "-"
@@ -143,7 +147,9 @@ const searchInput = (e) => {
           </div>
         </div>
         <div v-if="users.length !== 0">
-          <div class="text-gray-500 font-bold mb-2">Users</div>
+          <div class="text-gray-500 dark:text-gray-300 font-bold mb-2">
+            Users
+          </div>
           <div v-for="(user, i) in users" :key="`user-${i}`">
             <router-link
               :to="`/users/@${user}`"
@@ -152,8 +158,9 @@ const searchInput = (e) => {
               class="transition-colors rounded-lg overflow-hidden p-3 w-full block"
               :data-index="i + results.length"
               :class="{
-                'bg-gray-100': i + results.length === selectedIndex,
-                'bg-white': i + results.length !== selectedIndex
+                'bg-gray-100 dark:bg-zinc-900':
+                  i + results.length === selectedIndex,
+                'bg-white dark:bg-black': i + results.length !== selectedIndex
               }"
             >
               <div class="flex items-center w-full">

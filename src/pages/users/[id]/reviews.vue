@@ -74,7 +74,9 @@ if (params.id === "me") {
       :viewProfile="true"
     />
     <div class="container px-4 m-auto 2xl:mt-10 mt-16">
-      <div class="flex items-center justify-between border-b p-2 md:p-6 mb-8">
+      <div
+        class="flex items-center justify-between border-b dark:border-zinc-900 p-2 md:p-6 mb-8"
+      >
         <h1 class="font-bold text-lg md:text-2xl">
           @{{ user.username }}'s reviews
         </h1>
@@ -86,11 +88,13 @@ if (params.id === "me") {
         v-else-if="reviews.items.length === 0"
         class="flex justify-center mt-12"
       >
-        <p class="text-gray-500">No reviews found</p>
+        <p class="text-gray-500 dark:text-gray-200">No reviews found</p>
       </div>
       <div class="flex flex-col gap-2 mb-10" v-else>
         <div v-for="review in reviews.items" :key="review._id">
-          <div class="bg-white rounded shadow flex overflow-hidden">
+          <div
+            class="bg-white dark:bg-zinc-900 rounded shadow flex overflow-hidden"
+          >
             <img
               :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${review.entertainment.info.poster}`"
               class="h-24 w-auto"
@@ -107,7 +111,7 @@ if (params.id === "me") {
                   <IconsStarFilled class="w-4 h-4 text-yellow-400" />
                   <span class="text-sm font-semibold">{{ review.rating }}</span>
                 </p>
-                <p class="text-base text-gray-500">
+                <p class="text-base text-gray-500 dark:text-gray-400">
                   {{ $moment(review.createdAt).fromNow() }}
                   {{ review.createdAt === review.updatedAt ? "" : "(edited)" }}
                 </p>
@@ -116,7 +120,7 @@ if (params.id === "me") {
               <p
                 class="text-base truncate break-all whitespace-normal"
                 :class="{
-                  'text-gray-500': !review.content
+                  'text-gray-500 dark:text-gray-300': !review.content
                 }"
               >
                 {{

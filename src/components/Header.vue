@@ -11,7 +11,9 @@ const userStore = useUserStore()
 </script>
 
 <template>
-  <header class="flex h-16 px-12 items-center justify-between bg-gray-50">
+  <header
+    class="flex h-16 px-12 items-center justify-between bg-gray-50 dark:bg-zinc-900"
+  >
     <div class="flex items-center">
       <router-link
         to="/"
@@ -45,7 +47,7 @@ const userStore = useUserStore()
         <div v-show="isMenuOpen" @click="isMenuOpen = !isMenuOpen">
           <MenuItems
             :static="true"
-            class="absolute z-10 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+            class="absolute z-10 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 dark:divide-zinc-900 rounded-md bg-white dark:bg-black shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
           >
             <div class="px-1 py-1">
               <span class="block px-2 py-1"
@@ -55,28 +57,28 @@ const userStore = useUserStore()
             <div class="px-1 py-1">
               <MenuItem>
                 <router-link
-                  class="hover:bg-gray-50 p-2 rounded-lg block"
+                  class="hover:bg-gray-50 dark:hover:bg-zinc-900 p-2 rounded-lg block"
                   to="/users/@me"
                   >Profile</router-link
                 >
               </MenuItem>
               <MenuItem>
                 <router-link
-                  class="hover:bg-gray-50 p-2 rounded-lg block"
+                  class="hover:bg-gray-50 dark:hover:bg-zinc-900 p-2 rounded-lg block"
                   to="/users/@me/watchlist"
                   >Watchlist</router-link
                 >
               </MenuItem>
               <MenuItem>
                 <router-link
-                  class="hover:bg-gray-50 p-2 rounded-lg block"
+                  class="hover:bg-gray-50 dark:hover:bg-zinc-900 p-2 rounded-lg block"
                   to="/users/@me/reviews"
                   >Reviews</router-link
                 >
               </MenuItem>
               <MenuItem>
                 <router-link
-                  class="hover:bg-gray-50 p-2 rounded-lg block"
+                  class="hover:bg-gray-50 dark:hover:bg-zinc-900 p-2 rounded-lg block"
                   to="/users/@me/edit"
                   >Edit Profile</router-link
                 >
@@ -86,7 +88,7 @@ const userStore = useUserStore()
               <MenuItem>
                 <a
                   @click="userStore.logout"
-                  class="hover:bg-red-200 text-red-700 cursor-pointer p-2 rounded-lg block"
+                  class="hover:bg-red-200 dark:hover:bg-red-200/10 text-red-700 cursor-pointer p-2 rounded-lg block"
                 >
                   Logout
                 </a>

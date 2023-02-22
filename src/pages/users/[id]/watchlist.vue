@@ -89,7 +89,9 @@ if (params.id === "me") {
       :viewProfile="true"
     />
     <div class="container px-4 m-auto 2xl:mt-10 mt-16">
-      <div class="flex items-center justify-between border-b p-2 md:p-6 mb-8">
+      <div
+        class="flex items-center justify-between border-b dark:border-zinc-900 p-2 md:p-6 mb-8"
+      >
         <h1 class="font-bold text-lg md:text-2xl">
           @{{ user.username }}'s watchlist
         </h1>
@@ -101,12 +103,14 @@ if (params.id === "me") {
         v-else-if="watchlist.items.length === 0"
         class="flex justify-center mt-12"
       >
-        <p class="text-gray-500">There is no entry in the watchlist.</p>
+        <p class="text-gray-500 dark:text-gray-200">
+          There is no entry in the watchlist.
+        </p>
       </div>
       <div class="flex flex-col gap-2 mb-10" v-else>
         <div v-for="listItem in watchlist.items" :key="listItem._id">
           <div
-            class="bg-white rounded shadow flex items-center justify-between overflow-hidden"
+            class="bg-white dark:bg-zinc-900 rounded shadow flex items-center justify-between overflow-hidden"
           >
             <div class="flex gap-8 items-center">
               <img

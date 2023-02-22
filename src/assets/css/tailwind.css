@@ -10,6 +10,12 @@
   }
 }
 
+@layer base {
+  body {
+    @apply bg-white text-black dark:bg-black dark:text-white;
+  }
+}
+
 .fade-enter-active {
   animation: fade 250ms reverse;
 }
@@ -26,20 +32,20 @@
 }
 
 table {
-  @apply border-collapse border border-gray-200 bg-white;
+  @apply border-collapse border border-gray-200 dark:border-zinc-900 bg-white dark:bg-black;
 }
 table th {
-  @apply border border-gray-200;
+  @apply border border-gray-200 dark:border-zinc-800;
 }
 table td {
-  @apply border border-gray-200;
+  @apply border border-gray-200 dark:border-zinc-800;
 }
 table tr:nth-child(even) {
-  @apply bg-gray-100;
+  @apply bg-gray-100 dark:bg-zinc-900;
 }
 
 .vue3-easy-data-table {
-  @apply w-full overflow-x-auto rounded-lg bg-white shadow;
+  @apply w-full overflow-x-auto rounded-lg bg-white dark:bg-zinc-900 shadow;
 }
 
 /* Table container */
@@ -56,13 +62,13 @@ table tr:nth-child(even) {
   @apply bg-transparent;
 }
 .vue3-easy-data-table__main::-webkit-scrollbar-thumb {
-  @apply cursor-pointer bg-slate-300 transition  hover:bg-slate-400;
+  @apply cursor-pointer bg-slate-300 dark:bg-black transition  hover:bg-slate-400;
 }
 
 /* Border cell */
 .vue3-easy-data-table .border-cell tr td,
 .vue3-easy-data-table .border-cell tr th {
-  @apply border-r border-slate-200 last:border-none;
+  @apply border-r border-slate-200 dark:border-zinc-900 last:border-none;
 }
 
 .vue3-easy-data-table .border-cell tr td.can-expand,
@@ -77,7 +83,7 @@ table tr:nth-child(even) {
 
 /* Teableheader row */
 .vue3-easy-data-table__header tr {
-  @apply border-b bg-slate-100;
+  @apply border-b bg-slate-100 dark:bg-zinc-900;
 }
 
 /* Table header th tag */
@@ -88,13 +94,13 @@ table tr:nth-child(even) {
 /* Fixed header */
 
 .vue3-easy-data-table__main.fixed-header.show-shadow.table-fixed .shadow {
-  @apply border-r bg-white;
+  @apply border-r bg-white dark:bg-black;
 }
 
 /* table head sort icons */
 /* None */
 .vue3-easy-data-table__header tr th.sortable.none .sortType-icon {
-  @apply ml-3 inline-block -rotate-45 cursor-pointer border border-slate-400 p-1 transition duration-300  
+  @apply ml-3 inline-block -rotate-45 cursor-pointer border border-slate-400 dark:border-gray-800 p-1 transition duration-300  
 hover:bg-blue-400;
 }
 /* Asce */
@@ -121,7 +127,7 @@ p-1 transition duration-300;
 }
 /* Table body tr */
 .vue3-easy-data-table__body.row-alternation tr {
-  @apply transition even:bg-slate-50  hover:bg-slate-100;
+  @apply transition even:bg-slate-50  hover:bg-slate-100 dark:hover:bg-zinc-800 dark:even:bg-zinc-900;
 }
 
 /* Expand slot */
@@ -131,8 +137,7 @@ p-1 transition duration-300;
 
 /* Expand Icon  */
 .expand-icon {
-  @apply inline-block -rotate-45 cursor-pointer border-t border-r border-slate-500  
-p-1 transition duration-300;
+  @apply inline-block -rotate-45 cursor-pointer border-t border-r border-slate-500  p-1 transition duration-300;
 }
 .expand-icon.expanding {
   @apply rotate-[225deg] border-blue-600 bg-blue-600;
@@ -141,7 +146,7 @@ p-1 transition duration-300;
 /* Footer */
 
 .vue3-easy-data-table__footer {
-  @apply flex w-full flex-col items-start gap-5 border-t px-6 py-5 text-sm  lg:flex-row lg:items-center;
+  @apply flex w-full flex-col items-start gap-5 border-t px-6 py-5 text-sm  lg:flex-row lg:items-center dark:border-zinc-900;
 }
 
 /* Rows per page */
@@ -164,7 +169,7 @@ p-1 transition duration-300;
 }
 /* Selction dropdown */
 .vue3-easy-data-table__footer .select-items {
-  @apply hidden divide-y overflow-hidden rounded-md bg-white shadow-md transition duration-300;
+  @apply hidden divide-y overflow-hidden rounded-md bg-white dark:bg-black shadow-md transition duration-300;
 }
 
 .vue3-easy-data-table__footer .select-items.show {
@@ -173,7 +178,7 @@ p-1 transition duration-300;
 
 /* Select items inside dropdown */
 .vue3-easy-data-table__footer .select-items.show li {
-  @apply cursor-pointer px-2 py-1 hover:bg-blue-300;
+  @apply cursor-pointer px-2 py-1 hover:bg-blue-300 dark:hover:bg-blue-900;
 }
 .vue3-easy-data-table__footer .select-items.show li.selected {
   @apply bg-blue-600 text-white;

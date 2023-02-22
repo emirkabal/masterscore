@@ -36,7 +36,10 @@ watch(
       v-if="props.show"
       class="fixed top-0 left-0 z-50 m-auto flex h-screen w-full items-center justify-center bg-black/40 backdrop-blur shadow-2xl"
     >
-      <div ref="modal" class="w-1/4 min-w-[460px] rounded-lg bg-white">
+      <div
+        ref="modal"
+        class="w-1/4 min-w-[460px] rounded-lg bg-white dark:bg-zinc-900"
+      >
         <div
           class="flex select-none items-center justify-between px-4 py-4 text-xl font-semibold shadow dark:shadow-lg"
         >
@@ -50,8 +53,9 @@ watch(
         <div class="p-4">
           <slot name="body"></slot>
         </div>
-        <hr class="mt-2" />
-        <div class="flex justify-end space-x-2 p-2">
+        <div
+          class="flex justify-end space-x-2 p-2 border-t dark:border-zinc-800"
+        >
           <!-- <button
             class="bg-red-600 hover:bg-red-700 transition-colors px-4 py-2 text-white font-semibold rounded"
             @click="$emit('close')"

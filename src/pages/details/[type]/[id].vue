@@ -5,14 +5,15 @@ import IconHeart from "~/components/icons/Heart.vue"
 import IconHeartFilled from "~/components/icons/HeartFilled.vue"
 import IconStar from "~/components/icons/Star.vue"
 import IconStarFilled from "~/components/icons/StarFilled.vue"
-import IconList from "~~/src/components/icons/ListAdd.vue"
 import ModalView from "~/components/Modal.vue"
 import Avatar from "~/components/Avatar.vue"
 import { useUserStore } from "~/store/user"
 import { onClickOutside } from "@vueuse/core"
+import { useDark } from "@vueuse/core"
 const { $moment } = useNuxtApp()
 const { params } = useRoute()
 const colorThief = new ColorThief()
+const isDark = useDark()
 
 const { user, isLoggedIn } = useUserStore()
 
@@ -267,7 +268,7 @@ const onSelectEmoji = (emoji) => {
             <p class="font-semibold text-lg flex items-center gap-2">
               Your Rating:
               <input
-                class="w-11 h-6 p-0 text-center focus:outline-none focus:ring-0"
+                class="w-11 h-6 p-0 text-center focus:outline-none focus:ring-0 dark:bg-zinc-700 rounded"
                 type="number"
                 :max="10"
                 :min="0.5"
@@ -292,7 +293,7 @@ const onSelectEmoji = (emoji) => {
               ]"
               :active-border-color="['#a30000', '#ffc400']"
               :active-color="['#f00', '#ff0']"
-              inactive-color="#fff"
+              :inactive-color="isDark ? '#000' : '#fff'"
               :border-width="2"
               :active-on-click="true"
               v-model:rating="reviewRating"
@@ -305,7 +306,10 @@ const onSelectEmoji = (emoji) => {
                 @click="isEmojiSelector = !isEmojiSelector"
                 class="text-2xl"
               >
-                <span class="select-none hover:bg-gray-50 p-1">😀</span>
+                <span
+                  class="select-none hover:bg-gray-50 dark:hover:bg-zinc-800 p-1"
+                  >😀</span
+                >
               </button>
               <Transition name="fade">
                 <EmojiPicker
@@ -314,6 +318,7 @@ const onSelectEmoji = (emoji) => {
                   class="absolute z-20 right-0"
                   :display-recent="true"
                   :native="true"
+                  :theme="isDark ? 'dark' : 'light'"
                   @select="onSelectEmoji"
                 />
               </Transition>
@@ -325,10 +330,10 @@ const onSelectEmoji = (emoji) => {
                 :maxlength="512"
                 @input="(e) => (reviewComment = e.target.value)"
                 placeholder="Write a review..."
-                class="w-full rounded border-gray-400 h-32 resize-none select-none"
+                class="w-full rounded border-gray-400 dark:border-zinc-800 dark:bg-zinc-800 h-32 resize-none select-none"
               />
               <div
-                class="text-gray-500 text-sm absolute z-10 bottom-0 right-0 m-4"
+                class="text-gray-500 dark:text-gray-300 text-sm absolute z-10 bottom-0 right-0 m-4"
               >
                 {{ reviewComment?.length || 0 }} / 512
               </div>
@@ -366,7 +371,7 @@ const onSelectEmoji = (emoji) => {
                 :src="posterURL"
               />
               <div
-                class="absolute bg-white rounded-3xl px-3 py-2 text-black -m-4 font-semibold top-0 right-0"
+                class="absolute bg-white shadow rounded-3xl px-3 py-2 text-black -m-4 font-semibold top-0 right-0"
               >
                 <span class="font-maven font-extrabold text-yellow-500 text-xl"
                   >m</span
@@ -515,13 +520,16 @@ const onSelectEmoji = (emoji) => {
         <Spinner color="#000" />
       </div>
       <div v-else-if="comments.length > 0">
-        <h1 class="text-2xl font-semibold">Latest Reviews</h1>
-        <hr class="my-4" />
+        <h1
+          class="text-2xl font-semibold border-b pb-4 my-4 dark:border-zinc-900"
+        >
+          Latest Reviews
+        </h1>
         <div class="space-y-4">
           <div
             v-for="(comment, i) in comments"
             :key="i"
-            class="flex bg-white rounded p-4 shadow items-start"
+            class="flex bg-white dark:bg-zinc-900 rounded p-4 shadow items-start"
           >
             <Avatar
               :username="comment.author.username"
@@ -545,7 +553,7 @@ const onSelectEmoji = (emoji) => {
                     comment.rating
                   }}</span>
                 </p>
-                <p class="text-base text-gray-500">
+                <p class="text-base text-gray-500 dark:text-gray-400">
                   {{ $moment(comment.createdAt).fromNow() }}
                   {{
                     comment.createdAt === comment.updatedAt ? "" : "(edited)"
@@ -556,7 +564,7 @@ const onSelectEmoji = (emoji) => {
               <p
                 class="text-base truncate break-all whitespace-normal"
                 :class="{
-                  'text-gray-500': !comment.content
+                  'text-gray-500 dark:text-gray-300': !comment.content
                 }"
               >
                 {{
@@ -570,14 +578,14 @@ const onSelectEmoji = (emoji) => {
               <button
                 v-if="comment.author._id === user?._id"
                 @click="deleteReview"
-                class="bg-red-100 text-red-500 shadow rounded font-semibold px-2 py-1 ml-auto text-xs hover:bg-red-200 transition"
+                class="bg-red-100 dark:bg-red-900 dark:hover:bg-red-800 text-red-500 shadow rounded font-semibold px-2 py-1 ml-auto text-xs hover:bg-red-200 transition"
               >
                 <IconsTrash class="w-4 h-4" />
               </button>
               <button
                 v-if="comment.author._id === user?._id"
                 @click="openReview"
-                class="bg-white shadow rounded font-semibold px-2 py-1 ml-auto text-xs hover:bg-gray-50 transition"
+                class="bg-white dark:bg-zinc-800 shadow rounded font-semibold px-2 py-1 ml-auto text-xs hover:bg-gray-50 dark:hover:bg-zinc-700 transition"
               >
                 <IconsPencil class="w-4 h-4" />
               </button>
@@ -588,14 +596,16 @@ const onSelectEmoji = (emoji) => {
 
       <button
         @click="showDetailsDev = !showDetailsDev"
-        class="mt-8 bg-white shadow rounded font-semibod px-4 py-2"
+        class="mt-8 bg-white dark:bg-zinc-900 shadow rounded font-semibod px-4 py-2"
       >
-        Show details
+        {{ showDetailsDev ? "Hide" : "Show" }} details
       </button>
       <div v-if="showDetailsDev">
         <p>Movie {{ params.id }}</p>
         {{ backgroundColor }}
-        <pre class="p-8 whitespace-pre-wrap">{{ data }}</pre>
+        <pre class="p-2 whitespace-pre-wrap bg-zinc-800 !text-orange-500">{{
+          data
+        }}</pre>
       </div>
     </div>
   </div>

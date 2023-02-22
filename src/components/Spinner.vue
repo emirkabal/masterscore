@@ -1,4 +1,6 @@
 <script setup>
+import { useDark } from "@vueuse/core"
+const isDark = useDark()
 const props = defineProps({
   color: {
     type: String,
@@ -8,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="lds-facebook" :style="`--color: ${props.color};`">
+  <div class="lds-facebook" :style="`--color: ${isDark ? '#fff' : '#000'};`">
     <div></div>
     <div></div>
     <div></div>
