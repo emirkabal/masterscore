@@ -58,19 +58,15 @@ watch(listType, () => {
       <Spinner color="#000" />
     </div>
   </div>
-  <div v-else>
+  <div class="container mx-auto px-24 my-12" v-else>
     <div class="flex justify-between items-center">
-      <div v-if="$route.path !== '/table'">
-        <router-link
-          to="/table"
-          class="text-2xl block font-bold my-4 md:border-l-4 pl-2 border-blue-700 hover:border-blue-500 transition-colors"
-        >
-          Masterscore Table
-        </router-link>
-      </div>
-      <div v-else>{{ listType }}</div>
+      <h1
+        class="text-2xl block font-bold my-4 md:border-l-4 pl-2 border-blue-700"
+      >
+        Masterscore Table
+      </h1>
       <select
-        class="h-12 dark:bg-zinc-900 dark:border-zinc-800"
+        class="h-12 dark:bg-zinc-900 dark:border-zinc-800 rounded-lg"
         :value="listType"
         @input="(e) => (listType = e.target.value)"
       >

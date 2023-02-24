@@ -17,7 +17,7 @@ const userStore = useUserStore()
     <div class="flex items-center">
       <router-link
         to="/"
-        class="font-black text-2xl mr-8 font-maven select-none"
+        class="font-black text-2xl mr-8 font-maven select-none hover:opacity-75 transition"
         ><span class="text-yellow-500">m</span>asterscore</router-link
       >
     </div>

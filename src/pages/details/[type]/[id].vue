@@ -370,13 +370,24 @@ const onSelectEmoji = (emoji) => {
                 draggable="false"
                 :src="posterURL"
               />
+
               <div
-                class="absolute bg-white shadow rounded-3xl px-3 py-2 text-black -m-4 font-semibold top-0 right-0"
+                class="flex items-center text-xl justify-center gap-2 mt-2 font-maven font-semibold"
+                v-if="masterRating > 0"
               >
-                <span class="font-maven font-extrabold text-yellow-500 text-xl"
-                  >m</span
+                <div class="relative">
+                  <IconsStarFilled
+                    class="w-10 h-10 text-yellow-400 drop-shadow-lg"
+                  />
+                </div>
+                <span
+                  class="mt-1 drop-shadow-lg"
+                  :class="{
+                    'text-black': backgroundBright,
+                    'text-white': !backgroundBright
+                  }"
+                  >{{ masterRating.toFixed(1) }}</span
                 >
-                {{ masterRating.toFixed(1) }}
               </div>
             </div>
             <div class="max-w-2xl">
