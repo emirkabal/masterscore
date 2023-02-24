@@ -8,6 +8,13 @@ export const UserSchema = Joi.object({
 })
 
 export const UserPatchableSchema = Joi.object({
+  username: Joi.string()
+    .alphanum()
+    .lowercase()
+    .allow("")
+    .allow(null)
+    .min(3)
+    .max(16),
   about: Joi.string().allow(null).allow("").max(512),
   banner: Joi.string().allow(null).allow("").max(128).uri(),
   likes: Joi.array().items(Joi.string()),

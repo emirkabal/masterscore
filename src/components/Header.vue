@@ -12,16 +12,17 @@ const userStore = useUserStore()
 
 <template>
   <header
-    class="flex h-16 px-12 items-center justify-between bg-gray-50 dark:bg-zinc-900"
+    class="flex h-16 md:px-12 px-6 items-center justify-between bg-gray-50 dark:bg-zinc-900"
   >
     <div class="flex items-center">
       <router-link
         to="/"
-        class="font-black text-2xl mr-8 font-maven select-none hover:opacity-75 transition"
-        ><span class="text-yellow-500">m</span>asterscore</router-link
+        class="font-black text-2xl font-maven select-none hover:opacity-75 transition"
+        ><span class="text-yellow-500">m</span
+        ><span class="md:inline-block hidden">asterscore</span></router-link
       >
     </div>
-    <Searchbar />
+    <Searchbar class="mx-4 md:mx-0" />
     <div v-if="userStore.isLoading">Loading...</div>
     <Menu
       as="div"

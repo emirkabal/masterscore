@@ -18,6 +18,34 @@ export default defineEventHandler(async (event) => {
     event.context.user._id
   ).lean()
 
+  if (user.latestUsernameChange && body.username) {
+    const timeSinceLastChange =
+      new Date().getTime() - user.latestUsernameChange.getTime()
+    if (timeSinceLastChange < 1000 * 60 * 60 * 24 * 7) {
+      return {
+        status: 400,
+        message: "You can only change your username once a week."
+      } as ErrorResponse
+    }
+  }
+
+  if (body.username) {
+    const usernameExists = await UserModel.findOne({
+      username: body.username
+    }).lean()
+    if (usernameExists) {
+      return {
+        status: 400,
+        message: "Username already exists."
+      } as ErrorResponse
+    }
+  }
+
+  if (body.username) {
+    user.username = body.username
+    user.latestUsernameChange = new Date()
+  }
+
   user.about = body.about || null
   user.banner = body.banner || null
 

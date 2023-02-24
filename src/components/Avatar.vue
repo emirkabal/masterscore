@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 <template>
   <div
-    class="overflow-hidden rounded-full border-4 dark:border-black flex items-center justify-center bg-white dark:bg-black"
+    class="overflow-hidden rounded-full border-4 dark:border-zinc-800 flex items-center justify-center bg-gray-900 flex-shrink-0"
   >
     <img
       :src="'https://api.dicebear.com/5.x/thumbs/svg?seed=' + props.username"

@@ -186,6 +186,7 @@ export interface IUser {
   reviews?: string[]
   watchlist?: string[]
   watcheds?: string[]
+  latestUsernameChange?: Date
   createdAt: Date
   updatedAt: Date
 }
