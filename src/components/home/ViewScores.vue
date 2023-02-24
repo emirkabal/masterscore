@@ -7,7 +7,7 @@
     <h1 class="font-maven font-black">
       <span class="text-yellow-400">m</span>aster table
     </h1>
-    <p class="text-center text-gray-500 dark:text-gray-400">
+    <p class="text-center text-gray-500 dark:text-gray-300">
       Show the master table
     </p>
   </router-link>

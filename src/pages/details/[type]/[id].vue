@@ -14,6 +14,7 @@ const { $moment } = useNuxtApp()
 const { params } = useRoute()
 const colorThief = new ColorThief()
 const isDark = useDark()
+const { feature } = useRoute().query
 
 const { user, isLoggedIn } = useUserStore()
 
@@ -351,11 +352,14 @@ const onSelectEmoji = (emoji) => {
       </template>
     </ModalView>
     <div
-      class="h-[780px] w-full bg-cover bg-no-repeat bg-center"
+      class="h-[780px] w-full bg-cover bg-no-repeat bg-center relative"
       :style="{
         'background-image': `url(${backgroundURL})`
       }"
     >
+      <div v-if="feature" class="absolute bottom-0 right-0 m-4">
+        <HomeRandomMovie :collapsed="true" />
+      </div>
       <div
         class="w-full h-full"
         :style="{
@@ -397,7 +401,7 @@ const onSelectEmoji = (emoji) => {
                   :class="{
                     'text-6xl': title.length < 20,
                     'text-5xl': title.length < 36,
-                    'text-3xl': title.length > 36,
+                    'text-4xl': title.length >= 36,
                     'text-black': backgroundBright,
                     'text-white': !backgroundBright
                   }"
