@@ -3,12 +3,14 @@ const { data, pending } = useLazyFetch("/api/likes?limit=1")
 </script>
 <template>
   <div v-if="!pending">
-    <h1 class="text-2xl font-bold md:border-l-4 pl-2 mb-4 border-red-500">
+    <h1
+      class="text-2xl font-bold text-center md:text-left md:border-l-4 pl-2 mb-4 border-red-500"
+    >
       Most Liked
     </h1>
     <router-link
       :to="`/details/${data[0].entertainment.type}/${data[0].entertainment.id}`"
-      class="w-64 h-96 rounded shadow-2xl z-0 bg-cover bg-center group overflow-hidden cursor-pointer block relative"
+      class="w-64 h-96 mx-auto md:mx-0 rounded shadow-2xl z-0 bg-cover bg-center group overflow-hidden cursor-pointer block relative"
       :style="{
         backgroundImage: `url(https://image.tmdb.org/t/p/w300_and_h450_bestv2/${data[0].entertainment.info.poster})`
       }"

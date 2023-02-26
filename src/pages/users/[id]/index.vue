@@ -78,7 +78,7 @@ const getActivityTitle = (type: string) => {
       :username="user.username"
       :is-me="user.username === localUser?.username"
     />
-    <div class="container px-4 m-auto 2xl:mt-10 mt-16 mb-24">
+    <div class="container px-4 mx-auto 2xl:mt-10 mt-16 mb-24">
       <div
         class="flex items-center justify-between border-b dark:border-zinc-900 p-2 md:p-6 mb-8"
       >

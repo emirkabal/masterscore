@@ -19,13 +19,13 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
             class="font-bold hover:underline"
             ><Avatar
               :username="review.author.username"
-              class="w-14 h-14 flex-shrink-0"
+              class="w-10 h-10 md:w-14 md:h-14 flex-shrink-0"
           /></router-link>
           <div class="flex flex-col w-full">
             <div class="flex items-center justify-between">
               <router-link
                 :to="`/users/@${review.author.username}`"
-                class="font-bold hover:underline"
+                class="font-bold hover:underline text-sm md:text-base"
                 >@{{ review.author.username }}</router-link
               >
               <span class="text-xs text-gray-500 dark:text-gray-300">
@@ -36,11 +36,12 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
               :to="`/details/${review.entertainment.type}/${review.entertainment.id}`"
               class="text-xs gap-1 -mt-1 flex items-center group w-fit"
             >
-              <div class="flex">
-                Reviewed:
-                <span class="font-bold ml-1 group-hover:underline">{{
-                  review.entertainment.info.title
-                }}</span>
+              <div class="flex text-sm md:text-base">
+                <span class="hidden md:block"> Reviewed: </span>
+                <span
+                  class="font-bold md:ml-1 group-hover:underline truncate break-words md:max-w-none max-w-[136px] lineclamp-1"
+                  >{{ review.entertainment.info.title }}</span
+                >
               </div>
               <div class="flex items-center">
                 <IconsStarFilled class="w-4 h-4 text-yellow-400" />
@@ -49,7 +50,7 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
             </router-link>
             <p
               v-if="review.content"
-              class="text-base truncate break-all whitespace-normal"
+              class="text-base truncate break-all whitespace-normal leading-4 md:leading-none"
             >
               {{ review.content }}
             </p>

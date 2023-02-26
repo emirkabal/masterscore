@@ -7,7 +7,7 @@ const toggleDarkMode = useToggle(isDark)
 <template>
   <div class="mt-auto bg-gray-50 dark:bg-zinc-900 shadow-3xl w-full py-4">
     <div
-      class="container m-auto md:px-0 px-4 flex items-center justify-between"
+      class="container mx-auto px-4 flex md:flex-row flex-col items-center justify-between"
     >
       <div class="flex items-center gap-2">
         <Logo class="text-xl" />

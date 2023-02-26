@@ -57,7 +57,7 @@ const submit = async (e) => {
 }
 </script>
 <template>
-  <div class="container m-auto mt-12 px-4 md:px-0">
+  <div class="container mx-auto mt-12 px-4">
     <h1 class="border-b dark:border-zinc-900 pb-4 mb-8 text-2xl font-bold">
       Edit Profile
     </h1>

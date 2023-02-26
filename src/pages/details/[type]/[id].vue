@@ -530,7 +530,7 @@ const onSelectEmoji = (emoji) => {
         </div>
       </div>
     </div>
-    <div class="container m-auto mt-8 mb-28">
+    <div class="container mx-auto mt-8 mb-28 px-4">
       <div class="flex justify-center" v-if="reviewDataFromServer.loading">
         <Spinner color="#000" />
       </div>
