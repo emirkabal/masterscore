@@ -213,7 +213,7 @@ const submit = async (e) => {
 </template>
 
 <style scoped>
-p {
+label > p {
   @apply cursor-pointer select-none font-maven text-lg font-bold;
 }
 </style>
