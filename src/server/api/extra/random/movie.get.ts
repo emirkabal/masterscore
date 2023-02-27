@@ -1,7 +1,7 @@
 import { TMDBMovie } from "~~/src/@types"
 
 export default defineEventHandler(async (event) => {
-  const page = Math.floor(Math.random() * 500) + 1
+  const page = Math.floor(Math.random() * 100) + 1
   const data: {
     results: TMDBMovie[]
   } = await $fetch(

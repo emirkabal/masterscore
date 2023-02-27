@@ -25,7 +25,10 @@ watch(username, (newValue) => {
 })
 
 const isUsernameChangeAvailable = computed(() => {
-  return new Date(user.latestUsernameChange).getTime() + 604800000 < Date.now()
+  return (
+    !user.latestUsernameChange ||
+    new Date(user.latestUsernameChange).getTime() + 604800000 < Date.now()
+  )
 })
 
 const submit = async (e) => {
