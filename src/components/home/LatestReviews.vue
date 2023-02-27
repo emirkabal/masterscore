@@ -4,28 +4,51 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
 
 <template>
   <div>
-    <h1 class="text-2xl font-bold md:border-l-4 pl-2 mb-8 border-yellow-500">
+    <h1 class="mb-8 border-yellow-500 pl-2 text-2xl font-bold md:border-l-4">
       Latest Reviews
     </h1>
-    <div v-if="!pending" class="flex flex-col gap-2">
+    <div v-if="pending">
       <div
-        class="flex p-6 border-b dark:border-zinc-900"
+        class="flex animate-pulse items-center px-4 py-6"
+        v-for="i in 8"
+        :key="i"
+      >
+        <div
+          class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 dark:bg-zinc-800 md:h-14 md:w-14"
+        ></div>
+        <div class="ml-4 flex w-full flex-col">
+          <div class="h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"></div>
+          <div
+            class="mt-2 h-2 w-1/2 rounded bg-gray-300 dark:bg-zinc-800"
+          ></div>
+          <div
+            class="mt-1 h-2 w-1/3 rounded bg-gray-300 dark:bg-zinc-800"
+          ></div>
+          <div
+            class="mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div v-else class="flex flex-col gap-2">
+      <div
+        class="flex border-b px-4 py-6 dark:border-zinc-900"
         v-for="review in data"
         :key="review._id"
       >
-        <div class="flex items-center gap-4 w-full">
+        <div class="flex w-full items-center gap-4">
           <router-link
             :to="`/users/@${review.author.username}`"
             class="font-bold hover:underline"
             ><Avatar
               :username="review.author.username"
-              class="w-10 h-10 md:w-14 md:h-14 flex-shrink-0"
+              class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
           /></router-link>
-          <div class="flex flex-col w-full">
+          <div class="flex w-full flex-col">
             <div class="flex items-center justify-between">
               <router-link
                 :to="`/users/@${review.author.username}`"
-                class="font-bold hover:underline text-sm md:text-base"
+                class="text-sm font-bold hover:underline md:text-base"
                 >@{{ review.author.username }}</router-link
               >
               <span class="text-xs text-gray-500 dark:text-gray-300">
@@ -34,23 +57,23 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
             </div>
             <router-link
               :to="`/details/${review.entertainment.type}/${review.entertainment.id}`"
-              class="text-xs gap-1 -mt-1 flex items-center group w-fit"
+              class="group -mt-1 flex w-fit items-center gap-1 text-xs"
             >
               <div class="flex text-sm md:text-base">
                 <span class="hidden md:block"> Reviewed: </span>
                 <span
-                  class="font-bold md:ml-1 group-hover:underline truncate break-words md:max-w-none max-w-[136px] lineclamp-1"
+                  class="lineclamp-1 max-w-[136px] truncate break-words font-bold group-hover:underline md:ml-1 md:max-w-none"
                   >{{ review.entertainment.info.title }}</span
                 >
               </div>
               <div class="flex items-center">
-                <IconsStarFilled class="w-4 h-4 text-yellow-400" />
+                <IconsStarFilled class="h-4 w-4 text-yellow-400" />
                 <span class="text-sm font-semibold">{{ review.rating }}</span>
               </div>
             </router-link>
             <p
               v-if="review.content"
-              class="text-base truncate break-all whitespace-normal leading-4 md:leading-none"
+              class="truncate whitespace-normal break-all text-base"
             >
               {{ review.content }}
             </p>

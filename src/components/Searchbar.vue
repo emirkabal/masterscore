@@ -8,15 +8,12 @@ const users = ref([])
 const selectedIndex = ref(0)
 
 const searchResults = debounce(async () => {
-  console.log("searching...")
   const data = await $fetch(`/api/search?q=${search.value}`)
   // selectedIndex.value = 0
   loading.value = false
   if (data.status !== 200) {
-    console.log(data.message)
     return
   }
-  console.log(data)
   results.value = data.tmdb
   users.value = data.users
 }, 500)
@@ -28,12 +25,12 @@ const searchInput = (e) => {
 }
 </script>
 <template>
-  <div class="flex-grow max-w-lg relative">
+  <div class="relative max-w-lg flex-grow">
     <div
       v-if="search.length > 0"
-      class="fixed bg-black/20 top-0 left-0 w-full h-screen z-20 backdrop-blur"
+      class="fixed top-0 left-0 z-20 h-screen w-full bg-black/20 backdrop-blur"
     ></div>
-    <div class="w-full relative z-20">
+    <div class="relative z-20 w-full">
       <IconsSearch
         class="absolute left-2"
         :class="{
@@ -80,9 +77,9 @@ const searchInput = (e) => {
           }
         "
         type="text"
-        class="w-full pl-10 rounded-lg bg-white dark:bg-black shadow border-none dark:placeholder:text-gray-300"
+        class="w-full rounded-lg border-none bg-white pl-10 shadow dark:bg-black dark:placeholder:text-gray-300"
         :class="{
-          'rounded-tl-2xl rounded-tr-2xl rounded-bl-none rounded-br-none focus:ring-0 pt-4':
+          'rounded-tl-2xl rounded-tr-2xl rounded-bl-none rounded-br-none pt-4 focus:ring-0':
             search.length > 0
         }"
         placeholder="Type to search..."
@@ -90,7 +87,7 @@ const searchInput = (e) => {
     </div>
     <div
       v-if="search.length > 0"
-      class="absolute w-full bg-white dark:bg-black p-4 rounded-bl-2xl rounded-br-2xl z-20"
+      class="absolute z-20 w-full rounded-bl-2xl rounded-br-2xl bg-white p-4 dark:bg-black"
     >
       <div class="flex justify-center" v-if="loading">
         <Spinner color="#000" />
@@ -102,7 +99,7 @@ const searchInput = (e) => {
       </div>
       <div v-else>
         <div v-if="results.length !== 0">
-          <div class="text-gray-500 dark:text-gray-300 font-bold mb-2">
+          <div class="mb-2 font-bold text-gray-500 dark:text-gray-300">
             Movies & TV Shows
           </div>
 
@@ -110,7 +107,7 @@ const searchInput = (e) => {
             <router-link
               :to="`/details/${result.media_type}/${result.id}`"
               @mouseenter="selectedIndex = i"
-              class="transition-colors rounded-lg overflow-hidden p-3 w-full block"
+              class="block w-full overflow-hidden rounded-lg p-3 transition-colors"
               @click="search = ''"
               :data-index="i"
               :class="{
@@ -118,9 +115,9 @@ const searchInput = (e) => {
                 'bg-white dark:bg-black': i !== selectedIndex
               }"
             >
-              <div class="flex items-center w-full">
+              <div class="flex w-full items-center">
                 <div
-                  class="w-14 h-[84px] flex items-center justify-center font-bold text-white rounded bg-gray-600"
+                  class="flex h-[84px] w-14 items-center justify-center rounded bg-gray-600 font-bold text-white"
                   v-if="!result.poster_path"
                 >
                   X
@@ -128,11 +125,11 @@ const searchInput = (e) => {
                 <img
                   v-else
                   :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${result.poster_path}`"
-                  class="w-14 h-auto rounded"
+                  class="h-auto w-14 rounded"
                 />
                 <div class="ml-4 max-w-sm">
-                  <p class="font-bold text-ellipsis truncate">
-                    {{ result.title || result.name }}
+                  <p class="truncate text-ellipsis font-bold">
+                    {{ $getTitle(result) }}
                   </p>
                   <p class="text-gray-500 dark:text-gray-300">
                     {{
@@ -147,7 +144,7 @@ const searchInput = (e) => {
           </div>
         </div>
         <div v-if="users.length !== 0">
-          <div class="text-gray-500 dark:text-gray-300 font-bold mb-2">
+          <div class="mb-2 font-bold text-gray-500 dark:text-gray-300">
             Users
           </div>
           <div v-for="(user, i) in users" :key="`user-${i}`">
@@ -155,7 +152,7 @@ const searchInput = (e) => {
               :to="`/users/@${user}`"
               @mouseenter="selectedIndex = i + results.length"
               @click="search = ''"
-              class="transition-colors rounded-lg overflow-hidden p-3 w-full block"
+              class="block w-full overflow-hidden rounded-lg p-3 transition-colors"
               :data-index="i + results.length"
               :class="{
                 'bg-gray-100 dark:bg-zinc-900':
@@ -163,10 +160,10 @@ const searchInput = (e) => {
                 'bg-white dark:bg-black': i + results.length !== selectedIndex
               }"
             >
-              <div class="flex items-center w-full">
-                <Avatar :username="user" class="w-10 h-10 border" />
+              <div class="flex w-full items-center">
+                <Avatar :username="user" class="h-10 w-10 border" />
                 <div class="ml-4 max-w-sm">
-                  <p class="font-bold text-ellipsis truncate">@{{ user }}</p>
+                  <p class="truncate text-ellipsis font-bold">@{{ user }}</p>
                 </div>
               </div>
             </router-link>

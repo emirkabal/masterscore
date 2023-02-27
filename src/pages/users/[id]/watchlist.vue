@@ -74,7 +74,7 @@ if (params.id === "me") {
 </script>
 
 <template>
-  <div v-if="loading" class="flex justify-center mt-48">
+  <div v-if="loading" class="mt-48 flex justify-center">
     <Spinner color="#000" />
   </div>
   <div v-else-if="error.length > 0 || !user">
@@ -88,47 +88,47 @@ if (params.id === "me") {
       :is-me="user.username === localUser?.username"
       :viewProfile="true"
     />
-    <div class="container px-4 mx-auto 2xl:mt-10 mt-16">
+    <div class="container mx-auto mt-16 px-4 2xl:mt-10">
       <div
-        class="flex items-center justify-between border-b dark:border-zinc-900 p-2 md:p-6 mb-8"
+        class="mb-8 flex items-center justify-between border-b p-2 dark:border-zinc-900 md:p-6"
       >
-        <h1 class="font-bold text-lg md:text-2xl">
+        <h1 class="text-lg font-bold md:text-2xl">
           @{{ user.username }}'s watchlist
         </h1>
       </div>
-      <div v-if="watchlist.loading" class="flex justify-center mt-12">
+      <div v-if="watchlist.loading" class="mt-12 flex justify-center">
         <Spinner color="#000" />
       </div>
       <div
         v-else-if="watchlist.items.length === 0"
-        class="flex justify-center mt-12"
+        class="mt-12 flex justify-center"
       >
         <p class="text-gray-500 dark:text-gray-200">
           There is no entry in the watchlist.
         </p>
       </div>
-      <div class="flex flex-col gap-2 mb-10" v-else>
+      <div class="mb-10 flex flex-col gap-2" v-else>
         <div v-for="listItem in watchlist.items" :key="listItem._id">
           <div
-            class="bg-white dark:bg-zinc-900 rounded shadow flex items-center justify-between overflow-hidden"
+            class="flex items-center justify-between overflow-hidden rounded bg-white shadow dark:bg-zinc-900"
           >
-            <div class="flex gap-8 items-center">
+            <div class="flex items-center gap-8">
               <img
                 :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${listItem.info.poster}`"
                 class="h-36 w-auto"
               />
               <router-link
                 :to="`/details/${listItem.type}/${listItem.id}`"
-                class="font-semibold hover:underline text-2xl"
+                class="text-2xl font-semibold hover:underline"
               >
                 {{ listItem.info.title }}
               </router-link>
             </div>
             <button
               @click="removeItem(listItem._id)"
-              class="bg-red-600 text-white font-bold px-8 transition-colors hover:bg-red-700 h-36 flex items-center cursor-pointer"
+              class="flex h-36 cursor-pointer items-center bg-red-600 px-8 font-bold text-white transition-colors hover:bg-red-700"
             >
-              <IconsTrash class="w-8 h-8" />
+              <IconsTrash class="h-8 w-8" />
             </button>
           </div>
         </div>

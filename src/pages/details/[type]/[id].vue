@@ -6,15 +6,15 @@ import IconHeartFilled from "~/components/icons/HeartFilled.vue"
 import IconStar from "~/components/icons/Star.vue"
 import IconStarFilled from "~/components/icons/StarFilled.vue"
 import ModalView from "~/components/Modal.vue"
-import Avatar from "~/components/Avatar.vue"
 import { useUserStore } from "~/store/user"
-import { onClickOutside } from "@vueuse/core"
+import { onClickOutside, useStorage } from "@vueuse/core"
 import { useDark } from "@vueuse/core"
-const { $moment } = useNuxtApp()
+const { $moment, $getTitle } = useNuxtApp()
 const { params } = useRoute()
 const colorThief = new ColorThief()
 const isDark = useDark()
 const { feature } = useRoute().query
+const flag = useStorage("debugMode", false)
 
 const { user, isLoggedIn } = useUserStore()
 
@@ -57,7 +57,7 @@ const posterURL = computed(() => {
   return `https://image.tmdb.org/t/p/w300_and_h450_bestv2${data.value.poster_path}`
 })
 const title = computed(() => {
-  return data.value.title || data.value.name
+  return $getTitle(data.value)
 })
 const overview = computed(() => {
   return data.value.localData.info.description
@@ -113,7 +113,6 @@ const like = async () => {
   if (!isLoggedIn) {
     return useRouter().push("/account/login")
   }
-  console.log("like", localId.value)
   if (user.likes.includes(localId.value)) {
     user.likes = user.likes.filter((e) => e !== localId.value)
   } else {
@@ -140,7 +139,6 @@ const fetchReviews = async () => {
     headers: generateHeaders()
   })
   if ("message" in review) {
-    console.log(review.message)
     return
   }
   comments.value = review.reviews
@@ -249,7 +247,6 @@ watch(reviewRating, () => {
 })
 
 const onSelectEmoji = (emoji) => {
-  console.log(emoji)
   reviewComment.value += emoji.i
 }
 </script>
@@ -257,7 +254,7 @@ const onSelectEmoji = (emoji) => {
 <template>
   <div
     v-if="pending || !backgroundColor"
-    class="flex justify-center items-center h-96"
+    class="flex h-96 items-center justify-center"
   >
     <Spinner color="#000" />
   </div>
@@ -266,10 +263,10 @@ const onSelectEmoji = (emoji) => {
       <template v-slot:body>
         <div class="space-y-4">
           <div>
-            <p class="font-semibold text-lg flex items-center gap-2">
+            <p class="flex items-center gap-2 text-lg font-semibold">
               Your Rating:
               <input
-                class="w-11 h-6 p-0 text-center focus:outline-none focus:ring-0 dark:bg-zinc-700 rounded"
+                class="h-6 w-11 rounded p-0 text-center focus:outline-none focus:ring-0 dark:bg-zinc-700"
                 type="number"
                 :max="10"
                 :min="0.5"
@@ -301,14 +298,14 @@ const onSelectEmoji = (emoji) => {
             ></StarRating>
           </div>
           <div>
-            <div class="flex justify-between mb-2 items-center relative">
-              <p class="font-semibold text-lg select-none">Comment</p>
+            <div class="relative mb-2 flex items-center justify-between">
+              <p class="select-none text-lg font-semibold">Comment</p>
               <button
                 @click="isEmojiSelector = !isEmojiSelector"
                 class="text-2xl"
               >
                 <span
-                  class="select-none hover:bg-gray-50 dark:hover:bg-zinc-800 p-1"
+                  class="select-none p-1 hover:bg-gray-50 dark:hover:bg-zinc-800"
                   >😀</span
                 >
               </button>
@@ -316,7 +313,7 @@ const onSelectEmoji = (emoji) => {
                 <EmojiPicker
                   v-show="isEmojiSelector"
                   ref="emojiPicker"
-                  class="absolute z-20 right-0"
+                  class="absolute right-0 z-20"
                   :display-recent="true"
                   :native="true"
                   :theme="isDark ? 'dark' : 'light'"
@@ -331,10 +328,10 @@ const onSelectEmoji = (emoji) => {
                 :maxlength="512"
                 @input="(e) => (reviewComment = e.target.value)"
                 placeholder="Write a review..."
-                class="w-full rounded border-gray-400 dark:border-zinc-800 dark:bg-zinc-800 h-32 resize-none select-none"
+                class="h-32 w-full select-none resize-none rounded border-gray-400 dark:border-zinc-800 dark:bg-zinc-800"
               />
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm absolute z-10 bottom-0 right-0 m-4"
+                class="absolute bottom-0 right-0 z-10 m-4 text-sm text-gray-500 dark:text-gray-300"
               >
                 {{ reviewComment?.length || 0 }} / 512
               </div>
@@ -345,14 +342,14 @@ const onSelectEmoji = (emoji) => {
       <template v-slot:footer>
         <button
           @click="submitReview"
-          class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition-colors font-semibold text-white"
+          class="rounded bg-blue-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-700"
         >
           Submit Review
         </button>
       </template>
     </ModalView>
     <div
-      class="h-[780px] w-full bg-cover bg-no-repeat bg-center relative"
+      class="relative h-[780px] w-full bg-cover bg-center bg-no-repeat"
       :style="{
         'background-image': `url(${backgroundURL})`
       }"
@@ -361,43 +358,31 @@ const onSelectEmoji = (emoji) => {
         <HomeRandomMovie :collapsed="true" />
       </div>
       <div
-        class="w-full h-full"
+        class="h-full w-full"
         :style="{
           'background-color': `rgba(${backgroundColor[0]}, ${backgroundColor[1]}, ${backgroundColor[2]}, 0.75)`
         }"
       >
-        <div class="w-full h-full flex px-32">
+        <div class="flex h-full w-full px-32">
           <div class="flex items-center gap-16 drop-shadow-2xl">
             <div class="relative flex-shrink-0">
               <img
-                class="w-72 h-auto object-cover object-center rounded"
+                class="h-auto w-72 rounded object-cover object-center"
                 draggable="false"
                 :src="posterURL"
               />
-
               <div
-                class="flex items-center text-xl justify-center gap-2 mt-2 font-maven font-semibold"
                 v-if="masterRating > 0"
+                class="absolute bottom-0 left-0 m-2 flex items-center justify-center gap-2 rounded bg-gray-600/20 px-3 py-2 font-semibold !text-white shadow-sm backdrop-blur-md"
               >
-                <div class="relative">
-                  <IconsStarFilled
-                    class="w-10 h-10 text-yellow-400 drop-shadow-lg"
-                  />
-                </div>
-                <span
-                  class="mt-1 drop-shadow-lg"
-                  :class="{
-                    'text-black': backgroundBright,
-                    'text-white': !backgroundBright
-                  }"
-                  >{{ masterRating.toFixed(1) }}</span
-                >
+                <IconsStarFilled class="h-5 w-5 text-yellow-400" />
+                {{ masterRating.toFixed(1) }}
               </div>
             </div>
             <div class="max-w-2xl">
               <div class="flex flex-col-reverse">
                 <h1
-                  class="font-semibold flex-shrink-0 inline-block leading[0.1]"
+                  class="leading[0.1] inline-block flex-shrink-0 font-semibold"
                   :class="{
                     'text-6xl': title.length < 20,
                     'text-5xl': title.length < 36,
@@ -415,23 +400,23 @@ const onSelectEmoji = (emoji) => {
                     'divide-white/20 text-white/70': !backgroundBright
                   }"
                 >
-                  <h2 class="font-semibold text-lg ml-0.5 pr-2">
+                  <h2 class="ml-0.5 pr-2 text-lg font-semibold">
                     {{ releaseDate }}
                   </h2>
                   <h2
                     v-if="genres"
-                    class="font-semibold text-lg line-clamp-1 px-2"
+                    class="px-2 text-lg font-semibold line-clamp-1"
                   >
                     {{ genres }}
                   </h2>
-                  <h2 class="font-semibold text-lg line-clamp-1 px-2">
+                  <h2 class="px-2 text-lg font-semibold line-clamp-1">
                     {{ runtime }}
                   </h2>
 
-                  <div class="flex gap-2 items-center px-2">
+                  <div class="flex items-center gap-2 px-2">
                     <h2
                       v-if="contentRating && contentRating !== 'Not Rated'"
-                      class="font-semibold border text-lg line-clamp-1 px-2"
+                      class="border px-2 text-lg font-semibold line-clamp-1"
                       :class="{
                         'border-black/40': backgroundBright,
                         'border-white/40': !backgroundBright
@@ -441,10 +426,10 @@ const onSelectEmoji = (emoji) => {
                     </h2>
                     <div
                       v-if="imdbLoading"
-                      class="bg-white/40 animate-pulse text-black font-bold flex items-center justify-center px-2 h-6 rounded w-20"
+                      class="flex h-6 w-20 animate-pulse items-center justify-center rounded bg-white/40 px-2 font-bold text-black"
                     >
                       <svg
-                        class="animate-spin h-6 w-6 text-black"
+                        class="h-6 w-6 animate-spin text-black"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -458,11 +443,11 @@ const onSelectEmoji = (emoji) => {
                     </div>
                     <a
                       v-else-if="data.vote_average > 0 || imdbScore > 0"
-                      class="bg-[#F5C518] text-black font-bold flex items-center justify-center pr-2 h-6 rounded cursor-pointer hover:bg-opacity-80 transition"
+                      class="flex h-6 cursor-pointer items-center justify-center rounded bg-[#F5C518] pr-2 font-bold text-black transition hover:bg-opacity-80"
                       :href="`https://www.imdb.com/title/${data.imdb_id}`"
                       target="_blank"
                     >
-                      <IconImdb class="w-auto h-7" />
+                      <IconImdb class="h-7 w-auto" />
                       {{ imdbScore || data.vote_average.toFixed(1) }}
                     </a>
                     <RottenTomatoes
@@ -473,7 +458,7 @@ const onSelectEmoji = (emoji) => {
                 </div>
               </div>
               <p
-                class="text-xl mt-2 line-clamp-6"
+                class="mt-2 text-xl line-clamp-6"
                 :class="{
                   'text-black/80': backgroundBright,
                   'text-white/80 ': !backgroundBright
@@ -484,41 +469,45 @@ const onSelectEmoji = (emoji) => {
               <div class="mt-4 flex gap-2 text-lg">
                 <button
                   @click="like"
-                  class="bg-white text-black px-4 py-2 flex gap-1 items-center font-semibold rounded hover:bg-opacity-80 transition"
+                  class="flex items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
                 >
-                  <IconHeartFilled v-if="userLiked" class="w-6 h-6" />
-                  <IconHeart v-else class="w-6 h-6" />
+                  <IconHeartFilled v-if="userLiked" class="h-6 w-6" />
+                  <IconHeart v-else class="h-6 w-6" />
                   {{ userLiked ? "Liked" : "Like" }}
                 </button>
                 <button
                   @click="openReview"
-                  class="bg-white flex gap-1 items-center text-black px-4 py-2 font-semibold rounded hover:bg-opacity-80 transition"
+                  class="flex items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
                 >
-                  <IconStarFilled v-if="userReviewed" class="w-6 h-6" />
-                  <IconStar v-else class="w-6 h-6" />
+                  <IconStarFilled v-if="userReviewed" class="h-6 w-6" />
+                  <IconStar v-else class="h-6 w-6" />
                   {{ userReviewed ? "Reviewed" : "Review" }}
                 </button>
                 <button
                   v-if="!userAddedWatchlist"
                   @click="submitToWatchlist"
-                  class="bg-transparent border border-white flex gap-1 items-center text-white px-4 py-2 font-semibold rounded hover:opacity-80 transition"
+                  class="flex items-center gap-1 rounded border bg-transparent px-4 py-2 font-semibold transition hover:opacity-80"
+                  :class="{
+                    'border-black text-black': backgroundBright,
+                    'border-white text-white': !backgroundBright
+                  }"
                 >
-                  <IconsListAdd class="w-6 h-6" />
+                  <IconsListAdd class="h-6 w-6" />
                   Add to watchlist
                 </button>
                 <button
                   v-else
                   @click="submitToWatchlist"
-                  class="bg-white flex gap-1 items-center text-black px-4 py-2 font-semibold rounded hover:opacity-80 transition"
+                  class="flex items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:opacity-80"
                 >
-                  <IconsListRemove class="w-6 h-6" />
+                  <IconsListRemove class="h-6 w-6" />
                   Remove from watchlist
                 </button>
               </div>
               <div
                 :class="{
-                  'text-black/80 divide-black/20': backgroundBright,
-                  'text-white/80 divide-white/20': !backgroundBright
+                  'divide-black/20 text-black/80': backgroundBright,
+                  'divide-white/20 text-white/80': !backgroundBright
                 }"
                 class="mt-2 flex gap-2 divide-x-2 text-sm"
               >
@@ -530,97 +519,37 @@ const onSelectEmoji = (emoji) => {
         </div>
       </div>
     </div>
+
     <div class="container mx-auto mt-8 mb-28 px-4">
-      <div class="flex justify-center" v-if="reviewDataFromServer.loading">
-        <Spinner color="#000" />
-      </div>
-      <div v-else-if="comments.length > 0">
-        <h1
-          class="text-2xl font-semibold border-b pb-4 my-4 dark:border-zinc-900"
-        >
-          Latest Reviews
-        </h1>
-        <div class="space-y-4">
-          <div
-            v-for="(comment, i) in comments"
-            :key="i"
-            class="flex bg-white dark:bg-zinc-900 rounded p-4 shadow items-start"
-          >
-            <Avatar
-              :username="comment.author.username"
-              class="w-16 h-16 flex-shrink-0"
-            />
-            <div class="flex flex-col ml-4">
-              <div class="flex items-center gap-2">
-                <router-link
-                  :to="`/users/@${
-                    comment.author._id == user?._id
-                      ? 'me'
-                      : comment.author.username
-                  }`"
-                  class="font-semibold text-lg hover:underline"
-                >
-                  @{{ comment.author.username }}
-                </router-link>
-                <p class="flex items-center gap-1">
-                  <IconStarFilled class="w-4 h-4 text-yellow-400" />
-                  <span class="text-sm font-semibold">{{
-                    comment.rating
-                  }}</span>
-                </p>
-                <p class="text-base text-gray-500 dark:text-gray-400">
-                  {{ $moment(comment.createdAt).fromNow() }}
-                  {{
-                    comment.createdAt === comment.updatedAt ? "" : "(edited)"
-                  }}
-                </p>
-              </div>
-
-              <p
-                class="text-base truncate break-all whitespace-normal"
-                :class="{
-                  'text-gray-500 dark:text-gray-300': !comment.content
-                }"
-              >
-                {{
-                  comment.content
-                    ? comment.content
-                    : "No comment for this review."
-                }}
-              </p>
-            </div>
-            <div class="ml-auto flex gap-2 items-center">
-              <button
-                v-if="comment.author._id === user?._id"
-                @click="deleteReview"
-                class="bg-red-100 dark:bg-red-900 dark:hover:bg-red-800 text-red-500 shadow rounded font-semibold px-2 py-1 ml-auto text-xs hover:bg-red-200 transition"
-              >
-                <IconsTrash class="w-4 h-4" />
-              </button>
-              <button
-                v-if="comment.author._id === user?._id"
-                @click="openReview"
-                class="bg-white dark:bg-zinc-800 shadow rounded font-semibold px-2 py-1 ml-auto text-xs hover:bg-gray-50 dark:hover:bg-zinc-700 transition"
-              >
-                <IconsPencil class="w-4 h-4" />
-              </button>
-            </div>
-          </div>
+      <div class="flex items-stretch gap-4">
+        <div class="min-w-0 flex-1 space-y-16">
+          <DetailsCast :id="params.id" :type="params.type" />
+          <DetailsReviews
+            :loading="reviewDataFromServer.loading"
+            :data="comments"
+            @edit="openReview"
+            @remove="deleteReview"
+          />
         </div>
+        <DetailsSidebar
+          class="w-full min-w-[300px] max-w-[300px]"
+          :data="data"
+        />
       </div>
-
-      <button
-        @click="showDetailsDev = !showDetailsDev"
-        class="mt-8 bg-white dark:bg-zinc-900 shadow rounded font-semibod px-4 py-2"
-      >
-        {{ showDetailsDev ? "Hide" : "Show" }} details
-      </button>
-      <div v-if="showDetailsDev">
-        <p>Movie {{ params.id }}</p>
-        {{ backgroundColor }}
-        <pre class="p-2 whitespace-pre-wrap bg-zinc-800 !text-orange-500">{{
-          data
-        }}</pre>
+      <div v-if="flag">
+        <button
+          @click="showDetailsDev = !showDetailsDev"
+          class="font-semibod mt-8 rounded bg-white px-4 py-2 shadow dark:bg-zinc-900"
+        >
+          {{ showDetailsDev ? "Hide" : "Show" }} details
+        </button>
+        <div v-if="showDetailsDev">
+          <p>Movie {{ params.id }}</p>
+          {{ backgroundColor }}
+          <pre class="whitespace-pre-wrap bg-zinc-800 p-2 !text-orange-500">{{
+            data
+          }}</pre>
+        </div>
       </div>
     </div>
   </div>

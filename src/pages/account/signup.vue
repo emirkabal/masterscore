@@ -58,30 +58,30 @@ const submit = async (event) => {
 
 <template>
   <div
-    class="flex items-center justify-center h-screen bg-white md:bg-gray-500 px-4 md:px-0"
+    class="flex h-screen items-center justify-center bg-white px-4 md:bg-gray-500 md:px-0"
   >
-    <div class="md:bg-white max-w-xl w-full rounded-3xl md:p-8 z-10">
+    <div class="z-10 w-full max-w-xl rounded-3xl md:bg-white md:p-8">
       <h1 class="text-center">
         <Logo class="text-4xl !text-black" />
       </h1>
-      <p class="font-black font-maven text-lg text-center !text-black">
+      <p class="font-maven text-center text-lg font-black !text-black">
         Create account
       </p>
       <p v-if="error.length > 0" class="text-center text-red-600">
         {{ error }}
       </p>
-      <form @submit="submit" class="space-y-4 mt-2 !text-black">
+      <form @submit="submit" class="mt-2 space-y-4 !text-black">
         <div class="relative">
           <input
             :value="username"
             @input="(e) => (username = e.target.value)"
             type="text"
             placeholder=" "
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            class="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
           />
           <label
             for="floating_outlined"
-            class="absolute text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 left-1 pointer-events-none"
+            class="pointer-events-none absolute top-2 left-1 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
             >Username</label
           >
         </div>
@@ -91,11 +91,11 @@ const submit = async (event) => {
             @input="(e) => (email = e.target.value)"
             type="email"
             placeholder=" "
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            class="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
           />
           <label
             for="floating_outlined"
-            class="absolute text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 left-1 pointer-events-none"
+            class="pointer-events-none absolute top-2 left-1 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
             >Email</label
           >
         </div>
@@ -105,11 +105,11 @@ const submit = async (event) => {
             @input="(e) => (password = e.target.value)"
             type="password"
             placeholder=" "
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            class="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
           />
           <label
             for="floating_outlined"
-            class="absolute text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 left-1 pointer-events-none"
+            class="pointer-events-none absolute top-2 left-1 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
             >Password</label
           >
         </div>
@@ -119,11 +119,11 @@ const submit = async (event) => {
             @input="(e) => (confirmPassword = e.target.value)"
             type="password"
             placeholder=" "
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            class="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
           />
           <label
             for="floating_outlined"
-            class="absolute text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 left-1 pointer-events-none"
+            class="pointer-events-none absolute top-2 left-1 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
             >Confirm Password</label
           >
         </div>
@@ -133,11 +133,11 @@ const submit = async (event) => {
             @input="(e) => (inviteCode = e.target.value)"
             type="text"
             placeholder=" "
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            class="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
           />
           <label
             for="floating_outlined"
-            class="absolute text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 left-1 pointer-events-none"
+            class="pointer-events-none absolute top-2 left-1 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
             >Invite Code</label
           >
         </div>
@@ -146,10 +146,10 @@ const submit = async (event) => {
           type="submit"
           :disabled="disabled"
           value="Signup"
-          class="bg-blue-700 cursor-pointer disabled:bg-gray-400 disabled:cursor-default hover:bg-blue-600 rounded-full text-white px-4 py-4 w-full"
+          class="w-full cursor-pointer rounded-full bg-blue-700 px-4 py-4 text-white hover:bg-blue-600 disabled:cursor-default disabled:bg-gray-400"
         />
       </form>
-      <p class="text-center mt-4 !text-black">
+      <p class="mt-4 text-center !text-black">
         Already have an account?
         <router-link
           to="/account/login"
@@ -160,7 +160,7 @@ const submit = async (event) => {
     </div>
     <img
       src="~/assets/images/bg.jpg"
-      class="absolute top-0 left-0 h-screen w-full object-cover hidden md:block opacity-30"
+      class="absolute top-0 left-0 hidden h-screen w-full object-cover opacity-30 md:block"
     />
   </div>
 </template>

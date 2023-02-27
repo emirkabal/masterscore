@@ -5,9 +5,9 @@ const toggleDarkMode = useToggle(isDark)
 </script>
 
 <template>
-  <div class="mt-auto bg-gray-50 dark:bg-zinc-900 shadow-3xl w-full py-4">
+  <div class="shadow-3xl mt-auto w-full bg-gray-50 py-4 dark:bg-zinc-900">
     <div
-      class="container mx-auto px-4 flex md:flex-row flex-col items-center justify-between"
+      class="container mx-auto flex flex-col items-center justify-between px-4 md:flex-row"
     >
       <div class="flex items-center gap-2">
         <Logo class="text-xl" />
@@ -23,7 +23,7 @@ const toggleDarkMode = useToggle(isDark)
           </template>
         </button>
       </div>
-      <div class="flex gap-2 items-center">
+      <div class="flex items-center gap-2">
         <span class="text-gray-500 dark:text-gray-300"
           >Movies & TV Shows from</span
         >

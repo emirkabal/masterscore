@@ -59,7 +59,7 @@ if (params.id === "me") {
 </script>
 
 <template>
-  <div v-if="loading" class="flex justify-center mt-48">
+  <div v-if="loading" class="mt-48 flex justify-center">
     <Spinner color="#000" />
   </div>
   <div v-else-if="error.length > 0 || !user">
@@ -73,27 +73,27 @@ if (params.id === "me") {
       :is-me="user.username === localUser?.username"
       :viewProfile="true"
     />
-    <div class="container px-4 mx-auto 2xl:mt-10 mt-16">
+    <div class="container mx-auto mt-16 px-4 2xl:mt-10">
       <div
-        class="flex items-center justify-between border-b dark:border-zinc-900 p-2 md:p-6 mb-8"
+        class="mb-8 flex items-center justify-between border-b p-2 dark:border-zinc-900 md:p-6"
       >
-        <h1 class="font-bold text-lg md:text-2xl">
+        <h1 class="text-lg font-bold md:text-2xl">
           @{{ user.username }}'s reviews
         </h1>
       </div>
-      <div v-if="reviews.loading" class="flex justify-center mt-12">
+      <div v-if="reviews.loading" class="mt-12 flex justify-center">
         <Spinner color="#000" />
       </div>
       <div
         v-else-if="reviews.items.length === 0"
-        class="flex justify-center mt-12"
+        class="mt-12 flex justify-center"
       >
         <p class="text-gray-500 dark:text-gray-200">No reviews found</p>
       </div>
-      <div class="flex flex-col gap-2 mb-10" v-else>
+      <div class="mb-10 flex flex-col gap-2" v-else>
         <div v-for="review in reviews.items" :key="review._id">
           <div
-            class="bg-white dark:bg-zinc-900 rounded shadow flex overflow-hidden"
+            class="flex overflow-hidden rounded bg-white shadow dark:bg-zinc-900"
           >
             <img
               :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${review.entertainment.info.poster}`"
@@ -108,7 +108,7 @@ if (params.id === "me") {
                   {{ review.entertainment.info.title }}
                 </router-link>
                 <p class="flex items-center gap-1">
-                  <IconsStarFilled class="w-4 h-4 text-yellow-400" />
+                  <IconsStarFilled class="h-4 w-4 text-yellow-400" />
                   <span class="text-sm font-semibold">{{ review.rating }}</span>
                 </p>
                 <p class="text-base text-gray-500 dark:text-gray-400">
@@ -118,7 +118,7 @@ if (params.id === "me") {
               </div>
 
               <p
-                class="text-base truncate break-all whitespace-normal"
+                class="truncate whitespace-normal break-all text-base"
                 :class="{
                   'text-gray-500 dark:text-gray-300': !review.content
                 }"

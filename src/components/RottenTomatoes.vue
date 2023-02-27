@@ -9,9 +9,9 @@ const props = defineProps({
 
 <template>
   <div
-    class="bg-gray-200 text-black font-bold inline-flex items-center justify-center px-2 h-6 rounded hover:bg-opacity-80 transition"
+    class="inline-flex h-6 items-center justify-center rounded bg-gray-200 px-2 font-bold text-black transition hover:bg-opacity-80"
   >
-    <IconsTomatoe class="w-4 h-4 mr-1"></IconsTomatoe>
+    <IconsTomatoe class="mr-1 h-4 w-4"></IconsTomatoe>
     {{ props.score }}%
   </div>
 </template>

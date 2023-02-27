@@ -8,7 +8,7 @@ const props = defineProps({
 const loading = ref(false)
 const getRandomMovie = async () => {
   loading.value = true
-  const data = await $fetch("/api/random/movie", {
+  const data = await $fetch("/api/extra/random/movie", {
     headers: generateHeaders()
   })
 
@@ -18,7 +18,7 @@ const getRandomMovie = async () => {
 <template>
   <div
     v-if="loading"
-    class="bg-gray-50 dark:bg-zinc-900 rounded-3xl flex justify-center flex-col items-center hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all duration-300 ease-in-out"
+    class="flex flex-col items-center justify-center rounded-3xl bg-gray-50 transition-all duration-300 ease-in-out hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800"
     :class="{
       'p-6': collapsed,
       'h-12': collapsed,
@@ -29,28 +29,28 @@ const getRandomMovie = async () => {
     <Spinner v-if="!collapsed" />
     <div
       v-else
-      class="flex items-center justify-center space-x-2 animate-pulse"
+      class="flex animate-pulse items-center justify-center space-x-2"
     >
-      <div class="w-4 h-4 dark:bg-white/60 bg-black/60 rounded-full"></div>
-      <div class="w-4 h-4 dark:bg-white/80 bg-black/80 rounded-full"></div>
-      <div class="w-4 h-4 dark:bg-white/90 bg-black/90 rounded-full"></div>
+      <div class="h-4 w-4 rounded-full bg-black/60 dark:bg-white/60"></div>
+      <div class="h-4 w-4 rounded-full bg-black/80 dark:bg-white/80"></div>
+      <div class="h-4 w-4 rounded-full bg-black/90 dark:bg-white/90"></div>
     </div>
   </div>
   <button
     v-else
     @click="getRandomMovie"
-    class="bg-gray-50 dark:bg-zinc-900 rounded-3xl flex justify-center flex-col items-center hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all duration-300 ease-in-out"
+    class="flex flex-col items-center justify-center rounded-3xl bg-gray-50 transition-all duration-300 ease-in-out hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800"
     :class="collapsed ? 'p-6' : 'p-8'"
   >
-    <IconsHeart v-if="!collapsed" class="w-16 h-16 text-blue-600" />
+    <IconsHeart v-if="!collapsed" class="h-16 w-16 text-blue-600" />
     <h1 class="font-maven font-black">
       <span class="text-blue-600">r</span>andom movie
     </h1>
     <p
-      class="text-center text-gray-500 dark:text-gray-300 flex items-center gap-2"
+      class="flex items-center gap-2 text-center text-gray-500 dark:text-gray-300"
     >
       {{ collapsed ? "Next movie" : "Show random movie" }}
-      <IconsRightArrow v-if="collapsed" class="w-6 h-6 text-blue-600" />
+      <IconsRightArrow v-if="collapsed" class="h-6 w-6 text-blue-600" />
     </p>
   </button>
 </template>

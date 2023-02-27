@@ -54,19 +54,19 @@ watch(listType, () => {
 
 <template>
   <div v-if="pending">
-    <div class="flex justify-center items-center h-64">
+    <div class="flex h-64 items-center justify-center">
       <Spinner color="#000" />
     </div>
   </div>
-  <div class="container mx-auto px-24 my-12" v-else>
-    <div class="flex justify-between items-center">
+  <div class="container mx-auto my-12 px-24" v-else>
+    <div class="flex items-center justify-between">
       <h1
-        class="text-2xl block font-bold my-4 md:border-l-4 pl-2 border-blue-700"
+        class="my-4 block border-blue-700 pl-2 text-2xl font-bold md:border-l-4"
       >
         Masterscore Table
       </h1>
       <select
-        class="h-12 dark:bg-zinc-900 dark:border-zinc-800 rounded-lg"
+        class="h-12 rounded-lg dark:border-zinc-800 dark:bg-zinc-900"
         :value="listType"
         @input="(e) => (listType = e.target.value)"
       >
@@ -90,12 +90,12 @@ watch(listType, () => {
       </template>
       <template #item-entertainment.info.title="{ entertainment }">
         <router-link
-          class="hover:underline flex items-center gap-2 text-lg font-semibold"
+          class="flex items-center gap-2 text-lg font-semibold hover:underline"
           :to="`/details/${entertainment.type}/${entertainment.id}`"
         >
           <img
             :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${entertainment.info.poster}`"
-            class="w-auto h-10 rounded-md shadow-md"
+            class="h-10 w-auto rounded-md shadow-md"
           />
           {{ entertainment.info.title }}
         </router-link>
@@ -111,8 +111,8 @@ watch(listType, () => {
         }}
       </template>
       <template #item-average="{ average }">
-        <div class="flex items-center gap-2 justify-center">
-          <IconsStarFilled class="w-4 h-4 text-yellow-400" />
+        <div class="flex items-center justify-center gap-2">
+          <IconsStarFilled class="h-4 w-4 text-yellow-400" />
           {{ average.toFixed(1) }}
         </div>
       </template>

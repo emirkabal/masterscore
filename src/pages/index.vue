@@ -2,8 +2,8 @@
   <div class="container mx-auto my-12 px-4">
     <HomeMostReviewedEntertainments />
     <!-- <HomeMostLikedEntertainments /> -->
-    <div class="flex gap-12 w-full my-16 md:flex-row flex-col-reverse">
-      <HomeLatestReviews class="flex-grow w-full" />
+    <div class="my-16 flex w-full flex-col-reverse gap-12 md:flex-row">
+      <HomeLatestReviews class="w-full flex-grow" />
       <div class="flex flex-col gap-6">
         <HomeMostLikedEntertainment />
         <HomeViewScores />

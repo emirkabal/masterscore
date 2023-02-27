@@ -23,24 +23,24 @@ const props = defineProps({
 <template>
   <div
     :style="`background-image: url(${props.banner})`"
-    class="w-full h-64 bg-gray-500 relative bg-cover bg-center bg-no-repeat"
+    class="relative h-64 w-full bg-gray-500 bg-cover bg-center bg-no-repeat"
   >
     <div class="absolute bottom-0 right-0 m-4 flex gap-2">
       <router-link
         v-if="props.isMe"
         to="/users/@me/edit"
-        class="px-4 py-2 rounded hover:bg-gray-50 bg-white text-black font-bold transition-colors"
+        class="rounded bg-white px-4 py-2 font-bold text-black transition-colors hover:bg-gray-50"
         >Edit Profile</router-link
       >
       <router-link
         v-if="props.viewProfile"
         :to="`/users/${props.username}`"
-        class="px-4 py-2 rounded hover:bg-gray-50 bg-white text-black font-bold transition-colors"
+        class="rounded bg-white px-4 py-2 font-bold text-black transition-colors hover:bg-gray-50"
         >View Profile</router-link
       >
     </div>
-    <div class="absolute md:-bottom-16 md:left-10 -bottom-12 left-8">
-      <Avatar class="md:w-32 md:h-32 w-24 h-24" :username="props.username" />
+    <div class="absolute -bottom-12 left-8 md:-bottom-16 md:left-10">
+      <Avatar class="h-24 w-24 md:h-32 md:w-32" :username="props.username" />
     </div>
   </div>
 </template>

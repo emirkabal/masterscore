@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   darkMode: "class",
   content: [
     "./components/**/*.{js,vue,ts}",
@@ -28,6 +28,7 @@ export default {
   plugins: [
     require("@tailwindcss/forms"),
     require("@headlessui/tailwindcss"),
-    require("@tailwindcss/line-clamp")
+    require("@tailwindcss/line-clamp"),
+    require("tailwind-scrollbar")({ nocompatible: true })
   ]
 }

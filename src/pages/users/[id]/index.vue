@@ -31,7 +31,6 @@ if (params.id === localUser?.username) {
 
 watch(loading, async () => {
   const userId = user.value?._id
-  console.log(userId)
   if (userId) {
     const data = await $fetch(`/api/activities?author=${userId}`)
     activities.items = data
@@ -65,7 +64,7 @@ const getActivityTitle = (type: string) => {
 </script>
 
 <template>
-  <div v-if="loading" class="flex justify-center mt-48">
+  <div v-if="loading" class="mt-48 flex justify-center">
     <Spinner color="#000" />
   </div>
   <div v-else-if="error.length > 0 || !user">
@@ -78,48 +77,48 @@ const getActivityTitle = (type: string) => {
       :username="user.username"
       :is-me="user.username === localUser?.username"
     />
-    <div class="container px-4 mx-auto 2xl:mt-10 mt-16 mb-24">
+    <div class="container mx-auto mt-16 mb-24 px-4 2xl:mt-10">
       <div
-        class="flex items-center justify-between border-b dark:border-zinc-900 p-2 md:p-6 mb-8"
+        class="mb-8 flex items-center justify-between border-b p-2 dark:border-zinc-900 md:p-6"
       >
-        <h1 class="font-bold text-xl md:text-4xl">@{{ user.username }}</h1>
-        <p class="text-gray-500 dark:text-gray-300 text-sm flex gap-1">
+        <h1 class="text-xl font-bold md:text-4xl">@{{ user.username }}</h1>
+        <p class="flex gap-1 text-sm text-gray-500 dark:text-gray-300">
           <span class="font-bold">Joined:</span>
           <span class="hidden md:block">{{
             $moment(user.createdAt).format("MMMM Do YYYY")
           }}</span>
           <span class="flex"
-            ><span class="md:block hidden">(</span
+            ><span class="hidden md:block">(</span
             >{{ $moment(user.createdAt).fromNow()
-            }}<span class="md:block hidden">)</span></span
+            }}<span class="hidden md:block">)</span></span
           >
         </p>
       </div>
       <div class="flex justify-between gap-8">
-        <div class="flex flex-col gap-8 w-full max-w-6xl flex-grow-0">
+        <div class="flex w-full max-w-6xl flex-grow-0 flex-col gap-8">
           <div>
             <h2
-              class="font-bold text-xl md:text-2xl pb-2 border-b dark:border-zinc-900 mb-2"
+              class="mb-2 border-b pb-2 text-xl font-bold dark:border-zinc-900 md:text-2xl"
             >
               About
             </h2>
             <p
-              class="text-gray-500 dark:text-gray-100 break-words whitespace-pre-wrap truncate line-clamp-5"
+              class="truncate whitespace-pre-wrap break-words text-gray-500 line-clamp-5 dark:text-gray-100"
             >
               {{ user.about ? user.about : "No about information" }}
             </p>
           </div>
           <div>
             <div
-              class="border-b dark:border-zinc-900 pb-2 mb-4 flex justify-between items-center"
+              class="mb-4 flex items-center justify-between border-b pb-2 dark:border-zinc-900"
             >
-              <h2 class="font-bold text-xl md:text-2xl">Latest Activity</h2>
-              <div class="flex gap-2 items-center">
+              <h2 class="text-xl font-bold md:text-2xl">Latest Activity</h2>
+              <div class="flex items-center gap-2">
                 <router-link
                   :to="`/users/@${
                     user._id === localUser?._id ? 'me' : user.username
                   }/watchlist`"
-                  class="px-4 py-2 bg-white dark:bg-zinc-900 shadow rounded font-semibold text-sm hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
+                  class="rounded bg-white px-4 py-2 text-sm font-semibold shadow transition-colors hover:bg-gray-50 dark:bg-zinc-900 dark:hover:bg-zinc-800"
                 >
                   Watchlist
                 </router-link>
@@ -127,7 +126,7 @@ const getActivityTitle = (type: string) => {
                   :to="`/users/@${
                     user._id === localUser?._id ? 'me' : user.username
                   }/reviews`"
-                  class="px-4 py-2 bg-white dark:bg-zinc-900 shadow rounded font-semibold text-sm hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
+                  class="rounded bg-white px-4 py-2 text-sm font-semibold shadow transition-colors hover:bg-gray-50 dark:bg-zinc-900 dark:hover:bg-zinc-800"
                 >
                   Reviews
                 </router-link>
@@ -143,7 +142,7 @@ const getActivityTitle = (type: string) => {
             <div v-else>
               <div v-for="activity in activities.items" :key="activity._id">
                 <router-link
-                  class="flex items-center gap-2 mb-4 bg-gray-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 p-2 hover:bg-gray-100 group rounded-3xl transition-colors"
+                  class="group mb-4 flex items-center gap-2 rounded-3xl bg-gray-50 p-2 transition-colors hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800"
                   :to="`/details/${activity.entertainment.type}/${activity.entertainment.id}`"
                 >
                   <div class="relative">
@@ -158,19 +157,19 @@ const getActivityTitle = (type: string) => {
                     <IconsStarFilled v-else class="text-yellow-400" />
                     <span
                       v-if="activity?.type === 'review' && activity.attribute"
-                      class="absolute top-0 mt-1.5 right-0 left-0 text-[8px] font-bold text-black text-center"
+                      class="absolute top-0 right-0 left-0 mt-1.5 text-center text-[8px] font-bold text-black"
                     >
                       {{ activity.attribute }}
                     </span>
                   </div>
                   <div class="break-words line-clamp-1">
                     {{ getActivityTitle(activity.type) }}
-                    <span class="group-hover:underline font-semibold">{{
+                    <span class="font-semibold group-hover:underline">{{
                       activity.entertainment.info.title
                     }}</span>
                   </div>
                   <p
-                    class="text-xs text-gray-500 dark:text-gray-300 ml-auto pr-2 flex-shrink-0"
+                    class="ml-auto flex-shrink-0 pr-2 text-xs text-gray-500 dark:text-gray-300"
                   >
                     {{ $moment(activity.createdAt).fromNow() }}
                   </p>
@@ -180,7 +179,7 @@ const getActivityTitle = (type: string) => {
           </div>
         </div>
         <div
-          class="bg-gray-50 dark:bg-zinc-900 md:block hidden rounded-3xl p-8 space-y-4 h-fit max-w-sm w-full flex-grow text-gray-500 dark:text-gray-300"
+          class="hidden h-fit w-full max-w-sm flex-grow space-y-4 rounded-3xl bg-gray-50 p-8 text-gray-500 dark:bg-zinc-900 dark:text-gray-300 md:block"
         >
           <p>
             <span class="font-bold">Likes:</span>

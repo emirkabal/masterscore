@@ -9,9 +9,9 @@ const props = defineProps({
 
 <template>
   <div
-    class="bg-[#F5C518] text-black font-bold inline-flex items-center justify-center pr-2 h-6 rounded hover:bg-opacity-80 transition"
+    class="inline-flex h-6 items-center justify-center rounded bg-[#F5C518] pr-2 font-bold text-black transition hover:bg-opacity-80"
   >
-    <IconsImdb class="w-auto h-4" />
+    <IconsImdb class="h-4 w-auto" />
     {{ props.score.toFixed(1) }}
   </div>
 </template>

@@ -9,7 +9,9 @@
     opacity: 1;
   }
 }
-
+* {
+  box-sizing: border-box;
+}
 @layer base {
   body {
     @apply bg-white text-black dark:bg-black dark:text-white;
@@ -32,7 +34,7 @@
 }
 
 table {
-  @apply border-collapse border border-gray-200 dark:border-zinc-900 bg-white dark:bg-black;
+  @apply border-collapse border border-gray-200 bg-white dark:border-zinc-900 dark:bg-black;
 }
 table th {
   @apply border border-gray-200 dark:border-zinc-800;
@@ -45,7 +47,7 @@ table tr:nth-child(even) {
 }
 
 .vue3-easy-data-table {
-  @apply w-full overflow-x-auto rounded-lg bg-white dark:bg-zinc-900 shadow;
+  @apply w-full overflow-x-auto rounded-lg bg-white shadow dark:bg-zinc-900;
 }
 
 /* Table container */
@@ -62,13 +64,13 @@ table tr:nth-child(even) {
   @apply bg-transparent;
 }
 .vue3-easy-data-table__main::-webkit-scrollbar-thumb {
-  @apply cursor-pointer bg-slate-300 dark:bg-black transition  hover:bg-slate-400;
+  @apply cursor-pointer bg-slate-300 transition hover:bg-slate-400  dark:bg-black;
 }
 
 /* Border cell */
 .vue3-easy-data-table .border-cell tr td,
 .vue3-easy-data-table .border-cell tr th {
-  @apply border-r border-slate-200 dark:border-zinc-900 last:border-none;
+  @apply border-r border-slate-200 last:border-none dark:border-zinc-900;
 }
 
 .vue3-easy-data-table .border-cell tr td.can-expand,
@@ -100,8 +102,8 @@ table tr:nth-child(even) {
 /* table head sort icons */
 /* None */
 .vue3-easy-data-table__header tr th.sortable.none .sortType-icon {
-  @apply ml-3 inline-block -rotate-45 cursor-pointer border border-slate-400 dark:border-gray-800 p-1 transition duration-300  
-hover:bg-blue-400;
+  @apply ml-3 inline-block -rotate-45 cursor-pointer border border-slate-400 p-1 transition duration-300 hover:bg-blue-400  
+dark:border-gray-800;
 }
 /* Asce */
 .vue3-easy-data-table__header tr th.sortable.asc .sortType-icon {
@@ -127,7 +129,7 @@ p-1 transition duration-300;
 }
 /* Table body tr */
 .vue3-easy-data-table__body.row-alternation tr {
-  @apply transition even:bg-slate-50  hover:bg-slate-100 dark:hover:bg-zinc-800 dark:even:bg-zinc-900;
+  @apply transition even:bg-slate-50  hover:bg-slate-100 dark:even:bg-zinc-900 dark:hover:bg-zinc-800;
 }
 
 /* Expand slot */
@@ -146,7 +148,7 @@ p-1 transition duration-300;
 /* Footer */
 
 .vue3-easy-data-table__footer {
-  @apply flex w-full flex-col items-start gap-5 border-t px-6 py-5 text-sm  lg:flex-row lg:items-center dark:border-zinc-900;
+  @apply flex w-full flex-col items-start gap-5 border-t px-6 py-5 text-sm  dark:border-zinc-900 lg:flex-row lg:items-center;
 }
 
 /* Rows per page */
@@ -169,7 +171,7 @@ p-1 transition duration-300;
 }
 /* Selction dropdown */
 .vue3-easy-data-table__footer .select-items {
-  @apply hidden divide-y overflow-hidden rounded-md bg-white dark:bg-black shadow-md transition duration-300;
+  @apply hidden divide-y overflow-hidden rounded-md bg-white shadow-md transition duration-300 dark:bg-black;
 }
 
 .vue3-easy-data-table__footer .select-items.show {

@@ -34,7 +34,7 @@ watch(
   <Transition name="fade">
     <div
       v-if="props.show"
-      class="fixed top-0 left-0 z-50 m-auto flex h-screen w-full items-center justify-center bg-black/40 backdrop-blur shadow-2xl"
+      class="fixed top-0 left-0 z-50 m-auto flex h-screen w-full items-center justify-center bg-black/40 shadow-2xl backdrop-blur"
     >
       <div
         ref="modal"
@@ -54,7 +54,7 @@ watch(
           <slot name="body"></slot>
         </div>
         <div
-          class="flex justify-end space-x-2 p-2 border-t dark:border-zinc-800"
+          class="flex justify-end space-x-2 border-t p-2 dark:border-zinc-800"
         >
           <!-- <button
             class="bg-red-600 hover:bg-red-700 transition-colors px-4 py-2 text-white font-semibold rounded"
