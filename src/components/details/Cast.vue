@@ -36,8 +36,8 @@ watch(scrollRef, () => {
       leave-to-class="transform opacity-0"
     >
       <div
-        v-show="scroll < 3"
-        class="absolute -right-24 -top-0 z-10 m-auto h-[500px] w-[160px] rounded bg-white blur-lg dark:bg-black"
+        v-show="scroll === 0"
+        class="absolute -right-28 -top-0 z-10 m-auto h-[500px] w-[160px] rounded bg-white blur-md dark:bg-black"
       ></div>
     </Transition>
     <div v-if="pending" class="flex animate-pulse gap-2 overflow-x-hidden">
@@ -48,13 +48,13 @@ watch(scrollRef, () => {
       </div>
     </div>
     <div
-      class="relative flex w-full gap-2 overflow-x-auto pb-4 scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-1.5 scrollbar-h-1.5 dark:scrollbar-thumb-zinc-900"
+      class="relative flex w-full snap-x snap-mandatory gap-2.5 overflow-x-auto pb-4 scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-1.5 scrollbar-h-1.5 dark:scrollbar-thumb-zinc-900"
       @scroll="scroll = $event.target.scrollLeft"
       ref="scrollRef"
       v-else-if="data.cast && data.cast.length > 0"
     >
       <div
-        class="flex w-full max-w-[160px] flex-shrink-0 flex-col"
+        class="flex w-full max-w-[160px] flex-shrink-0 snap-center flex-col"
         v-for="cast in data.cast"
         :key="cast.id"
       >
@@ -68,7 +68,7 @@ watch(scrollRef, () => {
           ></div>
           <div
             v-else
-            class="flex h-52 w-full flex-shrink-0 items-center justify-center rounded bg-gray-700 bg-cover bg-top bg-no-repeat font-maven font-semibold"
+            class="flex h-52 w-full flex-shrink-0 items-center justify-center rounded bg-gray-700 bg-cover bg-top bg-no-repeat font-maven font-semibold !text-white"
           >
             No Image
           </div>
