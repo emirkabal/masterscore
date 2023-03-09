@@ -17,7 +17,9 @@ const props = defineProps({
 
 <template>
   <div>
-    <h1 class="my-4 border-l-4 border-yellow-500 pl-4 text-2xl font-bold">
+    <h1
+      class="my-4 border-l-4 border-yellow-500 pl-4 text-2xl font-bold tracking-wide"
+    >
       Latest Reviews
     </h1>
     <div class="space-y-4" v-if="props.loading">
@@ -48,11 +50,11 @@ const props = defineProps({
         <div
           v-for="(comment, i) in data"
           :key="i"
-          class="flex items-start border-b px-4 py-6 dark:border-zinc-900"
+          class="flex items-start border-b px-2 py-4 dark:border-zinc-900 md:px-4 md:py-6"
         >
           <Avatar
             :username="comment.author.username"
-            class="h-14 w-14 flex-shrink-0"
+            class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
           />
           <div class="ml-4 flex flex-col">
             <div class="flex items-center gap-2">
@@ -62,7 +64,7 @@ const props = defineProps({
                     ? 'me'
                     : comment.author.username
                 }`"
-                class="text-lg font-semibold hover:underline"
+                class="text-base font-semibold hover:underline md:text-lg"
               >
                 @{{ comment.author.username }}
               </router-link>
@@ -70,7 +72,7 @@ const props = defineProps({
                 <IconsStarFilled class="h-4 w-4 text-yellow-400" />
                 <span class="text-sm font-semibold">{{ comment.rating }}</span>
               </p>
-              <p class="text-base text-gray-500 dark:text-gray-400">
+              <p class="text-xs text-gray-500 dark:text-gray-400 md:text-base">
                 {{ $moment(comment.createdAt).fromNow() }}
                 {{ comment.createdAt === comment.updatedAt ? "" : "(edited)" }}
               </p>

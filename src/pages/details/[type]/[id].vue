@@ -349,7 +349,7 @@ const onSelectEmoji = (emoji) => {
       </template>
     </ModalView>
     <div
-      class="relative h-[780px] w-full bg-cover bg-center bg-no-repeat"
+      class="relative h-[820px] w-full bg-cover bg-center bg-no-repeat md:h-[780px]"
       :style="{
         'background-image': `url(${backgroundURL})`
       }"
@@ -363,11 +363,13 @@ const onSelectEmoji = (emoji) => {
           'background-color': `rgba(${backgroundColor[0]}, ${backgroundColor[1]}, ${backgroundColor[2]}, 0.75)`
         }"
       >
-        <div class="flex h-full w-full px-32">
-          <div class="flex items-center gap-16 drop-shadow-2xl">
+        <div class="container m-auto flex h-full w-full px-4">
+          <div
+            class="flex flex-col items-center justify-center gap-8 py-8 drop-shadow-2xl md:flex-row md:justify-start md:gap-16 md:py-0"
+          >
             <div class="relative flex-shrink-0">
               <img
-                class="h-auto w-72 rounded object-cover object-center"
+                class="h-auto w-56 rounded object-cover object-center md:w-72"
                 draggable="false"
                 :src="posterURL"
               />
@@ -380,13 +382,13 @@ const onSelectEmoji = (emoji) => {
               </div>
             </div>
             <div class="max-w-2xl">
-              <div class="flex flex-col-reverse">
+              <div class="flex flex-col-reverse text-center md:text-left">
                 <h1
-                  class="leading[0.1] inline-block flex-shrink-0 font-semibold"
+                  class="inline-block flex-shrink-0 font-semibold leading-8 md:leading-none"
                   :class="{
-                    'text-6xl': title.length < 20,
-                    'text-5xl': title.length < 36,
-                    'text-4xl': title.length >= 36,
+                    'text-4xl md:text-6xl': title.length < 20,
+                    'text-3xl md:text-5xl': title.length < 36,
+                    'text-2xl md:text-4xl': title.length >= 36,
                     'text-black': backgroundBright,
                     'text-white': !backgroundBright
                   }"
@@ -394,7 +396,7 @@ const onSelectEmoji = (emoji) => {
                   {{ title }}
                 </h1>
                 <div
-                  class="flex items-center divide-x-2"
+                  class="flex items-center justify-center divide-x-2 md:justify-start"
                   :class="{
                     'divide-black/20 text-black': backgroundBright,
                     'divide-white/20 text-white/70': !backgroundBright
@@ -458,7 +460,7 @@ const onSelectEmoji = (emoji) => {
                 </div>
               </div>
               <p
-                class="mt-2 text-xl line-clamp-6"
+                class="mt-2 text-center text-base line-clamp-6 md:text-left md:text-xl"
                 :class="{
                   'text-black/80': backgroundBright,
                   'text-white/80 ': !backgroundBright
@@ -466,7 +468,7 @@ const onSelectEmoji = (emoji) => {
               >
                 {{ overview }}
               </p>
-              <div class="mt-4 flex gap-2 text-lg">
+              <div class="mt-4 flex flex-col gap-2 text-lg md:flex-row">
                 <button
                   @click="like"
                   class="flex items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
@@ -521,8 +523,8 @@ const onSelectEmoji = (emoji) => {
     </div>
 
     <div class="container mx-auto mt-8 mb-28 px-4">
-      <div class="flex items-stretch gap-4">
-        <div class="min-w-0 flex-1 space-y-16">
+      <div class="flex flex-col-reverse items-stretch gap-4 md:flex-row">
+        <div class="min-w-0 flex-1 space-y-10 md:space-y-16">
           <DetailsCast :id="params.id" :type="params.type" />
           <DetailsReviews
             :loading="reviewDataFromServer.loading"
@@ -532,7 +534,7 @@ const onSelectEmoji = (emoji) => {
           />
         </div>
         <DetailsSidebar
-          class="w-full min-w-[300px] max-w-[300px]"
+          class="w-full md:min-w-[300px] md:max-w-[300px]"
           :data="data"
         />
       </div>
@@ -554,3 +556,9 @@ const onSelectEmoji = (emoji) => {
     </div>
   </div>
 </template>
+
+<style>
+.vue-star-rating > span > svg {
+  @apply h-6 w-6 md:h-10 md:w-10;
+}
+</style>

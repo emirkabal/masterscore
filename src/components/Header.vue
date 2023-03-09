@@ -99,24 +99,15 @@ const userStore = useUserStore()
         </div>
       </Transition>
     </Menu>
-    <div v-else class="welcome">
-      <router-link to="/account/login">Login</router-link>
-      <router-link to="/account/signup">Signup</router-link>
+    <div v-else class="flex items-center gap-4">
+      <router-link to="/account/login" class="hover:opacity-80"
+        >Login</router-link
+      >
+      <router-link
+        to="/account/signup"
+        class="rounded bg-gray-200 px-4 py-2 font-semibold hover:bg-gray-300 dark:bg-zinc-800 dark:hover:bg-[#1e1e1e]"
+        >Signup</router-link
+      >
     </div>
   </header>
 </template>
-
-<style>
-.welcome {
-  @apply flex items-center space-x-2;
-}
-.welcome a {
-  @apply rounded bg-blue-600 px-4 py-2 text-white;
-}
-.welcome a:first-child {
-  @apply bg-gray-200 text-black;
-}
-.welcome a:hover {
-  @apply bg-opacity-90;
-}
-</style>

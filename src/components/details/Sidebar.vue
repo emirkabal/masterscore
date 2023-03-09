@@ -85,7 +85,7 @@ const getVideo = computed(() => {
 </script>
 
 <template>
-  <div class="w-full rounded-3xl p-6">
+  <div class="w-full rounded-3xl p-0 md:p-6">
     <div class="space-y-8">
       <div class="space-y-2">
         <div

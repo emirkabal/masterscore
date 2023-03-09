@@ -84,7 +84,7 @@ const props = defineProps({
             {{ props.overview }}
           </div>
           <div
-            class="inline-flex items-center justify-center gap-2 rounded bg-gray-600/20 px-2 py-1 font-semibold !text-white shadow-2xl backdrop-blur"
+            class="inline-flex items-center justify-center gap-2 rounded bg-gray-600/20 px-2 py-0.5 font-semibold !text-white shadow-2xl backdrop-blur"
           >
             <IconsStarFilled class="h-4 w-4 text-yellow-400" />
             {{ props.rating.toFixed(1) }}

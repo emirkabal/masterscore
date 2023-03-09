@@ -12,6 +12,7 @@ const password = ref("")
 const confirmPassword = ref("")
 const inviteCode = ref("")
 const error = ref("")
+const loading = ref(false)
 
 const disabled = computed(() => {
   return (
@@ -35,6 +36,7 @@ const submit = async (event) => {
   } else {
     error.value = ""
   }
+  loading.value = true
   const data = await $fetch("/api/auth/signup", {
     method: "POST",
     body: JSON.stringify({
@@ -51,6 +53,7 @@ const submit = async (event) => {
     await userStore.getUserData()
     useRouter().push("/")
   } else {
+    loading.value = false
     error.value = grabErrorMessage(data)
   }
 }
@@ -64,7 +67,7 @@ const submit = async (event) => {
       <h1 class="text-center">
         <Logo class="text-4xl !text-black" />
       </h1>
-      <p class="font-maven text-center text-lg font-black !text-black">
+      <p class="text-center font-maven text-lg font-black !text-black">
         Create account
       </p>
       <p v-if="error.length > 0" class="text-center text-red-600">
@@ -143,11 +146,21 @@ const submit = async (event) => {
         </div>
 
         <input
+          v-if="!loading"
           type="submit"
           :disabled="disabled"
           value="Signup"
-          class="w-full cursor-pointer rounded-full bg-blue-700 px-4 py-4 text-white hover:bg-blue-600 disabled:cursor-default disabled:bg-gray-400"
+          class="flex h-14 w-full cursor-pointer items-center justify-center rounded-full bg-blue-700 px-4 py-4 text-white disabled:cursor-default disabled:bg-gray-400 enabled:hover:bg-blue-600"
         />
+        <button
+          v-else
+          type="button"
+          class="flex h-14 w-full cursor-auto items-center justify-center gap-2 rounded-full bg-gray-200 px-4 py-4 text-white"
+        >
+          <div class="h-4 w-4 animate-pulse rounded-full bg-gray-400"></div>
+          <div class="h-4 w-4 animate-pulse rounded-full bg-gray-500"></div>
+          <div class="h-4 w-4 animate-pulse rounded-full bg-gray-600"></div>
+        </button>
       </form>
       <p class="mt-4 text-center !text-black">
         Already have an account?
