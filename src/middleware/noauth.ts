@@ -1,9 +1,7 @@
-import { useUserStore } from "~/store/user"
+import { hasToken } from "../utils/request"
 
 export default defineNuxtRouteMiddleware(async () => {
-  const userStore = useUserStore()
-  await userStore.init()
-  if (userStore.hasToken) {
+  if (hasToken()) {
     return navigateTo("/")
   }
 })

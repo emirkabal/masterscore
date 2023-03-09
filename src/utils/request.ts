@@ -8,3 +8,7 @@ export const generateHeaders = (headers?: Record<string, string>) => {
   }
   return headers
 }
+
+export const hasToken = () => {
+  return !!localStorage.getItem("token")
+}
