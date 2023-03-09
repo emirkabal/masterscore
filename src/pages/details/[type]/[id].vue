@@ -402,6 +402,7 @@ const onSelectEmoji = (emoji) => {
                 >
                   <IMDBLink
                     v-if="data?.imdb_id"
+                    :imdb-id="data?.imdb_id"
                     :score="imdbScore || data.vote_average"
                   />
                   <RottenTomatoes
