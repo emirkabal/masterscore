@@ -17,7 +17,7 @@ watch(data, () => {
       Trending This Week
     </h1>
     <div v-if="pending" class="grid gap-4 md:grid-cols-3 xl:grid-cols-4">
-      <HomeTrendingCard v-for="i in 8" :loading="true" />
+      <HomeTrendingCard v-for="i in 8" :key="i" :loading="true" />
       <HomeTrendingCard class="hidden md:flex xl:hidden" :loading="true" />
     </div>
     <div v-else class="grid gap-4 md:grid-cols-3 xl:grid-cols-4">
@@ -34,8 +34,8 @@ watch(data, () => {
       />
       <HomeTrendingCard
         class="hidden md:flex xl:hidden"
-        :id="item.id"
-        :type="item.media_type"
+        :id="notFeaturedItem.id"
+        :type="notFeaturedItem.media_type"
         :title="notFeaturedItem.title || notFeaturedItem.name"
         :overview="notFeaturedItem.overview"
         :poster="notFeaturedItem.poster_path"
