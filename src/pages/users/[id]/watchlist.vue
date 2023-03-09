@@ -25,9 +25,9 @@ if (params.id.toString().startsWith("@")) {
   params.id = params.id.toString().slice(1)
 }
 
-if (params.id === localUser?.username) {
-  useRouter().push("/users/@me/watchlist")
-}
+// if (params.id === localUser?.username) {
+//   useRouter().push("/users/@me/watchlist")
+// }
 
 const fetchWatchlist = async () => {
   watchlist.loading = true

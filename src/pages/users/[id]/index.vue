@@ -20,14 +20,14 @@ const activities = reactive({
 const error = ref("")
 const user = ref<Omit<IUser, "password"> | undefined>(undefined)
 
-params.id = params.id.toString().toLowerCase()
+params.id = params.id.toString()
 if (params.id.startsWith("@")) {
   params.id = params.id.slice(1)
 }
 
-if (params.id === localUser?.username) {
-  useRouter().push("/users/@me")
-}
+// if (params.id === localUser?.username) {
+//   useRouter().push("/users/@me")
+// }
 
 watch(loading, async () => {
   const userId = user.value?._id

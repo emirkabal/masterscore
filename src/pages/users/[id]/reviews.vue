@@ -24,9 +24,9 @@ if (params.id.toString().startsWith("@")) {
   params.id = params.id.toString().slice(1)
 }
 
-if (params.id === localUser?.username) {
-  useRouter().push("/users/@me/reviews")
-}
+// if (params.id === localUser?.username) {
+//   useRouter().push("/users/@me/reviews")
+// }
 
 const fetchReviews = async () => {
   reviews.loading = true
