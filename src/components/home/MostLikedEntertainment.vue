@@ -17,7 +17,7 @@ const { data, pending } = useLazyFetch("/api/likes?limit=1")
       :to="`/details/${data[0].entertainment.type}/${data[0].entertainment.id}`"
       class="group relative z-0 mx-auto block h-96 w-full cursor-pointer overflow-hidden rounded bg-cover bg-center bg-no-repeat shadow-2xl md:mx-0 md:w-64"
       :style="{
-        backgroundImage: `url(https://image.tmdb.org/t/p/w300_and_h450_bestv2/${data[0].entertainment.info.poster})`
+        backgroundImage: `url(https://image.tmdb.org/t/p/w500/${data[0].entertainment.info.poster})`
       }"
     >
       <div

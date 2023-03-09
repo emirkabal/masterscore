@@ -36,7 +36,7 @@ const { data, pending } = useLazyFetch("/api/reviews?limit=9")
           :to="`/details/${likedEntertainment.entertainment.type}/${likedEntertainment.entertainment.id}`"
           class="group relative z-0 block h-full w-full cursor-pointer overflow-hidden rounded bg-cover bg-center shadow-2xl"
           :style="{
-            backgroundImage: `url(https://image.tmdb.org/t/p/w300_and_h450_bestv2/${likedEntertainment.entertainment.info.poster})`
+            backgroundImage: `url(https://image.tmdb.org/t/p/w500/${likedEntertainment.entertainment.info.poster})`
           }"
         >
           <div
