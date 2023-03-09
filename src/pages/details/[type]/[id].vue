@@ -121,7 +121,8 @@ const like = async () => {
   const { likes: entertainmentLikes } = await $fetch(`/api/likes`, {
     method: "POST",
     body: JSON.stringify({
-      id: localId.value
+      id: localId.value,
+      type: userLiked.value ? "add" : "remove"
     }),
     headers: generateHeaders()
   })
@@ -219,7 +220,8 @@ const submitToWatchlist = async () => {
   await $fetch(`/api/users/me/watchlist`, {
     method: "POST",
     body: JSON.stringify({
-      id: localId.value
+      id: localId.value,
+      type: userAddedWatchlist.value ? "add" : "remove"
     }),
     headers: generateHeaders()
   })

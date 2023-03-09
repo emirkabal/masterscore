@@ -11,7 +11,7 @@ const screenWidth = ref(768)
 onMounted(() => {
   screenWidth.value = window.innerWidth
 })
-const { user: localUser } = useUserStore()
+const { user: localUser, isLoading } = useUserStore()
 const loading = ref(true)
 const watchlist = reactive({
   loading: true,
@@ -74,7 +74,7 @@ if (params.id === "me") {
 </script>
 
 <template>
-  <div v-if="loading" class="mt-48 flex justify-center">
+  <div v-if="loading || isLoading" class="mt-48 flex justify-center">
     <Spinner color="#000" />
   </div>
   <div v-else-if="error.length > 0 || !user">

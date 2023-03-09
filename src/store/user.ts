@@ -13,12 +13,12 @@ export const useUserStore = defineStore("user", {
 
   getters: {
     isLoggedIn: (state) => !!state.token,
-    isLoading: (state) => state.loading
+    isLoading: (state) => state.loading,
+    hasToken: (state) => !!state.token
   },
 
   actions: {
     async init() {
-      if (!process.client) return
       const token = localStorage.getItem("token")
       if (token && !this.token) {
         this.token = token
@@ -29,10 +29,6 @@ export const useUserStore = defineStore("user", {
     setToken(token: string) {
       this.token = token
       localStorage.setItem("token", token)
-    },
-
-    hasToken() {
-      return !!this.token
     },
 
     removeToken() {

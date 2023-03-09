@@ -9,17 +9,22 @@ export default defineEventHandler(async (event) => {
     return { status: 401, message: "Unauthorized" } as ErrorResponse
   }
   const body = await readBody(event)
-  const { id } = body as {
+  const { id, type } = body as {
     id: string
+    type: "remove" | "add"
   }
-  if (!id)
+  if (!id || !type)
     return {
       status: 400,
       message: "Missing entertainment"
     } as ErrorResponse
 
   const user = grabUserWithoutPassword(event.context.user)
-  if (user.likes && user.likes.map((e) => e.toString()).includes(id)) {
+  if (
+    user.likes &&
+    user.likes.map((e) => e.toString()).includes(id) &&
+    type === "remove"
+  ) {
     await UserModel.findOneAndUpdate(
       { _id: user._id },
       { $pull: { likes: id } }
@@ -29,7 +34,7 @@ export default defineEventHandler(async (event) => {
       { $inc: { likes: -1 } },
       { upsert: true, new: true }
     )
-    await ActivityModel.findOneAndDelete({
+    await ActivityModel.deleteMany({
       type: "like",
       entertainment: id,
       author: user._id as string

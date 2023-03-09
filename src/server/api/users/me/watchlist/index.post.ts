@@ -10,8 +10,12 @@ export default defineEventHandler(async (event) => {
     return { status: 401, message: "Unauthorized" } as ErrorResponse
   }
 
-  const { id } = (await readBody(event)) as { id: string }
-  if (!id)
+  const body = await readBody(event)
+  const { id, type } = body as {
+    id: string
+    type: "remove" | "add"
+  }
+  if (!id || !type)
     return { status: 400, message: "Missing entertainment" } as ErrorResponse
 
   if ((await EntertainmentModel.findById(id)) === null) {
@@ -19,12 +23,16 @@ export default defineEventHandler(async (event) => {
   }
 
   const user = grabUserWithoutPassword(event.context.user)
-  if (user.watchlist && user.watchlist.map((e) => e.toString()).includes(id)) {
+  if (
+    user.watchlist &&
+    user.watchlist.map((e) => e.toString()).includes(id) &&
+    type === "remove"
+  ) {
     await UserModel.findOneAndUpdate(
       { _id: user._id },
       { $pull: { watchlist: id } }
     )
-    await ActivityModel.findOneAndDelete({
+    await ActivityModel.deleteMany({
       type: "watchlist",
       entertainment: id,
       author: user._id
