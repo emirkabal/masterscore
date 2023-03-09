@@ -21,7 +21,6 @@ const { user, isLoggedIn } = useUserStore()
 const { data, pending } = useLazyFetch(
   `/api/tmdb/${params.id}?type=${params.type}`
 )
-const imdbLoading = ref(false)
 const backgroundColor = ref("transparent")
 const likes = ref(0)
 const reviews = ref(0)
@@ -69,7 +68,7 @@ const imdbScore = computed(() => {
   )
 })
 const contentRating = computed(() => {
-  return data.value.localData.info.contentRating
+  return data.value.localData.info.rated
 })
 
 const genres = computed(() => {
@@ -351,7 +350,7 @@ const onSelectEmoji = (emoji) => {
       </template>
     </ModalView>
     <div
-      class="relative h-[820px] w-full bg-cover bg-center bg-no-repeat md:h-[780px]"
+      class="relative min-h-[820px] w-full bg-cover bg-center bg-no-repeat md:h-[780px] md:min-h-[780px]"
       :style="{
         'background-image': `url(${backgroundURL})`
       }"
@@ -400,9 +399,19 @@ const onSelectEmoji = (emoji) => {
                 <div
                   class="my-2 flex items-center justify-center gap-2 md:hidden"
                 >
+                  <h2
+                    v-if="contentRating && contentRating !== 'Not Rated'"
+                    class="border px-2 text-lg font-semibold line-clamp-1"
+                    :class="{
+                      'border-black/40': backgroundBright,
+                      'border-white/40': !backgroundBright
+                    }"
+                  >
+                    {{ contentRating || "NR" }}
+                  </h2>
                   <IMDBLink
                     v-if="data?.imdb_id"
-                    :imdb-id="data?.imdb_id"
+                    :imdb="data?.imdb_id"
                     :score="imdbScore || data.vote_average"
                   />
                   <RottenTomatoes
@@ -426,13 +435,21 @@ const onSelectEmoji = (emoji) => {
                   <h2 class="px-2 font-semibold line-clamp-1">
                     {{ runtime }}
                   </h2>
-                  <h2 class="px-2 font-semibold line-clamp-1">
-                    {{ contentRating || "Not Rated" }}
-                  </h2>
 
                   <div class="hidden items-center gap-2 px-2 md:flex">
+                    <h2
+                      v-if="contentRating && contentRating !== 'Not Rated'"
+                      class="border px-2 text-lg font-semibold line-clamp-1"
+                      :class="{
+                        'border-black/40': backgroundBright,
+                        'border-white/40': !backgroundBright
+                      }"
+                    >
+                      {{ contentRating || "NR" }}
+                    </h2>
                     <IMDBLink
                       v-if="data?.imdb_id"
+                      :imdb="data?.imdb_id"
                       :score="imdbScore || data.vote_average"
                     />
                     <RottenTomatoes

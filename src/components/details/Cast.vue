@@ -56,7 +56,7 @@ watch(scrollRef, () => {
       v-else-if="data.cast && data.cast.length > 0"
     >
       <div
-        class="flex w-full max-w-[160px] flex-shrink-0 snap-center flex-col"
+        class="flex w-full max-w-[140px] flex-shrink-0 snap-center flex-col md:max-w-[160px]"
         v-for="cast in data.cast"
         :key="cast.id"
       >

@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  imdbId: {
+  imdb: {
     type: String,
     required: true
   },
@@ -13,7 +13,7 @@ const props = defineProps({
 <template>
   <a
     class="flex h-6 cursor-pointer items-center justify-center rounded bg-[#F5C518] pr-2 font-bold text-black transition hover:bg-opacity-80"
-    :href="`https://www.imdb.com/title/${props.imdbId}`"
+    :href="`https://www.imdb.com/title/${props.imdb}`"
     target="_blank"
   >
     <IconsImdb class="h-7 w-auto" />
