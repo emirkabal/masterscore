@@ -24,6 +24,8 @@ watch(data, () => {
       <HomeTrendingCard
         v-for="item in items"
         :key="item.id"
+        :id="item.id"
+        :type="item.media_type"
         :title="item.title || item.name"
         :overview="item.overview"
         :poster="item.poster_path"
@@ -32,6 +34,8 @@ watch(data, () => {
       />
       <HomeTrendingCard
         class="hidden md:flex xl:hidden"
+        :id="item.id"
+        :type="item.media_type"
         :title="notFeaturedItem.title || notFeaturedItem.name"
         :overview="notFeaturedItem.overview"
         :poster="notFeaturedItem.poster_path"

@@ -1,5 +1,13 @@
 <script setup>
 const props = defineProps({
+  id: {
+    type: String,
+    required: false
+  },
+  type: {
+    type: String,
+    required: false
+  },
   title: {
     type: String,
     required: false
@@ -48,7 +56,8 @@ const props = defineProps({
         <div class="h-2 w-24 rounded bg-gray-300 dark:bg-zinc-800"></div>
       </div>
     </div>
-    <div
+    <router-link
+      :to="`/details/${props.type}/${props.id}`"
       v-else
       class="flex h-52 w-full transform-gpu select-none items-center rounded bg-cover bg-center bg-no-repeat"
       :style="{
@@ -83,6 +92,6 @@ const props = defineProps({
           </div>
         </div>
       </div>
-    </div>
+    </router-link>
   </div>
 </template>
