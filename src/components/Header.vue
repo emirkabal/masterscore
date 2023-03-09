@@ -23,7 +23,17 @@ const userStore = useUserStore()
       >
     </div>
     <Searchbar class="mx-4 md:mx-0" />
-    <div v-if="userStore.isLoading">Loading...</div>
+    <div v-if="userStore.isLoading" class="flex gap-2">
+      <div
+        class="h-4 w-4 animate-pulse rounded-full bg-gray-400 dark:bg-zinc-600"
+      ></div>
+      <div
+        class="h-4 w-4 animate-pulse rounded-full bg-gray-500 dark:bg-zinc-700"
+      ></div>
+      <div
+        class="h-4 w-4 animate-pulse rounded-full bg-gray-600 dark:bg-zinc-800"
+      ></div>
+    </div>
     <Menu
       as="div"
       class="relative z-10 inline-block text-left"
