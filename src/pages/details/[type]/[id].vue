@@ -386,9 +386,9 @@ const onSelectEmoji = (emoji) => {
                 <h1
                   class="inline-block flex-shrink-0 font-semibold leading-8 md:leading-none"
                   :class="{
-                    'text-4xl md:text-6xl': title.length < 20,
-                    'text-3xl md:text-5xl': title.length < 36,
-                    'text-2xl md:text-4xl': title.length >= 36,
+                    'text-4xl md:text-6xl lg:text-5xl': title.length < 20,
+                    'text-3xl md:text-5xl lg:text-4xl': title.length < 36,
+                    'text-2xl md:text-4xl lg:text-3xl': title.length >= 36,
                     'text-black': backgroundBright,
                     'text-white': !backgroundBright
                   }"
@@ -396,62 +396,42 @@ const onSelectEmoji = (emoji) => {
                   {{ title }}
                 </h1>
                 <div
-                  class="flex items-center justify-center divide-x-2 md:justify-start"
+                  class="my-2 flex items-center justify-center gap-2 md:hidden"
+                >
+                  <IMDBLink
+                    v-if="data?.imdb_id"
+                    :score="imdbScore || data.vote_average"
+                  />
+                  <RottenTomatoes
+                    v-if="data.localData?.info?.ratings?.rotten_tomatoes"
+                    :score="data.localData?.info?.ratings?.rotten_tomatoes"
+                  />
+                </div>
+                <div
+                  class="flex items-center justify-center divide-x-2 text-xs md:justify-start md:text-sm lg:text-lg"
                   :class="{
                     'divide-black/20 text-black': backgroundBright,
                     'divide-white/20 text-white/70': !backgroundBright
                   }"
                 >
-                  <h2 class="ml-0.5 pr-2 text-lg font-semibold">
+                  <h2 class="ml-0.5 pr-2 font-semibold">
                     {{ releaseDate }}
                   </h2>
-                  <h2
-                    v-if="genres"
-                    class="px-2 text-lg font-semibold line-clamp-1"
-                  >
+                  <h2 v-if="genres" class="px-2 font-semibold line-clamp-1">
                     {{ genres }}
                   </h2>
-                  <h2 class="px-2 text-lg font-semibold line-clamp-1">
+                  <h2 class="px-2 font-semibold line-clamp-1">
                     {{ runtime }}
                   </h2>
+                  <h2 class="px-2 font-semibold line-clamp-1">
+                    {{ contentRating || "Not Rated" }}
+                  </h2>
 
-                  <div class="flex items-center gap-2 px-2">
-                    <h2
-                      v-if="contentRating && contentRating !== 'Not Rated'"
-                      class="border px-2 text-lg font-semibold line-clamp-1"
-                      :class="{
-                        'border-black/40': backgroundBright,
-                        'border-white/40': !backgroundBright
-                      }"
-                    >
-                      {{ contentRating }}
-                    </h2>
-                    <div
-                      v-if="imdbLoading"
-                      class="flex h-6 w-20 animate-pulse items-center justify-center rounded bg-white/40 px-2 font-bold text-black"
-                    >
-                      <svg
-                        class="h-6 w-6 animate-spin text-black"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          class="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8v1a7 7 0 00-7 7h1z"
-                        ></path>
-                      </svg>
-                    </div>
-                    <a
-                      v-else-if="data.vote_average > 0 || imdbScore > 0"
-                      class="flex h-6 cursor-pointer items-center justify-center rounded bg-[#F5C518] pr-2 font-bold text-black transition hover:bg-opacity-80"
-                      :href="`https://www.imdb.com/title/${data.imdb_id}`"
-                      target="_blank"
-                    >
-                      <IconImdb class="h-7 w-auto" />
-                      {{ imdbScore || data.vote_average.toFixed(1) }}
-                    </a>
+                  <div class="hidden items-center gap-2 px-2 md:flex">
+                    <IMDBLink
+                      v-if="data?.imdb_id"
+                      :score="imdbScore || data.vote_average"
+                    />
                     <RottenTomatoes
                       v-if="data.localData?.info?.ratings?.rotten_tomatoes"
                       :score="data.localData?.info?.ratings?.rotten_tomatoes"

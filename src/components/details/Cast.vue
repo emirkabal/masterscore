@@ -50,7 +50,7 @@ watch(scrollRef, () => {
       </div>
     </div>
     <div
-      class="relative flex w-full snap-x snap-mandatory gap-2.5 overflow-x-auto pb-4 scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-1.5 scrollbar-h-1.5 dark:scrollbar-thumb-zinc-900"
+      class="relative flex w-full snap-x gap-2.5 overflow-x-auto pb-4 scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-1.5 scrollbar-h-1.5 dark:scrollbar-thumb-zinc-900"
       @scroll="scroll = $event.target.scrollLeft"
       ref="scrollRef"
       v-else-if="data.cast && data.cast.length > 0"
