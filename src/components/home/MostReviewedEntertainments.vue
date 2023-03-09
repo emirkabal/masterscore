@@ -4,20 +4,31 @@ const { data, pending } = useLazyFetch("/api/reviews?limit=9")
 </script>
 
 <template>
-  <div v-if="pending" class="flex justify-center">
-    <Spinner color="#000" />
-  </div>
-  <div v-else class="m-auto w-full px-4 md:px-0">
-    <div class="flex w-full justify-center md:w-fit md:justify-start">
-      <h1 class="my-4 border-yellow-500 pl-2 text-2xl font-bold md:border-l-4">
+  <div class="w-full">
+    <div class="flex w-fit justify-start">
+      <h1
+        class="my-4 border-l-4 border-yellow-500 pl-2 text-2xl font-bold tracking-wide"
+      >
         Most Rated
       </h1>
     </div>
+    <div v-if="pending">
+      <div
+        class="z-50 flex animate-pulse flex-wrap items-start justify-start gap-4 md:flex-nowrap"
+      >
+        <div
+          class="h-96 w-32 min-w-[110px] flex-1 transform rounded bg-gray-300 transition-all duration-300 ease-in-out dark:bg-zinc-800 md:w-full md:min-w-fit md:flex-auto"
+          v-for="i in 9"
+          :key="i"
+        ></div>
+      </div>
+    </div>
     <div
-      class="z-50 flex flex-wrap items-start justify-center gap-4 md:flex-nowrap"
+      v-else
+      class="z-50 flex flex-wrap items-start justify-start gap-4 md:flex-nowrap"
     >
       <div
-        class="h-96 w-28 grow-0 transform transition-all duration-300 ease-in-out hover:w-[calc(10%+4rem)] hover:grow-[4] md:w-full md:hover:w-[calc(100%+64rem)]"
+        class="h-96 w-32 min-w-[110px] flex-1 transform transition-all duration-300 ease-in-out md:w-full md:min-w-fit md:flex-auto md:hover:w-[calc(100%+64rem)] md:hover:grow-[4]"
         v-for="likedEntertainment in data"
         :key="likedEntertainment._id"
       >
@@ -32,7 +43,7 @@ const { data, pending } = useLazyFetch("/api/reviews?limit=9")
             class="absolute bottom-0 flex h-auto w-full select-none items-end p-2 text-white opacity-0 backdrop-blur transition-all group-hover:opacity-100"
           >
             <div class="flex flex-col justify-center gap-1 p-2">
-              <h1 class="line-clamp-1 break-words font-semibold">
+              <h1 class="break-words font-semibold line-clamp-1">
                 {{ likedEntertainment.entertainment.info.title }}
               </h1>
               <div class="flex items-center gap-1">

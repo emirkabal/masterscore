@@ -4,7 +4,9 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
 
 <template>
   <div>
-    <h1 class="mb-8 border-yellow-500 pl-2 text-2xl font-bold md:border-l-4">
+    <h1
+      class="mb-8 border-yellow-500 pl-2 text-2xl font-bold tracking-wide md:border-l-4"
+    >
       Latest Reviews
     </h1>
     <div v-if="pending">
@@ -73,7 +75,7 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
             </router-link>
             <p
               v-if="review.content"
-              class="truncate whitespace-normal break-all text-base"
+              class="whitespace-normal break-all text-base leading-4"
             >
               {{ review.content }}
             </p>
