@@ -1,4 +1,5 @@
 <script setup>
+import { Switch } from "@headlessui/vue"
 import IMDB from "~/components/IMDB.vue"
 import RottenTomatoes from "~/components/RottenTomatoes.vue"
 const headers = [
@@ -27,10 +28,18 @@ const headers = [
 const items = ref([])
 
 const listType = ref("movie")
+const disableReviewRequirement = ref(true)
 const pending = ref(true)
+const firstLoad = ref(true)
 const fetch = async () => {
+  items.value = []
   pending.value = true
-  const data = await $fetch("/api/reviews?limit=100&type=" + listType.value, {
+  const queries = new URLSearchParams()
+  queries.append("limit", 100)
+  if (disableReviewRequirement.value)
+    queries.append("disableReviewRequirement", disableReviewRequirement.value)
+  queries.append("type", listType.value)
+  const data = await $fetch("/api/reviews?" + queries.toString(), {
     headers: generateHeaders()
   })
   items.value = data.map((e, i) => {
@@ -41,19 +50,20 @@ const fetch = async () => {
     }
   })
   pending.value = false
+  firstLoad.value = false
 }
 
 onMounted(() => {
   fetch()
 })
 
-watch(listType, () => {
+watch([listType, disableReviewRequirement], () => {
   fetch()
 })
 </script>
 
 <template>
-  <div v-if="pending">
+  <div v-if="firstLoad">
     <div class="flex h-64 items-center justify-center">
       <Spinner color="#000" />
     </div>
@@ -61,7 +71,7 @@ watch(listType, () => {
   <div class="container mx-auto my-12 px-4 md:px-24" v-else>
     <div class="flex items-center justify-between">
       <h1
-        class="my-4 block border-l-4 border-blue-700 pl-2 text-2xl font-bold tracking-wide"
+        class="block border-l-4 border-blue-700 pl-2 text-2xl font-bold tracking-wide"
       >
         Masterscore Table
       </h1>
@@ -74,6 +84,26 @@ watch(listType, () => {
         <option value="movie">Movies</option>
         <option value="tv">TV Shows</option>
       </select>
+    </div>
+    <div class="mb-4 flex items-center gap-2">
+      <Switch
+        id="disableReviewRequirement"
+        v-model="disableReviewRequirement"
+        :class="!disableReviewRequirement ? 'bg-blue-700' : 'bg-teal-700'"
+        class="relative inline-flex h-[18px] w-[32px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+      >
+        <span class="sr-only">Use setting</span>
+        <span
+          aria-hidden="true"
+          :class="
+            !disableReviewRequirement ? 'translate-x-3.5' : 'translate-x-0'
+          "
+          class="pointer-events-none inline-block h-[14px] w-[14px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
+        />
+      </Switch>
+      <label for="disableReviewRequirement" class="opacity-80">
+        Show only entertainments with at least 3 reviews
+      </label>
     </div>
 
     <EasyDataTable
