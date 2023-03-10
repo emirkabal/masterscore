@@ -15,13 +15,15 @@ export default defineEventHandler(async (event) => {
     {
       $group: {
         _id: "$entertainment",
-        average: { $avg: "$rating" }
+        average: { $avg: "$rating" },
+        reviewsCount: { $sum: 1 }
       }
     },
     {
       $project: {
         _id: 1,
-        average: 1
+        average: 1,
+        reviewsCount: 1
       }
     },
     {
@@ -36,6 +38,11 @@ export default defineEventHandler(async (event) => {
       $unwind: "$entertainment"
     },
     (type && { $match: { "entertainment.type": type } }) || { $match: {} },
+    {
+      $match: {
+        reviewsCount: { $gt: 2 }
+      }
+    },
     {
       $sort: {
         average: -1
