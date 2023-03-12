@@ -74,6 +74,16 @@ const originalName = computed(() => {
   }
 })
 
+const localName = computed(() => {
+  if (props.data.title && props.data.title !== $getTitle(props.data)) {
+    return props.data.title
+  } else if (props.data.name && props.data.name !== $getTitle(props.data)) {
+    return props.data.name
+  } else {
+    return null
+  }
+})
+
 const getVideo = computed(() => {
   if (data.value) {
     const offical = data.value.results.find(
@@ -121,7 +131,6 @@ const getVideo = computed(() => {
           <span>Watch Trailer</span>
         </a>
       </div>
-
       <p v-if="originalName">
         <strong>Original Name</strong>
         <span>{{ originalName }}</span>
@@ -141,6 +150,10 @@ const getVideo = computed(() => {
           }}</strong
         >
         <span>{{ spokenLanguages }}</span>
+      </p>
+      <p v-if="localName">
+        <strong>English Name</strong>
+        <span>{{ localName }}</span>
       </p>
       <p>
         <strong>Budget</strong>
