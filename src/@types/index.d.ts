@@ -42,6 +42,7 @@ export interface TMDBSearchResult {
   vote_count?: number
 }
 
+export type TMDBData = Partial<TMDBMovie> & Partial<TMDBTV>
 export interface TMDBMovie {
   localId?: string
   localData?: IEntertainment

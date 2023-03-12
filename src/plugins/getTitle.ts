@@ -1,12 +1,18 @@
-import { TMDBMovie } from "../@types"
+import { TMDBData } from "../@types"
 
 export default defineNuxtPlugin(() => {
   return {
     provide: {
-      getTitle: (data: TMDBMovie | TMDBTV) => {
-        return data.original_name && data.original_name.match(/[a-z]/i)
+      getTitle: (data: TMDBData) => {
+        return data.original_name &&
+          data.original_name.match(/[a-z]/i) &&
+          data.name &&
+          !data.name.match(/[a-z]/i)
           ? data.original_name
-          : data.original_title && data.original_title.match(/[a-z]/i)
+          : data.original_title &&
+            data.original_title.match(/[a-z]/i) &&
+            data.title &&
+            !data.title.match(/[a-z]/i)
           ? data.original_title
           : data.title || data.name || "Untitled"
       }

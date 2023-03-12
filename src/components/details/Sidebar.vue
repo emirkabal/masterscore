@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { TMDBMovie, TMDBTV } from "~~/src/@types"
-
+import { TMDBData } from "~~/src/@types"
+const { $getTitle } = useNuxtApp()
 const props = defineProps<{
-  data: TMDBMovie | TMDBTV
+  data: TMDBData
 }>()
 
 const formatter = new Intl.NumberFormat("en-US", {
@@ -47,15 +47,31 @@ const spokenLanguages = computed(() => {
 })
 
 const budget = computed(() => {
-  return "budget" in props.data && props.data.revenue !== 0
+  return props.data.budget && props.data.revenue !== 0
     ? formatter.format(Number(props.data.budget))
     : "-"
 })
 
 const revenue = computed(() => {
-  return "revenue" in props.data && props.data.revenue !== 0
+  return props.data.revenue && props.data.revenue !== 0
     ? formatter.format(Number(props.data.revenue))
     : "-"
+})
+
+const originalName = computed(() => {
+  if (
+    "original_title" in props.data &&
+    props.data.original_title !== $getTitle(props.data)
+  ) {
+    return props.data.original_title
+  } else if (
+    "original_name" in props.data &&
+    props.data.original_name !== $getTitle(props.data)
+  ) {
+    return props.data.original_name
+  } else {
+    return null
+  }
 })
 
 const getVideo = computed(() => {
@@ -106,6 +122,10 @@ const getVideo = computed(() => {
         </a>
       </div>
 
+      <p v-if="originalName">
+        <strong>Original Name</strong>
+        <span>{{ originalName }}</span>
+      </p>
       <p>
         <strong>Status</strong>
         <span>{{ status }}</span>
@@ -120,7 +140,7 @@ const getVideo = computed(() => {
             spokenLanguages.indexOf(",") !== -1 ? "s" : ""
           }}</strong
         >
-        <span class="break-all">{{ spokenLanguages }}</span>
+        <span>{{ spokenLanguages }}</span>
       </p>
       <p>
         <strong>Budget</strong>

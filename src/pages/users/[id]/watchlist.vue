@@ -110,23 +110,26 @@ if (params.id === "me") {
       <div class="mb-10 flex flex-col gap-2" v-else>
         <div v-for="listItem in watchlist.items" :key="listItem._id">
           <div
-            class="flex items-center justify-between overflow-hidden rounded bg-white shadow dark:bg-zinc-900"
+            class="flex items-center overflow-hidden rounded bg-white shadow dark:bg-zinc-900"
           >
-            <div class="flex items-center gap-8">
+            <router-link
+              :to="`/details/${listItem.type}/${listItem.id}`"
+              class="group flex w-full items-center gap-4"
+            >
               <img
                 :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${listItem.info.poster}`"
-                class="h-36 w-auto"
+                class="h-20 w-auto"
               />
-              <router-link
+              <p
                 :to="`/details/${listItem.type}/${listItem.id}`"
-                class="text-2xl font-semibold hover:underline"
+                class="text-base font-semibold group-hover:underline md:text-xl"
               >
                 {{ listItem.info.title }}
-              </router-link>
-            </div>
+              </p>
+            </router-link>
             <button
               @click="removeItem(listItem._id)"
-              class="flex h-36 cursor-pointer items-center bg-red-600 px-8 font-bold text-white transition-colors hover:bg-red-700"
+              class="flex h-20 cursor-pointer items-center bg-red-600 px-6 font-bold text-white transition-colors hover:bg-red-700"
             >
               <IconsTrash class="h-8 w-8" />
             </button>

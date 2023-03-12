@@ -355,7 +355,10 @@ const onSelectEmoji = (emoji) => {
         'background-image': `url(${backgroundURL})`
       }"
     >
-      <div v-if="feature" class="absolute bottom-0 right-0 m-4">
+      <div
+        v-if="feature"
+        class="fixed bottom-0 right-0 z-10 m-2 shadow-2xl md:absolute md:m-4"
+      >
         <HomeRandomMovie :collapsed="true" />
       </div>
       <div
@@ -396,6 +399,7 @@ const onSelectEmoji = (emoji) => {
                 >
                   {{ title }}
                 </h1>
+                <!-- Mobile Extensions -->
                 <div
                   class="my-2 flex items-center justify-center gap-2 md:hidden"
                 >
@@ -403,8 +407,8 @@ const onSelectEmoji = (emoji) => {
                     v-if="contentRating && contentRating !== 'Not Rated'"
                     class="border px-2 text-lg font-semibold line-clamp-1"
                     :class="{
-                      'border-black/40': backgroundBright,
-                      'border-white/40': !backgroundBright
+                      'border-black/40 text-black': backgroundBright,
+                      'border-white/40 text-white/70': !backgroundBright
                     }"
                   >
                     {{ contentRating || "NR" }}
@@ -429,14 +433,19 @@ const onSelectEmoji = (emoji) => {
                   <h2 class="ml-0.5 pr-2 font-semibold">
                     {{ releaseDate }}
                   </h2>
-                  <h2 v-if="genres" class="px-2 font-semibold line-clamp-1">
+                  <h2
+                    v-if="genres"
+                    class="break-all px-2 font-semibold line-clamp-1"
+                  >
                     {{ genres }}
                   </h2>
-                  <h2 class="px-2 font-semibold line-clamp-1">
+                  <h2 class="flex-shrink-0 px-2 font-semibold line-clamp-1">
                     {{ runtime }}
                   </h2>
 
-                  <div class="hidden items-center gap-2 px-2 md:flex">
+                  <div
+                    class="hidden flex-shrink-0 items-center gap-2 px-2 md:flex"
+                  >
                     <h2
                       v-if="contentRating && contentRating !== 'Not Rated'"
                       class="border px-2 text-lg font-semibold line-clamp-1"
