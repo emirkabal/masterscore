@@ -1,6 +1,5 @@
 <script setup>
 import ColorThief from "colorthief"
-import IconImdb from "~/components/icons/Imdb.vue"
 import IconHeart from "~/components/icons/Heart.vue"
 import IconHeartFilled from "~/components/icons/HeartFilled.vue"
 import IconStar from "~/components/icons/Star.vue"
@@ -259,6 +258,12 @@ const onSelectEmoji = (emoji) => {
   >
     <Spinner color="#000" />
   </div>
+  <div v-else-if="!data || ('status' in data && 'message' in data)">
+    <div class="flex h-96 flex-col items-center justify-center">
+      <h1 class="text-4xl font-semibold">404</h1>
+      <p class="text-xl">Page not found</p>
+    </div>
+  </div>
   <div v-else>
     <ModalView :show="reviewModal" @close="reviewModal = false" title="Review">
       <template v-slot:body>
@@ -350,7 +355,7 @@ const onSelectEmoji = (emoji) => {
       </template>
     </ModalView>
     <div
-      class="relative min-h-[820px] w-full bg-cover bg-center bg-no-repeat md:h-[780px] md:min-h-[780px]"
+      class="relative h-full min-h-[820px] w-full bg-cover bg-center bg-no-repeat md:h-[780px] md:min-h-[780px]"
       :style="{
         'background-image': `url(${backgroundURL})`
       }"
@@ -367,9 +372,11 @@ const onSelectEmoji = (emoji) => {
           'background-color': `rgba(${backgroundColor[0]}, ${backgroundColor[1]}, ${backgroundColor[2]}, 0.75)`
         }"
       >
-        <div class="container m-auto flex h-full w-full px-4">
+        <div
+          class="container m-auto flex h-full min-h-[820px] w-full items-center justify-center px-4 md:min-h-0 md:justify-start"
+        >
           <div
-            class="flex flex-col items-center justify-center gap-8 py-8 drop-shadow-2xl md:flex-row md:justify-start md:gap-16 md:py-0"
+            class="flex h-full w-full flex-col items-center justify-center gap-8 py-8 drop-shadow-2xl md:flex-row md:justify-start md:gap-16 md:py-0"
           >
             <div class="relative flex-shrink-0">
               <img
@@ -385,7 +392,7 @@ const onSelectEmoji = (emoji) => {
                 {{ masterRating.toFixed(1) }}
               </div>
             </div>
-            <div class="max-w-2xl">
+            <div class="w-full max-w-2xl">
               <div class="flex flex-col-reverse text-center md:text-left">
                 <h1
                   class="inline-block flex-shrink-0 font-semibold leading-8 md:leading-none"

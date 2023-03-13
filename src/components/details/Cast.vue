@@ -50,15 +50,16 @@ watch(scrollRef, () => {
       </div>
     </div>
     <div
-      class="relative flex w-full snap-x gap-2.5 overflow-x-auto pb-4 scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-1.5 scrollbar-h-1.5 dark:scrollbar-thumb-zinc-900"
+      class="relative flex w-full snap-x gap-2.5 overflow-x-auto pb-4 scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-2.5 scrollbar-h-2.5 hover:scrollbar-thumb-gray-400 dark:scrollbar-thumb-zinc-900 dark:hover:scrollbar-thumb-zinc-800"
       @scroll="scroll = $event.target.scrollLeft"
       ref="scrollRef"
       v-else-if="data.cast && data.cast.length > 0"
     >
-      <div
+      <router-link
         class="flex w-full max-w-[140px] flex-shrink-0 snap-center flex-col md:max-w-[160px]"
         v-for="cast in data.cast"
         :key="cast.id"
+        :to="`/details/person/${cast.id}`"
       >
         <div class="flex w-full flex-col items-center justify-center rounded">
           <div
@@ -83,7 +84,7 @@ watch(scrollRef, () => {
             </p>
           </div>
         </div>
-      </div>
+      </router-link>
     </div>
     <div v-else>
       <p class="text-center text-gray-500 dark:text-gray-400">No cast found</p>

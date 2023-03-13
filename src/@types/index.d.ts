@@ -25,6 +25,7 @@ export interface IEntertainment {
 export interface TMDBSearchResult {
   adult?: boolean
   backdrop_path?: string
+  profile_path?: string
   genre_ids?: number[]
   id: number
   original_language?: string
@@ -174,6 +175,23 @@ export interface TMDBTV {
   type?: string
   vote_average?: number
   vote_count?: number
+}
+
+export interface TMDBPerson {
+  birthday?: string
+  known_for_department: string
+  deathday?: string
+  id: number
+  name: string
+  also_known_as: string[]
+  gender: number
+  biography: string
+  popularity: number
+  place_of_birth?: string
+  profile_path?: string
+  adult: boolean
+  imdb_id: string
+  homepage?: string
 }
 
 export interface IUser {

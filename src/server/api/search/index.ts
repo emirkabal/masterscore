@@ -24,16 +24,22 @@ export default defineEventHandler(async (event) => {
     )
     .slice(0, 5)
 
+  const persons = data.results
+    // @ts-ignore
+    .filter((result) => result.media_type === "person" && result.profile_path)
+    .slice(0, 3)
+
   const users: IUser[] = await UserModel.find({
     $or: [{ username: { $regex: q, $options: "i" } }]
   })
-    .limit(5)
+    .limit(3)
     .select("username")
     .lean()
 
   return {
     status: 200,
     tmdb: results,
+    persons: persons,
     users: users.map((user) => user.username)
   }
 })

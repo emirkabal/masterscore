@@ -1,5 +1,6 @@
 <script setup>
 import { Switch } from "@headlessui/vue"
+import { useLocalStorage } from "@vueuse/core"
 import IMDB from "~/components/IMDB.vue"
 import RottenTomatoes from "~/components/RottenTomatoes.vue"
 const headers = [
@@ -28,7 +29,7 @@ const headers = [
 const items = ref([])
 
 const listType = ref("movie")
-const disableReviewRequirement = ref(true)
+const disableReviewRequirement = useLocalStorage("mastertable-filter-1", false)
 const pending = ref(true)
 const firstLoad = ref(true)
 const fetch = async () => {
@@ -101,7 +102,7 @@ watch([listType, disableReviewRequirement], () => {
           class="pointer-events-none inline-block h-[14px] w-[14px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
         />
       </Switch>
-      <label for="disableReviewRequirement" class="opacity-80">
+      <label for="disableReviewRequirement" class="select-none opacity-80">
         Show only entertainments with at least 3 reviews
       </label>
     </div>

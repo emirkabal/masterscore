@@ -4,6 +4,7 @@ import debounce from "lodash.debounce"
 const search = ref("")
 const loading = ref(false)
 const results = ref([])
+const persons = ref([])
 const users = ref([])
 const selectedIndex = ref(0)
 
@@ -15,6 +16,7 @@ const searchResults = debounce(async () => {
     return
   }
   results.value = data.tmdb
+  persons.value = data.persons
   users.value = data.users
 }, 500)
 
@@ -45,15 +47,16 @@ const searchInput = (e) => {
           (e) => {
             e.preventDefault()
             selectedIndex =
-              selectedIndex < results.length + users.length - 1
+              selectedIndex < results.length + persons.length + users.length - 1
                 ? selectedIndex + 1
-                : results.length + users.length - 1
+                : selectedIndex
           }
         "
         @keydown.arrow-up="
           (e) => {
             e.preventDefault()
-            selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : 0
+            selectedIndex =
+              selectedIndex > 0 ? selectedIndex - 1 : selectedIndex
           }
         "
         @keydown.enter="
@@ -63,8 +66,19 @@ const searchInput = (e) => {
               $router.push(
                 `/details/${results[selectedIndex].media_type}/${results[selectedIndex].id}`
               )
-            } else {
-              $router.push(`/users/${users[selectedIndex - results.length]}`)
+            } else if (selectedIndex < results.length + persons.length) {
+              $router.push(
+                `/details/person/${persons[selectedIndex - results.length].id}`
+              )
+            } else if (
+              selectedIndex <
+              results.length + persons.length + users.length
+            ) {
+              $router.push(
+                `/users/${
+                  users[selectedIndex - results.length - persons.length]
+                }`
+              )
             }
             selectedIndex = 0
             search = ''
@@ -92,7 +106,11 @@ const searchInput = (e) => {
       <div class="flex justify-center" v-if="loading">
         <Spinner color="#000" />
       </div>
-      <div v-else-if="results.length === 0 && users.length === 0">
+      <div
+        v-else-if="
+          results.length === 0 && users.length === 0 && persons.length === 0
+        "
+      >
         <p class="text-center text-gray-500 dark:text-gray-300">
           No results found
         </p>
@@ -107,7 +125,7 @@ const searchInput = (e) => {
             <router-link
               :to="`/details/${result.media_type}/${result.id}`"
               @mouseenter="selectedIndex = i"
-              class="block w-full overflow-hidden rounded-lg p-3 transition-colors"
+              class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               @click="search = ''"
               :data-index="i"
               :class="{
@@ -116,18 +134,11 @@ const searchInput = (e) => {
               }"
             >
               <div class="flex w-full items-center">
-                <div
-                  class="flex h-[84px] w-14 items-center justify-center rounded bg-gray-600 font-bold text-white"
-                  v-if="!result.poster_path"
-                >
-                  X
-                </div>
                 <img
-                  v-else
                   :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${result.poster_path}`"
-                  class="h-auto w-14 rounded"
+                  class="h-auto w-10 rounded"
                 />
-                <div class="ml-4 max-w-sm">
+                <div class="ml-2 max-w-sm">
                   <p class="truncate text-ellipsis font-bold">
                     {{ $getTitle(result) }}
                   </p>
@@ -143,6 +154,37 @@ const searchInput = (e) => {
             </router-link>
           </div>
         </div>
+        <div v-if="persons.length !== 0">
+          <div class="mb-2 font-bold text-gray-500 dark:text-gray-300">
+            Persons
+          </div>
+          <div v-for="(person, i) in persons" :key="`person-${i}`">
+            <router-link
+              :to="`/details/person/${person.id}`"
+              @mouseenter="selectedIndex = i + results.length"
+              @click="search = ''"
+              class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
+              :data-index="i + results.length"
+              :class="{
+                'bg-gray-100 dark:bg-zinc-900':
+                  i + results.length === selectedIndex,
+                'bg-white dark:bg-black': i + results.length !== selectedIndex
+              }"
+            >
+              <div class="flex w-full items-center">
+                <img
+                  :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${person.profile_path}`"
+                  class="h-auto w-10 rounded"
+                />
+                <div class="ml-2 max-w-sm">
+                  <p class="truncate text-ellipsis font-bold">
+                    {{ person.name }}
+                  </p>
+                </div>
+              </div>
+            </router-link>
+          </div>
+        </div>
         <div v-if="users.length !== 0">
           <div class="mb-2 font-bold text-gray-500 dark:text-gray-300">
             Users
@@ -152,7 +194,7 @@ const searchInput = (e) => {
               :to="`/users/@${user}`"
               @mouseenter="selectedIndex = i + results.length"
               @click="search = ''"
-              class="block w-full overflow-hidden rounded-lg p-3 transition-colors"
+              class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               :data-index="i + results.length"
               :class="{
                 'bg-gray-100 dark:bg-zinc-900':
@@ -162,7 +204,7 @@ const searchInput = (e) => {
             >
               <div class="flex w-full items-center">
                 <Avatar :username="user" class="h-10 w-10 border" />
-                <div class="ml-4 max-w-sm">
+                <div class="ml-2 max-w-sm">
                   <p class="truncate text-ellipsis font-bold">@{{ user }}</p>
                 </div>
               </div>
