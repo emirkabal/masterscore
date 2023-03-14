@@ -184,14 +184,28 @@ export interface TMDBPerson {
   id: number
   name: string
   also_known_as: string[]
-  gender: number
+  gender: 0 | 1 | 2 | 3
   biography: string
   popularity: number
   place_of_birth?: string
   profile_path?: string
   adult: boolean
-  imdb_id: string
   homepage?: string
+  credits?: TMDBData[]
+}
+
+export interface ExternalIDs {
+  id: number
+  imdb_id?: string
+  facebook_id?: string
+  freebase_mid?: string
+  freebase_id?: string
+  tvrage_id?: number
+  twitter_id?: string
+  instagram_id?: string
+  youtube_id?: string
+  wikidata_id?: string
+  tiktok_id?: string
 }
 
 export interface IUser {

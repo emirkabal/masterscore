@@ -24,9 +24,7 @@ const toggleDarkMode = useToggle(isDark)
         </button>
       </div>
       <div class="flex items-center gap-2">
-        <span class="text-gray-500 dark:text-gray-300"
-          >Movies & TV Shows from</span
-        >
+        <span class="text-gray-500 dark:text-gray-300">All data from</span>
         <a href="https://www.themoviedb.org/" target="_blank">
           <IconsTMDB class="w-28" />
         </a>

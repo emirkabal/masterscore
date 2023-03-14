@@ -62,6 +62,9 @@ const searchInput = (e) => {
         @keydown.enter="
           (e) => {
             e.preventDefault()
+            if (loading) {
+              return
+            }
             if (selectedIndex < results.length) {
               $router.push(
                 `/details/${results[selectedIndex].media_type}/${results[selectedIndex].id}`
@@ -144,9 +147,11 @@ const searchInput = (e) => {
                   </p>
                   <p class="text-gray-500 dark:text-gray-300">
                     {{
-                      (result.first_air_date || result.release_date).split(
+                      (
+                        result.first_air_date ||
+                        result.release_date ||
                         "-"
-                      )[0]
+                      ).split("-")[0]
                     }}
                   </p>
                 </div>
@@ -192,14 +197,15 @@ const searchInput = (e) => {
           <div v-for="(user, i) in users" :key="`user-${i}`">
             <router-link
               :to="`/users/@${user}`"
-              @mouseenter="selectedIndex = i + results.length"
+              @mouseenter="selectedIndex = i + results.length + persons.length"
               @click="search = ''"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               :data-index="i + results.length"
               :class="{
                 'bg-gray-100 dark:bg-zinc-900':
-                  i + results.length === selectedIndex,
-                'bg-white dark:bg-black': i + results.length !== selectedIndex
+                  i + (results.length + persons.length) === selectedIndex,
+                'bg-white dark:bg-black':
+                  i + (results.length + persons.length) !== selectedIndex
               }"
             >
               <div class="flex w-full items-center">
