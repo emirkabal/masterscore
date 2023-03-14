@@ -168,7 +168,7 @@ watch(scrollRef, () => {
                 ></div>
               </Transition>
               <div
-                class="relative flex w-full touch-pan-x snap-x snap-proximity gap-2.5 overflow-x-auto pb-4 scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-2.5 scrollbar-h-2.5 hover:scrollbar-thumb-gray-400 dark:scrollbar-thumb-zinc-900 dark:hover:scrollbar-thumb-zinc-800 md:snap-none"
+                class="relative flex w-full snap-x snap-proximity gap-2.5 overflow-x-auto pb-4 overflow-y-hidden scrollbar-none scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-2.5 scrollbar-h-2.5 hover:scrollbar-thumb-gray-400 dark:scrollbar-thumb-zinc-900 dark:hover:scrollbar-thumb-zinc-800 md:snap-none md:scrollbar"
                 @scroll="scroll = $event.target.scrollLeft"
                 ref="scrollRef"
               >
