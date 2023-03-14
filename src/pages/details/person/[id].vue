@@ -46,12 +46,19 @@ watch(scrollRef, () => {
     <div class="container mx-auto mt-8 px-4">
       <div class="flex flex-col items-stretch justify-center gap-8 md:flex-row">
         <div class="w-full md:min-w-[300px] md:max-w-[300px]">
+          <div
+            v-if="!data.profile_path"
+            class="mx-auto mb-2 flex h-full max-h-[450px] w-full max-w-[300px] items-center justify-center rounded-lg bg-gray-700 font-maven font-semibold !text-white shadow-lg md:mx-0"
+          >
+            No Image
+          </div>
           <img
+            v-else
             :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${data.profile_path}`"
             draggable="false"
             alt="profile picture"
             loading="lazy"
-            class="mx-auto mb-2 h-auto max-h-[450px] w-full max-w-[300px] rounded-lg shadow-lg md:mx-0"
+            class="mx-auto mb-2 h-full max-h-[450px] w-full max-w-[300px] rounded-lg shadow-lg md:mx-0"
           />
           <h1
             class="mt-2 block text-center font-maven text-3xl font-bold tracking-wide md:hidden"

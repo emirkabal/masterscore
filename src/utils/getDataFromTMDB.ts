@@ -114,7 +114,7 @@ export default async (
   }
 
   const localData = await EntertainmentModel.findOneAndUpdate(
-    { id: data.id },
+    { id: data.id, type: type },
     {
       $set: localDataSet
     },
