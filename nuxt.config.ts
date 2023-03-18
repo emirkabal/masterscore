@@ -3,7 +3,8 @@ export default defineNuxtConfig({
   srcDir: "src/",
   ssr: false,
   nitro: {
-    preset: "vercel"
+    preset: "vercel",
+    plugins: ["~/server/db/index.ts"]
   },
   app: {
     head: {
@@ -51,11 +52,6 @@ export default defineNuxtConfig({
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     INVITE_CODE: process.env.INVITE_CODE
-  },
-
-  // @ts-ignore
-  nitro: {
-    plugins: ["~/server/db/index.ts"]
   },
 
   build: {
