@@ -10,12 +10,12 @@ const { data, pending } = useLazyFetch("/api/likes?limit=1")
     </h1>
     <div
       v-if="pending"
-      class="relative z-0 mx-auto block h-96 w-full animate-pulse overflow-hidden rounded bg-gray-300 dark:bg-zinc-800 md:mx-0 md:w-64"
+      class="relative z-0 mx-auto block h-96 w-full animate-pulse overflow-hidden rounded bg-gray-300 dark:bg-zinc-800 md:mx-0 lg:w-64"
     ></div>
-    <router-link
+    <NuxtLink
       v-else
       :to="`/details/${data[0].entertainment.type}/${data[0].entertainment.id}`"
-      class="group relative z-0 mx-auto block h-96 w-full cursor-pointer overflow-hidden rounded bg-cover bg-center bg-no-repeat shadow-2xl md:mx-0 md:w-64"
+      class="group relative z-0 mx-auto block h-96 w-full cursor-pointer overflow-hidden rounded bg-cover bg-center bg-no-repeat shadow-2xl md:mx-0 lg:w-64"
       :style="{
         backgroundImage: `url(https://image.tmdb.org/t/p/w500/${data[0].entertainment.info.poster})`
       }"
@@ -33,6 +33,6 @@ const { data, pending } = useLazyFetch("/api/likes?limit=1")
           </div>
         </div>
       </div>
-    </router-link>
+    </NuxtLink>
   </div>
 </template>

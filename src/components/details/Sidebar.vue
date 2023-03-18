@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { TMDBData } from "~~/src/@types"
+import { onClickOutside } from "@vueuse/core"
 const { $getTitle } = useNuxtApp()
 const props = defineProps<{
   data: TMDBData
@@ -22,6 +23,17 @@ const { data, pending } = useLazyFetch(
   data: Ref<Record<string, any>>
   pending: Ref<boolean>
 }
+
+const { data: providerData, pending: providerPending } = useLazyFetch(
+  `/api/extra/providers/${props.data.id}?type=${props.data.localData?.type}`
+)
+
+const trailerModal = ref(false)
+const trailerModalEl = ref(null)
+
+onClickOutside(trailerModalEl, () => {
+  trailerModal.value = false
+})
 
 const status = computed(() => {
   return props.data.status || "Unknown"
@@ -84,6 +96,14 @@ const localName = computed(() => {
   }
 })
 
+const getProvider = computed(() => {
+  if (providerData.value && !providerPending.value) {
+    return providerData.value.results.TR
+  } else {
+    return null
+  }
+})
+
 const getVideo = computed(() => {
   if (data.value) {
     const offical = data.value.results.find(
@@ -108,10 +128,43 @@ const getVideo = computed(() => {
     return null
   }
 })
+
+watch(trailerModal, () => {
+  if (trailerModal.value) {
+    document.body.style.overflow = "hidden"
+  } else {
+    document.body.style.overflow = "auto"
+  }
+})
 </script>
 
 <template>
   <div class="w-full rounded-3xl p-0 md:p-6">
+    <div
+      v-if="getVideo && trailerModal"
+      class="fixed top-0 left-0 z-40 h-screen w-full bg-black/80"
+    >
+      <button
+        @click="trailerModal = false"
+        class="absolute top-0 right-0 m-12 opacity-50 transition-opacity hover:opacity-100"
+      >
+        <IconsTimes class="h-16 w-16 text-white" />
+      </button>
+      <div
+        class="flex h-full flex-col items-center justify-center p-24 md:p-32 lg:p-40 2xl:p-96"
+      >
+        <iframe
+          ref="trailerModalEl"
+          width="1920"
+          height="1080"
+          class="aspect-video h-96 max-h-[648px] w-full max-w-[1152px] rounded-xl md:h-auto"
+          :src="`https://www.youtube.com/embed/${
+            getVideo.split('/')[3]
+          }?autoplay=1`"
+        >
+        </iframe>
+      </div>
+    </div>
     <div class="space-y-8">
       <div class="space-y-2">
         <div
@@ -120,16 +173,59 @@ const getVideo = computed(() => {
         >
           Loading...
         </div>
-        <a
+        <button
           v-else-if="getVideo"
           class="flex w-full items-center justify-center gap-2 rounded bg-gray-50 px-4 py-2 transition-opacity hover:opacity-90 dark:bg-zinc-900"
-          :href="getVideo"
-          target="_blank"
-          rel="noopener noreferrer"
+          @click="trailerModal = true"
         >
-          <IconsPlay class="h-6 w-6 text-blue-600" />
+          <IconsPlay class="h-6 w-6 text-yellow-600" />
           <span>Watch Trailer</span>
-        </a>
+        </button>
+      </div>
+      <div
+        class="space-y-2"
+        v-if="
+          !providerPending &&
+          getProvider &&
+          ((getProvider.flatrate && getProvider.flatrate.length > 0) ||
+            (getProvider.buy && getProvider.buy.length > 0) ||
+            (getProvider.rent && getProvider.rent.length > 0))
+        "
+      >
+        <span class="font-bold">Available on</span>
+        <div class="flex items-center gap-2">
+          <a
+            v-for="provider in getProvider.flatrate ||
+            getProvider.rent ||
+            getProvider.buy"
+            :key="provider.provider_id"
+            :href="getProvider.link"
+            target="_blank"
+            class="h-10 w-10 rounded-lg bg-cover bg-center bg-no-repeat transition-opacity hover:opacity-75"
+            :style="{
+              backgroundImage: `url(https://image.tmdb.org/t/p/original/${provider.logo_path})`
+            }"
+          >
+          </a>
+        </div>
+        <div class="text-xs">
+          <span class="mr-2 text-gray-600 dark:text-gray-50">Powered by</span>
+          <a href="https://www.justwatch.com/" target="_blank"
+            ><img
+              class="mb-1 inline-block h-auto w-20"
+              src="~/assets/images/justwatch-logo.png"
+              alt=""
+          /></a>
+        </div>
+      </div>
+      <div v-else-if="providerPending" class="animate-pulse space-y-2">
+        <div class="h-2 w-1/2 rounded-full bg-gray-300 dark:bg-zinc-800"></div>
+        <div class="flex items-center gap-2">
+          <div class="h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"></div>
+          <div class="h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"></div>
+          <div class="h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"></div>
+        </div>
+        <div class="h-2 w-1/3 rounded-full bg-gray-300 dark:bg-zinc-800"></div>
       </div>
       <p v-if="originalName">
         <strong>Original Name</strong>

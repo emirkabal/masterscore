@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { generateHeaders } from "../utils/request"
-import { IUser } from "~/@types"
+import { ErrorResponse, IUser } from "~/@types"
 
 export const useUserStore = defineStore("user", {
   state: () => {
@@ -45,7 +45,7 @@ export const useUserStore = defineStore("user", {
         })
       })
 
-      if (data.status !== 200 || !data.token) {
+      if (data.status !== 200 || !("token" in data)) {
         return data
       }
 
@@ -72,7 +72,7 @@ export const useUserStore = defineStore("user", {
         this.loading = false
         return
       }
-      this.user = data
+      this.user = data as unknown as Omit<IUser, "password">
       this.loading = false
     }
   }

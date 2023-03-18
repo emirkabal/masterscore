@@ -15,11 +15,11 @@ const userStore = useUserStore()
     class="flex h-16 items-center justify-between bg-gray-50 px-6 dark:bg-zinc-900 md:px-12"
   >
     <div class="flex items-center">
-      <router-link
+      <NuxtLink
         to="/"
         class="select-none font-maven text-2xl font-black transition hover:opacity-75"
         ><span class="text-yellow-500">m</span
-        ><span class="hidden md:inline-block">asterscore</span></router-link
+        ><span class="hidden md:inline-block">asterscore</span></NuxtLink
       >
     </div>
     <Searchbar class="mx-4 md:mx-0" />
@@ -67,31 +67,31 @@ const userStore = useUserStore()
             </div>
             <div class="px-1 py-1">
               <MenuItem>
-                <router-link
+                <NuxtLink
                   class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
                   to="/users/@me"
-                  >Profile</router-link
+                  >Profile</NuxtLink
                 >
               </MenuItem>
               <MenuItem>
-                <router-link
+                <NuxtLink
                   class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
                   to="/users/@me/watchlist"
-                  >Watchlist</router-link
+                  >Watchlist</NuxtLink
                 >
               </MenuItem>
               <MenuItem>
-                <router-link
+                <NuxtLink
                   class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
                   to="/users/@me/reviews"
-                  >Reviews</router-link
+                  >Reviews</NuxtLink
                 >
               </MenuItem>
               <MenuItem>
-                <router-link
+                <NuxtLink
                   class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
                   to="/users/@me/settings"
-                  >Settings</router-link
+                  >Settings</NuxtLink
                 >
               </MenuItem>
             </div>
@@ -110,13 +110,11 @@ const userStore = useUserStore()
       </Transition>
     </Menu>
     <div v-else class="flex items-center gap-4">
-      <router-link to="/account/login" class="hover:opacity-80"
-        >Login</router-link
-      >
-      <router-link
+      <NuxtLink to="/account/login" class="hover:opacity-80">Login</NuxtLink>
+      <NuxtLink
         to="/account/signup"
         class="rounded bg-gray-200 px-4 py-2 font-semibold hover:bg-gray-300 dark:bg-zinc-800 dark:hover:bg-[#1e1e1e]"
-        >Signup</router-link
+        >Signup</NuxtLink
       >
     </div>
   </header>

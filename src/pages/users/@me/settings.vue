@@ -5,6 +5,10 @@ import { useStorage } from "@vueuse/core"
 definePageMeta({
   middleware: ["auth"]
 })
+useHead({
+  title: "Settings",
+  titleTemplate: "%s - Masterscore"
+})
 
 const { user } = useUserStore()
 const flag = useStorage("debugMode", false)
@@ -169,10 +173,10 @@ const submit = async (e) => {
             {{ error }}
           </div>
           <div class="flex gap-2">
-            <router-link
+            <NuxtLink
               to="/users/@me"
               class="rounded bg-gray-50 px-4 py-2 font-bold text-black transition-colors hover:bg-gray-100"
-              >Back to profile</router-link
+              >Back to profile</NuxtLink
             >
             <button
               class="rounded bg-blue-700 px-4 py-2 font-bold text-white transition-colors hover:bg-blue-600"

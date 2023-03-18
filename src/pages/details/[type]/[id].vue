@@ -1,13 +1,14 @@
 <script setup>
+// @ts-ignore
 import ColorThief from "colorthief"
-import IconHeart from "~/components/icons/Heart.vue"
-import IconHeartFilled from "~/components/icons/HeartFilled.vue"
-import IconStar from "~/components/icons/Star.vue"
-import IconStarFilled from "~/components/icons/StarFilled.vue"
 import ModalView from "~/components/Modal.vue"
 import { useUserStore } from "~/store/user"
 import { onClickOutside, useStorage } from "@vueuse/core"
 import { useDark } from "@vueuse/core"
+useHead({
+  title: "...",
+  titleTemplate: "%s - Masterscore"
+})
 const { $moment, $getTitle } = useNuxtApp()
 const { params } = useRoute()
 const colorThief = new ColorThief()
@@ -20,7 +21,8 @@ const { user, isLoggedIn } = useUserStore()
 const { data, pending } = useLazyFetch(
   `/api/tmdb/${params.id}?type=${params.type}`
 )
-const backgroundColor = ref("transparent")
+
+const backgroundColor = ref([3, 50, 71])
 const likes = ref(0)
 const reviews = ref(0)
 const reviewModal = ref(false)
@@ -47,27 +49,30 @@ const backgroundBright = computed(() => {
     ? true
     : false
 })
-
 const backgroundURL = computed(() => {
-  return `https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${data.value.backdrop_path}`
+  return data.value.backdrop_path
+    ? `https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${data.value.backdrop_path}`
+    : undefined
 })
 const posterURL = computed(() => {
-  return `https://image.tmdb.org/t/p/w300_and_h450_bestv2${data.value.poster_path}`
+  return data.value.poster_path
+    ? `https://image.tmdb.org/t/p/w300_and_h450_bestv2${data.value.poster_path}`
+    : undefined
 })
 const title = computed(() => {
   return $getTitle(data.value)
 })
 const overview = computed(() => {
-  return data.value.localData.info.description
+  return data.value.localData?.info.description
 })
 const imdbScore = computed(() => {
   return (
-    data.value.localData.info?.ratings?.imdb ||
-    data.value.localData.info?.ratings?.tmdb
+    data.value.localData?.info?.ratings?.imdb ||
+    data.value.localData?.info?.ratings?.tmdb
   )
 })
 const contentRating = computed(() => {
-  return data.value.localData.info.rated
+  return data.value.localData?.info.rated
 })
 
 const genres = computed(() => {
@@ -104,14 +109,14 @@ const userAddedWatchlist = computed(() => {
 })
 
 const localId = computed(() => {
-  return data.value.localId
+  return data.value.localId || "id"
 })
 
 const like = async () => {
   if (!isLoggedIn) {
     return useRouter().push("/account/login")
   }
-  if (user.likes.includes(localId.value)) {
+  if (user?.likes && user.likes.includes(localId.value)) {
     user.likes = user.likes.filter((e) => e !== localId.value)
   } else {
     user.likes.push(localId.value)
@@ -226,18 +231,25 @@ const submitToWatchlist = async () => {
 }
 
 watch(data, async () => {
-  const image = new Image()
-  image.setAttribute("crossOrigin", "Anonymous")
-  image.src = posterURL.value
-  image.onload = () => {
-    backgroundColor.value = colorThief.getColor(image)
-  }
-  image.onerror = () => {
-    backgroundColor.value = [0, 0, 0]
+  if (posterURL.value) {
+    const image = new Image()
+    image.setAttribute("crossOrigin", "Anonymous")
+    image.src = posterURL.value
+    image.onload = () => {
+      backgroundColor.value = colorThief.getColor(image)
+    }
+    image.onerror = () => {
+      console.log("error on image color analysis")
+    }
   }
 
   fetchLikes()
   fetchReviews()
+
+  useHead({
+    title: $getTitle(data.value),
+    titleTemplate: "%s - Masterscore"
+  })
 })
 
 watch(reviewRating, () => {
@@ -252,10 +264,7 @@ const onSelectEmoji = (emoji) => {
 </script>
 
 <template>
-  <div
-    v-if="pending || !backgroundColor"
-    class="flex h-96 items-center justify-center"
-  >
+  <div v-if="pending" class="flex h-96 items-center justify-center">
     <Spinner color="#000" />
   </div>
   <div v-else-if="!data || ('status' in data && 'message' in data)">
@@ -306,15 +315,7 @@ const onSelectEmoji = (emoji) => {
           <div>
             <div class="relative mb-2 flex items-center justify-between">
               <p class="select-none text-lg font-semibold">Comment</p>
-              <button
-                @click="isEmojiSelector = !isEmojiSelector"
-                class="text-2xl"
-              >
-                <span
-                  class="select-none p-1 hover:bg-gray-50 dark:hover:bg-zinc-800"
-                  >😀</span
-                >
-              </button>
+
               <Transition name="fade">
                 <EmojiPicker
                   v-show="isEmojiSelector"
@@ -337,9 +338,14 @@ const onSelectEmoji = (emoji) => {
                 class="h-32 w-full select-none resize-none rounded border-gray-400 dark:border-zinc-800 dark:bg-zinc-800"
               />
               <div
-                class="absolute bottom-0 right-0 z-10 m-4 text-sm text-gray-500 dark:text-gray-300"
+                class="absolute bottom-0 right-0 z-10 m-2 rounded text-sm text-gray-500 dark:text-gray-300"
               >
-                {{ reviewComment?.length || 0 }} / 512
+                <button
+                  @click="isEmojiSelector = !isEmojiSelector"
+                  class="p-1 hover:bg-gray-50 dark:hover:bg-zinc-800"
+                >
+                  <IconsEmoji class="h-8 w-8" />
+                </button>
               </div>
             </div>
           </div>
@@ -357,7 +363,7 @@ const onSelectEmoji = (emoji) => {
     <div
       class="relative h-full min-h-[820px] w-full bg-cover bg-center bg-no-repeat md:h-[780px] md:min-h-[780px]"
       :style="{
-        'background-image': `url(${backgroundURL})`
+        'background-image': backgroundURL ? `url(${backgroundURL})` : 'none'
       }"
     >
       <div
@@ -380,10 +386,17 @@ const onSelectEmoji = (emoji) => {
           >
             <div class="relative flex-shrink-0">
               <img
+                v-if="posterURL"
                 class="h-auto w-56 rounded object-cover object-center md:w-72"
                 draggable="false"
                 :src="posterURL"
               />
+              <div
+                v-else
+                class="flex h-80 w-56 items-center justify-center rounded bg-gray-700 text-xl font-semibold !text-white md:h-96 md:w-72"
+              >
+                No Image
+              </div>
               <div
                 v-if="masterRating > 0"
                 class="absolute bottom-0 left-0 m-2 flex items-center justify-center gap-2 rounded bg-gray-600/20 px-3 py-2 font-semibold !text-white shadow-sm backdrop-blur-md"
@@ -489,16 +502,16 @@ const onSelectEmoji = (emoji) => {
                   @click="like"
                   class="flex items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
                 >
-                  <IconHeartFilled v-if="userLiked" class="h-6 w-6" />
-                  <IconHeart v-else class="h-6 w-6" />
+                  <IconsHeartFilled v-if="userLiked" class="h-6 w-6" />
+                  <IconsHeart v-else class="h-6 w-6" />
                   {{ userLiked ? "Liked" : "Like" }}
                 </button>
                 <button
                   @click="openReview"
                   class="flex items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
                 >
-                  <IconStarFilled v-if="userReviewed" class="h-6 w-6" />
-                  <IconStar v-else class="h-6 w-6" />
+                  <IconsStarFilled v-if="userReviewed" class="h-6 w-6" />
+                  <IconsStar v-else class="h-6 w-6" />
                   {{ userReviewed ? "Reviewed" : "Review" }}
                 </button>
                 <button

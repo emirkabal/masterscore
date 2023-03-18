@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useUserStore } from "~/store/user"
-import { IReview, IUser } from "~/@types"
+import { ErrorResponse, IReview, IUser } from "~/@types"
 const { params } = useRoute()
 
 definePageMeta({
@@ -37,7 +37,7 @@ const fetchReviews = async () => {
   if ("status" in data) {
     return
   }
-  reviews.items = data
+  reviews.items = data as unknown as IReview[]
 }
 
 if (params.id === "me") {
@@ -51,11 +51,20 @@ if (params.id === "me") {
     if ("status" in data) {
       error.value = data.message
     } else {
-      user.value = data
+      user.value = data as unknown as Omit<IUser, "password">
       fetchReviews()
     }
   })
 }
+
+watch(user, () => {
+  if (user.value) {
+    useHead({
+      title: `@${user.value.username}'s reviews`,
+      titleTemplate: "%s - Masterscore"
+    })
+  }
+})
 </script>
 
 <template>
@@ -101,12 +110,12 @@ if (params.id === "me") {
             />
             <div class="p-4">
               <div class="flex items-center gap-2">
-                <router-link
+                <NuxtLink
                   :to="`/details/${review.entertainment.type}/${review.entertainment.id}`"
                   class="font-semibold hover:underline"
                 >
                   {{ review.entertainment.info.title }}
-                </router-link>
+                </NuxtLink>
                 <p class="flex items-center gap-1">
                   <IconsStarFilled class="h-4 w-4 text-yellow-400" />
                   <span class="text-sm font-semibold">{{ review.rating }}</span>

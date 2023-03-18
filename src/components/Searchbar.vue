@@ -125,7 +125,7 @@ const searchInput = (e) => {
           </div>
 
           <div v-for="(result, i) in results" :key="i">
-            <router-link
+            <NuxtLink
               :to="`/details/${result.media_type}/${result.id}`"
               @mouseenter="selectedIndex = i"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
@@ -138,9 +138,16 @@ const searchInput = (e) => {
             >
               <div class="flex w-full items-center">
                 <img
+                  v-if="result.poster_path"
                   :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${result.poster_path}`"
                   class="h-auto w-10 rounded"
                 />
+                <div
+                  v-else
+                  class="flex h-14 w-10 items-center justify-center rounded bg-gray-700 font-semibold !text-white"
+                >
+                  X
+                </div>
                 <div class="ml-2 max-w-sm">
                   <p class="truncate text-ellipsis font-bold">
                     {{ $getTitle(result) }}
@@ -156,7 +163,7 @@ const searchInput = (e) => {
                   </p>
                 </div>
               </div>
-            </router-link>
+            </NuxtLink>
           </div>
         </div>
         <div v-if="persons.length !== 0">
@@ -164,7 +171,7 @@ const searchInput = (e) => {
             Persons
           </div>
           <div v-for="(person, i) in persons" :key="`person-${i}`">
-            <router-link
+            <NuxtLink
               :to="`/details/person/${person.id}`"
               @mouseenter="selectedIndex = i + results.length"
               @click="search = ''"
@@ -178,16 +185,23 @@ const searchInput = (e) => {
             >
               <div class="flex w-full items-center">
                 <img
+                  v-if="person.profile_path"
                   :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${person.profile_path}`"
                   class="h-auto w-10 rounded"
                 />
+                <div
+                  v-else
+                  class="flex h-14 w-10 items-center justify-center rounded bg-gray-700 font-semibold !text-white"
+                >
+                  X
+                </div>
                 <div class="ml-2 max-w-sm">
                   <p class="truncate text-ellipsis font-bold">
                     {{ person.name }}
                   </p>
                 </div>
               </div>
-            </router-link>
+            </NuxtLink>
           </div>
         </div>
         <div v-if="users.length !== 0">
@@ -195,7 +209,7 @@ const searchInput = (e) => {
             Users
           </div>
           <div v-for="(user, i) in users" :key="`user-${i}`">
-            <router-link
+            <NuxtLink
               :to="`/users/@${user}`"
               @mouseenter="selectedIndex = i + results.length + persons.length"
               @click="search = ''"
@@ -214,21 +228,9 @@ const searchInput = (e) => {
                   <p class="truncate text-ellipsis font-bold">@{{ user }}</p>
                 </div>
               </div>
-            </router-link>
+            </NuxtLink>
           </div>
         </div>
-
-        <!-- <router-link
-          to="/"
-          class="bg-white hover:bg-gray-50 transition-colors rounded-3xl p-2 w-full block"
-        >
-          <div class="flex items-center">
-            <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
-            <div class="ml-2">
-              <p class="font-bold">@username</p>
-            </div>
-          </div>
-        </router-link> -->
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <router-link
+  <NuxtLink
     to="/table"
     class="flex flex-col items-center justify-center rounded-3xl bg-gray-50 p-8 transition-all duration-300 ease-in-out hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800"
   >
@@ -10,5 +10,5 @@
     <p class="text-center text-gray-500 dark:text-gray-300">
       Show the master table
     </p>
-  </router-link>
+  </NuxtLink>
 </template>

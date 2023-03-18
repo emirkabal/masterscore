@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { useUserStore } from "~/store/user"
 import { IActivity, IUser } from "~/@types"
+useHead({
+  title: "...",
+  titleTemplate: "%s - Masterscore"
+})
 const { params } = useRoute()
 
 definePageMeta({
@@ -33,7 +37,7 @@ watch(loading, async () => {
   const userId = user.value?._id
   if (userId) {
     const data = await $fetch(`/api/activities?author=${userId}`)
-    activities.items = data
+    if (data) activities.items = data as unknown as IActivity[]
     activities.loading = false
   }
 })
@@ -48,7 +52,7 @@ if (params.id === "me") {
     if ("status" in data) {
       error.value = data.message
     } else {
-      user.value = data
+      user.value = data as unknown as Omit<IUser, "password">
     }
   })
 }
@@ -61,6 +65,15 @@ const getActivityTitle = (type: string) => {
   } as Record<string, string>
   return types[type] || "Unknown"
 }
+
+watch(user, () => {
+  if (user.value) {
+    useHead({
+      title: user.value?.username,
+      titleTemplate: "@%s - Masterscore"
+    })
+  }
+})
 </script>
 
 <template>
@@ -114,22 +127,22 @@ const getActivityTitle = (type: string) => {
             >
               <h2 class="text-xl font-bold md:text-2xl">Latest Activity</h2>
               <div class="flex items-center gap-2">
-                <router-link
+                <NuxtLink
                   :to="`/users/@${
                     user._id === localUser?._id ? 'me' : user.username
                   }/watchlist`"
                   class="rounded bg-white px-4 py-2 text-sm font-semibold shadow transition-colors hover:bg-gray-50 dark:bg-zinc-900 dark:hover:bg-zinc-800"
                 >
                   Watchlist
-                </router-link>
-                <router-link
+                </NuxtLink>
+                <NuxtLink
                   :to="`/users/@${
                     user._id === localUser?._id ? 'me' : user.username
                   }/reviews`"
                   class="rounded bg-white px-4 py-2 text-sm font-semibold shadow transition-colors hover:bg-gray-50 dark:bg-zinc-900 dark:hover:bg-zinc-800"
                 >
                   Reviews
-                </router-link>
+                </NuxtLink>
               </div>
             </div>
 
@@ -141,7 +154,7 @@ const getActivityTitle = (type: string) => {
             </div>
             <div v-else>
               <div v-for="activity in activities.items" :key="activity._id">
-                <router-link
+                <NuxtLink
                   class="group mb-4 flex items-center gap-2 rounded-3xl bg-gray-50 p-2 transition-colors hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800"
                   :to="`/details/${activity.entertainment.type}/${activity.entertainment.id}`"
                 >
@@ -173,7 +186,7 @@ const getActivityTitle = (type: string) => {
                   >
                     {{ $moment(activity.createdAt).fromNow() }}
                   </p>
-                </router-link>
+                </NuxtLink>
               </div>
             </div>
           </div>

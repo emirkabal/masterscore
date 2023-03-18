@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import { useUserStore } from "~/store/user"
-import { IActivity, IEntertainment, IReview, IUser } from "~/@types"
+import {
+  ErrorResponse,
+  IActivity,
+  IEntertainment,
+  IReview,
+  IUser
+} from "~/@types"
 const { params } = useRoute()
 
 definePageMeta({
@@ -31,11 +37,10 @@ if (params.id.toString().startsWith("@")) {
 
 const fetchWatchlist = async () => {
   watchlist.loading = true
-  const data: IEntertainment[] = await $fetch(
-    `/api/users/${user.value?._id}/watchlist`,
-    {
-      headers: generateHeaders()
-    }
+  const userId = user?.value?._id || "-"
+  // @ts-ignore -- error after save i dont know why
+  const data: IEntertainment[] | ErrorResponse = await $fetch(
+    `/api/users/${userId}/watchlist`
   )
   watchlist.loading = false
   if ("status" in data) {
@@ -66,11 +71,20 @@ if (params.id === "me") {
     if ("status" in data) {
       error.value = data.message
     } else {
-      user.value = data
+      user.value = data as unknown as Omit<IUser, "password">
       fetchWatchlist()
     }
   })
 }
+
+watch(user, () => {
+  if (user.value) {
+    useHead({
+      title: `@${user.value.username}'s watchlist`,
+      titleTemplate: "%s - Masterscore"
+    })
+  }
+})
 </script>
 
 <template>
@@ -112,7 +126,7 @@ if (params.id === "me") {
           <div
             class="flex items-center overflow-hidden rounded bg-white shadow dark:bg-zinc-900"
           >
-            <router-link
+            <NuxtLink
               :to="`/details/${listItem.type}/${listItem.id}`"
               class="group flex w-full items-center gap-4"
             >
@@ -126,7 +140,7 @@ if (params.id === "me") {
               >
                 {{ listItem.info.title }}
               </p>
-            </router-link>
+            </NuxtLink>
             <button
               @click="removeItem(listItem._id)"
               class="flex h-20 cursor-pointer items-center bg-red-600 px-6 font-bold text-white transition-colors hover:bg-red-700"

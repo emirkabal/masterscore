@@ -32,7 +32,7 @@ const { data, pending } = useLazyFetch("/api/reviews?limit=9")
         v-for="likedEntertainment in data"
         :key="likedEntertainment._id"
       >
-        <router-link
+        <NuxtLink
           :to="`/details/${likedEntertainment.entertainment.type}/${likedEntertainment.entertainment.id}`"
           class="group relative z-0 block h-full w-full cursor-pointer overflow-hidden rounded bg-cover bg-center shadow-2xl"
           :style="{
@@ -54,7 +54,7 @@ const { data, pending } = useLazyFetch("/api/reviews?limit=9")
               </div>
             </div>
           </div>
-        </router-link>
+        </NuxtLink>
       </div>
     </div>
   </div>

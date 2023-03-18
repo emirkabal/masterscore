@@ -28,8 +28,6 @@ export default defineEventHandler(async (event) => {
     data.credits = credits.cast
       .filter(
         (credit) =>
-          credit.backdrop_path &&
-          credit.poster_path &&
           "media_type" in credit &&
           ["movie", "tv"].includes(credit.media_type as string)
       )
@@ -38,7 +36,20 @@ export default defineEventHandler(async (event) => {
           if (a.popularity > b.popularity) return -1
           else if (a.popularity < b.popularity) return 1
         }
-        return 0
+        return 1
+      })
+      // remove duplicates
+      .filter((credit, index, self) => {
+        return (
+          index ===
+          self.findIndex(
+            (c) =>
+              c.id === credit.id &&
+              "media_type" in c &&
+              "media_type" in credit &&
+              c.media_type === credit.media_type
+          )
+        )
       })
   }
 

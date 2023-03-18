@@ -120,7 +120,7 @@ watch([listType, disableReviewRequirement], () => {
         <span class="w-full text-center text-lg">#{{ rank }}</span>
       </template>
       <template #item-entertainment.info.title="{ entertainment }">
-        <router-link
+        <NuxtLink
           class="flex items-center gap-2 text-lg font-semibold hover:underline"
           :to="`/details/${entertainment.type}/${entertainment.id}`"
         >
@@ -129,7 +129,7 @@ watch([listType, disableReviewRequirement], () => {
             class="h-10 w-auto rounded-md shadow-md"
           />
           {{ entertainment.info.title }}
-        </router-link>
+        </NuxtLink>
       </template>
       <template #item-entertainment.info.release_date="item">
         {{ $moment(item.entertainment.info.release_date).format("YYYY") }}

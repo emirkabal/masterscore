@@ -6,6 +6,10 @@ const scroll = ref(0)
 const maxScroll = ref(0)
 const revealBio = ref(false)
 const { data, pending } = useFetch(`/api/person/details/${params.id}`)
+useHead({
+  title: "...",
+  titleTemplate: "%s - Masterscore"
+})
 
 const genders = ["Unknown", "Female", "Male", "Non-binary"]
 
@@ -34,6 +38,15 @@ watch(scrollRef, () => {
   if (scrollRef.value === null) return
   maxScroll.value = scrollRef.value.scrollWidth - scrollRef.value.clientWidth
 })
+
+watch(data, () => {
+  if (data.value) {
+    useHead({
+      title: data.value.name,
+      titleTemplate: "%s - Masterscore"
+    })
+  }
+})
 </script>
 <template>
   <div v-if="pending || !data">
@@ -48,7 +61,7 @@ watch(scrollRef, () => {
         <div class="w-full md:min-w-[300px] md:max-w-[300px]">
           <div
             v-if="!data.profile_path"
-            class="mx-auto mb-2 flex h-full max-h-[450px] w-full max-w-[300px] items-center justify-center rounded-lg bg-gray-700 font-maven font-semibold !text-white shadow-lg md:mx-0"
+            class="mx-auto mb-2 flex h-[450px] max-h-[450px] w-full max-w-[300px] items-center justify-center rounded-lg bg-gray-700 font-maven font-semibold !text-white shadow-lg md:mx-0"
           >
             No Image
           </div>
@@ -168,12 +181,12 @@ watch(scrollRef, () => {
                 ></div>
               </Transition>
               <div
-                class="relative flex w-full snap-x snap-proximity gap-2.5 overflow-x-auto pb-4 scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-0 scrollbar-h-0 hover:scrollbar-thumb-gray-400 dark:scrollbar-thumb-zinc-900 dark:hover:scrollbar-thumb-zinc-800 md:snap-none md:scrollbar md:scrollbar-w-2.5 md:scrollbar-h-2.5"
+                class="relative flex w-full gap-2.5 overflow-x-auto pb-4 scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-0 scrollbar-h-0 hover:scrollbar-thumb-gray-400 dark:scrollbar-thumb-zinc-900 dark:hover:scrollbar-thumb-zinc-800 md:scrollbar md:scrollbar-w-2.5 md:scrollbar-h-2.5"
                 @scroll="scroll = $event.target.scrollLeft"
                 ref="scrollRef"
               >
-                <router-link
-                  class="flex w-full max-w-[140px] flex-shrink-0 snap-center flex-col transition-opacity hover:opacity-75 md:max-w-[160px]"
+                <NuxtLink
+                  class="flex w-full max-w-[140px] flex-shrink-0 flex-col transition-opacity hover:opacity-75 md:max-w-[160px]"
                   v-for="media in data.credits"
                   :key="media.id"
                   :to="`/details/${media.media_type}/${media.id}`"
@@ -182,20 +195,30 @@ watch(scrollRef, () => {
                     class="flex w-full flex-col items-center justify-center rounded"
                   >
                     <div
+                      v-if="media.poster_path"
                       :style="{
                         backgroundImage: `url(https://image.tmdb.org/t/p/w500${media.poster_path})`
                       }"
-                      class="h-52 w-full flex-shrink-0 rounded bg-white bg-cover bg-top bg-no-repeat dark:bg-black"
+                      class="h-64 w-full flex-shrink-0 rounded bg-white bg-cover bg-center bg-no-repeat dark:bg-black"
                     ></div>
                     <div
-                      class="mt-2 flex h-full max-h-20 w-full flex-col items-center justify-center py-2 text-center font-maven"
+                      v-else
+                      class="flex h-64 w-full flex-shrink-0 items-center justify-center rounded bg-gray-700 font-semibold !text-white"
                     >
-                      <p class="lineclamp-2 break-words">
+                      No Image
+                    </div>
+                    <div
+                      class="mt-2 flex h-full w-full flex-col items-center justify-center py-2 text-center font-maven"
+                    >
+                      <p class="break-words font-semibold line-clamp-2">
                         {{ $getTitle(media) }}
+                      </p>
+                      <p class="lineclamp-1 break-words">
+                        {{ media.character }}
                       </p>
                     </div>
                   </div>
-                </router-link>
+                </NuxtLink>
               </div>
             </div>
           </div>

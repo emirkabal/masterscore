@@ -53,6 +53,7 @@ export default defineNuxtConfig({
     INVITE_CODE: process.env.INVITE_CODE
   },
 
+  // @ts-ignore
   nitro: {
     plugins: ["~/server/db/index.ts"]
   },

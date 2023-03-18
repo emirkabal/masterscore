@@ -19,8 +19,6 @@ export default defineEventHandler(async (event) => {
     .filter(
       (result) =>
         ["movie", "tv"].includes(result.media_type) &&
-        result.backdrop_path &&
-        result.poster_path &&
         (result.release_date || result.first_air_date)
     )
     .slice(0, 5)

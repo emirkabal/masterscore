@@ -39,25 +39,25 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
         :key="review._id"
       >
         <div class="flex w-full items-center gap-4">
-          <router-link
+          <NuxtLink
             :to="`/users/@${review.author.username}`"
             class="font-bold hover:underline"
             ><Avatar
               :username="review.author.username"
               class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
-          /></router-link>
+          /></NuxtLink>
           <div class="flex w-full flex-col">
             <div class="flex items-center justify-between">
-              <router-link
+              <NuxtLink
                 :to="`/users/@${review.author.username}`"
                 class="text-sm font-bold hover:underline md:text-base"
-                >@{{ review.author.username }}</router-link
+                >@{{ review.author.username }}</NuxtLink
               >
               <span class="text-xs text-gray-500 dark:text-gray-300">
                 {{ $moment(review.createdAt).fromNow() }}
               </span>
             </div>
-            <router-link
+            <NuxtLink
               :to="`/details/${review.entertainment.type}/${review.entertainment.id}`"
               class="group -mt-1 flex w-fit items-center gap-1 text-xs"
             >
@@ -72,7 +72,7 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
                 <IconsStarFilled class="h-4 w-4 text-yellow-400" />
                 <span class="text-sm font-semibold">{{ review.rating }}</span>
               </div>
-            </router-link>
+            </NuxtLink>
             <p
               v-if="review.content"
               class="whitespace-normal break-all text-base leading-4"

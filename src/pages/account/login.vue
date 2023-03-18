@@ -1,5 +1,9 @@
 <script setup>
 import { useUserStore } from "~/store/user"
+useHead({
+  title: "Login",
+  titleTemplate: "%s - Masterscore"
+})
 const userStore = useUserStore()
 
 definePageMeta({
@@ -87,10 +91,10 @@ const submit = async (event) => {
         </form>
         <p class="mt-3 text-center !text-black">
           Don't have an account?
-          <router-link
+          <NuxtLink
             to="/account/signup"
             class="font-semibold text-blue-700 hover:underline"
-            >Sign up</router-link
+            >Sign up</NuxtLink
           >
         </p>
       </div>

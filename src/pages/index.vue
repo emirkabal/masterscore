@@ -1,3 +1,9 @@
+<script setup>
+useHead({
+  title: "Masterscore",
+  titleTemplate: "%s"
+})
+</script>
 <template>
   <div class="container mx-auto my-12 px-4">
     <HomeTrending />

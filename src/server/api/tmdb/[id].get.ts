@@ -1,4 +1,4 @@
-import { ErrorResponse } from "~/@types"
+import { ErrorResponse, TMDBData } from "~/@types"
 import getDataFromTMDB from "~/utils/getDataFromTMDB"
 
 // @ts-ignore
@@ -9,5 +9,5 @@ export default defineEventHandler(async (event) => {
   if (!type) type = "movie"
 
   const data = await getDataFromTMDB(id, type)
-  return data
+  return data as TMDBData
 })

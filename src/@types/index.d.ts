@@ -45,8 +45,8 @@ export interface TMDBSearchResult {
 
 export type TMDBData = Partial<TMDBMovie> & Partial<TMDBTV>
 export interface TMDBMovie {
-  localId?: string
-  localData?: IEntertainment
+  localId: string
+  localData: IEntertainment
   adult?: boolean
   backdrop_path?: string
   belongs_to_collection?: {
@@ -96,8 +96,8 @@ export interface TMDBMovie {
 }
 
 export interface TMDBTV {
-  localId?: string
-  localData?: IEntertainment
+  localId: string
+  localData: IEntertainment
   imdb_id?: string
   backdrop_path?: string
   created_by?: {
@@ -222,6 +222,23 @@ export interface IUser {
   latestUsernameChange?: Date
   createdAt: Date
   updatedAt: Date
+}
+export interface TMDBWatchProviderDetails {
+  display_priority: number
+  logo_path: string
+  provider_id: number
+  provider_name: string
+}
+export interface TMDBWatchProvider {
+  id: number
+  results: {
+    TR: {
+      link: string
+      flatrate: TMDBWatchProviderDetails[]
+      buy: TMDBWatchProviderDetails[]
+      rent: TMDBWatchProviderDetails[]
+    }
+  }
 }
 
 export interface IActivity {

@@ -58,7 +58,7 @@ const props = defineProps({
           />
           <div class="ml-4 flex flex-col">
             <div class="flex items-center gap-2">
-              <router-link
+              <NuxtLink
                 :to="`/users/@${
                   comment.author._id == user?._id
                     ? 'me'
@@ -67,19 +67,21 @@ const props = defineProps({
                 class="text-base font-semibold hover:underline md:text-lg"
               >
                 @{{ comment.author.username }}
-              </router-link>
+              </NuxtLink>
               <p class="flex items-center gap-1">
                 <IconsStarFilled class="h-4 w-4 text-yellow-400" />
                 <span class="text-sm font-semibold">{{ comment.rating }}</span>
               </p>
-              <p class="text-xs text-gray-500 dark:text-gray-400 md:text-base">
+              <p
+                class="text-xs text-gray-500 line-clamp-1 dark:text-gray-400 md:text-base"
+              >
                 {{ $moment(comment.createdAt).fromNow() }}
                 {{ comment.createdAt === comment.updatedAt ? "" : "(edited)" }}
               </p>
             </div>
 
             <p
-              class="truncate whitespace-normal break-all text-base"
+              class="break-all text-base"
               :class="{
                 'text-gray-500 dark:text-gray-300': !comment.content
               }"

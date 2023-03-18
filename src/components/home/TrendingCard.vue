@@ -43,20 +43,26 @@ const props = defineProps({
   >
     <div
       v-if="props.loading"
-      class="flex h-52 animate-pulse items-center justify-center gap-4 p-4"
+      class="flex h-52 w-full animate-pulse items-center justify-center gap-4 p-4"
     >
       <div
         class="h-36 w-20 flex-shrink-0 rounded bg-gray-300 dark:bg-zinc-800"
       ></div>
       <div class="flex w-full flex-col gap-2">
-        <div class="h-4 w-32 rounded bg-gray-300 dark:bg-zinc-800"></div>
-        <div class="h-2 w-52 rounded bg-gray-300 dark:bg-zinc-800"></div>
-        <div class="h-2 w-44 rounded bg-gray-300 dark:bg-zinc-800"></div>
-        <div class="h-2 w-36 rounded bg-gray-300 dark:bg-zinc-800"></div>
-        <div class="h-2 w-24 rounded bg-gray-300 dark:bg-zinc-800"></div>
+        <div class="h-3 w-32 rounded-full bg-gray-300 dark:bg-zinc-800"></div>
+        <div
+          class="h-2 w-10/12 rounded-full bg-gray-300 dark:bg-zinc-800"
+        ></div>
+        <div
+          class="w-12/12 h-2 rounded-full bg-gray-300 dark:bg-zinc-800"
+        ></div>
+        <div class="h-2 w-8/12 rounded-full bg-gray-300 dark:bg-zinc-800"></div>
+        <div
+          class="h-2 w-10/12 rounded-full bg-gray-300 dark:bg-zinc-800"
+        ></div>
       </div>
     </div>
-    <router-link
+    <NuxtLink
       :to="`/details/${props.type}/${props.id}`"
       v-else
       class="flex h-52 w-full transform-gpu select-none items-center rounded bg-cover bg-center bg-no-repeat"
@@ -91,6 +97,6 @@ const props = defineProps({
           </div>
         </div>
       </div>
-    </router-link>
+    </NuxtLink>
   </div>
 </template>
