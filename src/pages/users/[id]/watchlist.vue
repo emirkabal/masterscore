@@ -55,7 +55,8 @@ const removeItem = async (id: any) => {
     method: "POST",
     headers: generateHeaders(),
     body: JSON.stringify({
-      id
+      id,
+      type: "remove"
     })
   })
 }
