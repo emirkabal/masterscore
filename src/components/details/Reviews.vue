@@ -71,10 +71,9 @@ const props = defineProps({
                 </NuxtLink>
                 <div class="hidden sm:block">
                   <p
-                    class="break-words text-gray-500 line-clamp-1 dark:text-gray-300"
+                    class="break-words text-xs text-gray-500 line-clamp-1 dark:text-gray-300"
                   >
                     <span v-text="$moment(comment.createdAt).fromNow()"></span>
-                    (edited)
                     <span v-if="comment.createdAt === comment.updatedAt"
                       >(edited)</span
                     >
@@ -102,7 +101,7 @@ const props = defineProps({
             </p>
             <div class="flex">
               <span
-                class="block break-words text-gray-500 line-clamp-1 dark:text-gray-300 sm:hidden"
+                class="block break-words text-xs text-gray-500 line-clamp-1 dark:text-gray-300 sm:hidden"
               >
                 <span v-text="$moment(comment.createdAt).fromNow()"></span>
                 <span v-if="comment.createdAt === comment.updatedAt"
