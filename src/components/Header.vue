@@ -44,7 +44,8 @@ const userStore = useUserStore()
         <MenuButton @click="isMenuOpen = !isMenuOpen"
           ><Avatar
             :username="userStore.user.username"
-            class="h-10 w-10 hover:opacity-90"
+            :border="true"
+            class="mt-1.5 h-10 w-10 hover:opacity-90"
         /></MenuButton>
       </div>
       <Transition

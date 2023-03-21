@@ -40,7 +40,11 @@ const props = defineProps({
       >
     </div>
     <div class="absolute -bottom-12 left-8 md:-bottom-16 md:left-10">
-      <Avatar class="h-24 w-24 md:h-32 md:w-32" :username="props.username" />
+      <Avatar
+        class="h-24 w-24 md:h-32 md:w-32"
+        :username="props.username"
+        :border="true"
+      />
     </div>
   </div>
 </template>
