@@ -49,39 +49,47 @@ const props = defineProps({
       <div class="space-y-4">
         <div
           v-for="(comment, i) in data"
-          :key="i"
+          :key="comment._id"
           class="flex items-start border-b px-2 py-4 dark:border-zinc-900 md:px-4 md:py-6"
         >
           <Avatar
             :username="comment.author.username"
             class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
           />
-          <div class="ml-4 flex flex-col">
-            <div class="flex items-center gap-2">
-              <NuxtLink
-                :to="`/users/@${
-                  comment.author._id == user?._id
-                    ? 'me'
-                    : comment.author.username
-                }`"
-                class="text-base font-semibold hover:underline md:text-lg"
-              >
-                @{{ comment.author.username }}
-              </NuxtLink>
+          <div class="ml-4 flex w-full min-w-0 flex-col">
+            <div class="flex w-full items-center justify-between gap-2">
+              <div class="flex items-center gap-2 truncate">
+                <NuxtLink
+                  :to="`/users/@${
+                    comment.author._id == user?._id
+                      ? 'me'
+                      : comment.author.username
+                  }`"
+                  class="break-words text-base font-semibold line-clamp-1 hover:underline md:text-lg"
+                >
+                  @{{ comment.author.username }}
+                </NuxtLink>
+                <div class="hidden sm:block">
+                  <p
+                    class="break-words text-gray-500 line-clamp-1 dark:text-gray-300"
+                  >
+                    <span v-text="$moment(comment.createdAt).fromNow()"></span>
+                    (edited)
+                    <span v-if="comment.createdAt === comment.updatedAt"
+                      >(edited)</span
+                    >
+                  </p>
+                </div>
+              </div>
+
               <p class="flex items-center gap-1">
-                <IconsStarFilled class="h-4 w-4 text-yellow-400" />
                 <span class="text-sm font-semibold">{{ comment.rating }}</span>
-              </p>
-              <p
-                class="text-xs text-gray-500 line-clamp-1 dark:text-gray-400 md:text-base"
-              >
-                {{ $moment(comment.createdAt).fromNow() }}
-                {{ comment.createdAt === comment.updatedAt ? "" : "(edited)" }}
+                <IconsStarFilled class="h-4 w-4 text-yellow-400" />
               </p>
             </div>
 
             <p
-              class="break-all text-base"
+              class="break-words text-base"
               :class="{
                 'text-gray-500 dark:text-gray-300': !comment.content
               }"
@@ -92,22 +100,33 @@ const props = defineProps({
                   : "No comment for this review."
               }}
             </p>
-          </div>
-          <div class="ml-auto flex items-center gap-2">
-            <button
-              v-if="comment.author._id === user?._id"
-              @click="$emit('remove')"
-              class="ml-auto rounded bg-red-100 px-2 py-1 text-xs font-semibold text-red-500 shadow transition hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800"
-            >
-              <IconsTrash class="h-4 w-4" />
-            </button>
-            <button
-              v-if="comment.author._id === user?._id"
-              @click="$emit('edit')"
-              class="ml-auto rounded bg-white px-2 py-1 text-xs font-semibold shadow transition hover:bg-gray-50 dark:bg-zinc-800 dark:hover:bg-zinc-700"
-            >
-              <IconsPencil class="h-4 w-4" />
-            </button>
+            <div class="flex">
+              <span
+                class="block break-words text-gray-500 line-clamp-1 dark:text-gray-300 sm:hidden"
+              >
+                <span v-text="$moment(comment.createdAt).fromNow()"></span>
+                <span v-if="comment.createdAt === comment.updatedAt"
+                  >(edited)</span
+                >
+              </span>
+              <div
+                v-if="comment.author._id === user?._id"
+                class="ml-auto mt-0 flex items-center gap-2 sm:ml-0 sm:mt-2"
+              >
+                <button
+                  @click="$emit('remove')"
+                  class="ml-auto rounded bg-red-100 px-2 py-1 text-xs font-semibold text-red-500 shadow transition hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800"
+                >
+                  <IconsTrash class="h-4 w-4" />
+                </button>
+                <button
+                  @click="$emit('edit')"
+                  class="ml-auto rounded bg-white px-2 py-1 text-xs font-semibold shadow transition hover:bg-gray-50 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+                >
+                  <IconsPencil class="h-4 w-4" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

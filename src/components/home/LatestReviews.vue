@@ -3,7 +3,7 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
 </script>
 
 <template>
-  <div>
+  <div class="min-w-0">
     <h1
       class="mb-8 border-yellow-500 pl-2 text-2xl font-bold tracking-wide md:border-l-4"
     >
@@ -38,7 +38,7 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
         v-for="review in data"
         :key="review._id"
       >
-        <div class="flex w-full items-center gap-4">
+        <div class="flex w-full items-start gap-4">
           <NuxtLink
             :to="`/users/@${review.author.username}`"
             class="font-bold hover:underline"
@@ -46,39 +46,46 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
               :username="review.author.username"
               class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
           /></NuxtLink>
-          <div class="flex w-full flex-col">
+          <div class="flex w-full min-w-0 flex-col">
             <div class="flex items-center justify-between">
-              <NuxtLink
-                :to="`/users/@${review.author.username}`"
-                class="text-sm font-bold hover:underline md:text-base"
-                >@{{ review.author.username }}</NuxtLink
-              >
-              <span class="text-xs text-gray-500 dark:text-gray-300">
-                {{ $moment(review.createdAt).fromNow() }}
-              </span>
+              <div class="flex items-center gap-2">
+                <NuxtLink
+                  :to="`/users/@${review.author.username}`"
+                  class="text-sm font-bold hover:underline md:text-base"
+                  >@{{ review.author.username }}</NuxtLink
+                >
+                <span
+                  class="hidden text-xs text-gray-500 dark:text-gray-300 sm:block"
+                >
+                  {{ $moment(review.createdAt).fromNow() }}
+                </span>
+              </div>
+
+              <div class="flex items-center gap-1">
+                <span class="text-sm font-semibold">{{ review.rating }}</span>
+                <IconsStarFilled class="h-4 w-4 text-yellow-400" />
+              </div>
             </div>
             <NuxtLink
               :to="`/details/${review.entertainment.type}/${review.entertainment.id}`"
               class="group -mt-1 flex w-fit items-center gap-1 text-xs"
             >
-              <div class="flex text-sm md:text-base">
-                <span class="hidden md:block"> Reviewed: </span>
+              <div class="flex text-sm leading-5 md:text-base">
+                <span> Reviewed: </span>
                 <span
-                  class="lineclamp-1 max-w-[136px] truncate break-words font-bold group-hover:underline md:ml-1 md:max-w-none"
+                  class="ml-1 break-all font-bold line-clamp-1 group-hover:underline"
                   >{{ review.entertainment.info.title }}</span
                 >
               </div>
-              <div class="flex items-center">
-                <IconsStarFilled class="h-4 w-4 text-yellow-400" />
-                <span class="text-sm font-semibold">{{ review.rating }}</span>
-              </div>
             </NuxtLink>
-            <p
-              v-if="review.content"
-              class="whitespace-normal break-all text-base leading-4"
-            >
+            <p v-if="review.content" class="break-words text-base leading-5">
               {{ review.content }}
             </p>
+            <span
+              class="block text-xs text-gray-500 dark:text-gray-300 sm:hidden"
+            >
+              {{ $moment(review.createdAt).fromNow() }}
+            </span>
           </div>
         </div>
       </div>
