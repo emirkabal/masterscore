@@ -2,6 +2,9 @@
 import { useDark, useToggle } from "@vueuse/core"
 const isDark = useDark()
 const toggleDarkMode = useToggle(isDark)
+const version = computed(() => {
+  return "0.12.4-alpha"
+})
 </script>
 
 <template>
@@ -11,6 +14,7 @@ const toggleDarkMode = useToggle(isDark)
     >
       <div class="flex items-center gap-2">
         <Logo class="text-xl" />
+        <span class="text-xs opacity-75">v{{ version }}</span>
         <button
           class="text-gray-500 hover:text-gray-700"
           @click="toggleDarkMode()"

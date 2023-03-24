@@ -43,7 +43,8 @@ export interface TMDBSearchResult {
   vote_count?: number
 }
 
-export type TMDBData = Partial<TMDBMovie> & Partial<TMDBTV>
+export type TMDBData = Partial<TMDBMovie> &
+  Partial<TMDBTV> & { media_type: string; character?: string }
 export interface TMDBMovie {
   localId: string
   localData: IEntertainment
@@ -177,7 +178,7 @@ export interface TMDBTV {
   vote_count?: number
 }
 
-export interface TMDBPerson {
+export interface TMDBPersonSalt {
   birthday?: string
   known_for_department: string
   deathday?: string
@@ -194,6 +195,7 @@ export interface TMDBPerson {
   credits?: TMDBData[]
 }
 
+export type TMDBPerson = TMDBPersonSalt & ExternalIDs
 export interface ExternalIDs {
   id: number
   imdb_id?: string

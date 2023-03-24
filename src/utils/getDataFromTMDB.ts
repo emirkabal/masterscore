@@ -17,16 +17,8 @@ export default async (
   if (cached) return cached as TMDBMovie | TMDBTV
   // @ts-ignore
   const data: TMDBMovie | TMDBTV = await $fetch(
-    `https://api.themoviedb.org/3/${type}/${id}?api_key=${config.TMDB_API_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/${type}/${id}?api_key=${config.TMDB_API_KEY}&language=en-US&append_to_response=external_ids`
   )
-
-  if (type === "tv") {
-    // @ts-ignore
-    const external: { imdb_id: string | null } = await $fetch(
-      `https://api.themoviedb.org/3/${type}/${id}/external_ids?api_key=${config.TMDB_API_KEY}`
-    )
-    if (external.imdb_id) data.imdb_id = external.imdb_id
-  }
 
   let title = "Untitled"
   let date = "0000-00-00"
@@ -121,11 +113,11 @@ export default async (
     { upsert: true, new: true }
   )
 
-  data.localId = localData?._id?.toString()
+  if (localData._id) data.localId = localData._id.toString()
   data.localData = localData.toJSON()
 
   await redis.set(key, data, {
-    ex: 60 * 60 * 24 * 7 // 1 week
+    ex: 60 * 60 * 24 * 3 // 3 days
   })
 
   return data as TMDBMovie | TMDBTV

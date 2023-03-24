@@ -4,9 +4,9 @@ const { data, pending } = useLazyFetch("/api/likes?limit=1")
 <template>
   <div>
     <h1
-      class="mb-4 border-l-4 border-red-500 pl-2 text-2xl font-bold tracking-wide"
+      class="mb-4 border-l-4 border-red-600 pl-2 text-2xl font-bold tracking-wide"
     >
-      Most Liked
+      Most Recommended
     </h1>
     <div
       v-if="pending"
@@ -29,7 +29,7 @@ const { data, pending } = useLazyFetch("/api/likes?limit=1")
           </h1>
           <div class="flex items-center gap-1">
             <IconsHeartFilled class="h-6 w-6 text-red-600" />
-            <p class="text-sm">{{ data[0].likes }} likes</p>
+            <p class="text-sm">{{ data[0].likes }} people recommended</p>
           </div>
         </div>
       </div>

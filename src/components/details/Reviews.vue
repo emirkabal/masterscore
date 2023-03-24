@@ -74,7 +74,9 @@ const props = defineProps({
                     class="break-words text-xs text-gray-500 line-clamp-1 dark:text-gray-300"
                   >
                     <span v-text="$moment(comment.createdAt).fromNow()"></span>
-                    <span v-if="comment.createdAt === comment.updatedAt"
+                    <span
+                      v-if="comment.createdAt === comment.updatedAt"
+                      class="ml-1"
                       >(edited)</span
                     >
                   </p>

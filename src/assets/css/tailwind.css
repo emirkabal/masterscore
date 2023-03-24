@@ -247,3 +247,65 @@ before:h-5 before:w-5;
   @apply absolute m-2 block h-[80%] w-[80%] animate-spin rounded-full border-4
   border-blue-600 border-t-transparent;
 }
+
+/* JSON Viewer */
+
+.jsonviewer {
+  @apply rounded-lg border border-gray-200 bg-white font-mono text-gray-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-gray-200;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.jsonviewer .jv-ellipsis {
+  @apply bg-gray-100 text-gray-500 dark:bg-zinc-800 dark:text-gray-400;
+  display: inline-block;
+  line-height: 0.9;
+  font-size: 0.9em;
+  padding: 0px 4px 2px 4px;
+  border-radius: 3px;
+  vertical-align: 2px;
+  cursor: pointer;
+  user-select: none;
+}
+.jsonviewer .jv-button {
+  color: #49b3ff;
+}
+.jsonviewer .jv-key {
+  @apply text-gray-700 dark:text-gray-300;
+}
+.jsonviewer .jv-item.jv-array {
+  @apply text-gray-700 dark:text-gray-300;
+}
+.jsonviewer .jv-item.jv-boolean {
+  color: #fc1e70;
+}
+.jsonviewer .jv-item.jv-function {
+  color: #067bca;
+}
+.jsonviewer .jv-item.jv-number {
+  color: #fc1e70;
+}
+.jsonviewer .jv-item.jv-number-float {
+  color: #fc1e70;
+}
+.jsonviewer .jv-item.jv-number-integer {
+  color: #fc1e70;
+}
+.jsonviewer .jv-item.jv-object {
+  @apply text-gray-700 dark:text-gray-300;
+}
+.jsonviewer .jv-item.jv-undefined {
+  color: #e08331;
+}
+.jsonviewer .jv-item.jv-string {
+  color: #42b983;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.my-awesome-json-theme .jv-code .jv-toggle:before {
+  padding: 0px 2px;
+  border-radius: 2px;
+}
+.my-awesome-json-theme .jv-code .jv-toggle:hover:before {
+  background: #999;
+}

@@ -18,7 +18,7 @@
     "@types/moment-duration-format": "^2.2.3",
     "@types/node": "^18.11.18",
     "autoprefixer": "^10.4.13",
-    "nuxt": "^3.3.1",
+    "nuxt": "^3.3.2",
     "postcss": "^8.4.21",
     "prettier": "^2.8.4",
     "prettier-plugin-tailwindcss": "^0.2.3",
@@ -46,6 +46,7 @@
     "node-vibrant": "^3.2.1-alpha.1",
     "nuxt-icon": "^0.2.10",
     "pinia": "^2.0.29",
+    "vue-json-viewer": "3",
     "vue-star-rating": "^2.1.0",
     "vue3-easy-data-table": "^1.5.29",
     "vue3-emoji-picker": "^1.1.7"

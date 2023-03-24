@@ -65,13 +65,13 @@ const props = defineProps({
     <NuxtLink
       :to="`/details/${props.type}/${props.id}`"
       v-else
-      class="flex h-52 w-full transform-gpu select-none items-center rounded bg-cover bg-center bg-no-repeat"
+      class="z-0 flex h-52 w-full select-none items-center rounded bg-cover bg-center bg-no-repeat"
       :style="{
         backgroundImage: `url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/${props.backdrop})`
       }"
     >
       <div
-        class="absolute h-full w-full bg-black bg-opacity-50 backdrop-blur-sm transition-all group-hover:bg-opacity-40 group-hover:backdrop-blur-0"
+        class="deneme absolute h-full w-full bg-zinc-800 bg-opacity-75 transition-all group-hover:bg-opacity-50 dark:bg-black dark:bg-opacity-75"
       ></div>
       <div class="flex items-center justify-center gap-4 p-4">
         <div

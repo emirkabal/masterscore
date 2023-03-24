@@ -1,17 +1,24 @@
-<script setup>
+<script setup lang="ts">
+import { useStorage } from "@vueuse/core"
+import { TMDBPerson } from "~~/src/@types"
 const { params } = useRoute()
 const { $moment } = useNuxtApp()
-const scrollRef = ref(null)
-const scroll = ref(0)
-const maxScroll = ref(0)
 const revealBio = ref(false)
-const { data, pending } = useFetch(`/api/person/details/${params.id}`)
-useHead({
-  title: "...",
-  titleTemplate: "%s - Masterscore"
-})
+const showDetailsDev = ref(false)
+const flag = useStorage("debugMode", false)
+const {
+  data,
+  pending
+}: {
+  data: Ref<null | TMDBPerson>
+  pending: Ref<boolean>
+} = useFetch(`/api/person/details/${params.id}`)
 
 const genders = ["Unknown", "Female", "Male", "Non-binary"]
+
+const name = computed(() => {
+  return data.value?.name || "..."
+})
 
 const age = computed(() => {
   if (!data.value || "status" in data.value) return 0
@@ -34,18 +41,9 @@ const isBig = computed(() => {
   return data.value.biography.length > 500
 })
 
-watch(scrollRef, () => {
-  if (scrollRef.value === null) return
-  maxScroll.value = scrollRef.value.scrollWidth - scrollRef.value.clientWidth
-})
-
-watch(data, () => {
-  if (data.value) {
-    useHead({
-      title: data.value.name,
-      titleTemplate: "%s - Masterscore"
-    })
-  }
+useHead({
+  title: name,
+  titleTemplate: "%s - Masterscore"
 })
 </script>
 <template>
@@ -76,7 +74,7 @@ watch(data, () => {
           <h1
             class="mt-2 block text-center font-maven text-3xl font-bold tracking-wide md:hidden"
           >
-            {{ data.name }}
+            {{ name }}
           </h1>
           <div class="text-center md:text-left">
             <div
@@ -166,60 +164,60 @@ watch(data, () => {
             <h1 class="font-maven text-2xl font-bold tracking-wide">
               Known For
             </h1>
-            <div class="relative">
-              <Transition
-                enter-active-class="duration-150 ease-out"
-                enter-from-class="transform opacity-0"
-                enter-to-class="opacity-100"
-                leave-active-class="duration-150 ease-in"
-                leave-from-class="opacity-100"
-                leave-to-class="transform opacity-0"
+            <OverflowBehavior>
+              <NuxtLink
+                class="flex w-full max-w-[140px] flex-shrink-0 select-none flex-col transition-opacity hover:opacity-75 md:max-w-[160px]"
+                v-for="media in data.credits"
+                :key="media.id"
+                :to="`/details/${media.media_type}/${media.id}`"
               >
                 <div
-                  v-show="scroll === 0 && maxScroll > 0"
-                  class="absolute -right-36 -top-8 z-10 m-auto h-[400px] w-[160px] rounded bg-white blur-md dark:bg-black"
-                ></div>
-              </Transition>
-              <div
-                class="relative flex w-full gap-2.5 overflow-x-auto pb-4 scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-0 scrollbar-h-0 hover:scrollbar-thumb-gray-400 dark:scrollbar-thumb-zinc-900 dark:hover:scrollbar-thumb-zinc-800 md:scrollbar md:scrollbar-w-2.5 md:scrollbar-h-2.5"
-                @scroll="scroll = $event.target.scrollLeft"
-                ref="scrollRef"
-              >
-                <NuxtLink
-                  class="flex w-full max-w-[140px] flex-shrink-0 flex-col transition-opacity hover:opacity-75 md:max-w-[160px]"
-                  v-for="media in data.credits"
-                  :key="media.id"
-                  :to="`/details/${media.media_type}/${media.id}`"
+                  class="flex w-full flex-col items-center justify-center rounded"
                 >
                   <div
-                    class="flex w-full flex-col items-center justify-center rounded"
+                    v-if="media.poster_path"
+                    :style="{
+                      backgroundImage: `url(https://image.tmdb.org/t/p/w500${media.poster_path})`
+                    }"
+                    class="h-64 w-full flex-shrink-0 rounded bg-white bg-cover bg-center bg-no-repeat dark:bg-black"
+                  ></div>
+                  <div
+                    v-else
+                    class="flex h-64 w-full flex-shrink-0 items-center justify-center rounded bg-gray-800 font-semibold !text-white"
                   >
-                    <div
-                      v-if="media.poster_path"
-                      :style="{
-                        backgroundImage: `url(https://image.tmdb.org/t/p/w500${media.poster_path})`
-                      }"
-                      class="h-64 w-full flex-shrink-0 rounded bg-white bg-cover bg-center bg-no-repeat dark:bg-black"
-                    ></div>
-                    <div
-                      v-else
-                      class="flex h-64 w-full flex-shrink-0 items-center justify-center rounded bg-gray-700 font-semibold !text-white"
-                    >
-                      No Image
-                    </div>
-                    <div
-                      class="mt-2 flex h-full w-full flex-col items-center justify-center py-2 text-center font-maven"
-                    >
-                      <p class="break-words font-semibold line-clamp-2">
-                        {{ $getTitle(media) }}
-                      </p>
-                      <p class="lineclamp-1 break-words">
-                        {{ media.character }}
-                      </p>
-                    </div>
+                    No Image
                   </div>
-                </NuxtLink>
-              </div>
+                  <div
+                    class="mt-2 flex h-full w-full flex-col items-center justify-center py-2 text-center font-maven"
+                  >
+                    <p class="break-words font-semibold line-clamp-2">
+                      {{ $getTitle(media) }}
+                    </p>
+                    <p class="lineclamp-1 break-words">
+                      {{ media.character }}
+                    </p>
+                  </div>
+                </div>
+              </NuxtLink>
+            </OverflowBehavior>
+          </div>
+
+          <div v-if="flag">
+            <button
+              @click="showDetailsDev = !showDetailsDev"
+              class="font-semibod mt-8 rounded bg-white px-4 py-2 shadow dark:bg-zinc-900"
+            >
+              {{ showDetailsDev ? "Hide" : "Show" }} details
+            </button>
+            <div v-if="showDetailsDev">
+              <p>Person: {{ params.id }}</p>
+              <JsonViewer
+                :value="data"
+                copyable
+                sort
+                expanded
+                theme="jsonviewer"
+              />
             </div>
           </div>
         </div>

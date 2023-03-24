@@ -5,10 +5,7 @@ import ModalView from "~/components/Modal.vue"
 import { useUserStore } from "~/store/user"
 import { onClickOutside, useStorage } from "@vueuse/core"
 import { useDark } from "@vueuse/core"
-useHead({
-  title: "...",
-  titleTemplate: "%s - Masterscore"
-})
+
 const { $moment, $getTitle } = useNuxtApp()
 const { params } = useRoute()
 const colorThief = new ColorThief()
@@ -60,7 +57,7 @@ const posterURL = computed(() => {
     : undefined
 })
 const title = computed(() => {
-  return $getTitle(data.value)
+  return data.value ? $getTitle(data.value) : "..."
 })
 const overview = computed(() => {
   return data.value.localData?.info.description
@@ -245,11 +242,6 @@ watch(data, async () => {
 
   fetchLikes()
   fetchReviews()
-
-  useHead({
-    title: $getTitle(data.value),
-    titleTemplate: "%s - Masterscore"
-  })
 })
 
 watch(reviewRating, () => {
@@ -261,6 +253,11 @@ watch(reviewRating, () => {
 const onSelectEmoji = (emoji) => {
   reviewComment.value += emoji.i
 }
+
+useHead({
+  title,
+  titleTemplate: "%s - Masterscore"
+})
 </script>
 
 <template>
@@ -361,14 +358,14 @@ const onSelectEmoji = (emoji) => {
       </template>
     </ModalView>
     <div
-      class="relative h-full min-h-[820px] w-full bg-cover bg-center bg-no-repeat md:h-[780px] md:min-h-[780px]"
+      class="relative h-full min-h-[820px] w-full bg-cover bg-center bg-no-repeat lg:h-[780px] lg:min-h-[780px]"
       :style="{
         'background-image': backgroundURL ? `url(${backgroundURL})` : 'none'
       }"
     >
       <div
         v-if="feature"
-        class="fixed bottom-0 right-0 z-10 m-2 shadow-2xl md:absolute md:m-4"
+        class="fixed bottom-0 right-0 z-10 m-2 shadow-2xl lg:absolute lg:m-4"
       >
         <HomeRandomMovie :collapsed="true" />
       </div>
@@ -379,21 +376,21 @@ const onSelectEmoji = (emoji) => {
         }"
       >
         <div
-          class="container m-auto flex h-full min-h-[820px] w-full items-center justify-center px-4 md:min-h-0 md:justify-start"
+          class="container m-auto flex h-full min-h-[820px] w-full items-center justify-center px-4 lg:min-h-0 lg:justify-start"
         >
           <div
-            class="flex h-full w-full flex-col items-center justify-center gap-8 py-8 drop-shadow-2xl md:flex-row md:justify-start md:gap-16 md:py-0"
+            class="flex h-full w-full flex-col items-center justify-center gap-8 py-8 drop-shadow-2xl lg:flex-row lg:justify-start lg:gap-16 lg:py-0"
           >
             <div class="relative flex-shrink-0">
               <img
                 v-if="posterURL"
-                class="h-auto w-56 rounded object-cover object-center md:w-72"
+                class="h-auto w-56 rounded object-cover object-center lg:w-72"
                 draggable="false"
                 :src="posterURL"
               />
               <div
                 v-else
-                class="flex h-80 w-56 items-center justify-center rounded bg-gray-700 text-xl font-semibold !text-white md:h-96 md:w-72"
+                class="flex h-80 w-56 items-center justify-center rounded bg-gray-700 text-xl font-semibold !text-white lg:h-96 lg:w-72"
               >
                 No Image
               </div>
@@ -406,13 +403,13 @@ const onSelectEmoji = (emoji) => {
               </div>
             </div>
             <div class="w-full max-w-2xl">
-              <div class="flex flex-col-reverse text-center md:text-left">
+              <div class="flex flex-col-reverse text-center lg:text-left">
                 <h1
-                  class="inline-block flex-shrink-0 font-semibold leading-8 md:leading-none"
+                  class="inline-block flex-shrink-0 font-semibold leading-8 lg:leading-none"
                   :class="{
-                    'text-4xl md:text-6xl lg:text-5xl': title.length < 20,
-                    'text-3xl md:text-5xl lg:text-4xl': title.length < 36,
-                    'text-2xl md:text-4xl lg:text-3xl': title.length >= 36,
+                    'text-4xl lg:text-6xl lg:text-5xl': title.length < 20,
+                    'text-3xl lg:text-5xl lg:text-4xl': title.length < 36,
+                    'text-2xl lg:text-4xl lg:text-3xl': title.length >= 36,
                     'text-black': backgroundBright,
                     'text-white': !backgroundBright
                   }"
@@ -421,7 +418,7 @@ const onSelectEmoji = (emoji) => {
                 </h1>
                 <!-- Mobile Extensions -->
                 <div
-                  class="my-2 flex items-center justify-center gap-2 md:hidden"
+                  class="my-2 flex items-center justify-center gap-2 lg:hidden"
                 >
                   <h2
                     v-if="contentRating && contentRating !== 'Not Rated'"
@@ -444,7 +441,7 @@ const onSelectEmoji = (emoji) => {
                   />
                 </div>
                 <div
-                  class="flex items-center justify-center divide-x-2 text-xs md:justify-start md:text-sm lg:text-lg"
+                  class="flex items-center justify-center divide-x-2 text-xs lg:justify-start lg:text-sm lg:text-lg"
                   :class="{
                     'divide-black/20 text-black': backgroundBright,
                     'divide-white/20 text-white/70': !backgroundBright
@@ -464,7 +461,7 @@ const onSelectEmoji = (emoji) => {
                   </h2>
 
                   <div
-                    class="hidden flex-shrink-0 items-center gap-2 px-2 md:flex"
+                    class="hidden flex-shrink-0 items-center gap-2 px-2 lg:flex"
                   >
                     <h2
                       v-if="contentRating && contentRating !== 'Not Rated'"
@@ -489,7 +486,7 @@ const onSelectEmoji = (emoji) => {
                 </div>
               </div>
               <p
-                class="mt-2 text-center text-base line-clamp-6 md:text-left md:text-xl"
+                class="mt-2 text-center text-base line-clamp-6 lg:text-left lg:text-xl"
                 :class="{
                   'text-black/80': backgroundBright,
                   'text-white/80 ': !backgroundBright
@@ -497,14 +494,14 @@ const onSelectEmoji = (emoji) => {
               >
                 {{ overview }}
               </p>
-              <div class="mt-4 flex flex-col gap-2 text-lg md:flex-row">
+              <div class="mt-4 flex flex-col gap-2 text-lg lg:flex-row">
                 <button
                   @click="like"
                   class="flex items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
                 >
-                  <IconsHeartFilled v-if="userLiked" class="h-6 w-6" />
-                  <IconsHeart v-else class="h-6 w-6" />
-                  {{ userLiked ? "Liked" : "Like" }}
+                  <IconsThumbUpFilled v-if="userLiked" class="h-6 w-6" />
+                  <IconsThumbUpUnfilled v-else class="h-6 w-6" />
+                  {{ userLiked ? "Recommended" : "Recommend" }}
                 </button>
                 <button
                   @click="openReview"
@@ -542,7 +539,10 @@ const onSelectEmoji = (emoji) => {
                 }"
                 class="mt-2 flex gap-2 divide-x-2 text-sm"
               >
-                <p>{{ likes }} likes</p>
+                <p>
+                  {{ likes }}
+                  {{ likes <= 1 ? "person" : "people" }} recommended
+                </p>
                 <p class="pl-2">{{ reviews }} reviews</p>
               </div>
             </div>
@@ -552,8 +552,8 @@ const onSelectEmoji = (emoji) => {
     </div>
 
     <div class="container mx-auto mt-8 mb-28 px-4">
-      <div class="flex flex-col-reverse items-stretch gap-4 md:flex-row">
-        <div class="min-w-0 flex-1 space-y-10 md:space-y-16">
+      <div class="flex flex-col-reverse items-stretch gap-4 lg:flex-row">
+        <div class="min-w-0 flex-1 space-y-10 lg:space-y-16">
           <DetailsCast :id="params.id" :type="params.type" />
           <DetailsReviews
             :loading="reviewDataFromServer.loading"
@@ -563,7 +563,7 @@ const onSelectEmoji = (emoji) => {
           />
         </div>
         <DetailsSidebar
-          class="w-full md:min-w-[300px] md:max-w-[300px]"
+          class="w-full lg:min-w-[300px] lg:max-w-[300px]"
           :data="data"
         />
       </div>
@@ -577,9 +577,7 @@ const onSelectEmoji = (emoji) => {
         <div v-if="showDetailsDev">
           <p>Movie {{ params.id }}</p>
           {{ backgroundColor }}
-          <pre class="whitespace-pre-wrap bg-zinc-800 p-2 !text-orange-500">{{
-            data
-          }}</pre>
+          <JsonViewer :value="data" copyable sort expanded theme="jsonviewer" />
         </div>
       </div>
     </div>
@@ -588,6 +586,6 @@ const onSelectEmoji = (emoji) => {
 
 <style>
 .vue-star-rating > span > svg {
-  @apply h-6 w-6 md:h-10 md:w-10;
+  @apply h-6 w-6 lg:h-10 lg:w-10;
 }
 </style>
