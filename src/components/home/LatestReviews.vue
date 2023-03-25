@@ -1,9 +1,5 @@
 <script setup>
 const { data, pending } = useLazyFetch("/api/reviews/latest")
-const revealSpoiler = (event) => {
-  event.target.classList.add("hidden")
-  event.target.nextElementSibling.classList.remove("hidden")
-}
 </script>
 
 <template>
@@ -82,22 +78,10 @@ const revealSpoiler = (event) => {
                 >
               </div>
             </NuxtLink>
-            <button
-              class="inline-block w-fit rounded bg-gray-800 px-4 text-gray-200 transition duration-200 ease-in-out hover:bg-gray-700"
-              @click="revealSpoiler($event)"
-              v-show="review.spoiler"
-            >
-              Reveal the spoiler content
-            </button>
-            <p
-              v-show="review.content"
-              class="break-words text-base leading-5"
-              :class="{
-                hidden: review.spoiler
-              }"
-            >
-              {{ review.content }}
-            </p>
+            <ReviewContent
+              v-if="review.content && review.content.length > 0"
+              :review="review"
+            />
             <span
               class="block text-xs text-gray-500 dark:text-gray-300 sm:hidden"
             >

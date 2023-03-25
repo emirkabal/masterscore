@@ -1,0 +1,30 @@
+<script setup>
+const { review } = defineProps({
+  review: {
+    type: Object,
+    required: true
+  }
+})
+</script>
+
+<template>
+  <div class="group relative">
+    <p
+      v-show="review.content"
+      class="break-words text-base leading-5"
+      :class="{
+        'group relative opacity-50 blur-sm transition-all':
+          review.spoiler && !review.spoilerRevealed
+      }"
+    >
+      {{ review.content }}
+    </p>
+    <span
+      v-show="review.spoiler && !review.spoilerRevealed"
+      @click="review.spoilerRevealed = true"
+      v-if="review.spoiler"
+      class="absolute top-1/2 left-1/2 flex h-full w-full -translate-y-1/2 -translate-x-1/2 cursor-pointer items-center justify-center rounded bg-red-400/40 p-2 px-2 py-0.5 text-center font-maven font-bold transition-all duration-200 ease-in-out group-hover:bg-red-400/60"
+      >Spoiler <span class="ml-2 font-thin">click here to reveal</span></span
+    >
+  </div>
+</template>

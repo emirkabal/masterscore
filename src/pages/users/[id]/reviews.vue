@@ -109,7 +109,7 @@ if (params.id === "me") {
               :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${review.entertainment.info.poster}`"
               class="h-24 w-auto"
             />
-            <div class="p-4">
+            <div class="min-w-0 p-4">
               <div class="flex items-center gap-2">
                 <NuxtLink
                   :to="`/details/${review.entertainment.type}/${review.entertainment.id}`"
@@ -117,6 +117,7 @@ if (params.id === "me") {
                 >
                   {{ review.entertainment.info.title }}
                 </NuxtLink>
+
                 <p class="flex items-center gap-1">
                   <IconsStarFilled class="h-4 w-4 text-yellow-400" />
                   <span class="text-sm font-semibold">{{ review.rating }}</span>
@@ -127,18 +128,11 @@ if (params.id === "me") {
                 </p>
               </div>
 
-              <p
-                class="truncate whitespace-normal break-all text-base"
-                :class="{
-                  'text-gray-500 dark:text-gray-300': !review.content
-                }"
-              >
-                {{
-                  review.content
-                    ? review.content
-                    : "No comment for this review."
-                }}
-              </p>
+              <ReviewContent
+                v-if="review.content && review.content.length > 0"
+                :review="review"
+              />
+              <span v-else class="opacity-75">No comment for this review.</span>
             </div>
           </div>
         </div>

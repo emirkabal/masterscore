@@ -13,10 +13,6 @@ const props = defineProps({
     default: () => []
   }
 })
-const revealSpoiler = (event) => {
-  event.target.classList.add("hidden")
-  event.target.nextElementSibling.classList.remove("hidden")
-}
 </script>
 
 <template>
@@ -92,26 +88,13 @@ const revealSpoiler = (event) => {
                 <IconsStarFilled class="h-4 w-4 text-yellow-400" />
               </p>
             </div>
-            <button
-              class="inline-block w-fit rounded bg-gray-800 px-4 text-gray-200 transition duration-200 ease-in-out hover:bg-gray-700"
-              @click="revealSpoiler($event)"
-              v-show="comment.spoiler"
-            >
-              Reveal the spoiler content
-            </button>
-            <p
-              class="break-words text-base"
-              :class="{
-                'text-gray-500 dark:text-gray-300': !comment.content,
-                hidden: comment.spoiler
-              }"
-            >
-              {{
-                comment.content
-                  ? comment.content
-                  : "No comment for this review."
-              }}
-            </p>
+
+            <ReviewContent
+              v-if="comment.content && comment.content.length > 0"
+              :review="comment"
+            />
+            <span class="opacity-75" v-else>No comment for this review</span>
+
             <div class="flex">
               <span
                 class="block break-words text-xs text-gray-500 line-clamp-1 dark:text-gray-300 sm:hidden"

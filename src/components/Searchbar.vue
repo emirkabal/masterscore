@@ -29,7 +29,7 @@ const searchResults = debounce(async () => {
     data.persons.length > 0 ||
     data.users.length > 0
   ) {
-    history.value = [search.value, ...history.value].slice(0, 10)
+    history.value = [search.value, ...history.value].slice(0, 9)
     history.value = [...new Set(history.value)]
   }
 }, 500)
@@ -72,13 +72,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       class="fixed top-0 left-0 z-20 h-screen w-full bg-black/20 backdrop-blur"
     ></div>
     <div class="relative z-20 w-full">
-      <IconsSearch
-        class="absolute left-2"
-        :class="{
-          'top-[9px]': !focused,
-          'top-4': focused
-        }"
-      />
+      <IconsSearch class="absolute left-2 top-[9px]" />
       <div
         v-if="!focused"
         class="absolute top-2 right-2.5 hidden space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
@@ -89,7 +83,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         type="text"
         class="hover:foucs:ring-0 w-full rounded-lg border-none bg-white pl-10 shadow focus:ring-0 hover:ring dark:bg-black dark:placeholder:text-gray-300"
         :class="{
-          'rounded-tl-2xl rounded-tr-2xl rounded-bl-none rounded-br-none pt-4 focus:ring-0 hover:focus:ring-0':
+          'rounded-tl-2xl rounded-tr-2xl rounded-bl-none rounded-br-none focus:ring-0 hover:focus:ring-0':
             focused
         }"
         placeholder="Type to search..."
@@ -209,8 +203,8 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               }"
               class="flex items-center justify-between rounded-2xl px-2 py-1"
             >
-              <span class="flex w-full cursor-pointer items-center">
-                <IconsHistory class="mr-2 inline-block" />
+              <span class="flex w-full cursor-pointer items-center opacity-80">
+                <IconsHistory class="mr-2 inline-block h-5 w-5" />
                 {{ item }}
               </span>
               <IconsTimes
@@ -341,7 +335,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         </div>
       </div>
       <div
-        class="bottom-2 left-2.5 mt-4 w-fit space-x-2 text-center font-mono text-sm text-gray-800 dark:text-gray-400"
+        class="bottom-2 left-2.5 mt-4 hidden w-fit space-x-2 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
       >
         <span class="rounded border border-gray-500 px-1 py-0.5">Esc</span>
         <span>to close</span>
