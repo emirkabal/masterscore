@@ -39,7 +39,7 @@ const getRandomMovie = async () => {
   <button
     v-else
     @click="getRandomMovie"
-    class="flex flex-col items-center justify-center rounded-3xl bg-gray-50 drop-shadow-2xl transition-all duration-300 ease-in-out hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+    class="flex flex-col items-center justify-center rounded-3xl bg-gray-50 drop-shadow-xl transition-all duration-300 ease-in-out hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800"
     :class="collapsed ? 'p-6' : 'p-8'"
   >
     <IconsHeart v-if="!collapsed" class="h-16 w-16 text-blue-600" />

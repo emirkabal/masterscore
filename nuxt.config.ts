@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     plugins: ["~/server/db/index.ts"]
   },
   app: {
+    pageTransition: { name: "slide-right", mode: "out-in" },
     head: {
       title: "Masterscore",
       htmlAttrs: {

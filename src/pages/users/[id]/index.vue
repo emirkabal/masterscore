@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import { useUserStore } from "~/store/user"
 import { IActivity, IUser } from "~/@types"
-useHead({
-  title: "...",
-  titleTemplate: "%s - Masterscore"
-})
 const { params } = useRoute()
 
 definePageMeta({
@@ -45,6 +41,10 @@ watch(loading, async () => {
 if (params.id === "me") {
   loading.value = false
   user.value = localUser
+  useHead({
+    title: user.value?.username,
+    titleTemplate: "@%s - Masterscore"
+  })
 } else {
   onMounted(async () => {
     const data = await $fetch(`/api/users/${params.id}`)
@@ -54,26 +54,21 @@ if (params.id === "me") {
     } else {
       user.value = data as unknown as Omit<IUser, "password">
     }
+    useHead({
+      title: user.value?.username,
+      titleTemplate: "@%s - Masterscore"
+    })
   })
 }
 
 const getActivityTitle = (type: string) => {
   const types = {
-    like: "Liked:",
+    like: "Recommended:",
     review: "Reviewed:",
     watchlist: "Added to watchlist:"
   } as Record<string, string>
   return types[type] || "Unknown"
 }
-
-watch(user, () => {
-  if (user.value) {
-    useHead({
-      title: user.value?.username,
-      titleTemplate: "@%s - Masterscore"
-    })
-  }
-})
 </script>
 
 <template>
@@ -159,9 +154,9 @@ watch(user, () => {
                   :to="`/details/${activity.entertainment.type}/${activity.entertainment.id}`"
                 >
                   <div class="relative">
-                    <IconsHeartFilled
+                    <IconsThumbUpFilled
                       v-if="activity?.type === 'like'"
-                      class="text-red-600"
+                      class="text-cyan-500"
                     />
                     <IconsListAdd
                       v-else-if="activity?.type === 'watchlist'"
@@ -195,7 +190,7 @@ watch(user, () => {
           class="hidden h-fit w-full max-w-sm flex-grow space-y-4 rounded-3xl bg-gray-50 p-8 text-gray-500 dark:bg-zinc-900 dark:text-gray-300 md:block"
         >
           <p>
-            <span class="font-bold">Likes:</span>
+            <span class="font-bold">Recommends:</span>
             {{ user.likes?.length }}
           </p>
           <p>

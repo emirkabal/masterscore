@@ -1,12 +1,6 @@
 <script lang="ts" setup>
 import { useUserStore } from "~/store/user"
-import {
-  ErrorResponse,
-  IActivity,
-  IEntertainment,
-  IReview,
-  IUser
-} from "~/@types"
+import { ErrorResponse, IEntertainment, IUser } from "~/@types"
 const { params } = useRoute()
 
 definePageMeta({
@@ -65,6 +59,12 @@ if (params.id === "me") {
   loading.value = false
   user.value = localUser
   fetchWatchlist()
+  if (user.value) {
+    useHead({
+      title: `@${user.value.username}'s watchlist`,
+      titleTemplate: "%s - Masterscore"
+    })
+  }
 } else {
   onMounted(async () => {
     const data = await $fetch(`/api/users/${params.id}`)
@@ -74,18 +74,13 @@ if (params.id === "me") {
     } else {
       user.value = data as unknown as Omit<IUser, "password">
       fetchWatchlist()
+      useHead({
+        title: `@${user.value.username}'s watchlist`,
+        titleTemplate: "%s - Masterscore"
+      })
     }
   })
 }
-
-watch(user, () => {
-  if (user.value) {
-    useHead({
-      title: `@${user.value.username}'s watchlist`,
-      titleTemplate: "%s - Masterscore"
-    })
-  }
-})
 </script>
 
 <template>

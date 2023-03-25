@@ -44,6 +44,12 @@ if (params.id === "me") {
   loading.value = false
   user.value = localUser
   fetchReviews()
+  if (user.value) {
+    useHead({
+      title: `@${user.value.username}'s reviews`,
+      titleTemplate: "%s - Masterscore"
+    })
+  }
 } else {
   onMounted(async () => {
     const data = await $fetch(`/api/users/${params.id}`)
@@ -53,18 +59,13 @@ if (params.id === "me") {
     } else {
       user.value = data as unknown as Omit<IUser, "password">
       fetchReviews()
+      useHead({
+        title: `@${user.value.username}'s reviews`,
+        titleTemplate: "%s - Masterscore"
+      })
     }
   })
 }
-
-watch(user, () => {
-  if (user.value) {
-    useHead({
-      title: `@${user.value.username}'s reviews`,
-      titleTemplate: "%s - Masterscore"
-    })
-  }
-})
 </script>
 
 <template>
