@@ -3,7 +3,7 @@ import { useDark, useToggle } from "@vueuse/core"
 const isDark = useDark()
 const toggleDarkMode = useToggle(isDark)
 const version = computed(() => {
-  return "0.12.8-alpha"
+  return "0.14.2-alpha"
 })
 </script>
 
@@ -13,7 +13,9 @@ const version = computed(() => {
       class="container mx-auto flex flex-col items-center justify-between px-4 md:flex-row"
     >
       <div class="flex items-center gap-2">
-        <Logo class="text-xl" />
+        <NuxtLink to="/whoweare">
+          <Logo class="text-xl" />
+        </NuxtLink>
         <span class="text-xs opacity-75">v{{ version }}</span>
         <button
           class="text-gray-500 hover:text-gray-700"

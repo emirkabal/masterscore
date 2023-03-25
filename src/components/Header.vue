@@ -22,7 +22,7 @@ const userStore = useUserStore()
         ><span class="hidden md:inline-block">asterscore</span></NuxtLink
       >
     </div>
-    <Searchbar class="mx-4 md:mx-0" />
+    <Searchbar class="mx-4 lg:mx-0" />
     <div v-if="userStore.isLoading" class="flex gap-2">
       <div
         class="h-4 w-4 animate-pulse rounded-full bg-gray-400 dark:bg-zinc-600"

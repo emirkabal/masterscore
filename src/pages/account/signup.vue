@@ -68,7 +68,9 @@ const submit = async (event) => {
   <div
     class="flex h-screen items-center justify-center bg-white px-4 md:bg-gray-500 md:px-0"
   >
-    <div class="z-10 w-full max-w-xl rounded-3xl md:bg-white md:p-8">
+    <div
+      class="z-20 w-full max-w-xl rounded-3xl drop-shadow-none md:bg-white md:p-8 md:drop-shadow-2xl"
+    >
       <h1 class="text-center">
         <Logo class="text-4xl !text-black" />
       </h1>
@@ -155,12 +157,12 @@ const submit = async (event) => {
           type="submit"
           :disabled="disabled"
           value="Signup"
-          class="flex h-14 w-full cursor-pointer items-center justify-center rounded-full bg-blue-700 px-4 py-4 text-white disabled:cursor-default disabled:bg-gray-400 enabled:hover:bg-blue-600"
+          class="flex h-14 w-full cursor-pointer items-center justify-center rounded-lg bg-blue-700 px-4 py-4 text-white disabled:cursor-default disabled:bg-gray-400 enabled:hover:bg-blue-600"
         />
         <button
           v-else
           type="button"
-          class="flex h-14 w-full cursor-auto items-center justify-center gap-2 rounded-full bg-gray-200 px-4 py-4 text-white"
+          class="flex h-14 w-full cursor-auto items-center justify-center gap-2 rounded-lg bg-gray-200 px-4 py-4 text-white"
         >
           <div class="h-4 w-4 animate-pulse rounded-full bg-gray-400"></div>
           <div class="h-4 w-4 animate-pulse rounded-full bg-gray-500"></div>
@@ -176,8 +178,11 @@ const submit = async (event) => {
         >
       </p>
     </div>
+    <div
+      class="absolute top-0 right-0 z-10 hidden h-screen w-full bg-gradient-to-b from-yellow-600/80 backdrop-blur-sm md:block"
+    ></div>
     <img
-      src="~/assets/images/bg.jpg"
+      src="~/assets/images/bg3.jpg"
       class="absolute top-0 left-0 hidden h-screen w-full object-cover opacity-30 md:block"
     />
   </div>

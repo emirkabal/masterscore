@@ -12,10 +12,12 @@
 * {
   box-sizing: border-box;
 }
-@layer base {
-  body {
-    @apply bg-white text-black overflow-x-hidden dark:bg-black dark:text-white;
-  }
+html,
+body {
+  @apply overflow-x-hidden;
+}
+body {
+  @apply bg-white text-black dark:bg-black dark:text-white;
 }
 
 .fade-enter-active {
@@ -335,10 +337,10 @@ before:h-5 before:w-5;
   white-space: normal;
 }
 
-.my-awesome-json-theme .jv-code .jv-toggle:before {
+.jsonviewer .jv-code .jv-toggle:before {
   padding: 0px 2px;
   border-radius: 2px;
 }
-.my-awesome-json-theme .jv-code .jv-toggle:hover:before {
+.jsonviewer .jv-code .jv-toggle:hover:before {
   background: #999;
 }

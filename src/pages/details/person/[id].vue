@@ -47,11 +47,14 @@ useHead({
 })
 </script>
 <template>
-  <div v-if="pending || !data">
+  <div v-if="pending">
     <Spinner />
   </div>
-  <div v-else-if="'status' in data">
-    <h1>Not found</h1>
+  <div v-else-if="!data || 'status' in data">
+    <div class="flex h-96 flex-col items-center justify-center">
+      <h1 class="text-4xl font-semibold">404</h1>
+      <p class="text-xl">Person not found</p>
+    </div>
   </div>
   <div v-else class="pb-36">
     <div class="container mx-auto mt-8 px-4">

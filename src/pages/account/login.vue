@@ -77,12 +77,12 @@ const submit = async (event) => {
             v-if="!loading"
             type="submit"
             value="Login"
-            class="w-full cursor-pointer rounded-full bg-blue-700 px-4 py-4 text-white hover:bg-blue-600"
+            class="w-full cursor-pointer rounded-lg bg-blue-700 px-4 py-4 text-white hover:bg-blue-600"
           />
           <button
             v-else
             type="button"
-            class="flex w-full cursor-auto justify-center gap-2 rounded-full bg-gray-200 px-4 py-4 text-white"
+            class="flex w-full cursor-auto justify-center gap-2 rounded-lg bg-gray-200 px-4 py-4 text-white"
           >
             <div class="h-4 w-4 animate-pulse rounded-full bg-gray-400"></div>
             <div class="h-4 w-4 animate-pulse rounded-full bg-gray-500"></div>
@@ -100,8 +100,11 @@ const submit = async (event) => {
       </div>
     </div>
     <div class="hidden h-screen w-full md:block">
+      <div
+        class="absolute top-0 right-0 h-screen w-full bg-gradient-to-r from-yellow-600 backdrop-blur-sm"
+      ></div>
       <img
-        src="~/assets/images/bg4.jpg"
+        src="~/assets/images/bg.jpg"
         draggable="false"
         class="top-0 left-0 h-screen w-full object-cover object-center"
       />

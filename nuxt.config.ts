@@ -19,7 +19,8 @@ export default defineNuxtConfig({
         {
           hid: "description",
           name: "description",
-          content: "Masterscore"
+          content:
+            "Masterscore is a movie and TV review website with unbiased reviews, recommendations, and ratings on various genres. Find your next favorite show or movie with us!"
         }
       ],
       link: [
@@ -32,7 +33,7 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss"],
+  modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "@nuxt/content"],
   css: [
     "vue3-emoji-picker/css",
     "@fontsource/maven-pro/400.css",

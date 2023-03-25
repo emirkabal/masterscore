@@ -1,5 +1,6 @@
 <script setup>
 import debounce from "lodash.debounce"
+import { onKeyStroke, useStorage } from "@vueuse/core"
 
 const search = ref("")
 const loading = ref(false)
@@ -7,10 +8,14 @@ const results = ref([])
 const persons = ref([])
 const users = ref([])
 const selectedIndex = ref(0)
+const focused = ref(false)
+const inputElement = ref(null)
+
+const history = useStorage("searchHistory", [])
 
 const searchResults = debounce(async () => {
   const data = await $fetch(`/api/search?q=${search.value}`)
-  // selectedIndex.value = 0
+  selectedIndex.value = 0
   loading.value = false
   if (data.status !== 200) {
     return
@@ -18,34 +23,90 @@ const searchResults = debounce(async () => {
   results.value = data.tmdb
   persons.value = data.persons
   users.value = data.users
+
+  if (
+    data.tmdb.length > 0 ||
+    data.persons.length > 0 ||
+    data.users.length > 0
+  ) {
+    history.value = [search.value, ...history.value].slice(0, 10)
+    history.value = [...new Set(history.value)]
+  }
 }, 500)
+
+const removeHistoryItem = (index) => {
+  history.value.splice(index, 1)
+}
 
 const searchInput = (e) => {
   search.value = e.target.value
   loading.value = true
   searchResults()
 }
+
+const removeFocus = () => {
+  focused.value = false
+  inputElement.value.blur()
+}
+
+const focus = () => {
+  focused.value = true
+  inputElement.value.focus()
+}
+
+onKeyStroke(["Control", "K", "k"], (e) => {
+  if (!e.ctrlKey || e.code !== "KeyK") return
+  e.preventDefault()
+  if (focused.value) {
+    removeFocus()
+  } else {
+    focus()
+  }
+})
 </script>
 <template>
   <div class="relative max-w-lg flex-grow">
     <div
-      v-if="search.length > 0"
+      v-if="focused"
+      @click="removeFocus"
       class="fixed top-0 left-0 z-20 h-screen w-full bg-black/20 backdrop-blur"
     ></div>
     <div class="relative z-20 w-full">
       <IconsSearch
         class="absolute left-2"
         :class="{
-          'top-[9px]': search.length === 0,
-          'top-4': search.length > 0
+          'top-[9px]': !focused,
+          'top-4': focused
         }"
       />
+      <div
+        v-if="!focused"
+        class="absolute top-2 right-2.5 hidden space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
+      >
+        Ctrl K
+      </div>
       <input
+        type="text"
+        class="hover:foucs:ring-0 w-full rounded-lg border-none bg-white pl-10 shadow focus:ring-0 hover:ring dark:bg-black dark:placeholder:text-gray-300"
+        :class="{
+          'rounded-tl-2xl rounded-tr-2xl rounded-bl-none rounded-br-none pt-4 focus:ring-0 hover:focus:ring-0':
+            focused
+        }"
+        placeholder="Type to search..."
+        ref="inputElement"
         :value="search"
         @input="searchInput"
+        @focusin="focused = true"
         @keydown.arrow-down="
           (e) => {
             e.preventDefault()
+            if (search.length === 0 && history.length > 0) {
+              selectedIndex =
+                selectedIndex < history.length - 1
+                  ? selectedIndex + 1
+                  : selectedIndex
+              return
+            }
             selectedIndex =
               selectedIndex < results.length + persons.length + users.length - 1
                 ? selectedIndex + 1
@@ -63,6 +124,16 @@ const searchInput = (e) => {
           (e) => {
             e.preventDefault()
             if (loading) {
+              return
+            }
+            if (
+              search.length === 0 &&
+              history.length > 0 &&
+              selectedIndex < history.length
+            ) {
+              search = history[selectedIndex]
+              loading = true
+              searchResults()
               return
             }
             if (selectedIndex < results.length) {
@@ -84,26 +155,19 @@ const searchInput = (e) => {
               )
             }
             selectedIndex = 0
-            search = ''
+            removeFocus()
           }
         "
         @keydown.esc="
           (e) => {
             e.preventDefault()
-            search = ''
+            removeFocus()
           }
         "
-        type="text"
-        class="w-full rounded-lg border-none bg-white pl-10 shadow dark:bg-black dark:placeholder:text-gray-300"
-        :class="{
-          'rounded-tl-2xl rounded-tr-2xl rounded-bl-none rounded-br-none pt-4 focus:ring-0':
-            search.length > 0
-        }"
-        placeholder="Type to search..."
       />
     </div>
     <div
-      v-if="search.length > 0"
+      v-if="focused"
       class="absolute z-20 w-full rounded-bl-2xl rounded-br-2xl bg-white p-4 dark:bg-black"
     >
       <div class="flex justify-center" v-if="loading">
@@ -111,12 +175,56 @@ const searchInput = (e) => {
       </div>
       <div
         v-else-if="
-          results.length === 0 && users.length === 0 && persons.length === 0
+          results.length === 0 &&
+          users.length === 0 &&
+          persons.length === 0 &&
+          search.length !== 0
         "
       >
         <p class="text-center text-gray-500 dark:text-gray-300">
           No results found
         </p>
+      </div>
+      <div v-else-if="search.length === 0" class="space-y-2">
+        <div v-if="history.length === 0">
+          <p class="text-center text-gray-500 dark:text-gray-300">
+            No recent searches
+          </p>
+        </div>
+        <div v-else>
+          <div v-for="(item, i) in history">
+            <p
+              @click="
+                () => {
+                  search = item
+                  loading = true
+                  searchResults()
+                }
+              "
+              @mouseenter="selectedIndex = i"
+              :data-index="i"
+              :class="{
+                'bg-gray-100 dark:bg-zinc-900': i === selectedIndex,
+                'bg-white dark:bg-black': i !== selectedIndex
+              }"
+              class="flex items-center justify-between rounded-2xl px-2 py-1"
+            >
+              <span class="flex w-full cursor-pointer items-center">
+                <IconsHistory class="mr-2 inline-block" />
+                {{ item }}
+              </span>
+              <IconsTimes
+                class="ml-2 inline-block cursor-pointer text-gray-500 transition-colors hover:text-red-500 dark:text-gray-300 dark:hover:text-red-500"
+                @click="
+                  (e) => {
+                    e.stopPropagation()
+                    removeHistoryItem(i)
+                  }
+                "
+              />
+            </p>
+          </div>
+        </div>
       </div>
       <div v-else>
         <div v-if="results.length !== 0">
@@ -129,7 +237,7 @@ const searchInput = (e) => {
               :to="`/details/${result.media_type}/${result.id}`"
               @mouseenter="selectedIndex = i"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
-              @click="search = ''"
+              @click="removeFocus"
               :data-index="i"
               :class="{
                 'bg-gray-100 dark:bg-zinc-900': i === selectedIndex,
@@ -174,7 +282,7 @@ const searchInput = (e) => {
             <NuxtLink
               :to="`/details/person/${person.id}`"
               @mouseenter="selectedIndex = i + results.length"
-              @click="search = ''"
+              @click="removeFocus"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               :data-index="i + results.length"
               :class="{
@@ -212,7 +320,7 @@ const searchInput = (e) => {
             <NuxtLink
               :to="`/users/@${user}`"
               @mouseenter="selectedIndex = i + results.length + persons.length"
-              @click="search = ''"
+              @click="removeFocus"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               :data-index="i + results.length"
               :class="{
@@ -223,7 +331,7 @@ const searchInput = (e) => {
               }"
             >
               <div class="flex w-full items-center">
-                <Avatar :username="user" class="h-10 w-10 border" />
+                <Avatar :username="user" class="h-10 w-10" :border="true" />
                 <div class="ml-2 max-w-sm">
                   <p class="truncate text-ellipsis font-bold">@{{ user }}</p>
                 </div>
@@ -231,6 +339,12 @@ const searchInput = (e) => {
             </NuxtLink>
           </div>
         </div>
+      </div>
+      <div
+        class="bottom-2 left-2.5 mt-4 w-fit space-x-2 text-center font-mono text-sm text-gray-800 dark:text-gray-400"
+      >
+        <span class="rounded border border-gray-500 px-1 py-0.5">Esc</span>
+        <span>to close</span>
       </div>
     </div>
   </div>

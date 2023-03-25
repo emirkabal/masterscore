@@ -51,34 +51,30 @@ export default async (
       `https://www.omdbapi.com/?i=${data.imdb_id}&apikey=189867f0`
     ).catch(() => null)
     if (imdbData) {
-      if (
-        imdbData.Ratings.find(
+      if (imdbData.Ratings && imdbData.Ratings.length > 0) {
+        const imdbScore = imdbData.Ratings.find(
           (e: any) => e.Source === "Internet Movie Database"
         )
-      )
-        ratings = Object.assign(ratings, {
-          imdb: Number(
-            imdbData.Ratings.find(
-              (e: any) => e.Source === "Internet Movie Database"
-            ).Value.replace("/10", "")
-          )
-        })
-      if (imdbData.Ratings.find((e: any) => e.Source === "Rotten Tomatoes"))
-        ratings = Object.assign(ratings, {
-          rotten_tomatoes: Number(
-            imdbData.Ratings.find(
-              (e: any) => e.Source === "Rotten Tomatoes"
-            ).Value.replace("%", "")
-          )
-        })
-      if (imdbData.Ratings.find((e: any) => e.Source === "Metacritic"))
-        ratings = Object.assign(ratings, {
-          metacritic: Number(
-            imdbData.Ratings.find(
-              (e: any) => e.Source === "Metacritic"
-            ).Value.replace("/100", "")
-          )
-        })
+        const rottenTomatoesScore = imdbData.Ratings.find(
+          (e: any) => e.Source === "Rotten Tomatoes"
+        )
+        const metacriticScore = imdbData.Ratings.find(
+          (e: any) => e.Source === "Metacritic"
+        )
+
+        if (imdbScore)
+          ratings = Object.assign(ratings, {
+            imdb: Number(imdbScore.Value.replace("/10", ""))
+          })
+        if (rottenTomatoesScore)
+          ratings = Object.assign(ratings, {
+            rotten_tomatoes: Number(rottenTomatoesScore.Value.replace("%", ""))
+          })
+        if (metacriticScore)
+          ratings = Object.assign(ratings, {
+            metacritic: Number(metacriticScore.Value.replace("/100", ""))
+          })
+      }
       if (imdbData.Rated) rated = imdbData.Rated
       if (
         !description ||

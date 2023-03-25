@@ -10,6 +10,10 @@ const schema: Schema = new Schema(
       type: String,
       required: false
     },
+    spoiler: {
+      type: Boolean,
+      required: false
+    },
     entertainment: {
       type: Schema.Types.ObjectId,
       ref: "Entertainment"

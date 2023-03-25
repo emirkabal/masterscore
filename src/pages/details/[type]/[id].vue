@@ -5,6 +5,7 @@ import ModalView from "~/components/Modal.vue"
 import { useUserStore } from "~/store/user"
 import { onClickOutside, useStorage } from "@vueuse/core"
 import { useDark } from "@vueuse/core"
+import { Switch } from "@headlessui/vue"
 
 const { $moment, $getTitle } = useNuxtApp()
 const { params } = useRoute()
@@ -25,6 +26,7 @@ const reviews = ref(0)
 const reviewModal = ref(false)
 const reviewRating = ref(0.5)
 const reviewComment = ref("")
+const spoiler = ref(false)
 const comments = ref([])
 const showDetailsDev = ref(false)
 const emojiPicker = ref(null)
@@ -35,6 +37,7 @@ onClickOutside(emojiPicker, () => {
 const reviewDataFromServer = reactive({
   rating: 0.5,
   comment: "",
+  spoiler: false,
   loading: true
 })
 const masterRating = ref(0)
@@ -147,6 +150,7 @@ const fetchReviews = async () => {
     reviewDataFromServer.rating = review.review.rating
     if (review.review.content)
       reviewDataFromServer.comment = review.review.content
+    if (review.review.spoiler) reviewDataFromServer.spoiler = true
   }
   reviews.value = review.count
   masterRating.value = review.averageRating
@@ -160,6 +164,7 @@ const openReview = () => {
   reviewModal.value = true
   reviewComment.value = reviewDataFromServer.comment
   reviewRating.value = reviewDataFromServer.rating
+  spoiler.value = reviewDataFromServer.spoiler
 }
 
 const submitReview = async () => {
@@ -179,7 +184,8 @@ const submitReview = async () => {
     body: JSON.stringify({
       id: localId.value,
       rating: reviewRating.value,
-      review: reviewComment.value
+      review: reviewComment.value,
+      spoiler: spoiler.value
     }),
     headers: generateHeaders()
   })
@@ -267,7 +273,7 @@ useHead({
   <div v-else-if="!data || ('status' in data && 'message' in data)">
     <div class="flex h-96 flex-col items-center justify-center">
       <h1 class="text-4xl font-semibold">404</h1>
-      <p class="text-xl">Page not found</p>
+      <p class="text-xl">Entertainment not found</p>
     </div>
   </div>
   <div v-else>
@@ -325,6 +331,7 @@ useHead({
                 />
               </Transition>
             </div>
+
             <div class="relative">
               <textarea
                 type="text"
@@ -344,6 +351,30 @@ useHead({
                   <IconsEmoji class="h-8 w-8" />
                 </button>
               </div>
+            </div>
+            <div
+              class="flex items-center gap-2"
+              v-if="reviewComment.trim().length > 0"
+            >
+              <Switch
+                id="spoiler"
+                v-model="spoiler"
+                :class="spoiler ? 'bg-blue-700' : 'bg-teal-700'"
+                class="relative inline-flex h-[18px] w-[32px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+              >
+                <span class="sr-only">Use setting</span>
+                <span
+                  aria-hidden="true"
+                  :class="spoiler ? 'translate-x-3.5' : 'translate-x-0'"
+                  class="pointer-events-none inline-block h-[14px] w-[14px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
+                />
+              </Switch>
+              <label
+                for="spoiler"
+                class="cursor-pointer select-none opacity-80"
+              >
+                My comment contains spoilers
+              </label>
             </div>
           </div>
         </div>
@@ -407,9 +438,9 @@ useHead({
                 <h1
                   class="inline-block flex-shrink-0 font-semibold leading-8 lg:leading-none"
                   :class="{
-                    'text-4xl lg:text-6xl lg:text-5xl': title.length < 20,
-                    'text-3xl lg:text-5xl lg:text-4xl': title.length < 36,
-                    'text-2xl lg:text-4xl lg:text-3xl': title.length >= 36,
+                    'text-4xl md:text-5xl lg:text-6xl': title.length < 20,
+                    'text-3xl md:text-4xl lg:text-5xl': title.length < 36,
+                    'text-2xl md:text-3xl lg:text-4xl': title.length >= 36,
                     'text-black': backgroundBright,
                     'text-white': !backgroundBright
                   }"
@@ -441,7 +472,7 @@ useHead({
                   />
                 </div>
                 <div
-                  class="flex items-center justify-center divide-x-2 text-xs lg:justify-start lg:text-sm lg:text-lg"
+                  class="flex items-center justify-center divide-x-2 text-xs sm:text-sm lg:justify-start lg:text-lg"
                   :class="{
                     'divide-black/20 text-black': backgroundBright,
                     'divide-white/20 text-white/70': !backgroundBright

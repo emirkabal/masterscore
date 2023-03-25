@@ -11,10 +11,11 @@ export default defineEventHandler(async (event) => {
     return { status: 401, message: "Unauthorized" } as ErrorResponse
   }
   const body = await readBody(event)
-  const { id, rating, review } = body as {
+  const { id, rating, review, spoiler } = body as {
     id: string
     rating: number
     review: string
+    spoiler: boolean
   }
   if (!id)
     return {
@@ -40,11 +41,13 @@ export default defineEventHandler(async (event) => {
       $set: {
         rating,
         content: review || undefined,
+        spoiler: spoiler || undefined,
         author: user._id,
         entertainment: id
       },
       $unset: {
-        content: review ? undefined : 0
+        content: review ? undefined : 0,
+        spoiler: spoiler ? undefined : 0
       }
     },
     {

@@ -1,13 +1,34 @@
+<script setup>
+const props = defineProps({
+  error: {
+    type: Object,
+    required: true
+  }
+})
+</script>
+
 <template>
   <div
-    class="items container mx-auto flex h-screen flex-col justify-center text-center font-maven"
+    class="items relative mx-auto flex h-screen flex-col justify-center text-center font-maven"
   >
-    <h1 class="text-8xl">404</h1>
-    <p class="text-2xl">Page not found.</p>
-    <NuxtLink
-      to="/"
-      class="mx-auto block w-fit rounded bg-blue-50 px-2 py-1 text-lg font-bold text-blue-600 transition-colors hover:bg-blue-100 hover:text-blue-800"
-      >Go back to home</NuxtLink
+    <img
+      src="~/assets/images/bg.jpg"
+      class="absolute h-screen w-full object-cover"
+      draggable="false"
+    />
+    <div
+      class="absolute top-0 left-0 z-10 h-screen w-full bg-gradient-to-t from-yellow-500/80 backdrop-blur-md"
+    ></div>
+    <div
+      class="z-20 mx-auto w-fit rounded-3xl bg-black/20 p-12 text-white drop-shadow-2xl"
     >
+      <h1 class="mb-2 text-6xl font-bold sm:text-9xl">404</h1>
+      <p class="mb-3 text-xl">Page not found.</p>
+      <NuxtLink
+        to="/"
+        class="w-full rounded bg-white px-4 py-2 font-maven font-bold text-black hover:bg-gray-200"
+        >Go back to home</NuxtLink
+      >
+    </div>
   </div>
 </template>
