@@ -52,14 +52,12 @@ export default defineNuxtConfig({
       ]
     }
   },
-
   appConfig: {
-    // you don't need to include this: only for testing purposes
     buildDate: new Date().toISOString()
   },
-
   pwa: {
     registerType: "autoUpdate",
+    srcDir: "src/",
     manifest: {
       name: "Masterscore",
       short_name: "Masterscore",
@@ -87,17 +85,32 @@ export default defineNuxtConfig({
         }
       ]
     },
-    workbox: {
-      navigateFallback: "/",
-      globPatterns: ["src/**/*.{js,css,html,png,svg,ico}"]
-    },
     client: {
       installPrompt: true,
       periodicSyncForUpdates: 20
     },
-    devOptions: {
-      enabled: true,
-      type: "module"
+    workbox: {
+      navigateFallback: "/",
+      globDirectory: ".vercel/output",
+      globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+      globIgnores: ["**/node_modules/**"],
+      runtimeCaching: [
+        {
+          urlPattern: "/api/.*",
+          handler: "NetworkFirst",
+          method: "GET",
+          options: {
+            cacheName: "api-cache",
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 7
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        }
+      ]
     }
   },
 
