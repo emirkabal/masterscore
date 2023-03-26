@@ -73,10 +73,10 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       class="fixed top-0 left-0 z-20 h-screen w-full bg-black/20 backdrop-blur"
     ></div>
     <div class="relative z-20 w-full">
-      <IconsSearch class="absolute left-2 top-[9px]" />
+      <IconsSearch class="pointer-events-none absolute left-2 top-[9px]" />
       <div
         v-if="!focused"
-        class="absolute top-2 right-2.5 hidden space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
+        class="pointer-events-none absolute top-2 right-2.5 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
       >
         Ctrl K
       </div>
@@ -335,7 +335,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         </div>
       </div>
       <div
-        class="bottom-2 left-2.5 mt-4 hidden w-fit space-x-2 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
+        class="bottom-2 left-2.5 mt-4 hidden w-fit select-none space-x-2 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
       >
         <span class="rounded border border-gray-500 px-1 py-0.5">Esc</span>
         <span>to close</span>

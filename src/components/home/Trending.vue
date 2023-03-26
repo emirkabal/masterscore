@@ -33,7 +33,7 @@ watch(data, () => {
         :overview="item.overview"
         :poster="item.poster_path"
         :backdrop="item.backdrop_path"
-        :rating="item.vote_average"
+        :rating="item.popularity"
       />
       <HomeTrendingCard
         class="hidden lg:flex xl:hidden"
@@ -43,7 +43,7 @@ watch(data, () => {
         :overview="notFeaturedItem.overview"
         :poster="notFeaturedItem.poster_path"
         :backdrop="notFeaturedItem.backdrop_path"
-        :rating="notFeaturedItem.vote_average"
+        :rating="notFeaturedItem.popularity"
       />
     </div>
   </div>

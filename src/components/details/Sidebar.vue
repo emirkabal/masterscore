@@ -104,6 +104,14 @@ const getProvider = computed(() => {
   }
 })
 
+const getCreator = computed(() => {
+  if (props.data.created_by) {
+    return props.data.created_by
+  } else {
+    return null
+  }
+})
+
 const getVideo = computed(() => {
   if (data.value) {
     const offical = data.value.results.find(
@@ -139,7 +147,7 @@ watch(trailerModal, () => {
 </script>
 
 <template>
-  <div class="w-full rounded-3xl p-0 lg:p-6">
+  <div class="w-full rounded-3xl p-0 lg:px-6 lg:pt-6">
     <div
       v-if="getVideo && trailerModal"
       class="fixed top-0 left-0 z-40 h-screen w-full bg-black/80"
@@ -268,6 +276,17 @@ watch(trailerModal, () => {
           }"
           >{{ revenue }}</span
         >
+      </p>
+      <p v-if="getCreator">
+        <strong>Created By</strong>
+        <div class="flex flex-col">
+          <NuxtLink
+            :to="`/details/person/${creator.id}`"
+            v-for="creator in getCreator"
+            class="hover:underline"
+            >{{ creator.name }}</NuxtLink
+          >
+        </div>
       </p>
       <a
         :href="website"

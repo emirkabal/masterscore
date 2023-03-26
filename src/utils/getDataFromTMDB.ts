@@ -1,4 +1,4 @@
-import { TMDBMovie, TMDBTV } from "~/@types"
+import { TMDBData, TMDBMovie, TMDBTV } from "~/@types"
 import EntertainmentModel from "~/server/models/Entertainment.model"
 import { Redis } from "@upstash/redis"
 
@@ -13,10 +13,12 @@ export default async (
 ): Promise<TMDBMovie | TMDBTV> => {
   const key = `tmdb:${type}:${id}`
 
-  const cached: object | null = await redis.get(key)
-  if (cached) return cached as TMDBMovie | TMDBTV
+  // const cached: object | null = await redis.get(key)
+  // if (cached) return cached as TMDBMovie | TMDBTV
   // @ts-ignore
-  const data: TMDBMovie | TMDBTV = await $fetch(
+  const data:
+    | (TMDBMovie & { external_ids: any })
+    | (TMDBTV & { external_ids: any }) = await $fetch(
     `https://api.themoviedb.org/3/${type}/${id}?api_key=${config.TMDB_API_KEY}&language=en-US&append_to_response=external_ids`
   )
 
@@ -44,6 +46,11 @@ export default async (
     data.episode_run_time[0] > 0
   )
     runtime = data.episode_run_time[0]
+
+  if (data.external_ids) {
+    Object.assign(data, data.external_ids)
+    delete data.external_ids
+  }
 
   if (data.imdb_id) {
     imdbId = data.imdb_id
