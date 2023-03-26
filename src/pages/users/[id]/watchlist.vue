@@ -138,6 +138,7 @@ if (params.id === "me") {
               </p>
             </NuxtLink>
             <button
+              v-if="user.username === localUser?.username"
               @click="removeItem(listItem._id)"
               class="flex h-20 cursor-pointer items-center bg-red-600 px-6 font-bold text-white transition-colors hover:bg-red-700"
             >
