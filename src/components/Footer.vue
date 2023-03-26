@@ -3,8 +3,10 @@ import { useDark, useToggle } from "@vueuse/core"
 const isDark = useDark()
 const toggleDarkMode = useToggle(isDark)
 const version = computed(() => {
-  return "0.14.4-alpha"
+  return "0.14.6-alpha"
 })
+const clickToShow = ref(0)
+const date = useAppConfig().buildDate
 </script>
 
 <template>
@@ -16,7 +18,12 @@ const version = computed(() => {
         <NuxtLink to="/whoweare">
           <Logo class="text-xl" />
         </NuxtLink>
-        <span class="text-xs opacity-75">v{{ version }}</span>
+        <span class="text-xs opacity-75" @click="clickToShow++"
+          >v{{ version }}</span
+        >
+        <span class="text-xs opacity-75" v-if="clickToShow > 2"
+          >({{ date }})</span
+        >
         <button
           class="text-gray-500 hover:text-gray-700"
           @click="toggleDarkMode()"

@@ -12,12 +12,8 @@
 * {
   box-sizing: border-box;
 }
-html,
 body {
-  @apply overflow-x-hidden;
-}
-body {
-  @apply bg-white text-black dark:bg-black dark:text-white;
+  @apply bg-white text-black overflow-x-hidden dark:bg-black dark:text-white;
 }
 
 .fade-enter-active {

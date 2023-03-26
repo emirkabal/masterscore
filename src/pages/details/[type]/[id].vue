@@ -584,7 +584,7 @@ useHead({
 
     <div class="container mx-auto mt-8 mb-28 px-4">
       <div class="flex flex-col-reverse items-stretch gap-4 lg:flex-row">
-        <div class="min-w-0 flex-1 space-y-10 lg:space-y-16">
+        <div class="relative min-w-0 flex-1 space-y-10 lg:space-y-16">
           <DetailsCast :id="params.id" :type="params.type" />
           <DetailsReviews
             :loading="reviewDataFromServer.loading"
@@ -594,7 +594,7 @@ useHead({
           />
         </div>
         <DetailsSidebar
-          class="w-full lg:min-w-[300px] lg:max-w-[300px]"
+          class="sticky top-0 w-full self-start lg:min-w-[300px] lg:max-w-[300px]"
           :data="data"
         />
       </div>

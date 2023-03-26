@@ -44,7 +44,8 @@ const searchInput = (e) => {
   searchResults()
 }
 
-const removeFocus = () => {
+const removeFocus = (bool = false) => {
+  if (bool) search.value = ""
   focused.value = false
   inputElement.value.blur()
 }
@@ -129,8 +130,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               loading = true
               searchResults()
               return
-            }
-            if (selectedIndex < results.length) {
+            } else if (selectedIndex < results.length) {
               $router.push(
                 `/details/${results[selectedIndex].media_type}/${results[selectedIndex].id}`
               )
@@ -149,7 +149,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               )
             }
             selectedIndex = 0
-            removeFocus()
+            removeFocus(true)
           }
         "
         @keydown.esc="
@@ -231,7 +231,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               :to="`/details/${result.media_type}/${result.id}`"
               @mouseenter="selectedIndex = i"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
-              @click="removeFocus"
+              @click="removeFocus(true)"
               :data-index="i"
               :class="{
                 'bg-gray-100 dark:bg-zinc-900': i === selectedIndex,
@@ -276,7 +276,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             <NuxtLink
               :to="`/details/person/${person.id}`"
               @mouseenter="selectedIndex = i + results.length"
-              @click="removeFocus"
+              @click="removeFocus(true)"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               :data-index="i + results.length"
               :class="{
@@ -314,7 +314,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             <NuxtLink
               :to="`/users/@${user}`"
               @mouseenter="selectedIndex = i + results.length + persons.length"
-              @click="removeFocus"
+              @click="removeFocus(true)"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               :data-index="i + results.length"
               :class="{

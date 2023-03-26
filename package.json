@@ -1,4 +1,6 @@
 {
+  "name": "masterscore",
+  "description": "Masterscore is a movie and TV review website with unbiased reviews, recommendations, and ratings on various genres. Find your next favorite show or movie with us!",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -18,6 +20,7 @@
     "@types/lodash.debounce": "^4.0.7",
     "@types/moment-duration-format": "^2.2.3",
     "@types/node": "^18.11.18",
+    "@vite-pwa/nuxt": "^0.0.7",
     "autoprefixer": "^10.4.13",
     "nuxt": "^3.3.2",
     "postcss": "^8.4.21",

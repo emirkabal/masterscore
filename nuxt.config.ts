@@ -2,10 +2,29 @@
 export default defineNuxtConfig({
   srcDir: "src/",
   ssr: false,
+
+  modules: [
+    "@pinia/nuxt",
+    "@nuxtjs/tailwindcss",
+    "@nuxt/content",
+    "@vite-pwa/nuxt"
+  ],
+
+  css: [
+    "vue3-emoji-picker/css",
+    "@fontsource/maven-pro/400.css",
+    "@fontsource/maven-pro/500.css",
+    "@fontsource/maven-pro/600.css",
+    "@fontsource/maven-pro/700.css",
+    "@fontsource/maven-pro/800.css",
+    "@fontsource/maven-pro/900.css"
+  ],
+
   nitro: {
     preset: "vercel",
     plugins: ["~/server/db/index.ts"]
   },
+
   app: {
     pageTransition: { name: "slide-right", mode: "out-in" },
     head: {
@@ -21,7 +40,8 @@ export default defineNuxtConfig({
           name: "description",
           content:
             "Masterscore is a movie and TV review website with unbiased reviews, recommendations, and ratings on various genres. Find your next favorite show or movie with us!"
-        }
+        },
+        { name: "theme-color", content: "#eab308" }
       ],
       link: [
         {
@@ -33,16 +53,53 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "@nuxt/content"],
-  css: [
-    "vue3-emoji-picker/css",
-    "@fontsource/maven-pro/400.css",
-    "@fontsource/maven-pro/500.css",
-    "@fontsource/maven-pro/600.css",
-    "@fontsource/maven-pro/700.css",
-    "@fontsource/maven-pro/800.css",
-    "@fontsource/maven-pro/900.css"
-  ],
+  appConfig: {
+    // you don't need to include this: only for testing purposes
+    buildDate: new Date().toISOString()
+  },
+
+  pwa: {
+    registerType: "autoUpdate",
+    manifest: {
+      name: "Masterscore",
+      short_name: "Masterscore",
+      description:
+        "Masterscore is a movie and TV review website with unbiased reviews, recommendations, and ratings on various genres. Find your next favorite show or movie with us!",
+      theme_color: "#eab308",
+      start_url: "/",
+      display: "fullscreen",
+      icons: [
+        {
+          src: "pwa-192x192.png",
+          sizes: "192x192",
+          type: "image/png"
+        },
+        {
+          src: "pwa-512x512.png",
+          sizes: "512x512",
+          type: "image/png"
+        },
+        {
+          src: "pwa-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any maskable"
+        }
+      ]
+    },
+    workbox: {
+      navigateFallback: "/",
+      globPatterns: ["src/**/*.{js,css,html,png,svg,ico}"]
+    },
+    client: {
+      installPrompt: true,
+      periodicSyncForUpdates: 20
+    },
+    devOptions: {
+      enabled: true,
+      type: "module"
+    }
+  },
 
   experimental: {
     payloadExtraction: false
