@@ -64,6 +64,7 @@ export default defineNuxtConfig({
       description:
         "Masterscore is a movie and TV review website with unbiased reviews, recommendations, and ratings on various genres. Find your next favorite show or movie with us!",
       theme_color: "#eab308",
+      background_color: "#ffffff",
       start_url: "/",
       display: "fullscreen",
       icons: [
