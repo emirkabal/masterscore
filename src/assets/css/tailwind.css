@@ -13,7 +13,7 @@
   box-sizing: border-box;
 }
 body {
-  @apply bg-white text-black overflow-x-hidden dark:bg-black dark:text-white;
+  @apply bg-white text-black overflow-x-hidden dark:bg-black dark:text-white dark:overflow-x-hidden;
 }
 
 .fade-enter-active {
