@@ -3,7 +3,7 @@ import { useDark, useToggle } from "@vueuse/core"
 const isDark = useDark()
 const toggleDarkMode = useToggle(isDark)
 const version = computed(() => {
-  return "0.14.11-alpha"
+  return "0.14.12-alpha"
 })
 const clickToShow = ref(0)
 const date = useAppConfig().buildDate
