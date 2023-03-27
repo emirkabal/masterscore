@@ -79,7 +79,7 @@ export default defineNuxtConfig({
       periodicSyncForUpdates: 20
     },
     workbox: {
-      navigateFallback: "/",
+      navigateFallback: null,
       globDirectory: ".vercel/output",
       globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
       globIgnores: ["**/node_modules/**"],
