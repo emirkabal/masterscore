@@ -1,6 +1,6 @@
 import { ErrorResponse, IEntertainment, IUser } from "~/@types"
 import EntertainmentModel from "~/server/models/Entertainment.model"
-import UserModel from "~~/src/server/models/User.model"
+import UserModel from "~/server/models/User.model"
 
 export default defineEventHandler(async (event) => {
   const { id } = event.context.params as { id: string }

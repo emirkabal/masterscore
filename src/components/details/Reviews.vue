@@ -1,5 +1,5 @@
 <script setup>
-import { useUserStore } from "~~/src/store/user"
+import { useUserStore } from "~/store/user"
 
 const { user } = useUserStore()
 const emits = defineEmits(["edit", "remove"])

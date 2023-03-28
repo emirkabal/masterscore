@@ -1,4 +1,4 @@
-import { TMDBWatchProvider } from "~~/src/@types"
+import { TMDBWatchProvider } from "~/@types"
 
 const config = useRuntimeConfig()
 export default defineEventHandler(async (event) => {

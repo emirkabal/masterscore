@@ -1,4 +1,4 @@
-import { IEntertainment } from "~~/src/@types"
+import { IEntertainment } from "~/@types"
 import ReviewModel from "../../models/Review.model"
 
 export default defineEventHandler(async (event) => {

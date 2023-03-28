@@ -1,4 +1,4 @@
-import { IReview } from "~~/src/@types"
+import { IReview } from "~/@types"
 import EntertainmentModel from "../../models/Entertainment.model"
 import ReviewModel from "../../models/Review.model"
 import UserModel from "../../models/User.model"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useStorage } from "@vueuse/core"
-import { TMDBPerson } from "~~/src/@types"
+import { TMDBPerson } from "~/@types"
 const { params } = useRoute()
 const { $moment } = useNuxtApp()
 const revealBio = ref(false)

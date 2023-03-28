@@ -1,4 +1,4 @@
-import { ErrorResponse, ExternalIDs, TMDBData, TMDBPerson } from "~~/src/@types"
+import { ErrorResponse, ExternalIDs, TMDBData, TMDBPerson } from "~/@types"
 
 const config = useRuntimeConfig()
 export default defineEventHandler(async (event) => {

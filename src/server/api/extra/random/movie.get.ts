@@ -1,4 +1,4 @@
-import { TMDBMovie } from "~~/src/@types"
+import { TMDBMovie } from "~/@types"
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {

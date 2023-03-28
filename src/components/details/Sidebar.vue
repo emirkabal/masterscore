@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TMDBData } from "~~/src/@types"
+import { TMDBData } from "~/@types"
 import { onClickOutside } from "@vueuse/core"
 const { $getTitle } = useNuxtApp()
 const props = defineProps<{

@@ -1,9 +1,9 @@
 import { userInfo } from "os"
 import { ErrorResponse, IUser } from "~/@types"
 import UserModel from "~/server/models/User.model"
-import ActivityModel from "~~/src/server/models/Activity.model"
+import ActivityModel from "~/server/models/Activity.model"
 import grabUserWithoutPassword from "~/utils/grabUserWithoutPassword"
-import EntertainmentModel from "~~/src/server/models/Entertainment.model"
+import EntertainmentModel from "~/server/models/Entertainment.model"
 
 export default defineEventHandler(async (event) => {
   if (!event.context.user) {

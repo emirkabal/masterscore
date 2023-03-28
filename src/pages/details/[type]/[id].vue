@@ -3,8 +3,7 @@
 import ColorThief from "colorthief"
 import ModalView from "~/components/Modal.vue"
 import { useUserStore } from "~/store/user"
-import { onClickOutside, useStorage } from "@vueuse/core"
-import { useDark } from "@vueuse/core"
+import { onClickOutside, useStorage, useDark } from "@vueuse/core"
 import { Switch } from "@headlessui/vue"
 
 const { $moment, $getTitle } = useNuxtApp()
