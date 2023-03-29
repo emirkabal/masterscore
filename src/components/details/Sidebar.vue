@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TMDBData } from "~/@types"
 import { onClickOutside } from "@vueuse/core"
-const { $getTitle } = useNuxtApp()
+const { $getTitle, $event } = useNuxtApp()
 const props = defineProps<{
   data: TMDBData
 }>()
@@ -139,27 +139,28 @@ const getVideo = computed(() => {
 
 watch(trailerModal, () => {
   if (trailerModal.value) {
+    $event("modal:trailer", true)
     document.body.style.overflow = "hidden"
   } else {
+    $event("modal:trailer", false)
     document.body.style.overflow = "auto"
   }
 })
 </script>
 
 <template>
-  <div class="w-full rounded-3xl p-0 lg:px-6 lg:pt-6">
+  <div class="z-10 w-full rounded-3xl p-0 lg:px-6 lg:pt-6">
     <div
       v-if="getVideo && trailerModal"
-      class="fixed top-0 left-0 z-40 h-screen w-full bg-black/80"
+      class="fixed top-0 left-0 z-50 h-screen w-full bg-black/80"
     >
       <button
-        @click="trailerModal = false"
-        class="absolute top-0 right-0 m-12 opacity-50 transition-opacity hover:opacity-100"
+        class="absolute top-0 right-0 m-2 opacity-50 transition-opacity hover:opacity-100 md:m-12"
       >
-        <IconsTimes class="h-16 w-16 text-white" />
+        <IconsTimes class="h-14 w-14 text-white" />
       </button>
       <div
-        class="flex h-full flex-col items-center justify-center p-24 md:p-32 lg:p-40 2xl:p-96"
+        class="z-50 flex h-full flex-col items-center justify-center p-2 sm:p-24 md:p-32 lg:p-40 2xl:p-96"
       >
         <iframe
           ref="trailerModalEl"
@@ -279,19 +280,19 @@ watch(trailerModal, () => {
       </p>
       <p v-if="getCreator">
         <strong>Created By</strong>
-        <div class="flex flex-col">
+        <span class="flex flex-col">
           <NuxtLink
             :to="`/details/person/${creator.id}`"
             v-for="creator in getCreator"
             class="hover:underline"
             >{{ creator.name }}</NuxtLink
           >
-        </div>
+        </span>
       </p>
       <a
         :href="website"
-        target="_blank"
         rel="noopener noreferrer"
+        target="_blank"
         class="flex items-center gap-1 text-gray-600 transition-colors hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300"
       >
         <IconsLink class="h-6 w-6" />

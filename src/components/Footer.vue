@@ -1,12 +1,18 @@
 <script setup>
-import { useDark, useToggle } from "@vueuse/core"
+import { useDark, useToggle, onKeyStroke } from "@vueuse/core"
 const isDark = useDark()
 const toggleDarkMode = useToggle(isDark)
 const version = computed(() => {
-  return "0.14.12-alpha"
+  return "0.14.16-alpha"
 })
 const clickToShow = ref(0)
 const date = useAppConfig().buildDate
+
+onKeyStroke(["Control", "l", "l"], (e) => {
+  if (!e.ctrlKey || e.code !== "KeyL") return
+  e.preventDefault()
+  toggleDarkMode()
+})
 </script>
 
 <template>

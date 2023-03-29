@@ -27,7 +27,7 @@ export default defineNuxtConfig({
   },
 
   app: {
-    pageTransition: { name: "slide-right", mode: "out-in" },
+    pageTransition: { name: "slide", mode: "out-in" },
     head: {
       title: "Masterscore",
       htmlAttrs: {

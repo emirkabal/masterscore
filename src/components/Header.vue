@@ -1,18 +1,33 @@
 <script setup>
 import { useUserStore } from "~/store/user"
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue"
-import { onClickOutside } from "@vueuse/core"
+import { onClickOutside, useWindowScroll } from "@vueuse/core"
+const { $listen } = useNuxtApp()
+const scroll = useWindowScroll()
 const isMenuOpen = ref(false)
 const menuRef = ref(null)
+const isHeaderHidden = ref(false)
 onClickOutside(menuRef, () => {
   isMenuOpen.value = false
 })
 const userStore = useUserStore()
+$listen("modal:trailer", (val) => {
+  isHeaderHidden.value = val
+})
 </script>
 
 <template>
   <header
-    class="flex h-16 items-center justify-between bg-gray-50 px-6 dark:bg-zinc-900 md:px-12"
+    class="fixed top-0 z-30 flex h-16 w-full items-center justify-between px-6 transition-all md:px-12"
+    :class="{
+      hidden: isHeaderHidden,
+      'bg-gray-50 dark:bg-black/20':
+        scroll.y.value === 0 && $route.path !== '/',
+      'bg-gray-100 dark:bg-black/60': scroll.y.value > 0,
+      'dark:bg-zinc-900':
+        scroll.y.value === 0 &&
+        ($route.path === '/' || $route.path.indexOf('/person/') > -1)
+    }"
   >
     <div class="flex items-center">
       <NuxtLink

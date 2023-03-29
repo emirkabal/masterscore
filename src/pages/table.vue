@@ -5,5 +5,5 @@ useHead({
 })
 </script>
 <template>
-  <HomeMasterscoreTable />
+  <HomeMasterscoreTable class="my-24" />
 </template>

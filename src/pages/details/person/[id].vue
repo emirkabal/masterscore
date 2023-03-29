@@ -56,7 +56,7 @@ useHead({
       <p class="text-xl">Person not found</p>
     </div>
   </div>
-  <div v-else class="pb-36">
+  <div v-else class="pb-36 pt-20">
     <div class="container mx-auto mt-8 px-4">
       <div class="flex flex-col items-stretch justify-center gap-8 md:flex-row">
         <div class="w-full md:min-w-[300px] md:max-w-[300px]">

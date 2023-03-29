@@ -23,7 +23,7 @@ const props = defineProps({
 <template>
   <div
     :style="`background-image: url(${props.banner})`"
-    class="relative h-64 w-full bg-gray-500 bg-cover bg-center bg-no-repeat"
+    class="relative mt-16 h-64 w-full bg-gray-500 bg-cover bg-center bg-no-repeat"
   >
     <div class="absolute bottom-0 right-0 m-4 flex gap-2">
       <NuxtLink

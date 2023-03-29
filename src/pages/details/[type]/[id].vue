@@ -593,7 +593,7 @@ useHead({
           />
         </div>
         <DetailsSidebar
-          class="static top-0 w-full self-start lg:sticky lg:min-w-[300px] lg:max-w-[300px]"
+          class="static top-14 w-full self-start lg:sticky lg:min-w-[300px] lg:max-w-[300px]"
           :data="data"
         />
       </div>

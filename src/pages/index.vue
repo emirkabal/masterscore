@@ -5,7 +5,7 @@ useHead({
 })
 </script>
 <template>
-  <div class="container mx-auto my-12 px-4">
+  <div class="container mx-auto my-24 px-4">
     <HomeTrending />
     <HomeMostReviewedEntertainments />
     <!-- <HomeMostLikedEntertainments /> -->
