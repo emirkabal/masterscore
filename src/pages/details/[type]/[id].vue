@@ -388,7 +388,7 @@ useHead({
       </template>
     </ModalView>
     <div
-      class="relative h-full min-h-[820px] w-full bg-cover bg-center bg-no-repeat lg:h-[780px] lg:min-h-[780px]"
+      class="relative h-full min-h-[900px] w-full bg-cover bg-center bg-no-repeat lg:h-[780px] lg:min-h-[780px]"
       :style="{
         'background-image': backgroundURL ? `url(${backgroundURL})` : 'none'
       }"
@@ -406,7 +406,7 @@ useHead({
         }"
       >
         <div
-          class="container m-auto flex h-full min-h-[820px] w-full items-center justify-center px-4 lg:min-h-0 lg:justify-start"
+          class="container m-auto flex h-full min-h-[900px] w-full items-center justify-center px-4 pt-14 lg:min-h-0 lg:justify-start lg:pt-0"
         >
           <div
             class="flex h-full w-full flex-col items-center justify-center gap-8 py-8 drop-shadow-2xl lg:flex-row lg:justify-start lg:gap-16 lg:py-0"
