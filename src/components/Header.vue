@@ -19,8 +19,8 @@ const entertainment = reactive({
 const isHeaderShown = computed(() => {
   return (
     scroll.y.value > 0 ||
-    isMenuOpen.value ||
     route.path.startsWith("/users/") ||
+    route.path.startsWith("/details/person/") ||
     route.path === "/"
   )
 })

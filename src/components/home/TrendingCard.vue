@@ -85,7 +85,9 @@ const formatted = computed(() => {
           }"
         ></div>
         <div class="z-10 !text-white">
-          <div class="mb-1 font-maven font-semibold leading-4 drop-shadow-2xl">
+          <div
+            class="mb-1 font-maven font-semibold leading-4 drop-shadow-2xl line-clamp-1"
+          >
             {{ props.title }}
           </div>
           <div

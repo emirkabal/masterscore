@@ -1,14 +1,12 @@
 <script setup>
-// @ts-ignore
-import ColorThief from "colorthief"
+import tinycolor from "tinycolor2"
 import ModalView from "~/components/Modal.vue"
 import { useUserStore } from "~/store/user"
 import { onClickOutside, useStorage, useDark } from "@vueuse/core"
 import { Switch } from "@headlessui/vue"
 
-const { $moment, $getTitle, $event } = useNuxtApp()
+const { $moment, $getTitle, $event, $colorthief } = useNuxtApp()
 const { params } = useRoute()
-const colorThief = new ColorThief()
 const isDark = useDark()
 const { feature } = useRoute().query
 const flag = useStorage("debugMode", false)
@@ -20,6 +18,7 @@ const { data, pending } = useLazyFetch(
 )
 
 const backgroundColor = ref([3, 50, 71])
+const gradientColor = ref([3, 50, 71])
 const likes = ref(0)
 const reviews = ref(0)
 const reviewModal = ref(false)
@@ -30,6 +29,7 @@ const comments = ref([])
 const showDetailsDev = ref(false)
 const emojiPicker = ref(null)
 const isEmojiSelector = ref(false)
+
 onClickOutside(emojiPicker, () => {
   isEmojiSelector.value = false
 })
@@ -41,12 +41,9 @@ const reviewDataFromServer = reactive({
 })
 const masterRating = ref(0)
 const backgroundBright = computed(() => {
-  return backgroundColor.value[0] * 0.299 +
-    backgroundColor.value[1] * 0.587 +
-    backgroundColor.value[2] * 0.114 >
-    186
-    ? true
-    : false
+  return tinycolor("rgb " + backgroundColor.value.join(" "))
+    .darken()
+    .isLight()
 })
 const backgroundURL = computed(() => {
   return data.value.backdrop_path
@@ -238,7 +235,14 @@ watch(data, async () => {
     image.setAttribute("crossOrigin", "Anonymous")
     image.src = posterURL.value
     image.onload = () => {
-      backgroundColor.value = colorThief.getColor(image)
+      const dominantColor = $colorthief.getColor(image)
+      backgroundColor.value = dominantColor
+      const gradient = Object.values(
+        tinycolor("rgb " + dominantColor.join(" "))
+          .darken(45)
+          .toRgb()
+      )
+      gradientColor.value = gradient
     }
     image.onerror = () => {
       console.log("error on image color analysis")
@@ -412,7 +416,8 @@ useHead({
       <div
         class="h-full w-full"
         :style="{
-          'background-color': `rgba(${backgroundColor[0]}, ${backgroundColor[1]}, ${backgroundColor[2]}, 0.75)`
+          background: `rgba(${backgroundColor[0]}, ${backgroundColor[1]}, ${backgroundColor[2]}, 0.75)`,
+          background: `linear-gradient(135deg, rgba(${backgroundColor[0]}, ${backgroundColor[1]}, ${backgroundColor[2]}, 1) 0%, rgba(${gradientColor[0]},${gradientColor[1]},${gradientColor[2]},.75) 100%)`
         }"
       >
         <div
@@ -448,8 +453,8 @@ useHead({
                   class="inline-block flex-shrink-0 font-semibold leading-8 lg:leading-none"
                   :class="{
                     'text-4xl md:text-5xl lg:text-6xl': title.length < 20,
-                    'text-3xl md:text-4xl lg:text-5xl': title.length < 36,
-                    'text-2xl md:text-3xl lg:text-4xl': title.length >= 36,
+                    'text-3xl md:text-4xl lg:text-5xl': title.length < 30,
+                    'text-2xl md:text-3xl lg:text-4xl': title.length >= 30,
                     'text-black': backgroundBright,
                     'text-white': !backgroundBright
                   }"
