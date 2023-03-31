@@ -14,6 +14,11 @@ const schema: Schema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Entertainment"
     },
+    review: {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+      required: false
+    },
     author: {
       type: Schema.Types.ObjectId,
       ref: "User",

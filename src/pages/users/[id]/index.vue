@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useUserStore } from "~/store/user"
 import { IActivity, IUser } from "~/@types"
+import debounce from "lodash.debounce"
+import { vIntersectionObserver } from "@vueuse/components"
 const { params } = useRoute()
 
 definePageMeta({
@@ -15,6 +17,9 @@ const { user: localUser } = useUserStore()
 const loading = ref(true)
 const activities = reactive({
   loading: true,
+  loadingMore: false,
+  finished: false,
+  page: 1,
   items: [] as IActivity[]
 })
 const error = ref("")
@@ -29,13 +34,47 @@ if (params.id.startsWith("@")) {
 //   useRouter().push("/users/@me")
 // }
 
-watch(loading, async () => {
+const fetchActivities = async () => {
   const userId = user.value?._id
   if (userId) {
-    const data = await $fetch(`/api/activities?author=${userId}`)
-    if (data) activities.items = data as unknown as IActivity[]
+    if (activities.items.length === 0) activities.loading = true
+    else activities.loadingMore = true
+    const data = await $fetch(
+      `/api/activities?author=${userId}&limit=10&page=${activities.page}`
+    )
+    if (data)
+      activities.items = [
+        ...activities.items,
+        ...data
+      ] as unknown as IActivity[]
+    if (data.length < 10) activities.finished = true
     activities.loading = false
+    activities.loadingMore = false
+    activities.page++
   }
+}
+
+const isVisible = ref(false)
+
+function onIntersectionObserver([{ isIntersecting }]: any) {
+  isVisible.value = isIntersecting
+}
+
+watch(
+  isVisible,
+  debounce(async (value) => {
+    if (
+      value &&
+      !activities.loading &&
+      !activities.loadingMore &&
+      !activities.finished
+    ) {
+      await fetchActivities()
+    }
+  }, 350)
+)
+watch(loading, async () => {
+  await fetchActivities()
 })
 
 if (params.id === "me") {
@@ -148,7 +187,15 @@ const getActivityTitle = (type: string) => {
               <p class="text-gray-500 dark:text-gray-300">No activity</p>
             </div>
             <div v-else>
-              <div v-for="activity in activities.items" :key="activity._id">
+              <div
+                v-for="(activity, i) in activities.items"
+                v-intersection-observer="
+                  i === activities.items.length - 1
+                    ? onIntersectionObserver
+                    : () => {}
+                "
+                :key="activity._id"
+              >
                 <NuxtLink
                   class="group mb-4 flex items-center gap-2 rounded-3xl bg-gray-50 p-2 transition-colors hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800"
                   :to="`/details/${activity.entertainment.type}/${activity.entertainment.id}`"
@@ -183,11 +230,17 @@ const getActivityTitle = (type: string) => {
                   </p>
                 </NuxtLink>
               </div>
+              <div
+                v-if="activities.loadingMore"
+                class="my-2 flex justify-center"
+              >
+                <Spinner color="#000" />
+              </div>
             </div>
           </div>
         </div>
         <div
-          class="hidden h-fit w-full max-w-sm flex-grow space-y-4 rounded-3xl bg-gray-50 p-8 text-gray-500 dark:bg-zinc-900 dark:text-gray-300 md:block"
+          class="top-20 hidden h-fit w-full max-w-sm flex-grow space-y-4 self-start rounded-3xl bg-gray-50 p-8 text-gray-500 dark:bg-zinc-900 dark:text-gray-300 md:block lg:sticky"
         >
           <p>
             <span class="font-bold">Recommends:</span>

@@ -158,6 +158,12 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             removeFocus()
           }
         "
+        @keydown.tab="
+          (e) => {
+            e.preventDefault()
+            removeFocus()
+          }
+        "
       />
     </div>
     <div
@@ -187,9 +193,10 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         </div>
         <div v-else>
           <div v-for="(item, i) in history">
-            <p
+            <a
+              tabindex="-1"
               @click="
-                () => {
+                (e) => {
                   search = item
                   loading = true
                   searchResults()
@@ -216,7 +223,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
                   }
                 "
               />
-            </p>
+            </a>
           </div>
         </div>
       </div>

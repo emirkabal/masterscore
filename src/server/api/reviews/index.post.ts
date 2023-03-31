@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
       message: "Entertainment not found"
     } as ErrorResponse
 
-  await ReviewModel.findOneAndUpdate(
+  const reviewData = await ReviewModel.findOneAndUpdate(
     { entertainment: id, author: user._id },
     {
       $set: {
@@ -65,6 +65,7 @@ export default defineEventHandler(async (event) => {
         type: "review",
         attribute: rating,
         entertainment: id,
+        review: reviewData._id,
         author: user._id
       }
     },
