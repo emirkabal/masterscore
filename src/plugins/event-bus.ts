@@ -2,6 +2,8 @@ import mitt from "mitt"
 
 type ApplicationEvents = {
   "modal:trailer": boolean
+  "entertainment:bright": boolean
+  "entertainment:load": boolean
 }
 
 export default defineNuxtPlugin(() => {

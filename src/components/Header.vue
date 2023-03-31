@@ -6,13 +6,39 @@ const { $listen } = useNuxtApp()
 const scroll = useWindowScroll()
 const isMenuOpen = ref(false)
 const menuRef = ref(null)
+const route = useRoute()
 const isHeaderHidden = ref(false)
 onClickOutside(menuRef, () => {
   isMenuOpen.value = false
 })
 const userStore = useUserStore()
+const entertainment = reactive({
+  bright: false,
+  loaded: false
+})
+const isHeaderShown = computed(() => {
+  return (
+    scroll.y.value > 0 ||
+    isMenuOpen.value ||
+    route.path.startsWith("/users/") ||
+    route.path === "/"
+  )
+})
+
+const isEntertainmentPage = computed(() => {
+  return entertainment.loaded
+})
+
 $listen("modal:trailer", (val) => {
   isHeaderHidden.value = val
+})
+
+$listen("entertainment:bright", (val) => {
+  entertainment.bright = val
+})
+
+$listen("entertainment:load", (val) => {
+  entertainment.loaded = true
 })
 </script>
 
@@ -21,19 +47,29 @@ $listen("modal:trailer", (val) => {
     class="fixed top-0 z-30 flex h-16 w-full items-center justify-between px-6 transition-all md:px-12"
     :class="{
       hidden: isHeaderHidden,
-      'bg-gray-50 dark:bg-black/20':
-        scroll.y.value === 0 && $route.path !== '/',
-      'bg-gray-100 dark:bg-black/60': scroll.y.value > 0,
-      'dark:bg-zinc-900':
-        scroll.y.value === 0 &&
-        ($route.path === '/' || $route.path.indexOf('/person/') > -1)
+      'bg-gray-50 dark:bg-zinc-900': isHeaderShown
     }"
   >
     <div class="flex items-center">
       <NuxtLink
         to="/"
         class="select-none font-maven text-2xl font-black transition hover:opacity-75"
-        ><span class="text-yellow-500">m</span
+        :class="{
+          'drop-shadow-md': isEntertainmentPage && !isHeaderShown,
+          'text-black':
+            entertainment.bright && !isHeaderShown && isEntertainmentPage,
+          'text-white':
+            !entertainment.bright && !isHeaderShown && isEntertainmentPage
+        }"
+        ><span
+          class="text-yellow-500 transition"
+          :class="{
+            '!text-yellow-500':
+              !entertainment.bright && isEntertainmentPage && !isHeaderShown,
+            '!text-yellow-300':
+              entertainment.bright && isEntertainmentPage && !isHeaderShown
+          }"
+          >m</span
         ><span class="hidden md:inline-block">asterscore</span></NuxtLink
       >
     </div>

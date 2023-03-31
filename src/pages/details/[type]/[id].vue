@@ -6,7 +6,7 @@ import { useUserStore } from "~/store/user"
 import { onClickOutside, useStorage, useDark } from "@vueuse/core"
 import { Switch } from "@headlessui/vue"
 
-const { $moment, $getTitle } = useNuxtApp()
+const { $moment, $getTitle, $event } = useNuxtApp()
 const { params } = useRoute()
 const colorThief = new ColorThief()
 const isDark = useDark()
@@ -245,8 +245,18 @@ watch(data, async () => {
     }
   }
 
+  setTimeout(() => {
+    $event("entertainment:load", true)
+  }, 400)
+
   fetchLikes()
   fetchReviews()
+})
+
+watch(backgroundColor, (val) => {
+  if (val) {
+    $event("entertainment:bright", backgroundBright.value)
+  }
 })
 
 watch(reviewRating, () => {

@@ -1,7 +1,6 @@
 ---
-title: 'Who We Are'
+title: "Who We Are"
 ---
-
 
 Masterscore is a comprehensive movie and TV show review website that provides insightful and unbiased reviews on the latest releases. Our team of experienced reviewers, who are passionate about cinema and television, watch and analyze every aspect of each production to give you a clear understanding of what to expect.
 
