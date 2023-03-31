@@ -3,7 +3,11 @@ import { useUserStore } from "../store/user"
 const route = useRoute()
 const userStore = useUserStore()
 const loading = ref(true)
-if (route.path === "/") loading.value = false
+
+if (route.path === "/" || route.path.startsWith("/details/person/")) {
+  loading.value = false
+}
+
 onMounted(async () => {
   await userStore.init()
   loading.value = false

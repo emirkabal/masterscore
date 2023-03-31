@@ -23,24 +23,22 @@ const props = defineProps({
       Latest Reviews
     </h1>
     <div class="space-y-4" v-if="props.loading">
-      <div
-        class="flex animate-pulse items-center px-4 py-6"
-        v-for="i in 4"
-        :key="i"
-      >
+      <div class="flex items-center px-4 py-6" v-for="i in 4" :key="i">
         <div
-          class="h-14 w-14 flex-shrink-0 rounded-full bg-gray-300 dark:bg-zinc-800"
+          class="skeleton-effect h-14 w-14 flex-shrink-0 rounded-full bg-gray-300 dark:bg-zinc-800"
         ></div>
         <div class="ml-4 flex w-full flex-col">
-          <div class="h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"></div>
           <div
-            class="mt-2 h-2 w-1/2 rounded bg-gray-300 dark:bg-zinc-800"
+            class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"
           ></div>
           <div
-            class="mt-1 h-2 w-1/3 rounded bg-gray-300 dark:bg-zinc-800"
+            class="skeleton-effect mt-1 h-2 w-1/2 rounded bg-gray-300 dark:bg-zinc-800"
           ></div>
           <div
-            class="mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"
+            class="skeleton-effect mt-1 h-2 w-1/3 rounded bg-gray-300 dark:bg-zinc-800"
+          ></div>
+          <div
+            class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"
           ></div>
         </div>
       </div>

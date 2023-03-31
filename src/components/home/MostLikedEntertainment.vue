@@ -10,7 +10,7 @@ const { data, pending } = useLazyFetch("/api/likes?limit=1")
     </h1>
     <div
       v-if="pending"
-      class="relative z-0 mx-auto block h-96 w-full animate-pulse overflow-hidden rounded bg-gray-300 dark:bg-zinc-800 md:mx-0 lg:w-64"
+      class="skeleton-effect relative z-0 mx-auto block h-96 w-full overflow-hidden rounded bg-gray-300 dark:bg-zinc-800 md:mx-0 lg:w-64"
     ></div>
     <NuxtLink
       v-else

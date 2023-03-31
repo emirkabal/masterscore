@@ -1,5 +1,4 @@
 <script setup>
-import Spinner from "~/components/Spinner.vue"
 const { data, pending } = useLazyFetch("/api/reviews?limit=9")
 </script>
 
@@ -14,10 +13,10 @@ const { data, pending } = useLazyFetch("/api/reviews?limit=9")
     </div>
     <div v-if="pending">
       <div
-        class="z-50 flex animate-pulse flex-wrap items-start justify-start gap-4 md:flex-nowrap"
+        class="z-50 flex flex-wrap items-start justify-start gap-4 md:flex-nowrap"
       >
         <div
-          class="h-96 w-32 min-w-[110px] flex-1 transform rounded bg-gray-300 transition-all duration-300 ease-in-out dark:bg-zinc-800 md:w-full md:min-w-fit md:flex-auto"
+          class="skeleton-effect h-96 w-32 min-w-[110px] flex-1 transform rounded bg-gray-300 transition-all duration-300 ease-in-out dark:bg-zinc-800 md:w-full md:min-w-fit md:flex-auto"
           v-for="i in 9"
           :key="i"
         ></div>

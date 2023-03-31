@@ -29,7 +29,7 @@ const getRandomMovie = async () => {
     <Spinner v-if="!collapsed" />
     <div
       v-else
-      class="flex animate-pulse items-center justify-center space-x-2"
+      class="skeleton-effect flex items-center justify-center space-x-2"
     >
       <div class="h-4 w-4 rounded-full bg-black/60 dark:bg-white/60"></div>
       <div class="h-4 w-4 rounded-full bg-black/80 dark:bg-white/80"></div>

@@ -22,6 +22,13 @@ module.exports = {
       },
       backgroundSize: {
         "blur-cover": "auto 120%"
+      },
+      keyframes: {
+        shimmer: {
+          "100%": {
+            transform: "translateX(100%)"
+          }
+        }
       }
     }
   },

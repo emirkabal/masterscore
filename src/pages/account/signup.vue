@@ -164,9 +164,7 @@ const submit = async (event) => {
           type="button"
           class="flex h-14 w-full cursor-auto items-center justify-center gap-2 rounded-lg bg-gray-200 px-4 py-4 text-white"
         >
-          <div class="h-4 w-4 animate-pulse rounded-full bg-gray-400"></div>
-          <div class="h-4 w-4 animate-pulse rounded-full bg-gray-500"></div>
-          <div class="h-4 w-4 animate-pulse rounded-full bg-gray-600"></div>
+          <Spinner />
         </button>
       </form>
       <p class="mt-4 text-center !text-black">

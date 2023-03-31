@@ -47,7 +47,7 @@ const formatted = computed(() => {
   >
     <div
       v-if="props.loading"
-      class="flex h-52 w-full animate-pulse items-center justify-center gap-4 p-4"
+      class="skeleton-effect flex h-52 w-full items-center justify-center gap-4 p-4"
     >
       <div
         class="h-36 w-20 flex-shrink-0 rounded bg-gray-300 dark:bg-zinc-800"

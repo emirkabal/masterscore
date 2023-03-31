@@ -5,16 +5,28 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    @apply bg-white text-black dark:bg-black dark:text-white;
+  }
   input[type="number"]::-webkit-inner-spin-button {
     opacity: 1;
   }
 }
-* {
-  box-sizing: border-box;
-}
 
-body {
-  @apply bg-white text-black dark:bg-black dark:text-white;
+@layer components {
+  .skeleton-effect {
+    @apply relative
+    isolate
+    overflow-hidden 
+    before:absolute before:inset-0
+    before:-translate-x-full
+    before:animate-[shimmer_2s_infinite]
+    before:bg-gradient-to-r
+    before:from-transparent before:via-gray-400/20 before:to-transparent dark:before:via-rose-100/10;
+  }
 }
 
 ::-webkit-scrollbar {

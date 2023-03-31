@@ -227,14 +227,24 @@ watch(trailerModal, () => {
           /></a>
         </div>
       </div>
-      <div v-else-if="providerPending" class="animate-pulse space-y-2">
-        <div class="h-2 w-1/2 rounded-full bg-gray-300 dark:bg-zinc-800"></div>
+      <div v-else-if="providerPending" class="space-y-2">
+        <div
+          class="skeleton-effect h-2 w-1/2 rounded-full bg-gray-300 dark:bg-zinc-800"
+        ></div>
         <div class="flex items-center gap-2">
-          <div class="h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"></div>
-          <div class="h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"></div>
-          <div class="h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"></div>
+          <div
+            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"
+          ></div>
+          <div
+            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"
+          ></div>
+          <div
+            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"
+          ></div>
         </div>
-        <div class="h-2 w-1/3 rounded-full bg-gray-300 dark:bg-zinc-800"></div>
+        <div
+          class="skeleton-effect h-2 w-1/3 rounded-full bg-gray-300 dark:bg-zinc-800"
+        ></div>
       </div>
       <p v-if="originalName">
         <strong>Original Name</strong>
