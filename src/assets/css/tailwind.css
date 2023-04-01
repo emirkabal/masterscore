@@ -25,7 +25,7 @@
     before:-translate-x-full
     before:animate-[shimmer_2s_infinite]
     before:bg-gradient-to-r
-    before:from-transparent before:via-gray-400/20 before:to-transparent dark:before:via-rose-100/10;
+    before:from-transparent before:via-gray-500/40 before:to-transparent dark:before:via-rose-100/10;
   }
 }
 
@@ -58,7 +58,7 @@
 
 .slide-enter-active,
 .slide-leave-active {
-  transition: all 350ms;
+  transition: all 400ms;
 }
 .slide-enter-from {
   opacity: 0;

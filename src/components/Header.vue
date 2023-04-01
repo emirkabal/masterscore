@@ -53,6 +53,7 @@ $listen("entertainment:load", (val) => {
     <div class="flex items-center">
       <NuxtLink
         to="/"
+        @click="entertainment.bright = false"
         class="select-none font-maven text-2xl font-black transition hover:opacity-75"
         :class="{
           'drop-shadow-md': isEntertainmentPage && !isHeaderShown,

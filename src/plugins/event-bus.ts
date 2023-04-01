@@ -2,8 +2,11 @@ import mitt from "mitt"
 
 type ApplicationEvents = {
   "modal:trailer": boolean
+  "modal:review": boolean
   "entertainment:bright": boolean
   "entertainment:load": boolean
+  "entertainment:fetch:reviews": boolean
+  "entertainment:fetch:likes": boolean
 }
 
 export default defineNuxtPlugin(() => {

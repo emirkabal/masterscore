@@ -44,10 +44,13 @@ export interface TMDBSearchResult {
 }
 
 export type TMDBData = Partial<TMDBMovie> &
-  Partial<TMDBTV> & { media_type: string; character?: string }
+  Partial<TMDBTV> & {
+    media_type: string
+    character?: string
+    localId: string
+    localData: IEntertainment
+  }
 export interface TMDBMovie {
-  localId: string
-  localData: IEntertainment
   adult?: boolean
   backdrop_path?: string
   belongs_to_collection?: {
@@ -97,8 +100,6 @@ export interface TMDBMovie {
 }
 
 export interface TMDBTV {
-  localId: string
-  localData: IEntertainment
   imdb_id?: string
   backdrop_path?: string
   created_by?: {
@@ -275,6 +276,14 @@ export interface ILike {
 export interface ErrorResponse {
   status: number
   message: string
+}
+
+export interface ReviewData {
+  count: number
+  rating: number
+  comment: string
+  spoiler: boolean
+  loading: boolean
 }
 
 export declare module "h3" {

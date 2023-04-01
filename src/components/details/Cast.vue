@@ -1,18 +1,13 @@
-<script setup>
-const props = defineProps({
-  type: {
-    type: String,
-    required: true
-  },
-  id: {
-    type: String,
-    required: true
-  }
-})
+<script setup lang="ts">
+const props = defineProps<{
+  type?: string
+  id?: string
+  loading?: boolean
+}>()
 
-const { data, pending } = useLazyFetch(
-  `/api/extra/credits/${props.id}?type=${props.type}`
-)
+const { data, pending } = useLazyFetch<{
+  [x: string]: any
+}>(`/api/extra/credits/${props.id}?type=${props.type}`)
 </script>
 <template>
   <div class="overflow-hidden">
@@ -21,7 +16,7 @@ const { data, pending } = useLazyFetch(
     >
       Cast
     </h1>
-    <div v-if="pending" class="flex gap-2 overflow-x-hidden">
+    <div v-if="pending || loading" class="flex gap-2 overflow-x-hidden">
       <div class="flex flex-col" v-for="i in 8" :key="i">
         <div
           class="skeleton-effect h-64 w-[140px] rounded bg-gray-300 dark:bg-zinc-800 md:w-[160px]"
