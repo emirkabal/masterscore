@@ -48,7 +48,7 @@ useHead({
 </script>
 <template>
   <div v-if="pending">
-    <Spinner />
+    <Spinner class="my-36" />
   </div>
   <div v-else-if="!data || 'status' in data">
     <div class="flex h-96 flex-col items-center justify-center">

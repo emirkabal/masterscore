@@ -1,16 +1,12 @@
 <script setup>
 import tinycolor from "tinycolor2"
-import { useUserStore } from "~/store/user"
 import { useStorage } from "@vueuse/core"
+import { useUserStore } from "~/store/user"
 const { $event, $listen, $colorthief } = useNuxtApp()
 const { params, query } = useRoute()
 const { feature } = query
 const flag = useStorage("debugMode", false)
 
-definePageMeta({
-  pageTransition: false,
-  layoutTransition: false
-})
 const { user, isLoggedIn } = useUserStore()
 
 const { data, pending } = useLazyFetch(
@@ -39,12 +35,12 @@ const backgroundBright = computed(() => {
     .isLight()
 })
 const backgroundURL = computed(() => {
-  return data.value.backdrop_path
+  return data && data.value.backdrop_path
     ? `https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${data.value.backdrop_path}`
     : undefined
 })
 const posterURL = computed(() => {
-  return data.value.poster_path
+  return data && data.value.poster_path
     ? `https://image.tmdb.org/t/p/w300_and_h450_bestv2${data.value.poster_path}`
     : undefined
 })
@@ -136,17 +132,22 @@ useHead({
   title: "...",
   titleTemplate: "%s - Masterscore"
 })
+definePageMeta({
+  pageTransition: {
+    name: "none"
+  }
+})
 </script>
 
 <template>
   <EntertainmentLoading v-if="pending" />
-  <div v-else-if="!data || ('status' in data && 'message' in data)">
+  <div v-else-if="!data && !reviewData">
     <div class="flex h-96 flex-col items-center justify-center">
       <h1 class="text-4xl font-semibold">404</h1>
       <p class="text-xl">Entertainment not found</p>
     </div>
   </div>
-  <div v-else>
+  <div v-else-if="data && reviewData">
     <EntertainmentReviewModal :data="data" :reviewData="reviewData" />
     <EntertainmentContainer
       :colors="colors"

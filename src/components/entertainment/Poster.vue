@@ -7,7 +7,7 @@ const { posterURL, rating, loading } = defineProps<{
 </script>
 
 <template>
-  <div v-if="loading" class="relative flex-shrink-0">
+  <div v-if="loading" class="relative -mt-24 flex-shrink-0 md:-mt-14 lg:mt-0">
     <div
       class="skeleton-effect flex h-[336px] w-56 items-center justify-center rounded bg-gray-300 text-xl font-semibold dark:bg-zinc-800 lg:h-[432px] lg:w-72"
     ></div>
@@ -21,7 +21,7 @@ const { posterURL, rating, loading } = defineProps<{
     />
     <div
       v-else
-      class="flex h-80 w-56 items-center justify-center rounded bg-gray-700 text-xl font-semibold !text-white lg:h-96 lg:w-72"
+      class="flex h-[336px] w-56 items-center justify-center rounded bg-gray-700 text-xl font-semibold !text-white lg:h-[432px] lg:w-72"
     >
       No Image
     </div>

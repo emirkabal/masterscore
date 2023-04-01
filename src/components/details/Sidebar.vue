@@ -25,7 +25,7 @@ const { data, pending } = useLazyFetch(
 }
 
 const { data: providerData, pending: providerPending } = useLazyFetch(
-  `/api/extra/providers/${props.data.id}?type=${props.data.localData?.type}`
+  `/api/extra/providers/${props.data.id}?type=${props.data.localData.type}`
 )
 
 const trailerModal = ref(false)

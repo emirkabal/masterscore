@@ -1,6 +1,4 @@
 <script setup>
-import { useDark } from "@vueuse/core"
-const isDark = useDark()
 const props = defineProps({
   color: {
     type: String,

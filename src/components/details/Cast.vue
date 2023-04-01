@@ -1,13 +1,22 @@
 <script setup lang="ts">
-const props = defineProps<{
+const { type, id, loading } = defineProps<{
   type?: string
-  id?: string
+  id?: number | string
   loading?: boolean
 }>()
-
-const { data, pending } = useLazyFetch<{
-  [x: string]: any
-}>(`/api/extra/credits/${props.id}?type=${props.type}`)
+// what am i doing right now?
+const result = ref<any | null>(null)
+const pend = ref(true)
+onMounted(async () => {
+  if (!loading) {
+    pend.value = true
+    const data = await $fetch<{
+      data: any
+    }>(`/api/extra/credits/${id}?type=${type}`)
+    result.value = data
+    pend.value = false
+  }
+})
 </script>
 <template>
   <div class="overflow-hidden">
@@ -16,7 +25,7 @@ const { data, pending } = useLazyFetch<{
     >
       Cast
     </h1>
-    <div v-if="pending || loading" class="flex gap-2 overflow-x-hidden">
+    <div v-if="pend || loading" class="flex gap-2 overflow-x-hidden">
       <div class="flex flex-col" v-for="i in 8" :key="i">
         <div
           class="skeleton-effect h-64 w-[140px] rounded bg-gray-300 dark:bg-zinc-800 md:w-[160px]"
@@ -29,10 +38,17 @@ const { data, pending } = useLazyFetch<{
         ></div>
       </div>
     </div>
-    <OverflowBehavior v-else-if="data">
+    <OverflowBehavior
+      v-else-if="
+        result &&
+        !loading &&
+        !pend &&
+        (result.cast.length > 0 || result.crew.length > 0)
+      "
+    >
       <NuxtLink
         class="flex w-full max-w-[140px] flex-shrink-0 select-none flex-col transition-opacity hover:opacity-75 md:max-w-[160px]"
-        v-for="cast in data.cast"
+        v-for="cast in result.cast.length > 0 ? result.cast : result.crew"
         :key="cast.id"
         :to="`/details/person/${cast.id}`"
       >
@@ -65,7 +81,9 @@ const { data, pending } = useLazyFetch<{
       </NuxtLink>
     </OverflowBehavior>
     <div v-else>
-      <p class="text-center text-gray-500 dark:text-gray-400">No cast found</p>
+      <p class="text-center text-gray-500 dark:text-gray-400">
+        No cast/crew found
+      </p>
     </div>
   </div>
 </template>

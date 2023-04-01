@@ -17,7 +17,7 @@ const colors = computed(() => {
 <template>
   <div v-if="loading">
     <div
-      class="skeleton-effect relative h-full min-h-[900px] w-full bg-gray-100 bg-cover bg-center bg-no-repeat dark:bg-zinc-900 lg:h-[780px] lg:min-h-[780px]"
+      class="skeleton-effect relative h-full min-h-[900px] w-full bg-gray-100 dark:bg-zinc-900 lg:h-[780px] lg:min-h-[780px]"
     >
       <div
         v-if="feature"
