@@ -27,7 +27,7 @@ export default defineNuxtConfig({
   },
 
   app: {
-    pageTransition: { name: "slide", mode: "out-in" },
+    pageTransition: { name: "slide" },
     head: {
       title: "Masterscore",
       htmlAttrs: {
@@ -105,6 +105,10 @@ export default defineNuxtConfig({
 
   experimental: {
     payloadExtraction: false
+  },
+
+  tailwindcss: {
+    viewer: false
   },
 
   runtimeConfig: {

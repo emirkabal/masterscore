@@ -193,7 +193,15 @@ definePageMeta({
         <div v-if="showDetailsDev">
           <p>Movie {{ params.id }}</p>
           {{ backgroundColor }}
-          <JsonViewer :value="data" copyable sort expanded theme="jsonviewer" />
+          <ClientOnly>
+            <JsonViewer
+              :value="data"
+              copyable
+              sort
+              expanded
+              theme="jsonviewer"
+            />
+          </ClientOnly>
         </div>
       </div>
     </div>

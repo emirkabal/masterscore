@@ -128,11 +128,7 @@ if (params.id === "me") {
                 </p>
               </div>
 
-              <ReviewContent
-                v-if="review.content && review.content.length > 0"
-                :review="review"
-              />
-              <span v-else class="opacity-75">No comment for this review.</span>
+              <ReviewContent :review="review" />
             </div>
           </div>
         </div>

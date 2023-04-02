@@ -9,6 +9,19 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
     >
       Latest Reviews
     </h1>
+    <div
+      class="my-4 flex items-center justify-between rounded bg-yellow-600/10 p-2 text-yellow-500"
+    >
+      <span class="flex flex-col items-center gap-2.5 sm:flex-row">
+        <IconsAlert class="h-6 w-6" />
+        <span>
+          <NuxtLink to="/feed" class="hover:underline">
+            <span class="font-semibold">Deprecated!</span> There is gonna be
+            removed in the future updates; please use the new feed instead.
+          </NuxtLink></span
+        >
+      </span>
+    </div>
     <div v-if="pending">
       <div class="flex items-center px-4 py-6" v-for="i in 8" :key="i">
         <div

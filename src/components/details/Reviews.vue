@@ -73,7 +73,7 @@ const props = defineProps({
                   >
                     <span v-text="$moment(comment.createdAt).fromNow()"></span>
                     <span
-                      v-if="comment.createdAt === comment.updatedAt"
+                      v-if="comment.createdAt !== comment.updatedAt"
                       class="ml-1"
                       >(edited)</span
                     >
@@ -87,18 +87,14 @@ const props = defineProps({
               </p>
             </div>
 
-            <ReviewContent
-              v-if="comment.content && comment.content.length > 0"
-              :review="comment"
-            />
-            <span class="opacity-75" v-else>No comment for this review</span>
+            <ReviewContent :review="comment" />
 
             <div class="flex">
               <span
                 class="block break-words text-xs text-gray-500 line-clamp-1 dark:text-gray-300 sm:hidden"
               >
                 <span v-text="$moment(comment.createdAt).fromNow()"></span>
-                <span v-if="comment.createdAt === comment.updatedAt"
+                <span v-if="comment.createdAt !== comment.updatedAt"
                   >(edited)</span
                 >
               </span>

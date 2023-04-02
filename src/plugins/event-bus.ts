@@ -1,6 +1,7 @@
 import mitt from "mitt"
 
 type ApplicationEvents = {
+  "user:init": boolean
   "modal:trailer": boolean
   "modal:review": boolean
   "entertainment:bright": boolean

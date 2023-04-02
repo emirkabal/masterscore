@@ -1,5 +1,5 @@
 <script setup>
-import { useUserStore } from "../store/user"
+import { useUserStore } from "~/store/user"
 const route = useRoute()
 const userStore = useUserStore()
 const loading = ref(true)
@@ -7,11 +7,20 @@ const loading = ref(true)
 if (route.path === "/" || route.path.startsWith("/details/person/")) {
   loading.value = false
 }
+userStore.init()
 
-onMounted(async () => {
-  await userStore.init()
-  loading.value = false
-})
+watch(
+  userStore,
+  () => {
+    if (userStore.loading === false) {
+      loading.value = false
+    }
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+)
 </script>
 <template>
   <div>
@@ -23,7 +32,13 @@ onMounted(async () => {
       >
         <Spinner />
       </div>
-      <slot v-else />
+
+      <div class="flex" v-else>
+        <Sidebar />
+        <div class="w-full">
+          <slot />
+        </div>
+      </div>
     </div>
     <Footer />
     <ClientOnly>

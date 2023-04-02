@@ -75,7 +75,7 @@ const formatted = computed(() => {
       }"
     >
       <div
-        class="deneme absolute h-full w-full bg-zinc-800 bg-opacity-75 transition-all group-hover:bg-opacity-50 dark:bg-black dark:bg-opacity-75"
+        class="absolute h-full w-full bg-zinc-800 bg-opacity-75 transition-all group-hover:bg-opacity-50 dark:bg-black dark:bg-opacity-75"
       ></div>
       <div class="flex items-center justify-center gap-4 p-4">
         <div

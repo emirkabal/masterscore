@@ -14,6 +14,18 @@
   input[type="number"]::-webkit-inner-spin-button {
     opacity: 1;
   }
+
+  ::-webkit-scrollbar {
+    @apply h-2.5 w-2.5 bg-transparent;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-800 transition-colors hover:bg-gray-700;
+  }
 }
 
 @layer components {
@@ -27,18 +39,6 @@
     before:bg-gradient-to-r
     before:from-transparent before:via-gray-500/40 before:to-transparent dark:before:via-rose-100/10;
   }
-}
-
-::-webkit-scrollbar {
-  @apply h-2.5 w-2.5 bg-transparent;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-zinc-900;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-gray-300 transition-colors hover:bg-gray-400 dark:bg-zinc-700 dark:hover:bg-zinc-600;
 }
 
 .fade-enter-active {

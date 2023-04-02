@@ -1,8 +1,7 @@
 <script setup>
-const { data, pending } = useLazyFetch("/api/extra/trending/all")
 const items = ref([])
 const notFeaturedItem = ref(null)
-
+const { data, pending } = await useLazyFetch("/api/extra/trending/all")
 watch(data, () => {
   items.value = data.value.slice(0, 8)
   notFeaturedItem.value = data.value[9]
@@ -23,7 +22,10 @@ watch(data, () => {
       <HomeTrendingCard v-for="i in 8" :key="i" :loading="true" />
       <HomeTrendingCard class="hidden lg:flex xl:hidden" :loading="true" />
     </div>
-    <div v-else class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div
+      v-else-if="items.length > 0 && !pending"
+      class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+    >
       <HomeTrendingCard
         v-for="item in items"
         :key="item.id"

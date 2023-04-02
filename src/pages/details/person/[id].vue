@@ -214,13 +214,15 @@ useHead({
             </button>
             <div v-if="showDetailsDev">
               <p>Person: {{ params.id }}</p>
-              <JsonViewer
-                :value="data"
-                copyable
-                sort
-                expanded
-                theme="jsonviewer"
-              />
+              <ClientOnly>
+                <JsonViewer
+                  :value="data"
+                  copyable
+                  sort
+                  expanded
+                  theme="jsonviewer"
+                />
+              </ClientOnly>
             </div>
           </div>
         </div>

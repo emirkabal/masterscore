@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import { generateHeaders } from "../utils/request"
-import { ErrorResponse, IUser } from "~/@types"
+import { IUser } from "~/@types"
+import { useLocalStorage } from "@vueuse/core"
 
 export const useUserStore = defineStore("user", {
   state: () => {
@@ -19,21 +20,22 @@ export const useUserStore = defineStore("user", {
 
   actions: {
     async init() {
-      const token = localStorage.getItem("token")
+      const token = useLocalStorage("token", null).value
       if (token && !this.token) {
         this.token = token
-        await this.getUserData()
+        await this.getUserData().catch(() => {})
       }
+      this.loading = false
     },
 
     setToken(token: string) {
       this.token = token
-      localStorage.setItem("token", token)
+      useLocalStorage("token", token)
     },
 
     removeToken() {
       this.token = ""
-      localStorage.removeItem("token")
+      useLocalStorage("token", null).value = null
     },
 
     async login(username: string, password: string) {
