@@ -28,7 +28,7 @@ watch(
       <Header />
       <div
         v-if="loading"
-        class="fixed top-0 left-0 z-50 flex h-screen w-full items-center justify-center bg-gray-900"
+        class="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-gray-900"
       >
         <Spinner />
       </div>
@@ -75,7 +75,7 @@ watch(
 
 <style>
 .pwa-toast {
-  @apply fixed left-1/2 bottom-6 z-50 mx-auto flex w-full max-w-xs -translate-x-1/2 flex-col items-center  justify-between gap-2 rounded-3xl bg-yellow-400/40 p-6 shadow-2xl backdrop-blur-md dark:bg-yellow-400/40 sm:max-w-sm sm:flex-row;
+  @apply fixed bottom-6 left-1/2 z-50 mx-auto flex w-full max-w-xs -translate-x-1/2 flex-col items-center  justify-between gap-2 rounded-3xl bg-yellow-400/40 p-6 shadow-2xl backdrop-blur-md dark:bg-yellow-400/40 sm:max-w-sm sm:flex-row;
 }
 .pwa-toast .message {
   @apply flex flex-shrink-0 items-center justify-center font-semibold;
