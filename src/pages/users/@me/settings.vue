@@ -118,7 +118,7 @@ const submit = async (e) => {
 }
 </script>
 <template>
-  <div class="container mx-auto my-24 px-4">
+  <div class="container mx-auto my-20 px-4">
     <h1 class="mb-2 border-b pb-4 text-2xl font-bold dark:border-zinc-900">
       Settings
     </h1>
@@ -189,7 +189,7 @@ const submit = async (e) => {
                         class="dark:hover:bg-bray-800 flex h-36 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:bg-gray-100 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-zinc-700 dark:hover:bg-zinc-900"
                       >
                         <div
-                          class="flex flex-col items-center justify-center pb-6 pt-5"
+                          class="flex select-none flex-col items-center justify-center px-4 pb-6 pt-5"
                         >
                           <IconsDownload class="rotate-180 opacity-50" />
                           <p
@@ -199,7 +199,7 @@ const submit = async (e) => {
                             or drag and drop
                           </p>
                           <p class="text-xs text-gray-500 dark:text-gray-400">
-                            PNG, JPG or GIF (MAX. 800x800px | 1MB)
+                            PNG, JPG or GIF (Max: 1MB | Recommended: 512x512)
                           </p>
                         </div>
                         <input
@@ -210,9 +210,6 @@ const submit = async (e) => {
                         />
                       </label>
                     </div>
-                  </div>
-                  <div class="text-sm text-gray-500 dark:text-gray-300">
-                    You can change your avatar once every 5 minutes.
                   </div>
                 </div>
               </div>
