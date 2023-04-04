@@ -48,7 +48,9 @@ const uploadFiles = (e) => {
     error.value = null
   }
   avatar.value = file
-  avatarHandle.value = null
+  if (avatarHandle.value === "remove") {
+    avatarHandle.value = null
+  }
 }
 
 const getBase64 = (file) => {
@@ -152,13 +154,15 @@ const submit = async (e) => {
                       class="flex items-center gap-2 border border-gray-200 bg-gray-100 px-4 py-2 dark:border-zinc-900 dark:bg-zinc-950"
                     >
                       <Avatar
-                        v-if="user.avatar"
+                        v-if="user.avatar && avatarHandle !== 'edit'"
+                        :username="user.username"
                         :avatar="user.avatar"
                         class="h-16 w-16 rounded-full object-cover"
                       />
                       <img
                         v-else
                         :src="getPreviewImage(avatar)"
+                        draggable="false"
                         class="h-16 w-16 rounded-full"
                       />
                       <div class="flex items-center gap-2">
@@ -175,7 +179,6 @@ const submit = async (e) => {
                           @click="
                             () => {
                               avatar = null
-                              user.avatar = null
                               avatarHandle = 'edit'
                             }
                           "

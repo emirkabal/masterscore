@@ -1,28 +1,10 @@
-<script setup>
-const props = defineProps({
-  banner: {
-    type: String || undefined || null,
-    required: false
-  },
-  username: {
-    type: String,
-    required: true
-  },
-  avatar: {
-    type: String,
-    required: false
-  },
-  isMe: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
-  viewProfile: {
-    type: Boolean,
-    required: false,
-    default: false
-  }
-})
+<script setup lang="ts">
+const props = defineProps<{
+  banner?: string |null,
+  username: string,
+  avatar?: string | null,
+  isMe?: boolean,
+  viewProfile?: boolean}>()
 </script>
 <template>
   <div

@@ -120,9 +120,9 @@ const getActivityTitle = (type: string) => {
   </div>
   <div v-else>
     <ProfileBanner
-      :banner="user?.banner || ''"
+      :banner="user.banner"
       :username="user.username"
-      :avatar="user.avatar || undefined"
+      :avatar="user.avatar"
       :is-me="user.username === localUser?.username"
     />
     <div class="container mx-auto mb-24 mt-16 px-4 2xl:mt-10">

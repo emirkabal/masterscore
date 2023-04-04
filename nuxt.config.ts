@@ -112,18 +112,6 @@ export default defineNuxtConfig({
     viewer: false
   },
 
-  image: {
-    presets: {
-      avatar: {
-        modifiers: {
-          format: 'jpg',
-          width: 50,
-          height: 50
-        }
-      }
-    }
-  },
-
   runtimeConfig: {
     MONGO_URI: process.env.MONGO_URI,
     TMDB_API_KEY: process.env.TMDB_API_KEY,

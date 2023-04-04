@@ -1,23 +1,14 @@
-<script setup>
+<script setup lang="ts">
 const config = useRuntimeConfig()
-const props = defineProps({
-  username: {
-    type: String,
-    required: false
-  },
-  avatar: {
-    type: String,
-    required: false
-  },
-  border: {
-    type: Boolean,
-    default: false
-  },
-  loading: {
-    type: Boolean,
-    default: false
-  }
-})
+
+const imageLoading = ref(true)
+
+const props = defineProps<{
+  username: string
+  avatar?: string | null
+  border?: boolean
+  loading?: boolean
+}>()
 
 const defaultAvatar = computed(() => {
   return (
@@ -45,13 +36,17 @@ const avatar = computed(() => {
       'outline outline-4 outline-gray-300 dark:outline-zinc-700': border
     }"
   >
+    <span class="w-full h-full dark:bg-zinc-900 bg-gray-400 skeleton-effect" v-if="imageLoading && !loading">
+    </span>
     <nuxt-img
       :src="avatar"
       loading="lazy"
-      preset="avatar"
       class="h-full w-full rounded-full"
+      :class="{
+        'absolute opacity-0': imageLoading && !loading,
+      }"
       draggable="false"
-      alt="User Avatar"
+      @load="imageLoading = false"
     />
   </div>
 </template>

@@ -80,6 +80,7 @@ if (params.id === "me") {
     <ProfileBanner
       :banner="user?.banner || ''"
       :username="user.username"
+      :avatar="user.avatar"
       :is-me="user.username === localUser?.username"
       :viewProfile="true"
     />
