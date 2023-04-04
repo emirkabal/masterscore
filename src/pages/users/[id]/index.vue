@@ -122,6 +122,7 @@ const getActivityTitle = (type: string) => {
     <ProfileBanner
       :banner="user?.banner || ''"
       :username="user.username"
+      :avatar="user.avatar || undefined"
       :is-me="user.username === localUser?.username"
     />
     <div class="container mx-auto mt-16 mb-24 px-4 2xl:mt-10">

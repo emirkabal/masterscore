@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
       .populate({
         path: "author",
         model: UserModel,
-        select: "_id username"
+        select: "_id username avatar"
       })
       .select("-entertainment -_id")
       .lean()

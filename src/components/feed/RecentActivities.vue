@@ -13,6 +13,7 @@ interface CustomIncomingData {
   attribute?: any
   author: {
     username: string
+    avatar?: string
   }
   createdAt: Date
   updatedAt: Date
@@ -134,6 +135,7 @@ watch(
             class="font-bold hover:underline"
             ><Avatar
               :username="activity.author.username"
+              :avatar="activity.author.avatar"
               class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
           /></NuxtLink>
           <div class="flex w-full min-w-0 flex-col">

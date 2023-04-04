@@ -32,13 +32,13 @@ export default defineEventHandler(async (event) => {
     $or: [{ username: { $regex: q, $options: "i" } }]
   })
     .limit(3)
-    .select("username")
+    .select("username avatar -_id")
     .lean()
 
   return {
     status: 200,
     tmdb: results,
     persons: persons,
-    users: users.map((user) => user.username)
+    users: users
   }
 })

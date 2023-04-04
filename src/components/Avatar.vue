@@ -1,8 +1,13 @@
 <script setup>
+const config = useRuntimeConfig()
 const props = defineProps({
   username: {
     type: String,
-    required: true
+    required: false
+  },
+  avatar: {
+    type: String,
+    required: false
   },
   border: {
     type: Boolean,
@@ -12,6 +17,16 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
+})
+
+const defaultAvatar = computed(() => {
+  return 'https://api.dicebear.com/5.x/thumbs/svg?seed=' +
+        props.username +
+        '&scale=90&backgroundColor=transparent'
+})
+
+const avatar = computed(() => {
+  return props.avatar ? `${config.public.SUPABASE_STORAGE_URL}${props.avatar}` : defaultAvatar.value
 })
 </script>
 <template>
@@ -26,13 +41,13 @@ const props = defineProps({
       'outline outline-4 outline-gray-300 dark:outline-zinc-700': border
     }"
   >
-    <img
+    <nuxt-img
       :src="
-        'https://api.dicebear.com/5.x/thumbs/svg?seed=' +
-        props.username +
-        '&scale=90&backgroundColor=transparent'
+        avatar
       "
-      class="rounded-full"
+      loading="lazy"
+      preset="avatar"
+      class="rounded-full w-full h-full"
       draggable="false"
       alt="User Avatar"
     />

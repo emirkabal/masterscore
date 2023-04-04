@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     .populate({
       model: UserModel,
       path: "author",
-      select: "username -_id"
+      select: "username avatar -_id"
     })
 
   return data

@@ -22,6 +22,10 @@ const schema: Schema = new Schema(
       type: String,
       required: false
     },
+    avatar: {
+      type: String,
+      required: false
+    },
     likes: [
       {
         type: Schema.Types.ObjectId,

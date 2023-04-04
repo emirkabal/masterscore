@@ -52,6 +52,7 @@ const props = defineProps({
         >
           <Avatar
             :username="comment.author.username"
+            :avatar="comment.author.avatar"
             class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
           />
           <div class="ml-4 flex w-full min-w-0 flex-col">

@@ -1,13 +1,14 @@
 import { ErrorResponse, IUser } from "~/@types"
 import UserModel from "~/server/models/User.model"
 import { UserPatchableSchema } from "~/server/validation"
+import { upload, remove } from "~/utils/fileManager"
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
-
   if (!event.context.user) {
     return { status: 401, message: "Unauthorized" } as ErrorResponse
   }
+
+  const body = await readBody(event)
 
   const { error } = UserPatchableSchema.validate(body)
   if (error) {
@@ -49,10 +50,33 @@ export default defineEventHandler(async (event) => {
   user.about = body.about || null
   user.banner = body.banner || null
 
+  if (body.files && body.files.avatar) {
+    if (user.avatar) {
+      await remove("avatars/"+user.avatar)
+      user.avatar = null
+    }
+    
+    const res = await fetch(body.files.avatar.file)
+    const blob = await res.blob()
+
+    const message = await upload(blob)
+    if (message.data) {
+      user.avatar = message.data
+    } else {
+      return message
+    }
+  }
+
+  if (user.avatar && body.avatar === "remove") {
+    await remove("avatars/"+user.avatar)
+    user.avatar = null
+  }
+
   await UserModel.findByIdAndUpdate(event.context.user._id, user)
 
   return {
     status: 200,
-    message: "User updated successfully"
+    message: "User updated successfully",
+    data: user
   }
 })

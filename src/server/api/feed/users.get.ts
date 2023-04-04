@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
       createdAt: -1
     })
     .limit(40)
-    .select("username")
+    .select("username avatar")
     .lean()
 
   return data

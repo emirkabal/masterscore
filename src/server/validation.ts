@@ -17,10 +17,19 @@ export const UserPatchableSchema = Joi.object({
     .max(16),
   about: Joi.string().allow(null).allow("").max(512),
   banner: Joi.string().allow(null).allow("").max(128).uri(),
+  avatar: Joi.string().allow(null).allow("").max(128),
   likes: Joi.array().items(Joi.string()),
   reviews: Joi.array().items(Joi.string()),
   watchlist: Joi.array().items(Joi.string()),
-  watcheds: Joi.array().items(Joi.string())
+  watcheds: Joi.array().items(Joi.string()),
+  files: Joi.object({
+    avatar: Joi.object({
+      file: Joi.string().uri().required(),
+      type: Joi.string().required(),
+      name: Joi.string().required(),
+      size: Joi.number().required()
+    })
+  })
 })
 
 export const ReviewSchema = Joi.object({

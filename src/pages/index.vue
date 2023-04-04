@@ -6,7 +6,7 @@ useHead({
   titleTemplate: "%s"
 })
 
-const notify = useLocalStorage("notify-1", true)
+const notify = useLocalStorage("notify-2", true)
 </script>
 <template>
   <div class="container mx-auto my-24 px-4">
@@ -22,7 +22,7 @@ const notify = useLocalStorage("notify-1", true)
               href="https://dervis.emirkabal.com/XnPJY7voCseJUalI.png"
               target="_blank"
               class="hover:underline"
-              >Click here to check out the new update!</a
+              >New Update! You can now add avatars to your profile!</a
             ></span
           >
         </span>

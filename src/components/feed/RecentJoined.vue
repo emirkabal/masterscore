@@ -3,6 +3,7 @@ const { data, pending } = await useLazyFetch<
   {
     _id: string
     username: string
+    avatar?: string
   }[]
 >("/api/feed/users")
 </script>
@@ -28,9 +29,9 @@ const { data, pending } = await useLazyFetch<
         v-for="user in data"
         :key="user._id"
         :to="`/users/@${user.username}`"
-        class="transition-opacity hover:opacity-75"
+        class="transition-opacity hover:opacity-75 my-3"
       >
-        <Avatar class="my-3 h-16 w-16" :username="user.username" />
+        <Avatar class="h-16 w-16" :username="user.username" :avatar="user.avatar" />
       </NuxtLink>
     </OverflowBehavior>
   </div>

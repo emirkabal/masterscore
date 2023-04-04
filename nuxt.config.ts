@@ -1,10 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import icons from "./config/icons"
+
 export default defineNuxtConfig({
   srcDir: "src/",
   ssr: false,
-
   modules: [
+    "@nuxt/image-edge",
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
     "@nuxt/content",
@@ -111,12 +112,29 @@ export default defineNuxtConfig({
     viewer: false
   },
 
+  image: {
+    presets: {
+      avatar: {
+        modifiers: {
+          format: 'jpg',
+          width: 50,
+          height: 50
+        }
+      }
+    }
+  },
+
   runtimeConfig: {
     MONGO_URI: process.env.MONGO_URI,
     TMDB_API_KEY: process.env.TMDB_API_KEY,
     UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
-    INVITE_CODE: process.env.INVITE_CODE
+    SUPABASE_URL: process.env.SUPABASE_URL,
+    SUPABASE_KEY: process.env.SUPABASE_KEY,
+    INVITE_CODE: process.env.INVITE_CODE,
+    public: {
+      SUPABASE_STORAGE_URL: process.env.SUPABASE_STORAGE_URL
+    }
   },
 
   build: {

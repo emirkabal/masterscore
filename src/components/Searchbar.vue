@@ -144,7 +144,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             ) {
               $router.push(
                 `/users/${
-                  users[selectedIndex - results.length - persons.length]
+                  users[selectedIndex - results.length - persons.length].username
                 }`
               )
             }
@@ -319,7 +319,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           </div>
           <div v-for="(user, i) in users" :key="`user-${i}`">
             <NuxtLink
-              :to="`/users/@${user}`"
+              :to="`/users/@${user.username}`"
               @mouseenter="selectedIndex = i + results.length + persons.length"
               @click="removeFocus(true)"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
@@ -332,9 +332,9 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               }"
             >
               <div class="flex w-full items-center">
-                <Avatar :username="user" class="h-10 w-10" :border="true" />
+                <Avatar :username="user.username" :avatar="user.avatar" class="h-10 w-10" :border="true" />
                 <div class="ml-2 max-w-sm">
-                  <p class="truncate text-ellipsis font-bold">@{{ user }}</p>
+                  <p class="truncate text-ellipsis font-bold">@{{ user.username }}</p>
                 </div>
               </div>
             </NuxtLink>

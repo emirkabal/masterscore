@@ -8,6 +8,10 @@ const props = defineProps({
     type: String,
     required: true
   },
+  avatar: {
+    type: String,
+    required: false
+  },
   isMe: {
     type: Boolean,
     required: false,
@@ -43,6 +47,7 @@ const props = defineProps({
       <Avatar
         class="h-24 w-24 md:h-32 md:w-32"
         :username="props.username"
+        :avatar="props.avatar"
         :border="true"
       />
     </div>

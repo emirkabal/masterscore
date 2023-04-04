@@ -55,6 +55,7 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
             class="font-bold hover:underline"
             ><Avatar
               :username="review.author.username"
+              :avatar="review.author.avatar"
               class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
           /></NuxtLink>
           <div class="flex w-full min-w-0 flex-col">

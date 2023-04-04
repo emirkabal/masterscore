@@ -218,6 +218,7 @@ export interface IUser {
   password: string
   about?: string | null
   banner?: string | null
+  avatar?: string | null
   likes?: string[]
   reviews?: string[]
   watchlist?: string[]
