@@ -166,7 +166,7 @@ definePageMeta({
       </div>
     </EntertainmentContainer>
 
-    <div class="container mx-auto mt-8 mb-28 px-4">
+    <div class="container mx-auto mb-28 mt-8 px-4">
       <div class="flex flex-col-reverse items-stretch gap-4 lg:flex-row">
         <div class="relative min-w-0 flex-1 space-y-10 lg:space-y-16">
           <DetailsCast :id="params.id" :type="params.type" />

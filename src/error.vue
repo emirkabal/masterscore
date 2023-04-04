@@ -17,7 +17,7 @@ const props = defineProps({
       draggable="false"
     />
     <div
-      class="absolute top-0 left-0 z-10 h-screen w-full bg-gradient-to-t from-yellow-500/80 backdrop-blur-md"
+      class="absolute left-0 top-0 z-10 h-screen w-full bg-gradient-to-t from-yellow-500/80 backdrop-blur-md"
     ></div>
     <div
       class="z-20 mx-auto w-fit rounded-3xl bg-black/20 p-12 text-white drop-shadow-2xl"

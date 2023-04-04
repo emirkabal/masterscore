@@ -29,9 +29,13 @@ const { data, pending } = await useLazyFetch<
         v-for="user in data"
         :key="user._id"
         :to="`/users/@${user.username}`"
-        class="transition-opacity hover:opacity-75 my-3"
+        class="my-3 transition-opacity hover:opacity-75"
       >
-        <Avatar class="h-16 w-16" :username="user.username" :avatar="user.avatar" />
+        <Avatar
+          class="h-16 w-16"
+          :username="user.username"
+          :avatar="user.avatar"
+        />
       </NuxtLink>
     </OverflowBehavior>
   </div>

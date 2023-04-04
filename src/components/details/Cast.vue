@@ -70,7 +70,7 @@ onMounted(async () => {
           <div
             class="mt-2 flex h-full w-full flex-col items-center justify-center py-2 text-center font-maven"
           >
-            <p class="break-words font-semibold line-clamp-2">
+            <p class="line-clamp-2 break-words font-semibold">
               {{ cast.name }}
             </p>
             <p class="lineclamp-1 break-words">

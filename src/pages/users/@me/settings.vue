@@ -20,7 +20,6 @@ const banner = ref(user.banner)
 const username = ref("")
 const preview = ref(false)
 
-
 const avatar = ref(null)
 const avatarHandle = ref("")
 
@@ -54,11 +53,11 @@ const uploadFiles = (e) => {
 
 const getBase64 = (file) => {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = (error) => reject(error)
+  })
 }
 
 const getPreviewImage = (file) => {
@@ -77,12 +76,14 @@ const submit = async (e) => {
   }
 
   if (avatar.value) {
-    postData.files = {"avatar": {
-      name: avatar.value.name,
-      type: avatar.value.type,
-      size: avatar.value.size,
-      file: await getBase64(avatar.value)
-    }}
+    postData.files = {
+      avatar: {
+        name: avatar.value.name,
+        type: avatar.value.type,
+        size: avatar.value.size,
+        file: await getBase64(avatar.value)
+      }
+    }
   }
 
   if (avatarHandle.value === "remove") {
@@ -93,7 +94,7 @@ const submit = async (e) => {
   const data = await $fetch("/api/users/me", {
     method: "PATCH",
     headers: generateHeaders(),
-    body: JSON.stringify(postData),
+    body: JSON.stringify(postData)
   })
 
   if (data.status === 200) {
@@ -127,46 +128,60 @@ const submit = async (e) => {
       >
         Edit Profile
       </p>
-      <div class="flex justify-center my-12" v-if="loading">
+      <div class="my-12 flex justify-center" v-if="loading">
         <Spinner color="#000" />
       </div>
       <div v-else class="my-12 grid gap-8 lg:my-0 lg:grid-cols-2">
         <div>
-          <form  @submit="submit" class="space-y-2">
+          <form @submit="submit" class="space-y-2">
             <div class="space-y-2 border-b pb-4 dark:border-zinc-900">
               <div
                 class="mb-4 flex items-center gap-4 border-b pb-4 dark:border-zinc-800"
               >
                 <div class="space-y-2">
-                  <span class="text-xl font-bold flex gap-2 items-center">Change Avatar <span class="bg-blue-600 font-semibold rounded px-2 py-1 text-xs !text-white font-maven">New!</span></span>
+                  <span class="flex items-center gap-2 text-xl font-bold"
+                    >Change Avatar
+                    <span
+                      class="rounded bg-blue-600 px-2 py-1 font-maven text-xs font-semibold !text-white"
+                      >New!</span
+                    ></span
+                  >
                   <div class="my-2 flex">
                     <div
-                      v-if="avatar || user.avatar && avatarHandle !== 'edit'"
-                      class="flex items-center gap-2 border bg-gray-100 border-gray-200 dark:border-zinc-900 dark:bg-zinc-950 px-4 py-2"
+                      v-if="avatar || (user.avatar && avatarHandle !== 'edit')"
+                      class="flex items-center gap-2 border border-gray-200 bg-gray-100 px-4 py-2 dark:border-zinc-900 dark:bg-zinc-950"
                     >
                       <Avatar
                         v-if="user.avatar"
                         :avatar="user.avatar"
                         class="h-16 w-16 rounded-full object-cover"
-                      />                        
+                      />
                       <img
                         v-else
                         :src="getPreviewImage(avatar)"
                         class="h-16 w-16 rounded-full"
                       />
-                      <div
-                        class="flex items-center gap-2"
-                        
-                        ><IconsTrash @click="() => {
-                          avatar = null
-                          user.avatar = null
-                          avatarHandle = 'remove'
-                        }" class="cursor-pointer hover:opacity-75"
-                      /><IconsPencil @click="() => {
-                          avatar = null
-                          user.avatar = null
-                          avatarHandle = 'edit'
-                        }" class="cursor-pointer hover:opacity-75"/></div>
+                      <div class="flex items-center gap-2">
+                        <IconsTrash
+                          @click="
+                            () => {
+                              avatar = null
+                              user.avatar = null
+                              avatarHandle = 'remove'
+                            }
+                          "
+                          class="cursor-pointer hover:opacity-75"
+                        /><IconsPencil
+                          @click="
+                            () => {
+                              avatar = null
+                              user.avatar = null
+                              avatarHandle = 'edit'
+                            }
+                          "
+                          class="cursor-pointer hover:opacity-75"
+                        />
+                      </div>
                     </div>
                     <div v-else class="flex w-full items-center justify-center">
                       <label
@@ -228,7 +243,7 @@ const submit = async (e) => {
                       :disabled="!isUsernameChangeAvailable"
                       class="form-input w-full resize-none disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900"
                       type="text"
-                    />      
+                    />
                   </div>
                   <div class="text-sm text-gray-500 dark:text-gray-300">
                     You can change your username once every 7 days.
@@ -308,9 +323,11 @@ const submit = async (e) => {
             </div>
           </form>
         </div>
-        <div class="relative rounded border-4 border-gray-100 dark:border-gray-800">
+        <div
+          class="relative rounded border-4 border-gray-100 dark:border-gray-800"
+        >
           <div
-            class="absolute -left-2 -top-2 z-10 rounded bg-gray-100 dark:bg-zinc-800 px-4 font-maven font-semibold"
+            class="absolute -left-2 -top-2 z-10 rounded bg-gray-100 px-4 font-maven font-semibold dark:bg-zinc-800"
           >
             Preview
           </div>

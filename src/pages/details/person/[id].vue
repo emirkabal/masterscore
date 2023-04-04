@@ -152,7 +152,7 @@ useHead({
               <button
                 v-if="isBig && !revealBio"
                 @click="revealBio = !revealBio"
-                class="bg-gradi 5 group absolute right-0 bottom-0 w-full bg-gradient-to-l from-white text-right dark:from-black"
+                class="bg-gradi 5 group absolute bottom-0 right-0 w-full bg-gradient-to-l from-white text-right dark:from-black"
               >
                 <span class="font-semibold group-hover:opacity-75"
                   >Read more...</span
@@ -193,7 +193,7 @@ useHead({
                   <div
                     class="mt-2 flex h-full w-full flex-col items-center justify-center py-2 text-center font-maven"
                   >
-                    <p class="break-words font-semibold line-clamp-2">
+                    <p class="line-clamp-2 break-words font-semibold">
                       {{ $getTitle(media) }}
                     </p>
                     <p class="lineclamp-1 break-words">

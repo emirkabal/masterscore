@@ -52,10 +52,10 @@ export default defineEventHandler(async (event) => {
 
   if (body.files && body.files.avatar) {
     if (user.avatar) {
-      await remove("avatars/"+user.avatar)
+      await remove("avatars/" + user.avatar)
       user.avatar = null
     }
-    
+
     const res = await fetch(body.files.avatar.file)
     const blob = await res.blob()
 
@@ -68,7 +68,7 @@ export default defineEventHandler(async (event) => {
   }
 
   if (user.avatar && body.avatar === "remove") {
-    await remove("avatars/"+user.avatar)
+    await remove("avatars/" + user.avatar)
     user.avatar = null
   }
 

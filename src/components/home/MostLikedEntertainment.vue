@@ -24,7 +24,7 @@ const { data, pending } = useLazyFetch("/api/likes?limit=1")
         class="absolute bottom-0 flex h-auto w-full select-none items-end p-2 text-white opacity-100 backdrop-blur transition-all md:opacity-0 md:group-hover:opacity-100"
       >
         <div class="flex flex-col justify-center gap-1 p-2">
-          <h1 class="break-words font-semibold line-clamp-1">
+          <h1 class="line-clamp-1 break-words font-semibold">
             {{ data[0].entertainment.info.title }}
           </h1>
           <div class="flex items-center gap-1">

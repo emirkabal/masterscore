@@ -4,44 +4,47 @@ import md5 from "md5"
 const config = useRuntimeConfig()
 const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_KEY)
 
-
-
 export const remove = async (filename: string) => {
-  await supabase.storage.from("assets").remove([filename]).catch(() => null)
+  await supabase.storage
+    .from("assets")
+    .remove([filename])
+    .catch(() => null)
 }
 
-
-export const upload = async (blob: Blob): Promise<{
+export const upload = async (
+  blob: Blob
+): Promise<{
   status: number
   message: string
   isSupabaseError?: boolean
   data?: string
 }> => {
   try {
-   if(!blob.type.startsWith("image/")) {
-     return {
-       status: 400,
-       message: "Please upload an image file",
-       isSupabaseError: false
-     }
-   }
+    if (!blob.type.startsWith("image/")) {
+      return {
+        status: 400,
+        message: "Please upload an image file",
+        isSupabaseError: false
+      }
+    }
 
-   if(blob.size > 1000000) {
-     return {
-       status: 400,
-       message: "Please upload an image less than 1mb",
-       isSupabaseError: false
-     }
-   }
+    if (blob.size > 1000000) {
+      return {
+        status: 400,
+        message: "Please upload an image less than 1mb",
+        isSupabaseError: false
+      }
+    }
 
     const filename = md5(`${Date.now()}${blob.name}${blob.type}`)
-    const { error } = await supabase.storage.from('assets').upload("avatars/"+filename, blob, {
-      cacheControl: '3600',
-      upsert: false,
-      contentType: blob.type
-    })
+    const { error } = await supabase.storage
+      .from("assets")
+      .upload("avatars/" + filename, blob, {
+        cacheControl: "3600",
+        upsert: false,
+        contentType: blob.type
+      })
 
-    
     if (error) {
       return { status: 400, message: error.message, isSupabaseError: true }
     }
@@ -51,9 +54,7 @@ export const upload = async (blob: Blob): Promise<{
       message: "File uploaded successfully",
       data: filename
     }
-
   } catch (error) {
     return { status: 400, message: "Unknown", isSupabaseError: false }
   }
-
 }

@@ -42,7 +42,7 @@ const { data, pending } = useLazyFetch("/api/reviews?limit=9")
             class="absolute bottom-0 flex h-auto w-full select-none items-end p-2 text-white opacity-0 backdrop-blur transition-all group-hover:opacity-100"
           >
             <div class="flex flex-col justify-center gap-1 p-2">
-              <h1 class="break-words font-semibold line-clamp-1">
+              <h1 class="line-clamp-1 break-words font-semibold">
                 {{ likedEntertainment.entertainment.info.title }}
               </h1>
               <div class="flex items-center gap-1">

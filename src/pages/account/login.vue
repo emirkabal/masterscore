@@ -55,7 +55,7 @@ const submit = async (event) => {
             />
             <label
               for="floating_outlined"
-              class="pointer-events-none absolute top-2 left-1 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
+              class="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
               >Username</label
             >
           </div>
@@ -69,7 +69,7 @@ const submit = async (event) => {
             />
             <label
               for="floating_outlined"
-              class="pointer-events-none absolute top-2 left-1 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
+              class="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
               >Password</label
             >
           </div>
@@ -99,12 +99,12 @@ const submit = async (event) => {
     </div>
     <div class="hidden h-screen w-full md:block">
       <div
-        class="absolute top-0 right-0 h-screen w-full bg-gradient-to-r from-yellow-600 backdrop-blur-sm"
+        class="absolute right-0 top-0 h-screen w-full bg-gradient-to-r from-yellow-600 backdrop-blur-sm"
       ></div>
       <img
         src="~/assets/images/bg.jpg"
         draggable="false"
-        class="top-0 left-0 h-screen w-full object-cover object-center"
+        class="left-0 top-0 h-screen w-full object-cover object-center"
       />
     </div>
   </div>

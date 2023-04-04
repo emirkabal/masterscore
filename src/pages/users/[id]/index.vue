@@ -125,7 +125,7 @@ const getActivityTitle = (type: string) => {
       :avatar="user.avatar || undefined"
       :is-me="user.username === localUser?.username"
     />
-    <div class="container mx-auto mt-16 mb-24 px-4 2xl:mt-10">
+    <div class="container mx-auto mb-24 mt-16 px-4 2xl:mt-10">
       <div
         class="mb-8 flex items-center justify-between border-b p-2 dark:border-zinc-900 md:p-6"
       >
@@ -151,7 +151,7 @@ const getActivityTitle = (type: string) => {
               About
             </h2>
             <p
-              class="truncate whitespace-pre-wrap break-words text-gray-500 line-clamp-5 dark:text-gray-100"
+              class="line-clamp-5 truncate whitespace-pre-wrap break-words text-gray-500 dark:text-gray-100"
             >
               {{ user.about ? user.about : "No about information" }}
             </p>
@@ -213,12 +213,12 @@ const getActivityTitle = (type: string) => {
                     <IconsStarFilled v-else class="text-yellow-400" />
                     <span
                       v-if="activity?.type === 'review' && activity.attribute"
-                      class="absolute top-0 right-0 left-0 mt-1.5 text-center text-[8px] font-bold text-black"
+                      class="absolute left-0 right-0 top-0 mt-1.5 text-center text-[8px] font-bold text-black"
                     >
                       {{ activity.attribute }}
                     </span>
                   </div>
-                  <div class="break-words line-clamp-1">
+                  <div class="line-clamp-1 break-words">
                     {{ getActivityTitle(activity.type) }}
                     <span class="font-semibold group-hover:underline">{{
                       activity.entertainment.info.title

@@ -20,13 +20,17 @@ const props = defineProps({
 })
 
 const defaultAvatar = computed(() => {
-  return 'https://api.dicebear.com/5.x/thumbs/svg?seed=' +
-        props.username +
-        '&scale=90&backgroundColor=transparent'
+  return (
+    "https://api.dicebear.com/5.x/thumbs/svg?seed=" +
+    props.username +
+    "&scale=90&backgroundColor=transparent"
+  )
 })
 
 const avatar = computed(() => {
-  return props.avatar ? `${config.public.SUPABASE_STORAGE_URL}${props.avatar}` : defaultAvatar.value
+  return props.avatar
+    ? `${config.public.SUPABASE_STORAGE_URL}${props.avatar}`
+    : defaultAvatar.value
 })
 </script>
 <template>
@@ -42,12 +46,10 @@ const avatar = computed(() => {
     }"
   >
     <nuxt-img
-      :src="
-        avatar
-      "
+      :src="avatar"
       loading="lazy"
       preset="avatar"
-      class="rounded-full w-full h-full"
+      class="h-full w-full rounded-full"
       draggable="false"
       alt="User Avatar"
     />

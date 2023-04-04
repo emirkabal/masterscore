@@ -34,7 +34,7 @@ watch(
   <Transition name="fade">
     <div
       v-if="props.show"
-      class="fixed top-0 left-0 z-50 m-auto flex h-screen w-full items-center justify-center bg-black/40 px-4 shadow-2xl backdrop-blur md:px-0"
+      class="fixed left-0 top-0 z-50 m-auto flex h-screen w-full items-center justify-center bg-black/40 px-4 shadow-2xl backdrop-blur md:px-0"
     >
       <div
         ref="modal"

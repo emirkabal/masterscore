@@ -143,7 +143,7 @@ watch(
               <div class="flex items-center gap-2">
                 <NuxtLink
                   :to="`/users/@${activity.author.username}`"
-                  class="font-bold line-clamp-1 hover:underline"
+                  class="line-clamp-1 font-bold hover:underline"
                   >@{{ activity.author.username }}</NuxtLink
                 >
                 <span
@@ -153,7 +153,7 @@ watch(
                 </span>
               </div>
 
-              <div class="z-40 flex items-center gap-1">
+              <div class="z-10 flex items-center gap-1">
                 <span v-if="activity.review" class="text-sm font-semibold">{{
                   activity.review.rating
                 }}</span>
@@ -173,13 +173,13 @@ watch(
               class="group -mt-1 flex w-fit items-center gap-1 text-xs"
             >
               <div
-                class="z-10 flex w-full min-w-0 text-sm leading-4 line-clamp-1 md:text-base"
+                class="z-10 line-clamp-1 flex w-full min-w-0 text-sm leading-4 md:text-base"
               >
                 <span class="mr-1 flex-shrink-0">
                   {{ getActivityTitle(activity.type) }}:
                 </span>
                 <span
-                  class="w-full break-all font-bold line-clamp-1 group-hover:underline"
+                  class="line-clamp-1 w-full break-all font-bold group-hover:underline"
                   >{{ activity.entertainment.info.title }}</span
                 >
               </div>

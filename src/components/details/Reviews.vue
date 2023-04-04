@@ -64,13 +64,13 @@ const props = defineProps({
                       ? 'me'
                       : comment.author.username
                   }`"
-                  class="break-words text-base font-semibold line-clamp-1 hover:underline md:text-lg"
+                  class="line-clamp-1 break-words text-base font-semibold hover:underline md:text-lg"
                 >
                   @{{ comment.author.username }}
                 </NuxtLink>
                 <div class="hidden sm:block">
                   <p
-                    class="break-words text-xs text-gray-500 line-clamp-1 dark:text-gray-300"
+                    class="line-clamp-1 break-words text-xs text-gray-500 dark:text-gray-300"
                   >
                     <span v-text="$moment(comment.createdAt).fromNow()"></span>
                     <span
@@ -92,7 +92,7 @@ const props = defineProps({
 
             <div class="flex">
               <span
-                class="block break-words text-xs text-gray-500 line-clamp-1 dark:text-gray-300 sm:hidden"
+                class="line-clamp-1 block break-words text-xs text-gray-500 dark:text-gray-300 sm:hidden"
               >
                 <span v-text="$moment(comment.createdAt).fromNow()"></span>
                 <span v-if="comment.createdAt !== comment.updatedAt"

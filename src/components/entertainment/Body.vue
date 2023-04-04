@@ -139,7 +139,7 @@ useHead({
       <div class="my-2 flex items-center justify-center gap-2 lg:hidden">
         <h2
           v-if="contentRating && contentRating !== 'Not Rated'"
-          class="border px-2 text-lg font-semibold line-clamp-1"
+          class="line-clamp-1 border px-2 text-lg font-semibold"
           :class="{
             'border-black/40 text-black': isLight,
             'border-white/40 text-white/70': !isLight
@@ -168,17 +168,17 @@ useHead({
         <h2 class="ml-0.5 pr-2 font-semibold">
           {{ releaseDate }}
         </h2>
-        <h2 v-if="genres" class="break-all px-2 font-semibold line-clamp-1">
+        <h2 v-if="genres" class="line-clamp-1 break-all px-2 font-semibold">
           {{ genres }}
         </h2>
-        <h2 class="flex-shrink-0 px-2 font-semibold line-clamp-1">
+        <h2 class="line-clamp-1 flex-shrink-0 px-2 font-semibold">
           {{ runtime }}
         </h2>
 
         <div class="hidden flex-shrink-0 items-center gap-2 px-2 lg:flex">
           <h2
             v-if="contentRating && contentRating !== 'Not Rated'"
-            class="border px-2 text-lg font-semibold line-clamp-1"
+            class="line-clamp-1 border px-2 text-lg font-semibold"
             :class="{
               'border-black/40': isLight,
               'border-white/40': !isLight
@@ -199,7 +199,7 @@ useHead({
       </div>
     </div>
     <p
-      class="mt-2 text-center text-base line-clamp-6 lg:text-left lg:text-xl"
+      class="mt-2 line-clamp-6 text-center text-base lg:text-left lg:text-xl"
       :class="{
         'text-black/80': isLight,
         'text-white/80 ': !isLight

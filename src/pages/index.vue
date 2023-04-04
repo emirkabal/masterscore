@@ -18,9 +18,7 @@ const notify = useLocalStorage("notify-2", true)
         <span class="flex items-center gap-2.5">
           <IconsDownload class="h-6 w-6" />
           <span>
-            <NuxtLink
-              to="/users/@me/settings"
-              class="hover:underline"
+            <NuxtLink to="/users/@me/settings" class="hover:underline"
               >New Update! You can now add avatars to your profile!</NuxtLink
             ></span
           >

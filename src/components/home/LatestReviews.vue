@@ -85,7 +85,7 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
               <div class="flex text-sm leading-5 md:text-base">
                 <span> Reviewed: </span>
                 <span
-                  class="ml-1 break-all font-bold line-clamp-1 group-hover:underline"
+                  class="ml-1 line-clamp-1 break-all font-bold group-hover:underline"
                   >{{ review.entertainment.info.title }}</span
                 >
               </div>

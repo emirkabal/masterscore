@@ -70,13 +70,13 @@ onKeyStroke(["Control", "K", "k"], (e) => {
     <div
       v-if="focused"
       @click="removeFocus"
-      class="fixed top-0 left-0 z-20 h-screen w-full bg-black/20 backdrop-blur"
+      class="fixed left-0 top-0 z-20 h-screen w-full bg-black/20 backdrop-blur"
     ></div>
     <div class="relative z-20 w-full">
       <IconsSearch class="pointer-events-none absolute left-2 top-[9px]" />
       <div
         v-if="!focused"
-        class="pointer-events-none absolute top-2 right-2.5 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
+        class="pointer-events-none absolute right-2.5 top-2 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
       >
         Ctrl K
       </div>
@@ -84,7 +84,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         type="text"
         class="hover:foucs:ring-0 w-full rounded-lg border-none bg-white pl-10 shadow focus:ring-0 hover:ring dark:bg-black dark:placeholder:text-gray-300"
         :class="{
-          'rounded-tl-2xl rounded-tr-2xl rounded-bl-none rounded-br-none focus:ring-0 hover:focus:ring-0':
+          'rounded-bl-none rounded-br-none rounded-tl-2xl rounded-tr-2xl focus:ring-0 hover:focus:ring-0':
             focused
         }"
         placeholder="Type to search..."
@@ -144,7 +144,8 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             ) {
               $router.push(
                 `/users/${
-                  users[selectedIndex - results.length - persons.length].username
+                  users[selectedIndex - results.length - persons.length]
+                    .username
                 }`
               )
             }
@@ -332,9 +333,16 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               }"
             >
               <div class="flex w-full items-center">
-                <Avatar :username="user.username" :avatar="user.avatar" class="h-10 w-10" :border="true" />
+                <Avatar
+                  :username="user.username"
+                  :avatar="user.avatar"
+                  class="h-10 w-10"
+                  :border="true"
+                />
                 <div class="ml-2 max-w-sm">
-                  <p class="truncate text-ellipsis font-bold">@{{ user.username }}</p>
+                  <p class="truncate text-ellipsis font-bold">
+                    @{{ user.username }}
+                  </p>
                 </div>
               </div>
             </NuxtLink>

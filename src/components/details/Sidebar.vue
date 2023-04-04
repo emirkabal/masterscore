@@ -152,10 +152,10 @@ watch(trailerModal, () => {
   <div class="z-10 w-full rounded-3xl p-0 lg:px-6 lg:pt-6">
     <div
       v-if="getVideo && trailerModal"
-      class="fixed top-0 left-0 z-50 h-screen w-full bg-black/80"
+      class="fixed left-0 top-0 z-50 h-screen w-full bg-black/80"
     >
       <button
-        class="absolute top-0 right-0 m-2 opacity-50 transition-opacity hover:opacity-100 md:m-12"
+        class="absolute right-0 top-0 m-2 opacity-50 transition-opacity hover:opacity-100 md:m-12"
       >
         <IconsTimes class="h-14 w-14 text-white" />
       </button>
