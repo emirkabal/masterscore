@@ -1,10 +1,11 @@
 <script setup lang="ts">
 const props = defineProps<{
-  banner?: string |null,
-  username: string,
-  avatar?: string | null,
-  isMe?: boolean,
-  viewProfile?: boolean}>()
+  banner?: string | null
+  username: string
+  avatar?: string | null
+  isMe?: boolean
+  viewProfile?: boolean
+}>()
 </script>
 <template>
   <div

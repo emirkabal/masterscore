@@ -36,14 +36,17 @@ const avatar = computed(() => {
       'outline outline-4 outline-gray-300 dark:outline-zinc-700': border
     }"
   >
-    <span class="w-full h-full dark:bg-zinc-900 bg-gray-400 skeleton-effect" v-if="imageLoading && !loading">
+    <span
+      class="skeleton-effect h-full w-full bg-gray-400 dark:bg-zinc-900"
+      v-if="imageLoading && !loading"
+    >
     </span>
     <nuxt-img
       :src="avatar"
       loading="lazy"
       class="h-full w-full rounded-full"
       :class="{
-        'absolute opacity-0': imageLoading && !loading,
+        'absolute opacity-0': imageLoading && !loading
       }"
       draggable="false"
       @load="imageLoading = false"
