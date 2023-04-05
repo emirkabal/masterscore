@@ -2,11 +2,13 @@
 const scrollRef = ref<HTMLElement | null>(null)
 const scroll = ref(0)
 const maxScroll = ref(0)
+const actualHeight = ref(0)
 
 watch(scrollRef, () => {
   if (scrollRef.value === null) return
   scroll.value = scrollRef.value.scrollLeft
   maxScroll.value = scrollRef.value?.scrollWidth - scrollRef.value?.clientWidth
+  actualHeight.value = scrollRef.value?.clientHeight + 32
 })
 </script>
 <template>
@@ -21,7 +23,8 @@ watch(scrollRef, () => {
     >
       <div
         v-show="scroll === 0 && maxScroll > 0"
-        class="absolute -right-32 -top-8 z-10 m-auto h-[400px] w-[160px] rounded bg-white blur-md dark:bg-black"
+        class="absolute -right-32 -top-8 z-10 m-auto w-[160px] rounded bg-white blur-md dark:bg-black"
+        :style="{ height: actualHeight + 'px' }"
       ></div>
     </Transition>
     <div

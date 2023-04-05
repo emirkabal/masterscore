@@ -17,7 +17,8 @@ const { data, pending } = useLazyFetch("/api/reviews/latest")
         <span>
           <NuxtLink to="/feed" class="hover:underline">
             <span class="font-semibold">Deprecated!</span> There is gonna be
-            removed in the future updates; please use the new feed instead.
+            removed in the future updates; please click here to use the new feed
+            instead.
           </NuxtLink></span
         >
       </span>

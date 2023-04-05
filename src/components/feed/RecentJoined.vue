@@ -9,7 +9,7 @@ const { data, pending } = await useLazyFetch<
 </script>
 
 <template>
-  <div>
+  <section>
     <h1
       class="mb-4 border-l-4 border-green-500 pl-2 text-2xl font-bold tracking-wide"
     >
@@ -38,5 +38,5 @@ const { data, pending } = await useLazyFetch<
         />
       </NuxtLink>
     </OverflowBehavior>
-  </div>
+  </section>
 </template>

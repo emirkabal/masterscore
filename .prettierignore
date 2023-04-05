@@ -1,6 +1,6 @@
-node_modules/
-.nuxt/
-/src/public/icons/
-/src/assets/
-.vscode/
-config/
+node_modules/*
+.nuxt/*
+/src/public/icons/*
+/src/assets/*
+.vscode/*
+config/*
