@@ -174,7 +174,7 @@ const submit = async (e) => {
                     aspectRatio: 1
                   }"
                   :preset-mode="{
-                    mode: 'fixedSize',
+                    mode: 'round',
                     width: 512,
                     height: 512
                   }"
