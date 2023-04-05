@@ -1,4 +1,5 @@
 <script setup>
+import VuePictureCropper, { cropper } from "vue-picture-cropper"
 import { useUserStore } from "~/store/user"
 import { Switch } from "@headlessui/vue"
 import { useStorage } from "@vueuse/core"
@@ -20,6 +21,7 @@ const banner = ref(user.banner)
 const username = ref("")
 const preview = ref(false)
 
+const croppingImage = ref(null)
 const avatar = ref(null)
 const avatarHandle = ref("")
 
@@ -47,10 +49,25 @@ const uploadFiles = (e) => {
   } else {
     error.value = null
   }
-  avatar.value = file
+  croppingImage.value = file
+  //avatar.value = file
   if (avatarHandle.value === "remove") {
     avatarHandle.value = null
   }
+}
+
+const cropImage = async () => {
+  const croppedImage = await cropper.getFile()
+  avatar.value = croppedImage
+  croppingImage.value = null
+}
+
+const setZoom = (val) => {
+  const data = cropper.getData()
+  cropper.zoomTo(val / 100, {
+    x: data.x,
+    y: data.y
+  })
 }
 
 const getBase64 = (file) => {
@@ -135,6 +152,51 @@ const submit = async (e) => {
       </div>
       <div v-else class="my-12 grid gap-8 lg:my-0 lg:grid-cols-2">
         <div>
+          <Modal
+            :show="croppingImage !== null"
+            @close="croppingImage = null"
+            title="Crop Image"
+          >
+            <template v-slot:body>
+              <div>
+                <VuePictureCropper
+                  v-if="croppingImage"
+                  :boxStyle="{
+                    width: '100%',
+                    height: '100%',
+                    maxHeight: '512px',
+                    backgroundColor: '#000'
+                  }"
+                  :img="getPreviewImage(croppingImage)"
+                  :options="{
+                    viewMode: 2,
+                    dragMode: 'move',
+                    aspectRatio: 1
+                  }"
+                  :preset-mode="{
+                    mode: 'round',
+                    width: 512,
+                    height: 512
+                  }"
+                />
+                <input
+                  type="range"
+                  @input="(e) => setZoom(e.target.value)"
+                  class="transparent mt-10 h-1.5 w-full cursor-pointer appearance-none rounded-lg border-transparent bg-neutral-200"
+                />
+              </div>
+            </template>
+            <template v-slot:footer class>
+              <button @click="croppingImage = null">Cancel</button>
+              <button
+                class="rounded bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+                @click="cropImage"
+              >
+                Confirm
+              </button>
+            </template>
+          </Modal>
+
           <form @submit="submit" class="space-y-2">
             <div class="space-y-2 border-b pb-4 dark:border-zinc-900">
               <div

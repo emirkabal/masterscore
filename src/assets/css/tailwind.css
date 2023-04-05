@@ -345,3 +345,9 @@ before:h-5 before:w-5;
 .jsonviewer .jv-code .jv-toggle:hover:before {
   background: #999;
 }
+
+
+.cropper-bg {
+  @apply bg-gray-100 dark:bg-zinc-900;
+  background-image: none !important;
+}

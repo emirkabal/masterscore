@@ -59,6 +59,7 @@
     "pinia": "^2.0.29",
     "tinycolor2": "^1.6.0",
     "vue-json-viewer": "3",
+    "vue-picture-cropper": "^0.6.1",
     "vue-star-rating": "^2.1.0",
     "vue3-easy-data-table": "^1.5.29",
     "vue3-emoji-picker": "^1.1.7"

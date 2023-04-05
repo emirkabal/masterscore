@@ -1676,6 +1676,13 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@bassist/utils@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@bassist/utils/-/utils-0.4.0.tgz#58eb247b37afc3c405543884731a134f522fc64b"
+  integrity sha512-aoFTl0jUjm8/tDZodP41wnEkvB+C5O9NFCuYN/ztL6jSUSsuBkXq90/1ifBm1XhV/zySHgLYlU1+tgo3XtQ+nA==
+  dependencies:
+    "@withtypes/mime" "^0.1.2"
+
 "@cloudflare/kv-asset-handler@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@cloudflare/kv-asset-handler/-/kv-asset-handler-0.3.0.tgz#11f0af0749a400ddadcca16dcd6f4696d7036991"
@@ -3052,6 +3059,13 @@
   dependencies:
     vue-demi "*"
 
+"@withtypes/mime@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@withtypes/mime/-/mime-0.1.2.tgz#956883251b0786f2c898ed76a23594ea6d9939e0"
+  integrity sha512-PB9BfZGzwblUONJY0LiOwsHCA6uV3DIPj/w9ReekdHxPOl0VdUFgI5s4avKycuuq9Gf5Nz2ZPA2O36GAUzlMPA==
+  dependencies:
+    mime "^3.0.0"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -3949,6 +3963,11 @@ create-require@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
+
+cropperjs@^1.5.13:
+  version "1.5.13"
+  resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-1.5.13.tgz#eb1682f01d17c70ed5244317091d745c9a249ef8"
+  integrity sha512-by7jKAo73y5/Do0K6sxdTKHgndY0NMjG2bEdgeJxycbcmHuCiMXqw8sxy5C5Y5WTOTcDGmbT7Sr5CgKOXR06OA==
 
 cross-fetch@^3.1.5:
   version "3.1.5"
@@ -9900,6 +9919,14 @@ vue-json-viewer@3:
   integrity sha512-pnC080rTub6YjccthVSNQod2z9Sl5IUUq46srXtn6rxwhW8QM4rlYn+CTSLFKXWfw+N3xv77Cioxw7B4XUKIbQ==
   dependencies:
     clipboard "^2.0.4"
+
+vue-picture-cropper@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/vue-picture-cropper/-/vue-picture-cropper-0.6.1.tgz#d5c95ed4d715e2fdc41613fe48d107f6a9c75441"
+  integrity sha512-mz8fWHU/ZwZU7PrurlWBZiwlXejGSeUsnevnpOf47Ggg4uRyvAKRtAm/wo/Hu70FKx3S4AyR6Yh9N+8Q2WJmww==
+  dependencies:
+    "@bassist/utils" "^0.4.0"
+    cropperjs "^1.5.13"
 
 vue-router@^4.1.6:
   version "4.1.6"
