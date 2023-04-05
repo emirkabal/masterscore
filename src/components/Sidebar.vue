@@ -1,7 +1,9 @@
 <template>
-  <div class="fixed z-20 flex h-screen items-center justify-center">
+  <div
+    class="pointer-events-none fixed z-20 flex h-screen items-center justify-center"
+  >
     <div
-      class="flex h-auto w-auto -translate-x-12 flex-col items-center gap-2 rounded-br-xl rounded-tr-xl bg-gray-200 px-2 py-8 shadow-2xl drop-shadow-2xl transition-all hover:translate-x-0 dark:bg-zinc-950"
+      class="pointer-events-auto flex h-auto w-auto -translate-x-12 flex-col items-center gap-2 rounded-br-xl rounded-tr-xl bg-gray-200 px-2 py-8 shadow-2xl drop-shadow-2xl transition-all hover:translate-x-0 dark:bg-zinc-950"
     >
       <NuxtLink
         to="/"
