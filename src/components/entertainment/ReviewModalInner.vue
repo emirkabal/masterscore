@@ -43,7 +43,7 @@ const onSelectEmoji = (emoji: any) => {
       </p>
       <StarRating
         :animate="true"
-        :increment="0.1"
+        :increment="0.5"
         :max-rating="10"
         :star-size="39"
         :show-rating="false"

@@ -24,7 +24,7 @@ const getCalculatedY = (e?: TouchEvent) => {
   const modalHeight = modal.value.offsetHeight
   const windowHeight = window.innerHeight
   const maxTranslateY = windowHeight - modalHeight
-  const maximumTouchY = windowHeight - maxTranslateY - 80
+  const maximumTouchY = windowHeight - maxTranslateY - 110
   const touchY = e.touches[0].clientY - maxTranslateY - 20
   lastTouchEvents.touchY = touchY
   lastTouchEvents.maxTranslateY = maxTranslateY
@@ -111,7 +111,7 @@ watch(
     >
       <div
         ref="modal"
-        class="w-full bg-white px-2 dark:bg-black"
+        class="w-full bg-white px-2 pb-3 dark:bg-black"
         :class="{
           'transition-transform': inAnimation
         }"

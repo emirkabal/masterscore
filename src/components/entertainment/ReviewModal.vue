@@ -79,7 +79,12 @@ $listen("modal:review", (val) => {
       </button>
     </template>
   </Modal>
-  <BottomModal v-else title="Review" :show="modal" @close="modal = false">
+  <BottomModal
+    v-else
+    title="Make a Review"
+    :show="modal"
+    @close="modal = false"
+  >
     <template v-slot:body>
       <EntertainmentReviewModalInner
         :data="props.data"
