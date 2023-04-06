@@ -58,7 +58,8 @@ export default defineEventHandler(async (event) => {
   await ActivityModel.findOneAndUpdate(
     {
       entertainment: id,
-      author: user._id
+      author: user._id,
+      type: "review"
     },
     {
       $set: {
