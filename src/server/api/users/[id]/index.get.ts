@@ -1,5 +1,6 @@
 import { ErrorResponse, IUser } from "~/@types"
 import UserModel from "~/server/models/User.model"
+import fixUserNullables from "~/utils/fixUserNullables"
 
 export default defineEventHandler(async (event) => {
   const id = event.context.params?.id as string
@@ -7,20 +8,17 @@ export default defineEventHandler(async (event) => {
     return { status: 400, message: "Missing id" } as ErrorResponse
   }
 
-  const user: Partial<IUser> = await UserModel.findOne({
-    username: id
+  let user: Partial<IUser> = await UserModel.findOne({
+    username: {
+      $regex: new RegExp(`^${id}$`, "i")
+    }
   }).lean()
 
   if (!user) {
     return { status: 404, message: "User not found" } as ErrorResponse
   }
 
-  if (!user.about) user.about = null
-  if (!user.banner) user.banner = null
-  if (!user.likes) user.likes = []
-  if (!user.reviews) user.reviews = []
-  if (!user.watchlist) user.watchlist = []
-  if (!user.watcheds) user.watcheds = []
+  user = fixUserNullables(user)
 
   delete user.password
 

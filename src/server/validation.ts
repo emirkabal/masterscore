@@ -1,20 +1,14 @@
 import Joi from "joi"
 
 export const UserSchema = Joi.object({
-  username: Joi.string().alphanum().lowercase().min(3).max(16).required(),
+  username: Joi.string().alphanum().min(3).max(16).required(),
   password: Joi.string().min(8).max(32).required(),
   email: Joi.string().email().lowercase().min(5).max(255).required(),
   inviteCode: Joi.string()
 })
 
 export const UserPatchableSchema = Joi.object({
-  username: Joi.string()
-    .alphanum()
-    .lowercase()
-    .allow("")
-    .allow(null)
-    .min(3)
-    .max(16),
+  username: Joi.string().alphanum().allow("").allow(null).min(3).max(16),
   about: Joi.string().allow(null).allow("").max(512),
   banner: Joi.string().allow(null).allow("").max(128).uri(),
   avatar: Joi.string().allow(null).allow("").max(128),

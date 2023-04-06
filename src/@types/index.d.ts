@@ -216,6 +216,7 @@ export interface IUser {
   email: string
   username: string
   password: string
+  verified: boolean
   about?: string | null
   banner?: string | null
   avatar?: string | null
@@ -223,6 +224,8 @@ export interface IUser {
   reviews?: string[]
   watchlist?: string[]
   watcheds?: string[]
+  following?: string[]
+  followers?: string[]
   latestUsernameChange?: Date
   createdAt: Date
   updatedAt: Date

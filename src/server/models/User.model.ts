@@ -14,6 +14,11 @@ const schema: Schema = new Schema(
       type: String,
       required: true
     },
+    verified: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
     about: {
       type: String,
       required: false
@@ -48,6 +53,18 @@ const schema: Schema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "Entertainment"
+      }
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ],
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User"
       }
     ],
     latestUsernameChange: {

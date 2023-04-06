@@ -27,9 +27,8 @@ const avatarHandle = ref("")
 
 watch(username, (newValue) => {
   username.value = username.value
-    .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]/g, "")
+    .replace(/[^A-Za-z0-9]/g, "")
     .replace(/^(.{16}).*$/, "$1")
 })
 
@@ -296,9 +295,10 @@ const submit = async (e) => {
                       :value="username"
                       @input="
                         (e) =>
-                          (username = e.target.value
-                            .toLowerCase()
-                            .replace(/[^a-z0-9]/g, ''))
+                          (username = e.target.value.replace(
+                            /[^A-Za-z0-9]/g,
+                            ''
+                          ))
                       "
                       :maxlength="16"
                       :placeholder="user.username"

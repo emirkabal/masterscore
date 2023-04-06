@@ -129,18 +129,11 @@ const getActivityTitle = (type: string) => {
       <div
         class="mb-8 flex items-center justify-between border-b p-2 dark:border-zinc-900 md:p-6"
       >
-        <h1 class="text-xl font-bold md:text-4xl">@{{ user.username }}</h1>
-        <p class="flex gap-1 text-sm text-gray-500 dark:text-gray-300">
-          <span class="font-bold">Joined:</span>
-          <span class="hidden md:block">{{
-            $moment(user.createdAt).format("MMMM Do YYYY")
-          }}</span>
-          <span class="flex"
-            ><span class="hidden md:block">(</span
-            >{{ $moment(user.createdAt).fromNow()
-            }}<span class="hidden md:block">)</span></span
-          >
-        </p>
+        <div class="flex items-center gap-2">
+          <h1 class="text-xl font-bold md:text-4xl">@{{ user.username }}</h1>
+          <Verified v-if="user.verified" />
+        </div>
+        <FollowButton />
       </div>
       <div class="flex justify-between gap-8">
         <div class="flex w-full max-w-6xl flex-grow-0 flex-col gap-8">
@@ -258,6 +251,17 @@ const getActivityTitle = (type: string) => {
           <p>
             <span class="font-bold">Watchlist:</span>
             {{ user.watchlist?.length }}
+          </p>
+          <p class="flex gap-1 text-sm text-gray-500 dark:text-gray-300">
+            <span class="font-bold">Joined:</span>
+            <span class="hidden md:block">{{
+              $moment(user.createdAt).format("MMMM Do YYYY")
+            }}</span>
+            <span class="flex"
+              ><span class="hidden md:block">(</span
+              >{{ $moment(user.createdAt).fromNow()
+              }}<span class="hidden md:block">)</span></span
+            >
           </p>
         </div>
       </div>

@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
     "@nuxt/content",
+    "@nuxtjs/device",
     "@vite-pwa/nuxt"
   ],
 

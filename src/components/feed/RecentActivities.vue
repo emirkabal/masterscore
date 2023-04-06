@@ -14,6 +14,7 @@ interface CustomIncomingData {
   author: {
     username: string
     avatar?: string
+    verified: boolean
   }
   createdAt: Date
   updatedAt: Date
@@ -86,6 +87,7 @@ watch(
       >
         Recent Activities
       </h1>
+
       <button
         @click="reset"
         v-if="params.page !== '1' && activities.length === 10"
@@ -94,6 +96,10 @@ watch(
         Reset Page
       </button>
     </div>
+    <p v-if="$route.path === '/'" class="text-red-600">
+      Latest reviews have been removed and this section will also be removed
+      very soon. Because recent activities have their own page called feed.
+    </p>
     <div
       v-if="loading"
       class="flex items-center px-4 py-6"
@@ -141,9 +147,12 @@ watch(
           <div class="flex items-center gap-2">
             <NuxtLink
               :to="`/users/@${activity.author.username}`"
-              class="line-clamp-1 font-semibold hover:underline"
-              >@{{ activity.author.username }}</NuxtLink
-            >
+              class="line-clamp-1 flex items-center gap-1 font-semibold hover:underline"
+              >@{{ activity.author.username }}
+              <IconsVerified
+                v-if="activity.author.verified"
+                class="h-5 w-5 text-yellow-500"
+            /></NuxtLink>
             <span
               class="hidden text-xs text-gray-500 dark:text-gray-300 sm:block"
             >

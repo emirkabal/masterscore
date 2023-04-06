@@ -59,15 +59,13 @@ const props = defineProps({
             <div class="flex w-full items-center justify-between gap-2">
               <div class="flex items-center gap-2 truncate">
                 <NuxtLink
-                  :to="`/users/@${
-                    comment.author._id == user?._id
-                      ? 'me'
-                      : comment.author.username
-                  }`"
-                  class="line-clamp-1 break-words text-base font-semibold hover:underline md:text-lg"
-                >
-                  @{{ comment.author.username }}
-                </NuxtLink>
+                  :to="`/users/@${comment.author.username}`"
+                  class="line-clamp-1 flex items-center gap-1 font-semibold hover:underline"
+                  >@{{ comment.author.username }}
+                  <IconsVerified
+                    v-if="comment.author.verified"
+                    class="h-5 w-5 text-yellow-500"
+                /></NuxtLink>
                 <div class="hidden sm:block">
                   <p
                     class="line-clamp-1 break-words text-xs text-gray-500 dark:text-gray-300"

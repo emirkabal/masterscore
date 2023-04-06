@@ -1,4 +1,5 @@
 import { ErrorResponse, IUser } from "~/@types"
+import fixUserNullables from "~/utils/fixUserNullables"
 
 export default defineEventHandler(async (event) => {
   if (!event.context.user) {
@@ -6,12 +7,7 @@ export default defineEventHandler(async (event) => {
   }
 
   let user = event.context.user as IUser
-  if (!user.about) user.about = null
-  if (!user.banner) user.banner = null
-  if (!user.likes) user.likes = []
-  if (!user.reviews) user.reviews = []
-  if (!user.watchlist) user.watchlist = []
-  if (!user.watcheds) user.watcheds = []
+  user = fixUserNullables(user)
 
   return user as IUser
 })
