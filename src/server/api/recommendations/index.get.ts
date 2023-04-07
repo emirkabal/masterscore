@@ -1,4 +1,9 @@
-import { ErrorResponse, IEntertainment, IUser, TMDBData, TMDBMovie, TMDBSearchResult } from "~/@types"
+import {
+  ErrorResponse,
+  IEntertainment,
+  IUser,
+  TMDBSearchResult
+} from "~/@types"
 import EntertainmentModel from "~/server/models/Entertainment.model"
 import UserModel from "~/server/models/User.model"
 const config = useRuntimeConfig()
@@ -13,26 +18,37 @@ export default defineEventHandler(async (event) => {
     return { status: 400, message: "You have no likes." } as ErrorResponse
   }
 
-  const { likes }: { likes: IEntertainment[] } = await UserModel.findById(user._id).populate({
-    path: "likes",
-    model: EntertainmentModel,
-    select: "id type info.title -_id"
-  }).select("likes -_id").lean()
+  const { likes }: { likes: IEntertainment[] } = await UserModel.findById(
+    user._id
+  )
+    .populate({
+      path: "likes",
+      model: EntertainmentModel,
+      select: "id type info.title -_id"
+    })
+    .select("likes -_id")
+    .lean()
 
   const releatedEntertainment = likes[Math.floor(Math.random() * likes.length)]
 
   const data = await $fetch<{
     releated: IEntertainment
     results: TMDBSearchResult[]
-  }>(`https://api.themoviedb.org/3/${releatedEntertainment.type}/${releatedEntertainment.id}/recommendations?api_key=${config.TMDB_API_KEY}&language=en-US`)
+  }>(
+    `https://api.themoviedb.org/3/${releatedEntertainment.type}/${releatedEntertainment.id}/recommendations?api_key=${config.TMDB_API_KEY}&language=en-US`
+  )
 
   data.releated = releatedEntertainment
-  data.results = data.results.filter((result) => result.poster_path && result.backdrop_path)
+  data.results = data.results.filter(
+    (result) => result.poster_path && result.backdrop_path
+  )
   likes.forEach((like) => {
-    data.results = data.results.filter((result) => result.id?.toString() !== like.id.toString() && result.media_type !== like.info.title)
+    data.results = data.results.filter(
+      (result) =>
+        result.id?.toString() !== like.id.toString() &&
+        result.media_type !== like.info.title
+    )
   })
 
   return data
-
 })
-

@@ -10,21 +10,43 @@ watch(data, () => {
 
 <template>
   <div>
-    <h1 class="my-4 border-l-4 border-blue-600 pl-2 text-2xl font-bold tracking-wide">
+    <h1
+      class="my-4 border-l-4 border-blue-600 pl-2 text-2xl font-bold tracking-wide"
+    >
       Trending This Week
     </h1>
-    <div v-if="pending" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div
+      v-if="pending"
+      class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+    >
       <HomeTrendingCard v-for="i in 8" :key="i" :loading="true" />
       <HomeTrendingCard class="hidden lg:flex xl:hidden" :loading="true" />
     </div>
-    <div v-else-if="items.length > 0 && !pending" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      <HomeTrendingCard v-for="item in items" :key="item.id" :id="item.id" :type="item.media_type"
-        :title="item.title || item.name" :overview="item.overview" :poster="item.poster_path"
-        :backdrop="item.backdrop_path" :rating="item.popularity" />
-      <HomeTrendingCard class="hidden lg:flex xl:hidden" :id="notFeaturedItem.id" :type="notFeaturedItem.media_type"
-        :title="notFeaturedItem.title || notFeaturedItem.name" :overview="notFeaturedItem.overview"
-        :poster="notFeaturedItem.poster_path" :backdrop="notFeaturedItem.backdrop_path"
-        :rating="notFeaturedItem.popularity" />
+    <div
+      v-else-if="items.length > 0 && !pending"
+      class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+    >
+      <HomeTrendingCard
+        v-for="item in items"
+        :key="item.id"
+        :id="item.id"
+        :type="item.media_type"
+        :title="item.title || item.name"
+        :overview="item.overview"
+        :poster="item.poster_path"
+        :backdrop="item.backdrop_path"
+        :rating="item.popularity"
+      />
+      <HomeTrendingCard
+        class="hidden lg:flex xl:hidden"
+        :id="notFeaturedItem.id"
+        :type="notFeaturedItem.media_type"
+        :title="notFeaturedItem.title || notFeaturedItem.name"
+        :overview="notFeaturedItem.overview"
+        :poster="notFeaturedItem.poster_path"
+        :backdrop="notFeaturedItem.backdrop_path"
+        :rating="notFeaturedItem.popularity"
+      />
     </div>
   </div>
 </template>
