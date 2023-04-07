@@ -119,16 +119,10 @@ const getActivityTitle = (type: string) => {
     <p class="text-gray-500">{{ error }}</p>
   </div>
   <div v-else>
-    <ProfileBanner
-      :banner="user.banner"
-      :username="user.username"
-      :avatar="user.avatar"
-      :is-me="user.username === localUser?.username"
-    />
+    <ProfileBanner :banner="user.banner" :username="user.username" :avatar="user.avatar"
+      :is-me="user.username === localUser?.username" />
     <div class="container mx-auto mb-24 mt-16 px-4 2xl:mt-10">
-      <div
-        class="mb-8 flex items-center justify-between border-b p-2 dark:border-zinc-900 md:p-6"
-      >
+      <div class="mb-8 flex items-center justify-between border-b p-2 dark:border-zinc-900 md:p-6">
         <div class="flex items-center gap-2">
           <h1 class="text-xl font-bold md:text-4xl">@{{ user.username }}</h1>
           <Verified v-if="user.verified" />
@@ -138,37 +132,25 @@ const getActivityTitle = (type: string) => {
       <div class="flex justify-between gap-8">
         <div class="flex w-full max-w-6xl flex-grow-0 flex-col gap-8">
           <div>
-            <h2
-              class="mb-2 border-b pb-2 text-xl font-bold dark:border-zinc-900 md:text-2xl"
-            >
+            <h2 class="mb-2 border-b pb-2 text-xl font-bold dark:border-zinc-900 md:text-2xl">
               About
             </h2>
-            <p
-              class="line-clamp-5 truncate whitespace-pre-wrap break-words text-gray-500 dark:text-gray-100"
-            >
+            <p class="line-clamp-5 truncate whitespace-pre-wrap break-words text-gray-500 dark:text-gray-100">
               {{ user.about ? user.about : "No about information" }}
             </p>
           </div>
           <div>
-            <div
-              class="mb-4 flex items-center justify-between border-b pb-2 dark:border-zinc-900"
-            >
+            <div class="mb-4 flex items-center justify-between border-b pb-2 dark:border-zinc-900">
               <h2 class="text-xl font-bold md:text-2xl">Latest Activity</h2>
               <div class="flex items-center gap-2">
-                <NuxtLink
-                  :to="`/users/@${
-                    user._id === localUser?._id ? 'me' : user.username
+                <NuxtLink :to="`/users/@${user._id === localUser?._id ? 'me' : user.username
                   }/watchlist`"
-                  class="rounded bg-white px-4 py-2 text-sm font-semibold shadow transition-colors hover:bg-gray-50 dark:bg-zinc-900 dark:hover:bg-zinc-800"
-                >
+                  class="rounded bg-white px-4 py-2 text-sm font-semibold shadow transition-colors hover:bg-gray-50 dark:bg-zinc-900 dark:hover:bg-zinc-800">
                   Watchlist
                 </NuxtLink>
-                <NuxtLink
-                  :to="`/users/@${
-                    user._id === localUser?._id ? 'me' : user.username
+                <NuxtLink :to="`/users/@${user._id === localUser?._id ? 'me' : user.username
                   }/reviews`"
-                  class="rounded bg-white px-4 py-2 text-sm font-semibold shadow transition-colors hover:bg-gray-50 dark:bg-zinc-900 dark:hover:bg-zinc-800"
-                >
+                  class="rounded bg-white px-4 py-2 text-sm font-semibold shadow transition-colors hover:bg-gray-50 dark:bg-zinc-900 dark:hover:bg-zinc-800">
                   Reviews
                 </NuxtLink>
               </div>
@@ -181,33 +163,20 @@ const getActivityTitle = (type: string) => {
               <p class="text-gray-500 dark:text-gray-300">No activity</p>
             </div>
             <div v-else>
-              <div
-                v-for="(activity, i) in activities.items"
-                v-intersection-observer="
-                  i === activities.items.length - 1
-                    ? onIntersectionObserver
-                    : () => {}
-                "
-                :key="activity._id"
-              >
+              <div v-for="(activity, i) in activities.items" v-intersection-observer="
+                i === activities.items.length - 1
+                  ? onIntersectionObserver
+                  : () => { }
+              " :key="activity._id">
                 <NuxtLink
                   class="group mb-4 flex items-center gap-2 rounded-3xl bg-gray-50 p-2 transition-colors hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800"
-                  :to="`/details/${activity.entertainment.type}/${activity.entertainment.id}`"
-                >
+                  :to="`/details/${activity.entertainment.type}/${activity.entertainment.id}`">
                   <div class="relative">
-                    <IconsThumbUpFilled
-                      v-if="activity?.type === 'like'"
-                      class="text-cyan-500"
-                    />
-                    <IconsListAdd
-                      v-else-if="activity?.type === 'watchlist'"
-                      class="text-black-600"
-                    />
+                    <IconsThumbUpFilled v-if="activity?.type === 'like'" class="text-cyan-500" />
+                    <IconsListAdd v-else-if="activity?.type === 'watchlist'" class="text-black-600" />
                     <IconsStarFilled v-else class="text-yellow-400" />
-                    <span
-                      v-if="activity?.type === 'review' && activity.attribute"
-                      class="absolute left-0 right-0 top-0 mt-1.5 text-center text-[8px] font-bold text-black"
-                    >
+                    <span v-if="activity?.type === 'review' && activity.attribute"
+                      class="absolute left-0 right-0 top-0 mt-1.5 text-center text-[8px] font-bold text-black">
                       {{ activity.attribute }}
                     </span>
                   </div>
@@ -217,33 +186,35 @@ const getActivityTitle = (type: string) => {
                       activity.entertainment.info.title
                     }}</span>
                   </div>
-                  <p
-                    class="ml-auto flex-shrink-0 pr-2 text-xs text-gray-500 dark:text-gray-300"
-                  >
+                  <p class="ml-auto flex-shrink-0 pr-2 text-xs text-gray-500 dark:text-gray-300">
                     {{ $moment(activity.createdAt).fromNow() }}
                   </p>
                 </NuxtLink>
               </div>
-              <div
-                v-if="activities.loadingMore"
-                class="my-2 flex justify-center"
-              >
+              <div v-if="activities.loadingMore" class="my-2 flex justify-center">
                 <Spinner color="#000" />
               </div>
             </div>
           </div>
         </div>
         <div
-          class="top-20 hidden h-fit w-full max-w-sm flex-grow space-y-4 self-start rounded-3xl bg-gray-50 p-8 text-gray-500 dark:bg-zinc-900 dark:text-gray-300 md:block lg:sticky"
-        >
+          class="top-20 hidden h-fit w-full max-w-sm flex-grow space-y-4 self-start rounded-3xl bg-gray-50 p-8 text-gray-500 dark:bg-zinc-900 dark:text-gray-300 md:block lg:sticky">
           <p>
             <span class="font-bold">Recommends:</span>
             {{ user.likes?.length }}
           </p>
-          <p>
+          <p class="flex gap-1">
             <span class="font-bold">Reviews:</span>
+          <div class="flex gap-0.5 items-center">
             {{ user.reviews?.length }}
+            <span v-if="user.reviews && user.reviews.length >= 100">
+              <IconsAward class="inline-block w-5 h-5 flex-shrink-0 text-yellow-500" />
+            </span>
+          </div>
           </p>
+          <span v-if="user.reviews && user.reviews.length >= 100">
+            Congratulations! You won the <span class="font-semibold">100₺</span>!
+          </span>
           <p>
             <span class="font-bold">Watched:</span>
             {{ user.watcheds?.length }}
@@ -257,11 +228,8 @@ const getActivityTitle = (type: string) => {
             <span class="hidden md:block">{{
               $moment(user.createdAt).format("MMMM Do YYYY")
             }}</span>
-            <span class="flex"
-              ><span class="hidden md:block">(</span
-              >{{ $moment(user.createdAt).fromNow()
-              }}<span class="hidden md:block">)</span></span
-            >
+            <span class="flex"><span class="hidden md:block">(</span>{{ $moment(user.createdAt).fromNow()
+            }}<span class="hidden md:block">)</span></span>
           </p>
         </div>
       </div>
