@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ReviewData, TMDBData } from "~~/src/@types"
 import { useUserStore } from "~/store/user"
+import { useLocalStorage } from "@vueuse/core";
 const { user, isLoggedIn } = useUserStore()
+const award = useLocalStorage('easteregg', 0);
 
 const { data, isLight, reviewData } = defineProps<{
   data?: TMDBData
@@ -28,6 +30,7 @@ const like = async () => {
   if (!isLoggedIn) {
     return useRouter().push("/account/login")
   }
+  award.value = award.value + 1;
   if (data && user?.likes && user.likes.includes(data.localId)) {
     user.likes = user.likes.filter((e) => e !== data.localId)
   } else if (data && user?.likes) {
@@ -74,76 +77,68 @@ const fetchLikes = async () => {
   }>(`/api/likes/${data.localId}`)
   likes.value = entertainmentLikes
 }
-onMounted(() => {
-  fetchLikes()
+
+watchEffect(() => {
+  if (data) {
+    fetchLikes()
+    // /details/movie/408425
+    console.log(data)
+    if (data.localData.id === "408425" && data.localData.type === "movie") {
+      award.value = 0;
+    }
+  }
 })
 </script>
 
 <template>
   <div v-if="loading">
-    <div class="mt-3 flex flex-col gap-2 lg:flex-row">
-      <div
-        class="skeleton-effect h-8 w-full rounded bg-gray-300 dark:bg-zinc-800 lg:w-1/4"
-      ></div>
-      <div
-        class="skeleton-effect h-8 w-full rounded bg-gray-300 dark:bg-zinc-800 lg:w-1/4"
-      ></div>
-      <div
-        class="skeleton-effect h-8 w-full rounded bg-gray-300 dark:bg-zinc-800 lg:w-4/12"
-      ></div>
+    <div class="mt-4 flex flex-col gap-2 lg:flex-row">
+      <div class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-zinc-800 lg:w-1/4"></div>
+      <div class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-zinc-800 lg:w-1/4"></div>
+      <div class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-zinc-800 lg:w-4/12"></div>
+    </div>
+    <div class="mt-2 flex flex-row gap-2">
+      <div class="skeleton-effect h-2 w-2/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-zinc-800"></div>
+      <div class="skeleton-effect h-2 w-2/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-zinc-800"></div>
     </div>
   </div>
   <div v-else-if="!loading && data && reviewData">
     <div class="mt-4 flex flex-col gap-2 text-lg lg:flex-row">
-      <button
-        @click="like"
-        class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
-      >
+      <button @click="like"
+        class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80">
         <IconsThumbUpFilled v-if="userLiked" class="h-6 w-6" />
         <IconsThumbUpUnfilled v-else class="h-6 w-6" />
-        {{ userLiked ? "Recommended" : "Recommend" }}
+        {{ award == 20 ? 'I AM' : userLiked ? "Recommended" : "Recommend" }}
       </button>
-      <button
-        @click="$emit('openReview')"
-        class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
-      >
+      <button @click="$emit('openReview')"
+        class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80">
         <IconsStarFilled v-if="userReviewed" class="h-6 w-6" />
         <IconsStar v-else class="h-6 w-6" />
-        {{ userReviewed ? "Reviewed" : "Review" }}
+        {{ award == 20 ? 'THE' : userReviewed ? "Reviewed" : "Review" }}
       </button>
-      <button
-        v-if="!userAddedWatchlist"
-        @click="submitToWatchlist"
+      <button v-if="!userAddedWatchlist" @click="submitToWatchlist"
         class="flex h-10 items-center gap-1 rounded border bg-transparent px-4 py-2 font-semibold transition hover:opacity-80"
         :class="{
           'border-black text-black': isLight,
           'border-white text-white': !isLight
-        }"
-      >
+        }">
         <IconsListAdd class="h-6 w-6" />
-        Add to watchlist
+        {{ award == 20 ? 'GOD' : 'Add to watchlist' }}
       </button>
-      <button
-        v-else
-        @click="submitToWatchlist"
-        class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:opacity-80"
-      >
+      <button v-else @click="submitToWatchlist"
+        class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:opacity-80">
         <IconsListRemove class="h-6 w-6" />
-        Remove from watchlist
+        {{ award == 20 ? 'GOD' : 'Remove from watchlist' }}
       </button>
     </div>
-    <div
-      :class="{
-        'divide-black/20 text-black/80': isLight,
-        'divide-white/20 text-white/80': !isLight
-      }"
-      class="mt-2 flex gap-2 divide-x-2 text-sm"
-    >
+    <div :class="{
+      'divide-black/20 text-black/80': isLight,
+      'divide-white/20 text-white/80': !isLight
+    }" class="mt-2 flex gap-2 divide-x-2 text-sm">
       <p>
         {{ likes }}
-        {{ likes <= 1 ? "person" : "people" }} recommended
-      </p>
-      <p class="pl-2">{{ reviewData.count }} reviews</p>
+        {{ likes <= 1 ? "person" : "people" }} recommended </p>
+          <p class="pl-2">{{ reviewData.count }} reviews</p>
     </div>
   </div>
 </template>

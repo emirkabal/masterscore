@@ -6,7 +6,7 @@ import ReviewModel from "../../models/Review.model"
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
-  const { author, entertainment, type, page, limit, expand } = query as {
+  const { author, entertainment, type, page, limit } = query as {
     author: string | undefined
     entertainment: string | undefined
     type: "like" | "review" | undefined

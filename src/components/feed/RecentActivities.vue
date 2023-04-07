@@ -81,81 +81,43 @@ watch(
 <template>
   <section>
     <div class="mb-4 flex justify-between">
-      <h1
-        id="top"
-        class="border-l-4 border-blue-500 pl-2 text-2xl font-bold tracking-wide"
-      >
+      <h1 id="top" class="border-l-4 border-blue-500 pl-2 text-2xl font-bold tracking-wide">
         Recent Activities
       </h1>
 
-      <button
-        @click="reset"
-        v-if="params.page !== '1' && activities.length === 10"
-        class="z-10 rounded bg-zinc-900 px-2 py-1 transition-colors hover:bg-zinc-800"
-      >
+      <button @click="reset" v-if="params.page !== '1' && activities.length === 10"
+        class="z-10 rounded dark:bg-zinc-900 px-2 py-1 transition-colors bg-gray-200 hover:bg-gray-300 font-semibold dark:hover:bg-zinc-800">
         Reset Page
       </button>
     </div>
-    <p v-if="$route.path === '/'" class="text-red-600">
-      Latest reviews have been removed and this section will also be removed
-      very soon. Because recent activities have their own page called feed.
-    </p>
-    <div
-      v-if="loading"
-      class="flex items-center px-4 py-6"
-      v-for="i in 8"
-      :key="i"
-    >
-      <div
-        class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 dark:bg-zinc-800 md:h-14 md:w-14"
-      ></div>
+    <div v-if="loading" class="flex items-center px-4 py-6" v-for="i in 8" :key="i">
+      <div class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 dark:bg-zinc-800 md:h-14 md:w-14">
+      </div>
       <div class="ml-4 flex w-full flex-col">
-        <div
-          class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"
-        ></div>
-        <div
-          class="skeleton-effect mt-1 h-2 w-1/2 rounded bg-gray-300 dark:bg-zinc-800"
-        ></div>
-        <div
-          class="skeleton-effect mt-1 h-2 w-1/3 rounded bg-gray-300 dark:bg-zinc-800"
-        ></div>
-        <div
-          class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"
-        ></div>
+        <div class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"></div>
+        <div class="skeleton-effect mt-1 h-2 w-1/2 rounded bg-gray-300 dark:bg-zinc-800"></div>
+        <div class="skeleton-effect mt-1 h-2 w-1/3 rounded bg-gray-300 dark:bg-zinc-800"></div>
+        <div class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"></div>
       </div>
     </div>
-    <div
-      v-else
-      class="flex w-full items-center gap-4 border-b px-2 py-8 dark:border-zinc-900"
-      v-for="(activity, i) in activities"
-      v-intersection-observer="
-        i === activities.length - 1 ? onIntersectionObserver : () => {}
-      "
-      :key="activity._id"
-      :class="{
-        '!items-start': activity.type === 'review'
-      }"
-    >
-      <NuxtLink :to="`/users/@${activity.author.username}`"
-        ><Avatar
-          :username="activity.author.username"
-          :avatar="activity.author.avatar"
-          class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
-      /></NuxtLink>
+    <div v-else class="flex w-full items-center gap-4 border-b px-2 py-8 dark:border-zinc-900"
+      v-for="(activity, i) in activities" v-intersection-observer="
+        i === activities.length - 1 ? onIntersectionObserver : () => { }
+      " :key="activity._id" :class="{
+  '!items-start': activity.type === 'review'
+}">
+      <NuxtLink :to="`/users/@${activity.author.username}`">
+        <Avatar :username="activity.author.username" :avatar="activity.author.avatar"
+          class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14" />
+      </NuxtLink>
       <div class="flex w-full min-w-0 flex-col">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <NuxtLink
-              :to="`/users/@${activity.author.username}`"
-              class="line-clamp-1 flex items-center gap-1 font-semibold hover:underline"
-              >@{{ activity.author.username }}
-              <IconsVerified
-                v-if="activity.author.verified"
-                class="h-5 w-5 text-yellow-500"
-            /></NuxtLink>
-            <span
-              class="hidden text-xs text-gray-500 dark:text-gray-300 sm:block"
-            >
+            <NuxtLink :to="`/users/@${activity.author.username}`"
+              class="line-clamp-1 flex items-center gap-1 font-semibold hover:underline">@{{ activity.author.username }}
+              <IconsVerified v-if="activity.author.verified" class="h-5 w-5 text-yellow-500" />
+            </NuxtLink>
+            <span class="hidden text-xs text-gray-500 dark:text-gray-300 sm:block">
               {{ $moment(activity.createdAt).fromNow() }}
             </span>
           </div>
@@ -164,49 +126,30 @@ watch(
             <span v-if="activity.review" class="text-sm font-semibold">{{
               activity.review.rating
             }}</span>
-            <IconsThumbUpFilled
-              v-if="activity?.type === 'like'"
-              class="h-6 w-6 text-cyan-500"
-            />
-            <IconsListAdd
-              v-else-if="activity?.type === 'watchlist'"
-              class="text-black-600 h-6 w-6"
-            />
+            <IconsThumbUpFilled v-if="activity?.type === 'like'" class="h-6 w-6 text-cyan-500" />
+            <IconsListAdd v-else-if="activity?.type === 'watchlist'" class="text-black-600 h-6 w-6" />
             <IconsStarFilled v-else class="h-4 w-4 text-yellow-400" />
           </div>
         </div>
-        <NuxtLink
-          :to="`/details/${activity.entertainment.type}/${activity.entertainment.id}`"
-          class="group -mt-1 flex w-fit items-center gap-1 text-xs"
-        >
-          <div
-            class="z-10 line-clamp-1 flex w-full min-w-0 text-sm leading-4 md:text-base"
-          >
+        <NuxtLink :to="`/details/${activity.entertainment.type}/${activity.entertainment.id}`"
+          class="group -mt-1 flex w-fit items-center gap-1 text-xs">
+          <div class="z-10 line-clamp-1 flex w-full min-w-0 text-sm leading-4 md:text-base">
             <span class="mr-1 flex-shrink-0">
               {{ getActivityTitle(activity.type) }}:
             </span>
-            <span
-              class="line-clamp-1 w-full break-all font-semibold group-hover:underline"
-              >{{ activity.entertainment.info.title }}</span
-            >
+            <span class="line-clamp-1 w-full break-all font-semibold group-hover:underline">{{
+              activity.entertainment.info.title }}</span>
           </div>
         </NuxtLink>
-        <ReviewContent
-          v-if="activity.review"
-          :review="activity.review"
-          class="-mt-0.5"
-        />
+        <ReviewContent v-if="activity.review" :review="activity.review" class="-mt-0.5" />
         <span class="block text-xs text-gray-500 dark:text-gray-300 sm:hidden">
           {{ $moment(activity.createdAt).fromNow() }}
         </span>
       </div>
     </div>
-    <div
-      class="my-10 flex justify-center opacity-0"
-      :class="{
-        'opacity-100': pagination.loading && !pagination.finished && !loading
-      }"
-    >
+    <div class="my-10 flex justify-center opacity-0" :class="{
+      'opacity-100': pagination.loading && !pagination.finished && !loading
+    }">
       <Spinner color="#000" />
     </div>
   </section>

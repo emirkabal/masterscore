@@ -50,6 +50,7 @@ export type TMDBData = Partial<TMDBMovie> &
     localId: string
     localData: IEntertainment
   }
+
 export interface TMDBMovie {
   adult?: boolean
   backdrop_path?: string
