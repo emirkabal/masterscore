@@ -29,7 +29,7 @@ export default defineNuxtConfig({
   },
 
   app: {
-    pageTransition: { name: "slide" },
+    // pageTransition: { name: "slide" },
     head: {
       title: "Masterscore",
       htmlAttrs: {
