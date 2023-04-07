@@ -132,11 +132,7 @@ useHead({
   title: "...",
   titleTemplate: "%s - Masterscore"
 })
-definePageMeta({
-  pageTransition: {
-    name: "none"
-  }
-})
+
 </script>
 
 <template>
