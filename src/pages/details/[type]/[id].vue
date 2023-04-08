@@ -132,7 +132,6 @@ useHead({
   title: "...",
   titleTemplate: "%s - Masterscore"
 })
-
 </script>
 
 <template>
