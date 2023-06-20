@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     "@vite-pwa/nuxt"
   ],
 
+
   css: [
     "vue3-emoji-picker/css",
     "@fontsource/maven-pro/400.css",
@@ -22,6 +23,12 @@ export default defineNuxtConfig({
     "@fontsource/maven-pro/800.css",
     "@fontsource/maven-pro/900.css"
   ],
+
+  $production: {
+    routeRules: {
+      '/**': { isr: true }
+    }
+  },
 
   nitro: {
     preset: "vercel",
@@ -103,10 +110,6 @@ export default defineNuxtConfig({
         }
       ]
     }
-  },
-
-  experimental: {
-    payloadExtraction: false
   },
 
   tailwindcss: {
