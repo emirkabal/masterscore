@@ -8,6 +8,7 @@ const props = defineProps<{
   avatar?: string | null
   border?: boolean
   loading?: boolean
+  square?: boolean
 }>()
 
 const defaultAvatar = computed(() => {
@@ -23,17 +24,45 @@ const avatar = computed(() => {
     ? `${config.public.SUPABASE_STORAGE_URL}${props.avatar}`
     : defaultAvatar.value
 })
+
+const isAlpha = ref(false)
+
+const avatarReference = ref()
+
+const detectAlphaPixel = (img: HTMLImageElement, x: number, y: number) => {
+  const canvas = document.createElement("canvas")
+  if (!canvas) return false
+  canvas.width = 1
+  canvas.height = 1
+  const context = canvas.getContext("2d")
+  if (!context) return false
+  context.drawImage(img, x, y, 1, 1, 0, 0, 1, 1)
+  const data = context.getImageData(0, 0, 1, 1).data
+  return data[3] === 0
+}
+
+watch(imageLoading, () => {
+  if (avatarReference.value && props.square && props.avatar) {
+    isAlpha.value = detectAlphaPixel(avatarReference.value.$el, 0, 0)
+  }
+})
 </script>
 <template>
   <div
     v-if="loading"
-    class="skeleton-effect flex-shrink-0 rounded-full bg-gray-300 dark:bg-zinc-800"
+    class="skeleton-effect flex-shrink-0 bg-gray-300 dark:bg-zinc-800"
+    :class="{
+      'rounded-full': !square,
+      'rounded-lg': square
+    }"
   ></div>
   <div
     v-else
-    class="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800"
+    class="flex flex-shrink-0 items-center justify-center overflow-hidden bg-gray-200 dark:bg-gray-800"
     :class="{
-      'outline outline-4 outline-gray-300 dark:outline-zinc-700': border
+      'outline outline-4 outline-gray-300 dark:outline-zinc-700': border,
+      'rounded-full': !square,
+      'rounded-lg': square
     }"
   >
     <span
@@ -42,14 +71,20 @@ const avatar = computed(() => {
     >
     </span>
     <nuxt-img
+      ref="avatarReference"
       :src="avatar"
       loading="lazy"
-      class="h-full w-full rounded-full"
+      :alt="props.username"
+      @load="imageLoading = false"
+      class="h-full w-full"
+      crossorigin="anonymous"
       :class="{
-        'absolute opacity-0': imageLoading && !loading
+        'absolute opacity-0': imageLoading && !loading,
+        'rounded-full': !square,
+        'rounded-lg': square,
+        'scale-125': isAlpha
       }"
       draggable="false"
-      @load="imageLoading = false"
     />
   </div>
 </template>

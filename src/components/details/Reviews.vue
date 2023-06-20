@@ -50,12 +50,15 @@ const props = defineProps({
           :key="comment._id"
           class="flex items-start border-b px-2 py-4 dark:border-zinc-900 md:px-4 md:py-6"
         >
-          <Avatar
-            :username="comment.author.username"
-            :avatar="comment.author.avatar"
-            class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
-          />
-          <div class="ml-4 flex w-full min-w-0 flex-col">
+          <NuxtLink :to="`/users/@${comment.author.username}`">
+            <Avatar
+              :username="comment.author.username"
+              :avatar="comment.author.avatar"
+              :square="comment.author.verified"
+              class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
+            />
+          </NuxtLink>
+          <div class="-mt-1.5 ml-4 flex w-full min-w-0 flex-col">
             <div class="flex w-full items-center justify-between gap-2">
               <div class="flex items-center gap-2 truncate">
                 <NuxtLink
@@ -102,16 +105,16 @@ const props = defineProps({
                 class="ml-auto mt-0 flex items-center gap-2 sm:ml-0 sm:mt-2"
               >
                 <button
-                  @click="$emit('remove')"
-                  class="ml-auto rounded bg-red-100 px-2 py-1 text-xs font-semibold text-red-500 shadow transition hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800"
-                >
-                  <IconsTrash class="h-4 w-4" />
-                </button>
-                <button
                   @click="$emit('edit')"
                   class="ml-auto rounded bg-white px-2 py-1 text-xs font-semibold shadow transition hover:bg-gray-50 dark:bg-zinc-800 dark:hover:bg-zinc-700"
                 >
                   <IconsPencil class="h-4 w-4" />
+                </button>
+                <button
+                  @click="$emit('remove')"
+                  class="ml-auto rounded bg-red-100 px-2 py-1 text-xs font-semibold text-red-500 shadow transition hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800"
+                >
+                  <IconsTrash class="h-4 w-4" />
                 </button>
               </div>
             </div>

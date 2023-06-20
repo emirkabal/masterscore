@@ -26,15 +26,9 @@ const colors = computed(() => {
         <HomeRandomMovie :collapsed="true" />
       </div>
       <div class="h-full w-full">
-        <div
-          class="container m-auto flex h-full min-h-[900px] w-full items-center justify-center px-4 pt-14 lg:min-h-0 lg:justify-start lg:pt-0"
-        >
-          <div
-            class="flex h-full w-full flex-col items-center justify-center gap-8 py-8 drop-shadow-2xl lg:flex-row lg:justify-start lg:gap-16 lg:py-0"
-          >
-            <slot />
-          </div>
-        </div>
+        <EntertainmentContainerInner>
+          <slot />
+        </EntertainmentContainerInner>
       </div>
     </div>
   </div>
@@ -59,15 +53,9 @@ const colors = computed(() => {
         background: `linear-gradient(135deg, rgba(${colors.background[0]}, ${colors.background[1]}, ${colors.background[2]}, 1) 0%, rgba(${colors.gradient[0]}, ${colors.gradient[1]}, ${colors.gradient[2]}, .75) 100%)`
       }"
     >
-      <div
-        class="container m-auto flex h-full min-h-[900px] w-full items-center justify-center px-4 pt-14 lg:min-h-0 lg:justify-start lg:pt-0"
-      >
-        <div
-          class="flex h-full w-full flex-col items-center justify-center gap-8 py-8 drop-shadow-2xl lg:flex-row lg:justify-start lg:gap-16 lg:py-0"
-        >
-          <slot />
-        </div>
-      </div>
+      <EntertainmentContainerInner>
+        <slot />
+      </EntertainmentContainerInner>
     </div>
   </div>
 </template>

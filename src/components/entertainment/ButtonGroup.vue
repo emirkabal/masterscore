@@ -82,7 +82,6 @@ watchEffect(() => {
   if (data) {
     fetchLikes()
     // /details/movie/408425
-    console.log(data)
     if (data.localData.id === "408425" && data.localData.type === "movie") {
       award.value = 0
     }
@@ -103,12 +102,12 @@ watchEffect(() => {
         class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-zinc-800 lg:w-4/12"
       ></div>
     </div>
-    <div class="mt-2 flex flex-row gap-2">
+    <div class="mt-3 flex flex-row gap-2">
       <div
-        class="skeleton-effect h-2 w-2/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-zinc-800"
+        class="skeleton-effect h-3 w-3/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-zinc-800"
       ></div>
       <div
-        class="skeleton-effect h-2 w-2/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-zinc-800"
+        class="skeleton-effect h-3 w-3/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-zinc-800"
       ></div>
     </div>
   </div>

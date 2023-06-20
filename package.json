@@ -27,7 +27,7 @@
     "@types/tinycolor2": "^1.4.3",
     "@vite-pwa/nuxt": "^0.0.7",
     "autoprefixer": "^10.4.13",
-    "nuxt": "^3.3.3",
+    "nuxt": "^3.5.3",
     "postcss": "^8.4.21",
     "prettier": "^2.8.7",
     "prettier-plugin-tailwindcss": "^0.2.6",

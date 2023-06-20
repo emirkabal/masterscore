@@ -61,13 +61,10 @@ useHead({
     <div>
       <div class="flex flex-col-reverse text-center lg:text-left">
         <h1
-          class="skeleton-effect inline-block h-10 w-full flex-shrink-0 rounded-full bg-gray-300 font-semibold leading-8 dark:bg-zinc-800 lg:leading-none"
+          class="skeleton-effect inline-block h-10 w-full flex-shrink-0 rounded bg-gray-300 font-semibold leading-8 dark:bg-zinc-800 lg:leading-none"
         ></h1>
         <!-- Mobile Extensions -->
         <div class="my-2 flex items-center justify-center gap-2 lg:hidden">
-          <div
-            class="skeleton-effect h-6 w-4/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-zinc-800"
-          ></div>
           <div
             class="skeleton-effect h-6 w-4/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-zinc-800"
           ></div>
@@ -101,22 +98,22 @@ useHead({
       </div>
       <div class="mt-2.5 flex flex-col items-center gap-2 lg:items-start">
         <div
-          class="skeleton-effect h-4 w-11/12 rounded-full bg-gray-300 dark:bg-zinc-800"
+          class="skeleton-effect h-4 w-11/12 rounded bg-gray-300 dark:bg-zinc-800"
         ></div>
         <div
-          class="skeleton-effect h-4 w-10/12 rounded-full bg-gray-300 dark:bg-zinc-800"
+          class="skeleton-effect h-4 w-10/12 rounded bg-gray-300 dark:bg-zinc-800"
         ></div>
         <div
-          class="skeleton-effect h-4 w-11/12 rounded-full bg-gray-300 dark:bg-zinc-800"
+          class="skeleton-effect h-4 w-11/12 rounded bg-gray-300 dark:bg-zinc-800"
         ></div>
         <div
-          class="skeleton-effect h-4 w-9/12 rounded-full bg-gray-300 dark:bg-zinc-800"
+          class="skeleton-effect h-4 w-9/12 rounded bg-gray-300 dark:bg-zinc-800"
         ></div>
         <div
-          class="skeleton-effect h-4 w-10/12 rounded-full bg-gray-300 dark:bg-zinc-800"
+          class="skeleton-effect h-4 w-10/12 rounded bg-gray-300 dark:bg-zinc-800"
         ></div>
         <div
-          class="skeleton-effect h-4 w-6/12 rounded-full bg-gray-300 dark:bg-zinc-800"
+          class="skeleton-effect h-4 w-6/12 rounded bg-gray-300 dark:bg-zinc-800"
         ></div>
       </div>
     </div>

@@ -122,24 +122,22 @@ watch(
     </div>
     <div
       v-else
-      class="flex w-full items-center gap-4 border-b px-2 py-8 dark:border-zinc-900"
+      class="flex w-full items-start gap-4 border-b px-2 py-8 dark:border-zinc-900"
       v-for="(activity, i) in activities"
       v-intersection-observer="
         i === activities.length - 1 ? onIntersectionObserver : () => {}
       "
       :key="activity._id"
-      :class="{
-        '!items-start': activity.type === 'review'
-      }"
     >
       <NuxtLink :to="`/users/@${activity.author.username}`">
         <Avatar
           :username="activity.author.username"
           :avatar="activity.author.avatar"
+          :square="activity.author.verified"
           class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
         />
       </NuxtLink>
-      <div class="flex w-full min-w-0 flex-col">
+      <div class="-mt-1.5 flex w-full min-w-0 flex-col">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <NuxtLink
@@ -181,7 +179,7 @@ watch(
             class="z-10 line-clamp-1 flex w-full min-w-0 text-sm leading-4 md:text-base"
           >
             <span class="mr-1 flex-shrink-0">
-              {{ getActivityTitle(activity.type) }}:
+              {{ getActivityTitle(activity.type) }}
             </span>
             <span
               class="line-clamp-1 w-full break-all font-semibold group-hover:underline"

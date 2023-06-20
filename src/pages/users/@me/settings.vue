@@ -97,9 +97,12 @@ const submit = async (e) => {
     postData.files = {
       avatar: {
         name: avatar.value.name,
-        type: avatar.value.type,
+        type: avatar.value.type || "image/png",
         size: avatar.value.size,
-        file: await getBase64(avatar.value)
+        file: (await getBase64(avatar.value)).replace(
+          "application/octet-stream",
+          "image/png"
+        )
       }
     }
   }
@@ -173,7 +176,7 @@ const submit = async (e) => {
                     aspectRatio: 1
                   }"
                   :preset-mode="{
-                    mode: 'round',
+                    mode: 'fixedSize',
                     width: 512,
                     height: 512
                   }"
