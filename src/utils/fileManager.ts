@@ -2,7 +2,11 @@ import { createClient } from "@supabase/supabase-js"
 import md5 from "md5"
 
 const config = useRuntimeConfig()
-const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_KEY)
+const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_KEY, {
+  auth: {
+    persistSession: false
+  }
+})
 
 export const remove = async (filename: string) => {
   await supabase.storage

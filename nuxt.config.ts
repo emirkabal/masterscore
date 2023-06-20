@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     "@vite-pwa/nuxt"
   ],
 
-
   css: [
     "vue3-emoji-picker/css",
     "@fontsource/maven-pro/400.css",
@@ -24,9 +23,9 @@ export default defineNuxtConfig({
     "@fontsource/maven-pro/900.css"
   ],
 
-  $production: {
-    routeRules: {
-      '/**': { isr: true }
+  routeRules: {
+    "/**": {
+      isr: true
     }
   },
 
@@ -69,6 +68,7 @@ export default defineNuxtConfig({
   appConfig: {
     buildDate: new Date().toISOString()
   },
+
   pwa: {
     registerType: "autoUpdate",
     srcDir: "src/",
