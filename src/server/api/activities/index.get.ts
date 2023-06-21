@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
   const { author, entertainment, type, page, limit } = query as {
     author: string | undefined
     entertainment: string | undefined
-    type: "like" | "review" | undefined
+    type: string | undefined
     expand: boolean | undefined
     limit: number | undefined
     page: number | undefined
@@ -21,7 +21,13 @@ export default defineEventHandler(async (event) => {
   const activities: IActivity[] = await ActivityModel.find({
     ...(author ? { author } : {}),
     ...(entertainment ? { entertainment } : {}),
-    ...(type ? { type } : {})
+    ...(type
+      ? {
+          type: {
+            $in: type.split(",")
+          }
+        }
+      : {})
   })
     .sort({ createdAt: -1 })
     .skip(initialPage * initialLimit)

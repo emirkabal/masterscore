@@ -3,6 +3,7 @@ import { IEntertainment, IReview } from "~/@types"
 import { useUrlSearchParams } from "@vueuse/core"
 import { vIntersectionObserver } from "@vueuse/components"
 import debounce from "lodash.debounce"
+import EntertainmentCard from "../EntertainmentCard.vue"
 const params = useUrlSearchParams("history")
 
 interface CustomIncomingData {
@@ -28,20 +29,10 @@ const pagination = reactive({
   page: params.page ? Number(params.page) : 1
 })
 
-const strings: Record<string, string> = {
-  review: "Reviewed",
-  like: "Recommended",
-  watchlist: "Added to watchlist"
-}
-
-const getActivityTitle = (type: string) => {
-  return strings[type] || "Unknown"
-}
-
 const fetch = async () => {
   pagination.loading = true
   const data = await $fetch<CustomIncomingData[]>(
-    `/api/activities?page=${pagination.page}`
+    `/api/activities?page=${pagination.page}&type=review,watchlist`
   )
   activities.value = [...activities.value, ...data]
   pagination.loading = false
@@ -98,7 +89,7 @@ watch(
     </div>
     <div
       v-if="loading"
-      class="flex items-center px-4 py-6"
+      class="flex items-start px-4 py-6"
       v-for="i in 8"
       :key="i"
     >
@@ -117,6 +108,9 @@ watch(
         ></div>
         <div
           class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"
+        ></div>
+        <div
+          class="skeleton-effect mt-1 h-10 w-1/5 rounded bg-gray-300 dark:bg-zinc-800"
         ></div>
       </div>
     </div>
@@ -140,61 +134,34 @@ watch(
       <div class="-mt-1.5 flex w-full min-w-0 flex-col">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <NuxtLink
-              :to="`/users/@${activity.author.username}`"
-              class="line-clamp-1 flex items-center gap-1 font-semibold hover:underline"
-              >@{{ activity.author.username }}
+            <span class="flex items-center gap-x-1 font-semibold">
+              <span class="line-clamp-1 break-all"
+                >@{{ activity.author.username }}</span
+              >
               <IconsVerified
                 v-if="activity.author.verified"
-                class="h-5 w-5 text-yellow-500"
+                class="h-5 w-5 flex-shrink-0 text-yellow-500"
               />
-            </NuxtLink>
+            </span>
             <span
-              class="hidden text-xs text-gray-500 dark:text-gray-300 sm:block"
+              class="flex-shrink-0 text-xs text-gray-500 dark:text-gray-300"
             >
               {{ $moment(activity.createdAt).fromNow() }}
             </span>
           </div>
-
-          <div class="z-10 flex items-center gap-1">
-            <span v-if="activity.review" class="text-sm font-semibold">{{
-              activity.review.rating
-            }}</span>
-            <IconsThumbUpFilled
-              v-if="activity?.type === 'like'"
-              class="h-6 w-6 text-cyan-500"
-            />
-            <IconsListAdd
-              v-else-if="activity?.type === 'watchlist'"
-              class="text-black-600 h-6 w-6"
-            />
-            <IconsStarFilled v-else class="h-4 w-4 text-yellow-400" />
-          </div>
         </div>
-        <NuxtLink
-          :to="`/details/${activity.entertainment.type}/${activity.entertainment.id}`"
-          class="group -mt-1 flex w-fit items-center gap-1 text-xs"
-        >
-          <div
-            class="z-10 line-clamp-1 flex w-full min-w-0 text-sm leading-4 md:text-base"
-          >
-            <span class="mr-1 flex-shrink-0">
-              {{ getActivityTitle(activity.type) }}
-            </span>
-            <span
-              class="line-clamp-1 w-full break-all font-semibold group-hover:underline"
-              >{{ activity.entertainment.info.title }}</span
-            >
-          </div>
-        </NuxtLink>
         <ReviewContent
           v-if="activity.review"
           :review="activity.review"
+          :skip-info="true"
           class="-mt-0.5"
         />
-        <span class="block text-xs text-gray-500 dark:text-gray-300 sm:hidden">
-          {{ $moment(activity.createdAt).fromNow() }}
-        </span>
+        <EntertainmentCard
+          :to="`/details/${activity.entertainment.type}/${activity.entertainment.id}`"
+          :entertainment="activity.entertainment"
+          :score="activity.review?.rating"
+          :title="activity.type"
+        />
       </div>
     </div>
     <div

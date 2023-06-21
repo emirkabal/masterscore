@@ -17,10 +17,10 @@ export default async (
   // if (cached) return cached as TMDBMovie | TMDBTV
   // @ts-ignore
   const data:
-    | (TMDBMovie & { external_ids: any })
-    | (TMDBTV & { external_ids: any }) = await $fetch(
-    `https://api.themoviedb.org/3/${type}/${id}?api_key=${config.TMDB_API_KEY}&language=en-US&append_to_response=external_ids`
-  )
+    | (TMDBMovie & { external_ids: any, localId?: string, localData?: any })
+    | (TMDBTV & { external_ids: any, localId?: string, localData?: any }) = await $fetch(
+      `https://api.themoviedb.org/3/${type}/${id}?api_key=${config.TMDB_API_KEY}&language=en-US&append_to_response=external_ids`
+    )
 
   let title = "Untitled"
   let date = "0000-00-00"

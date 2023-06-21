@@ -1,10 +1,8 @@
-<script setup>
-const { review } = defineProps({
-  review: {
-    type: Object,
-    required: true
-  }
-})
+<script setup lang="ts">
+defineProps<{
+  review: any
+  skipInfo?: boolean
+}>()
 </script>
 
 <template>
@@ -27,6 +25,8 @@ const { review } = defineProps({
       class="absolute left-1/2 top-1/2 flex h-full w-full -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded bg-red-400/40 p-2 px-2 py-0.5 text-center font-maven font-bold transition-all duration-200 ease-in-out group-hover:bg-red-400/60"
       >Spoiler <span class="ml-2 font-thin">click here to reveal</span></span
     >
-    <p class="opacity-75" v-if="!review.content">No comment for this review.</p>
+    <p class="opacity-75" v-if="!review.content && !skipInfo">
+      No comment for this review.
+    </p>
   </div>
 </template>

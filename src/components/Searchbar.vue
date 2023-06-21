@@ -249,7 +249,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               <div class="flex w-full items-center">
                 <img
                   v-if="result.poster_path"
-                  :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${result.poster_path}`"
+                  :src="`https://image.tmdb.org/t/p/w200${result.poster_path}`"
                   class="h-auto w-10 rounded"
                 />
                 <div
@@ -296,7 +296,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               <div class="flex w-full items-center">
                 <img
                   v-if="person.profile_path"
-                  :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${person.profile_path}`"
+                  :src="`https://image.tmdb.org/t/p/w200${person.profile_path}`"
                   class="h-auto w-10 rounded"
                 />
                 <div
