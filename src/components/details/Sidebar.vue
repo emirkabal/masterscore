@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TMDBData } from "~/@types"
 import { onClickOutside } from "@vueuse/core"
-const { $getTitle, $event } = useNuxtApp()
+const { $getTitle, $event, $router } = useNuxtApp()
 const props = defineProps<{
   data: TMDBData
 }>()
@@ -13,16 +13,6 @@ const formatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
   currencyDisplay: "symbol"
 })
-
-const { data, pending } = useLazyFetch(
-  `/api/extra/videos/${props.data.id}?type=${props.data.localData?.type}`,
-  {
-    headers: generateHeaders()
-  }
-) as {
-  data: Ref<Record<string, any>>
-  pending: Ref<boolean>
-}
 
 const { data: providerData, pending: providerPending } = useLazyFetch(
   `/api/extra/providers/${props.data.id}?type=${props.data.localData.type}`
@@ -113,20 +103,20 @@ const getCreator = computed(() => {
 })
 
 const getVideo = computed(() => {
-  if (data.value) {
-    const offical = data.value.results.find(
+  if (props.data.videos?.results?.length > 0) {
+    const offical = props.data.videos.results.find(
       (e: any) => e.official && e.type === "Trailer" && e.site === "YouTube"
     )
     if (offical) {
       return `https://youtu.be/${offical.key}`
     }
-    const trailer = data.value.results.find(
+    const trailer = props.data.videos.results.find(
       (e: any) => e.type === "Trailer" && e.site === "YouTube"
     )
     if (trailer) {
       return `https://youtu.be/${trailer.key}`
     }
-    const teaser = data.value.results.find(
+    const teaser = props.data.videos.results.find(
       (e: any) => e.type === "Teaser" && e.site === "YouTube"
     )
     if (teaser) {
@@ -149,7 +139,7 @@ watch(trailerModal, () => {
 </script>
 
 <template>
-  <div class="z-10 w-full rounded-3xl p-0 lg:px-6 lg:pt-6">
+  <div class="z-20 w-full rounded-3xl p-0 lg:px-6 lg:pt-6">
     <div
       v-if="getVideo && trailerModal"
       class="fixed left-0 top-0 z-50 h-screen w-full bg-black/80"
@@ -176,14 +166,8 @@ watch(trailerModal, () => {
     </div>
     <div class="space-y-8">
       <div class="space-y-2">
-        <div
-          v-if="pending"
-          class="flex w-full items-center justify-center rounded bg-gray-50 px-4 py-2 dark:bg-zinc-900"
-        >
-          Loading...
-        </div>
         <button
-          v-else-if="getVideo"
+          v-if="getVideo"
           class="flex w-full items-center justify-center gap-2 rounded bg-gray-50 px-4 py-2 transition-opacity hover:opacity-90 dark:bg-zinc-900"
           @click="trailerModal = true"
         >
@@ -300,8 +284,9 @@ watch(trailerModal, () => {
         </span>
       </p>
       <a
+        v-if="website && website.length > 0"
         :href="website"
-        rel="noopener noreferrer"
+        rel="noopener noreferrer nofollow"
         target="_blank"
         class="flex items-center gap-1 text-gray-600 transition-colors hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300"
       >

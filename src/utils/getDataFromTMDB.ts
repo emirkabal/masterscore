@@ -7,20 +7,16 @@ const redis = new Redis({
   url: config.UPSTASH_REDIS_REST_URL,
   token: config.UPSTASH_REDIS_REST_TOKEN
 })
-export default async (
-  id: string,
-  type: string
-): Promise<TMDBMovie | TMDBTV> => {
+export default async (id: string, type: string): Promise<TMDBData> => {
   const key = `tmdb:${type}:${id}`
 
-  // const cached: object | null = await redis.get(key)
-  // if (cached) return cached as TMDBMovie | TMDBTV
-  // @ts-ignore
-  const data:
-    | (TMDBMovie & { external_ids: any, localId?: string, localData?: any })
-    | (TMDBTV & { external_ids: any, localId?: string, localData?: any }) = await $fetch(
-      `https://api.themoviedb.org/3/${type}/${id}?api_key=${config.TMDB_API_KEY}&language=en-US&append_to_response=external_ids`
-    )
+  const cached: any | null = await redis.get(key)
+  if (cached && cached.credits && cached.videos) return cached as TMDBData
+
+  // @ts-ignore:2321
+  const data: TMDBData = await $fetch(
+    `https://api.themoviedb.org/3/${type}/${id}?api_key=${config.TMDB_API_KEY}&language=en-US&append_to_response=external_ids,videos,credits`
+  )
 
   let title = "Untitled"
   let date = "0000-00-00"
@@ -123,5 +119,5 @@ export default async (
     ex: 60 * 60 * 24 * 3 // 3 days
   })
 
-  return data as TMDBMovie | TMDBTV
+  return data as TMDBData
 }

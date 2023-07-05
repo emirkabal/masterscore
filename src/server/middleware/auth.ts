@@ -7,6 +7,7 @@ export default defineEventHandler(async (event) => {
     const token = event.node.req.headers.authorization.split(" ")[1]
     const decoded: any = jwt.decode(token)
     if (decoded) {
+      // @ts-ignore:2322
       const user: Partial<IUser> = await UserModel.findById(decoded.id).lean()
       if (user) {
         try {

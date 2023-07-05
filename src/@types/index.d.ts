@@ -43,12 +43,46 @@ export interface TMDBSearchResult {
   vote_count?: number
 }
 
+export interface CreditsResult {
+  adult: boolean
+  cast_id: number
+  character: string
+  credit_id: string
+  gender: number
+  id: number
+  known_for_department: string
+  name: string
+  order: number
+  original_name: string
+  popularity: number
+  profile_path: string
+}
+
+export interface VideoResult {
+  id: string
+  iso_639_1: string
+  iso_3166_1: string
+  key: string
+  name: string
+  site: string
+  size: number
+  type: string
+}
+
 export type TMDBData = Partial<TMDBMovie> &
   Partial<TMDBTV> & {
     media_type: string
     character?: string
     localId: string
     localData: IEntertainment
+    external_ids?: ExternalIDs
+    videos: {
+      results: VideoResult[]
+    }
+    credits: {
+      cast: CreditsResult[]
+      crew: CreditsResult[]
+    }
   }
 
 export interface TMDBMovie {

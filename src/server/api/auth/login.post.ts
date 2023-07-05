@@ -6,8 +6,16 @@ import { IUser } from "~/@types"
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
-  const user: IUser = await UserModel.findOne({
-    username: body.username.toLowerCase()
+  const username = body.username.toLowerCase()
+  const user: IUser | null = await UserModel.findOne({
+    $or: [
+      {
+        username
+      },
+      {
+        email: username
+      }
+    ]
   }).lean()
 
   if (!user)

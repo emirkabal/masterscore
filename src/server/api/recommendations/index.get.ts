@@ -18,16 +18,24 @@ export default defineEventHandler(async (event) => {
     return { status: 400, message: "You have no likes." } as ErrorResponse
   }
 
-  const { likes }: { likes: IEntertainment[] } = await UserModel.findById(
-    user._id
-  )
-    .populate({
-      path: "likes",
-      model: EntertainmentModel,
-      select: "id type info.title -_id"
-    })
-    .select("likes -_id")
-    .lean()
+  // @ts-ignore:2322
+  const {
+    likes,
+    reviews
+  }: { likes: IEntertainment[]; reviews: IEntertainment[] } =
+    await UserModel.findById(user._id)
+      .populate({
+        path: "likes",
+        model: EntertainmentModel,
+        select: "id type info.title -_id"
+      })
+      .populate({
+        path: "reviews",
+        model: EntertainmentModel,
+        select: "id type info.title -_id"
+      })
+      .select("likes reviews -_id")
+      .lean()
 
   const releatedEntertainment = likes[Math.floor(Math.random() * likes.length)]
 
@@ -45,10 +53,25 @@ export default defineEventHandler(async (event) => {
   likes.forEach((like) => {
     data.results = data.results.filter(
       (result) =>
-        result.id?.toString() !== like.id.toString() &&
-        result.media_type !== like.info.title
+        !(
+          result.id?.toString() === like.id.toString() &&
+          result.media_type === like.type
+        )
     )
   })
 
-  return data
+  reviews.forEach((review) => {
+    data.results = data.results.filter(
+      (result) =>
+        !(
+          result.id?.toString() === review.id.toString() &&
+          result.media_type === review.type
+        )
+    )
+  })
+
+  return data as {
+    releated: IEntertainment
+    results: TMDBSearchResult[]
+  }
 })

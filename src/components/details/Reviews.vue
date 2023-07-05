@@ -20,7 +20,7 @@ const props = defineProps({
     <h1
       class="my-4 border-l-4 border-yellow-500 pl-4 text-2xl font-bold tracking-wide"
     >
-      Latest Reviews
+      Reviews
     </h1>
     <div class="space-y-4" v-if="props.loading">
       <div class="flex items-center px-4 py-6" v-for="i in 4" :key="i">
@@ -46,9 +46,9 @@ const props = defineProps({
     <div v-else-if="data.length > 0">
       <div class="space-y-4">
         <div
-          v-for="(comment, i) in data"
+          v-for="comment in data"
           :key="comment._id"
-          class="flex items-start border-b px-2 py-4 dark:border-zinc-900 md:px-4 md:py-6"
+          class="flex items-start border-b py-4 dark:border-zinc-900 md:px-4 md:py-6"
         >
           <NuxtLink :to="`/users/@${comment.author.username}`">
             <Avatar
@@ -59,47 +59,36 @@ const props = defineProps({
             />
           </NuxtLink>
           <div class="-mt-1.5 ml-4 flex w-full min-w-0 flex-col">
-            <div class="flex w-full items-center justify-between gap-2">
-              <div class="flex items-center gap-2 truncate">
-                <NuxtLink
-                  :to="`/users/@${comment.author.username}`"
-                  class="line-clamp-1 flex items-center gap-1 font-semibold hover:underline"
-                  >@{{ comment.author.username }}
-                  <IconsVerified
-                    v-if="comment.author.verified"
-                    class="h-5 w-5 text-yellow-500"
-                /></NuxtLink>
-                <div class="hidden sm:block">
-                  <p
-                    class="line-clamp-1 break-words text-xs text-gray-500 dark:text-gray-300"
-                  >
-                    <span v-text="$moment(comment.createdAt).fromNow()"></span>
-                    <span
-                      v-if="comment.createdAt !== comment.updatedAt"
-                      class="ml-1"
-                      >(edited)</span
-                    >
-                  </p>
-                </div>
-              </div>
-
-              <p class="flex items-center gap-1">
-                <span class="text-sm font-semibold">{{ comment.rating }}</span>
-                <IconsStarFilled class="h-4 w-4 text-yellow-400" />
+            <div class="flex items-center gap-1">
+              <NuxtLink
+                :to="`/users/@${comment.author.username}`"
+                class="flex min-w-0 items-center gap-1 font-semibold hover:underline"
+              >
+                <span class="truncate break-words">
+                  @{{ comment.author.username }}
+                </span>
+                <IconsVerified
+                  v-if="comment.author.verified"
+                  class="h-5 w-5 flex-shrink-0 text-yellow-500"
+              /></NuxtLink>
+              <p
+                class="line-clamp-1 flex-shrink-0 break-words text-xs text-gray-500 dark:text-gray-300"
+              >
+                <span v-text="$moment(comment.createdAt).fromNow()"></span>
+                <span
+                  v-if="comment.createdAt !== comment.updatedAt"
+                  class="ml-1"
+                  >(edited)</span
+                >
               </p>
             </div>
+            <span class="text-xs opacity-90">
+              Reviewed: {{ comment.rating }}/10
+            </span>
 
             <ReviewContent :review="comment" />
 
             <div class="flex">
-              <span
-                class="line-clamp-1 block break-words text-xs text-gray-500 dark:text-gray-300 sm:hidden"
-              >
-                <span v-text="$moment(comment.createdAt).fromNow()"></span>
-                <span v-if="comment.createdAt !== comment.updatedAt"
-                  >(edited)</span
-                >
-              </span>
               <div
                 v-if="comment.author._id === user?._id"
                 class="ml-auto mt-0 flex items-center gap-2 sm:ml-0 sm:mt-2"

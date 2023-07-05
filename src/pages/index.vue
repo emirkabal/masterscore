@@ -7,9 +7,24 @@ useHead({
 })
 
 const notify = useLocalStorage("notify-2", true)
+
+// $fetch("/api/extra/home", {
+//   headers: generateHeaders()
+// })
 </script>
 <template>
-  <div class="container mx-auto my-24 px-4">
+  <!-- <div>
+    <HomeFeaturedEntertainment />
+    <div class="mt-6 space-y-14 px-4 md:px-16 lg:px-24">
+      <div>
+        <h1 class="text-3xl font-semibold">Haftanın popülerleri</h1>
+        <OverflowBehavior>
+          <HomePopularEntertainments />
+        </OverflowBehavior>
+      </div>
+    </div>
+  </div> -->
+  <section class="container mx-auto my-24 px-4">
     <Transition name="fade">
       <div
         v-show="notify"
@@ -45,5 +60,5 @@ const notify = useLocalStorage("notify-2", true)
         <HomeEasterEgg />
       </div>
     </div>
-  </div>
+  </section>
 </template>

@@ -116,7 +116,7 @@ watch(
     </div>
     <div
       v-else
-      class="flex w-full items-start gap-4 border-b px-2 py-8 dark:border-zinc-900"
+      class="flex w-full items-start gap-4 border-b py-8 dark:border-zinc-900"
       v-for="(activity, i) in activities"
       v-intersection-observer="
         i === activities.length - 1 ? onIntersectionObserver : () => {}
@@ -133,8 +133,8 @@ watch(
       </NuxtLink>
       <div class="-mt-1.5 flex w-full min-w-0 flex-col">
         <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="flex items-center gap-x-1 font-semibold">
+          <div class="flex items-center gap-1">
+            <div class="flex items-center gap-x-1 font-semibold">
               <span class="line-clamp-1 break-all"
                 >@{{ activity.author.username }}</span
               >
@@ -142,7 +142,7 @@ watch(
                 v-if="activity.author.verified"
                 class="h-5 w-5 flex-shrink-0 text-yellow-500"
               />
-            </span>
+            </div>
             <span
               class="flex-shrink-0 text-xs text-gray-500 dark:text-gray-300"
             >

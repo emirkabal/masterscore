@@ -88,6 +88,7 @@ useHead({
                 v-if="data.twitter_id"
                 :href="`https://twitter.com/${data.twitter_id}`"
                 target="_blank"
+                rel="noopener noreferrer nofollow"
                 class="transition-opacity hover:opacity-75"
                 ><IconsTwitter class="h-8 w-8"
               /></a>
@@ -95,6 +96,7 @@ useHead({
                 v-if="data.instagram_id"
                 :href="`https://instagram.com/${data.instagram_id}`"
                 target="_blank"
+                rel="noopener noreferrer nofollow"
                 class="transition-opacity hover:opacity-75"
                 ><IconsInstagram class="h-8 w-8"
               /></a>
@@ -167,9 +169,9 @@ useHead({
             <h1 class="font-maven text-2xl font-bold tracking-wide">
               Known For
             </h1>
-            <OverflowBehavior>
+            <OverflowBehavior :buttons-active="true">
               <NuxtLink
-                class="flex w-full max-w-[140px] flex-shrink-0 select-none flex-col transition-opacity hover:opacity-75 md:max-w-[160px]"
+                class="group flex w-full max-w-[119px] flex-shrink-0 select-none snap-start flex-col transition-all hover:max-w-[240px] hover:opacity-75"
                 v-for="media in data.credits"
                 :key="media.id"
                 :to="`/details/${media.media_type}/${media.id}`"
@@ -193,11 +195,8 @@ useHead({
                   <div
                     class="mt-2 flex h-full w-full flex-col items-center justify-center py-2 text-center font-maven"
                   >
-                    <p class="line-clamp-2 break-words font-semibold">
+                    <p class="line-clamp-1 break-words font-semibold">
                       {{ $getTitle(media) }}
-                    </p>
-                    <p class="lineclamp-1 break-words">
-                      {{ media.character }}
                     </p>
                   </div>
                 </div>

@@ -95,7 +95,7 @@ const deleteReview = async () => {
 }
 
 watch(data, async () => {
-  if (posterURL.value) {
+  if (posterURL.value && process.client) {
     const image = new Image()
     image.setAttribute("crossOrigin", "Anonymous")
     image.src = posterURL.value
@@ -164,7 +164,7 @@ useHead({
     <div class="container mx-auto mb-28 mt-8 px-4">
       <div class="flex flex-col-reverse items-stretch gap-4 lg:flex-row">
         <div class="relative min-w-0 flex-1 space-y-10 lg:space-y-16">
-          <DetailsCast :id="params.id" :type="params.type" />
+          <DetailsCast :data="data.credits" />
           <DetailsReviews
             :loading="reviewData.loading"
             :data="comments"

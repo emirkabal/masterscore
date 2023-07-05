@@ -1,22 +1,13 @@
 <script setup lang="ts">
-const { type, id, loading } = defineProps<{
-  type?: string
-  id?: number | string
+import { CreditsResult } from "@types"
+
+const { data, loading } = defineProps<{
+  data?: {
+    cast: CreditsResult[]
+    crew: CreditsResult[]
+  }
   loading?: boolean
 }>()
-// what am i doing right now?
-const result = ref<any | null>(null)
-const pend = ref(true)
-onMounted(async () => {
-  if (!loading) {
-    pend.value = true
-    const data = await $fetch<{
-      data: any
-    }>(`/api/extra/credits/${id}?type=${type}`)
-    result.value = data
-    pend.value = false
-  }
-})
 </script>
 <template>
   <div class="overflow-hidden">
@@ -25,7 +16,7 @@ onMounted(async () => {
     >
       Cast
     </h1>
-    <div v-if="pend || loading" class="flex gap-2 overflow-x-hidden">
+    <div v-if="loading" class="flex gap-2 overflow-x-hidden">
       <div class="flex flex-col" v-for="i in 8" :key="i">
         <div
           class="skeleton-effect h-64 w-[140px] rounded bg-gray-300 dark:bg-zinc-800 md:w-[160px]"
@@ -40,15 +31,12 @@ onMounted(async () => {
     </div>
     <OverflowBehavior
       v-else-if="
-        result &&
-        !loading &&
-        !pend &&
-        (result.cast.length > 0 || result.crew.length > 0)
+        data && !loading && (data.cast.length > 0 || data.crew.length > 0)
       "
     >
       <NuxtLink
-        class="flex w-full max-w-[140px] flex-shrink-0 select-none flex-col transition-opacity hover:opacity-75 md:max-w-[160px]"
-        v-for="cast in result.cast.length > 0 ? result.cast : result.crew"
+        class="flex w-full max-w-[140px] flex-shrink-0 select-none snap-start flex-col transition-opacity hover:opacity-75 md:max-w-[160px]"
+        v-for="cast in data.cast.length > 0 ? data.cast : data.crew"
         :key="cast.id"
         :to="`/details/person/${cast.id}`"
       >
@@ -73,7 +61,7 @@ onMounted(async () => {
             <p class="line-clamp-2 break-words font-semibold">
               {{ cast.name }}
             </p>
-            <p class="lineclamp-1 break-words">
+            <p class="line-clamp-1 break-words">
               {{ cast.character }}
             </p>
           </div>
