@@ -1,6 +1,10 @@
 <script setup>
 import debounce from "lodash.debounce"
 import { onKeyStroke, useStorage } from "@vueuse/core"
+import IconHome from "~/components/icons/Home.vue"
+import IconFeed from "~/components/icons/Feed.vue"
+import IconStar from "~/components/icons/Star.vue"
+import IconDice from "~/components/icons/Dice.vue"
 
 const search = ref("")
 const loading = ref(false)
@@ -12,6 +16,28 @@ const focused = ref(false)
 const inputElement = ref(null)
 
 const history = useStorage("searchHistory", [])
+const routes = [
+  {
+    name: "Home",
+    path: "/",
+    icon: IconHome
+  },
+  {
+    name: "Feed",
+    path: "/feed",
+    icon: IconFeed
+  },
+  {
+    name: "Table",
+    path: "/table",
+    icon: IconStar
+  },
+  {
+    name: "Random Movie",
+    path: "/random",
+    icon: IconDice
+  }
+]
 
 const searchResults = debounce(async () => {
   const data = await $fetch(`/api/search?q=${search.value}`)
@@ -25,9 +51,10 @@ const searchResults = debounce(async () => {
   users.value = data.users
 
   if (
-    data.tmdb.length > 0 ||
-    data.persons.length > 0 ||
-    data.users.length > 0
+    (data.tmdb.length > 0 ||
+      data.persons.length > 0 ||
+      data.users.length > 0) &&
+    search.value.length > 0
   ) {
     history.value = [search.value, ...history.value].slice(0, 9)
     history.value = [...new Set(history.value)]
@@ -45,7 +72,10 @@ const searchInput = (e) => {
 }
 
 const removeFocus = (bool = false) => {
-  if (bool) search.value = ""
+  if (bool) {
+    search.value = ""
+    selectedIndex.value = 0
+  }
   focused.value = false
   inputElement.value.blur()
 }
@@ -67,11 +97,14 @@ onKeyStroke(["Control", "K", "k"], (e) => {
 </script>
 <template>
   <div class="relative max-w-lg flex-grow">
-    <div
-      v-if="focused"
-      @click="removeFocus"
-      class="fixed left-0 top-0 z-20 h-screen w-full bg-black/20 backdrop-blur"
-    ></div>
+    <Transition name="fade">
+      <div
+        v-show="focused"
+        @click="removeFocus"
+        class="fixed left-0 top-0 z-20 h-screen w-full bg-black/20 backdrop-blur"
+      ></div>
+    </Transition>
+
     <div class="relative z-20 w-full">
       <IconsSearch class="pointer-events-none absolute left-2 top-[9px]" />
       <div
@@ -87,7 +120,9 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           'rounded-bl-none rounded-br-none rounded-tl-2xl rounded-tr-2xl focus:ring-0 hover:focus:ring-0':
             focused
         }"
-        placeholder="Type to search..."
+        :placeholder="
+          focused ? 'Type to search...' : 'Type to search... (new update here)'
+        "
         ref="inputElement"
         :value="search"
         @input="searchInput"
@@ -95,11 +130,18 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         @keydown.arrow-down="
           (e) => {
             e.preventDefault()
-            if (search.length === 0 && history.length > 0) {
-              selectedIndex =
-                selectedIndex < history.length - 1
-                  ? selectedIndex + 1
-                  : selectedIndex
+            if (search.length === 0) {
+              if (history.length > 0) {
+                selectedIndex =
+                  selectedIndex < history.length + routes.length - 1
+                    ? selectedIndex + 1
+                    : selectedIndex
+              } else {
+                selectedIndex =
+                  selectedIndex < routes.length - 1
+                    ? selectedIndex + 1
+                    : selectedIndex
+              }
               return
             }
             selectedIndex =
@@ -121,14 +163,16 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             if (loading) {
               return
             }
-            if (
-              search.length === 0 &&
-              history.length > 0 &&
-              selectedIndex < history.length
-            ) {
-              search = history[selectedIndex]
-              loading = true
-              searchResults()
+
+            if (search.length === 0) {
+              if (history.length > 0 && selectedIndex < history.length) {
+                search = history[selectedIndex]
+                loading = true
+                searchResults()
+              } else {
+                $router.push(routes[selectedIndex - history.length].path)
+                removeFocus(true)
+              }
               return
             } else if (selectedIndex < results.length) {
               $router.push(
@@ -193,7 +237,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           </p>
         </div>
         <div v-else>
-          <div v-for="(item, i) in history">
+          <div v-for="(item, i) in history" :key="'history-' + i">
             <a
               tabindex="-1"
               @click="
@@ -226,6 +270,40 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               />
             </a>
           </div>
+        </div>
+
+        <hr class="dark:opacity-25" />
+        <div v-for="(route, i) in routes" :key="route.name">
+          <a
+            tabindex="-1"
+            @click="
+              (e) => {
+                $router.push(route.path)
+                removeFocus(true)
+              }
+            "
+            @mouseenter="selectedIndex = i + history.length"
+            :data-index="i + history.length"
+            :class="{
+              'bg-gray-100 dark:bg-zinc-900':
+                i + history.length === selectedIndex,
+              'bg-white dark:bg-black': i + history.length !== selectedIndex
+            }"
+            class="flex items-center justify-between rounded-2xl px-2 py-1"
+          >
+            <span class="flex w-full cursor-pointer items-center opacity-80">
+              <component
+                :is="route.icon"
+                class="mr-2 inline-block h-5 w-5"
+                :class="{
+                  'fill-black dark:fill-white':
+                    i + history.length === selectedIndex ||
+                    route.path === $route.path
+                }"
+              />
+              {{ route.name }}
+            </span>
+          </a>
         </div>
       </div>
       <div v-else>

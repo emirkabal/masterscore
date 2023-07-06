@@ -33,11 +33,8 @@ watch(
         <Spinner />
       </div>
 
-      <div class="flex" v-else>
-        <Sidebar />
-        <div class="w-full">
-          <slot />
-        </div>
+      <div class="w-full">
+        <slot />
       </div>
     </div>
     <Footer />

@@ -40,6 +40,10 @@
     before:bg-gradient-to-r
     before:from-transparent before:via-gray-500/40 before:to-transparent dark:before:via-rose-100/10;
   }
+
+  .text-shadow {
+    text-shadow: 1px 1px rgba(0,0,0,0.4);
+  }
 }
 
 .fade-enter-active {

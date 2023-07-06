@@ -1,64 +1,176 @@
 <script setup>
-import { useLocalStorage } from "@vueuse/core"
-
 useHead({
   title: "Masterscore",
   titleTemplate: "%s"
 })
 
-const notify = useLocalStorage("notify-2", true)
-
-// $fetch("/api/extra/home", {
-//   headers: generateHeaders()
-// })
+const { data, pending } = await useLazyFetch("/api/extra/home", {
+  headers: generateHeaders()
+})
 </script>
 <template>
-  <!-- <div>
-    <HomeFeaturedEntertainment />
-    <div class="mt-6 space-y-14 px-4 md:px-16 lg:px-24">
-      <div>
-        <h1 class="text-3xl font-semibold">Haftanın popülerleri</h1>
+  <div v-if="pending">
+    <Spinner class="mx-auto h-screen" />
+  </div>
+  <div v-else-if="data">
+    <HomeFeaturedEntertainment :data="data.featured" />
+    <div class="container mx-auto my-24 space-y-16 px-4">
+      <section class="space-y-6">
+        <h1 class="text-3xl font-semibold">Trending Today</h1>
         <OverflowBehavior>
-          <HomePopularEntertainments />
+          <EntertainmentLargeCard
+            v-for="(item, i) in data.trending"
+            :key="'trending-' + i"
+            :data="{
+              title: item.title,
+              release_date: item.release_date,
+              url: `movie/${item.id}`,
+              poster: item.poster_path,
+              backdrop: item.backdrop_path
+            }"
+          />
         </OverflowBehavior>
-      </div>
-    </div>
-  </div> -->
-  <section class="container mx-auto my-24 px-4">
-    <Transition name="fade">
-      <div
-        v-show="notify"
-        class="my-4 flex items-center justify-between rounded bg-blue-600/20 p-2 text-blue-600"
+      </section>
+      <section class="space-y-6">
+        <div>
+          <h1 class="text-3xl font-semibold">Top Rated Movies & TV Shows</h1>
+          <p>based on <Logo /></p>
+        </div>
+        <OverflowBehavior>
+          <EntertainmentLargeCard
+            v-for="(item, i) in data.top_rated"
+            :key="'top_rated-' + i"
+            :data="{
+              title: item.entertainment.info.title,
+              release_date: item.entertainment.info.release_date,
+              url: `${item.entertainment.type}/${item.entertainment.id}`,
+              poster: item.entertainment.info.poster,
+              backdrop: item.entertainment.info.backdrop
+            }"
+          />
+        </OverflowBehavior>
+      </section>
+      <HomeShowFeed />
+      <section
+        v-if="
+          data.recommendations &&
+          data.recommendations.results &&
+          data.recommendations.results.length > 0
+        "
+        class="space-y-6"
       >
-        <span class="flex items-center gap-2.5">
-          <IconsDownload class="h-6 w-6" />
-          <span>
-            <NuxtLink to="/users/@me/settings" class="hover:underline"
-              >New Update! You can now add avatars to your profile!</NuxtLink
+        <div>
+          <h1 class="text-3xl font-semibold">You Need to Watch</h1>
+          <p>
+            based on
+            <NuxtLink
+              :to="`/details/${data.recommendations.releated.type}/${data.recommendations.releated.id}`"
+              class="font-medium hover:underline"
+              >{{ data.recommendations.releated.info.title }}</NuxtLink
             >
-          </span>
-        </span>
-        <button
-          @click="notify = false"
-          class="flex-shrink-0 rounded-full p-1 transition-colors hover:bg-blue-600/50"
-        >
-          <IconsTimes class="h-4 w-4" />
-        </button>
-      </div>
-    </Transition>
-    <HomeRecommendations />
-    <HomeMostRatedEntertainments />
-    <HomeTrending />
-    <div class="my-16 flex w-full flex-col-reverse gap-6 md:flex-row">
-      <div class="w-full flex-grow space-y-8">
-        <HomeShowMasterTable />
-        <HomeShowFeed />
-      </div>
-      <div class="flex flex-col gap-6">
-        <HomeMostLikedEntertainment />
-        <HomeRandomMovie />
-        <HomeEasterEgg />
-      </div>
+          </p>
+        </div>
+        <OverflowBehavior>
+          <EntertainmentLargeCard
+            v-for="(item, i) in data.recommendations.results"
+            :key="'recommendation-' + i"
+            :data="{
+              title: item.title,
+              release_date: item.release_date,
+              url: `movie/${item.id}`,
+              poster: item.poster_path,
+              backdrop: item.backdrop_path
+            }"
+          />
+        </OverflowBehavior>
+      </section>
+
+      <section class="space-y-6">
+        <h1 class="text-3xl font-semibold">Popular Movies</h1>
+        <OverflowBehavior>
+          <EntertainmentLargeCard
+            v-for="(item, i) in data.popular"
+            :key="'popular-' + i"
+            :data="{
+              title: item.title,
+              release_date: item.release_date,
+              url: `movie/${item.id}`,
+              poster: item.poster_path,
+              backdrop: item.backdrop_path
+            }"
+          />
+        </OverflowBehavior>
+      </section>
+      <section v-if="data.watchlist.length > 0" class="space-y-6">
+        <h1 class="text-3xl font-semibold">Don't Forget to Watch</h1>
+        <OverflowBehavior>
+          <EntertainmentLargeCard
+            v-for="(item, i) in data.watchlist"
+            :key="'watchlist-' + i"
+            :data="{
+              title: item.info.title,
+              release_date: item.info.release_date,
+              url: `${item.type}/${item.id}`,
+              poster: item.info.poster,
+              backdrop: item.info.backdrop
+            }"
+          />
+        </OverflowBehavior>
+      </section>
+      <section class="space-y-6">
+        <div>
+          <h1 class="text-3xl font-semibold">Most Recommended</h1>
+          <p>based on <Logo /></p>
+        </div>
+        <OverflowBehavior>
+          <EntertainmentLargeCard
+            v-for="(item, i) in data.most_liked"
+            :key="'top_rated-' + i"
+            :data="{
+              title: item.entertainment.info.title,
+              release_date: item.entertainment.info.release_date,
+              url: `${item.entertainment.type}/${item.entertainment.id}`,
+              poster: item.entertainment.info.poster,
+              backdrop: item.entertainment.info.backdrop
+            }"
+          />
+        </OverflowBehavior>
+      </section>
+      <HomeShowMasterTable />
+      <section class="space-y-6">
+        <h1 class="text-3xl font-semibold">Now Playing</h1>
+        <OverflowBehavior>
+          <EntertainmentLargeCard
+            v-for="(item, i) in data.now_playing"
+            :key="'now_playing-' + i"
+            :data="{
+              title: item.title,
+              release_date: item.release_date,
+              url: `movie/${item.id}`,
+              poster: item.poster_path,
+              backdrop: item.backdrop_path
+            }"
+          />
+        </OverflowBehavior>
+      </section>
+      <section class="space-y-6">
+        <h1 class="text-3xl font-semibold">Upcoming Movies</h1>
+        <OverflowBehavior>
+          <EntertainmentLargeCard
+            v-for="(item, i) in data.upcoming"
+            :key="'popular-' + i"
+            :data="{
+              title: item.title,
+              release_date: item.release_date,
+              url: `movie/${item.id}`,
+              poster: item.poster_path,
+              backdrop: item.backdrop_path
+            }"
+          />
+        </OverflowBehavior>
+      </section>
+
+      <HomeEasterEgg />
     </div>
-  </section>
+  </div>
 </template>

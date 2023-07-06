@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { before } from "node:test"
+
 const props = withDefaults(
   defineProps<{
     buttonsActive?: boolean
@@ -12,25 +14,45 @@ const scrollRef = ref<HTMLElement | null>(null)
 const scroll = ref(0)
 const maxScroll = ref(0)
 const actualHeight = ref(0)
+const actualItemWidth = ref(0)
 
 const next = () => {
   if (!scrollRef.value) return
+
+  const skip =
+    scroll.value +
+    Math.floor(scrollRef.value.clientWidth / actualItemWidth.value) *
+      actualItemWidth.value
+
   scrollRef.value.scroll({
-    left: scroll.value + scrollRef.value.clientWidth,
+    left: skip,
     behavior: "smooth"
   })
 }
 
 const prev = () => {
   if (!scrollRef.value) return
+
+  const beforeScroll =
+    scroll.value -
+    Math.floor(scrollRef.value.clientWidth / actualItemWidth.value) *
+      actualItemWidth.value
+
   scrollRef.value.scroll({
-    left: scroll.value - scrollRef.value.clientWidth,
+    left: beforeScroll,
     behavior: "smooth"
   })
 }
 
 const updateScroll = () => {
   if (!scrollRef.value) return
+  // @ts-ignore
+  if (
+    scrollRef.value?.children.item(0)?.clientWidth !== actualItemWidth.value
+  ) {
+    // @ts-ignore
+    actualItemWidth.value = scrollRef.value?.children.item(0)?.clientWidth + 4
+  }
   scroll.value = scrollRef.value.scrollLeft
   actualHeight.value = scrollRef.value?.clientHeight + 32
   maxScroll.value = scrollRef.value?.scrollWidth - scrollRef.value?.clientWidth
@@ -65,7 +87,7 @@ watch(scrollRef, () => {
       </div>
     </div>
     <div class="relative">
-      <Transition
+      <!-- <Transition
         enter-active-class="duration-150 ease-out"
         enter-from-class="transform opacity-0"
         enter-to-class="opacity-100"
@@ -78,7 +100,7 @@ watch(scrollRef, () => {
           class="absolute -right-32 -top-8 z-10 m-auto w-[160px] rounded bg-white blur-md dark:bg-black"
           :style="{ height: actualHeight + 'px' }"
         ></div>
-      </Transition>
+      </Transition> -->
 
       <div
         class="relative flex w-full snap-x gap-2.5 overflow-x-auto pb-4 scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-0 scrollbar-h-0 hover:scrollbar-thumb-gray-400 dark:scrollbar-thumb-zinc-900 dark:hover:scrollbar-thumb-zinc-800 md:scrollbar md:scrollbar-w-2.5 md:scrollbar-h-2.5"

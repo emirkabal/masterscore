@@ -21,7 +21,8 @@ const isHeaderShown = computed(() => {
     scroll.y.value > 0 ||
     !(
       route.path.startsWith("/details/movie/") ||
-      route.path.startsWith("/details/tv/")
+      route.path.startsWith("/details/tv/") ||
+      route.name === "index"
     )
   )
 })

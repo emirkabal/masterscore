@@ -1,12 +1,8 @@
 import { TMDBData, TMDBMovie, TMDBTV } from "~/@types"
 import EntertainmentModel from "~/server/models/Entertainment.model"
-import { Redis } from "@upstash/redis"
-
+import redis from "~/utils/redis"
 const config = useRuntimeConfig()
-const redis = new Redis({
-  url: config.UPSTASH_REDIS_REST_URL,
-  token: config.UPSTASH_REDIS_REST_TOKEN
-})
+
 export default async (id: string, type: string): Promise<TMDBData> => {
   const key = `tmdb:${type}:${id}`
 
