@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { before } from "node:test"
-
 const props = withDefaults(
   defineProps<{
     buttonsActive?: boolean
@@ -50,8 +48,9 @@ const updateScroll = () => {
   if (
     scrollRef.value?.children.item(0)?.clientWidth !== actualItemWidth.value
   ) {
-    // @ts-ignore
-    actualItemWidth.value = scrollRef.value?.children.item(0)?.clientWidth + 4
+    actualItemWidth.value =
+      // @ts-ignore
+      scrollRef.value?.children.item(0)?.clientWidth + 4
   }
   scroll.value = scrollRef.value.scrollLeft
   actualHeight.value = scrollRef.value?.clientHeight + 32
@@ -65,7 +64,7 @@ watch(scrollRef, () => {
 </script>
 <template>
   <section class="relative">
-    <div v-if="props.buttonsActive">
+    <div v-if="props.buttonsActive" class="hidden md:block">
       <div
         v-show="scroll > 0"
         @click="prev"
@@ -103,7 +102,7 @@ watch(scrollRef, () => {
       </Transition> -->
 
       <div
-        class="relative flex w-full snap-x gap-2.5 overflow-x-auto pb-4 scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-0 scrollbar-h-0 hover:scrollbar-thumb-gray-400 dark:scrollbar-thumb-zinc-900 dark:hover:scrollbar-thumb-zinc-800 md:scrollbar md:scrollbar-w-2.5 md:scrollbar-h-2.5"
+        class="relative flex w-full gap-x-2.5 overflow-x-auto scrollbar overflow-y-hidden scrollbar-thumb-gray-300 scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-w-0 scrollbar-h-0 hover:scrollbar-thumb-gray-400 dark:scrollbar-thumb-zinc-900 dark:hover:scrollbar-thumb-zinc-800 md:snap-x md:snap-mandatory md:scrollbar md:scrollbar-w-2.5 md:scrollbar-h-2.5"
         :class="{
           'scrollbar-none': props.buttonsActive
         }"

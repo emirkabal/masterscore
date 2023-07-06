@@ -14,9 +14,9 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
   </div>
   <div v-else-if="data">
     <HomeFeaturedEntertainment :data="data.featured" />
-    <div class="container mx-auto my-24 space-y-16 px-4">
-      <section class="space-y-6">
-        <h1 class="text-3xl font-semibold">Trending Today</h1>
+    <div class="container mx-auto my-12 space-y-12 px-2">
+      <section class="space-y-2">
+        <h1 class="text-2xl font-semibold">Trending Today</h1>
         <OverflowBehavior>
           <EntertainmentLargeCard
             v-for="(item, i) in data.trending"
@@ -31,9 +31,9 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
           />
         </OverflowBehavior>
       </section>
-      <section class="space-y-6">
+      <section class="space-y-2">
         <div>
-          <h1 class="text-3xl font-semibold">Top Rated Movies & TV Shows</h1>
+          <h1 class="text-2xl font-semibold">Top Rated Movies & TV Shows</h1>
           <p>based on <Logo /></p>
         </div>
         <OverflowBehavior>
@@ -57,10 +57,10 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
           data.recommendations.results &&
           data.recommendations.results.length > 0
         "
-        class="space-y-6"
+        class="space-y-2"
       >
         <div>
-          <h1 class="text-3xl font-semibold">You Need to Watch</h1>
+          <h1 class="text-2xl font-semibold">You Need to Watch</h1>
           <p>
             based on
             <NuxtLink
@@ -85,8 +85,8 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
         </OverflowBehavior>
       </section>
 
-      <section class="space-y-6">
-        <h1 class="text-3xl font-semibold">Popular Movies</h1>
+      <section class="space-y-2">
+        <h1 class="text-2xl font-semibold">Popular Movies</h1>
         <OverflowBehavior>
           <EntertainmentLargeCard
             v-for="(item, i) in data.popular"
@@ -101,8 +101,8 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
           />
         </OverflowBehavior>
       </section>
-      <section v-if="data.watchlist.length > 0" class="space-y-6">
-        <h1 class="text-3xl font-semibold">Don't Forget to Watch</h1>
+      <section v-if="data.watchlist.length > 0" class="space-y-2">
+        <h1 class="text-2xl font-semibold">Don't Forget to Watch</h1>
         <OverflowBehavior>
           <EntertainmentLargeCard
             v-for="(item, i) in data.watchlist"
@@ -117,9 +117,9 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
           />
         </OverflowBehavior>
       </section>
-      <section class="space-y-6">
+      <section class="space-y-2">
         <div>
-          <h1 class="text-3xl font-semibold">Most Recommended</h1>
+          <h1 class="text-2xl font-semibold">Most Recommended</h1>
           <p>based on <Logo /></p>
         </div>
         <OverflowBehavior>
@@ -137,8 +137,8 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
         </OverflowBehavior>
       </section>
       <HomeShowMasterTable />
-      <section class="space-y-6">
-        <h1 class="text-3xl font-semibold">Now Playing</h1>
+      <section class="space-y-2">
+        <h1 class="text-2xl font-semibold">Now Playing</h1>
         <OverflowBehavior>
           <EntertainmentLargeCard
             v-for="(item, i) in data.now_playing"
@@ -153,8 +153,8 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
           />
         </OverflowBehavior>
       </section>
-      <section class="space-y-6">
-        <h1 class="text-3xl font-semibold">Upcoming Movies</h1>
+      <section class="space-y-2">
+        <h1 class="text-2xl font-semibold">Upcoming Movies</h1>
         <OverflowBehavior>
           <EntertainmentLargeCard
             v-for="(item, i) in data.upcoming"

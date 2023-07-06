@@ -13,10 +13,10 @@ const { data } = defineProps<{
 <template>
   <NuxtLink
     :to="`/details/${data.url}`"
-    class="flex w-full max-w-[120px] flex-shrink-0 select-none snap-start flex-col transition-opacity hover:opacity-75 md:max-w-[200px]"
+    class="flex w-full max-w-[100px] flex-shrink-0 select-none snap-start flex-col transition-opacity hover:opacity-75 md:max-w-[200px]"
   >
     <div
-      class="h-52 w-full rounded-lg bg-cover bg-center bg-no-repeat md:h-[300px]"
+      class="h-40 w-full rounded-lg bg-cover bg-center bg-no-repeat md:h-[300px]"
       :style="{
         backgroundImage: `url(${$timage(data.poster, 'w300')})`
       }"
