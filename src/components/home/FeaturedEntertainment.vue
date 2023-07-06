@@ -53,7 +53,6 @@ const setMute = (bool: boolean) => {
 if (process.client && isDesktop) {
   window.addEventListener("message", function (msg) {
     const data = JSON.parse(msg.data)
-    console.log(data)
 
     if (data.event === "onReady") {
       player.value.contentWindow.postMessage(
