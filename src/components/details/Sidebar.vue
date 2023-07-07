@@ -164,19 +164,17 @@ watch(trailerModal, () => {
         </iframe>
       </div>
     </div>
-    <div class="space-y-8">
-      <div class="space-y-2">
-        <button
-          v-if="getVideo"
-          class="flex w-full items-center justify-center gap-2 rounded bg-gray-50 px-4 py-2 transition-opacity hover:opacity-90 dark:bg-zinc-900"
-          @click="trailerModal = true"
-        >
-          <IconsPlay class="h-6 w-6 text-yellow-600" />
-          <span>Watch Trailer</span>
-        </button>
-      </div>
+    <div class="space-y-6">
+      <button
+        v-if="getVideo"
+        class="flex w-full items-center justify-center gap-2 rounded bg-gray-50 px-4 py-2 transition-opacity hover:opacity-90 dark:bg-zinc-900"
+        @click="trailerModal = true"
+      >
+        <IconsPlay class="h-6 w-6 text-yellow-600" />
+        <span>Watch Trailer</span>
+      </button>
+
       <div
-        class="space-y-2"
         v-if="
           !providerPending &&
           getProvider &&
@@ -230,6 +228,24 @@ watch(trailerModal, () => {
           class="skeleton-effect h-2 w-1/3 rounded-full bg-gray-300 dark:bg-zinc-800"
         ></div>
       </div>
+
+      <EntertainmentCard
+        class="w-full"
+        v-if="data.belongs_to_collection"
+        title="Belongs To Collection"
+        :entertainment="{
+          id: '0',
+          type: '0',
+          info: {
+            release_date: '0',
+            title: data.belongs_to_collection.name.replace(' Collection', ''),
+            poster: data.belongs_to_collection.poster_path,
+            backdrop: data.belongs_to_collection.backdrop_path
+          }
+        }"
+        :to="$route.path"
+      />
+
       <p v-if="originalName">
         <strong>Original Name</strong>
         <span>{{ originalName }}</span>

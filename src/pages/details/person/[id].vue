@@ -171,7 +171,7 @@ useHead({
             </h1>
             <OverflowBehavior :buttons-active="true">
               <NuxtLink
-                class="group flex w-full max-w-[119px] flex-shrink-0 select-none snap-start flex-col transition-all hover:max-w-[240px] hover:opacity-75"
+                class="group flex w-full max-w-[100px] flex-shrink-0 select-none snap-start flex-col transition-all hover:opacity-75 md:max-w-[200px]"
                 v-for="media in data.credits"
                 :key="media.id"
                 :to="`/details/${media.media_type}/${media.id}`"

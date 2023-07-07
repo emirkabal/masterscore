@@ -85,6 +85,14 @@ export type TMDBData = Partial<TMDBMovie> &
     }
   }
 
+export interface TMDBCollectionDetails {
+  id: number
+  name: string
+  overview: string
+  poster_path: string
+  backdrop_path: string
+  parts: TMDBSearchResult[]
+}
 export interface TMDBMovie {
   adult?: boolean
   backdrop_path?: string

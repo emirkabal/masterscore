@@ -8,70 +8,85 @@ const { data, loading } = defineProps<{
   }
   loading?: boolean
 }>()
+
+const crew = computed(() => {
+  if (!data) return []
+  return data.crew
+    .filter((c) => c.profile_path)
+    .sort((a, b) =>
+      a.popularity > b.popularity ? -1 : b.popularity > a.popularity ? 1 : 0
+    )
+})
+const cast = computed(() => {
+  if (!data) return []
+  return data.cast.filter((c) => c.profile_path)
+})
 </script>
 <template>
-  <div class="overflow-hidden">
+  <section class="overflow-hidden">
     <h1
       class="my-4 border-l-4 border-blue-700 pl-4 text-2xl font-bold tracking-wide"
     >
-      Cast
+      Cast & Crew
     </h1>
-    <div v-if="loading" class="flex gap-2 overflow-x-hidden">
-      <div class="flex flex-col" v-for="i in 8" :key="i">
-        <div
-          class="skeleton-effect h-64 w-[140px] rounded bg-gray-300 dark:bg-zinc-800 md:w-[160px]"
-        ></div>
-        <div
-          class="skeleton-effect mt-2 h-2 w-4/5 self-center rounded-full bg-gray-300 dark:bg-zinc-800"
-        ></div>
-        <div
-          class="skeleton-effect mt-2 h-2 w-3/4 self-center rounded-full bg-gray-300 dark:bg-zinc-800"
-        ></div>
-      </div>
-    </div>
-    <OverflowBehavior
-      v-else-if="
-        data && !loading && (data.cast.length > 0 || data.crew.length > 0)
-      "
-    >
-      <NuxtLink
-        class="flex w-full max-w-[140px] flex-shrink-0 select-none snap-start flex-col transition-opacity hover:opacity-75 md:max-w-[160px]"
-        v-for="cast in data.cast.length > 0 ? data.cast : data.crew"
-        :key="cast.id"
-        :to="`/details/person/${cast.id}`"
-      >
-        <div class="flex w-full flex-col items-center justify-center rounded">
+    <div v-if="loading || !data" class="space-y-2">
+      <div class="flex gap-2 overflow-x-hidden">
+        <div class="flex flex-col" v-for="i in 8" :key="i">
           <div
-            v-if="cast.profile_path"
-            :style="{
-              backgroundImage: `url(https://image.tmdb.org/t/p/w500${cast.profile_path})`
-            }"
-            class="h-64 w-full flex-shrink-0 rounded bg-white bg-cover bg-center bg-no-repeat dark:bg-black"
+            class="skeleton-effect h-64 w-[140px] rounded bg-gray-300 dark:bg-zinc-800 md:w-[160px]"
           ></div>
           <div
-            v-else
-            class="flex h-64 w-full flex-shrink-0 items-center justify-center rounded bg-gray-800 font-semibold !text-white"
-          >
-            No Image
-          </div>
-
+            class="skeleton-effect mt-2 h-2 w-4/5 self-center rounded-full bg-gray-300 dark:bg-zinc-800"
+          ></div>
           <div
-            class="mt-2 flex h-full w-full flex-col items-center justify-center py-2 text-center font-maven"
-          >
-            <p class="line-clamp-2 break-words font-semibold">
-              {{ cast.name }}
-            </p>
-            <p class="line-clamp-1 break-words">
-              {{ cast.character }}
-            </p>
-          </div>
+            class="skeleton-effect mt-2 h-2 w-3/4 self-center rounded-full bg-gray-300 dark:bg-zinc-800"
+          ></div>
         </div>
-      </NuxtLink>
-    </OverflowBehavior>
-    <div v-else>
-      <p class="text-center text-gray-500 dark:text-gray-400">
-        No cast/crew found
-      </p>
+      </div>
+      <div class="flex gap-2 overflow-x-hidden">
+        <div class="flex flex-col" v-for="i in 8" :key="i">
+          <div
+            class="skeleton-effect h-64 w-[140px] rounded bg-gray-300 dark:bg-zinc-800 md:w-[160px]"
+          ></div>
+          <div
+            class="skeleton-effect mt-2 h-2 w-4/5 self-center rounded-full bg-gray-300 dark:bg-zinc-800"
+          ></div>
+          <div
+            class="skeleton-effect mt-2 h-2 w-3/4 self-center rounded-full bg-gray-300 dark:bg-zinc-800"
+          ></div>
+        </div>
+      </div>
     </div>
-  </div>
+    <div v-else-if="cast.length > 0 || crew.length > 0" class="space-y-2">
+      <OverflowBehavior v-if="cast.length > 0">
+        <PersonCard
+          v-for="(item, i) in cast"
+          :key="'cast-' + i"
+          :data="{
+            id: item.id,
+            name: item.name,
+            profile_path: item.profile_path,
+            attr: item.character
+          }"
+        />
+      </OverflowBehavior>
+      <OverflowBehavior v-if="crew.length > 0">
+        <PersonCard
+          v-for="(item, i) in crew"
+          :key="'crew-' + i"
+          :data="{
+            id: item.id,
+            name: item.name,
+            profile_path: item.profile_path,
+            attr:
+              // @ts-ignore
+              item.job || item.department || item.known_for_department || '-'
+          }"
+        />
+      </OverflowBehavior>
+    </div>
+    <div v-else>
+      <p class="text-center text-gray-500 dark:text-gray-400">No cast found</p>
+    </div>
+  </section>
 </template>

@@ -17,7 +17,7 @@ const strings: Record<string, string> = {
 }
 
 const getActivityTitle = (type: string) => {
-  return strings[type] || "Unknown"
+  return strings[type] || type
 }
 
 const colors = reactive({

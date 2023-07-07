@@ -77,7 +77,7 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
             :data="{
               title: item.title,
               release_date: item.release_date,
-              url: `movie/${item.id}`,
+              url: `${item.media_type}/${item.id}`,
               poster: item.poster_path,
               backdrop: item.backdrop_path
             }"

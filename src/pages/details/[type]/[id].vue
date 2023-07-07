@@ -136,12 +136,6 @@ useHead({
 
 <template>
   <EntertainmentLoading v-if="pending" />
-  <div v-else-if="!data && !reviewData">
-    <div class="flex h-96 flex-col items-center justify-center">
-      <h1 class="text-4xl font-semibold">404</h1>
-      <p class="text-xl">Entertainment not found</p>
-    </div>
-  </div>
   <div v-else-if="data && reviewData">
     <EntertainmentReviewModal :data="data" :reviewData="reviewData" />
     <EntertainmentContainer
@@ -164,6 +158,11 @@ useHead({
     <div class="container mx-auto mb-28 mt-8 px-4">
       <div class="flex flex-col-reverse items-stretch gap-4 lg:flex-row">
         <div class="relative min-w-0 flex-1 space-y-10 lg:space-y-16">
+          <DetailsCollection
+            v-if="data.belongs_to_collection"
+            :data="data.belongs_to_collection"
+          />
+          <DetailsSimilar :type="params.type" :id="params.id" />
           <DetailsCast :data="data.credits" />
           <DetailsReviews
             :loading="reviewData.loading"
@@ -199,6 +198,17 @@ useHead({
           </ClientOnly>
         </div>
       </div>
+    </div>
+  </div>
+  <div v-else>
+    <div class="flex h-96 flex-col items-center justify-center">
+      <h1 class="text-4xl font-semibold">404</h1>
+      <p class="text-xl">Page not found</p>
+      <NuxtLink
+        to="/"
+        class="mt-4 rounded bg-white px-4 py-2 font-maven font-bold text-black hover:bg-gray-200"
+        >Go back to home</NuxtLink
+      >
     </div>
   </div>
 </template>
