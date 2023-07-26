@@ -120,9 +120,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           'rounded-bl-none rounded-br-none rounded-tl-2xl rounded-tr-2xl focus:ring-0 hover:focus:ring-0':
             focused
         }"
-        :placeholder="
-          focused ? 'Type to search...' : 'Type to search... (new update here)'
-        "
+        placeholder="Type to search..."
         ref="inputElement"
         :value="search"
         @input="searchInput"

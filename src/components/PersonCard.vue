@@ -11,7 +11,7 @@ const { data } = defineProps<{
 
 <template>
   <NuxtLink
-    class="flex w-full max-w-[100px] flex-shrink-0 select-none snap-start flex-col transition-opacity hover:opacity-75 md:max-w-[200px]"
+    class="flex w-full max-w-[100px] flex-shrink-0 select-none snap-start flex-col transition-opacity hover:opacity-75 md:max-w-[140px]"
     :to="`/details/person/${data.id}`"
   >
     <div class="flex w-full flex-col items-center justify-center rounded">
@@ -20,17 +20,17 @@ const { data } = defineProps<{
         :style="{
           backgroundImage: `url(https://image.tmdb.org/t/p/w500${data.profile_path})`
         }"
-        class="h-40 w-full flex-shrink-0 rounded bg-white bg-cover bg-center bg-no-repeat dark:bg-black md:h-[300px]"
+        class="h-32 w-full flex-shrink-0 rounded bg-white bg-cover bg-center bg-no-repeat dark:bg-black md:h-[240px]"
       ></div>
       <div
         v-else
-        class="flex h-40 w-full flex-shrink-0 items-center justify-center rounded bg-gray-800 font-semibold !text-white md:h-[300px]"
+        class="flex h-32 w-full flex-shrink-0 items-center justify-center rounded bg-gray-800 font-semibold !text-white md:h-[240px]"
       >
         No Image
       </div>
 
       <div
-        class="mt-2 flex h-full w-full flex-col items-center justify-center py-2 text-center font-maven"
+        class="mt-2 flex h-full w-full flex-col items-center justify-center pt-2 text-center font-maven"
       >
         <p class="line-clamp-2 break-words font-semibold">
           {{ data.name }}

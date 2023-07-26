@@ -14,7 +14,7 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
   </div>
   <div v-else-if="data">
     <HomeFeaturedEntertainment :data="data.featured" />
-    <div class="container mx-auto my-12 space-y-12 px-2">
+    <div class="container mx-auto my-12 space-y-12">
       <section class="space-y-2">
         <h1 class="text-2xl font-semibold">Trending Today</h1>
         <OverflowBehavior>

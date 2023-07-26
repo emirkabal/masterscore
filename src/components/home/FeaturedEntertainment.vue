@@ -87,7 +87,7 @@ watch(iframeLoaded, () => {
 </script>
 <template>
   <section
-    class="relative flex h-[800px] w-full items-center overflow-hidden bg-black"
+    class="relative flex h-[90vh] w-full items-center overflow-hidden bg-black"
   >
     <NuxtImg
       class="absolute inset-0 h-full w-full select-none object-cover brightness-50 filter md:brightness-75"
@@ -112,7 +112,7 @@ watch(iframeLoaded, () => {
     </ClientOnly>
     <button
       v-if="iframeLoaded && videoLoaded && !videoEnded"
-      class="absolute bottom-0 right-0 z-10 mb-12 mr-4 rounded-full bg-white/10 p-2 backdrop-blur-xl transition-colors hover:bg-white/20"
+      class="absolute bottom-0 right-0 z-10 mb-12 mr-4 rounded-full bg-white/10 p-2 text-white backdrop-blur-xl transition-colors hover:bg-white/20"
       @click="setMute(!muted)"
     >
       <IconsVolumeX v-if="muted" />
@@ -123,7 +123,7 @@ watch(iframeLoaded, () => {
       :href="`https://youtu.be/${data.video.key}`"
       rel="noopener noreferrer nofollow"
       target="_blank"
-      class="absolute bottom-0 right-0 z-10 m-4 text-xs opacity-50 transition-opacity hover:opacity-90"
+      class="absolute bottom-0 right-0 z-10 m-4 text-xs text-white opacity-50 transition-opacity hover:opacity-90"
       >provided by YouTube</a
     >
 
@@ -137,7 +137,7 @@ watch(iframeLoaded, () => {
           draggable="false"
           alt="movie logo"
         />
-        <p class="text-shadow line-clamp-3 text-lg font-medium">
+        <p class="text-shadow line-clamp-3 text-lg font-medium text-white">
           {{ data.overview }}
         </p>
         <div class="mt-2 flex flex-col gap-2 md:flex-row">

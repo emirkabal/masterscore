@@ -63,7 +63,10 @@ $listen("entertainment:load", (val) => {
             'text-black':
               entertainment.bright && !isHeaderShown && isEntertainmentPage,
             'text-white':
-              !entertainment.bright && !isHeaderShown && isEntertainmentPage
+              (!entertainment.bright &&
+                !isHeaderShown &&
+                isEntertainmentPage) ||
+              ($route.name === 'index' && !isHeaderShown)
           }"
           ><span
             class="text-yellow-500 transition"

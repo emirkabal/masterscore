@@ -33,20 +33,7 @@ const cast = computed(() => {
       <div class="flex gap-2 overflow-x-hidden">
         <div class="flex flex-col" v-for="i in 8" :key="i">
           <div
-            class="skeleton-effect h-64 w-[140px] rounded bg-gray-300 dark:bg-zinc-800 md:w-[160px]"
-          ></div>
-          <div
-            class="skeleton-effect mt-2 h-2 w-4/5 self-center rounded-full bg-gray-300 dark:bg-zinc-800"
-          ></div>
-          <div
-            class="skeleton-effect mt-2 h-2 w-3/4 self-center rounded-full bg-gray-300 dark:bg-zinc-800"
-          ></div>
-        </div>
-      </div>
-      <div class="flex gap-2 overflow-x-hidden">
-        <div class="flex flex-col" v-for="i in 8" :key="i">
-          <div
-            class="skeleton-effect h-64 w-[140px] rounded bg-gray-300 dark:bg-zinc-800 md:w-[160px]"
+            class="skeleton-effect h-32 w-[100px] rounded bg-gray-300 dark:bg-zinc-800 md:h-[240px] md:w-[140px]"
           ></div>
           <div
             class="skeleton-effect mt-2 h-2 w-4/5 self-center rounded-full bg-gray-300 dark:bg-zinc-800"

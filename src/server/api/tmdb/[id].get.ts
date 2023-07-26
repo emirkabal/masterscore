@@ -1,4 +1,4 @@
-import { ErrorResponse, TMDBData } from "~/@types"
+import { CreditsResult, ErrorResponse, TMDBData } from "~/@types"
 import getDataFromTMDB from "~/utils/getDataFromTMDB"
 
 // @ts-ignore
@@ -9,5 +9,14 @@ export default defineEventHandler(async (event) => {
   if (!type) type = "movie"
 
   const data = await getDataFromTMDB(id, type)
+
+  data.credits.cast = data.credits.cast.filter(
+    (v, i, a) => a.findIndex((t) => t.id === v.id) === i
+  )
+
+  data.credits.crew = data.credits.crew.filter(
+    (v, i, a) => a.findIndex((t) => t.id === v.id) === i
+  )
+
   return data as TMDBData
 })
