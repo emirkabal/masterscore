@@ -10,7 +10,8 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@nuxt/content",
     "@nuxtjs/device",
-    "@vite-pwa/nuxt"
+    "@vite-pwa/nuxt",
+    "nuxt-twemoji"
   ],
 
   css: [

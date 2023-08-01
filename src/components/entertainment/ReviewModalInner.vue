@@ -64,15 +64,17 @@ const onSelectEmoji = (emoji: any) => {
         <p class="select-none text-lg font-semibold">Comment</p>
 
         <Transition name="fade">
-          <EmojiPicker
-            v-show="isEmojiSelector"
-            ref="emojiPicker"
-            class="absolute right-0 z-20"
-            :display-recent="true"
-            :native="true"
-            :theme="isDark ? 'dark' : 'light'"
-            @select="onSelectEmoji"
-          />
+          <TwemojiParse png>
+            <EmojiPicker
+              v-show="isEmojiSelector"
+              ref="emojiPicker"
+              class="absolute right-0 z-20"
+              :display-recent="true"
+              :native="true"
+              :theme="isDark ? 'dark' : 'light'"
+              @select="onSelectEmoji"
+            />
+          </TwemojiParse>
         </Transition>
       </div>
 

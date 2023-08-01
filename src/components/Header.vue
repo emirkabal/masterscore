@@ -163,12 +163,17 @@ $listen("entertainment:load", (val) => {
           </Transition>
         </Menu>
         <div v-else class="flex items-center gap-4">
-          <NuxtLink to="/account/login" class="hover:opacity-80"
+          <NuxtLink
+            to="/account/login"
+            class="transition-opacity hover:opacity-80"
+            :class="{
+              'text-white': !isHeaderShown && $route.name === 'index'
+            }"
             >Login</NuxtLink
           >
           <NuxtLink
             to="/account/signup"
-            class="rounded bg-gray-200 px-4 py-2 font-semibold hover:bg-gray-300 dark:bg-zinc-800 dark:hover:bg-[#1e1e1e]"
+            class="rounded bg-yellow-500 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-600"
             >Signup</NuxtLink
           >
         </div>

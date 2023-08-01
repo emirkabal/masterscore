@@ -14,7 +14,7 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
   </div>
   <div v-else-if="data">
     <HomeFeaturedEntertainment :data="data.featured" />
-    <div class="container mx-auto my-12 space-y-12">
+    <div class="container mx-auto my-12 space-y-12 px-4">
       <section class="space-y-2">
         <h1 class="text-2xl font-semibold">Trending Today</h1>
         <OverflowBehavior>
@@ -125,7 +125,7 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
         <OverflowBehavior>
           <EntertainmentLargeCard
             v-for="(item, i) in data.most_liked"
-            :key="'top_rated-' + i"
+            :key="'most_liked-' + i"
             :data="{
               title: item.entertainment.info.title,
               release_date: item.entertainment.info.release_date,

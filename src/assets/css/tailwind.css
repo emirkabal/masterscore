@@ -27,6 +27,12 @@
   ::-webkit-scrollbar-thumb {
     @apply rounded-full bg-gray-800 transition-colors hover:bg-gray-700;
   }
+
+  
+}
+
+.twemojiParse {
+  @apply !inline-block;
 }
 
 @layer components {

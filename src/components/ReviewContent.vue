@@ -7,17 +7,17 @@ defineProps<{
 
 <template>
   <div class="group relative">
-    <p
-      v-if="review.content"
-      v-show="review.content"
-      class="break-words text-base leading-5"
-      :class="{
-        'group relative opacity-50 blur-sm transition-all':
-          review.spoiler && !review.spoilerRevealed
-      }"
-    >
-      {{ review.content }}
-    </p>
+    <TwemojiParse v-if="review.content" v-show="review.content" png>
+      <p
+        class="break-words text-base leading-5"
+        :class="{
+          'group relative opacity-50 blur-sm transition-all':
+            review.spoiler && !review.spoilerRevealed
+        }"
+      >
+        {{ review.content }}
+      </p>
+    </TwemojiParse>
     <span
       v-show="review.spoiler && !review.spoilerRevealed"
       @click="review.spoilerRevealed = true"
