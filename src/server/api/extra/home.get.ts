@@ -65,7 +65,7 @@ export default defineEventHandler(async (event) => {
   result.popular = popular.results
 
   result.top_rated = await $fetch("/api/reviews?limit=20")
-  result.trending = await $fetch("/api/extra/trending/movie?time=day")
+  result.trending = await $fetch("/api/extra/trending/movie")
 
   //@ts-ignore:2321
   result.featured = await $fetch(
