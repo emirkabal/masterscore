@@ -73,7 +73,7 @@ watch(scrollRef, () => {
         <IconsChevron class="m-auto h-10 w-10 text-white" />
       </div>
       <div
-        v-show="scroll < maxScroll"
+        v-show="scroll < maxScroll && maxScroll > 100"
         @click="next"
         class="absolute right-0 top-0 z-20 flex h-full w-14 cursor-pointer items-center bg-none opacity-0 transition-all group-hover:opacity-100 hover:bg-gray-700/60 dark:hover:bg-black/60"
       >

@@ -17,8 +17,8 @@ const { data } = defineProps<{
     <div class="flex w-full flex-col items-center justify-center rounded">
       <MasterImage
         v-if="data.profile_path"
-        :source="$timage(data.profile_path, 'w500')"
-        class="h-32 rounded-lg md:h-[240px]"
+        :source="$timage(data.profile_path, 'w300')"
+        class="h-32 w-[85px] rounded-lg md:h-[240px] md:w-[140px]"
       />
       <div
         v-else
@@ -30,10 +30,13 @@ const { data } = defineProps<{
       <div
         class="mt-2 flex h-full w-full flex-col items-center justify-center pt-2 text-center font-maven"
       >
-        <p class="line-clamp-2 break-words font-semibold">
+        <p class="line-clamp-2 break-words text-xs font-semibold md:text-base">
           {{ data.name }}
         </p>
-        <p class="line-clamp-1 break-words" v-if="data.attr">
+        <p
+          class="line-clamp-1 break-words text-xs md:text-base"
+          v-if="data.attr"
+        >
           {{ data.attr }}
         </p>
       </div>
