@@ -84,7 +84,9 @@ if (params.id === "me") {
       :is-me="user.username === localUser?.username"
       :viewProfile="true"
     />
-    <div class="container mx-auto mt-16 px-4 2xl:mt-10">
+    <div
+      class="container mx-auto my-24 space-y-12 px-4 lg:px-40 xl:px-72 2xl:px-96"
+    >
       <div
         class="mb-8 flex items-center justify-between border-b p-2 dark:border-zinc-900 md:p-6"
       >
@@ -101,16 +103,15 @@ if (params.id === "me") {
       >
         <p class="text-gray-500 dark:text-gray-200">No reviews found</p>
       </div>
-      <div class="mb-10 flex flex-col gap-2" v-else>
+      <div class="mb-10 flex flex-col gap-6" v-else>
         <div v-for="review in reviews.items" :key="review._id">
-          <div
-            class="flex overflow-hidden rounded bg-white shadow dark:bg-zinc-900"
-          >
+          <div class="flex items-start overflow-hidden rounded p-4">
             <img
               :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${review.entertainment.info.poster}`"
-              class="h-24 w-auto"
+              class="mr-4 h-24 w-auto rounded-lg"
+              draggable="false"
             />
-            <div class="min-w-0 p-4">
+            <div class="-mt-1 min-w-0">
               <div class="flex items-center gap-2">
                 <NuxtLink
                   :to="`/details/${review.entertainment.type}/${review.entertainment.id}`"

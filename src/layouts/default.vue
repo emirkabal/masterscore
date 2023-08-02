@@ -33,7 +33,7 @@ watch(
         <Spinner />
       </div>
 
-      <div class="w-full">
+      <div class="w-full" v-else>
         <slot />
       </div>
     </div>
