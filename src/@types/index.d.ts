@@ -182,7 +182,18 @@ export interface TMDBTV {
     logo_path?: string
     origin_country: string
   }[]
-  next_episode_to_air?: null
+  next_episode_to_air?: {
+    air_date: string
+    episode_number: number
+    id: number
+    name: string
+    overview: string
+    production_code: string
+    season_number: number
+    still_path?: string
+    vote_average: number
+    vote_count: number
+  }
   number_of_episodes?: number
   number_of_seasons?: number
   origin_country?: string[]

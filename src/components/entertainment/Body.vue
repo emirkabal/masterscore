@@ -104,15 +104,6 @@ useHead({
           class="skeleton-effect h-4 w-10/12 rounded bg-gray-300 dark:bg-zinc-800"
         ></div>
         <div
-          class="skeleton-effect h-4 w-11/12 rounded bg-gray-300 dark:bg-zinc-800"
-        ></div>
-        <div
-          class="skeleton-effect h-4 w-9/12 rounded bg-gray-300 dark:bg-zinc-800"
-        ></div>
-        <div
-          class="skeleton-effect h-4 w-10/12 rounded bg-gray-300 dark:bg-zinc-800"
-        ></div>
-        <div
           class="skeleton-effect h-4 w-6/12 rounded bg-gray-300 dark:bg-zinc-800"
         ></div>
       </div>

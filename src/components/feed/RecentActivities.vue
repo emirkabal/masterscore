@@ -110,7 +110,7 @@ watch(
           class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"
         ></div>
         <div
-          class="skeleton-effect mt-1 h-10 w-1/5 rounded bg-gray-300 dark:bg-zinc-800"
+          class="skeleton-effect mt-1 h-14 w-32 rounded bg-gray-300 dark:bg-zinc-800"
         ></div>
       </div>
     </div>

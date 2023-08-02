@@ -158,20 +158,21 @@ useHead({
     <div class="container mx-auto mb-28 mt-8 px-4">
       <div class="flex flex-col-reverse items-stretch gap-4 lg:flex-row">
         <div class="relative min-w-0 flex-1 space-y-10 lg:space-y-16">
-          <DetailsCollection
+          <EntertainmentDetailsEpisodes v-if="data.seasons" :data="data" />
+          <EntertainmentDetailsCollection
             v-if="data.belongs_to_collection"
             :data="data.belongs_to_collection"
           />
-          <DetailsSimilar :type="params.type" :id="params.id" />
-          <DetailsCast :data="data.credits" />
-          <DetailsReviews
+          <EntertainmentDetailsSimilar :type="params.type" :id="params.id" />
+          <EntertainmentDetailsCast :data="data.credits" />
+          <EntertainmentDetailsReviews
             :loading="reviewData.loading"
             :data="comments"
             @edit="openReview"
             @remove="deleteReview"
           />
         </div>
-        <DetailsSidebar
+        <EntertainmentDetailsSidebar
           class="static top-14 w-full self-start lg:sticky lg:min-w-[300px] lg:max-w-[300px]"
           :data="data"
         />

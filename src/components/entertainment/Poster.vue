@@ -14,11 +14,10 @@ const { posterURL, rating, loading } = defineProps<{
       ></div>
     </div>
     <div v-else>
-      <img
+      <MasterImage
         v-if="posterURL"
-        class="h-auto w-56 rounded object-cover object-center lg:w-72"
-        draggable="false"
-        :src="posterURL"
+        :source="posterURL"
+        class="h-[336px] w-56 rounded object-cover object-center lg:h-[432px] lg:w-72"
       />
       <div
         v-else

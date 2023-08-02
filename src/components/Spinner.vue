@@ -12,7 +12,7 @@ const props = defineProps({
     <div role="status">
       <svg
         aria-hidden="true"
-        class="mr-2 h-8 w-8 animate-spin fill-yellow-600 text-gray-200 dark:text-gray-600"
+        class="mr-2 h-8 w-8 animate-spin fill-yellow-500 text-gray-200 dark:text-zinc-700"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

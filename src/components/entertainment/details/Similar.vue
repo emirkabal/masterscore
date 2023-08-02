@@ -1,9 +1,10 @@
 <script setup lang="ts">
 const { type, id, loading } = defineProps<{
   type?: string
-  id?: number
+  id?: string | number
   loading?: boolean
 }>()
+
 const { data, pending } = useLazyFetch(`/api/extra/similar/${type}/${id}`)
 
 const similar = computed(() => {

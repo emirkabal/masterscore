@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TMDBData } from "~/@types"
 import { onClickOutside } from "@vueuse/core"
-const { $getTitle, $event, $router } = useNuxtApp()
+const { $getTitle, $event, $moment } = useNuxtApp()
 const props = defineProps<{
   data: TMDBData
 }>()
@@ -25,7 +25,56 @@ onClickOutside(trailerModalEl, () => {
   trailerModal.value = false
 })
 
+const getDateDiff = (date: string) => {
+  const diff = $moment().diff(date, "days")
+  if (diff === 0) {
+    return "Today"
+  } else if (diff === 1) {
+    return "Yesterday"
+  } else if (diff < 7) {
+    return `${diff} days ago`
+  } else if (diff < 30) {
+    return `${Math.floor(diff / 7)} weeks ago`
+  } else if (diff < 365) {
+    return `${Math.floor(diff / 30)} months ago`
+  } else {
+    return `${Math.floor(diff / 365)} years ago`
+  }
+}
+
 const status = computed(() => {
+  if (
+    props.data.status &&
+    props.data.status === "Released" &&
+    props.data.release_date
+  ) {
+    const releaseDate = $moment(props.data.release_date)
+    return `Released: ${releaseDate.format("MMMM D, YYYY")}<br/>${getDateDiff(
+      props.data.release_date
+    )}`
+  } else if (
+    props.data.status &&
+    props.data.status === "Ended" &&
+    props.data.first_air_date &&
+    props.data.last_air_date
+  ) {
+    const firstAirDate = $moment(props.data.first_air_date)
+    const lastAirDate = $moment(props.data.last_air_date)
+    return `Ended at: ${lastAirDate.format(
+      "MMMM D, YYYY"
+    )}<br/>${firstAirDate.format("YYYY")}-${lastAirDate.format(
+      "YYYY"
+    )}<br/>${getDateDiff(props.data.last_air_date)}`
+  } else if (
+    props.data.status &&
+    props.data.status === "Returning Series" &&
+    props.data.first_air_date &&
+    props.data.next_episode_to_air
+  ) {
+    const nextAirDate = $moment(props.data.next_episode_to_air.air_date)
+    return `Returning in: ${nextAirDate.format("MMMM D, YYYY")}`
+  }
+
   return props.data.status || "Unknown"
 })
 
@@ -252,7 +301,7 @@ watch(trailerModal, () => {
       </p>
       <p>
         <strong>Status</strong>
-        <span>{{ status }}</span>
+        <span v-html="status"></span>
       </p>
       <p>
         <strong>Language</strong>

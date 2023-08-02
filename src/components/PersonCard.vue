@@ -15,13 +15,11 @@ const { data } = defineProps<{
     :to="`/details/person/${data.id}`"
   >
     <div class="flex w-full flex-col items-center justify-center rounded">
-      <div
+      <MasterImage
         v-if="data.profile_path"
-        :style="{
-          backgroundImage: `url(https://image.tmdb.org/t/p/w500${data.profile_path})`
-        }"
-        class="h-32 w-full flex-shrink-0 rounded bg-white bg-cover bg-center bg-no-repeat dark:bg-black md:h-[240px]"
-      ></div>
+        :source="$timage(data.profile_path, 'w500')"
+        class="h-32 rounded-lg md:h-[240px]"
+      />
       <div
         v-else
         class="flex h-32 w-full flex-shrink-0 items-center justify-center rounded bg-gray-800 font-semibold !text-white md:h-[240px]"

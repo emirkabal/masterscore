@@ -66,13 +66,10 @@ useHead({
           >
             No Image
           </div>
-          <img
+          <MasterImage
             v-else
-            :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${data.profile_path}`"
-            draggable="false"
-            alt="profile picture"
-            loading="lazy"
-            class="mx-auto mb-2 h-full max-h-[450px] w-full max-w-[300px] rounded-lg shadow-lg md:mx-0"
+            :source="$timage(data.profile_path, 'w500')"
+            class="mx-auto h-96 max-w-[300px] rounded-lg shadow-lg md:mx-0 md:h-[450px]"
           />
           <h1
             class="mt-2 block text-center font-maven text-3xl font-bold tracking-wide md:hidden"
@@ -170,37 +167,18 @@ useHead({
               Known For
             </h1>
             <OverflowBehavior :buttons-active="true">
-              <NuxtLink
-                class="group flex w-full max-w-[100px] flex-shrink-0 select-none snap-start flex-col transition-all hover:opacity-75 md:max-w-[200px]"
-                v-for="media in data.credits"
-                :key="media.id"
-                :to="`/details/${media.media_type}/${media.id}`"
-              >
-                <div
-                  class="flex w-full flex-col items-center justify-center rounded"
-                >
-                  <div
-                    v-if="media.poster_path"
-                    :style="{
-                      backgroundImage: `url(https://image.tmdb.org/t/p/w500${media.poster_path})`
-                    }"
-                    class="h-64 w-full flex-shrink-0 rounded bg-white bg-cover bg-center bg-no-repeat dark:bg-black"
-                  ></div>
-                  <div
-                    v-else
-                    class="flex h-64 w-full flex-shrink-0 items-center justify-center rounded bg-gray-800 font-semibold !text-white"
-                  >
-                    No Image
-                  </div>
-                  <div
-                    class="mt-2 flex h-full w-full flex-col items-center justify-center py-2 text-center font-maven"
-                  >
-                    <p class="line-clamp-1 break-words font-semibold">
-                      {{ $getTitle(media) }}
-                    </p>
-                  </div>
-                </div>
-              </NuxtLink>
+              <EntertainmentLargeCard
+                v-for="item in data.credits"
+                :key="item.id"
+                :data="{
+                  url: `${item.media_type}/${item.id}`,
+                  title: item.title || item.name || 'Untitled',
+                  poster: item.poster_path,
+                  backdrop: item.backdrop_path,
+                  release_date: item.release_date || item.first_air_date || '0'
+                }"
+                :type="item.media_type"
+              />
             </OverflowBehavior>
           </div>
 

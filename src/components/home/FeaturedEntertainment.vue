@@ -52,28 +52,30 @@ const setMute = (bool: boolean) => {
 
 if (process.client && isDesktop) {
   window.addEventListener("message", function (msg) {
-    const data = JSON.parse(msg.data)
+    try {
+      const data = JSON.parse(msg.data)
 
-    if (data.event === "onReady") {
-      player.value.contentWindow.postMessage(
-        '{"event":"command","func":"seekTo","args":[2,true]}',
-        "*"
-      )
-      player.value.contentWindow.postMessage(
-        '{"event":"command","func":"setVolume","args":[0.5,true]}',
-        "*"
-      )
-    } else if (data.event === "infoDelivery") {
-      if (data.info?.playbackRate === 1 && !data.info?.playerState) {
-        videoLoaded.value = true
-      }
+      if (data.event === "onReady") {
+        player.value.contentWindow.postMessage(
+          '{"event":"command","func":"seekTo","args":[2,true]}',
+          "*"
+        )
+        player.value.contentWindow.postMessage(
+          '{"event":"command","func":"setVolume","args":[0.5,true]}',
+          "*"
+        )
+      } else if (data.event === "infoDelivery") {
+        if (data.info?.playbackRate === 1 && !data.info?.playerState) {
+          videoLoaded.value = true
+        }
 
-      if (data.info.currentTime && data.info.duration) {
-        if (data.info.currentTime >= data.info.duration - 5) {
-          videoEnded.value = true
+        if (data.info.currentTime && data.info.duration) {
+          if (data.info.currentTime >= data.info.duration - 5) {
+            videoEnded.value = true
+          }
         }
       }
-    }
+    } catch (error) {}
   })
 }
 watch(iframeLoaded, () => {
@@ -93,8 +95,10 @@ watch(iframeLoaded, () => {
       class="absolute inset-0 h-full w-full select-none object-cover brightness-50 filter md:brightness-75"
       :src="$timage(data.backdrop_path, 'original')"
       draggable="false"
+      loading="lazy"
       :alt="data.name"
     />
+
     <ClientOnly>
       <iframe
         v-if="isDesktop"
@@ -131,11 +135,10 @@ watch(iframeLoaded, () => {
       <div
         class="flex max-w-xl flex-col items-center text-center md:items-start md:text-left"
       >
-        <NuxtImg
-          class="mb-8 w-3/4 select-none drop-shadow"
-          :src="$timage(data.logo_path, 'w500')"
-          draggable="false"
-          alt="movie logo"
+        <MasterImage
+          class="mb-8 w-3/4 select-none bg-transparent drop-shadow"
+          :alt="`${data.title || data.name || 'Untitled'} Logo`"
+          :source="$timage(data.logo_path, 'w500')"
         />
         <p class="text-shadow line-clamp-3 text-lg font-medium text-white">
           {{ data.overview }}

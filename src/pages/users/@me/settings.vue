@@ -149,10 +149,13 @@ const submit = async (e) => {
       >
         Edit Profile
       </p>
-      <div class="my-12 flex justify-center" v-if="loading">
+      <div
+        class="fixed left-0 top-0 z-20 flex h-screen w-full items-center justify-center bg-black/40"
+        v-if="loading"
+      >
         <Spinner color="#000" />
       </div>
-      <div v-else class="my-12 grid gap-8 lg:my-0 lg:grid-cols-2">
+      <div class="my-12 grid gap-8 lg:my-0 lg:grid-cols-2">
         <div>
           <Modal
             :show="croppingImage !== null"
@@ -200,18 +203,14 @@ const submit = async (e) => {
           </Modal>
 
           <form @submit="submit" class="space-y-2">
-            <div class="space-y-2 border-b pb-4 dark:border-zinc-900">
+            <div class="mb-4 space-y-2">
               <div
                 class="mb-4 flex items-center gap-4 border-b pb-4 dark:border-zinc-800"
               >
                 <div class="space-y-2">
                   <span class="flex items-center gap-2 text-xl font-bold"
-                    >Change Avatar
-                    <span
-                      class="rounded bg-blue-600 px-2 py-1 font-maven text-xs font-semibold !text-white"
-                      >New!</span
-                    ></span
-                  >
+                    >Avatar
+                  </span>
                   <div class="my-2 flex">
                     <div
                       v-if="avatar || (user.avatar && avatarHandle !== 'edit')"
@@ -315,52 +314,42 @@ const submit = async (e) => {
                   </div>
                 </div>
               </div>
-              <span class="text-xl font-bold">About</span>
-              <button
-                type="button"
-                @click="preview = !preview"
-                class="ml-2 rounded bg-blue-700 px-2 py-1 text-white hover:bg-blue-600"
+              <div
+                class="mb-4 gap-4 space-y-2 border-b pb-4 dark:border-zinc-800"
               >
-                {{ preview ? "Edit" : "Preview" }}
-              </button>
-              <p
-                v-if="preview"
-                class="line-clamp-5 max-w-6xl truncate whitespace-pre-wrap break-words text-gray-500 dark:text-gray-100"
-              >
-                {{ about }}
-              </p>
-              <div v-else class="relative">
-                <textarea
-                  :value="about"
-                  :maxlength="512"
-                  @input="(e) => (about = e.target.value)"
-                  class="h-36 w-full resize-none dark:border-zinc-800 dark:bg-zinc-900"
-                >
-                </textarea>
-                <div
-                  class="absolute bottom-0 right-0 z-10 m-4 text-sm text-gray-500 dark:text-gray-300"
-                >
-                  {{ about?.length || 0 }} / 512
+                <span class="text-xl font-bold">About</span>
+                <div class="relative">
+                  <textarea
+                    :value="about"
+                    :maxlength="512"
+                    @input="(e) => (about = e.target.value)"
+                    class="h-36 w-full resize-none dark:border-zinc-800 dark:bg-zinc-900"
+                  >
+                  </textarea>
+                  <div
+                    class="absolute bottom-0 right-0 z-10 m-4 text-sm text-gray-500 dark:text-gray-300"
+                  >
+                    {{ about?.length || 0 }} / 512
+                  </div>
                 </div>
               </div>
-            </div>
+              <div class="space-y-2">
+                <span class="text-xl font-bold"
+                  >Banner URL
+                  <span class="text-base text-gray-400 dark:text-gray-300"
+                    >(Imgur is recommended)</span
+                  ></span
+                >
 
-            <div class="space-y-2 pb-4">
-              <span class="text-xl font-bold"
-                >Banner URL
-                <span class="text-base text-gray-400 dark:text-gray-300"
-                  >(Imgur is recommended)</span
-                ></span
-              >
-
-              <input
-                :value="banner"
-                @input="(e) => (banner = e.target.value)"
-                :maxlength="128"
-                placeholder="https://i.imgur.com/BiwjCWt.jpg"
-                class="form-input w-full resize-none dark:border-zinc-800 dark:bg-zinc-900"
-                type="text"
-              />
+                <input
+                  :value="banner"
+                  @input="(e) => (banner = e.target.value)"
+                  :maxlength="128"
+                  placeholder="https://i.imgur.com/BiwjCWt.jpg"
+                  class="form-input w-full resize-none dark:border-zinc-800 dark:bg-zinc-900"
+                  type="text"
+                />
+              </div>
             </div>
 
             <div class="flex items-center justify-between gap-4">
@@ -402,10 +391,18 @@ const submit = async (e) => {
             :avatar="user.avatar"
             class="absolute !m-0"
           />
+          <div class="ml-10 mt-24" v-if="about.length > 0">
+            <h1 class="text-xl font-semibold">About</h1>
+            <p
+              class="line-clamp-5 max-w-6xl truncate whitespace-pre-wrap break-words text-gray-500 dark:text-gray-100"
+            >
+              {{ about }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="mt-8 px-2">
+    <div class="px-2 py-8">
       <p
         class="mb-4 border-b px-2 py-4 font-maven font-semibold dark:border-zinc-900"
       >
