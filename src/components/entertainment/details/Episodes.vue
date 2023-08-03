@@ -45,7 +45,8 @@ watch(seasonData, () => {
           setTimeout(() => {
             window.scrollTo({
               top: item.getBoundingClientRect().top + window.scrollY - 120,
-              behavior: seasonData[key].episodes.length === 0 ? "instant" : "smooth"
+              behavior:
+                seasonData[key].episodes.length === 0 ? "instant" : "smooth"
             })
           }, 10)
         }
@@ -117,7 +118,7 @@ watch(seasonData, () => {
             :source="$timage(item.poster_path, 'w500')"
             class="h-36 w-24 rounded-md shadow-md"
           />
-          <div>
+          <div class="w-full">
             <div class="cursor-text" @click="(e) => e.stopPropagation()">
               <div class="flex min-w-0 items-center gap-2">
                 <span class="line-clamp-1 font-semibold md:text-lg">{{
@@ -135,39 +136,45 @@ watch(seasonData, () => {
                 {{ $moment(item.air_date).format("MMMM D, YYYY") }}
               </p>
             </div>
-
-            <div v-if="seasonData[item.id].episodes.length === 0" class="my-6">
-              <Spinner />
-            </div>
-            <div
-              v-else
-              v-for="episode in seasonData[item.id].episodes"
-              :key="episode.id"
-              class="my-2 flex cursor-text items-start gap-4 rounded-lg p-2 transition-colors hover:bg-gray-200 hover:dark:bg-neutral-900"
-              @click="(e) => e.stopPropagation()"
-            >
-              <MasterImage
-                v-if="episode.still_path"
-                class="h-16 w-28 rounded-md shadow-md md:h-24 md:w-40"
-                :source="$timage(episode.still_path, 'w500')"
-              />
-              <div class="w-full">
-                <div class="flex min-w-0 items-center gap-2">
-                  <span
-                    class="mr-auto line-clamp-1 text-sm font-semibold md:text-lg"
-                    >{{ episode.name }}</span
+            <div class="w-full space-y-2">
+              <div
+                v-if="seasonData[item.id].episodes.length === 0"
+                class="my-6"
+              >
+                <Spinner />
+              </div>
+              <div
+                v-else
+                v-for="episode in seasonData[item.id].episodes"
+                :key="episode.id"
+                class="flex cursor-text items-start gap-4 rounded-lg p-2 transition-colors hover:bg-gray-200 hover:dark:bg-neutral-900"
+                @click="(e) => e.stopPropagation()"
+              >
+                <MasterImage
+                  v-if="episode.still_path"
+                  class="h-16 w-28 rounded-md shadow-md md:h-24 md:w-40"
+                  :source="$timage(episode.still_path, 'w500')"
+                />
+                <div class="w-full">
+                  <div class="flex min-w-0 items-center gap-2">
+                    <span
+                      class="mr-auto line-clamp-1 text-sm font-semibold md:text-lg"
+                      >{{ episode.name }}</span
+                    >
+                    <span
+                      class="flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:text-sm"
+                      >Episode {{ episode.episode_number }}</span
+                    >
+                  </div>
+                  <p
+                    class="ml-auto line-clamp-2 cursor-text text-sm opacity-90"
                   >
-                  <span
-                    class="flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:text-sm"
-                    >Episode {{ episode.episode_number }}</span
-                  >
+                    {{ episode.overview }}
+                  </p>
+                  <p class="text-xs opacity-75">
+                    {{ $moment(episode.air_date).format("MMMM D, YYYY") }}
+                  </p>
                 </div>
-                <p class="ml-auto line-clamp-2 cursor-text text-sm opacity-90">
-                  {{ episode.overview }}
-                </p>
-                <p class="text-xs opacity-75">
-                  {{ $moment(episode.air_date).format("MMMM D, YYYY") }}
-                </p>
               </div>
             </div>
           </div>
