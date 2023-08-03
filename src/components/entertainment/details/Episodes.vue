@@ -121,22 +121,27 @@ watch(seasonData, () => {
           <div class="w-full">
             <div class="cursor-text" @click="(e) => e.stopPropagation()">
               <div class="flex min-w-0 items-center gap-2">
-                <span class="line-clamp-1 font-semibold md:text-lg">{{
+                <span class="line-clamp-1 font-semibold md:text-xl">{{
                   item.name
                 }}</span>
                 <span
-                  class="flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:text-sm"
+                  class="flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:mt-0.5 md:text-base"
                   >{{ item.episode_count }} Episodes</span
                 >
               </div>
-              <p class="ml-auto line-clamp-4 cursor-text text-sm opacity-90">
-                {{ item.overview }}
-              </p>
-              <p class="text-xs opacity-75">
+              <p class="text-xs font-semibold opacity-75 md:text-base">
                 {{ $moment(item.air_date).format("MMMM D, YYYY") }}
               </p>
+              <p
+                class="ml-auto line-clamp-4 cursor-text text-xs opacity-90 md:text-base md:leading-5"
+              >
+                {{ item.overview }}
+              </p>
             </div>
-            <div class="w-full space-y-2">
+            <div
+              class="mt-4 w-full space-y-2"
+              @click="(e) => e.stopPropagation()"
+            >
               <div
                 v-if="seasonData[item.id].episodes.length === 0"
                 class="my-6"
@@ -147,32 +152,41 @@ watch(seasonData, () => {
                 v-else
                 v-for="episode in seasonData[item.id].episodes"
                 :key="episode.id"
-                class="flex cursor-text items-start gap-4 rounded-lg p-2 transition-colors hover:bg-gray-200 hover:dark:bg-neutral-900"
-                @click="(e) => e.stopPropagation()"
+                class="flex cursor-text items-center gap-2 rounded-lg p-2 transition-colors hover:bg-gray-200 hover:dark:bg-neutral-900 md:gap-4"
               >
                 <MasterImage
                   v-if="episode.still_path"
-                  class="h-16 w-28 rounded-md shadow-md md:h-24 md:w-40"
+                  class="h-14 w-24 rounded-md shadow-md md:h-24 md:w-40"
                   :source="$timage(episode.still_path, 'w500')"
                 />
                 <div class="w-full">
-                  <div class="flex min-w-0 items-center gap-2">
+                  <div class="flex min-w-0 items-center gap-2 font-semibold">
+                    <span class="line-clamp-1 text-xs md:text-xl">{{
+                      episode.name
+                    }}</span>
                     <span
-                      class="mr-auto line-clamp-1 text-sm font-semibold md:text-lg"
-                      >{{ episode.name }}</span
-                    >
-                    <span
-                      class="flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:text-sm"
-                      >Episode {{ episode.episode_number }}</span
+                      class="flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:text-base"
+                      >E-{{ episode.episode_number }}</span
                     >
                   </div>
+                  <div
+                    class="flex gap-2 text-xs font-semibold opacity-75 md:text-base"
+                  >
+                    <p>
+                      {{ $moment(episode.air_date).format("MMMM D, YYYY") }}
+                    </p>
+                    <p>
+                      {{
+                        $moment
+                          .duration(episode.runtime, "minutes")
+                          .format("h[h] m[m]")
+                      }}
+                    </p>
+                  </div>
                   <p
-                    class="ml-auto line-clamp-2 cursor-text text-sm opacity-90"
+                    class="ml-auto line-clamp-2 cursor-text text-xs opacity-90 md:line-clamp-4 md:text-base md:leading-5"
                   >
                     {{ episode.overview }}
-                  </p>
-                  <p class="text-xs opacity-75">
-                    {{ $moment(episode.air_date).format("MMMM D, YYYY") }}
                   </p>
                 </div>
               </div>
