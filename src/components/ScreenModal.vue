@@ -25,7 +25,10 @@ watch(
 </script>
 
 <template>
-  <div v-if="modal" class="fixed left-0 top-0 z-50 h-screen w-full bg-black/80">
+  <div
+    v-if="modal"
+    class="fixed left-0 top-0 z-40 h-[100vh] w-full bg-black/80"
+  >
     <div
       class="z-50 m-auto flex h-full max-w-[1920px] flex-col items-center justify-center p-2 sm:p-24 md:p-32 lg:p-40 2xl:p-96"
     >

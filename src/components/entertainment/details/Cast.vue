@@ -9,14 +9,46 @@ const { data, loading } = defineProps<{
   loading?: boolean
 }>()
 
+const allModal = ref(false)
+
 const crew = computed(() => {
   if (!data) return []
-  return data.crew
-    .filter((c) => c.profile_path)
-    .sort((a, b) =>
-      a.popularity > b.popularity ? -1 : b.popularity > a.popularity ? 1 : 0
-    )
+  let crewData = []
+
+  for (const c of data.crew) {
+    crewData.push({
+      title: c.department,
+      items: [] as CreditsResult[]
+    })
+  }
+
+  crewData = crewData.filter(
+    (v, i, a) => a.findIndex((t) => t.title === v.title) === i
+  )
+
+  for (const c of data.crew) {
+    for (const i of crewData) {
+      if (i.title === c.department && c.profile_path) {
+        i.items.push(c)
+      }
+    }
+  }
+
+  crewData = crewData.filter((c) => c.items.length > 0)
+
+  crewData = crewData.sort((a, b) => {
+    // directing top
+    if (a.title === "Directing") return -1
+    if (b.title === "Directing") return 1
+    if (a.title === "Writing") return -1
+    if (b.title === "Writing") return 1
+
+    return 0
+  })
+
+  return crewData
 })
+
 const cast = computed(() => {
   if (!data) return []
   return data.cast.filter((c) => c.profile_path)
@@ -27,7 +59,7 @@ const cast = computed(() => {
     <h1
       class="my-4 border-l-4 border-blue-700 pl-4 text-2xl font-bold tracking-wide"
     >
-      Cast & Crew
+      Cast
     </h1>
     <div v-if="loading || !data" class="space-y-2">
       <div class="flex gap-2 overflow-x-hidden">
@@ -57,20 +89,36 @@ const cast = computed(() => {
           }"
         />
       </OverflowBehavior>
-      <OverflowBehavior v-if="crew.length > 0">
-        <PersonCard
-          v-for="(item, i) in crew"
-          :key="'crew-' + i"
-          :data="{
-            id: item.id,
-            name: item.name,
-            profile_path: item.profile_path,
-            attr:
-              // @ts-ignore
-              item.job || item.department || item.known_for_department || '-'
-          }"
-        />
-      </OverflowBehavior>
+      <div v-if="crew.length > 0">
+        <button @click="allModal = true" class="my-2 text-lg opacity-90">
+          Show more..
+        </button>
+        <ScreenModal :modal="allModal" @close="allModal = false">
+          <div
+            class="h-full max-h-[550px] w-full rounded-xl bg-gray-200 p-2 dark:bg-zinc-950 md:max-h-[780px] md:p-4"
+          >
+            <div class="h-full max-h-[780px] overflow-auto">
+              <div v-for="(item, i) in crew" :key="'crew-' + i">
+                <h1 class="my-2 text-xl font-bold tracking-wide md:text-2xl">
+                  {{ item.title }}
+                </h1>
+                <div class="flex flex-row flex-wrap gap-y-6 md:gap-2">
+                  <PersonCard
+                    v-for="(c, i) in item.items"
+                    :key="i"
+                    :data="{
+                      id: c.id,
+                      name: c.name,
+                      profile_path: c.profile_path,
+                      attr: ''
+                    }"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </ScreenModal>
+      </div>
     </div>
     <div v-else>
       <p class="text-center text-gray-500 dark:text-gray-400">No cast found</p>

@@ -56,6 +56,7 @@ export interface CreditsResult {
   original_name: string
   popularity: number
   profile_path: string
+  department: string
 }
 
 export interface VideoResult {

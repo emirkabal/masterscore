@@ -14,9 +14,5 @@ export default defineEventHandler(async (event) => {
     (v, i, a) => a.findIndex((t) => t.id === v.id) === i
   )
 
-  data.credits.crew = data.credits.crew.filter(
-    (v, i, a) => a.findIndex((t) => t.id === v.id) === i
-  )
-
   return data as TMDBData
 })

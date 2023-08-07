@@ -136,6 +136,16 @@ watch(data, async () => {
           (e) => e.tmdb == data.value.id
         )
       }
+
+      if (
+        smartVideoData.value.length > 0 &&
+        smartVideoData.value.filter((e) => e.tmdb || e.imdb).length > 0 &&
+        !smartVideoData.value.find(
+          (e) => e.tmdb == data.value.id || e.imdb == data.value.imdb_id
+        )
+      ) {
+        smartVideoData.value = null
+      }
     }
     await find($getTitle(data.value))
     if (!smartVideoData.value) {
