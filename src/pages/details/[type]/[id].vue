@@ -138,6 +138,17 @@ watch(data, async () => {
       }
 
       if (
+        smartVideoData.value &&
+        smartVideoData.value.length > 1 &&
+        data.value.imdb_id &&
+        smartVideoData.value.find((e) => e.imdb == data.value.imdb_id)
+      ) {
+        smartVideoData.value = smartVideoData.value.find(
+          (e) => e.imdb == data.value.imdb_id
+        )
+      }
+
+      if (
         smartVideoData.value.length > 0 &&
         smartVideoData.value.filter((e) => e.tmdb || e.imdb).length > 0 &&
         !smartVideoData.value.find(
@@ -149,7 +160,9 @@ watch(data, async () => {
     }
     await find($getTitle(data.value))
     if (!smartVideoData.value) {
-      await find(data.value.original_name || data.value.original_title)
+      if (data.value.belongs_to_collection && data.value.belongs_to_collection)
+        await find(data.value.belongs_to_collection.name)
+      else await find(data.value.original_name || data.value.original_title)
     }
     if (
       smartVideoData.value &&
