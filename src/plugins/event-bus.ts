@@ -8,6 +8,7 @@ type ApplicationEvents = {
   "entertainment:load": boolean
   "entertainment:fetch:reviews": boolean
   "entertainment:fetch:likes": boolean
+  "entertainment:watch": string
 }
 
 export default defineNuxtPlugin(() => {

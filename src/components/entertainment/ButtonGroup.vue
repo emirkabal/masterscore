@@ -2,14 +2,16 @@
 import { ReviewData, TMDBData } from "~~/src/@types"
 import { useUserStore } from "~/store/user"
 import { useLocalStorage } from "@vueuse/core"
+const { $event } = useNuxtApp()
 const { user, isLoggedIn } = useUserStore()
 const award = useLocalStorage("easteregg", 0)
 
-const { data, isLight, reviewData } = defineProps<{
+const { data, isLight, reviewData, smartVideoData } = defineProps<{
   data?: TMDBData
   isLight?: boolean
   reviewData?: ReviewData
   loading?: boolean
+  smartVideoData?: any
 }>()
 
 defineEmits(["openReview"])
@@ -78,6 +80,10 @@ const fetchLikes = async () => {
   likes.value = entertainmentLikes
 }
 
+const watchSmartVideo = (id: any) => {
+  $event("entertainment:watch", id)
+}
+
 watchEffect(() => {
   if (data) {
     fetchLikes()
@@ -112,7 +118,21 @@ watchEffect(() => {
     </div>
   </div>
   <div v-else-if="!loading && data && reviewData">
-    <div class="mt-4 flex flex-col gap-2 text-lg lg:flex-row">
+    <div
+      class="mt-4 flex flex-col gap-2 text-lg lg:flex-row"
+      :class="{
+        'grid grid-cols-1 md:grid-cols-2 xl:flex xl:grid-cols-4 xl:flex-row':
+          smartVideoData && smartVideoData.id
+      }"
+    >
+      <button
+        v-if="smartVideoData && smartVideoData.id"
+        @click="watchSmartVideo(smartVideoData.id)"
+        class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
+      >
+        <IconsPlay class="h-6 w-6" />
+        Watch
+      </button>
       <button
         @click="like"
         class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"

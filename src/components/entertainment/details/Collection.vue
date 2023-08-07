@@ -6,7 +6,7 @@ const { data } = defineProps<{
     backdrop_path: string
     poster_path: string
   }
-  loading: boolean
+  loading?: boolean
 }>()
 
 const { data: collection, pending } = useLazyFetch(

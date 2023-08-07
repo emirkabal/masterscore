@@ -13,6 +13,15 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
     <Spinner class="mx-auto h-screen" />
   </div>
   <div v-else-if="data">
+    <!-- <iframe
+      src="https://videoseyred.in/embed/269567"
+      frameborder="0"
+      width="1280"
+      height="720"
+      title="Videoseyredin Player"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe> -->
     <HomeFeaturedEntertainment :data="data.featured" />
     <div class="container mx-auto my-12 space-y-12 px-4">
       <section class="space-y-2">

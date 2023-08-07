@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TMDBData } from "~/@types"
-import { onClickOutside } from "@vueuse/core"
-const { $getTitle, $event, $moment } = useNuxtApp()
+import ScreenModal from "~/components/ScreenModal.vue"
+const { $getTitle, $moment } = useNuxtApp()
 const props = defineProps<{
   data: TMDBData
 }>()
@@ -19,11 +19,6 @@ const { data: providerData, pending: providerPending } = useLazyFetch(
 )
 
 const trailerModal = ref(false)
-const trailerModalEl = ref(null)
-
-onClickOutside(trailerModalEl, () => {
-  trailerModal.value = false
-})
 
 const getDateDiff = (date: string) => {
   const diff = $moment().diff(date, "days")
@@ -175,44 +170,24 @@ const getVideo = computed(() => {
     return null
   }
 })
-
-watch(trailerModal, () => {
-  if (trailerModal.value) {
-    $event("modal:trailer", true)
-    document.body.style.overflow = "hidden"
-  } else {
-    $event("modal:trailer", false)
-    document.body.style.overflow = "auto"
-  }
-})
 </script>
 
 <template>
   <div class="z-20 w-full rounded-3xl p-0 lg:px-6 lg:pt-6">
-    <div
-      v-if="getVideo && trailerModal"
-      class="fixed left-0 top-0 z-50 h-screen w-full bg-black/80"
+    <ScreenModal
+      v-if="getVideo"
+      :modal="trailerModal"
+      @close="trailerModal = false"
     >
-      <button
-        class="absolute right-0 top-0 m-2 opacity-50 transition-opacity hover:opacity-100 md:m-12"
-      >
-        <IconsTimes class="h-14 w-14 text-white" />
-      </button>
-      <div
-        class="z-50 flex h-full flex-col items-center justify-center p-2 sm:p-24 md:p-32 lg:p-40 2xl:p-96"
-      >
-        <iframe
-          ref="trailerModalEl"
-          width="1920"
-          height="1080"
-          class="aspect-video h-96 max-h-[648px] w-full max-w-[1152px] rounded-xl md:h-auto"
-          :src="`https://www.youtube.com/embed/${
-            getVideo.split('/')[3]
-          }?autoplay=1`"
-        >
-        </iframe>
-      </div>
-    </div>
+      <iframe
+        width="1920"
+        height="1080"
+        class="aspect-video h-auto max-h-[648px] w-full rounded-xl md:h-auto"
+        :src="`https://www.youtube.com/embed/${
+          getVideo.split('/')[3]
+        }?autoplay=1`"
+      />
+    </ScreenModal>
     <div class="space-y-6">
       <button
         v-if="getVideo"

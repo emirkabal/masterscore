@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useMutationObserver } from "@vueuse/core"
 const props = withDefaults(
   defineProps<{
     buttonsActive?: boolean
@@ -11,6 +12,7 @@ const props = withDefaults(
 const scrollRef = ref<HTMLElement | null>(null)
 const scroll = ref(0)
 const maxScroll = ref(0)
+const scrollable = ref(false)
 const actualHeight = ref(0)
 const actualItemWidth = ref(0)
 
@@ -55,16 +57,30 @@ const updateScroll = () => {
   scroll.value = scrollRef.value.scrollLeft
   actualHeight.value = scrollRef.value?.clientHeight + 32
   maxScroll.value = scrollRef.value?.scrollWidth - scrollRef.value?.clientWidth
+  scrollable.value = scrollRef.value?.scrollWidth > scrollRef.value?.clientWidth
 }
 
 watch(scrollRef, () => {
   if (!scrollRef.value) return
   updateScroll()
 })
+
+useMutationObserver(
+  scrollRef,
+  () => {
+    updateScroll()
+  },
+  {
+    attributes: true,
+    childList: true,
+    characterData: true,
+    subtree: true
+  }
+)
 </script>
 <template>
   <section class="group relative">
-    <div v-if="props.buttonsActive" class="hidden md:block">
+    <div v-if="props.buttonsActive && scrollable" class="hidden md:block">
       <div
         v-show="scroll > 0"
         @click="prev"
@@ -73,7 +89,7 @@ watch(scrollRef, () => {
         <IconsChevron class="m-auto h-10 w-10 text-white" />
       </div>
       <div
-        v-show="scroll < maxScroll && maxScroll > 100"
+        v-if="scroll < maxScroll"
         @click="next"
         class="absolute right-0 top-0 z-20 flex h-full w-14 cursor-pointer items-center bg-none opacity-0 transition-all group-hover:opacity-100 hover:bg-gray-700/60 dark:hover:bg-black/60"
       >
@@ -89,7 +105,7 @@ watch(scrollRef, () => {
         @scroll="updateScroll"
         ref="scrollRef"
       >
-        <slot></slot>
+        <slot />
       </div>
     </div>
   </section>

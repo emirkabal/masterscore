@@ -2,7 +2,8 @@
 import tinycolor from "tinycolor2"
 import { useStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
-const { $event, $listen, $colorthief } = useNuxtApp()
+import ScreenModal from "~/components/ScreenModal.vue"
+const { $event, $listen, $colorthief, $getTitle } = useNuxtApp()
 const { params, query } = useRoute()
 const { feature } = query
 const flag = useStorage("debugMode", false)
@@ -12,6 +13,11 @@ const { user, isLoggedIn } = useUserStore()
 const { data, pending } = useLazyFetch(
   `/api/tmdb/${params.id}?type=${params.type}`
 )
+
+const watchModal = ref(false)
+const smartVideoData = ref(null)
+const smartVideoId = ref("")
+const iframeLoading = ref(true)
 
 const colors = reactive({
   background: [3, 50, 71],
@@ -114,6 +120,39 @@ watch(data, async () => {
     }
   }
 
+  if (isLoggedIn && user.verified) {
+    const find = async (title) => {
+      smartVideoData.value = await $fetch(
+        `https://api.emirkabal.com/v1/smartvideo/${
+          params.type === "tv" ? "series" : "movies"
+        }?q=${title}`
+      ).catch(() => null)
+      if (
+        smartVideoData.value &&
+        smartVideoData.value.length > 1 &&
+        smartVideoData.value.find((e) => e.tmdb == data.value.id)
+      ) {
+        smartVideoData.value = smartVideoData.value.find(
+          (e) => e.tmdb == data.value.id
+        )
+      }
+    }
+    await find($getTitle(data.value))
+    if (!smartVideoData.value) {
+      await find(data.value.original_name || data.value.original_title)
+    }
+    if (
+      smartVideoData.value &&
+      smartVideoData.value.length > 0 &&
+      params.type === "movie"
+    ) {
+      smartVideoData.value = smartVideoData.value[0]
+    }
+    if (smartVideoData.value && smartVideoData.value.length === 0) {
+      smartVideoData.value = null
+    }
+  }
+
   fetchReviews()
   $listen("entertainment:fetch:reviews", fetchReviews)
 
@@ -128,6 +167,11 @@ watch(colors, (val) => {
   }
 })
 
+$listen("entertainment:watch", (id) => {
+  smartVideoId.value = id
+  watchModal.value = true
+})
+
 useHead({
   title: "...",
   titleTemplate: "%s - Masterscore"
@@ -137,13 +181,59 @@ useHead({
 <template>
   <EntertainmentLoading v-if="pending" />
   <div v-else-if="data && reviewData">
+    <ScreenModal
+      v-if="smartVideoData"
+      :modal="watchModal"
+      @close="
+        () => {
+          watchModal = false
+          iframeLoading = true
+        }
+      "
+    >
+      <Spinner
+        v-show="iframeLoading"
+        class="h-screen max-h-[648px]"
+        :color="backgroundBright ? 'white' : 'black'"
+      />
+      <iframe
+        v-show="!iframeLoading"
+        :src="'https://videoseyred.in/embed/' + smartVideoId"
+        frameborder="0"
+        width="1920"
+        height="1080"
+        class="aspect-video h-auto max-h-[648px] w-full rounded-xl"
+        title="Watch Feature"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        @load="iframeLoading = false"
+      ></iframe>
+    </ScreenModal>
     <EntertainmentReviewModal :data="data" :reviewData="reviewData" />
     <EntertainmentContainer
       :colors="colors"
       :background-u-r-l="backgroundURL"
       :feature="feature"
     >
-      <EntertainmentPoster :poster-u-r-l="posterURL" :rating="masterRating" />
+      <div>
+        <EntertainmentPoster :poster-u-r-l="posterURL" :rating="masterRating" />
+        <span
+          v-if="smartVideoData"
+          v-tooltip.bottom="{
+            content: `You can watch this ${
+              params.type === 'movie' ? 'movie' : 'tv show'
+            } because you are a <b>verified</b>.`,
+            html: true
+          }"
+          class="group mt-2 flex cursor-default select-none items-center justify-center gap-1"
+        >
+          <IconsVerified class="h-6 w-6 text-yellow-400" />
+          <span
+            class="text-white opacity-90 transition-opacity group-hover:opacity-100"
+            >Watch Supported</span
+          >
+        </span>
+      </div>
       <div class="w-full max-w-2xl">
         <EntertainmentBody :data="data" :is-light="backgroundBright" />
         <EntertainmentButtonGroup
@@ -151,6 +241,7 @@ useHead({
           :isLight="backgroundBright"
           @openReview="openReview"
           :reviewData="reviewData"
+          :smartVideoData="smartVideoData"
         />
       </div>
     </EntertainmentContainer>
@@ -162,7 +253,11 @@ useHead({
             v-if="data.belongs_to_collection"
             :data="data.belongs_to_collection"
           />
-          <EntertainmentDetailsEpisodes v-if="data.seasons" :data="data" />
+          <EntertainmentDetailsEpisodes
+            v-if="data.seasons"
+            :data="data"
+            :smartVideoData="smartVideoData"
+          />
           <EntertainmentDetailsCast :data="data.credits" />
           <EntertainmentDetailsSimilar :type="params.type" :id="params.id" />
           <EntertainmentDetailsReviews

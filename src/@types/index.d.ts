@@ -70,6 +70,7 @@ export interface VideoResult {
 }
 
 interface Episode {
+  smartVideoId?: string
   air_date: string
   episode_number: number
   id: number

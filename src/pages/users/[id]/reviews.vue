@@ -111,7 +111,7 @@ if (params.id === "me") {
               class="mr-4 h-24 w-auto rounded-lg"
               draggable="false"
             />
-            <div class="-mt-1 min-w-0">
+            <div class="min-w-0">
               <div class="flex items-center gap-2">
                 <NuxtLink
                   :to="`/details/${review.entertainment.type}/${review.entertainment.id}`"
@@ -119,17 +119,15 @@ if (params.id === "me") {
                 >
                   {{ review.entertainment.info.title }}
                 </NuxtLink>
-
-                <p class="flex items-center gap-1">
-                  <IconsStarFilled class="h-4 w-4 text-yellow-400" />
-                  <span class="text-sm font-semibold">{{ review.rating }}</span>
-                </p>
-                <p class="text-base text-gray-500 dark:text-gray-400">
+                <p
+                  class="flex-shrink-0 text-base text-gray-500 dark:text-gray-400"
+                >
                   {{ $moment(review.createdAt).fromNow() }}
-                  {{ review.createdAt === review.updatedAt ? "" : "(edited)" }}
                 </p>
               </div>
-
+              <span class="text-sm opacity-90">
+                Reviewed: {{ review.rating }}/10
+              </span>
               <ReviewContent :review="review" />
             </div>
           </div>
