@@ -46,7 +46,7 @@ const getActualEpisode = (season: number, episode: number) => {
 
 const getSmartVideo = (season: number, episode: number) => {
   if (props.smartVideoData) {
-    if (props.smartVideoData[0].season === 0) {
+    if (props.smartVideoData[0].season == 0) {
       const data = props.smartVideoData.find(
         (e: any) => e.episode == getActualEpisode(season, episode)
       )
@@ -55,7 +55,7 @@ const getSmartVideo = (season: number, episode: number) => {
       }
     } else {
       const data = props.smartVideoData.find(
-        (e: any) => e.season === season && e.episode === episode
+        (e: any) => e.season == season && e.episode == episode
       )
       if (data) {
         return data.id
@@ -83,6 +83,12 @@ const isWatchAvailable = (season: number, episode: number) => {
 }
 
 const watchSmartVideo = (episode: Episode) => {
+  if (!episode.smartVideoId) {
+    episode.smartVideoId = getSmartVideo(
+      episode.season_number,
+      episode.episode_number
+    )
+  }
   if (!episode.smartVideoId) return
   $event("entertainment:watch", episode.smartVideoId)
 }

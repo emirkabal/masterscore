@@ -17,6 +17,7 @@ const { data, pending } = useLazyFetch(
 const watchModal = ref(false)
 const smartVideoData = ref(null)
 const smartVideoId = ref("")
+const smartVideoPending = ref(false)
 const iframeLoading = ref(true)
 
 const colors = reactive({
@@ -121,6 +122,7 @@ watch(data, async () => {
   }
 
   if (isLoggedIn && user.verified) {
+    smartVideoPending.value = true
     const find = async (title) => {
       smartVideoData.value = await $fetch(
         `https://api.emirkabal.com/v1/smartvideo/${
@@ -149,6 +151,7 @@ watch(data, async () => {
       }
 
       if (
+        smartVideoData.value &&
         smartVideoData.value.length > 0 &&
         smartVideoData.value.filter((e) => e.tmdb || e.imdb).length > 0 &&
         !smartVideoData.value.find(
@@ -174,6 +177,7 @@ watch(data, async () => {
     if (smartVideoData.value && smartVideoData.value.length === 0) {
       smartVideoData.value = null
     }
+    smartVideoPending.value = false
   }
 
   fetchReviews()
@@ -238,24 +242,36 @@ useHead({
       :background-u-r-l="backgroundURL"
       :feature="feature"
     >
-      <div>
+      <div class="relative">
         <EntertainmentPoster :poster-u-r-l="posterURL" :rating="masterRating" />
-        <span
-          v-if="smartVideoData"
-          v-tooltip.bottom="{
-            content: `You can watch this ${
-              params.type === 'movie' ? 'movie' : 'tv show'
-            } because you are a <b>verified</b>.`,
-            html: true
-          }"
-          class="group mt-2 flex cursor-default select-none items-center justify-center gap-1"
-        >
-          <IconsVerified class="h-6 w-6 text-yellow-400" />
+        <div class="left-0 right-0 lg:absolute">
           <span
-            class="text-white opacity-90 transition-opacity group-hover:opacity-100"
-            >Watch Supported</span
+            v-if="smartVideoData"
+            v-tooltip.bottom="{
+              content: `You can watch this ${
+                params.type === 'movie' ? 'movie' : 'tv show'
+              } because you are a <b>verified</b>.`,
+              html: true
+            }"
+            class="group mt-2 flex h-6 cursor-default select-none items-center justify-center gap-1"
           >
-        </span>
+            <IconsVerified class="h-6 w-6 text-yellow-400" />
+            <span
+              class="text-white opacity-90 transition-opacity group-hover:opacity-100"
+              >Watch Supported</span
+            >
+          </span>
+          <span
+            v-else-if="smartVideoPending"
+            class="group mt-2 flex h-6 cursor-default select-none items-center justify-center"
+          >
+            <Spinner class="-mr-1.5 scale-50" />
+            <span
+              class="text-white opacity-90 transition-opacity group-hover:opacity-100"
+              >Checking watch feature...</span
+            >
+          </span>
+        </div>
       </div>
       <div class="w-full max-w-2xl">
         <EntertainmentBody :data="data" :is-light="backgroundBright" />
