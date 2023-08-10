@@ -2,7 +2,6 @@
 import tinycolor from "tinycolor2"
 import { useStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
-import ScreenModal from "~/components/ScreenModal.vue"
 const { $event, $listen, $colorthief, $getTitle } = useNuxtApp()
 const { params, query } = useRoute()
 const { feature } = query
@@ -199,6 +198,13 @@ $listen("entertainment:watch", (id) => {
   watchModal.value = true
 })
 
+$listen("entertainment:watch-feature-mismatch", () => {
+  watchModal.value = false
+  smartVideoId.value = null
+  smartVideoData.value = null
+  smartVideoPending.value = false
+})
+
 useHead({
   title: "...",
   titleTemplate: "%s - Masterscore"
@@ -208,34 +214,17 @@ useHead({
 <template>
   <EntertainmentLoading v-if="pending" />
   <div v-else-if="data && reviewData">
-    <ScreenModal
-      v-if="smartVideoData"
-      :modal="watchModal"
+    <EntertainmentWatch
+      :smartVideoData="smartVideoData"
+      :smartVideoPending="smartVideoPending"
+      :smartVideoId="smartVideoId"
+      :watchModal="watchModal"
       @close="
         () => {
           watchModal = false
-          iframeLoading = true
         }
       "
-    >
-      <Spinner
-        v-show="iframeLoading"
-        class="h-screen max-h-[648px]"
-        :color="backgroundBright ? 'white' : 'black'"
-      />
-      <iframe
-        v-show="!iframeLoading"
-        :src="'https://videoseyred.in/embed/' + smartVideoId"
-        frameborder="0"
-        width="1920"
-        height="1080"
-        class="aspect-video h-auto max-h-[648px] w-full rounded-xl"
-        title="Watch Feature"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-        @load="iframeLoading = false"
-      ></iframe>
-    </ScreenModal>
+    />
     <EntertainmentReviewModal :data="data" :reviewData="reviewData" />
     <EntertainmentContainer
       :colors="colors"
@@ -309,6 +298,7 @@ useHead({
         <EntertainmentDetailsSidebar
           class="static top-14 w-full self-start lg:sticky lg:min-w-[300px] lg:max-w-[300px]"
           :data="data"
+          :smartVideoData="smartVideoData"
         />
       </div>
 

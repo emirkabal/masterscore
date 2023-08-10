@@ -1,31 +1,51 @@
 <script lang="ts" setup>
-import { TMDBData, Episode } from "@types"
+import { TMDBData, Episode, Season } from "@types"
 const { $event } = useNuxtApp()
+
+interface SeasonData {
+  [key: string]: Season & {
+    id: string | number
+    show: boolean
+    season_number: number
+    episodes: Episode[]
+  }
+}
 
 const props = defineProps<{
   data: TMDBData
   smartVideoData?: any
 }>()
 
-const seasons = computed(() => {
+const seasonsComputed = computed(() => {
   return props.data.seasons
     ? props.data.seasons.filter((season) => season.season_number !== 0)
     : []
 })
 
-const seasonData: {
-  [key: string]: {
-    show: boolean
-    season_number: number
-    episodes: Episode[]
-  }
-} = reactive({
+const watchFeatureAnalyzing = ref(false)
+const watchFeatureAnalyzed = ref(false)
+const seasonData = reactive<SeasonData>({
   ...Object.fromEntries(
-    seasons.value.map((season) => [
+    seasonsComputed.value.map((season) => [
       season.id,
-      { show: false, season_number: season.season_number, episodes: [] }
+      {
+        ...season,
+        show: false,
+        season_number: season.season_number,
+        episodes: []
+      }
     ])
   )
+})
+
+const seasons = computed(() =>
+  Object.values(seasonData).sort((a, b) => a.season_number - b.season_number)
+)
+
+const totalEpisodes = computed(() => {
+  return seasons.value.reduce((acc, season) => {
+    return acc + season.episode_count
+  }, 0)
 })
 
 const getActualEpisode = (season: number, episode: number) => {
@@ -78,6 +98,7 @@ const getSeason = async (key: string, season_number: number) => {
 }
 
 const isWatchAvailable = (season: number, episode: number) => {
+  if (watchFeatureAnalyzing.value) return false
   const ep = getActualEpisode(season, episode)
   return props.smartVideoData && ep <= props.smartVideoData.length
 }
@@ -113,15 +134,114 @@ watch(seasonData, () => {
     }
   })
 })
+
+watch(
+  () => props.smartVideoData,
+  async () => {
+    if (props.smartVideoData) {
+      if (
+        props.smartVideoData.length &&
+        props.smartVideoData.length !== totalEpisodes.value
+      ) {
+        watchFeatureAnalyzing.value = true
+        const data = await $fetch(
+          `/api/extra/episode_groups/groups/${props.data.id}`
+        )
+
+        if (data && "results" in data) {
+          const bestMatch = data.results.find(
+            (epg) => epg.episode_count === props.smartVideoData.length
+          )
+
+          if (bestMatch) {
+            const data = await $fetch(
+              `/api/extra/episode_groups/details/${bestMatch.id}`
+            )
+
+            if (data && "groups" in data) {
+              Object.keys(seasonData).forEach((key) => {
+                delete seasonData[key]
+              })
+
+              data.groups.forEach((group) => {
+                seasonData[group.id] = {
+                  ...group,
+                  show: false,
+                  season_number: group.order,
+                  episode_count: group.episodes.length,
+                  overview: data.description,
+                  air_date: group.episodes[0].air_date,
+                  episodes: group.episodes.map((episode: Episode, i) => {
+                    return {
+                      ...episode,
+                      episode_number: i + 1,
+                      season_number: group.order,
+                      smartVideoId: getSmartVideo(
+                        group.order,
+                        episode.episode_number
+                      )
+                    }
+                  })
+                }
+              })
+
+              watchFeatureAnalyzed.value = true
+            }
+          }
+        }
+
+        watchFeatureAnalyzing.value = false
+      }
+
+      if (
+        props.smartVideoData.length &&
+        props.smartVideoData.length > 0 &&
+        !watchFeatureAnalyzed.value
+      ) {
+        const watchableSeasons = props.smartVideoData
+          .map((e: any) => e.season)
+          .filter((e: any, i: any, a: any) => a.indexOf(e) === i)
+
+        if (watchableSeasons.includes(0)) return
+
+        watchableSeasons.forEach((season: any) => {
+          const eps = props.smartVideoData.filter(
+            (e: any) => e.season == season
+          ).length
+
+          if (
+            eps >
+            3 +
+              (seasons.value.find((se) => se.season_number == season)
+                ?.episode_count || seasons.value[0].episode_count)
+          ) {
+            $event("entertainment:watch-feature-mismatch")
+          }
+        })
+      }
+    }
+  }
+)
 </script>
 
 <template>
   <section>
-    <h1
-      class="my-4 border-l-4 border-green-500 pl-4 text-2xl font-bold tracking-wide"
+    <div
+      class="my-4 flex items-start justify-between border-l-4 border-green-500 pl-4"
     >
-      Episodes
-    </h1>
+      <span>
+        <h1 class="text-2xl font-bold tracking-wide">Episodes</h1>
+        <p class="text-xs opacity-75">Total of {{ totalEpisodes }} episodes.</p>
+      </span>
+
+      <div
+        v-if="watchFeatureAnalyzing"
+        class="flex items-center gap-1 text-xs opacity-90"
+      >
+        <Spinner class="-mr-2 scale-50" />
+        Optimizing for watch feature...
+      </div>
+    </div>
     <div class="flex flex-col gap-2">
       <div
         :aria-details="item.id.toString()"

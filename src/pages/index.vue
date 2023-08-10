@@ -3,32 +3,33 @@ useHead({
   title: "Masterscore",
   titleTemplate: "%s"
 })
+const home = useState("home")
+const homePending = useState("homePending")
 
-const { data, pending } = await useLazyFetch("/api/extra/home", {
-  headers: generateHeaders()
-})
+if (!home.value) {
+  const { data, pending } = await useLazyFetch("/api/extra/home", {
+    headers: generateHeaders()
+  })
+
+  home.value = data.value
+  homePending.value = pending.value
+
+  watch(data, (data) => (home.value = data))
+  watch(pending, (pending) => (homePending.value = pending))
+}
 </script>
 <template>
-  <div v-if="pending">
+  <div v-if="homePending">
     <Spinner class="mx-auto h-screen" />
   </div>
-  <div v-else-if="data">
-    <!-- <iframe
-      src="https://videoseyred.in/embed/269567"
-      frameborder="0"
-      width="1280"
-      height="720"
-      title="Videoseyredin Player"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-    ></iframe> -->
-    <HomeFeaturedEntertainment :data="data.featured" />
+  <div v-else-if="home">
+    <HomeFeaturedEntertainment :data="home.featured" />
     <div class="container mx-auto my-12 space-y-12 px-4">
       <section class="space-y-2">
         <h1 class="text-2xl font-semibold">Trending Today</h1>
         <OverflowBehavior>
           <EntertainmentLargeCard
-            v-for="(item, i) in data.trending"
+            v-for="(item, i) in home.trending"
             :key="'trending-' + i"
             :data="{
               title: item.title,
@@ -47,7 +48,7 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
         </div>
         <OverflowBehavior>
           <EntertainmentLargeCard
-            v-for="(item, i) in data.top_rated"
+            v-for="(item, i) in home.top_rated"
             :key="'top_rated-' + i"
             :data="{
               title: item.entertainment.info.title,
@@ -62,9 +63,9 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
       <HomeShowFeed />
       <section
         v-if="
-          data.recommendations &&
-          data.recommendations.results &&
-          data.recommendations.results.length > 0
+          home.recommendations &&
+          home.recommendations.results &&
+          home.recommendations.results.length > 0
         "
         class="space-y-2"
       >
@@ -73,15 +74,15 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
           <p>
             based on
             <NuxtLink
-              :to="`/details/${data.recommendations.releated.type}/${data.recommendations.releated.id}`"
+              :to="`/details/${home.recommendations.releated.type}/${home.recommendations.releated.id}`"
               class="font-medium hover:underline"
-              >{{ data.recommendations.releated.info.title }}</NuxtLink
+              >{{ home.recommendations.releated.info.title }}</NuxtLink
             >
           </p>
         </div>
         <OverflowBehavior>
           <EntertainmentLargeCard
-            v-for="(item, i) in data.recommendations.results"
+            v-for="(item, i) in home.recommendations.results"
             :key="'recommendation-' + i"
             :data="{
               title: item.title,
@@ -98,7 +99,7 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
         <h1 class="text-2xl font-semibold">Popular Movies</h1>
         <OverflowBehavior>
           <EntertainmentLargeCard
-            v-for="(item, i) in data.popular"
+            v-for="(item, i) in home.popular"
             :key="'popular-' + i"
             :data="{
               title: item.title,
@@ -110,11 +111,11 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
           />
         </OverflowBehavior>
       </section>
-      <section v-if="data.watchlist.length > 0" class="space-y-2">
+      <section v-if="home.watchlist.length > 0" class="space-y-2">
         <h1 class="text-2xl font-semibold">Don't Forget to Watch</h1>
         <OverflowBehavior>
           <EntertainmentLargeCard
-            v-for="(item, i) in data.watchlist"
+            v-for="(item, i) in home.watchlist"
             :key="'watchlist-' + i"
             :data="{
               title: item.info.title,
@@ -133,7 +134,7 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
         </div>
         <OverflowBehavior>
           <EntertainmentLargeCard
-            v-for="(item, i) in data.most_liked"
+            v-for="(item, i) in home.most_liked"
             :key="'most_liked-' + i"
             :data="{
               title: item.entertainment.info.title,
@@ -150,7 +151,7 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
         <h1 class="text-2xl font-semibold">Now Playing</h1>
         <OverflowBehavior>
           <EntertainmentLargeCard
-            v-for="(item, i) in data.now_playing"
+            v-for="(item, i) in home.now_playing"
             :key="'now_playing-' + i"
             :data="{
               title: item.title,
@@ -166,7 +167,7 @@ const { data, pending } = await useLazyFetch("/api/extra/home", {
         <h1 class="text-2xl font-semibold">Upcoming Movies</h1>
         <OverflowBehavior>
           <EntertainmentLargeCard
-            v-for="(item, i) in data.upcoming"
+            v-for="(item, i) in home.upcoming"
             :key="'popular-' + i"
             :data="{
               title: item.title,

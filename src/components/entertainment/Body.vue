@@ -156,7 +156,14 @@ useHead({
         <h2 class="ml-0.5 pr-2 font-semibold">
           {{ releaseDate }}
         </h2>
-        <h2 v-if="genres" class="line-clamp-1 break-all px-2 font-semibold">
+        <h2
+          v-if="genres"
+          v-tooltip="{
+            content: `Genres are <b>${genres}</b>.`,
+            html: true
+          }"
+          class="line-clamp-1 break-all px-2 font-semibold"
+        >
           {{ genres }}
         </h2>
         <h2 class="line-clamp-1 flex-shrink-0 px-2 font-semibold">

@@ -70,7 +70,17 @@ export interface VideoResult {
   type: string
 }
 
-interface Episode {
+export interface Season {
+  id: number | string
+  name: string
+  overview: string
+  air_date: string
+  episode_count: number
+  poster_path?: string
+  season_number: number
+}
+
+export interface Episode {
   smartVideoId?: string
   air_date: string
   episode_number: number
@@ -85,6 +95,42 @@ interface Episode {
   vote_count: number
   crew: CreditsResult[]
   guest_stars: CreditsResult[]
+}
+
+interface Network {
+  id: number
+  logo_path: string
+  name: string
+  origin_country: string
+}
+
+export interface EpisodeGroups {
+  id: number
+  results: {
+    description: string
+    episode_count: number
+    group_count: number
+    id: string
+    name: string
+    network?: Network
+    type: number
+  }[]
+}
+
+export interface EpisodeGroupsDetails {
+  id: string
+  name: string
+  type: number
+  description: string
+  episode_count: number
+  group_count: number
+  groups: {
+    id: string
+    name: string
+    order: number
+    episodes: Episode[]
+  }[]
+  network?: Network
 }
 
 export type TMDBData = Partial<TMDBMovie> &

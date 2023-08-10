@@ -4,6 +4,7 @@ import ScreenModal from "~/components/ScreenModal.vue"
 const { $getTitle, $moment } = useNuxtApp()
 const props = defineProps<{
   data: TMDBData
+  smartVideoData: any
 }>()
 
 const formatter = new Intl.NumberFormat("en-US", {
@@ -200,22 +201,38 @@ const getVideo = computed(() => {
 
       <div
         v-if="
-          !providerPending &&
-          getProvider &&
-          ((getProvider.flatrate && getProvider.flatrate.length > 0) ||
-            (getProvider.buy && getProvider.buy.length > 0) ||
-            (getProvider.rent && getProvider.rent.length > 0))
+          (!providerPending &&
+            (getProvider?.flatrate || getProvider?.rent || getProvider?.buy)) ||
+          smartVideoData
         "
       >
         <span class="font-bold">Available on</span>
         <div class="flex items-center gap-2">
+          <span
+            v-if="smartVideoData"
+            v-tooltip="{
+              content: `Watch on <b>Masterscore</b>. (you are already here <3)`,
+              html: true
+            }"
+            class="flex h-10 w-10 cursor-default items-center justify-center rounded-lg bg-gray-100 bg-cover bg-center bg-no-repeat font-maven text-3xl font-black text-yellow-500 transition-opacity hover:opacity-75 dark:bg-zinc-900"
+          >
+            <span class="-mt-1 select-none"> m </span>
+          </span>
           <a
+            v-if="
+              !providerPending &&
+              (getProvider?.flatrate || getProvider?.rent || getProvider?.buy)
+            "
             v-for="provider in getProvider.flatrate ||
             getProvider.rent ||
             getProvider.buy"
             :key="provider.provider_id"
             :href="getProvider.link"
             target="_blank"
+            v-tooltip="{
+              content: `Watch on <b>${provider.provider_name}</b>.`,
+              html: true
+            }"
             class="h-10 w-10 rounded-lg bg-cover bg-center bg-no-repeat transition-opacity hover:opacity-75"
             :style="{
               backgroundImage: `url(https://image.tmdb.org/t/p/original/${provider.logo_path})`
@@ -223,7 +240,10 @@ const getVideo = computed(() => {
           >
           </a>
         </div>
-        <div class="text-xs">
+        <div
+          class="text-xs"
+          v-if="getProvider?.flatrate || getProvider?.rent || getProvider?.buy"
+        >
           <span class="mr-2 text-gray-600 dark:text-gray-50">Powered by</span>
           <a href="https://www.justwatch.com/" target="_blank"
             ><img
