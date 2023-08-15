@@ -121,7 +121,7 @@ const submit = async (e) => {
   if (data.status === 200) {
     user.about = about.value
     user.banner = banner.value
-    if (username.value.length > 0) {
+    if (username.value?.length > 0) {
       user.username = username.value
       user.latestUsernameChange = Date.now()
     }
@@ -156,6 +156,29 @@ const submit = async (e) => {
         <Spinner color="#000" />
       </div>
       <div class="my-12 grid gap-8 lg:my-0 lg:grid-cols-2">
+        <div
+          class="relative rounded border-4 border-gray-100 dark:border-gray-800"
+        >
+          <div
+            class="absolute -left-2 -top-2 z-10 rounded bg-gray-100 px-4 font-maven font-semibold dark:bg-zinc-800"
+          >
+            Preview
+          </div>
+          <ProfileBanner
+            :username="username || user.username"
+            :banner="banner"
+            :avatar="user.avatar"
+            class="absolute !m-0"
+          />
+          <div class="ml-10 mt-24" v-if="about?.length > 0">
+            <h1 class="text-xl font-semibold">About</h1>
+            <p
+              class="line-clamp-5 max-w-6xl truncate whitespace-pre-wrap break-words text-gray-500 dark:text-gray-100"
+            >
+              {{ about }}
+            </p>
+          </div>
+        </div>
         <div>
           <Modal
             :show="croppingImage !== null"
@@ -201,7 +224,6 @@ const submit = async (e) => {
               </button>
             </template>
           </Modal>
-
           <form @submit="submit" class="space-y-2">
             <div class="mb-4 space-y-2">
               <div
@@ -376,29 +398,6 @@ const submit = async (e) => {
               </div>
             </div>
           </form>
-        </div>
-        <div
-          class="relative rounded border-4 border-gray-100 dark:border-gray-800"
-        >
-          <div
-            class="absolute -left-2 -top-2 z-10 rounded bg-gray-100 px-4 font-maven font-semibold dark:bg-zinc-800"
-          >
-            Preview
-          </div>
-          <ProfileBanner
-            :username="username || user.username"
-            :banner="banner"
-            :avatar="user.avatar"
-            class="absolute !m-0"
-          />
-          <div class="ml-10 mt-24" v-if="about.length > 0">
-            <h1 class="text-xl font-semibold">About</h1>
-            <p
-              class="line-clamp-5 max-w-6xl truncate whitespace-pre-wrap break-words text-gray-500 dark:text-gray-100"
-            >
-              {{ about }}
-            </p>
-          </div>
         </div>
       </div>
     </div>
