@@ -109,6 +109,11 @@ onMounted(async () => {
   } else {
     changeTab(0)
   }
+
+  useHead({
+    title: `@${user.value?.username}`,
+    titleTemplate: "%s - Masterscore"
+  })
 })
 
 definePageMeta({
@@ -116,7 +121,7 @@ definePageMeta({
 })
 
 useHead({
-  title: `@${user.value?.username}`,
+  title: `...`,
   titleTemplate: "%s - Masterscore"
 })
 </script>
@@ -201,8 +206,7 @@ useHead({
           </TabPanel>
           <TabPanel>
             <ProfileReviews :reviews="reviews" />
-            ></TabPanel
-          >
+          </TabPanel>
           <TabPanel>
             <ProfileWatchlist
               :watchlist="watchlist"
