@@ -106,16 +106,8 @@ if (params.type[0] === "reviews") {
   changeTab(0)
 }
 
-onMounted(async () => {
-  if (params.id === "me") {
-    user.value = useUserStore().user
-  } else {
-    // @ts-ignore
-    user.value = await $fetch(`/api/users/${params.id}`)
-  }
-  loading.value = false
-  await fetchSummary()
-})
+await fetchSummary()
+loading.value = false
 
 definePageMeta({
   middleware: ["auth"],
