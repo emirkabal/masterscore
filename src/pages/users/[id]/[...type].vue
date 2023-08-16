@@ -36,13 +36,6 @@ if (params.id.startsWith("@")) {
   params.id = params.id.slice(1)
 }
 
-if (params.id === "me") {
-  user.value = useUserStore().user
-} else {
-  // @ts-ignore
-  user.value = await $fetch(`/api/users/${params.id}`)
-}
-
 const fetchSummary = async () => {
   const data = await $fetch(`/api/users/${user.value?._id}/summary`, {
     headers: generateHeaders()
@@ -71,6 +64,7 @@ const fetchReviews = async () => {
 
 const fetchWatchlist = async () => {
   watchlist.pending = true
+  // @ts-ignore
   const data: IEntertainment[] = await $fetch(
     `/api/users/${user.value?._id}/watchlist`
   )
@@ -98,20 +92,27 @@ const changeTab = (index: number) => {
   window.history.replaceState(history.state, "", routes[index])
 }
 
-if (params.type[0] === "reviews") {
-  changeTab(1)
-} else if (params.type[0] === "watchlist") {
-  changeTab(2)
-} else {
-  changeTab(0)
-}
+onMounted(async () => {
+  if (params.id === "me") {
+    user.value = useUserStore().user
+  } else {
+    // @ts-ignore
+    user.value = await $fetch(`/api/users/${params.id}`)
+  }
+  await fetchSummary()
+  loading.value = false
 
-await fetchSummary()
-loading.value = false
+  if (params.type[0] === "reviews") {
+    changeTab(1)
+  } else if (params.type[0] === "watchlist") {
+    changeTab(2)
+  } else {
+    changeTab(0)
+  }
+})
 
 definePageMeta({
-  middleware: ["auth"],
-  scrollToTop: false
+  middleware: ["auth"]
 })
 
 useHead({
@@ -169,12 +170,12 @@ useHead({
         <OverflowBehavior>
           <TabList>
             <Tab>Summary</Tab>
-            <Tab
+            <Tab v-if="user.reviews?.length"
               >Reviews ({{
                 reviews.items.length || user.reviews?.length || 0
               }})</Tab
             >
-            <Tab
+            <Tab v-if="user.watchlist?.length"
               >Watchlist ({{
                 watchlist.items.length || user.watchlist?.length || 0
               }})</Tab
