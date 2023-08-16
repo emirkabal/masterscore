@@ -18,7 +18,7 @@ const { data } = defineProps<{
     <MasterImage
       v-if="data.poster"
       :source="$timage(data.poster, 'w300')"
-      class="h-40 rounded-lg md:h-[300px]"
+      class="h-40 w-full rounded-lg md:h-[300px]"
     />
     <div
       v-else

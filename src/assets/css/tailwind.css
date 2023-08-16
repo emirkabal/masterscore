@@ -9,6 +9,9 @@
     box-sizing: border-box;
     @apply antialiased;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     @apply bg-white text-black dark:bg-black dark:text-white;
   }

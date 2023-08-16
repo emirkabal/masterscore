@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     return { status: 400, message: "Missing id" } as ErrorResponse
   }
 
-  let user: Partial<IUser> = await UserModel.findOne({
+  let user: Partial<IUser> | null = await UserModel.findOne({
     username: {
       $regex: new RegExp(`^${id}$`, "i")
     }
@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
   user = fixUserNullables(user)
 
   delete user.password
+  delete user.email
 
   return user as IUser
 })

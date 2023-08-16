@@ -3,6 +3,7 @@ const imageLoading = ref(true)
 
 defineProps<{
   source: string
+  zIndex?: number
   loading?: boolean
 }>()
 </script>
@@ -26,7 +27,11 @@ defineProps<{
       @load="imageLoading = false"
       class="h-full w-full object-cover"
       :class="{
-        'absolute opacity-0': imageLoading && !loading
+        'pointer-events-none absolute inset-0 -z-10 opacity-0':
+          imageLoading && !loading
+      }"
+      :style="{
+        zIndex: zIndex
       }"
       draggable="false"
     />
