@@ -15,7 +15,7 @@ const showTooltip = (e: MouseEvent) => {
   <button ref="verifiedArea">
     <BottomModal :show="modal" @close="modal = false" title="Verified Account">
       <template v-slot:body>
-        <div class="flex items-start gap-2 text-base">
+        <div class="flex items-start gap-2 text-base font-normal">
           <IconsVerified class="h-8 w-8 flex-shrink-0 text-yellow-400" />
           <div class="flex flex-col items-start">
             <span class="text-left leading-5 opacity-75">
