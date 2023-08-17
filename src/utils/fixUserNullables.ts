@@ -1,6 +1,7 @@
 import { IUser } from "~/@types"
 
 export default (user: Partial<IUser>) => {
+  if (!user.features) user.features = []
   if (!user.verified) user.verified = false
   if (!user.about) user.about = null
   if (!user.banner) user.banner = null

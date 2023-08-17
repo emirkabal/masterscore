@@ -15,9 +15,13 @@ export default defineEventHandler(async (event) => {
     return { status: 400, message: error.message } as ErrorResponse
   }
 
-  const user: Partial<IUser> = await UserModel.findById(
+  const user: Partial<IUser> | null = await UserModel.findById(
     event.context.user._id
   ).lean()
+
+  if (!user) {
+    return { status: 404, message: "User not found" } as ErrorResponse
+  }
 
   if (user.latestUsernameChange && body.username) {
     const timeSinceLastChange =

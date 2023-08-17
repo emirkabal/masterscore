@@ -3,11 +3,11 @@ import { useUserStore } from "~/store/user"
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue"
 import { onClickOutside, useWindowScroll } from "@vueuse/core"
 const isMenuOpen = ref(false)
-const menuRef = ref(null)
 const isHeaderHidden = ref(false)
 const { $listen } = useNuxtApp()
 const route = useRoute()
 const scroll = useWindowScroll()
+const menuRef = ref(null)
 onClickOutside(menuRef, () => {
   isMenuOpen.value = false
 })

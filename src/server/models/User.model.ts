@@ -19,6 +19,11 @@ const schema: Schema = new Schema(
       required: true,
       default: false
     },
+    features: {
+      type: Array,
+      required: false,
+      default: []
+    },
     about: {
       type: String,
       required: false

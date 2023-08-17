@@ -17,7 +17,6 @@ const watchModal = ref(false)
 const smartVideoData = ref(null)
 const smartVideoId = ref("")
 const smartVideoPending = ref(false)
-const iframeLoading = ref(true)
 
 const colors = reactive({
   background: [3, 50, 71],
@@ -120,7 +119,7 @@ watch(data, async () => {
     }
   }
 
-  if (isLoggedIn && user.verified) {
+  if (isLoggedIn && user.features.includes("WATCH")) {
     smartVideoPending.value = true
     const find = async (title) => {
       smartVideoData.value = await $fetch(
@@ -239,7 +238,7 @@ useHead({
             v-tooltip.bottom="{
               content: `You can watch this ${
                 params.type === 'movie' ? 'movie' : 'tv show'
-              } because you are a <b>verified</b>.`,
+              } because you are a <b>eligible</b>.`,
               html: true
             }"
             class="group mt-2 flex h-6 cursor-default select-none items-center justify-center gap-1"

@@ -335,6 +335,7 @@ export interface IUser {
   username: string
   password: string
   verified: boolean
+  features: string[]
   about?: string | null
   banner?: string | null
   avatar?: string | null
