@@ -1,11 +1,10 @@
 <script setup lang="ts">
 const { isMobileOrTablet } = useDevice()
 const verifiedArea = ref<HTMLElement | null>(null)
-const tooltipArea = ref<HTMLElement | null>(null)
 const modal = ref(false)
 
 const showTooltip = (e: MouseEvent) => {
-  if (!verifiedArea.value || !tooltipArea.value) return
+  if (!verifiedArea.value) return
   if (isMobileOrTablet) {
     modal.value = true
   }
@@ -13,17 +12,10 @@ const showTooltip = (e: MouseEvent) => {
 </script>
 
 <template>
-  <button
-    ref="verifiedArea"
-    v-tooltip="{
-      content: `This user is <b>verified</b>.`,
-      html: true,
-      delay: 20
-    }"
-  >
+  <button ref="verifiedArea">
     <BottomModal :show="modal" @close="modal = false" title="Verified Account">
       <template v-slot:body>
-        <div class="flex items-start gap-2">
+        <div class="flex items-start gap-2 text-base">
           <IconsVerified class="h-8 w-8 flex-shrink-0 text-yellow-400" />
           <div class="flex flex-col items-start">
             <span class="text-left leading-5 opacity-75">
@@ -36,13 +28,21 @@ const showTooltip = (e: MouseEvent) => {
       </template>
       <template v-slot:footer>
         <button
-          class="flex h-12 w-full select-none items-center justify-center rounded-full border border-black px-4 py-2 font-semibold hover:opacity-75 dark:border-white"
+          class="flex h-12 w-full select-none items-center justify-center rounded-full border border-black px-4 py-2 text-base font-semibold hover:opacity-75 dark:border-white"
           @click="modal = false"
         >
           Got it
         </button>
       </template>
     </BottomModal>
-    <IconsVerified class="h-7 w-7 text-yellow-400" @click="showTooltip" />
+    <IconsVerified
+      class="h-7 w-7 text-yellow-400"
+      @click="showTooltip"
+      v-tooltip="{
+        content: `This user is <b>verified</b>.`,
+        html: true,
+        delay: 100
+      }"
+    />
   </button>
 </template>
