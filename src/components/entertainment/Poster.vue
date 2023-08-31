@@ -25,13 +25,6 @@ const { posterURL, rating, loading } = defineProps<{
       >
         No Image
       </div>
-      <div
-        v-if="rating && rating > 0"
-        class="absolute bottom-0 left-0 m-2 flex items-center justify-center gap-2 rounded bg-gray-600/20 px-3 py-2 font-semibold !text-white shadow-sm backdrop-blur-md"
-      >
-        <IconsStarFilled class="h-5 w-5 text-yellow-400" />
-        {{ rating.toFixed(1) }}
-      </div>
     </div>
   </div>
 </template>

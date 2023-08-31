@@ -171,6 +171,18 @@ const getVideo = computed(() => {
     return null
   }
 })
+
+const imdbScore = computed(() => {
+  return (
+    (props.data && props.data.localData.info.ratings?.imdb) ||
+    (props.data && props.data.localData.info.ratings?.tmdb) ||
+    (props.data && props.data.vote_average)
+  )
+})
+
+const rtScore = computed(() => {
+  return props.data && props.data.localData.info.ratings?.rotten_tomatoes
+})
 </script>
 
 <template>
@@ -343,6 +355,20 @@ const getVideo = computed(() => {
           >
         </span>
       </p>
+      <p>
+        <strong>Other</strong>
+        <div class="w-fit flex gap-2">
+          <IMDBLink
+            v-if="props.data?.imdb_id"
+            :imdb="props.data?.imdb_id"
+            :score="imdbScore"
+          />
+          <RottenTomatoes
+            v-if="rtScore"
+            :score="rtScore"
+          />
+        </div>
+      </p>
       <a
         v-if="website && website.length > 0"
         :href="website"
@@ -353,6 +379,7 @@ const getVideo = computed(() => {
         <IconsLink class="h-6 w-6" />
         <span>Visit website</span>
       </a>
+      
     </div>
   </div>
 </template>

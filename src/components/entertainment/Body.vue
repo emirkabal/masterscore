@@ -6,23 +6,13 @@ const { data, isLight, loading } = defineProps<{
   data?: TMDBData
   isLight?: boolean
   loading?: boolean
+  rating?: number
 }>()
 const title = computed(() => {
   return data ? $getTitle(data) : "..."
 })
 const overview = computed(() => {
   return data && data.localData.info.description
-})
-const imdbScore = computed(() => {
-  return (
-    (data && data.localData.info.ratings?.imdb) ||
-    (data && data.localData.info.ratings?.tmdb) ||
-    (data && data.vote_average)
-  )
-})
-
-const rottenTomatoesScore = computed(() => {
-  return data && data.localData.info.ratings?.rotten_tomatoes
 })
 
 const contentRating = computed(() => {
@@ -135,15 +125,7 @@ useHead({
         >
           {{ contentRating || "NR" }}
         </h2>
-        <IMDBLink
-          v-if="data?.imdb_id"
-          :imdb="data?.imdb_id"
-          :score="imdbScore"
-        />
-        <RottenTomatoes
-          v-if="rottenTomatoesScore"
-          :score="rottenTomatoesScore"
-        />
+        <ScoreCircle :score="rating" />
       </div>
       <!-- Desktop -->
       <div
@@ -181,15 +163,7 @@ useHead({
           >
             {{ contentRating || "NR" }}
           </h2>
-          <IMDBLink
-            v-if="data?.imdb_id"
-            :imdb="data?.imdb_id"
-            :score="imdbScore"
-          />
-          <RottenTomatoes
-            v-if="rottenTomatoesScore"
-            :score="rottenTomatoesScore"
-          />
+          <ScoreCircle :score="rating" />
         </div>
       </div>
     </div>

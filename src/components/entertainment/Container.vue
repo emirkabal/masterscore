@@ -17,7 +17,7 @@ const colors = computed(() => {
 <template>
   <div v-if="loading">
     <div
-      class="skeleton-effect relative h-full min-h-[900px] w-full bg-gray-100 dark:bg-zinc-900 lg:h-[780px] lg:min-h-[780px]"
+      class="skeleton-effect relative h-full min-h-[900px] w-full bg-gray-100 dark:bg-zinc-900 lg:h-[90vh] lg:min-h-[780px]"
     >
       <div
         v-if="feature"
@@ -34,7 +34,7 @@ const colors = computed(() => {
   </div>
   <div
     v-else-if="colors"
-    class="relative h-full min-h-[900px] w-full bg-cover bg-center bg-no-repeat lg:h-[780px] lg:min-h-[780px]"
+    class="relative h-full min-h-[900px] w-full bg-cover bg-center bg-no-repeat lg:h-[90vh] lg:min-h-[780px]"
     :style="{
       'background-image': props.backgroundURL
         ? `url(${props.backgroundURL})`
@@ -50,7 +50,10 @@ const colors = computed(() => {
     <div
       class="h-full w-full"
       :style="{
-        background: `linear-gradient(135deg, rgba(${colors.background[0]}, ${colors.background[1]}, ${colors.background[2]}, 1) 0%, rgba(${colors.gradient[0]}, ${colors.gradient[1]}, ${colors.gradient[2]}, .75) 100%)`
+        background: `linear-gradient(
+            rgba(${colors.background[0]}, ${colors.background[1]}, ${colors.background[2]}, .75) 0%,
+            rgb(0, 0, 0) 100%
+          )`
       }"
     >
       <EntertainmentContainerInner>

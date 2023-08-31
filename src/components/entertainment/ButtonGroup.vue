@@ -139,7 +139,7 @@ watchEffect(() => {
       >
         <IconsThumbUpFilled v-if="userLiked" class="h-6 w-6" />
         <IconsThumbUpUnfilled v-else class="h-6 w-6" />
-        {{ award == 20 ? "I AM" : userLiked ? "Recommended" : "Recommend" }}
+        {{ userLiked ? "Recommended" : "Recommend" }}
       </button>
       <button
         @click="$emit('openReview')"
@@ -147,7 +147,7 @@ watchEffect(() => {
       >
         <IconsStarFilled v-if="userReviewed" class="h-6 w-6" />
         <IconsStar v-else class="h-6 w-6" />
-        {{ award == 20 ? "THE" : userReviewed ? "Reviewed" : "Review" }}
+        {{ userReviewed ? "Reviewed" : "Review" }}
       </button>
       <button
         v-if="!userAddedWatchlist"
@@ -159,15 +159,15 @@ watchEffect(() => {
         }"
       >
         <IconsListAdd class="h-6 w-6" />
-        {{ award == 20 ? "GOD" : "Add to watchlist" }}
+        Add to watchlist
       </button>
       <button
         v-else
         @click="submitToWatchlist"
-        class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:opacity-80"
+        class="flex h-10 flex-shrink-0 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:opacity-80"
       >
         <IconsListRemove class="h-6 w-6" />
-        {{ award == 20 ? "GOD" : "Remove from watchlist" }}
+        Remove from watchlist
       </button>
     </div>
     <div

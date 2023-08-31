@@ -35,9 +35,10 @@ const reviewData = reactive({
 })
 const masterRating = ref(0)
 const backgroundBright = computed(() => {
-  return tinycolor("rgb " + colors.background.join(" "))
-    .darken()
-    .isLight()
+  // return tinycolor("rgb " + colors.background.join(" "))
+  //   .darken()
+  //   .isLight()
+  return false
 })
 const backgroundURL = computed(() => {
   return data && data.value.backdrop_path
@@ -231,7 +232,7 @@ useHead({
       :feature="feature"
     >
       <div class="relative">
-        <EntertainmentPoster :poster-u-r-l="posterURL" :rating="masterRating" />
+        <EntertainmentPoster :poster-u-r-l="posterURL" />
         <div class="left-0 right-0 lg:absolute">
           <span
             v-if="smartVideoData"
@@ -262,7 +263,11 @@ useHead({
         </div>
       </div>
       <div class="w-full max-w-2xl">
-        <EntertainmentBody :data="data" :is-light="backgroundBright" />
+        <EntertainmentBody
+          :data="data"
+          :is-light="backgroundBright"
+          :rating="masterRating"
+        />
         <EntertainmentButtonGroup
           :data="data"
           :isLight="backgroundBright"
@@ -273,7 +278,7 @@ useHead({
       </div>
     </EntertainmentContainer>
 
-    <div class="container mx-auto mb-28 mt-8 px-4">
+    <div class="container mx-auto mb-28 mt-12 px-4 lg:-mt-28 2xl:-mt-36">
       <div class="flex flex-col-reverse items-stretch gap-4 lg:flex-row">
         <div class="relative min-w-0 flex-1 space-y-10 lg:space-y-16">
           <EntertainmentDetailsCollection
