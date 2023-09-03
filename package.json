@@ -59,6 +59,7 @@
     "mongoose": "^7.3.1",
     "node-vibrant": "^3.2.1-alpha.1",
     "pinia": "^2.0.29",
+    "swiper": "^10.2.0",
     "tinycolor2": "^1.6.0",
     "vue-json-viewer": "3",
     "vue-picture-cropper": "^0.6.1",

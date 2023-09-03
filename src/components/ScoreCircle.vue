@@ -18,26 +18,10 @@ const strokeColor = computed(() => {
 </script>
 
 <template>
-  <div v-if="props.score > 0" class="-mt-[25px] h-4">
-    <svg class="flex items-center" width="40" height="40">
-      <circle
-        class="fill-gray-900"
-        :class="strokeColor"
-        stroke-width="2.3"
-        r="15.4"
-        cx="20"
-        cy="20"
-        :style="generateStroke"
-      ></circle>
-      <text
-        x="49%"
-        y="53%"
-        dominant-baseline="middle"
-        text-anchor="middle"
-        class="fill-white text-sm font-bold"
-      >
-        {{ score }}
-      </text>
-    </svg>
+  <div
+    v-if="props.score > 0"
+    class="rounded bg-gray-500/90 px-1 !text-lg !font-bold !text-white backdrop-blur-md"
+  >
+    {{ score.toFixed(1).replace(".0", "") }}
   </div>
 </template>

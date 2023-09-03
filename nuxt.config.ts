@@ -73,7 +73,6 @@ export default defineNuxtConfig({
   appConfig: {
     buildDate: new Date().toISOString()
   },
-
   pwa: {
     registerType: "autoUpdate",
     srcDir: "src/",
