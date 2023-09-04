@@ -26,7 +26,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/**": {
-      isr: true
+      isr: false
     },
     "/api/**": {
       cors: true,
