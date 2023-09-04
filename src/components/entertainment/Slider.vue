@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { TMDBSearchResult } from "~/@types"
 import { Swiper, SwiperSlide } from "swiper/vue"
+import { Navigation } from "swiper/modules"
 import { useEventListener } from "@vueuse/core"
 import "swiper/css"
-import { EffectCoverflow, Navigation, Pagination } from "swiper/modules"
 
 defineProps<{
   data: TMDBSearchResult[]
@@ -37,7 +37,6 @@ useEventListener("resize", () => {
         prevEl: '.swiper-button-prev'
       }"
     >
-      <!-- slides -->
       <SwiperSlide v-for="item in data" :key="item.id">
         <EntertainmentSliderCard
           :image="$timage(item.poster_path || '', 'w342')"
@@ -46,7 +45,7 @@ useEventListener("resize", () => {
           :size="itemSize"
         />
       </SwiperSlide>
-      <!-- Optional controls -->
+
       <div class="swiper-button-prev">
         <IconsChevron class="h-10 w-10" />
       </div>

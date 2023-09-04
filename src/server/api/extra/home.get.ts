@@ -18,28 +18,26 @@ export default defineEventHandler(async (event) => {
   if (cached) return cached
 
   const result = {
-    now_playing: [] as TMDBSearchResult[],
-    trending: [] as TMDBSearchResult[],
-    upcoming: [] as TMDBSearchResult[]
+    recommendations: [] as TMDBSearchResult[],
+    trending: [] as TMDBSearchResult[]
   }
 
-  // if (event.context.user) {
-  //   const data = await $fetch("/api/recommendations", {
-  //     headers: {
-  //       authorization: event.node.req.headers.authorization as string
-  //     }
-  //   })
-  //   if ("results" in data) {
-  //     result.recommendations = data
-  //   }
-  // }
-
-  //@ts-ignore:2321
-  const upcoming: { results: TMDBSearchResult[] } = await $fetch(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${config.TMDB_API_KEY}`
-  )
-
-  result.upcoming = upcoming.results
+  if (event.context.user) {
+    const data = await $fetch("/api/recommendations", {
+      headers: {
+        authorization: event.node.req.headers.authorization as string
+      }
+    })
+    if ("results" in data) {
+      result.recommendations = data.results
+    }
+  } else {
+    //@ts-ignore:2321
+    const popular: { results: TMDBSearchResult[] } = await $fetch(
+      `https://api.themoviedb.org/3/discover/movie?include_adult=false&language=en-US&page=1&sort_by=popularity.desc&api_key=${config.TMDB_API_KEY}`
+    )
+    result.recommendations = popular.results
+  }
 
   //@ts-ignore:2321
   const trending: { results: TMDBSearchResult[] } = await $fetch(
@@ -49,11 +47,6 @@ export default defineEventHandler(async (event) => {
   result.trending = trending.results
 
   //@ts-ignore:2321
-  const nowPlaying: { results: TMDBSearchResult[] } = await $fetch(
-    `https://api.themoviedb.org/3/movie/now_playing?api_key=${config.TMDB_API_KEY}`
-  )
-  //api.themoviedb.org/3/movie/157336?api_key=d6026e393eb5243af3cf84211acd46fe&append_to_response=videos,images
-  result.now_playing = nowPlaying.results
 
   return result
 })
