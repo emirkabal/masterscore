@@ -41,7 +41,7 @@ useEventListener("resize", () => {
         <EntertainmentSliderCard
           :image="$timage(item.poster_path || '', 'w342')"
           :id="item.id"
-          :media_type="fixedMediaType || item.media_type"
+          :media_type="item.media_type || fixedMediaType || 'movie'"
           :size="itemSize"
         />
       </SwiperSlide>
