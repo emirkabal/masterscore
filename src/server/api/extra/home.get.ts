@@ -1,4 +1,4 @@
-import { IEntertainment, TMDBSearchResult } from "@types"
+import { IEntertainment, TMDBSearchResult } from "~/@types"
 import redis from "~/utils/redis"
 import EntertainmentModel from "~/server/models/Entertainment.model"
 import UserModel from "~/server/models/User.model"
@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
 
   //@ts-ignore:2321
   const trending: { results: TMDBSearchResult[] } = await $fetch(
-    `https://api.themoviedb.org/3/trending/all/day?api_key=${config.TMDB_API_KEY}`
+    `https://api.themoviedb.org/3/trending/all/week?api_key=${config.TMDB_API_KEY}`
   )
 
   result.trending = trending.results

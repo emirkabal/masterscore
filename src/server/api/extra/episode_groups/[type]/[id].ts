@@ -1,4 +1,4 @@
-import { EpisodeGroups, EpisodeGroupsDetails } from "@types"
+import { EpisodeGroups, EpisodeGroupsDetails } from "~/@types"
 
 const config = useRuntimeConfig()
 

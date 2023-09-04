@@ -2,9 +2,9 @@
 import { Swiper as SwiperType } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { Autoplay, EffectFade, Parallax } from "swiper/modules"
+import { TMDBSearchResult } from "~/@types"
 import "swiper/css"
 import "swiper/css/effect-fade"
-import { TMDBSearchResult } from "@types"
 const props = defineProps<{
   data: TMDBSearchResult[]
 }>()
@@ -14,7 +14,7 @@ const filtered = computed(() => {
     .filter(
       (item) => item.backdrop_path && ["tv", "movie"].includes(item.media_type)
     )
-    .slice(0, 5)
+    .slice(0, 6)
 })
 
 const swiper = ref<SwiperType>()
@@ -26,12 +26,15 @@ const onSwiper = (e: SwiperType) => {
   swiper.value = e
 }
 const updateControls = (e: SwiperType) => {
-  activeIndex.value = e.realIndex
   time.value = 100 - e.autoplay.timeLeft / 50
 }
 const slideChange = (e: SwiperType) => {
   activeIndex.value = e.realIndex
   time.value = 0
+}
+
+const slideTo = (index: number) => {
+  swiper.value?.slideToLoop(index)
 }
 </script>
 <template>
@@ -39,8 +42,8 @@ const slideChange = (e: SwiperType) => {
     <Swiper
       :modules="[Autoplay, EffectFade, Parallax]"
       :slides-per-view="1"
-      :loop="true"
       :effect="'fade'"
+      :loop="true"
       :parallax="true"
       :autoplay="{
         delay: 5000,
@@ -104,8 +107,9 @@ const slideChange = (e: SwiperType) => {
             :key="i"
             :value="activeIndex === i - 1 ? time : 0"
             :active="activeIndex === i - 1"
-            @click="swiper?.slideTo(i - 1)"
-          />
+            @click="slideTo(i - 1)"
+          >
+          </SliderControlDot>
         </div>
       </div>
     </Swiper>

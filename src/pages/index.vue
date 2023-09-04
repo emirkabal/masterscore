@@ -31,10 +31,16 @@ if (!home.value) {
   <section class="relative" v-else>
     <!-- <HomeFeaturedEntertainment :data="home.featured" /> -->
     <HomeMainSlider :data="home.trending" />
-    <div class="mx-auto space-y-12 px-[4vw]">
+    <div class="mx-auto space-y-12">
       <section class="relative z-10 -mt-20 space-y-4">
-        <h1 class="font-maven text-2xl font-bold">Now Playing</h1>
-        <OverflowBehavior>
+        <h1 class="px-[4vw] font-maven text-2xl font-bold">Now Playing</h1>
+        <EntertainmentSlider
+          :data="home.now_playing"
+          :fixed-media-type="'movie'"
+          :item-size="'large'"
+          :offset="'auto'"
+        />
+        <!-- <OverflowBehavior>
           <EntertainmentLargeCard
             v-for="(item, i) in home.now_playing"
             :key="'now_playing-' + i"
@@ -46,7 +52,7 @@ if (!home.value) {
               backdrop: item.backdrop_path
             }"
           />
-        </OverflowBehavior>
+        </OverflowBehavior> -->
       </section>
     </div>
     <div class="my-20 space-y-12 px-[4vw]">

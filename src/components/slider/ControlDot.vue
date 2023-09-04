@@ -23,28 +23,31 @@ onMounted(updateValues)
 watch(() => props.value, updateValues)
 </script>
 <template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="progress-dot pointer-events-auto cursor-pointer"
-    viewBox="0 0 26 26"
-  >
-    <circle
-      class="progress-dot-inner"
-      :class="{ active }"
-      cx="13"
-      cy="13"
-      r="3"
-    ></circle>
-    <circle
-      class="progress-dot-outer-overlay"
-      ref="circle"
-      cx="13"
-      cy="13"
-      r="12"
-      fill="none"
-      stroke-width="2"
-    ></circle>
-  </svg>
+  <div>
+    <slot />
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="progress-dot pointer-events-auto cursor-pointer"
+      viewBox="0 0 26 26"
+    >
+      <circle
+        class="progress-dot-inner"
+        :class="{ active }"
+        cx="13"
+        cy="13"
+        r="3"
+      ></circle>
+      <circle
+        class="progress-dot-outer-overlay"
+        ref="circle"
+        cx="13"
+        cy="13"
+        r="12"
+        fill="none"
+        stroke-width="2"
+      ></circle>
+    </svg>
+  </div>
 </template>
 
 <style scoped>

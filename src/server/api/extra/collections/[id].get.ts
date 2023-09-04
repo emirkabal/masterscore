@@ -1,4 +1,4 @@
-import { TMDBCollectionDetails } from "@types"
+import { TMDBCollectionDetails } from "~/@types"
 
 const config = useRuntimeConfig()
 

@@ -166,7 +166,7 @@ $listen("entertainment:load", (val) => {
           <div v-else class="flex items-center gap-4">
             <NuxtLink
               to="/account/login"
-              class="rounded bg-yellow-500 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-600"
+              class="flex-shrink-0 rounded bg-yellow-500 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-600"
               >Sign in</NuxtLink
             >
           </div>

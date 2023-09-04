@@ -1,4 +1,4 @@
-import { TMDBSearchResult } from "@types"
+import { TMDBSearchResult } from "~/@types"
 
 const config = useRuntimeConfig()
 

@@ -1,4 +1,4 @@
-import { TMDBData, TMDBSearchResult } from "@types"
+import { TMDBData, TMDBSearchResult } from "~/@types"
 
 type PosterSizes =
   | "w92"
