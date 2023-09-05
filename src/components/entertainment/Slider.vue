@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { TMDBSearchResult } from "~/@types"
 import { Swiper, SwiperSlide } from "swiper/vue"
-import { Navigation } from "swiper/modules"
+import { FreeMode, Navigation } from "swiper/modules"
 import { useEventListener } from "@vueuse/core"
 import "swiper/css"
 
 defineProps<{
   data: TMDBSearchResult[]
+  showRatings?: boolean
   itemSize?: "default" | "large"
   fixedMediaType?: "movie" | "tv"
   offset?: "auto" | number
+  loading?: boolean
 }>()
 
 const vw = window.innerWidth
@@ -25,10 +27,11 @@ useEventListener("resize", () => {
 <template>
   <div class="relative">
     <Swiper
-      :modules="[Navigation]"
+      :modules="[Navigation, FreeMode]"
       :slidesPerView="'auto'"
       :spaceBetween="10"
       :slidesPerGroup="3"
+      :freeMode="true"
       :slidesOffsetAfter="offset === 'auto' ? vw4 : offset"
       :slidesOffsetBefore="offset === 'auto' ? vw4 : offset"
       :navigation="{
@@ -37,12 +40,22 @@ useEventListener("resize", () => {
         prevEl: '.swiper-button-prev'
       }"
     >
-      <SwiperSlide v-for="item in data" :key="item.id">
+      <SwiperSlide v-if="loading" v-for="i in 13" :key="i">
+        <EntertainmentSliderCard
+          class="flex-shrink-0"
+          :loading="true"
+          :size="'large'"
+        />
+      </SwiperSlide>
+      <SwiperSlide v-else v-for="item in data" :key="item.id">
         <EntertainmentSliderCard
           :image="$timage(item.poster_path || '', 'w342')"
           :id="item.id"
           :media_type="item.media_type || fixedMediaType || 'movie'"
           :size="itemSize"
+          :rating="
+            showRatings && item.vote_average ? item.vote_average : undefined
+          "
         />
       </SwiperSlide>
 

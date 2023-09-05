@@ -19,7 +19,8 @@ export default defineEventHandler(async (event) => {
 
   const result = {
     recommendations: [] as TMDBSearchResult[],
-    trending: [] as TMDBSearchResult[]
+    trending: [] as TMDBSearchResult[],
+    top_rated: [] as TopRatedResult[]
   }
 
   if (event.context.user) {
@@ -45,8 +46,7 @@ export default defineEventHandler(async (event) => {
   )
 
   result.trending = trending.results
-
-  //@ts-ignore:2321
+  result.top_rated = await $fetch("/api/reviews?limit=20")
 
   return result
 })
