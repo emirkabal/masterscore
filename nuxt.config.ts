@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   srcDir: "src/",
   ssr: false,
   devtools: {
-    enabled: true
+    enabled: false
   },
   modules: [
     "@nuxt/image-edge",

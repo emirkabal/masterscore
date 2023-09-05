@@ -17,6 +17,7 @@ const watchModal = ref(false)
 const smartVideoData = ref(null)
 const smartVideoId = ref("")
 const smartVideoPending = ref(false)
+const smartVideoError = ref(false)
 
 const colors = reactive({
   background: [3, 50, 71],
@@ -120,14 +121,26 @@ watch(data, async () => {
     }
   }
 
+  fetchReviews()
+  $listen("entertainment:fetch:reviews", fetchReviews)
+
+  setTimeout(() => {
+    $event("entertainment:load", true)
+  }, 400)
+
   if (isLoggedIn && user.features.includes("WATCH")) {
     smartVideoPending.value = true
     const find = async (title) => {
       smartVideoData.value = await $fetch(
         `https://api.emirkabal.com/v1/smartvideo/${
           params.type === "tv" ? "series" : "movies"
-        }?q=${title}`
-      ).catch(() => null)
+        }?q=${title}`,
+        {
+          timeout: 5000
+        }
+      ).catch(() => {
+        smartVideoError.value = true
+      })
       if (
         smartVideoData.value &&
         smartVideoData.value.length > 1 &&
@@ -178,13 +191,6 @@ watch(data, async () => {
     }
     smartVideoPending.value = false
   }
-
-  fetchReviews()
-  $listen("entertainment:fetch:reviews", fetchReviews)
-
-  setTimeout(() => {
-    $event("entertainment:load", true)
-  }, 400)
 })
 
 watch(colors, (val) => {
@@ -235,7 +241,21 @@ useHead({
         <EntertainmentPoster :poster-u-r-l="posterURL" />
         <div class="left-0 right-0 lg:absolute">
           <span
-            v-if="smartVideoData"
+            v-if="smartVideoError"
+            v-tooltip.bottom="{
+              content: 'Failed to check watch feature. Please try again later.'
+            }"
+            class="group mt-2 flex h-6 cursor-default select-none items-center justify-center"
+          >
+            <IconsTimes class="h-6 w-6 text-red-500" />
+            <span
+              class="text-white opacity-90 transition-opacity group-hover:opacity-100"
+            >
+              Failed to check watch feature
+            </span>
+          </span>
+          <span
+            v-else-if="smartVideoData"
             v-tooltip.bottom="{
               content: `You can watch this ${
                 params.type === 'movie' ? 'movie' : 'tv show'

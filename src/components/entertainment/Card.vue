@@ -12,7 +12,7 @@ const props = defineProps<{
 
 const strings: Record<string, string> = {
   review: "Reviewed",
-  like: "Recommended",
+  like: "Liked",
   watchlist: "Added to watchlist"
 }
 

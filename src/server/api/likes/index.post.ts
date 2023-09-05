@@ -41,7 +41,11 @@ export default defineEventHandler(async (event) => {
     })
 
     return { status: 200, message: "Unliked", likes }
-  } else {
+  } else if (
+    user.likes &&
+    !user.likes.map((e) => e.toString()).includes(id) &&
+    type === "add"
+  ) {
     await UserModel.findOneAndUpdate(
       { _id: user._id },
       { $push: { likes: id } }
@@ -57,5 +61,7 @@ export default defineEventHandler(async (event) => {
       type: "like"
     })
     return { status: 200, message: "Liked", likes }
+  } else {
+    return { status: 200, message: "Already liked", likes: 0 }
   }
 })
