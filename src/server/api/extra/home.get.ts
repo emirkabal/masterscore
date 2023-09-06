@@ -1,5 +1,4 @@
 import { IEntertainment, TMDBSearchResult } from "~/@types"
-import redis from "~/utils/redis"
 
 const config = useRuntimeConfig()
 
