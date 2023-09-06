@@ -20,7 +20,7 @@ const strokeColor = computed(() => {
 <template>
   <div
     v-if="props.score > 0"
-    class="rounded bg-gray-400/40 px-2 !text-lg !font-semibold !text-white backdrop-blur-md"
+    class="rounded bg-gray-400/40 px-2 text-lg font-semibold !text-white backdrop-blur-md"
   >
     {{ score.toFixed(1).replace(".0", "") }}
   </div>

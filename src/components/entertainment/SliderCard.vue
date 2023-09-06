@@ -25,6 +25,10 @@ defineProps<{
         'h-40 w-[100px] rounded-lg lg:h-[300px] lg:w-[200px]': size !== 'large'
       }"
     />
-    <ScoreCircle v-if="rating" :score="rating" class="absolute bottom-0 m-4" />
+    <ScoreCircle
+      v-if="rating"
+      :score="rating"
+      class="absolute bottom-0 m-2 text-sm md:m-4 md:text-lg"
+    />
   </NuxtLink>
 </template>

@@ -30,10 +30,15 @@ useEventListener("resize", () => {
       :modules="[Navigation, FreeMode]"
       :slidesPerView="'auto'"
       :spaceBetween="10"
-      :slidesPerGroup="3"
-      :freeMode="true"
+      :slidesPerGroup="2"
       :slidesOffsetAfter="offset === 'auto' ? vw4 : offset"
       :slidesOffsetBefore="offset === 'auto' ? vw4 : offset"
+      :freeMode="{
+        enabled: true,
+        sticky: false,
+        momentumBounce: false,
+        minimumVelocity: 0.1
+      }"
       :navigation="{
         enabled: true,
         nextEl: '.swiper-button-next',
