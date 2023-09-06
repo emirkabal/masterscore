@@ -1,8 +1,5 @@
 import { IEntertainment, TMDBSearchResult } from "~/@types"
 import redis from "~/utils/redis"
-import EntertainmentModel from "~/server/models/Entertainment.model"
-import UserModel from "~/server/models/User.model"
-import LikeModel from "~/server/models/Like.model"
 
 const config = useRuntimeConfig()
 
@@ -13,10 +10,6 @@ interface TopRatedResult {
 }
 
 export default defineEventHandler(async (event) => {
-  const homeId = `home-${event.context.user?._id || "guest"}`
-  const cached = await redis.get(homeId)
-  if (cached) return cached
-
   const result = {
     recommendations: [] as TMDBSearchResult[],
     trending: [] as TMDBSearchResult[],
