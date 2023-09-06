@@ -79,7 +79,7 @@ console.log(genres)
     <div
       class="mx-auto flex h-screen flex-col items-center justify-center gap-8"
     >
-      <span class="animate-ping text-9xl font-bold">Loading...</span>
+      <Loader class="mt-16" />
     </div>
   </section>
   <section class="relative" v-else>
