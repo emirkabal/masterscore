@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { SwiperSlide } from "swiper/vue"
 import { CreditsResult } from "~/@types"
 
 const { data, loading } = defineProps<{
@@ -77,18 +78,18 @@ const cast = computed(() => {
       </div>
     </div>
     <div v-else-if="cast.length > 0 || crew.length > 0" class="space-y-2">
-      <OverflowBehavior v-if="cast.length > 0">
-        <PersonCard
-          v-for="(item, i) in cast"
-          :key="'cast-' + i"
-          :data="{
-            id: item.id,
-            name: item.name,
-            profile_path: item.profile_path,
-            attr: item.character
-          }"
-        />
-      </OverflowBehavior>
+      <EntertainmentSlider v-if="cast.length > 0">
+        <SwiperSlide v-for="(item, i) in cast" :key="'cast-' + i">
+          <PersonCard
+            :data="{
+              id: item.id,
+              name: item.name,
+              profile_path: item.profile_path,
+              attr: item.character
+            }"
+          />
+        </SwiperSlide>
+      </EntertainmentSlider>
       <div v-if="crew.length > 0">
         <button @click="allModal = true" class="my-2 text-lg opacity-90">
           Show more..

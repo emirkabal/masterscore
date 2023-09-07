@@ -20,29 +20,10 @@ const { data: collection, pending } = useLazyFetch(
     >
       Collection
     </h1>
-    <div v-if="pending || !collection || !data || loading">
-      <div class="flex gap-2 overflow-x-hidden">
-        <div class="flex flex-col" v-for="i in 8" :key="i">
-          <div
-            class="skeleton-effect h-40 w-[100px] rounded bg-gray-300 dark:bg-zinc-800 md:h-[300px] md:w-[200px]"
-          ></div>
-        </div>
-      </div>
-    </div>
-    <div v-else>
-      <OverflowBehavior>
-        <EntertainmentLargeCard
-          v-for="(item, i) in collection.parts"
-          :key="'collection-' + i"
-          :data="{
-            title: item.title || data.name,
-            release_date: item.release_date || '0',
-            url: `${item.media_type}/${item.id}`,
-            poster: item.poster_path || data.poster_path,
-            backdrop: item.backdrop_path || data.backdrop_path
-          }"
-        />
-      </OverflowBehavior>
-    </div>
+    <EntertainmentSlider
+      :data="collection ? collection.parts : []"
+      :item-size="'default'"
+      :loading="pending"
+    />
   </section>
 </template>

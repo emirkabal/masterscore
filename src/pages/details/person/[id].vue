@@ -166,20 +166,12 @@ useHead({
             <h1 class="font-maven text-2xl font-bold tracking-wide">
               Known For
             </h1>
-            <OverflowBehavior :buttons-active="true">
-              <EntertainmentLargeCard
-                v-for="item in data.credits"
-                :key="item.id"
-                :data="{
-                  url: `${item.media_type}/${item.id}`,
-                  title: item.title || item.name || 'Untitled',
-                  poster: item.poster_path,
-                  backdrop: item.backdrop_path,
-                  release_date: item.release_date || item.first_air_date || '0'
-                }"
-                :type="item.media_type"
-              />
-            </OverflowBehavior>
+            <EntertainmentSlider
+              :data="data.credits"
+              :fixed-media-type="'movie'"
+              :item-size="'default'"
+              :offset="0"
+            />
           </div>
 
           <div v-if="flag">

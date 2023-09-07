@@ -86,12 +86,7 @@ watch(
         Reset Page
       </button>
     </div>
-    <div
-      v-if="loading"
-      class="flex items-start px-4 py-6"
-      v-for="i in 8"
-      :key="i"
-    >
+    <div v-if="loading" class="flex items-start py-8" v-for="i in 8" :key="i">
       <div
         class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 dark:bg-zinc-800 md:h-14 md:w-14"
       ></div>

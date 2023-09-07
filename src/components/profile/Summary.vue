@@ -33,75 +33,36 @@ defineProps<{
         <h1 class="mb-4 text-xl font-semibold md:text-2xl">
           Featured Entertainments
         </h1>
-        <OverflowBehavior>
-          <EntertainmentLargeCard
-            v-for="entertainment in summary.featured"
-            :key="entertainment._id"
-            :data="{
-              title: entertainment.entertainment.info.title,
-              poster: entertainment.entertainment.info.poster,
-              rating: entertainment.rating,
-              release_date: entertainment.entertainment.info.release_date,
-              url: `${entertainment.entertainment.type}/${entertainment.entertainment.id}`,
-              backdrop: entertainment.entertainment.info.backdrop
-            }"
-          />
-        </OverflowBehavior>
+        <EntertainmentSlider
+          :data="
+            summary.featured.map((e) => {
+              return {
+                ...e.entertainment,
+                vote_average: e.rating
+              }
+            })
+          "
+          :show-ratings="true"
+        />
       </div>
 
       <div v-if="summary.reviews.length > 0">
         <h1 class="mb-4 text-xl font-semibold md:text-2xl">Latest Reviews</h1>
-        <OverflowBehavior>
-          <EntertainmentLargeCard
-            v-for="entertainment in summary.reviews"
-            :key="entertainment._id"
-            :data="{
-              title: entertainment.info.title,
-              poster: entertainment.info.poster,
-              release_date: entertainment.info.release_date,
-              url: `${entertainment.type}/${entertainment.id}`,
-              backdrop: entertainment.info.backdrop
-            }"
-          />
-        </OverflowBehavior>
+        <EntertainmentSlider :data="summary.reviews" />
       </div>
 
       <div v-if="summary.recommendations.length > 0">
         <h1 class="mb-4 text-xl font-semibold md:text-2xl">
           Latest Recommendations
         </h1>
-        <OverflowBehavior>
-          <EntertainmentLargeCard
-            v-for="entertainment in summary.recommendations"
-            :key="entertainment._id"
-            :data="{
-              title: entertainment.info.title,
-              poster: entertainment.info.poster,
-              release_date: entertainment.info.release_date,
-              url: `${entertainment.type}/${entertainment.id}`,
-              backdrop: entertainment.info.backdrop
-            }"
-          />
-        </OverflowBehavior>
+        <EntertainmentSlider :data="summary.recommendations" />
       </div>
 
       <div v-if="summary.watchlist.length > 0">
         <h1 class="mb-4 text-xl font-semibold md:text-2xl">
           Last Added to Watchlist
         </h1>
-        <OverflowBehavior>
-          <EntertainmentLargeCard
-            v-for="entertainment in summary.watchlist"
-            :key="entertainment._id"
-            :data="{
-              title: entertainment.info.title,
-              poster: entertainment.info.poster,
-              release_date: entertainment.info.release_date,
-              url: `${entertainment.type}/${entertainment.id}`,
-              backdrop: entertainment.info.backdrop
-            }"
-          />
-        </OverflowBehavior>
+        <EntertainmentSlider :data="summary.watchlist" />
       </div>
     </div>
   </div>

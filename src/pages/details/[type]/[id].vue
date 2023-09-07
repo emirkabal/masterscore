@@ -241,7 +241,7 @@ useHead({
         <EntertainmentPoster :poster-u-r-l="posterURL" />
         <div class="left-0 right-0 lg:absolute">
           <span
-            v-if="smartVideoError"
+            v-if="smartVideoError && !smartVideoPending && !smartVideoData"
             v-tooltip.bottom="{
               content: 'Failed to check watch feature. Please try again later.'
             }"
