@@ -3,7 +3,6 @@ import { IEntertainment, IReview } from "~/@types"
 import { useUrlSearchParams } from "@vueuse/core"
 import { vIntersectionObserver } from "@vueuse/components"
 import debounce from "lodash.debounce"
-import EntertainmentCard from "../EntertainmentCard.vue"
 const params = useUrlSearchParams("history")
 
 interface CustomIncomingData {

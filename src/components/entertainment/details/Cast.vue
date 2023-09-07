@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CreditsResult } from "@types"
+import { CreditsResult } from "~/@types"
 
 const { data, loading } = defineProps<{
   data?: {

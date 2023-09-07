@@ -39,19 +39,28 @@
 }
 
 @layer components {
+  
   .skeleton-effect {
-    @apply relative
-    isolate
-    overflow-hidden 
-    before:absolute before:inset-0
-    before:-translate-x-full
-    before:animate-[shimmer_2s_infinite]
-    before:bg-gradient-to-r
-    before:from-transparent before:via-gray-500/40 before:to-transparent dark:before:via-rose-100/10;
+    @apply relative isolate overflow-hidden;
+    animation: skeleton-fade 1s infinite;
   }
-
   .text-shadow {
     text-shadow: 1px 1px rgba(0,0,0,0.4);
+  }
+}
+
+
+
+
+@keyframes skeleton-fade {
+  0% {
+    opacity: .8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: .8;
   }
 }
 

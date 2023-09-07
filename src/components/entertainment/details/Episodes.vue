@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { TMDBData, Episode, Season } from "@types"
+import { TMDBData, Episode, Season } from "~/@types"
 const { $event } = useNuxtApp()
 
 interface SeasonData {

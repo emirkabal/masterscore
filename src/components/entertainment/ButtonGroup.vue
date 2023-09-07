@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { ReviewData, TMDBData } from "~~/src/@types"
 import { useUserStore } from "~/store/user"
-import { useLocalStorage } from "@vueuse/core"
 const { $event } = useNuxtApp()
 const { user, isLoggedIn } = useUserStore()
-const award = useLocalStorage("easteregg", 0)
-
+const cooldown = ref(false)
 const { data, isLight, reviewData, smartVideoData } = defineProps<{
   data?: TMDBData
   isLight?: boolean
@@ -32,13 +30,14 @@ const like = async () => {
   if (!isLoggedIn) {
     return useRouter().push("/account/login")
   }
-  award.value = award.value + 1
+  if (cooldown.value) return
   if (data && user?.likes && user.likes.includes(data.localId)) {
     user.likes = user.likes.filter((e) => e !== data.localId)
   } else if (data && user?.likes) {
     user.likes.push(data.localId)
   }
   if (!data) return
+  cooldown.value = true
   const { likes: entertainmentLikes } = await $fetch<{
     likes: number
   }>(`/api/likes`, {
@@ -50,6 +49,9 @@ const like = async () => {
     headers: generateHeaders()
   })
   likes.value = entertainmentLikes
+  setTimeout(() => {
+    cooldown.value = false
+  }, 1000)
 }
 
 const submitToWatchlist = async () => {
@@ -87,10 +89,6 @@ const watchSmartVideo = (id: any) => {
 watchEffect(() => {
   if (data) {
     fetchLikes()
-    // /details/movie/408425
-    if (data.localData.id === "408425" && data.localData.type === "movie") {
-      award.value = 0
-    }
   }
 })
 </script>
@@ -133,14 +131,7 @@ watchEffect(() => {
         <IconsPlay class="h-6 w-6" />
         Watch
       </button>
-      <button
-        @click="like"
-        class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
-      >
-        <IconsThumbUpFilled v-if="userLiked" class="h-6 w-6" />
-        <IconsThumbUpUnfilled v-else class="h-6 w-6" />
-        {{ userLiked ? "Recommended" : "Recommend" }}
-      </button>
+
       <button
         @click="$emit('openReview')"
         class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
@@ -149,26 +140,34 @@ watchEffect(() => {
         <IconsStar v-else class="h-6 w-6" />
         {{ userReviewed ? "Reviewed" : "Review" }}
       </button>
-      <button
-        v-if="!userAddedWatchlist"
-        @click="submitToWatchlist"
-        class="flex h-10 items-center gap-1 rounded border bg-transparent px-4 py-2 font-semibold transition hover:opacity-80"
-        :class="{
-          'border-black text-black': isLight,
-          'border-white text-white': !isLight
-        }"
-      >
-        <IconsListAdd class="h-6 w-6" />
-        Add to watchlist
-      </button>
-      <button
-        v-else
-        @click="submitToWatchlist"
-        class="flex h-10 flex-shrink-0 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:opacity-80"
-      >
-        <IconsListRemove class="h-6 w-6" />
-        Remove from watchlist
-      </button>
+      <div class="flex items-center gap-2">
+        <button
+          v-if="!userAddedWatchlist"
+          @click="submitToWatchlist"
+          class="flex h-10 flex-grow items-center gap-1 rounded border bg-transparent px-4 py-2 font-semibold transition hover:opacity-80"
+          :class="{
+            'border-black text-black': isLight,
+            'border-white text-white': !isLight
+          }"
+        >
+          <IconsListAdd class="h-6 w-6" />
+          Add to watchlist
+        </button>
+        <button
+          v-else
+          @click="submitToWatchlist"
+          class="flex h-10 flex-shrink-0 flex-grow items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:opacity-80"
+        >
+          <IconsListRemove class="h-6 w-6" />
+          Remove from watchlist
+        </button>
+        <button
+          @click="like"
+          class="flex h-10 items-center gap-1 font-semibold text-white hover:bg-opacity-80"
+        >
+          <Like :liked="userLiked" />
+        </button>
+      </div>
     </div>
     <div
       :class="{
@@ -179,7 +178,7 @@ watchEffect(() => {
     >
       <p>
         {{ likes }}
-        {{ likes <= 1 ? "person" : "people" }} recommended
+        {{ likes <= 1 ? "like" : "likes" }}
       </p>
       <p class="pl-2">{{ reviewData.count }} reviews</p>
     </div>

@@ -36,7 +36,7 @@ const next = () => {
 
   timeout.value = setTimeout(() => {
     skipping.value = false
-  }, 1000)
+  }, 500)
 }
 
 const prev = () => {
@@ -55,7 +55,7 @@ const prev = () => {
 
   timeout.value = setTimeout(() => {
     skipping.value = false
-  }, 1000)
+  }, 500)
 }
 
 const updateScroll = () => {

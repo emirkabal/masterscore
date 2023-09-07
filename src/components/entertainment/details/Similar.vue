@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { type, id, loading } = defineProps<{
-  type?: string
+  type?: "movie" | "tv"
   id?: string | number
   loading?: boolean
 }>()
@@ -34,19 +34,11 @@ const getName = computed(() => {
       </div>
     </div>
     <div v-else-if="similar.length > 0">
-      <OverflowBehavior>
-        <EntertainmentLargeCard
-          v-for="(item, i) in similar"
-          :key="'similar-' + i"
-          :data="{
-            title: item.title || 'Untitled',
-            release_date: item.release_date || '0',
-            url: `${type}/${item.id}`,
-            poster: item.poster_path || '-',
-            backdrop: item.backdrop_path || '-'
-          }"
-        />
-      </OverflowBehavior>
+      <EntertainmentSlider
+        :data="similar"
+        :fixed-media-type="type"
+        :offset="0"
+      />
     </div>
   </section>
 </template>

@@ -4,11 +4,13 @@ import icons from "./config/icons"
 export default defineNuxtConfig({
   srcDir: "src/",
   ssr: false,
+  devtools: {
+    enabled: false
+  },
   modules: [
     "@nuxt/image-edge",
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
-    "@nuxt/content",
     "@nuxtjs/device",
     "@vite-pwa/nuxt",
     "nuxt-twemoji"
@@ -35,7 +37,6 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: "vercel",
     plugins: ["~/server/db/index.ts"]
   },
 
@@ -73,7 +74,6 @@ export default defineNuxtConfig({
   appConfig: {
     buildDate: new Date().toISOString()
   },
-
   pwa: {
     registerType: "autoUpdate",
     srcDir: "src/",

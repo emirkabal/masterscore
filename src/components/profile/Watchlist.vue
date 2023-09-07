@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IEntertainment } from "@types"
+import { IEntertainment } from "~/@types"
 
 defineProps<{
   self?: boolean

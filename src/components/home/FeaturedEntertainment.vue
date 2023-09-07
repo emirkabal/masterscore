@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TMDBSearchResult } from "@types"
+import { TMDBSearchResult } from "~/@types"
 const { isDesktop } = useDevice()
 
 const { data } = defineProps<{

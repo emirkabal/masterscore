@@ -7,12 +7,7 @@ const version = computed(() => {
 })
 const clickToShow = ref(0)
 const date = useAppConfig().buildDate
-
-onKeyStroke(["Control", "l", "l"], (e) => {
-  if (!e.ctrlKey || e.code !== "KeyL") return
-  e.preventDefault()
-  toggleDarkMode()
-})
+isDark.value = true
 </script>
 
 <template>
@@ -30,7 +25,7 @@ onKeyStroke(["Control", "l", "l"], (e) => {
         <span class="text-xs opacity-75" v-if="clickToShow > 2"
           >({{ date }})</span
         >
-        <button
+        <!-- <button
           class="text-gray-500 hover:text-gray-700"
           @click="toggleDarkMode()"
         >
@@ -40,7 +35,7 @@ onKeyStroke(["Control", "l", "l"], (e) => {
           <template v-else>
             <IconsMoon class="w-6" />
           </template>
-        </button>
+        </button> -->
       </div>
       <div class="flex items-center gap-2">
         <span class="text-gray-500 dark:text-gray-300">All data from</span>

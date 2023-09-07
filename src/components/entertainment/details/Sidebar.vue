@@ -355,20 +355,17 @@ const rtScore = computed(() => {
           >
         </span>
       </p>
-      <p>
+      <div>
         <strong>Other</strong>
-        <div class="w-fit flex gap-2">
+        <div class="flex w-fit gap-2">
           <IMDBLink
             v-if="props.data?.imdb_id"
             :imdb="props.data?.imdb_id"
             :score="imdbScore"
           />
-          <RottenTomatoes
-            v-if="rtScore"
-            :score="rtScore"
-          />
+          <RottenTomatoes v-if="rtScore" :score="rtScore" />
         </div>
-      </p>
+      </div>
       <a
         v-if="website && website.length > 0"
         :href="website"
@@ -379,7 +376,6 @@ const rtScore = computed(() => {
         <IconsLink class="h-6 w-6" />
         <span>Visit website</span>
       </a>
-      
     </div>
   </div>
 </template>

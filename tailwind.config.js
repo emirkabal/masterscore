@@ -34,7 +34,7 @@ module.exports = {
   },
   plugins: [
     require("@tailwindcss/forms"),
-    require("@headlessui/tailwindcss"),
+    require("daisyui"),
     require("tailwind-scrollbar")({ nocompatible: true })
   ]
 }

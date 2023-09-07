@@ -115,6 +115,8 @@ useHead({
       </h1>
       <!-- Mobile Extensions -->
       <div class="my-2 flex items-center justify-center gap-2 lg:hidden">
+        <ScoreCircle :score="rating" />
+
         <h2
           v-if="contentRating && contentRating !== 'Not Rated'"
           class="line-clamp-1 border px-2 text-lg font-semibold"
@@ -125,17 +127,17 @@ useHead({
         >
           {{ contentRating || "NR" }}
         </h2>
-        <ScoreCircle :score="rating" />
       </div>
       <!-- Desktop -->
       <div
-        class="flex items-center justify-center divide-x-2 text-xs sm:text-sm lg:justify-start lg:text-lg"
+        class="flex items-center justify-center space-x-4 text-xs sm:text-sm lg:justify-start lg:text-lg"
         :class="{
           'divide-black/20 text-black': isLight,
           'divide-white/20 text-white/70': !isLight
         }"
       >
-        <h2 class="ml-0.5 pr-2 font-semibold">
+        <ScoreCircle :score="rating" class="ml-0.5 hidden md:block" />
+        <h2 class="font-semibold md:ml-0.5">
           {{ releaseDate }}
         </h2>
         <h2
@@ -144,14 +146,13 @@ useHead({
             content: `Genres are <b>${genres}</b>.`,
             html: true
           }"
-          class="line-clamp-1 break-all px-2 font-semibold"
+          class="line-clamp-1 break-all font-semibold"
         >
           {{ genres }}
         </h2>
-        <h2 class="line-clamp-1 flex-shrink-0 px-2 font-semibold">
+        <h2 class="line-clamp-1 flex-shrink-0 font-semibold">
           {{ runtime }}
         </h2>
-
         <div class="hidden flex-shrink-0 items-center gap-2 px-2 lg:flex">
           <h2
             v-if="contentRating && contentRating !== 'Not Rated'"
@@ -163,7 +164,6 @@ useHead({
           >
             {{ contentRating || "NR" }}
           </h2>
-          <ScoreCircle :score="rating" />
         </div>
       </div>
     </div>

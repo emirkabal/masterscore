@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IReview } from "@types"
+import { IReview } from "~/@types"
 defineProps<{
   reviews: {
     pending: boolean

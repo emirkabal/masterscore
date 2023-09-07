@@ -1,10 +1,26 @@
 <script setup>
+import { vIntersectionObserver } from "@vueuse/components"
+const { $tfiltergenres } = useNuxtApp()
 useHead({
   title: "Masterscore",
   titleTemplate: "%s"
 })
+
 const home = useState("home")
 const homePending = useState("homePending")
+
+const top_rated = computed(() => {
+  return home.value.top_rated.map((item) => {
+    return {
+      id: item.entertainment.id,
+      media_type: item.entertainment.type,
+      title: item.entertainment.info.title,
+      poster_path: item.entertainment.info.poster,
+      backdrop_path: item.entertainment.info.backdrop,
+      vote_average: item.average
+    }
+  })
+})
 
 if (!home.value) {
   const { data, pending } = await useLazyFetch("/api/extra/home", {
@@ -17,170 +33,100 @@ if (!home.value) {
   watch(data, (data) => (home.value = data))
   watch(pending, (pending) => (homePending.value = pending))
 }
+
+const genres = reactive(
+  $tfiltergenres(
+    [
+      "Comedy",
+      "Crime",
+      "Science Fiction",
+      "Fantasy",
+      "Drama",
+      "Family",
+      "Animation",
+      "Adventure",
+      "Action"
+    ],
+    "movie"
+  ).map((e) => {
+    return { data: [], pending: true, ...e }
+  })
+)
+
+const onIntersectionObserver = async ([{ isIntersecting }], genre) => {
+  console.log(isIntersecting, genre)
+  if (isIntersecting && genre.pending) {
+    const { data, pending } = await useLazyFetch("/api/discover/movie", {
+      headers: generateHeaders(),
+      params: {
+        with_genres: genre.id
+      }
+    })
+    genre.pending = false
+
+    genre.data = data.value.results
+    genre.pending = pending.value
+
+    watch(data, (data) => (genre.data = data))
+    watch(pending, (pending) => (genre.pending = pending))
+  }
+}
+
+console.log(genres)
 </script>
 <template>
-  <div v-if="homePending">
-    <Spinner class="mx-auto h-screen" />
-  </div>
-  <div v-else-if="home">
-    <HomeFeaturedEntertainment :data="home.featured" />
-    <div class="container mx-auto my-12 space-y-12 px-4">
-      <section class="space-y-2">
-        <h1 class="text-2xl font-semibold">Trending Today</h1>
-        <OverflowBehavior>
-          <EntertainmentLargeCard
-            v-for="(item, i) in home.trending"
-            :key="'trending-' + i"
-            :data="{
-              title: item.title,
-              release_date: item.release_date,
-              url: `movie/${item.id}`,
-              poster: item.poster_path,
-              backdrop: item.backdrop_path
-            }"
-          />
-        </OverflowBehavior>
-      </section>
-      <section class="space-y-2">
-        <div>
-          <h1 class="text-2xl font-semibold">Top Rated Movies & TV Shows</h1>
-          <p>based on <Logo /></p>
-        </div>
-        <OverflowBehavior>
-          <EntertainmentLargeCard
-            v-for="(item, i) in home.top_rated"
-            :key="'top_rated-' + i"
-            :data="{
-              title: item.entertainment.info.title,
-              release_date: item.entertainment.info.release_date,
-              url: `${item.entertainment.type}/${item.entertainment.id}`,
-              poster: item.entertainment.info.poster,
-              backdrop: item.entertainment.info.backdrop
-            }"
-          />
-        </OverflowBehavior>
-      </section>
-      <HomeShowFeed />
-      <section
-        v-if="
-          home.recommendations &&
-          home.recommendations.results &&
-          home.recommendations.results.length > 0
-        "
-        class="space-y-2"
-      >
-        <div>
-          <h1 class="text-2xl font-semibold">You Need to Watch</h1>
-          <p>
-            based on
-            <NuxtLink
-              :to="`/details/${home.recommendations.releated.type}/${home.recommendations.releated.id}`"
-              class="font-medium hover:underline"
-              >{{ home.recommendations.releated.info.title }}</NuxtLink
-            >
-          </p>
-        </div>
-        <OverflowBehavior>
-          <EntertainmentLargeCard
-            v-for="(item, i) in home.recommendations.results"
-            :key="'recommendation-' + i"
-            :data="{
-              title: item.title,
-              release_date: item.release_date,
-              url: `${item.media_type}/${item.id}`,
-              poster: item.poster_path,
-              backdrop: item.backdrop_path
-            }"
-          />
-        </OverflowBehavior>
-      </section>
-
-      <section class="space-y-2">
-        <h1 class="text-2xl font-semibold">Popular Movies</h1>
-        <OverflowBehavior>
-          <EntertainmentLargeCard
-            v-for="(item, i) in home.popular"
-            :key="'popular-' + i"
-            :data="{
-              title: item.title,
-              release_date: item.release_date,
-              url: `movie/${item.id}`,
-              poster: item.poster_path,
-              backdrop: item.backdrop_path
-            }"
-          />
-        </OverflowBehavior>
-      </section>
-      <section v-if="home.watchlist.length > 0" class="space-y-2">
-        <h1 class="text-2xl font-semibold">Don't Forget to Watch</h1>
-        <OverflowBehavior>
-          <EntertainmentLargeCard
-            v-for="(item, i) in home.watchlist"
-            :key="'watchlist-' + i"
-            :data="{
-              title: item.info.title,
-              release_date: item.info.release_date,
-              url: `${item.type}/${item.id}`,
-              poster: item.info.poster,
-              backdrop: item.info.backdrop
-            }"
-          />
-        </OverflowBehavior>
-      </section>
-      <section class="space-y-2">
-        <div>
-          <h1 class="text-2xl font-semibold">Most Recommended</h1>
-          <p>based on <Logo /></p>
-        </div>
-        <OverflowBehavior>
-          <EntertainmentLargeCard
-            v-for="(item, i) in home.most_liked"
-            :key="'most_liked-' + i"
-            :data="{
-              title: item.entertainment.info.title,
-              release_date: item.entertainment.info.release_date,
-              url: `${item.entertainment.type}/${item.entertainment.id}`,
-              poster: item.entertainment.info.poster,
-              backdrop: item.entertainment.info.backdrop
-            }"
-          />
-        </OverflowBehavior>
-      </section>
-      <HomeShowMasterTable />
-      <section class="space-y-2">
-        <h1 class="text-2xl font-semibold">Now Playing</h1>
-        <OverflowBehavior>
-          <EntertainmentLargeCard
-            v-for="(item, i) in home.now_playing"
-            :key="'now_playing-' + i"
-            :data="{
-              title: item.title,
-              release_date: item.release_date,
-              url: `movie/${item.id}`,
-              poster: item.poster_path,
-              backdrop: item.backdrop_path
-            }"
-          />
-        </OverflowBehavior>
-      </section>
-      <section class="space-y-2">
-        <h1 class="text-2xl font-semibold">Upcoming Movies</h1>
-        <OverflowBehavior>
-          <EntertainmentLargeCard
-            v-for="(item, i) in home.upcoming"
-            :key="'popular-' + i"
-            :data="{
-              title: item.title,
-              release_date: item.release_date,
-              url: `movie/${item.id}`,
-              poster: item.poster_path,
-              backdrop: item.backdrop_path
-            }"
-          />
-        </OverflowBehavior>
-      </section>
-
-      <HomeEasterEgg />
+  <section v-if="homePending && !home">
+    <div
+      class="mx-auto flex h-screen flex-col items-center justify-center gap-8"
+    >
+      <Loader />
     </div>
-  </div>
+  </section>
+  <section class="relative" v-else>
+    <!-- <HomeFeaturedEntertainment :data="home.featured" /> -->
+    <HomeMainSlider :data="home.trending" />
+    <div class="mx-auto mb-24 space-y-12">
+      <section class="relative z-10 -mt-20 space-y-8">
+        <h1 class="px-[4vw] font-maven text-2xl font-bold">Recommended</h1>
+        <EntertainmentSlider
+          :data="home.recommendations"
+          :fixed-media-type="'movie'"
+          :item-size="'large'"
+          :offset="'auto'"
+        />
+      </section>
+      <section class="relative z-10 space-y-8">
+        <div class="flex items-center gap-4 px-[4vw]">
+          <h1 class="font-maven text-2xl font-bold">Top Rated</h1>
+          <span class="font-maven text-2xl font-black text-yellow-500">m</span>
+        </div>
+        <EntertainmentSlider
+          :data="top_rated"
+          :fixed-media-type="'movie'"
+          :item-size="'large'"
+          :offset="'auto'"
+          :show-ratings="true"
+        />
+      </section>
+      <section
+        class="relative z-10 space-y-8"
+        v-for="genre in genres"
+        :id="genre"
+      >
+        <h1 class="px-[4vw] font-maven text-2xl font-bold">{{ genre.name }}</h1>
+        <EntertainmentSlider
+          v-intersection-observer="(e) => onIntersectionObserver(e, genre)"
+          :loading="genre.pending"
+          :data="genre.data"
+          :fixed-media-type="'movie'"
+          :item-size="'large'"
+          :offset="'auto'"
+        />
+      </section>
+    </div>
+    <!-- <div class="my-20 space-y-12 px-[4vw]">
+      <HomeShowFeed />
+      <HomeShowMasterTable />
+    </div> -->
+  </section>
 </template>
