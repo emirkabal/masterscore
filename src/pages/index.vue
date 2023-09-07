@@ -79,7 +79,7 @@ console.log(genres)
     <div
       class="mx-auto flex h-screen flex-col items-center justify-center gap-8"
     >
-      <Loader class="mt-16" />
+      <Loader />
     </div>
   </section>
   <section class="relative" v-else>

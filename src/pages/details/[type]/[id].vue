@@ -143,7 +143,7 @@ watch(data, async () => {
       })
       if (
         smartVideoData.value &&
-        smartVideoData.value.length > 1 &&
+        smartVideoData.value.length > 0 &&
         smartVideoData.value.find((e) => e.tmdb == data.value.id)
       ) {
         smartVideoData.value = smartVideoData.value.find(
@@ -153,7 +153,7 @@ watch(data, async () => {
 
       if (
         smartVideoData.value &&
-        smartVideoData.value.length > 1 &&
+        smartVideoData.value.length > 0 &&
         data.value.imdb_id &&
         smartVideoData.value.find((e) => e.imdb == data.value.imdb_id)
       ) {
@@ -255,6 +255,27 @@ useHead({
             </span>
           </span>
           <span
+            v-else-if="
+              smartVideoData &&
+              smartVideoData.length > 0 &&
+              smartVideoData[0]?.copyright
+            "
+            v-tooltip.bottom="{
+              content: `Copy-righted content. You can't watch this ${
+                params.type === 'movie' ? 'movie' : 'tv show'
+              }.`,
+              html: true
+            }"
+            class="group mt-2 flex h-6 cursor-default select-none items-center justify-center gap-1"
+          >
+            <IconsAlert class="h-6 w-6 text-yellow-400" />
+            <span
+              class="text-white opacity-90 transition-opacity group-hover:opacity-100"
+            >
+              Watch Unsupported
+            </span>
+          </span>
+          <span
             v-else-if="smartVideoData"
             v-tooltip.bottom="{
               content: `You can watch this ${
@@ -293,7 +314,11 @@ useHead({
           :isLight="backgroundBright"
           @openReview="openReview"
           :reviewData="reviewData"
-          :smartVideoData="smartVideoData"
+          :smartVideoData="
+            smartVideoData && !smartVideoData[0]?.copyright
+              ? smartVideoData
+              : null
+          "
         />
       </div>
     </EntertainmentContainer>
@@ -308,7 +333,11 @@ useHead({
           <EntertainmentDetailsEpisodes
             v-if="data.seasons"
             :data="data"
-            :smartVideoData="smartVideoData"
+            :smartVideoData="
+              smartVideoData && !smartVideoData[0]?.copyright
+                ? smartVideoData
+                : null
+            "
           />
           <EntertainmentDetailsCast :data="data.credits" />
           <EntertainmentDetailsSimilar :type="params.type" :id="params.id" />
