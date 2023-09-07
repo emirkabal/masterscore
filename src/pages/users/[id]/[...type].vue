@@ -183,7 +183,7 @@ useHead({
     class="mx-auto flex h-screen items-center justify-center"
     v-else-if="loading"
   >
-    <Spinner />
+    <Loader />
   </div>
   <div class="my-20" v-else>
     <div class="container mx-auto max-w-6xl px-4" v-if="user">
@@ -302,7 +302,7 @@ useHead({
       </div>
 
       <TabGroup :selectedIndex="selectedTab" @change="changeTab">
-        <OverflowBehavior>
+        <div class="flex overflow-x-auto scrollbar-none">
           <TabList>
             <Tab>Summary</Tab>
             <Tab v-if="user.reviews?.length"
@@ -316,7 +316,7 @@ useHead({
               }})</Tab
             >
           </TabList>
-        </OverflowBehavior>
+        </div>
         <TabPanels>
           <TabPanel
             ><section>

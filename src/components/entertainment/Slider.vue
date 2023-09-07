@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { TMDBSearchResult } from "~/@types"
+import { IEntertainment, TMDBData, TMDBSearchResult } from "~/@types"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { FreeMode, Navigation } from "swiper/modules"
 import { useEventListener } from "@vueuse/core"
 import "swiper/css"
 
 defineProps<{
-  data: TMDBSearchResult[]
+  data?: TMDBSearchResult[] | TMDBData[] | IEntertainment[]
   showRatings?: boolean
   itemSize?: "default" | "large"
   fixedMediaType?: "movie" | "tv"
@@ -49,20 +49,32 @@ useEventListener("resize", () => {
         <EntertainmentSliderCard
           class="flex-shrink-0"
           :loading="true"
-          :size="'large'"
+          :size="itemSize"
         />
       </SwiperSlide>
       <SwiperSlide v-else v-for="item in data" :key="item.id">
         <EntertainmentSliderCard
-          :image="$timage(item.poster_path || '', 'w342')"
+          :image="
+            $timage(
+              ('info' in item ? item.info.poster : item.poster_path) || '',
+              'w342'
+            )
+          "
           :id="item.id"
-          :media_type="item.media_type || fixedMediaType || 'movie'"
+          :media_type="
+            ('info' in item ? item.type : item.media_type) ||
+            fixedMediaType ||
+            'movie'
+          "
           :size="itemSize"
           :rating="
-            showRatings && item.vote_average ? item.vote_average : undefined
+            showRatings && 'vote_average' in item
+              ? item.vote_average
+              : undefined
           "
         />
       </SwiperSlide>
+      <slot />
 
       <div class="swiper-button-prev">
         <IconsChevron class="h-10 w-10" />
@@ -74,7 +86,7 @@ useEventListener("resize", () => {
   </div>
 </template>
 
-<style scoped>
+<style>
 .swiper {
   @apply h-auto select-none;
 }
@@ -84,7 +96,7 @@ useEventListener("resize", () => {
 
 .swiper-button-prev,
 .swiper-button-next {
-  @apply absolute top-1/2 z-10 mt-[-5px] hidden h-10 w-10 cursor-pointer select-none bg-black/20 bg-contain bg-center bg-no-repeat hover:bg-black/50 md:block;
+  @apply absolute top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 cursor-pointer select-none bg-black/20 bg-contain bg-center bg-no-repeat hover:bg-black/50 md:block;
 }
 
 .swiper-button-prev {
