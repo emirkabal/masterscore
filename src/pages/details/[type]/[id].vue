@@ -3,7 +3,7 @@ import tinycolor from "tinycolor2"
 import { useStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
 const localePath = useLocalePath()
-const { $event, $listen, $colorthief, $getTitle } = useNuxtApp()
+const { $event, $listen, $colorthief, $getOriginalTitle } = useNuxtApp()
 const { params, query } = useRoute()
 const { feature } = query
 const flag = useStorage("debugMode", false)
@@ -174,7 +174,7 @@ watch(data, async () => {
         smartVideoData.value = null
       }
     }
-    await find($getTitle(data.value))
+    await find($getOriginalTitle(data.value))
     if (!smartVideoData.value) {
       if (data.value.belongs_to_collection && data.value.belongs_to_collection)
         await find(data.value.belongs_to_collection.name)
