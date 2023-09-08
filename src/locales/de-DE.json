@@ -27,8 +27,8 @@
       "watch": "Ansehen",
       "review": "Bewerten",
       "reviewed": "Bewertet",
-      "add_to_watchlist": "Zur Beobachtungsliste hinzufügen",
-      "remove_from_watchlist": "Von der Beobachtungsliste entfernen"
+      "add_to_watchlist": "Zur beobachtungsliste hinzufügen",
+      "remove_from_watchlist": "Von der beobachtungsliste entfernen"
     },
     "sidebar": {
       "belongs_to_collection": "Gehört zur Sammlung",
