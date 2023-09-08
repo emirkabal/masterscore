@@ -1,6 +1,3 @@
-import { I18nOptions } from '@nuxtjs/i18n'
-
-
 export default {
   defaultLocale: 'en',
   fallbackLocale: 'en',
@@ -10,6 +7,12 @@ export default {
       name: 'English',
       iso: 'en-US',
       file: 'en-US.json'
+    },
+    {
+      code: 'de',
+      name: 'Deutsch',
+      iso: 'de-DE',
+      file: 'de-DE.json'
     },
     {
       code: 'tr',
@@ -24,6 +27,7 @@ export default {
     useCookie: true,
     alwaysRedirect: true,
     cookieKey: 'locale',
-    redirectOn: 'root'
+    fallbackLocale: 'en',
+    redirectOn: 'all'
   }
-} as I18nOptions
+}
