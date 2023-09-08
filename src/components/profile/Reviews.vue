@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { IReview } from "~/@types"
+const localePath = useLocalePath()
 defineProps<{
   reviews: {
     pending: boolean
@@ -41,7 +42,11 @@ defineProps<{
       <div v-for="review in reviews.items" :key="review._id">
         <div class="flex items-start overflow-hidden rounded">
           <NuxtLink
-            :to="`/details/${review.entertainment.type}/${review.entertainment.id}`"
+            :to="
+              localePath(
+                `/details/${review.entertainment.type}/${review.entertainment.id}`
+              )
+            "
           >
             <MasterImage
               v-if="review.entertainment.info.poster"
@@ -52,7 +57,11 @@ defineProps<{
           <div class="min-w-0">
             <div class="flex items-center gap-2">
               <NuxtLink
-                :to="`/details/${review.entertainment.type}/${review.entertainment.id}`"
+                :to="
+                  localePath(
+                    `/details/${review.entertainment.type}/${review.entertainment.id}`
+                  )
+                "
                 class="line-clamp-1 font-semibold hover:underline"
               >
                 {{ review.entertainment.info.title }}

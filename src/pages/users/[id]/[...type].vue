@@ -13,7 +13,7 @@ import {
 import { onClickOutside, useClipboard } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
 import { IEntertainment, IReview, IUser } from "~/@types"
-
+const localePath = useLocalePath()
 const url = window.location.origin
 const { copy } = useClipboard()
 const { $moment } = useNuxtApp()
@@ -133,7 +133,7 @@ const changeTab = (index: number) => {
   } else if (index === 2) {
     fetchWatchlist()
   }
-  window.history.replaceState(history.state, "", routes[index])
+  window.history.replaceState(history.state, "", localePath(routes[index]))
 }
 
 onMounted(async () => {
@@ -289,7 +289,7 @@ useHead({
                     <MenuItem>
                       <NuxtLink
                         class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
-                        to="/users/@me/settings"
+                        :to="localePath('/users/@me/settings')"
                         >Edit Profile</NuxtLink
                       >
                     </MenuItem>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { SwiperSlide } from "swiper/vue"
+const localePath = useLocalePath()
 
 const { data, pending } = await useLazyFetch<
   {
@@ -23,7 +24,7 @@ const { data, pending } = await useLazyFetch<
       </SwiperSlide>
       <SwiperSlide v-else v-for="user in data" :key="user._id">
         <NuxtLink
-          :to="`/users/@${user.username}`"
+          :to="localePath(`/users/@${user.username}`)"
           class="my-3 transition-opacity hover:opacity-75"
         >
           <Avatar

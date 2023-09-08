@@ -6,8 +6,9 @@ useHead({
   titleTemplate: "%s"
 })
 
-const home = useState("home")
-const homePending = useState("homePending")
+const { data: home, pending } = await useLazyFetch("/api/extra/home", {
+  headers: generateHeaders()
+})
 
 const top_rated = computed(() => {
   return home.value.top_rated.map((item) => {
@@ -21,18 +22,6 @@ const top_rated = computed(() => {
     }
   })
 })
-
-if (!home.value) {
-  const { data, pending } = await useLazyFetch("/api/extra/home", {
-    headers: generateHeaders()
-  })
-
-  home.value = data.value
-  homePending.value = pending.value
-
-  watch(data, (data) => (home.value = data))
-  watch(pending, (pending) => (homePending.value = pending))
-}
 
 const genres = reactive(
   $tfiltergenres(
@@ -54,7 +43,6 @@ const genres = reactive(
 )
 
 const onIntersectionObserver = async ([{ isIntersecting }], genre) => {
-  console.log(isIntersecting, genre)
   if (isIntersecting && genre.pending) {
     const { data, pending } = await useLazyFetch("/api/discover/movie", {
       headers: generateHeaders(),
@@ -71,11 +59,9 @@ const onIntersectionObserver = async ([{ isIntersecting }], genre) => {
     watch(pending, (pending) => (genre.pending = pending))
   }
 }
-
-console.log(genres)
 </script>
 <template>
-  <section v-if="homePending && !home">
+  <section v-if="pending && !home">
     <div
       class="mx-auto flex h-screen flex-col items-center justify-center gap-8"
     >
@@ -87,7 +73,9 @@ console.log(genres)
     <HomeMainSlider :data="home.trending" />
     <div class="mx-auto mb-24 space-y-12">
       <section class="relative z-10 -mt-20 space-y-8">
-        <h1 class="px-[4vw] font-maven text-2xl font-bold">Recommended</h1>
+        <h1 class="px-[4vw] font-maven text-2xl font-bold">
+          {{ $t("home.recommended") }}
+        </h1>
         <EntertainmentSlider
           :data="home.recommendations"
           :fixed-media-type="'movie'"
@@ -97,7 +85,9 @@ console.log(genres)
       </section>
       <section class="relative z-10 space-y-8">
         <div class="flex items-center gap-4 px-[4vw]">
-          <h1 class="font-maven text-2xl font-bold">Top Rated</h1>
+          <h1 class="font-maven text-2xl font-bold">
+            {{ $t("home.top_rated") }}
+          </h1>
           <span class="font-maven text-2xl font-black text-yellow-500">m</span>
         </div>
         <EntertainmentSlider
@@ -113,7 +103,9 @@ console.log(genres)
         v-for="genre in genres"
         :id="genre"
       >
-        <h1 class="px-[4vw] font-maven text-2xl font-bold">{{ genre.name }}</h1>
+        <h1 class="px-[4vw] font-maven text-2xl font-bold">
+          {{ $t("genres." + genre.name) }}
+        </h1>
         <EntertainmentSlider
           v-intersection-observer="(e) => onIntersectionObserver(e, genre)"
           :loading="genre.pending"

@@ -1,18 +1,43 @@
-import { TMDBData, TMDBMovie, TMDBTV } from "~/@types"
+import { TMDBData } from "~/@types"
 import EntertainmentModel from "~/server/models/Entertainment.model"
 import redis from "~/utils/redis"
 const config = useRuntimeConfig()
 
-export default async (id: string, type: string): Promise<TMDBData> => {
-  const key = `tmdb:${type}:${id}`
-
-  const cached: any | null = await redis.get(key)
-  if (cached && cached.credits && cached.videos) return cached as TMDBData
+export default async (
+  id: string,
+  type: string,
+  lang: string
+): Promise<TMDBData> => {
+  const key = `ecache:${type}:${id}`
 
   // @ts-ignore:2321
   const data: TMDBData = await $fetch(
-    `https://api.themoviedb.org/3/${type}/${id}?api_key=${config.TMDB_API_KEY}&language=en-US&append_to_response=external_ids,videos,credits`
+    `https://api.themoviedb.org/3/${type}/${id}?api_key=${config.TMDB_API_KEY}&language=${lang}&append_to_response=external_ids,videos,credits,similar`
   )
+
+  const cached = await redis.get(key)
+  if (cached) return { ...data, ...cached } as TMDBData
+
+  let localData = await EntertainmentModel.findOne({ id: data.id, type: type })
+  if (
+    localData &&
+    localData._id &&
+    localData.updatedAt > new Date(Date.now() - 1000 * 60 * 60 * 24 * 7)
+  ) {
+    data.localId = localData._id.toString()
+    data.localData = localData.toJSON()
+    await redis.set(
+      key,
+      {
+        localId: data.localId,
+        localData: data.localData
+      },
+      {
+        ex: 60 * 60 * 24 * 3
+      }
+    )
+    return data
+  }
 
   let title = "Untitled"
   let date = "0000-00-00"
@@ -23,7 +48,9 @@ export default async (id: string, type: string): Promise<TMDBData> => {
   let ratings = {
     tmdb: data.vote_average || 0
   }
-  if ("title" in data && data.title) title = data.title
+  if ("original_name" in data && data.original_name) title = data.original_name
+  if ("original_title" in data && data.original_title)
+    title = data.original_title
   if ("name" in data && data.name) title = data.name
   if ("release_date" in data && data.release_date) date = data.release_date
   if ("first_air_date" in data && data.first_air_date)
@@ -89,7 +116,6 @@ export default async (id: string, type: string): Promise<TMDBData> => {
     type,
     info: {
       title,
-      description,
       poster: data.poster_path,
       backdrop: data.backdrop_path,
       release_date: date,
@@ -100,7 +126,7 @@ export default async (id: string, type: string): Promise<TMDBData> => {
     }
   }
 
-  const localData = await EntertainmentModel.findOneAndUpdate(
+  localData = await EntertainmentModel.findOneAndUpdate(
     { id: data.id, type: type },
     {
       $set: localDataSet
@@ -108,12 +134,14 @@ export default async (id: string, type: string): Promise<TMDBData> => {
     { upsert: true, new: true }
   )
 
-  if (localData._id) data.localId = localData._id.toString()
-  data.localData = localData.toJSON()
+  if (localData && localData._id) {
+    data.localId = localData._id.toString()
+    data.localData = localData.toJSON()
+  }
 
-  await redis.set(key, data, {
-    ex: 60 * 60 * 24 * 3 // 3 days
-  })
+  // await redis.set(key, data, {
+  //   ex: 60 * 60 * 24 * 3 // 3 days
+  // })
 
   return data as TMDBData
 }

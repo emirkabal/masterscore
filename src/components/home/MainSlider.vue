@@ -5,6 +5,7 @@ import { Autoplay, EffectFade, Parallax } from "swiper/modules"
 import { TMDBSearchResult } from "~/@types"
 import "swiper/css"
 import "swiper/css/effect-fade"
+const localePath = useLocalePath()
 const props = defineProps<{
   data: TMDBSearchResult[]
 }>()
@@ -90,10 +91,10 @@ const slideTo = (index: number) => {
               </p>
               <div>
                 <NuxtLink
-                  :to="`/details/${item.media_type}/${item.id}`"
-                  class="inline-block rounded border-2 border-white px-4 py-1.5 text-lg font-bold transition-opacity hover:opacity-75 lg:border-4 lg:px-6 lg:py-3 lg:text-xl"
+                  :to="localePath(`/details/${item.media_type}/${item.id}`)"
+                  class="inline-block rounded border-2 border-white px-4 py-1.5 text-lg font-bold transition-opacity hover:opacity-75 lg:border-4 lg:px-6 lg:py-3"
                 >
-                  More Info
+                  {{ $t("home.more_info") }}
                 </NuxtLink>
               </div>
             </div>

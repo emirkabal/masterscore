@@ -3,6 +3,7 @@ import VuePictureCropper, { cropper } from "vue-picture-cropper"
 import { useUserStore } from "~/store/user"
 import { Switch } from "@headlessui/vue"
 import { useStorage } from "@vueuse/core"
+const localePath = useLocalePath()
 definePageMeta({
   middleware: ["auth"]
 })
@@ -386,7 +387,7 @@ const submit = async (e) => {
               </div>
               <div class="flex gap-2">
                 <NuxtLink
-                  to="/users/@me"
+                  :to="localePath('/users/@me')"
                   class="rounded bg-gray-50 px-4 py-2 font-bold text-black transition-colors hover:bg-gray-100"
                   >Back to profile</NuxtLink
                 >

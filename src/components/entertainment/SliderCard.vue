@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const localePath = useLocalePath()
 defineProps<{
   loading?: boolean
   id?: string | number
@@ -10,7 +11,7 @@ defineProps<{
 </script>
 <template>
   <NuxtLink
-    :to="`/details/${media_type}/${id}`"
+    :to="localePath(`/details/${media_type}/${id}`)"
     class="relative h-full w-full bg-cover bg-center bg-no-repeat transition-opacity hover:opacity-90"
     :class="{
       'skeleton-effect pointer-events-none relative': loading,

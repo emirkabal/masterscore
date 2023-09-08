@@ -1,0 +1,20 @@
+{
+  "welcome": "Welcome to Masterscore",
+  "search": "Type to search...",
+  "home": {
+    "recommended": "Recommended",
+    "top_rated": "Top Rated",
+    "more_info": "More Info"
+  },
+  "genres": {
+    "Comedy": "Comedy",
+    "Crime": "Crime",
+    "Science Fiction": "Science Fiction",
+    "Fantasy": "Fantasy",
+    "Drama": "Drama",
+    "Family": "Family",
+    "Animation": "Animation",
+    "Adventure": "Adventure",
+    "Action": "Action"
+  }
+}

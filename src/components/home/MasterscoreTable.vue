@@ -3,6 +3,7 @@ import { Switch } from "@headlessui/vue"
 import { useLocalStorage } from "@vueuse/core"
 import IMDB from "~/components/IMDB.vue"
 import RottenTomatoes from "~/components/RottenTomatoes.vue"
+const localePath = useLocalePath()
 const headers = [
   { text: "Rank", value: "rank", sortable: true, width: 40 },
   {
@@ -122,7 +123,7 @@ watch([listType, disableReviewRequirement], () => {
       <template #item-entertainment.info.title="{ entertainment }">
         <NuxtLink
           class="flex items-center gap-2 text-lg font-semibold hover:underline"
-          :to="`/details/${entertainment.type}/${entertainment.id}`"
+          :to="localePath(`/details/${entertainment.type}/${entertainment.id}`)"
         >
           <img
             :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${entertainment.info.poster}`"

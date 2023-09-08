@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { TMDBData } from "~/@types"
 import ScreenModal from "~/components/ScreenModal.vue"
+const localePath = useLocalePath()
 const { $getTitle, $moment } = useNuxtApp()
 const props = defineProps<{
   data: TMDBData
@@ -348,7 +349,7 @@ const rtScore = computed(() => {
         <strong>Created By</strong>
         <span class="flex flex-col">
           <NuxtLink
-            :to="`/details/person/${creator.id}`"
+            :to="localePath(`/details/person/${creator.id}`)"
             v-for="creator in getCreator"
             class="hover:underline"
             >{{ creator.name }}</NuxtLink

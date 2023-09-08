@@ -4,13 +4,13 @@ const config = useRuntimeConfig()
 export default defineEventHandler(async (event) => {
   const id = event.context.params?.id
   if (!id) return { status: 400, message: "Missing id" } as ErrorResponse
-
+  const lang = getCookie(event, "locale") || "en-US"
   const data: TMDBPerson &
     ExternalIDs & {
       combined_credits: { cast: TMDBData[]; crew: TMDBData[] }
       external_ids: ExternalIDs
     } = await $fetch(
-    `https://api.themoviedb.org/3/person/${id}?api_key=${config.TMDB_API_KEY}&language=en-US&append_to_response=external_ids,combined_credits`
+    `https://api.themoviedb.org/3/person/${id}?api_key=${config.TMDB_API_KEY}&language=${lang}&append_to_response=external_ids,combined_credits`
   )
 
   if (!data)

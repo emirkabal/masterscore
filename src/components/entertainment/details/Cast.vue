@@ -58,11 +58,15 @@ const cast = computed(() => {
 <template>
   <section class="overflow-hidden">
     <h1
+      v-if="cast.length > 0 || crew.length > 0"
       class="my-4 border-l-4 border-blue-700 pl-4 text-2xl font-bold tracking-wide"
     >
       Cast
     </h1>
     <div v-if="loading || !data" class="space-y-2">
+      <div
+        class="skeleton-effect my-2 h-6 w-32 rounded bg-gray-300 dark:bg-zinc-800"
+      ></div>
       <div class="flex gap-2 overflow-x-hidden">
         <div class="flex flex-col" v-for="i in 8" :key="i">
           <div

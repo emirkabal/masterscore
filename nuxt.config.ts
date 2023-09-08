@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import icons from "./config/icons"
+import i18n from "./config/modules/i18n"
 
 export default defineNuxtConfig({
   srcDir: "src/",
@@ -8,6 +9,7 @@ export default defineNuxtConfig({
     enabled: false
   },
   modules: [
+    ["@nuxtjs/i18n", i18n],
     "@nuxt/image-edge",
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",

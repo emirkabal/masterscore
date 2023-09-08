@@ -12,7 +12,7 @@ const title = computed(() => {
   return data ? $getTitle(data) : "..."
 })
 const overview = computed(() => {
-  return data && data.localData.info.description
+  return data && data.overview
 })
 
 const contentRating = computed(() => {

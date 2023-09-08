@@ -1,5 +1,6 @@
 <script setup>
 import { useUserStore } from "~/store/user"
+const localePath = useLocalePath()
 useHead({
   title: "Signup",
   titleTemplate: "%s - Masterscore"
@@ -170,7 +171,7 @@ const submit = async (event) => {
       <p class="mt-4 text-center !text-black">
         Already have an account?
         <NuxtLink
-          to="/account/login"
+          :to="localePath('/account/login')"
           class="font-semibold text-blue-700 hover:underline"
           >Login</NuxtLink
         >

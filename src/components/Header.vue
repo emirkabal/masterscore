@@ -2,6 +2,7 @@
 import { useUserStore } from "~/store/user"
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue"
 import { onClickOutside, useWindowScroll } from "@vueuse/core"
+const localePath = useLocalePath()
 const isMenuOpen = ref(false)
 const isHeaderHidden = ref(false)
 const { $listen } = useNuxtApp()
@@ -20,9 +21,7 @@ const isHeaderShown = computed(() => {
   return (
     scroll.y.value > 0 ||
     !(
-      route.path.startsWith("/details/movie/") ||
-      route.path.startsWith("/details/tv/") ||
-      route.name === "index"
+      route.name.startsWith("details-type-id") || route.name.startsWith("index")
     )
   )
 })
@@ -55,7 +54,7 @@ $listen("entertainment:load", (val) => {
     <div class="flex w-full items-center justify-between">
       <div class="flex items-center">
         <NuxtLink
-          to="/"
+          :to="localePath('/')"
           @click="entertainment.bright = false"
           class="select-none font-maven text-2xl font-black transition hover:opacity-75"
           :class="{
@@ -123,28 +122,28 @@ $listen("entertainment:load", (val) => {
                     <MenuItem>
                       <NuxtLink
                         class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
-                        to="/users/@me"
+                        :to="localePath('/users/@me')"
                         >Profile</NuxtLink
                       >
                     </MenuItem>
                     <MenuItem>
                       <NuxtLink
                         class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
-                        to="/users/@me/watchlist"
+                        :to="localePath('/users/@me/watchlist')"
                         >Watchlist</NuxtLink
                       >
                     </MenuItem>
                     <MenuItem>
                       <NuxtLink
                         class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
-                        to="/users/@me/reviews"
+                        :to="localePath('/users/@me/reviews')"
                         >Reviews</NuxtLink
                       >
                     </MenuItem>
                     <MenuItem>
                       <NuxtLink
                         class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
-                        to="/users/@me/settings"
+                        :to="localePath('/users/@me/settings')"
                         >Settings</NuxtLink
                       >
                     </MenuItem>
@@ -165,7 +164,7 @@ $listen("entertainment:load", (val) => {
           </Menu>
           <div v-else class="mr-4 flex items-center gap-4">
             <NuxtLink
-              to="/account/login"
+              :to="localePath('/account/login')"
               class="flex-shrink-0 rounded bg-yellow-500 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-600"
               >Sign in</NuxtLink
             >

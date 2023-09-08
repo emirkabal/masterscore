@@ -15,6 +15,7 @@
     "@nuxt/devtools": "^0.8.2",
     "@nuxt/image-edge": "^1.0.0-rc.1-28180077.d51e794",
     "@nuxtjs/device": "^3.1.0",
+    "@nuxtjs/i18n": "^8.0.0-rc.4",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@types/bcrypt": "^5.0.0",
     "@types/color-thief-node": "^1.0.2",

@@ -39,11 +39,12 @@ export default defineEventHandler(async (event) => {
 
   const releatedEntertainment = likes[Math.floor(Math.random() * likes.length)]
 
+  const lang = getCookie(event, "locale") || "en-US"
   const data = await $fetch<{
     releated: IEntertainment
     results: TMDBSearchResult[]
   }>(
-    `https://api.themoviedb.org/3/${releatedEntertainment.type}/${releatedEntertainment.id}/recommendations?api_key=${config.TMDB_API_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/${releatedEntertainment.type}/${releatedEntertainment.id}/recommendations?api_key=${config.TMDB_API_KEY}&language=${lang}`
   )
 
   data.releated = releatedEntertainment

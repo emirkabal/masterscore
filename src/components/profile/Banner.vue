@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const localePath = useLocalePath()
 const props = defineProps<{
   banner?: string | null
   username: string
@@ -15,13 +16,13 @@ const props = defineProps<{
     <div class="absolute bottom-0 right-0 m-4 flex gap-2">
       <NuxtLink
         v-if="props.isMe"
-        to="/users/@me/settings"
+        :to="localePath('/users/@me/settings')"
         class="rounded bg-white px-4 py-2 font-bold text-black transition-colors hover:bg-gray-50"
         >Edit Profile</NuxtLink
       >
       <NuxtLink
         v-if="props.viewProfile"
-        :to="`/users/${props.username}`"
+        :to="localePath(`/users/${props.username}`)"
         class="rounded bg-white px-4 py-2 font-bold text-black transition-colors hover:bg-gray-50"
         >View Profile</NuxtLink
       >

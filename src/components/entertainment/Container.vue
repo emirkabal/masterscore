@@ -18,6 +18,13 @@ const colors = computed(() => {
   <div v-if="loading">
     <div
       class="skeleton-effect relative h-full min-h-[900px] w-full bg-gray-100 dark:bg-zinc-900 lg:h-[90vh] lg:min-h-[780px]"
+      :style="{
+        background: `linear-gradient(
+            rgba(24, 24, 27, 1) 0%,
+            rgb(24, 24, 27, .85) 80%,
+            rgb(24, 24, 27, 0) 100%
+          )`
+      }"
     >
       <div
         v-if="feature"

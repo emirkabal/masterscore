@@ -10,8 +10,10 @@ export default defineEventHandler(async (event) => {
       statusCode: 400,
       message: "Invalid series_id or season_number"
     })
+
+  const lang = getCookie(event, "locale") || "en-US"
   const data: any = await $fetch(
-    `https://api.themoviedb.org/3/tv/${series_id}/season/${season_number}?api_key=${config.TMDB_API_KEY}`
+    `https://api.themoviedb.org/3/tv/${series_id}/season/${season_number}?api_key=${config.TMDB_API_KEY}&language=${lang}`
   )
 
   return data

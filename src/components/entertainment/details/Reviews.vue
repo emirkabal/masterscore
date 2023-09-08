@@ -1,5 +1,6 @@
 <script setup>
 import { useUserStore } from "~/store/user"
+const localePath = useLocalePath()
 
 const { user } = useUserStore()
 const emits = defineEmits(["edit", "remove"])
@@ -50,7 +51,7 @@ const props = defineProps({
           :key="comment._id"
           class="flex items-start border-b py-4 dark:border-zinc-900 md:px-4 md:py-6"
         >
-          <NuxtLink :to="`/users/@${comment.author.username}`">
+          <NuxtLink :to="localePath(`/users/@${comment.author.username}`)">
             <Avatar
               :username="comment.author.username"
               :avatar="comment.author.avatar"
@@ -61,7 +62,7 @@ const props = defineProps({
           <div class="-mt-1.5 ml-4 flex w-full min-w-0 flex-col">
             <div class="flex items-center gap-1">
               <NuxtLink
-                :to="`/users/@${comment.author.username}`"
+                :to="localePath(`/users/@${comment.author.username}`)"
                 class="flex min-w-0 items-center gap-1 font-semibold hover:underline"
               >
                 <span class="truncate break-words">

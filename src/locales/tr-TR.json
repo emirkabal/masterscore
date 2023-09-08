@@ -1,0 +1,20 @@
+{
+  "welcome": "Masterscore'a hoşgeldiniz",
+  "search": "Aramak için tuşlayın...",
+  "home": {
+    "recommended": "Önerilenler",
+    "top_rated": "En Çok Puan Alanlar",
+    "more_info": "İncele"
+  },
+  "genres": {
+    "Comedy": "Komedi",
+    "Crime": "Suç",
+    "Science Fiction": "Bilim Kurgu",
+    "Fantasy": "Fantastik",
+    "Drama": "Dram",
+    "Family": "Aile",
+    "Animation": "Animasyon",
+    "Adventure": "Macera",
+    "Action": "Aksiyon"
+  }
+}

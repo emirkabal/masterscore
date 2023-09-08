@@ -147,6 +147,9 @@ export type TMDBData = Partial<TMDBMovie> &
       cast: CreditsResult[]
       crew: CreditsResult[]
     }
+    similar: {
+      results: TMDBSearchResult[]
+    }
   }
 
 export interface TMDBCollectionDetails {

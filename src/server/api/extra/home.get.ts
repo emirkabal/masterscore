@@ -9,6 +9,7 @@ interface TopRatedResult {
 }
 
 export default defineEventHandler(async (event) => {
+  const lang = getCookie(event, "locale") || "en-US"
   const result = {
     recommendations: [] as TMDBSearchResult[],
     trending: [] as TMDBSearchResult[],
@@ -27,14 +28,14 @@ export default defineEventHandler(async (event) => {
   } else {
     //@ts-ignore:2321
     const popular: { results: TMDBSearchResult[] } = await $fetch(
-      `https://api.themoviedb.org/3/discover/movie?include_adult=false&language=en-US&page=1&sort_by=popularity.desc&api_key=${config.TMDB_API_KEY}`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${config.TMDB_API_KEY}&include_adult=false&page=1&sort_by=popularity.desc`
     )
     result.recommendations = popular.results
   }
 
   //@ts-ignore:2321
   const trending: { results: TMDBSearchResult[] } = await $fetch(
-    `https://api.themoviedb.org/3/trending/all/week?api_key=${config.TMDB_API_KEY}`
+    `https://api.themoviedb.org/3/trending/all/week?api_key=${config.TMDB_API_KEY}&language=${lang}`
   )
 
   result.trending = trending.results

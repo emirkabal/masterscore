@@ -1,13 +1,20 @@
 <script setup>
 import { useDark, useToggle, onKeyStroke } from "@vueuse/core"
 const isDark = useDark()
-const toggleDarkMode = useToggle(isDark)
+const localePath = useLocalePath()
+const { locale, locales } = useI18n()
+const switchLocalePath = useSwitchLocalePath()
+
 const version = computed(() => {
-  return "1.0.9-alpha"
+  return "2.0.1-alpha"
 })
 const clickToShow = ref(0)
 const date = useAppConfig().buildDate
 isDark.value = true
+
+const availableLocales = computed(() => {
+  return locales.value.filter((i) => i.code !== locale.value)
+})
 </script>
 
 <template>
@@ -16,7 +23,7 @@ isDark.value = true
       class="container mx-auto flex flex-col items-center justify-between px-4 md:flex-row"
     >
       <div class="flex items-center gap-2">
-        <NuxtLink to="/whoweare">
+        <NuxtLink :to="localePath('/whoweare')">
           <Logo class="text-xl" />
         </NuxtLink>
         <span class="text-xs opacity-75" @click="clickToShow++"
@@ -24,6 +31,12 @@ isDark.value = true
         >
         <span class="text-xs opacity-75" v-if="clickToShow > 2"
           >({{ date }})</span
+        >
+        <NuxtLink
+          v-for="locale in availableLocales"
+          :key="locale.code"
+          :to="switchLocalePath(locale.code)"
+          >{{ locale.name }}</NuxtLink
         >
         <!-- <button
           class="text-gray-500 hover:text-gray-700"

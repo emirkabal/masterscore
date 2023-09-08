@@ -2,6 +2,7 @@
 import tinycolor from "tinycolor2"
 import { useStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
+const localePath = useLocalePath()
 const { $event, $listen, $colorthief, $getTitle } = useNuxtApp()
 const { params, query } = useRoute()
 const { feature } = query
@@ -339,8 +340,8 @@ useHead({
                 : null
             "
           />
+          <EntertainmentDetailsSimilar :data="data.similar" />
           <EntertainmentDetailsCast :data="data.credits" />
-          <EntertainmentDetailsSimilar :type="params.type" :id="params.id" />
           <EntertainmentDetailsReviews
             :loading="reviewData.loading"
             :data="comments"
@@ -383,7 +384,7 @@ useHead({
       <h1 class="text-4xl font-semibold">404</h1>
       <p class="text-xl">Page not found</p>
       <NuxtLink
-        to="/"
+        :to="localePath('/')"
         class="mt-4 rounded bg-white px-4 py-2 font-maven font-bold text-black hover:bg-gray-200"
         >Go back to home</NuxtLink
       >
