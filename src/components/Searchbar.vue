@@ -19,22 +19,22 @@ const history = useStorage("searchHistory", [])
 const routes = [
   {
     name: "Home",
-    path: "/",
+    path: localePath("/"),
     icon: IconHome
   },
   {
     name: "Feed",
-    path: "/feed",
+    path: localePath("/feed"),
     icon: IconFeed
   },
   {
     name: "Table",
-    path: "/table",
+    path: localePath("/table"),
     icon: IconStar
   },
   {
     name: "Random Movie",
-    path: "/random",
+    path: localePath("/random"),
     icon: IconDice
   }
 ]
@@ -106,7 +106,10 @@ onKeyStroke(["Control", "K", "k"], (e) => {
     </Transition>
 
     <div class="relative z-20 w-full">
-      <IconsSearch class="pointer-events-none absolute left-2 top-[9px]" />
+      <Icon
+        name="ic:round-search"
+        class="pointer-events-none absolute left-2 top-[9px] h-6 w-6"
+      />
       <div
         v-if="!focused"
         class="pointer-events-none absolute right-2.5 top-2 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
@@ -264,10 +267,14 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               class="flex items-center justify-between rounded-2xl px-2 py-1"
             >
               <span class="flex w-full cursor-pointer items-center opacity-80">
-                <IconsHistory class="mr-2 inline-block h-5 w-5" />
+                <Icon
+                  name="ic:round-history"
+                  class="mr-2 inline-block h-5 w-5"
+                />
                 {{ item }}
               </span>
-              <IconsTimes
+              <Icon
+                name="ic:round-close"
                 class="ml-2 inline-block cursor-pointer text-gray-500 transition-colors hover:text-red-500 dark:text-gray-300 dark:hover:text-red-500"
                 @click="
                   (e) => {

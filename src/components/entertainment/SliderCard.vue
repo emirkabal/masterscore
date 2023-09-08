@@ -20,7 +20,8 @@ defineProps<{
     }"
   >
     <MasterImage
-      :source="$timage(image || '', 'w300')"
+      :loading="loading"
+      :source="image || 'none'"
       :class="{
         'h-40 w-[100px] rounded-xl lg:h-[513px] lg:w-[342px]': size === 'large',
         'h-40 w-[100px] rounded-lg lg:h-[300px] lg:w-[200px]': size !== 'large'

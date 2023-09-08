@@ -128,17 +128,21 @@ watchEffect(() => {
         @click="watchSmartVideo(smartVideoData.id)"
         class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
       >
-        <IconsPlay class="h-6 w-6" />
-        Watch
+        <Icon name="ic:outline-play-arrow" class="h-7 w-7" />
+        {{ $t("entertainment.buttons.watch") }}
       </button>
 
       <button
         @click="$emit('openReview')"
         class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
       >
-        <IconsStarFilled v-if="userReviewed" class="h-6 w-6" />
-        <IconsStar v-else class="h-6 w-6" />
-        {{ userReviewed ? "Reviewed" : "Review" }}
+        <Icon name="ic:round-star" v-if="userReviewed" class="h-7 w-7" />
+        <Icon name="ic:round-star-border" v-else class="h-7 w-7" />
+        {{
+          userReviewed
+            ? $t("entertainment.buttons.reviewed")
+            : $t("entertainment.buttons.review")
+        }}
       </button>
       <div class="flex items-center gap-2">
         <button
@@ -150,16 +154,16 @@ watchEffect(() => {
             'border-white text-white': !isLight
           }"
         >
-          <IconsListAdd class="h-6 w-6" />
-          Add to watchlist
+          <Icon name="ic:outline-playlist-add" class="h-7 w-7" />
+          {{ $t("entertainment.buttons.add_to_watchlist") }}
         </button>
         <button
           v-else
           @click="submitToWatchlist"
           class="flex h-10 flex-shrink-0 flex-grow items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:opacity-80"
         >
-          <IconsListRemove class="h-6 w-6" />
-          Remove from watchlist
+          <Icon name="ic:outline-playlist-remove" class="h-7 w-7" />
+          {{ $t("entertainment.buttons.remove_from_watchlist") }}
         </button>
         <button
           @click="like"
@@ -176,11 +180,10 @@ watchEffect(() => {
       }"
       class="mt-2 flex gap-2 divide-x-2 text-sm"
     >
-      <p>
-        {{ likes }}
-        {{ likes <= 1 ? "like" : "likes" }}
+      <p>{{ likes }} {{ $t("entertainment.summary.likes") }}</p>
+      <p class="pl-2">
+        {{ reviewData.count }} {{ $t("entertainment.summary.reviews") }}
       </p>
-      <p class="pl-2">{{ reviewData.count }} reviews</p>
     </div>
   </div>
 </template>

@@ -13,8 +13,8 @@ const { type } = useRoute().params as {
 }
 
 const getName = computed(() => {
-  if (type === "tv") return "TV Shows"
-  else return "Movies"
+  if (type === "tv") return "tv_shows"
+  else return "movies"
 })
 </script>
 <template>
@@ -23,7 +23,7 @@ const getName = computed(() => {
       v-if="data && data.results.length > 0"
       class="my-4 border-l-4 border-pink-600 pl-4 text-2xl font-bold tracking-wide"
     >
-      Similar {{ getName }}
+      {{ $t("entertainment.similar") }} {{ $t(getName) }}
     </h1>
     <div v-if="!data || loading">
       <div

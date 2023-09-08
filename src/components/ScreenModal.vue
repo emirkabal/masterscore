@@ -36,7 +36,7 @@ watch(
         @click="emits('close')"
         class="mb-1 self-end opacity-50 transition-opacity hover:opacity-100"
       >
-        <IconsTimes class="h-8 w-8 text-white" />
+        <Icon name="ic:round-close" class="h-8 w-8 text-white" />
       </button>
       <div class="flex w-full justify-center" ref="slotEl">
         <slot />

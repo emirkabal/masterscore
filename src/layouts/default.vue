@@ -30,7 +30,7 @@ watch(
         v-if="loading"
         class="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-gray-900"
       >
-        <Spinner />
+        <Loader />
       </div>
 
       <div class="w-full" v-else>
@@ -56,7 +56,7 @@ watch(
         role="alert"
       >
         <div class="flex items-center gap-2">
-          <IconsDownload class="flex-shrink-0" />
+          <Icon name="ic:outline-file-download" class="h-6 w-6 flex-shrink-0" />
           <div class="message">
             <span> Install PWA </span>
           </div>

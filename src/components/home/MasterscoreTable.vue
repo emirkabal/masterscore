@@ -144,7 +144,7 @@ watch([listType, disableReviewRequirement], () => {
       </template>
       <template #item-average="{ average }">
         <div class="flex items-center justify-center gap-2">
-          <IconsStarFilled class="h-4 w-4 text-yellow-400" />
+          <Icon name="ic:round-star" class="h-4 w-4 text-yellow-400" />
           {{ average.toFixed(1) }}
         </div>
       </template>

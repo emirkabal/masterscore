@@ -23,7 +23,7 @@ const localePath = useLocalePath()
         class="mx-auto mt-4 flex w-fit items-center gap-2 rounded border px-4 py-2 font-semibold transition-all group-hover:bg-white group-hover:text-black md:mx-0"
       >
         Browse
-        <IconsRightArrowSlim class="-mr-1 h-8 w-8" />
+        <Icon name="ic:round-arrow-right-alt" class="-mr-1 h-8 w-8" />
       </div>
     </div>
     <img

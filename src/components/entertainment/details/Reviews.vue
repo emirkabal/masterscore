@@ -21,7 +21,7 @@ const props = defineProps({
     <h1
       class="my-4 border-l-4 border-yellow-500 pl-4 text-2xl font-bold tracking-wide"
     >
-      Reviews
+      {{ $t("entertainment.reviews") }}
     </h1>
     <div class="space-y-4" v-if="props.loading">
       <div class="flex items-center px-4 py-6" v-for="i in 4" :key="i">
@@ -68,8 +68,9 @@ const props = defineProps({
                 <span class="truncate break-words">
                   @{{ comment.author.username }}
                 </span>
-                <IconsVerified
+                <Icon
                   v-if="comment.author.verified"
+                  name="material-symbols:verified-rounded"
                   class="h-5 w-5 flex-shrink-0 text-yellow-500"
               /></NuxtLink>
               <p
@@ -79,12 +80,12 @@ const props = defineProps({
                 <span
                   v-if="comment.createdAt !== comment.updatedAt"
                   class="ml-1"
-                  >(edited)</span
+                  >({{ $t("edited") }})</span
                 >
               </p>
             </div>
             <span class="text-xs opacity-90">
-              Reviewed: {{ comment.rating }}/10
+              {{ $t("entertainment.reviewed") }}: {{ comment.rating }}/10
             </span>
 
             <ReviewContent :review="comment" />
@@ -98,13 +99,13 @@ const props = defineProps({
                   @click="$emit('edit')"
                   class="ml-auto rounded bg-white px-2 py-1 text-xs font-semibold shadow transition hover:bg-gray-50 dark:bg-zinc-800 dark:hover:bg-zinc-700"
                 >
-                  <IconsPencil class="h-4 w-4" />
+                  <Icon name="ic:round-edit" class="h-4 w-4" />
                 </button>
                 <button
                   @click="$emit('remove')"
                   class="ml-auto rounded bg-red-100 px-2 py-1 text-xs font-semibold text-red-500 shadow transition hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800"
                 >
-                  <IconsTrash class="h-4 w-4" />
+                  <Icon name="ic:outline-delete-forever" class="h-4 w-4" />
                 </button>
               </div>
             </div>
@@ -114,7 +115,7 @@ const props = defineProps({
     </div>
     <div v-else>
       <p class="text-gray-500 dark:text-gray-400">
-        No reviews for this entertainment yet.
+        {{ $t("entertainment.no_reviews") }}
       </p>
     </div>
   </div>

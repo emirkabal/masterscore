@@ -38,17 +38,6 @@ const availableLocales = computed(() => {
           :to="switchLocalePath(locale.code)"
           >{{ locale.name }}</NuxtLink
         >
-        <!-- <button
-          class="text-gray-500 hover:text-gray-700"
-          @click="toggleDarkMode()"
-        >
-          <template v-if="!isDark">
-            <IconsSun class="w-6" />
-          </template>
-          <template v-else>
-            <IconsMoon class="w-6" />
-          </template>
-        </button> -->
       </div>
       <div class="flex items-center gap-2">
         <span class="text-gray-500 dark:text-gray-300">All data from</span>

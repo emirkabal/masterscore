@@ -2,6 +2,7 @@
 import { TMDBData } from "~/@types"
 import ScreenModal from "~/components/ScreenModal.vue"
 const localePath = useLocalePath()
+const { t } = useI18n()
 const { $getTitle, $moment } = useNuxtApp()
 const props = defineProps<{
   data: TMDBData
@@ -23,20 +24,7 @@ const { data: providerData, pending: providerPending } = useLazyFetch(
 const trailerModal = ref(false)
 
 const getDateDiff = (date: string) => {
-  const diff = $moment().diff(date, "days")
-  if (diff === 0) {
-    return "Today"
-  } else if (diff === 1) {
-    return "Yesterday"
-  } else if (diff < 7) {
-    return `${diff} days ago`
-  } else if (diff < 30) {
-    return `${Math.floor(diff / 7)} weeks ago`
-  } else if (diff < 365) {
-    return `${Math.floor(diff / 30)} months ago`
-  } else {
-    return `${Math.floor(diff / 365)} years ago`
-  }
+  return $moment(date).fromNow()
 }
 
 const status = computed(() => {
@@ -46,9 +34,9 @@ const status = computed(() => {
     props.data.release_date
   ) {
     const releaseDate = $moment(props.data.release_date)
-    return `Released: ${releaseDate.format("MMMM D, YYYY")}<br/>${getDateDiff(
-      props.data.release_date
-    )}`
+    return `${t("entertainment.sidebar.released")}: ${releaseDate.format(
+      "MMMM D, YYYY"
+    )}<br/>${getDateDiff(props.data.release_date)}`
   } else if (
     props.data.status &&
     props.data.status === "Ended" &&
@@ -57,7 +45,7 @@ const status = computed(() => {
   ) {
     const firstAirDate = $moment(props.data.first_air_date)
     const lastAirDate = $moment(props.data.last_air_date)
-    return `Ended at: ${lastAirDate.format(
+    return `${t("entertainment.sidebar.ended_at")}: ${lastAirDate.format(
       "MMMM D, YYYY"
     )}<br/>${firstAirDate.format("YYYY")}-${lastAirDate.format(
       "YYYY"
@@ -69,10 +57,12 @@ const status = computed(() => {
     props.data.next_episode_to_air
   ) {
     const nextAirDate = $moment(props.data.next_episode_to_air.air_date)
-    return `Returning in: ${nextAirDate.format("MMMM D, YYYY")}`
+    return `${t("entertainment.sidebar.returning_in")}: ${nextAirDate.format(
+      "MMMM D, YYYY"
+    )}`
   }
 
-  return props.data.status || "Unknown"
+  return props.data.status || t("unknown")
 })
 
 const website = computed(() => {
@@ -83,14 +73,14 @@ const language = computed(() => {
   return (
     props.data.spoken_languages?.find(
       (e) => e.iso_639_1 === props.data.original_language
-    )?.english_name || "Unknown"
+    )?.english_name || t("unknown")
   )
 })
 
 const spokenLanguages = computed(() => {
   return (
     props.data.spoken_languages?.map((e) => e.english_name).join(", ") ||
-    "Unknown"
+    t("unknown")
   )
 })
 
@@ -208,8 +198,8 @@ const rtScore = computed(() => {
         class="flex w-full items-center justify-center gap-2 rounded bg-gray-50 px-4 py-2 transition-opacity hover:opacity-90 dark:bg-zinc-900"
         @click="trailerModal = true"
       >
-        <IconsPlay class="h-6 w-6 text-yellow-600" />
-        <span>Watch Trailer</span>
+        <Icon name="ic:outline-play-arrow" class="h-6 w-6 text-yellow-600" />
+        <span>{{ $t("entertainment.watch_trailer") }}</span>
       </button>
 
       <div
@@ -219,12 +209,16 @@ const rtScore = computed(() => {
           smartVideoData
         "
       >
-        <span class="font-bold">Available on</span>
+        <span class="font-bold">{{
+          $t("entertainment.sidebar.availabe_on")
+        }}</span>
         <div class="flex items-center gap-2">
           <span
             v-if="smartVideoData"
             v-tooltip="{
-              content: `Watch on <b>Masterscore</b>. (you are already here <3)`,
+              content: `${$t('entertainment.sidebar.watch_on_masterscore', {
+                platform: `<b>Masterscore</b>`
+              })}`,
               html: true
             }"
             class="flex h-10 w-10 cursor-default items-center justify-center rounded-lg bg-gray-100 bg-cover bg-center bg-no-repeat font-maven text-3xl font-black text-yellow-500 transition-opacity hover:opacity-75 dark:bg-zinc-900"
@@ -243,7 +237,9 @@ const rtScore = computed(() => {
             :href="getProvider.link"
             target="_blank"
             v-tooltip="{
-              content: `Watch on <b>${provider.provider_name}</b>.`,
+              content: `${$t('entertainment.sidebar.watch_on', {
+                provider: `<b>${provider.provider_name}</b>`
+              })}`,
               html: true
             }"
             class="h-10 w-10 rounded-lg bg-cover bg-center bg-no-repeat transition-opacity hover:opacity-75"
@@ -257,13 +253,26 @@ const rtScore = computed(() => {
           class="text-xs"
           v-if="getProvider?.flatrate || getProvider?.rent || getProvider?.buy"
         >
-          <span class="mr-2 text-gray-600 dark:text-gray-50">Powered by</span>
-          <a href="https://www.justwatch.com/" target="_blank"
+          <i18n-t
+            tag="span"
+            keypath="entertainment.sidebar.powered_by"
+            class="mr-2 text-gray-600 dark:text-gray-50"
+          >
+            <template v-slot:provider>
+              <a href="https://www.justwatch.com/" target="_blank"
+                ><img
+                  class="mb-1 inline-block h-auto w-20"
+                  src="~/assets/images/justwatch-logo.png"
+                  alt=""
+              /></a>
+            </template>
+          </i18n-t>
+          <!-- <a href="https://www.justwatch.com/" target="_blank"
             ><img
               class="mb-1 inline-block h-auto w-20"
               src="~/assets/images/justwatch-logo.png"
               alt=""
-          /></a>
+          /></a> -->
         </div>
       </div>
       <div v-else-if="providerPending" class="space-y-2">
@@ -289,13 +298,15 @@ const rtScore = computed(() => {
       <EntertainmentCard
         class="w-full"
         v-if="data.belongs_to_collection"
-        title="Belongs To Collection"
+        :title="$t('entertainment.sidebar.belongs_to_collection')"
         :entertainment="{
           id: '0',
           type: '0',
           info: {
             release_date: '0',
-            title: data.belongs_to_collection.name.replace(' Collection', ''),
+            title: data.belongs_to_collection.name
+              .replace(' Collection', '')
+              .replace('[Seri]', ''),
             poster: data.belongs_to_collection.poster_path,
             backdrop: data.belongs_to_collection.backdrop_path
           }
@@ -304,23 +315,19 @@ const rtScore = computed(() => {
       />
 
       <p v-if="originalName">
-        <strong>Original Name</strong>
+        <strong>{{ $t("entertainment.sidebar.original_name") }}</strong>
         <span>{{ originalName }}</span>
       </p>
       <p>
-        <strong>Status</strong>
+        <strong>{{ $t("entertainment.sidebar.status") }}</strong>
         <span v-html="status"></span>
       </p>
       <p>
-        <strong>Language</strong>
+        <strong>{{ $t("entertainment.sidebar.language") }}</strong>
         <span>{{ language }}</span>
       </p>
       <p>
-        <strong
-          >Spoken Language{{
-            spokenLanguages.indexOf(",") !== -1 ? "s" : ""
-          }}</strong
-        >
+        <strong>{{ $t("entertainment.sidebar.spoken_languages") }}</strong>
         <span>{{ spokenLanguages }}</span>
       </p>
       <p v-if="localName">
@@ -328,7 +335,7 @@ const rtScore = computed(() => {
         <span>{{ localName }}</span>
       </p>
       <p>
-        <strong>Budget</strong>
+        <strong>{{ $t("entertainment.sidebar.budget") }}</strong>
         <span
           :class="{
             'font-semibold text-blue-800': budget !== '-'
@@ -337,7 +344,7 @@ const rtScore = computed(() => {
         >
       </p>
       <p>
-        <strong>Revenue</strong>
+        <strong>{{ $t("entertainment.sidebar.revenue") }}</strong>
         <span
           :class="{
             'font-semibold text-green-800': revenue !== '-'
@@ -346,7 +353,7 @@ const rtScore = computed(() => {
         >
       </p>
       <p v-if="getCreator">
-        <strong>Created By</strong>
+        <strong>{{ $t("entertainment.sidebar.created_by") }}</strong>
         <span class="flex flex-col">
           <NuxtLink
             :to="localePath(`/details/person/${creator.id}`)"
@@ -356,8 +363,8 @@ const rtScore = computed(() => {
           >
         </span>
       </p>
-      <div>
-        <strong>Other</strong>
+      <div v-if="props.data?.imdb_id || rtScore">
+        <strong>{{ $t("entertainment.sidebar.other") }}</strong>
         <div class="flex w-fit gap-2">
           <IMDBLink
             v-if="props.data?.imdb_id"
@@ -374,8 +381,8 @@ const rtScore = computed(() => {
         target="_blank"
         class="flex items-center gap-1 text-gray-600 transition-colors hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-300"
       >
-        <IconsLink class="h-6 w-6" />
-        <span>Visit website</span>
+        <Icon name="ic:round-link" class="h-6 w-6" />
+        <span>{{ $t("entertainment.sidebar.visit_website") }}</span>
       </a>
     </div>
   </div>

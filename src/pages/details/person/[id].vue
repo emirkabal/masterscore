@@ -60,15 +60,8 @@ useHead({
     <div class="container mx-auto mt-8 px-4">
       <div class="flex flex-col items-stretch justify-center gap-8 md:flex-row">
         <div class="w-full md:min-w-[300px] md:max-w-[300px]">
-          <div
-            v-if="!data.profile_path"
-            class="mx-auto mb-2 flex h-[450px] max-h-[450px] w-full max-w-[300px] items-center justify-center rounded-lg bg-gray-700 font-maven font-semibold !text-white shadow-lg md:mx-0"
-          >
-            No Image
-          </div>
           <MasterImage
-            v-else
-            :source="$timage(data.profile_path, 'w500')"
+            :source="$timage(data.profile_path || '-', 'w500')"
             class="mx-auto h-96 max-w-[300px] rounded-lg shadow-lg md:mx-0 md:h-[450px]"
           />
           <h1
@@ -87,7 +80,7 @@ useHead({
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 class="transition-opacity hover:opacity-75"
-                ><IconsTwitter class="h-8 w-8"
+                ><Icon name="line-md:twitter-x" class="h-8 w-8"
               /></a>
               <a
                 v-if="data.instagram_id"
@@ -95,7 +88,7 @@ useHead({
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 class="transition-opacity hover:opacity-75"
-                ><IconsInstagram class="h-8 w-8"
+                ><Icon name="line-md:instagram" class="h-8 w-8"
               /></a>
             </div>
             <h2 class="mb-4 text-2xl font-semibold tracking-tighter">

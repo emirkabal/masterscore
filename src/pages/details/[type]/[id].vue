@@ -248,7 +248,7 @@ useHead({
             }"
             class="group mt-2 flex h-6 cursor-default select-none items-center justify-center"
           >
-            <IconsTimes class="h-6 w-6 text-red-500" />
+            <Icon name="ic:round-close" class="h-6 w-6 text-red-500" />
             <span
               class="text-white opacity-90 transition-opacity group-hover:opacity-100"
             >
@@ -269,7 +269,10 @@ useHead({
             }"
             class="group mt-2 flex h-6 cursor-default select-none items-center justify-center gap-1"
           >
-            <IconsAlert class="h-6 w-6 text-yellow-400" />
+            <Icon
+              name="ic:round-warning-amber"
+              class="h-6 w-6 text-yellow-400"
+            />
             <span
               class="text-white opacity-90 transition-opacity group-hover:opacity-100"
             >
@@ -286,7 +289,10 @@ useHead({
             }"
             class="group mt-2 flex h-6 cursor-default select-none items-center justify-center gap-1"
           >
-            <IconsVerified class="h-6 w-6 text-yellow-400" />
+            <Icon
+              name="material-symbols:verified-rounded"
+              class="h-6 w-6 text-yellow-400"
+            />
             <span
               class="text-white opacity-90 transition-opacity group-hover:opacity-100"
               >Watch Supported</span

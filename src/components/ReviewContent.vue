@@ -26,7 +26,7 @@ defineProps<{
       >Spoiler <span class="ml-2 font-thin">click here to reveal</span></span
     >
     <p class="opacity-75" v-if="!review.content && !skipInfo">
-      No comment for this review.
+      {{ $t("no_comment_for_this_review") }}
     </p>
   </div>
 </template>

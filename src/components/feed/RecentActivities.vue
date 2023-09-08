@@ -133,8 +133,9 @@ watch(
               <span class="line-clamp-1 break-all"
                 >@{{ activity.author.username }}</span
               >
-              <IconsVerified
+              <Icon
                 v-if="activity.author.verified"
+                name="material-symbols:verified-rounded"
                 class="h-5 w-5 flex-shrink-0 text-yellow-500"
               />
             </div>

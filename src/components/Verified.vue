@@ -12,11 +12,14 @@ const showTooltip = (e: MouseEvent) => {
 </script>
 
 <template>
-  <button ref="verifiedArea">
+  <button ref="verifiedArea" class="flex items-center">
     <BottomModal :show="modal" @close="modal = false" title="Verified Account">
       <template v-slot:body>
         <div class="flex items-start gap-2 text-base font-normal">
-          <IconsVerified class="h-8 w-8 flex-shrink-0 text-yellow-400" />
+          <Icon
+            name="material-symbols:verified-rounded"
+            class="h-8 w-8 flex-shrink-0 text-yellow-400"
+          />
           <div class="flex flex-col items-start">
             <span class="text-left leading-5 opacity-75">
               This user is verified because the user was one of the first
@@ -35,7 +38,8 @@ const showTooltip = (e: MouseEvent) => {
         </button>
       </template>
     </BottomModal>
-    <IconsVerified
+    <Icon
+      name="material-symbols:verified-rounded"
       class="h-7 w-7 text-yellow-400"
       @click="showTooltip"
       v-tooltip="{

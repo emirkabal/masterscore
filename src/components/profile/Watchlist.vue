@@ -92,7 +92,7 @@ const removeItem = async (id: any) => {
             @click="removeItem(entertainment._id)"
             class="ml-auto transition-opacity hover:opacity-75"
           >
-            <IconsTimes class="h-5 w-5" />
+            <Icon name="ic:round-close" class="h-5 w-5" />
           </button>
         </div>
       </div>

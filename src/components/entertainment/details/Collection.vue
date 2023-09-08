@@ -18,7 +18,7 @@ const { data: collection, pending } = useLazyFetch(
     <h1
       class="my-4 border-l-4 border-green-600 pl-4 text-2xl font-bold tracking-wide"
     >
-      Collection
+      {{ $t("entertainment.collection") }}
     </h1>
     <EntertainmentSlider
       :data="collection ? collection.parts : []"
