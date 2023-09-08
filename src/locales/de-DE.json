@@ -1,0 +1,68 @@
+{
+  "welcome": "Willkommen bei Masterscore",
+  "search": "Geben Sie zum Suchen ein...",
+  "movies": "Filme",
+  "tv_shows": "TV-Sendungen",
+  "edited": "Bearbeitet",
+  "unknown": "Unbekannt",
+  "no_comment_for_this_review": "Für diese Bewertung gibt es keinen Kommentar.",
+  "home": {
+    "recommended": "Empfohlen",
+    "top_rated": "Top Bewertet",
+    "more_info": "Mehr Info"
+  },
+  "entertainment": {
+    "watch_trailer": "Trailer ansehen",
+    "reviews": "Bewertungen",
+    "reviewed": "Bewertet",
+    "no_reviews": "Für diese Unterhaltung liegen noch keine Bewertungen vor.",
+    "collection": "Sammlung",
+    "cast": "Besetzung",
+    "crew": "Crew",
+    "similar": "Ähnlich",
+    "episodes": "Episoden",
+    "total_episodes": "Insgesamt {total} Episoden.",
+    "n_episodes": "{n} Episoden",
+    "buttons": {
+      "watch": "Ansehen",
+      "review": "Bewerten",
+      "reviewed": "Bewertet",
+      "add_to_watchlist": "Zur beobachtungsliste hinzufügen",
+      "remove_from_watchlist": "Von der beobachtungsliste entfernen"
+    },
+    "sidebar": {
+      "belongs_to_collection": "Gehört zur Sammlung",
+      "availabe_on": "Verfügbar auf",
+      "original_name": "Originaltitel",
+      "status": "Status",
+      "language": "Sprache",
+      "spoken_languages": "Gesprochene Sprachen",
+      "budget": "Budget",
+      "revenue": "Einnahmen",
+      "created_by": "Erstellt von",
+      "other": "Sonstiges",
+      "visit_website": "Website besuchen",
+      "released": "Veröffentlicht",
+      "ended_at": "Endet am",
+      "returning_in": "Rückkehr in",
+      "watch_on": "Ansehen auf {provider}.",
+      "watch_on_masterscore": "Ansehen auf {platform}. (Du bist bereits hier <3)",
+      "powered_by": "Unterstützt von {provider}"
+    },
+    "summary": {
+      "likes": "likes",
+      "reviews": "bewertungen"
+    }
+  },
+  "genres": {
+    "Comedy": "Komödie",
+    "Crime": "Krimi",
+    "Science Fiction": "Science-Fiction",
+    "Fantasy": "Fantasie",
+    "Drama": "Drama",
+    "Family": "Familie",
+    "Animation": "Animation",
+    "Adventure": "Abenteuer",
+    "Action": "Action"
+  }
+}

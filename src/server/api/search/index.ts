@@ -8,11 +8,12 @@ export default defineEventHandler(async (event) => {
     return { status: 400, message: "Missing query" } as ErrorResponse
   }
 
+  const lang = getCookie(event, "locale") || "en-US"
   const data: {
     results: TMDBSearchResult[]
     // @ts-ignore
   } = await $fetch(
-    `https://api.themoviedb.org/3/search/multi?api_key=${config.TMDB_API_KEY}&language=en-US&page=1&include_adult=false&query=${q}`
+    `https://api.themoviedb.org/3/search/multi?api_key=${config.TMDB_API_KEY}&language=${lang}&page=1&include_adult=false&query=${q}`
   )
 
   const results = data.results

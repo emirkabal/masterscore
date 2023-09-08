@@ -3,6 +3,7 @@ import VuePictureCropper, { cropper } from "vue-picture-cropper"
 import { useUserStore } from "~/store/user"
 import { Switch } from "@headlessui/vue"
 import { useStorage } from "@vueuse/core"
+const localePath = useLocalePath()
 definePageMeta({
   middleware: ["auth"]
 })
@@ -251,7 +252,7 @@ const submit = async (e) => {
                         class="h-16 w-16 rounded-full"
                       />
                       <div class="flex items-center gap-2">
-                        <IconsTrash
+                        <Icon
                           @click="
                             () => {
                               avatar = null
@@ -259,14 +260,16 @@ const submit = async (e) => {
                               avatarHandle = 'remove'
                             }
                           "
+                          name="ic:outline-delete-forever"
                           class="cursor-pointer hover:opacity-75"
-                        /><IconsPencil
+                        /><Icon
                           @click="
                             () => {
                               avatar = null
                               avatarHandle = 'edit'
                             }
                           "
+                          name="ic:round-edit"
                           class="cursor-pointer hover:opacity-75"
                         />
                       </div>
@@ -279,7 +282,10 @@ const submit = async (e) => {
                         <div
                           class="flex select-none flex-col items-center justify-center px-4 pb-6 pt-5"
                         >
-                          <IconsDownload class="rotate-180 opacity-50" />
+                          <Icon
+                            name="ic:outline-file-download"
+                            class="rotate-180 opacity-50"
+                          />
                           <p
                             class="mb-2 text-sm text-gray-500 dark:text-gray-400"
                           >
@@ -386,7 +392,7 @@ const submit = async (e) => {
               </div>
               <div class="flex gap-2">
                 <NuxtLink
-                  to="/users/@me"
+                  :to="localePath('/users/@me')"
                   class="rounded bg-gray-50 px-4 py-2 font-bold text-black transition-colors hover:bg-gray-100"
                   >Back to profile</NuxtLink
                 >

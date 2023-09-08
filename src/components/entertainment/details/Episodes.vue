@@ -230,8 +230,12 @@ watch(
       class="my-4 flex items-start justify-between border-l-4 border-green-500 pl-4"
     >
       <span>
-        <h1 class="text-2xl font-bold tracking-wide">Episodes</h1>
-        <p class="text-xs opacity-75">Total of {{ totalEpisodes }} episodes.</p>
+        <h1 class="text-2xl font-bold tracking-wide">
+          {{ $t("entertainment.episodes") }}
+        </h1>
+        <p class="text-xs opacity-75">
+          {{ $t("entertainment.total_episodes", { total: totalEpisodes }) }}
+        </p>
       </span>
 
       <div
@@ -276,7 +280,7 @@ watch(
               isWatchAvailable(item.season_number, 1)
             "
             class="flex-shrink-0"
-            ><IconsPlay
+            ><Icon name="ic:outline-play-arrow" class="h-6 w-6"
           /></span>
           <span
             v-if="!seasonData[item.id].show"
@@ -286,9 +290,14 @@ watch(
           <span
             v-if="!seasonData[item.id].show"
             class="mr-auto flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:text-sm"
-            >{{ item.episode_count }} Episodes</span
+            >{{
+              $t("entertainment.n_episodes", {
+                n: item.episode_count
+              })
+            }}</span
           >
-          <IconsChevron
+          <Icon
+            name="ic:round-chevron-left"
             class="ml-auto h-6 w-6 flex-shrink-0 transition-transform md:h-8 md:w-8"
             :class="{
               'mt-6 rotate-[270deg]': seasonData[item.id].show,
@@ -313,7 +322,11 @@ watch(
                 }}</span>
                 <span
                   class="flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:mt-0.5 md:text-base"
-                  >{{ item.episode_count }} Episodes</span
+                  >{{
+                    $t("entertainment.n_episodes", {
+                      n: item.episode_count
+                    })
+                  }}</span
                 >
               </div>
               <p class="text-xs font-semibold opacity-75 md:text-base">

@@ -1,6 +1,10 @@
+<script setup>
+const localePath = useLocalePath()
+</script>
+
 <template>
   <NuxtLink
-    to="/feed"
+    :to="localePath('/feed')"
     class="group relative flex h-96 w-full flex-row-reverse items-center overflow-hidden rounded-lg bg-gradient-to-l from-black from-0% via-black via-40% to-100% py-4 after:absolute after:inset-0 after:left-full after:bg-gradient-to-l after:from-blue-500 after:from-0% after:via-blue-500 after:via-40% after:to-100% after:opacity-0 after:transition-all after:duration-500 after:hover:left-0 after:hover:opacity-100 dark:from-zinc-900 dark:via-zinc-900 md:h-64"
   >
     <img
@@ -22,7 +26,7 @@
         class="mx-auto mt-4 flex w-fit items-center gap-2 rounded border px-4 py-2 font-semibold transition-all group-hover:bg-white group-hover:text-black md:mx-0 md:ml-auto"
       >
         Take a look
-        <IconsRightArrowSlim class="-mr-1 h-8 w-8" />
+        <Icon name="ic:round-arrow-right-alt" class="-mr-1 h-8 w-8" />
       </div>
     </div>
   </NuxtLink>

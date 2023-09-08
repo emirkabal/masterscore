@@ -14,9 +14,10 @@ export default defineEventHandler(async (event) => {
       without_keywords: string
     }
 
+  const language = getCookie(event, "locale") || "en-US"
   const params = new URLSearchParams({
     api_key: config.TMDB_API_KEY,
-    language: "en-US",
+    language,
     page: "1",
     include_adult: "false",
     include_video: "false",

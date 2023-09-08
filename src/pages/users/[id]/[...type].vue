@@ -13,7 +13,7 @@ import {
 import { onClickOutside, useClipboard } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
 import { IEntertainment, IReview, IUser } from "~/@types"
-
+const localePath = useLocalePath()
 const url = window.location.origin
 const { copy } = useClipboard()
 const { $moment } = useNuxtApp()
@@ -133,7 +133,7 @@ const changeTab = (index: number) => {
   } else if (index === 2) {
     fetchWatchlist()
   }
-  window.history.replaceState(history.state, "", routes[index])
+  window.history.replaceState(history.state, "", localePath(routes[index]))
 }
 
 onMounted(async () => {
@@ -211,7 +211,7 @@ useHead({
             class="username mb-1 flex items-center gap-2 text-3xl font-semibold md:mt-24"
           >
             <span> @{{ user.username }} </span>
-            <Verified class="mt-1" v-if="user.verified" />
+            <Verified v-if="user.verified" />
           </div>
           <div
             class="created opacity-75"
@@ -235,7 +235,9 @@ useHead({
               <MenuButton
                 class="rounded-full p-2 transition-colors hover:bg-gray-100 dark:hover:bg-zinc-900"
                 @click="isMenuOpen = !isMenuOpen"
-                ><IconsDots class="h-6 w-6 rotate-90 md:rotate-0"
+                ><Icon
+                  name="mdi:dots-vertical"
+                  class="h-6 w-6 rotate-90 md:rotate-0"
               /></MenuButton>
             </div>
             <Transition
@@ -254,42 +256,41 @@ useHead({
                   <div class="px-1 py-1">
                     <div v-if="self?._id === '63f4dcf150582a1ca831f639'">
                       <MenuItem>
-                        <a
-                          class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
+                        <button
+                          class="inline-flex w-full rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
                           @click="verifyUser(!user.verified)"
-                          href="#"
                         >
                           {{ user.verified ? "Revoke" : "Give" }} verified
-                        </a>
+                        </button>
                       </MenuItem>
                       <MenuItem>
-                        <a
-                          class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
+                        <button
+                          class="inline-flex w-full rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
                           @click="
                             giveWatchAccess(!user.features.includes('WATCH'))
                           "
-                          href="#"
-                          >{{
+                        >
+                          {{
                             user.features.includes("WATCH") ? "Revoke" : "Give"
                           }}
-                          access to watch</a
-                        >
+                          access to watch
+                        </button>
                       </MenuItem>
                     </div>
                     <MenuItem>
-                      <a
-                        class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
-                        href="#"
+                      <button
+                        class="inline-flex w-full rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
                         @click="copy(`${url}/users/@${user?.username}`)"
-                        >Copy URL</a
                       >
+                        Copy URL
+                      </button>
                     </MenuItem>
                   </div>
                   <div v-if="isSelf" class="px-1 py-1">
                     <MenuItem>
                       <NuxtLink
                         class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
-                        to="/users/@me/settings"
+                        :to="localePath('/users/@me/settings')"
                         >Edit Profile</NuxtLink
                       >
                     </MenuItem>

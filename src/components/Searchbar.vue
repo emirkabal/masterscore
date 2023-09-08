@@ -5,7 +5,7 @@ import IconHome from "~/components/icons/Home.vue"
 import IconFeed from "~/components/icons/Feed.vue"
 import IconStar from "~/components/icons/Star.vue"
 import IconDice from "~/components/icons/Dice.vue"
-
+const localePath = useLocalePath()
 const search = ref("")
 const loading = ref(false)
 const results = ref([])
@@ -19,22 +19,22 @@ const history = useStorage("searchHistory", [])
 const routes = [
   {
     name: "Home",
-    path: "/",
+    path: localePath("/"),
     icon: IconHome
   },
   {
     name: "Feed",
-    path: "/feed",
+    path: localePath("/feed"),
     icon: IconFeed
   },
   {
     name: "Table",
-    path: "/table",
+    path: localePath("/table"),
     icon: IconStar
   },
   {
     name: "Random Movie",
-    path: "/random",
+    path: localePath("/random"),
     icon: IconDice
   }
 ]
@@ -106,7 +106,10 @@ onKeyStroke(["Control", "K", "k"], (e) => {
     </Transition>
 
     <div class="relative z-20 w-full">
-      <IconsSearch class="pointer-events-none absolute left-2 top-[9px]" />
+      <Icon
+        name="ic:round-search"
+        class="pointer-events-none absolute left-2 top-[9px] h-6 w-6"
+      />
       <div
         v-if="!focused"
         class="pointer-events-none absolute right-2.5 top-2 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
@@ -120,7 +123,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           'rounded-bl-none rounded-br-none rounded-tl-2xl rounded-tr-2xl focus:ring-0 hover:focus:ring-0':
             focused
         }"
-        placeholder="Type to search..."
+        :placeholder="$t('search')"
         ref="inputElement"
         :value="search"
         @input="searchInput"
@@ -168,27 +171,37 @@ onKeyStroke(["Control", "K", "k"], (e) => {
                 loading = true
                 searchResults()
               } else {
-                $router.push(routes[selectedIndex - history.length].path)
+                $router.push(
+                  localePath(routes[selectedIndex - history.length].path)
+                )
                 removeFocus(true)
               }
               return
             } else if (selectedIndex < results.length) {
               $router.push(
-                `/details/${results[selectedIndex].media_type}/${results[selectedIndex].id}`
+                localePath(
+                  `/details/${results[selectedIndex].media_type}/${results[selectedIndex].id}`
+                )
               )
             } else if (selectedIndex < results.length + persons.length) {
               $router.push(
-                `/details/person/${persons[selectedIndex - results.length].id}`
+                localePath(
+                  `/details/person/${
+                    persons[selectedIndex - results.length].id
+                  }`
+                )
               )
             } else if (
               selectedIndex <
               results.length + persons.length + users.length
             ) {
               $router.push(
-                `/users/${
-                  users[selectedIndex - results.length - persons.length]
-                    .username
-                }`
+                localePath(
+                  `/users/${
+                    users[selectedIndex - results.length - persons.length]
+                      .username
+                  }`
+                )
               )
             }
             selectedIndex = 0
@@ -254,10 +267,14 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               class="flex items-center justify-between rounded-2xl px-2 py-1"
             >
               <span class="flex w-full cursor-pointer items-center opacity-80">
-                <IconsHistory class="mr-2 inline-block h-5 w-5" />
+                <Icon
+                  name="ic:round-history"
+                  class="mr-2 inline-block h-5 w-5"
+                />
                 {{ item }}
               </span>
-              <IconsTimes
+              <Icon
+                name="ic:round-close"
                 class="ml-2 inline-block cursor-pointer text-gray-500 transition-colors hover:text-red-500 dark:text-gray-300 dark:hover:text-red-500"
                 @click="
                   (e) => {
@@ -312,7 +329,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
 
           <div v-for="(result, i) in results" :key="i">
             <NuxtLink
-              :to="`/details/${result.media_type}/${result.id}`"
+              :to="localePath(`/details/${result.media_type}/${result.id}`)"
               @mouseenter="selectedIndex = i"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               @click="removeFocus(true)"
@@ -358,7 +375,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           </div>
           <div v-for="(person, i) in persons" :key="`person-${i}`">
             <NuxtLink
-              :to="`/details/person/${person.id}`"
+              :to="localePath(`/details/person/${person.id}`)"
               @mouseenter="selectedIndex = i + results.length"
               @click="removeFocus(true)"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
@@ -396,7 +413,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           </div>
           <div v-for="(user, i) in users" :key="`user-${i}`">
             <NuxtLink
-              :to="`/users/@${user.username}`"
+              :to="localePath(`/users/@${user.username}`)"
               @mouseenter="selectedIndex = i + results.length + persons.length"
               @click="removeFocus(true)"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"

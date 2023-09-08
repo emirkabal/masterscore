@@ -3,6 +3,7 @@ import { IEntertainment, IReview } from "~/@types"
 import { useUrlSearchParams } from "@vueuse/core"
 import { vIntersectionObserver } from "@vueuse/components"
 import debounce from "lodash.debounce"
+const localePath = useLocalePath()
 const params = useUrlSearchParams("history")
 
 interface CustomIncomingData {
@@ -117,7 +118,7 @@ watch(
       "
       :key="activity._id"
     >
-      <NuxtLink :to="`/users/@${activity.author.username}`">
+      <NuxtLink :to="localePath(`/users/@${activity.author.username}`)">
         <Avatar
           :username="activity.author.username"
           :avatar="activity.author.avatar"
@@ -132,8 +133,9 @@ watch(
               <span class="line-clamp-1 break-all"
                 >@{{ activity.author.username }}</span
               >
-              <IconsVerified
+              <Icon
                 v-if="activity.author.verified"
+                name="material-symbols:verified-rounded"
                 class="h-5 w-5 flex-shrink-0 text-yellow-500"
               />
             </div>

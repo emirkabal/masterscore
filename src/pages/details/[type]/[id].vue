@@ -2,7 +2,8 @@
 import tinycolor from "tinycolor2"
 import { useStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
-const { $event, $listen, $colorthief, $getTitle } = useNuxtApp()
+const localePath = useLocalePath()
+const { $event, $listen, $colorthief, $getOriginalTitle } = useNuxtApp()
 const { params, query } = useRoute()
 const { feature } = query
 const flag = useStorage("debugMode", false)
@@ -173,7 +174,7 @@ watch(data, async () => {
         smartVideoData.value = null
       }
     }
-    await find($getTitle(data.value))
+    await find($getOriginalTitle(data.value))
     if (!smartVideoData.value) {
       if (data.value.belongs_to_collection && data.value.belongs_to_collection)
         await find(data.value.belongs_to_collection.name)
@@ -247,7 +248,7 @@ useHead({
             }"
             class="group mt-2 flex h-6 cursor-default select-none items-center justify-center"
           >
-            <IconsTimes class="h-6 w-6 text-red-500" />
+            <Icon name="ic:round-close" class="h-6 w-6 text-red-500" />
             <span
               class="text-white opacity-90 transition-opacity group-hover:opacity-100"
             >
@@ -268,7 +269,10 @@ useHead({
             }"
             class="group mt-2 flex h-6 cursor-default select-none items-center justify-center gap-1"
           >
-            <IconsAlert class="h-6 w-6 text-yellow-400" />
+            <Icon
+              name="ic:round-warning-amber"
+              class="h-6 w-6 text-yellow-400"
+            />
             <span
               class="text-white opacity-90 transition-opacity group-hover:opacity-100"
             >
@@ -285,7 +289,10 @@ useHead({
             }"
             class="group mt-2 flex h-6 cursor-default select-none items-center justify-center gap-1"
           >
-            <IconsVerified class="h-6 w-6 text-yellow-400" />
+            <Icon
+              name="material-symbols:verified-rounded"
+              class="h-6 w-6 text-yellow-400"
+            />
             <span
               class="text-white opacity-90 transition-opacity group-hover:opacity-100"
               >Watch Supported</span
@@ -339,8 +346,8 @@ useHead({
                 : null
             "
           />
+          <EntertainmentDetailsSimilar :data="data.similar" />
           <EntertainmentDetailsCast :data="data.credits" />
-          <EntertainmentDetailsSimilar :type="params.type" :id="params.id" />
           <EntertainmentDetailsReviews
             :loading="reviewData.loading"
             :data="comments"
@@ -383,7 +390,7 @@ useHead({
       <h1 class="text-4xl font-semibold">404</h1>
       <p class="text-xl">Page not found</p>
       <NuxtLink
-        to="/"
+        :to="localePath('/')"
         class="mt-4 rounded bg-white px-4 py-2 font-maven font-bold text-black hover:bg-gray-200"
         >Go back to home</NuxtLink
       >

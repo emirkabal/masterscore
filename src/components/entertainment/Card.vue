@@ -2,6 +2,7 @@
 import { IEntertainment } from "~/@types"
 import tinycolor from "tinycolor2"
 const { $colorthief } = useNuxtApp()
+const localePath = useLocalePath()
 
 const props = defineProps<{
   to: string
@@ -54,7 +55,7 @@ watch(imageLoading, () => {
 
 <template>
   <NuxtLink
-    :to="to"
+    :to="localePath(to)"
     class="group mt-1 flex w-fit min-w-0 items-center gap-x-2 rounded bg-gray-500 p-2 dark:bg-zinc-800"
     :style="{
       background: imageLoading

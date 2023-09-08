@@ -47,7 +47,7 @@ watch(
           <span
             @click="$emit('close')"
             class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-red-600/10 text-red-500 hover:bg-red-600/20 hover:text-red-600 md:h-6 md:w-6"
-            ><IconsTimes class="h-4 w-4 md:h-3 md:w-3"
+            ><Icon name="ic:round-close" class="h-4 w-4 md:h-3 md:w-3"
           /></span>
         </div>
         <div class="p-4">

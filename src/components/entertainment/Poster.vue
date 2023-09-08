@@ -15,16 +15,9 @@ const { posterURL, rating, loading } = defineProps<{
     </div>
     <div v-else>
       <MasterImage
-        v-if="posterURL"
-        :source="posterURL"
+        :source="posterURL || '-'"
         class="h-[336px] w-56 rounded object-cover object-center lg:h-[432px] lg:w-72"
       />
-      <div
-        v-else
-        class="flex h-[336px] w-56 items-center justify-center rounded bg-gray-700 text-xl font-semibold !text-white lg:h-[432px] lg:w-72"
-      >
-        No Image
-      </div>
     </div>
   </div>
 </template>

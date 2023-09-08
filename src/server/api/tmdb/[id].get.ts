@@ -1,4 +1,4 @@
-import { CreditsResult, ErrorResponse, TMDBData } from "~/@types"
+import { ErrorResponse, TMDBData } from "~/@types"
 import getDataFromTMDB from "~/utils/getDataFromTMDB"
 
 // @ts-ignore
@@ -8,7 +8,8 @@ export default defineEventHandler(async (event) => {
   if (!id) return { status: 400, message: "Missing id" } as ErrorResponse
   if (!type) type = "movie"
 
-  const data = await getDataFromTMDB(id, type)
+  const lang = getCookie(event, "locale") || "en-US"
+  const data = await getDataFromTMDB(id, type, lang)
 
   data.credits.cast = data.credits.cast.filter(
     (v, i, a) => a.findIndex((t) => t.id === v.id) === i

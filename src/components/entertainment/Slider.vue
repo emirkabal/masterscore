@@ -55,10 +55,15 @@ useEventListener("resize", () => {
       <SwiperSlide v-else v-for="item in data" :key="item.id">
         <EntertainmentSliderCard
           :image="
-            $timage(
-              ('info' in item ? item.info.poster : item.poster_path) || '',
-              'w342'
-            )
+            ('info' in item && item.info.poster) ||
+            ('poster_path' in item && item.poster_path)
+              ? $timage(
+                  ('info' in item && item.info.poster) ||
+                    ('poster_path' in item && item.poster_path) ||
+                    '',
+                  'w342'
+                )
+              : 'loading'
           "
           :id="item.id"
           :media_type="
@@ -77,10 +82,10 @@ useEventListener("resize", () => {
       <slot />
 
       <div class="swiper-button-prev">
-        <IconsChevron class="h-10 w-10" />
+        <Icon name="ic:round-chevron-left" class="h-10 w-10" />
       </div>
       <div class="swiper-button-next">
-        <IconsChevron class="h-10 w-10 rotate-180" />
+        <Icon name="ic:round-chevron-right" class="h-10 w-10" />
       </div>
     </Swiper>
   </div>

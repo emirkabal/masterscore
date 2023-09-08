@@ -197,6 +197,13 @@ export default defineNuxtPlugin(() => {
       getTitle: (data: TMDBData | TMDBSearchResult) => {
         return data.title || data.name || "Untitled"
       },
+      getOriginalTitle: (data: TMDBData | TMDBSearchResult) => {
+        return (
+          data.original_title ||
+          ("original_name" in data && data.original_name) ||
+          "Untitled"
+        )
+      },
       getYear: (item: TMDBData | TMDBSearchResult) => {
         return (
           (item.release_date && new Date(item.release_date).getFullYear()) ||

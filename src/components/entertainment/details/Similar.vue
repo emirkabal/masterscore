@@ -1,30 +1,34 @@
 <script setup lang="ts">
-const { type, id, loading } = defineProps<{
-  type?: "movie" | "tv"
-  id?: string | number
+import { TMDBSearchResult } from "~/@types"
+
+const props = defineProps<{
+  data?: {
+    results: TMDBSearchResult[]
+  }
   loading?: boolean
 }>()
 
-const { data, pending } = useLazyFetch(`/api/extra/similar/${type}/${id}`)
-
-const similar = computed(() => {
-  if (!data.value || !data.value.results) return []
-  return data.value.results.filter((e) => e.poster_path)
-})
+const { type } = useRoute().params as {
+  type: "movie" | "tv"
+}
 
 const getName = computed(() => {
-  if (type === "tv") return "TV Shows"
-  else return "Movies"
+  if (type === "tv") return "tv_shows"
+  else return "movies"
 })
 </script>
 <template>
-  <section v-if="pending || loading || similar.length > 0">
+  <section v-if="loading || data">
     <h1
+      v-if="data && data.results.length > 0"
       class="my-4 border-l-4 border-pink-600 pl-4 text-2xl font-bold tracking-wide"
     >
-      Similar {{ getName }}
+      {{ $t("entertainment.similar") }} {{ $t(getName) }}
     </h1>
-    <div v-if="pending || !data || loading">
+    <div v-if="!data || loading">
+      <div
+        class="skeleton-effect my-4 h-6 w-32 rounded bg-gray-300 dark:bg-zinc-800"
+      ></div>
       <div class="flex gap-2 overflow-x-hidden">
         <div class="flex flex-col" v-for="i in 8" :key="i">
           <div
@@ -33,9 +37,9 @@ const getName = computed(() => {
         </div>
       </div>
     </div>
-    <div v-else-if="similar.length > 0">
+    <div v-else-if="data && data.results.length > 0">
       <EntertainmentSlider
-        :data="similar"
+        :data="data.results"
         :fixed-media-type="type"
         :offset="0"
       />

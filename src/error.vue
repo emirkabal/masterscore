@@ -5,6 +5,7 @@ const props = defineProps({
     required: true
   }
 })
+const localePath = useLocalePath()
 </script>
 
 <template>
@@ -25,7 +26,7 @@ const props = defineProps({
       <h1 class="mb-2 text-6xl font-bold sm:text-9xl">404</h1>
       <p class="mb-3 text-xl">Page not found.</p>
       <NuxtLink
-        to="/"
+        :to="localePath('/')"
         class="w-full rounded bg-white px-4 py-2 font-maven font-bold text-black hover:bg-gray-200"
         >Go back to home</NuxtLink
       >

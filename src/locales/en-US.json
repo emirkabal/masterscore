@@ -1,0 +1,68 @@
+{
+  "welcome": "Welcome to Masterscore",
+  "search": "Type to search...",
+  "movies": "Movies",
+  "tv_shows": "TV Shows",
+  "edited": "edited",
+  "unknown": "Unknown",
+  "no_comment_for_this_review": "No comment for this review.",
+  "home": {
+    "recommended": "Recommended",
+    "top_rated": "Top Rated",
+    "more_info": "More Info"
+  },
+  "entertainment": {
+    "watch_trailer": "Watch Trailer",
+    "reviews": "Reviews",
+    "reviewed": "Reviewed",
+    "no_reviews": "No reviews for this entertainment yet.",
+    "collection": "Collection",
+    "cast": "Cast",
+    "crew": "Crew",
+    "similar": "Similar",
+    "episodes": "Episodes",
+    "total_episodes": "Total of {total} episodes.",
+    "n_episodes": "{n} Episodes",
+    "buttons": {
+      "watch": "Watch",
+      "review": "Review",
+      "reviewed": "Reviewed",
+      "add_to_watchlist": "Add to watchlist",
+      "remove_from_watchlist": "Remove from watchlist"
+    },
+    "sidebar": {
+      "belongs_to_collection": "Belongs To Collection",
+      "availabe_on": "Available on",
+      "original_name": "Original Name",
+      "status": "Status",
+      "language": "Language",
+      "spoken_languages": "Spoken Languages",
+      "budget": "Budget",
+      "revenue": "Revenue",
+      "created_by": "Created By",
+      "other": "Other",
+      "visit_website": "Visit website",
+      "released": "Released",
+      "ended_at": "Ended at",
+      "returning_in": "Returning in",
+      "watch_on": "Watch on {provider}.",
+      "watch_on_masterscore": "Watch on {platform}. (you are already here <3)",
+      "powered_by": "Powered by {provider}"
+    },
+    "summary": {
+      "likes": "likes",
+      "reviews": "reviews"
+    }
+  },
+  "genres": {
+    "Comedy": "Comedy",
+    "Crime": "Crime",
+    "Science Fiction": "Science Fiction",
+    "Fantasy": "Fantasy",
+    "Drama": "Drama",
+    "Family": "Family",
+    "Animation": "Animation",
+    "Adventure": "Adventure",
+    "Action": "Action"
+  }
+}

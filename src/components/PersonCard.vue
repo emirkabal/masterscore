@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const localePath = useLocalePath()
 const { data } = defineProps<{
   data: {
     id: number
@@ -12,21 +13,13 @@ const { data } = defineProps<{
 <template>
   <NuxtLink
     class="flex w-full max-w-[100px] flex-shrink-0 select-none snap-start flex-col transition-opacity hover:opacity-75 md:max-w-[140px]"
-    :to="`/details/person/${data.id}`"
+    :to="localePath(`/details/person/${data.id}`)"
   >
     <div class="flex w-full flex-col items-center justify-center rounded">
       <MasterImage
-        v-if="data.profile_path"
-        :source="$timage(data.profile_path, 'w300')"
+        :source="$timage(data.profile_path || '-', 'w300')"
         class="h-32 w-[85px] rounded-lg md:h-[240px] md:w-[140px]"
       />
-      <div
-        v-else
-        class="flex h-32 w-full flex-shrink-0 items-center justify-center rounded bg-gray-800 font-semibold !text-white md:h-[240px]"
-      >
-        No Image
-      </div>
-
       <div
         class="mt-2 flex h-full w-full flex-col items-center justify-center pt-2 text-center font-maven"
       >
