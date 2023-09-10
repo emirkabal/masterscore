@@ -137,10 +137,12 @@ watch(data, async () => {
           params.type === "tv" ? "series" : "movies"
         }?q=${title}`,
         {
-          timeout: 5000
+          timeout: 10000
         }
-      ).catch(() => {
-        smartVideoError.value = true
+      ).catch((e) => {
+        if (e?.name === "AbortError") {
+          smartVideoError.value = true
+        }
       })
       if (
         smartVideoData.value &&
@@ -177,7 +179,11 @@ watch(data, async () => {
     await find($getOriginalTitle(data.value))
     if (!smartVideoData.value) {
       if (data.value.belongs_to_collection && data.value.belongs_to_collection)
-        await find(data.value.belongs_to_collection.name)
+        await find(
+          data.value.belongs_to_collection.name
+            .replace(" Collection", "")
+            .replace("[Seri]", "")
+        )
       else await find(data.value.original_name || data.value.original_title)
     }
     if (
