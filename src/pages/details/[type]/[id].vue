@@ -177,7 +177,7 @@ watch(data, async () => {
       }
     }
     await find($getOriginalTitle(data.value))
-    if (!smartVideoData.value) {
+    if (!smartVideoData.value || smartVideoData.value.length === 0) {
       if (data.value.belongs_to_collection && data.value.belongs_to_collection)
         await find(
           data.value.belongs_to_collection.name
