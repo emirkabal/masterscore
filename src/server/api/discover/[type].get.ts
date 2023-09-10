@@ -1,4 +1,5 @@
-import { TMDBCollectionDetails, TMDBSearchResult } from "~/@types"
+import { TMDBSearchResult } from "~/@types"
+import getISO from "~/utils/getISO"
 
 const config = useRuntimeConfig()
 
@@ -14,7 +15,7 @@ export default defineEventHandler(async (event) => {
       without_keywords: string
     }
 
-  const language = getCookie(event, "locale") || "en-US"
+  const language = getISO(getCookie(event, "locale"))
   const params = new URLSearchParams({
     api_key: config.TMDB_API_KEY,
     language,

@@ -1,4 +1,5 @@
 import { EpisodeGroups, EpisodeGroupsDetails } from "~/@types"
+import getISO from "~/utils/getISO"
 
 const config = useRuntimeConfig()
 
@@ -7,7 +8,7 @@ export default defineEventHandler(async (event) => {
     type: "groups" | "details"
     id: string
   }
-  const lang = getCookie(event, "locale") || "en-US"
+  const lang = getISO(getCookie(event, "locale"))
 
   if (type === "groups") {
     const data: EpisodeGroups = await $fetch(

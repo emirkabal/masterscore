@@ -19,22 +19,22 @@ const history = useStorage("searchHistory", [])
 const routes = [
   {
     name: "Home",
-    path: localePath("/"),
+    path: "/",
     icon: IconHome
   },
   {
     name: "Feed",
-    path: localePath("/feed"),
+    path: "/feed",
     icon: IconFeed
   },
   {
     name: "Table",
-    path: localePath("/table"),
+    path: "/table",
     icon: IconStar
   },
   {
     name: "Random Movie",
-    path: localePath("/random"),
+    path: "/random",
     icon: IconDice
   }
 ]
@@ -289,11 +289,11 @@ onKeyStroke(["Control", "K", "k"], (e) => {
 
         <hr class="dark:opacity-25" />
         <div v-for="(route, i) in routes" :key="route.name">
-          <a
+          <button
             tabindex="-1"
             @click="
               (e) => {
-                $router.push(route.path)
+                $router.push(localePath(route.path))
                 removeFocus(true)
               }
             "
@@ -304,7 +304,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
                 i + history.length === selectedIndex,
               'bg-white dark:bg-black': i + history.length !== selectedIndex
             }"
-            class="flex items-center justify-between rounded-2xl px-2 py-1"
+            class="inline-flex w-full items-center justify-between rounded-2xl px-2 py-1"
           >
             <span class="flex w-full cursor-pointer items-center opacity-80">
               <component
@@ -318,7 +318,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               />
               {{ route.name }}
             </span>
-          </a>
+          </button>
         </div>
       </div>
       <div v-else>

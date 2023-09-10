@@ -148,7 +148,7 @@ watchEffect(() => {
         <button
           v-if="!userAddedWatchlist"
           @click="submitToWatchlist"
-          class="flex h-10 flex-grow items-center gap-1 rounded border bg-transparent px-4 py-2 font-semibold transition hover:opacity-80"
+          class="flex h-10 flex-grow items-center gap-1 rounded border bg-transparent px-4 py-2 font-semibold leading-4 transition hover:opacity-80"
           :class="{
             'border-black text-black': isLight,
             'border-white text-white': !isLight

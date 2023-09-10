@@ -32,7 +32,7 @@ const runtime = computed(() => {
         45,
       "minutes"
     )
-    .format("h[h] m[m]")
+    .humanize()
 })
 const releaseDate = computed(() => {
   return $moment(
@@ -153,7 +153,7 @@ useHead({
         <h2 class="line-clamp-1 flex-shrink-0 font-semibold">
           {{ runtime }}
         </h2>
-        <div class="hidden flex-shrink-0 items-center gap-2 px-2 lg:flex">
+        <div class="hidden flex-shrink-0 items-center gap-2 lg:flex">
           <h2
             v-if="contentRating && contentRating !== 'Not Rated'"
             class="line-clamp-1 border px-2 text-lg font-semibold"

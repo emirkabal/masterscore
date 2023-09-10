@@ -5,7 +5,7 @@
   "tv_shows": "Diziler",
   "edited": "düzenlendi",
   "unknown": "Bilinmeyen",
-  "no_comment_for_this_review": "Bu yorum için henüz yorum yok.",
+  "no_comment_for_this_review": "Bu değerlendirme için henüz yorum yok.",
   "home": {
     "recommended": "Önerilenler",
     "top_rated": "En Çok Puan Alanlar",
@@ -13,9 +13,9 @@
   },
   "entertainment": {
     "watch_trailer": "Fragmanı İzle",
-    "reviews": "Yorumlar",
+    "reviews": "Değerlendirmeler",
     "reviewed": "Puan",
-    "no_reviews": "Bu eğlence için henüz yorum yok.",
+    "no_reviews": "Bu içerik için henüz değerlendirme yok.",
     "collection": "Koleksiyon",
     "cast": "Oyuncular",
     "crew": "Ekip",
@@ -28,7 +28,7 @@
       "review": "Değerlendir",
       "reviewed": "Değerlendirildi",
       "add_to_watchlist": "İzleme listesine ekle",
-      "remove_from_watchlist": "İzleme listesinden kaldır"
+      "remove_from_watchlist": "İzleme listesinden çıkar"
     },
     "sidebar": {
       "belongs_to_collection": "Koleksiyon",
@@ -42,9 +42,10 @@
       "created_by": "Tarafından Oluşturuldu",
       "other": "Diğer",
       "visit_website": "Web sayfası",
-      "released": "Yayınlanan",
+      "released": "Yayınlandı",
       "ended_at": "Bitiş Tarihi",
       "returning_in": "Dönüş",
+      "planned": "Planlandı",
       "watch_on": "{provider} üzerinde izle.",
       "watch_on_masterscore": "{platform} üzerinde izle. (zaten buradasınız <3)",
       "powered_by": "{provider} tarafından."
