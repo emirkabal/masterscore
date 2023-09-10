@@ -310,7 +310,7 @@ useHead({
           </span>
         </div>
       </div>
-      <div class="w-full max-w-2xl">
+      <div class="w-full max-w-4xl">
         <EntertainmentBody
           :data="data"
           :is-light="backgroundBright"

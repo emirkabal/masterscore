@@ -1,4 +1,5 @@
 import { IEntertainment, TMDBSearchResult } from "~/@types"
+import getISO from "~/utils/getISO"
 
 const config = useRuntimeConfig()
 
@@ -9,7 +10,7 @@ interface TopRatedResult {
 }
 
 export default defineEventHandler(async (event) => {
-  const lang = getCookie(event, "locale") || "en-US"
+  const lang = getISO(getCookie(event, "locale"))
   const result = {
     recommendations: [] as TMDBSearchResult[],
     trending: [] as TMDBSearchResult[],

@@ -1,10 +1,11 @@
 import { ErrorResponse, ExternalIDs, TMDBData, TMDBPerson } from "~/@types"
-
+import getISO from "~/utils/getISO"
 const config = useRuntimeConfig()
+
 export default defineEventHandler(async (event) => {
   const id = event.context.params?.id
   if (!id) return { status: 400, message: "Missing id" } as ErrorResponse
-  const lang = getCookie(event, "locale") || "en-US"
+  const lang = getISO(getCookie(event, "locale"))
   const data: TMDBPerson &
     ExternalIDs & {
       combined_credits: { cast: TMDBData[]; crew: TMDBData[] }

@@ -6,6 +6,7 @@ import {
 } from "~/@types"
 import EntertainmentModel from "~/server/models/Entertainment.model"
 import UserModel from "~/server/models/User.model"
+import getISO from "~/utils/getISO"
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
@@ -39,7 +40,7 @@ export default defineEventHandler(async (event) => {
 
   const releatedEntertainment = likes[Math.floor(Math.random() * likes.length)]
 
-  const lang = getCookie(event, "locale") || "en-US"
+  const lang = getISO(getCookie(event, "locale"))
   const data = await $fetch<{
     releated: IEntertainment
     results: TMDBSearchResult[]

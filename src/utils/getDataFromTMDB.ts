@@ -9,7 +9,6 @@ export default async (
   lang: string
 ): Promise<TMDBData> => {
   const key = `ecache:${type}:${id}`
-
   // @ts-ignore:2321
   const data: TMDBData = await $fetch(
     `https://api.themoviedb.org/3/${type}/${id}?api_key=${config.TMDB_API_KEY}&language=${lang}&append_to_response=external_ids,videos,credits,similar`

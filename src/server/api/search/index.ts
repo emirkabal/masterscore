@@ -1,14 +1,15 @@
 import { ErrorResponse, IUser, TMDBSearchResult } from "~/@types"
 import UserModel from "~/server/models/User.model"
-
+import getISO from "~/utils/getISO"
 const config = useRuntimeConfig()
+
 export default defineEventHandler(async (event) => {
   const { q } = getQuery(event)
   if (!q) {
     return { status: 400, message: "Missing query" } as ErrorResponse
   }
 
-  const lang = getCookie(event, "locale") || "en-US"
+  const lang = getISO(getCookie(event, "locale"))
   const data: {
     results: TMDBSearchResult[]
     // @ts-ignore

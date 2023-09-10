@@ -28,18 +28,13 @@ const getDateDiff = (date: string) => {
 }
 
 const status = computed(() => {
-  if (
-    props.data.status &&
-    props.data.status === "Released" &&
-    props.data.release_date
-  ) {
+  if (props.data?.status === "Released" && props.data.release_date) {
     const releaseDate = $moment(props.data.release_date)
-    return `${t("entertainment.sidebar.released")}: ${releaseDate.format(
-      "MMMM D, YYYY"
-    )}<br/>${getDateDiff(props.data.release_date)}`
+    return `${t("entertainment.sidebar.released")}: ${getDateDiff(
+      props.data.release_date
+    )}<br/>${releaseDate.format("MMMM D, YYYY")}`
   } else if (
-    props.data.status &&
-    props.data.status === "Ended" &&
+    props.data?.status === "Ended" &&
     props.data.first_air_date &&
     props.data.last_air_date
   ) {
@@ -51,8 +46,7 @@ const status = computed(() => {
       "YYYY"
     )}<br/>${getDateDiff(props.data.last_air_date)}`
   } else if (
-    props.data.status &&
-    props.data.status === "Returning Series" &&
+    props.data?.status === "Returning Series" &&
     props.data.first_air_date &&
     props.data.next_episode_to_air
   ) {
@@ -60,6 +54,8 @@ const status = computed(() => {
     return `${t("entertainment.sidebar.returning_in")}: ${nextAirDate.format(
       "MMMM D, YYYY"
     )}`
+  } else if (props.data?.status === "Planned") {
+    return t("entertainment.sidebar.planned")
   }
 
   return props.data.status || t("unknown")

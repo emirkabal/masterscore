@@ -45,6 +45,7 @@
       "released": "Released",
       "ended_at": "Ended at",
       "returning_in": "Returning in",
+      "planned": "Planned",
       "watch_on": "Watch on {provider}.",
       "watch_on_masterscore": "Watch on {platform}. (you are already here <3)",
       "powered_by": "Powered by {provider}"
