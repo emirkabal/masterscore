@@ -43,7 +43,7 @@ const detectAlphaPixel = (img: HTMLImageElement, x: number, y: number) => {
 
 watch(imageLoading, () => {
   if (avatarReference.value && props.square && props.avatar) {
-    isAlpha.value = detectAlphaPixel(avatarReference.value, 0, 0)
+    isAlpha.value = detectAlphaPixel(avatarReference.value.$el, 0, 0)
   }
 })
 </script>
@@ -70,13 +70,14 @@ watch(imageLoading, () => {
       v-if="imageLoading && !loading"
     >
     </span>
-    <img
+    <nuxt-img
       ref="avatarReference"
       :src="avatar"
       loading="lazy"
       :alt="props.username"
       class="h-full w-full"
       @load="imageLoading = false"
+      :onload="() => (imageLoading = false)"
       crossorigin="anonymous"
       :class="{
         'pointer-events-none absolute inset-0 opacity-0':

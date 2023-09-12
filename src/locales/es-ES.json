@@ -1,181 +1,205 @@
 {
-    "welcome": "Bienvenido a Masterscore",
-    "movies": "Películas",
-    "tv_shows": "Programas de TV",
-    "edited": "editado",
-    "unknown": "Desconocido",
-    "no_comment_for_this_review": "Sin comentarios para esta reseña.",
-    "guest": {
-        "sign_in": "Iniciar sesión",
-        "sign_up": "Inscríbete",
-        "dont_have_account": "¿No tiene cuenta?",
-        "already_have_account": "¿Ya tiene una cuenta?",
-        "create_account": "Crear una cuenta",
-        "forgot_password": "Contraseña olvidada",
-        "form": {
-            "username": "Nombre de usuario",
-            "password": "Contraseña",
-            "email": "Correo electrónico",
-            "confirm_password": "Confirmar contraseña",
-            "invite_code": "Código de invitación",
-            "passwords_not_match": "Las contraseñas no coinciden."
-        }
-    },
-    "header": {
-        "home": "Inicio",
-        "feed": "Alimentar",
-        "table": "Cuadro",
-        "random_movie": "Película aleatoria",
-        "user": {
-            "profile": "Perfil",
-            "watchlist": "Lista de vigilancia",
-            "reviews": "Reseñas",
-            "settings": "Ajustes",
-            "logout": "Cierre de sesión"
-        }
-    },
-    "activity": {
-        "reviewed": "Revisado",
-        "liked": "Me gusta",
-        "added_to_watchlist": "Añadido a la lista de vigilancia"
-    },
-    "search": {
-        "text": "Escriba para buscar...",
-        "no_results": "No se han encontrado resultados.",
-        "no_recent_searches": "No se han encontrado búsquedas recientes.",
-        "movies_and_tv_shows": "Películas y programas de televisión",
-        "persons": "Personas",
-        "users": "Usuarios",
-        "close": "{key} para cerrar"
-    },
-    "profile": {
-        "created": "creado {n}",
-        "edit_profile": "Editar perfil",
-        "copy_url": "Copiar URL",
-        "summary": "Resumen",
-        "watchlist": "Lista de vigilancia ({n})",
-        "reviews": "Reseñas ({n})",
-        "no_reviews": "Aún no hay opiniones.",
-        "featured_entertainments": "Espectáculos destacados",
-        "latest_reviews": "Últimos comentarios",
-        "latest_likes": "Últimos Me Gusta",
-        "last_added_to_watchlist": "Último añadido a la lista de vigilancia"
-    },
-    "person": {
-        "personal_info": "Información personal",
-        "known_for": "Conocido por",
-        "birthday": "Cumpleaños",
-        "place_of_birth": "Lugar de nacimiento",
-        "deathday": "Día de la muerte",
-        "gender": "Género",
-        "also_known_as": "También conocido como",
-        "biography": "Biografía",
-        "no_biography": "No hay biografía disponible para esta persona.",
-        "read_more": "Leer más...",
-        "age": "{n} años",
-        "genders": {
-            "0": "Desconocido",
-            "1": "Mujer",
-            "2": "Hombre",
-            "3": "Otros"
-        },
-        "departments": {
-            "Acting": "Actor",
-            "Directing": "Director",
-            "Writing": "Escritor",
-            "Production": "Productor",
-            "Editing": "Editor",
-            "Art": "Arte",
-            "Sound": "Sonido",
-            "Camera": "Cámara",
-            "Crew": "Tripulación",
-            "Costume & Make-Up": "Vestuario y maquillaje",
-            "Visual Effects": "Efectos visuales",
-            "Lighting": "Iluminación",
-            "Creator": "Creador"
-        }
-    },
-    "settings": {
-        "title": "Ajustes",
-        "edit_profile": "Editar perfil",
-        "preview": "Vista previa",
-        "about": "Acerca de",
-        "cancel": "Cancelar",
-        "confirm": "Confirme",
-        "avatar": "Avatar",
-        "dropzone_text": "Haga clic aquí o arrastre su archivo.",
-        "dropzone_types": "PNG, JPG o GIF (máx.: {0} | recomendado: {1})",
-        "username": "Nombre de usuario",
-        "username_notice": "Sólo puedes cambiar tu nombre de usuario cada {0} días.",
-        "banner_url": "URL del banner",
-        "platform_recommended": "Recomendado: {0}",
-        "update_profile": "Actualizar perfil",
-        "back_to_profile": "Volver al perfil",
-        "preferences": "Preferencias",
-        "debug_mode": "Modo depuración"
-    },
-    "footer": {
-        "about": "Tu fuente definitiva de críticas imparciales de películas y programas de televisión. Descubre tu próximo entretenimiento favorito.",
-        "tmdb_text": "Los datos mostrados de películas, programas de televisión y personas proceden de {provider}."
-    },
-    "home": {
-        "recommended": "Recomendado",
-        "top_rated": "Mejor valorados",
-        "more_info": "Más información"
-    },
-    "entertainment": {
-        "watch_trailer": "Ver el tráiler",
-        "reviews": "Reseñas",
-        "reviewed": "Revisado",
-        "no_reviews": "Aún no hay reseñas para este entretenimiento.",
-        "collection": "Colección",
-        "cast": "Fundición",
-        "crew": "Tripulación",
-        "similar": "Similar",
-        "episodes": "Episodios",
-        "total_episodes": "Total de {total} episodios.",
-        "n_episodes": "{n} Episodios",
-        "buttons": {
-            "watch": "Ver",
-            "review": "Consulte",
-            "reviewed": "Revisado",
-            "add_to_watchlist": "Añadir a la lista",
-            "remove_from_watchlist": "Eliminar de la lista de vigilancia"
-        },
-        "sidebar": {
-            "belongs_to_collection": "Pertenece a la colección",
-            "availabe_on": "Disponible en",
-            "original_name": "Nombre original",
-            "status": "Estado",
-            "language": "Idioma",
-            "spoken_languages": "Lenguas habladas",
-            "budget": "Presupuesto",
-            "revenue": "Ingresos",
-            "created_by": "Creado por",
-            "other": "Otros",
-            "visit_website": "Visitar el sitio web",
-            "released": "Publicado en",
-            "ended_at": "Terminado en",
-            "returning_in": "Volviendo en",
-            "planned": "Planificado",
-            "watch_on": "Ver en {provider}.",
-            "watch_on_masterscore": "Ver en {platform}. (ya estás aquí <3)",
-            "powered_by": "Desarrollado por {provider}"
-        },
-        "summary": {
-            "likes": "le gusta",
-            "reviews": "reseñas"
-        }
-    },
-    "genres": {
-        "Comedy": "Comedia",
-        "Crime": "Delito",
-        "Science Fiction": "Ciencia ficción",
-        "Fantasy": "Fantasía",
-        "Drama": "Drama",
-        "Family": "Familia",
-        "Animation": "Animación",
-        "Adventure": "Aventura",
-        "Action": "Acción"
+  "welcome": "Bienvenido a Masterscore",
+  "movies": "Películas",
+  "tv_shows": "Programas de TV",
+  "edited": "editado",
+  "unknown": "Desconocido",
+  "no_comment_for_this_review": "Sin comentarios para esta reseña.",
+  "guest": {
+    "sign_in": "Iniciar sesión",
+    "sign_up": "Inscríbete",
+    "dont_have_account": "¿No tiene cuenta?",
+    "already_have_account": "¿Ya tiene una cuenta?",
+    "create_account": "Crear una cuenta",
+    "forgot_password": "Contraseña olvidada",
+    "form": {
+      "username": "Nombre de usuario",
+      "password": "Contraseña",
+      "email": "Correo electrónico",
+      "confirm_password": "Confirmar contraseña",
+      "invite_code": "Código de invitación",
+      "passwords_not_match": "Las contraseñas no coinciden."
     }
+  },
+  "header": {
+    "home": "Inicio",
+    "feed": "Alimentar",
+    "table": "Cuadro",
+    "random_movie": "Película aleatoria",
+    "user": {
+      "profile": "Perfil",
+      "watchlist": "Lista de vigilancia",
+      "reviews": "Reseñas",
+      "settings": "Ajustes",
+      "logout": "Cierre de sesión"
+    }
+  },
+  "activity": {
+    "reviewed": "Revisado",
+    "liked": "Me gusta",
+    "added_to_watchlist": "Añadido a la lista de vigilancia"
+  },
+  "search": {
+    "text": "Escriba para buscar...",
+    "no_results": "No se han encontrado resultados.",
+    "no_recent_searches": "No se han encontrado búsquedas recientes.",
+    "movies_and_tv_shows": "Películas y programas de televisión",
+    "persons": "Personas",
+    "users": "Usuarios",
+    "close": "{key} para cerrar"
+  },
+  "profile": {
+    "created": "creado {n}",
+    "edit_profile": "Editar perfil",
+    "copy_url": "Copiar URL",
+    "summary": "Resumen",
+    "watchlist": "Lista de vigilancia ({n})",
+    "reviews": "Reseñas ({n})",
+    "no_reviews": "Aún no hay opiniones.",
+    "featured_entertainments": "Espectáculos destacados",
+    "latest_reviews": "Últimos comentarios",
+    "latest_likes": "Últimos Me Gusta",
+    "last_added_to_watchlist": "Último añadido a la lista de vigilancia"
+  },
+  "person": {
+    "personal_info": "Información personal",
+    "known_for": "Conocido por",
+    "birthday": "Cumpleaños",
+    "place_of_birth": "Lugar de nacimiento",
+    "deathday": "Día de la muerte",
+    "gender": "Género",
+    "also_known_as": "También conocido como",
+    "biography": "Biografía",
+    "no_biography": "No hay biografía disponible para esta persona.",
+    "read_more": "Leer más...",
+    "age": "{n} años",
+    "genders": {
+      "0": "Desconocido",
+      "1": "Mujer",
+      "2": "Hombre",
+      "3": "Otros"
+    },
+    "departments": {
+      "Acting": "Actor",
+      "Directing": "Director",
+      "Writing": "Escritor",
+      "Production": "Productor",
+      "Editing": "Editor",
+      "Art": "Arte",
+      "Sound": "Sonido",
+      "Camera": "Cámara",
+      "Crew": "Tripulación",
+      "Costume & Make-Up": "Vestuario y maquillaje",
+      "Visual Effects": "Efectos visuales",
+      "Lighting": "Iluminación",
+      "Creator": "Creador"
+    }
+  },
+  "settings": {
+    "title": "Ajustes",
+    "edit_profile": "Editar perfil",
+    "preview": "Vista previa",
+    "about": "Acerca de",
+    "cancel": "Cancelar",
+    "confirm": "Confirme",
+    "avatar": "Avatar",
+    "dropzone_text": "Haga clic aquí o arrastre su archivo.",
+    "dropzone_types": "PNG, JPG o GIF (máx.: {0} | recomendado: {1})",
+    "username": "Nombre de usuario",
+    "username_notice": "Sólo puedes cambiar tu nombre de usuario cada {0} días.",
+    "banner_url": "URL del banner",
+    "platform_recommended": "Recomendado: {0}",
+    "update_profile": "Actualizar perfil",
+    "back_to_profile": "Volver al perfil",
+    "preferences": "Preferencias",
+    "debug_mode": "Modo depuración"
+  },
+  "footer": {
+    "about": "Tu fuente definitiva de críticas imparciales de películas y programas de televisión. Descubre tu próximo entretenimiento favorito.",
+    "tmdb_text": "Los datos mostrados de películas, programas de televisión y personas proceden de {provider}."
+  },
+  "home": {
+    "recommended": "Recomendado",
+    "top_rated": "Mejor valorados",
+    "more_info": "Más información"
+  },
+  "entertainment": {
+    "watch_trailer": "Ver el tráiler",
+    "reviews": "Reseñas",
+    "reviewed": "Revisado",
+    "no_reviews": "Aún no hay reseñas para este entretenimiento.",
+    "collection": "Colección",
+    "cast": "Fundición",
+    "crew": "Tripulación",
+    "similar": "Similar",
+    "episodes": "Episodios",
+    "total_episodes": "Total de {total} episodios.",
+    "n_episodes": "{n} Episodios",
+    "buttons": {
+      "watch": "Ver",
+      "review": "Consulte",
+      "reviewed": "Revisado",
+      "add_to_watchlist": "Añadir a la lista",
+      "remove_from_watchlist": "Eliminar de la lista de vigilancia"
+    },
+    "sidebar": {
+      "belongs_to_collection": "Pertenece a la colección",
+      "availabe_on": "Disponible en",
+      "original_name": "Nombre original",
+      "status": "Estado",
+      "language": "Idioma",
+      "spoken_languages": "Lenguas habladas",
+      "budget": "Presupuesto",
+      "revenue": "Ingresos",
+      "created_by": "Creado por",
+      "other": "Otros",
+      "visit_website": "Visitar el sitio web",
+      "released": "Publicado en",
+      "ended_at": "Terminado en",
+      "returning_in": "Volviendo en",
+      "planned": "Planificado",
+      "watch_on": "Ver en {provider}.",
+      "watch_on_masterscore": "Ver en {platform}. (ya estás aquí <3)",
+      "powered_by": "Desarrollado por {provider}"
+    },
+    "summary": {
+      "likes": "le gusta",
+      "reviews": "reseñas"
+    }
+  },
+  "discover": {
+    "title": "Descubre",
+    "explore": "Descubre {0}",
+    "explore_more": "Explora más géneros",
+    "load_more": "Cargar más"
+  },
+  "genres": {
+    "Comedy": "Comedia",
+    "Crime": "Crimen",
+    "Science Fiction": "Ciencia Ficción",
+    "Fantasy": "Fantasía",
+    "Drama": "Drama",
+    "Family": "Familia",
+    "Animation": "Animación",
+    "Adventure": "Aventura",
+    "Action": "Acción",
+    "Horror": "Terror",
+    "Sci-Fi & Fantasy": "Ciencia Ficción y Fantasía",
+    "Action & Adventure": "Acción y Aventura",
+    "Kids": "Infantil",
+    "News": "Noticias",
+    "Reality": "Reality",
+    "Soap": "Telenovela",
+    "Talk": "Talk Show",
+    "War & Politics": "Guerra y Política",
+    "Western": "Western",
+    "Mystery": "Misterio",
+    "Documentary": "Documental",
+    "Music": "Música",
+    "Romance": "Romance",
+    "Thriller": "Suspense",
+    "History": "Historia",
+    "War": "Guerra",
+    "TV Movie": "Película de TV"
+  }
 }

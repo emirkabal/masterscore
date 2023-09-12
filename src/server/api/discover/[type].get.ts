@@ -7,19 +7,20 @@ export default defineEventHandler(async (event) => {
   const { type } = event.context.params as {
     type: string
   }
-  const { with_genres, without_genres, with_keywords, without_keywords } =
+  const { with_genres, without_genres, with_keywords, without_keywords, page } =
     getQuery(event) as {
       with_genres: string
       without_genres: string
       with_keywords: string
       without_keywords: string
+      page: string
     }
 
   const language = getISO(getCookie(event, "locale"))
   const params = new URLSearchParams({
     api_key: config.TMDB_API_KEY,
     language,
-    page: "1",
+    page: page || "1",
     include_adult: "false",
     include_video: "false",
     sort_by: "popularity.desc",

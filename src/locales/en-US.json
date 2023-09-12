@@ -167,6 +167,12 @@
       "reviews": "reviews"
     }
   },
+  "discover": {
+    "title": "Discover",
+    "explore": "Discover {0}",
+    "explore_more": "Explore more genres",
+    "load_more": "Load More"
+  },
   "genres": {
     "Comedy": "Comedy",
     "Crime": "Crime",
@@ -176,6 +182,24 @@
     "Family": "Family",
     "Animation": "Animation",
     "Adventure": "Adventure",
-    "Action": "Action"
+    "Action": "Action",
+    "Horror": "Horror",
+    "Sci-Fi & Fantasy": "Sci-Fi & Fantasy",
+    "Action & Adventure": "Action & Adventure",
+    "Kids": "Kids",
+    "News": "News",
+    "Reality": "Reality",
+    "Soap": "Soap",
+    "Talk": "Talk",
+    "War & Politics": "War & Politics",
+    "Western": "Western",
+    "Mystery": "Mystery",
+    "Documentary": "Documentary",
+    "Music": "Music",
+    "Romance": "Romance",
+    "Thriller": "Thriller",
+    "History": "History",
+    "War": "War",
+    "TV Movie": "TV Movie"
   }
 }
