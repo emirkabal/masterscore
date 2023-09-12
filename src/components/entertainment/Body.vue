@@ -21,9 +21,7 @@ const contentRating = computed(() => {
 })
 
 const genres = computed(() => {
-  return data && data.genres && data.genres.length > 0
-    ? data.genres.map((genre) => genre.name).join(", ")
-    : ""
+  return data && data.genres
 })
 const runtime = computed(() => {
   return $moment
@@ -144,16 +142,16 @@ useHead({
         <h2 class="font-semibold md:ml-0.5">
           {{ releaseDate }}
         </h2>
-        <h2
-          v-if="genres"
-          v-tooltip="{
-            content: `Genres are <b>${genres}</b>.`,
-            html: true
-          }"
-          class="line-clamp-1 break-all font-semibold"
-        >
-          {{ genres }}
-        </h2>
+
+        <div class="line-clamp-1 flex gap-2 break-all font-semibold">
+          <NuxtLink
+            v-for="genre in genres"
+            :to="`/discover/${$route.params.type}/${genre.id}`"
+            class="transition-colors hover:text-white"
+          >
+            {{ genre.name }}
+          </NuxtLink>
+        </div>
         <h2 class="line-clamp-1 flex-shrink-0 font-semibold">
           {{ runtime }}
         </h2>

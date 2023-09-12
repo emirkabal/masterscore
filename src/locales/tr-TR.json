@@ -176,6 +176,30 @@
     "Family": "Aile",
     "Animation": "Animasyon",
     "Adventure": "Macera",
-    "Action": "Aksiyon"
+    "Action": "Aksiyon",
+    "Horror": "Korku",
+    "Sci-Fi & Fantasy": "Bilim Kurgu & Fantezi",
+    "Action & Adventure": "Aksiyon & Macera",
+    "Kids": "Çocuk",
+    "News": "Haberler",
+    "Reality": "Gerçeklik",
+    "Soap": "Soap",
+    "Talk": "Talkshow",
+    "War & Politics": "Savaş & Siyaset",
+    "Western": "Vahşi Batı",
+    "Mystery": "Gizem",
+    "Documentary": "Belgesel",
+    "Music": "Müzik",
+    "Romance": "Romantik",
+    "Thriller": "Gerilim",
+    "History": "Tarih",
+    "War": "Savaş",
+    "TV Movie": "Tv. Film"
+  },
+  "discover": {
+    "title": "Keşfet",
+    "explore": "Keşfet {0}",
+    "explore_more": "Daha fazlasını keşfet",
+    "load_more": "Daha Fazla"
   }
 }

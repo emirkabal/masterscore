@@ -194,6 +194,7 @@ export default defineNuxtPlugin(() => {
           return list.filter((genre) => genre.support.includes(support))
         return list
       },
+      tgenres: genres,
       getTitle: (data: TMDBData | TMDBSearchResult) => {
         return data.title || data.name || "Untitled"
       },

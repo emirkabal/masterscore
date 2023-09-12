@@ -41,7 +41,7 @@ const imageLoading = ref(true)
 
 watch(imageLoading, () => {
   if (nuxtImageRefence.value) {
-    const color = $colorthief.getColor(nuxtImageRefence.value)
+    const color = $colorthief.getColor(nuxtImageRefence.value.$el)
     colors.background = color
     colors.gradient = Object.values(
       tinycolor("rgb " + color.join(" "))
@@ -68,12 +68,13 @@ watch(imageLoading, () => {
       v-if="imageLoading"
     >
     </span>
-    <img
+    <nuxt-img
       ref="nuxtImageRefence"
       :src="posterUrl"
       loading="lazy"
       :alt="entertainment.info.title"
       @load="imageLoading = false"
+      :onload="() => (imageLoading = false)"
       class="h-12 w-8 rounded"
       crossorigin="anonymous"
       :class="{

@@ -1,10 +1,6 @@
 <script setup>
 import debounce from "lodash.debounce"
 import { onKeyStroke, useStorage } from "@vueuse/core"
-import IconHome from "~/components/icons/Home.vue"
-import IconFeed from "~/components/icons/Feed.vue"
-import IconStar from "~/components/icons/Star.vue"
-import IconDice from "~/components/icons/Dice.vue"
 const search = ref("")
 const loading = ref(false)
 const results = ref([])
@@ -19,22 +15,22 @@ const routes = [
   {
     name: "header.home",
     path: "/",
-    icon: IconHome
+    icon: "tabler:home"
+  },
+  {
+    name: "discover.title",
+    path: "/discover",
+    icon: "ion:compass-outline"
   },
   {
     name: "header.feed",
     path: "/feed",
-    icon: IconFeed
+    icon: "tabler:message-2"
   },
   {
     name: "header.table",
     path: "/table",
-    icon: IconStar
-  },
-  {
-    name: "header.random_movie",
-    path: "/random",
-    icon: IconDice
+    icon: "tabler:table-import"
   }
 ]
 
@@ -296,15 +292,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             class="inline-flex w-full items-center justify-between rounded-2xl px-2 py-1"
           >
             <span class="flex w-full cursor-pointer items-center opacity-80">
-              <component
-                :is="route.icon"
-                class="mr-2 inline-block h-5 w-5"
-                :class="{
-                  'fill-black dark:fill-white':
-                    i + history.length === selectedIndex ||
-                    route.path === $route.path
-                }"
-              />
+              <Icon :name="route.icon" class="mr-2 inline-block h-5 w-5" />
               {{ $t(route.name) }}
             </span>
           </button>

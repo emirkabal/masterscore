@@ -176,6 +176,30 @@
         "Family": "परिवार",
         "Animation": "एनिमेशन",
         "Adventure": "साहसिक काम",
-        "Action": "कार्रवाई"
+        "Action": "कार्रवाई",
+        "Horror": "डरावनी",
+        "Sci-Fi & Fantasy": "विज्ञान कथा और फंतासी",
+        "Action & Adventure": "एक्शन एडवेंचर",
+        "Kids": "बच्चे",
+        "News": "समाचार",
+        "Reality": "वास्तविकता",
+        "Soap": "साबुन",
+        "Talk": "बात करना",
+        "War & Politics": "युद्ध और राजनीति",
+        "Western": "वेस्टर्न",
+        "Mystery": "रहस्य",
+        "Documentary": "दस्तावेज़ी",
+        "Music": "संगीत",
+        "Romance": "रोमांस",
+        "Thriller": "थ्रिलर",
+        "History": "इतिहास",
+        "War": "युद्ध",
+        "TV Movie": "टीवी मूवी"
+    },
+    "discover": {
+        "title": "खोज करना",
+        "explore": "खोजें {0}",
+        "explore_more": "अधिक शैलियों का अन्वेषण करें",
+        "load_more": "और लोड करें"
     }
 }

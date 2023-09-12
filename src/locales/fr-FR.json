@@ -176,6 +176,30 @@
         "Family": "Famille",
         "Animation": "Animation",
         "Adventure": "Aventure",
-        "Action": "Action"
+        "Action": "Action",
+        "Horror": "Horreur",
+        "Sci-Fi & Fantasy": "Science-fiction et fantastique",
+        "Action & Adventure": "Action et aventure",
+        "Kids": "Les enfants",
+        "News": "Actualités",
+        "Reality": "Réalité",
+        "Soap": "Savon",
+        "Talk": "Parler",
+        "War & Politics": "Guerre et politique",
+        "Western": "Occidentale",
+        "Mystery": "Mystère",
+        "Documentary": "Documentaire",
+        "Music": "Musique",
+        "Romance": "Romance",
+        "Thriller": "Thriller",
+        "History": "L'histoire",
+        "War": "La guerre",
+        "TV Movie": "TV Movie"
+    },
+    "discover": {
+        "title": "Découvrir",
+        "explore": "Découvrir {0}",
+        "explore_more": "Explorer d'autres genres",
+        "load_more": "En savoir plus"
     }
 }
