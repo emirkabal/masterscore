@@ -330,7 +330,11 @@ watch(
                 >
               </div>
               <p class="text-xs font-semibold opacity-75 md:text-base">
-                {{ $moment(item.air_date).format("MMMM D, YYYY") }}
+                {{
+                  $moment(item.air_date)
+                    .locale($i18n.locale)
+                    .format("MMMM D, YYYY")
+                }}
               </p>
               <p
                 class="ml-auto line-clamp-4 cursor-text text-xs opacity-90 md:text-base md:leading-5"
@@ -374,12 +378,17 @@ watch(
                     class="flex gap-2 text-xs font-semibold opacity-75 md:text-base"
                   >
                     <p>
-                      {{ $moment(episode.air_date).format("MMMM D, YYYY") }}
+                      {{
+                        $moment(episode.air_date)
+                          .locale($i18n.locale)
+                          .format("MMMM D, YYYY")
+                      }}
                     </p>
                     <p>
                       {{
                         $moment
                           .duration(episode.runtime, "minutes")
+                          .locale($i18n.locale)
                           .format("h[h] m[m]")
                       }}
                     </p>

@@ -5,14 +5,16 @@ import i18n from "./config/modules/i18n"
 export default defineNuxtConfig({
   srcDir: "src/",
   ssr: false,
+  spaLoadingTemplate: "./app/spa-loading-template.html",
   devtools: {
-    enabled: false
+    enabled: true
   },
   modules: [
     ["@nuxtjs/i18n", i18n],
     "@nuxt/image-edge",
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
+    "nuxt-headlessui",
     "@nuxtjs/device",
     "@vite-pwa/nuxt",
     "nuxt-twemoji",
@@ -137,7 +139,7 @@ export default defineNuxtConfig({
     }
   },
 
-  build: {
-    transpile: ["@headlessui/vue", "@headlessui/tailwindcss"]
+  experimental: {
+    watcher: "parcel"
   }
 })

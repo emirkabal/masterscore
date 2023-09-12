@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { TMDBData } from "~/@types"
 import ScreenModal from "~/components/ScreenModal.vue"
-const localePath = useLocalePath()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { $getTitle, $moment } = useNuxtApp()
 const props = defineProps<{
   data: TMDBData
@@ -29,7 +28,7 @@ const getDateDiff = (date: string) => {
 
 const status = computed(() => {
   if (props.data?.status === "Released" && props.data.release_date) {
-    const releaseDate = $moment(props.data.release_date)
+    const releaseDate = $moment(props.data.release_date).locale(locale.value)
     return `${t("entertainment.sidebar.released")}: ${getDateDiff(
       props.data.release_date
     )}<br/>${releaseDate.format("MMMM D, YYYY")}`
@@ -38,8 +37,8 @@ const status = computed(() => {
     props.data.first_air_date &&
     props.data.last_air_date
   ) {
-    const firstAirDate = $moment(props.data.first_air_date)
-    const lastAirDate = $moment(props.data.last_air_date)
+    const firstAirDate = $moment(props.data.first_air_date).locale(locale.value)
+    const lastAirDate = $moment(props.data.last_air_date).locale(locale.value)
     return `${t("entertainment.sidebar.ended_at")}: ${lastAirDate.format(
       "MMMM D, YYYY"
     )}<br/>${firstAirDate.format("YYYY")}-${lastAirDate.format(
@@ -50,7 +49,9 @@ const status = computed(() => {
     props.data.first_air_date &&
     props.data.next_episode_to_air
   ) {
-    const nextAirDate = $moment(props.data.next_episode_to_air.air_date)
+    const nextAirDate = $moment(props.data.next_episode_to_air.air_date).locale(
+      locale.value
+    )
     return `${t("entertainment.sidebar.returning_in")}: ${nextAirDate.format(
       "MMMM D, YYYY"
     )}`
@@ -69,14 +70,13 @@ const language = computed(() => {
   return (
     props.data.spoken_languages?.find(
       (e) => e.iso_639_1 === props.data.original_language
-    )?.english_name || t("unknown")
+    )?.name || t("unknown")
   )
 })
 
 const spokenLanguages = computed(() => {
   return (
-    props.data.spoken_languages?.map((e) => e.english_name).join(", ") ||
-    t("unknown")
+    props.data.spoken_languages?.map((e) => e.name).join(", ") || t("unknown")
   )
 })
 
@@ -352,7 +352,7 @@ const rtScore = computed(() => {
         <strong>{{ $t("entertainment.sidebar.created_by") }}</strong>
         <span class="flex flex-col">
           <NuxtLink
-            :to="localePath(`/details/person/${creator.id}`)"
+            :to="`/details/person/${creator.id}`"
             v-for="creator in getCreator"
             class="hover:underline"
             >{{ creator.name }}</NuxtLink

@@ -1,11 +1,123 @@
 {
   "welcome": "Willkommen bei Masterscore",
-  "search": "Geben Sie zum Suchen ein...",
   "movies": "Filme",
   "tv_shows": "TV-Sendungen",
   "edited": "Bearbeitet",
   "unknown": "Unbekannt",
   "no_comment_for_this_review": "Für diese Bewertung gibt es keinen Kommentar.",
+  "guest": {
+    "sign_in": "Anmelden",
+    "sign_up": "Registrieren",
+    "dont_have_account": "Sie haben noch kein Konto?",
+    "already_have_account": "Haben Sie bereits ein Konto?",
+    "create_account": "Konto erstellen",
+    "forgot_password": "Passwort vergessen",
+    "form": {
+      "username": "Benutzername",
+      "password": "Passwort",
+      "email": "E-Mail",
+      "confirm_password": "Passwort bestätigen",
+      "invite_code": "Einladungscode",
+      "passwords_not_match": "Passwörter stimmen nicht überein."
+    }
+  },
+  "header": {
+    "home": "Startseite",
+    "feed": "Feed",
+    "table": "Tabelle",
+    "random_movie": "Zufälliger Film",
+    "user": {
+      "profile": "Profil",
+      "watchlist": "Merklisye",
+      "reviews": "Bewertungen",
+      "settings": "Einstellungen",
+      "logout": "Abmelden"
+    }
+  },
+  "activity": {
+    "reviewed": "Bewertet",
+    "liked": "Gefällt mir",
+    "added_to_watchlist": "Zur Merkliste hinzugefügt"
+  },
+  "search": {
+    "text": "Geben Sie zum Suchen ein...",
+    "no_results": "Keine Ergebnisse gefunden.",
+    "no_recent_searches": "Keine kürzlichen Suchanfragen gefunden.",
+    "movies_and_tv_shows": "Filme & TV-Shows",
+    "persons": "Personen",
+    "users": "Benutzer",
+    "close": "Drücken Sie {key}, um zu schließen"
+  },
+  "profile": {
+    "created": "erstellt {n}",
+    "edit_profile": "Profil bearbeiten",
+    "copy_url": "URL kopieren",
+    "summary": "Zusammenfassung",
+    "watchlist": "Merkliste ({n})",
+    "reviews": "Bewertungen ({n})",
+    "no_reviews": "Noch keine Bewertungen.",
+    "featured_entertainments": "Hervorgehobene Unterhaltung",
+    "latest_reviews": "Neueste Bewertungen",
+    "latest_likes": "Neueste Likes",
+    "last_added_to_watchlist": "Zuletzt zur Merkliste hinzugefügt"
+  },
+  "person": {
+    "personal_info": "Persönliche Informationen",
+    "known_for": "Bekannt für",
+    "birthday": "Geburtstag",
+    "place_of_birth": "Geburtsort",
+    "deathday": "Todestag",
+    "gender": "Geschlecht",
+    "also_known_as": "Auch bekannt als",
+    "biography": "Biografie",
+    "no_biography": "Für diese Person ist keine Biografie verfügbar.",
+    "read_more": "Mehr lesen...",
+    "age": "{n} Jahre alt",
+    "genders": {
+      "0": "Unbekannt",
+      "1": "Weiblich",
+      "2": "Männlich",
+      "3": "Andere"
+    },
+    "departments": {
+      "Acting": "Schauspiel",
+      "Directing": "Regie",
+      "Writing": "Schreiben",
+      "Production": "Produktion",
+      "Editing": "Bearbeitung",
+      "Art": "Kunst",
+      "Sound": "Ton",
+      "Camera": "Kamera",
+      "Crew": "Crew",
+      "Costume & Make-Up": "Kostüm & Make-Up",
+      "Visual Effects": "Visuelle Effekte",
+      "Lighting": "Beleuchtung",
+      "Creator": "Schöpfer"
+    }
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "edit_profile": "Profil bearbeiten",
+    "preview": "Vorschau",
+    "about": "Über",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "avatar": "Avatar",
+    "dropzone_text": "Hier klicken oder Datei ziehen.",
+    "dropzone_types": "PNG, JPG oder GIF (maximal: {0} | empfohlen: {1})",
+    "username": "Benutzername",
+    "username_notice": "Sie können Ihren Benutzernamen nur alle {0} Tage ändern.",
+    "banner_url": "Banner-URL",
+    "platform_recommended": "Empfohlen: {0}",
+    "update_profile": "Profil aktualisieren",
+    "back_to_profile": "Zurück zum Profil",
+    "preferences": "Einstellungen",
+    "debug_mode": "Debug-Modus"
+  },
+  "footer": {
+    "about": "Ihre ultimative Quelle für unvoreingenommene Film- und Serienbewertungen. Entdecken Sie Ihr nächstes Lieblingsunterhaltung!",
+    "tmdb_text": "Die angezeigten Daten zu Filmen, Fernsehsendungen und Personen stammen von {provider}"
+  },
   "home": {
     "recommended": "Empfohlen",
     "top_rated": "Top Bewertet",

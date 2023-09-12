@@ -1,8 +1,6 @@
 <script setup>
 import { useUserStore } from "~/store/user"
-import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue"
 import { onClickOutside, useWindowScroll } from "@vueuse/core"
-const localePath = useLocalePath()
 const isMenuOpen = ref(false)
 const isHeaderHidden = ref(false)
 const { $listen } = useNuxtApp()
@@ -54,7 +52,7 @@ $listen("entertainment:load", (val) => {
     <div class="flex w-full items-center justify-between">
       <div class="flex items-center">
         <NuxtLink
-          :to="localePath('/')"
+          to="/"
           @click="entertainment.bright = false"
           class="select-none font-maven text-2xl font-black transition hover:opacity-75"
           :class="{
@@ -85,20 +83,20 @@ $listen("entertainment:load", (val) => {
           <div v-if="userStore.isLoading" class="flex gap-2">
             <Spinner />
           </div>
-          <Menu
+          <HeadlessMenu
             as="div"
             class="relative z-10 inline-block text-left"
             v-else-if="userStore.isLoggedIn"
             ref="menuRef"
           >
             <div>
-              <MenuButton @click="isMenuOpen = !isMenuOpen"
+              <HeadlessMenuButton @click="isMenuOpen = !isMenuOpen"
                 ><Avatar
                   :username="userStore.user.username"
                   :avatar="userStore.user.avatar"
                   :border="true"
                   class="mt-1.5 h-10 w-10 hover:opacity-90"
-              /></MenuButton>
+              /></HeadlessMenuButton>
             </div>
             <Transition
               enter-active-class="transition ease-out duration-100"
@@ -109,7 +107,7 @@ $listen("entertainment:load", (val) => {
               leave-to-class="transform opacity-0 scale-95"
             >
               <div v-show="isMenuOpen" @click="isMenuOpen = !isMenuOpen">
-                <MenuItems
+                <HeadlessMenuItems
                   :static="true"
                   class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-zinc-900 dark:bg-black"
                 >
@@ -119,54 +117,54 @@ $listen("entertainment:load", (val) => {
                     >
                   </div>
                   <div class="px-1 py-1">
-                    <MenuItem>
+                    <HeadlessMenuItem>
                       <NuxtLink
                         class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
-                        :to="localePath('/users/@me')"
-                        >Profile</NuxtLink
+                        to="/users/@me"
+                        >{{ $t("header.user.profile") }}</NuxtLink
                       >
-                    </MenuItem>
-                    <MenuItem>
+                    </HeadlessMenuItem>
+                    <HeadlessMenuItem>
                       <NuxtLink
                         class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
-                        :to="localePath('/users/@me/watchlist')"
-                        >Watchlist</NuxtLink
+                        to="/users/@me/watchlist"
+                        >{{ $t("header.user.watchlist") }}</NuxtLink
                       >
-                    </MenuItem>
-                    <MenuItem>
+                    </HeadlessMenuItem>
+                    <HeadlessMenuItem>
                       <NuxtLink
                         class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
-                        :to="localePath('/users/@me/reviews')"
-                        >Reviews</NuxtLink
+                        to="/users/@me/reviews"
+                        >{{ $t("header.user.reviews") }}</NuxtLink
                       >
-                    </MenuItem>
-                    <MenuItem>
+                    </HeadlessMenuItem>
+                    <HeadlessMenuItem>
                       <NuxtLink
                         class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
-                        :to="localePath('/users/@me/settings')"
-                        >Settings</NuxtLink
+                        to="/users/@me/settings"
+                        >{{ $t("header.user.settings") }}</NuxtLink
                       >
-                    </MenuItem>
+                    </HeadlessMenuItem>
                   </div>
                   <div class="px-1 py-1">
-                    <MenuItem>
+                    <HeadlessMenuItem>
                       <a
                         @click="userStore.logout"
-                        class="block cursor-pointer rounded-lg p-2 text-red-700 hover:bg-red-200 dark:hover:bg-red-200/10"
+                        class="block cursor-pointer rounded-lg p-2 font-semibold text-red-700 hover:bg-red-200 dark:hover:bg-red-200/10"
                       >
-                        Logout
+                        {{ $t("header.user.logout") }}
                       </a>
-                    </MenuItem>
+                    </HeadlessMenuItem>
                   </div>
-                </MenuItems>
+                </HeadlessMenuItems>
               </div>
             </Transition>
-          </Menu>
-          <div v-else class="mr-4 flex items-center gap-4">
+          </HeadlessMenu>
+          <div v-else class="mr-2 flex items-center gap-4 lg:mr-0">
             <NuxtLink
-              :to="localePath('/account/login')"
+              to="/account/login"
               class="flex-shrink-0 rounded bg-yellow-500 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-600"
-              >Sign in</NuxtLink
+              >{{ $t("guest.sign_in") }}</NuxtLink
             >
           </div>
         </ClientOnly>

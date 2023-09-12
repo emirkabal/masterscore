@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ReviewData, TMDBData } from "~/@types"
 import { useDark, onClickOutside } from "@vueuse/core"
-import { Switch } from "@headlessui/vue"
+
 const isDark = useDark()
 
 const props = defineProps<{
@@ -102,7 +102,7 @@ const onSelectEmoji = (emoji: any) => {
         class="flex items-center gap-2"
         v-if="props.reviewData.comment.trim().length > 0"
       >
-        <Switch
+        <HeadlessSwitch
           id="spoiler"
           v-model="props.reviewData.spoiler"
           :class="props.reviewData.spoiler ? 'bg-blue-700' : 'bg-teal-700'"
@@ -116,7 +116,7 @@ const onSelectEmoji = (emoji: any) => {
             "
             class="pointer-events-none inline-block h-[14px] w-[14px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
           />
-        </Switch>
+        </HeadlessSwitch>
         <label for="spoiler" class="cursor-pointer select-none opacity-80">
           My comment contains spoilers
         </label>

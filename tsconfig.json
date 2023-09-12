@@ -2,7 +2,7 @@
   // https://nuxt.com/docs/guide/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "types": ["./src/@types", "@nuxt/image-edge", "@nuxtjs/device"],
+    "types": ["./src/@types"],
     "allowJs": true
   },
   "exclude": ["node_modules"]

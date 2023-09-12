@@ -5,41 +5,33 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    box-sizing: border-box;
-    @apply antialiased;
+  html, body {
+    @apply font-sans antialiased;
   }
   html {
-    scroll-behavior: smooth;
+    @apply scroll-smooth;
   }
   body {
-    @apply bg-white text-black dark:bg-black dark:text-white;
+    @apply bg-black text-white;
   }
-  input[type="number"]::-webkit-inner-spin-button {
-    opacity: 1;
-  }
-
+  
   ::-webkit-scrollbar {
     @apply h-2.5 w-2.5 bg-transparent;
   }
-
+  
   ::-webkit-scrollbar-track {
     @apply bg-gray-900 rounded-full;
   }
-
+  
   ::-webkit-scrollbar-thumb {
     @apply rounded-full bg-gray-800 transition-colors hover:bg-gray-700;
   }
-
-  
-}
-
-.twemojiParse {
-  @apply !inline-block;
+  .twemojiParse {
+    @apply !inline-block;
+  }
 }
 
 @layer components {
-  
   .skeleton-effect {
     @apply relative isolate overflow-hidden;
     animation: skeleton-fade 1s infinite;
@@ -48,9 +40,6 @@
     text-shadow: 1px 1px rgba(0,0,0,0.4);
   }
 }
-
-
-
 
 @keyframes skeleton-fade {
   0% {

@@ -1,9 +1,6 @@
-<script setup>
-const localePath = useLocalePath()
-</script>
 <template>
   <NuxtLink
-    :to="localePath('/table')"
+    to="/table"
     class="group relative flex h-96 w-full items-center overflow-hidden rounded-lg bg-gradient-to-r from-black from-0% via-black via-40% to-100% py-4 after:absolute after:inset-0 after:right-full after:bg-gradient-to-r after:from-yellow-500 after:from-0% after:via-yellow-500 after:via-40% after:to-100% after:opacity-0 after:transition-all after:duration-500 after:hover:right-0 after:hover:opacity-100 dark:from-zinc-900 dark:via-zinc-900 md:h-64"
   >
     <div

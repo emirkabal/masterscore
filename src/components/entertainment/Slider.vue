@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { IEntertainment, TMDBData, TMDBSearchResult } from "~/@types"
+import {
+  IEntertainment,
+  TMDBData,
+  TMDBSearchResult,
+  CreditsResult
+} from "~/@types"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { FreeMode, Navigation } from "swiper/modules"
 import { useEventListener } from "@vueuse/core"
 import "swiper/css"
 
 defineProps<{
-  data?: TMDBSearchResult[] | TMDBData[] | IEntertainment[]
+  data?: TMDBSearchResult[] | TMDBData[] | IEntertainment[] | CreditsResult[]
   showRatings?: boolean
   itemSize?: "default" | "large"
   fixedMediaType?: "movie" | "tv"

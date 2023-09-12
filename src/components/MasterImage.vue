@@ -28,7 +28,7 @@ defineProps<{
     >
       <Icon name="ic:outline-image-not-supported" color="white" size="36" />
     </div>
-    <nuxt-img
+    <img
       v-else
       :src="source"
       loading="lazy"

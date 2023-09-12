@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const localePath = useLocalePath()
 const { data } = defineProps<{
   data: {
     url: string
@@ -13,7 +12,7 @@ const { data } = defineProps<{
 </script>
 <template>
   <NuxtLink
-    :to="localePath(`/details/${data.url}`)"
+    :to="`/details/${data.url}`"
     class="flex w-full max-w-[100px] flex-shrink-0 select-none snap-start flex-col transition-opacity hover:opacity-75 md:max-w-[200px]"
   >
     <MasterImage

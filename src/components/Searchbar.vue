@@ -5,7 +5,6 @@ import IconHome from "~/components/icons/Home.vue"
 import IconFeed from "~/components/icons/Feed.vue"
 import IconStar from "~/components/icons/Star.vue"
 import IconDice from "~/components/icons/Dice.vue"
-const localePath = useLocalePath()
 const search = ref("")
 const loading = ref(false)
 const results = ref([])
@@ -18,22 +17,22 @@ const inputElement = ref(null)
 const history = useStorage("searchHistory", [])
 const routes = [
   {
-    name: "Home",
+    name: "header.home",
     path: "/",
     icon: IconHome
   },
   {
-    name: "Feed",
+    name: "header.feed",
     path: "/feed",
     icon: IconFeed
   },
   {
-    name: "Table",
+    name: "header.table",
     path: "/table",
     icon: IconStar
   },
   {
-    name: "Random Movie",
+    name: "header.random_movie",
     path: "/random",
     icon: IconDice
   }
@@ -123,7 +122,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           'rounded-bl-none rounded-br-none rounded-tl-2xl rounded-tr-2xl focus:ring-0 hover:focus:ring-0':
             focused
         }"
-        :placeholder="$t('search')"
+        :placeholder="$t('search.text')"
         ref="inputElement"
         :value="search"
         @input="searchInput"
@@ -171,37 +170,27 @@ onKeyStroke(["Control", "K", "k"], (e) => {
                 loading = true
                 searchResults()
               } else {
-                $router.push(
-                  localePath(routes[selectedIndex - history.length].path)
-                )
+                $router.push(routes[selectedIndex - history.length].path)
                 removeFocus(true)
               }
               return
             } else if (selectedIndex < results.length) {
               $router.push(
-                localePath(
-                  `/details/${results[selectedIndex].media_type}/${results[selectedIndex].id}`
-                )
+                `/details/${results[selectedIndex].media_type}/${results[selectedIndex].id}`
               )
             } else if (selectedIndex < results.length + persons.length) {
               $router.push(
-                localePath(
-                  `/details/person/${
-                    persons[selectedIndex - results.length].id
-                  }`
-                )
+                `/details/person/${persons[selectedIndex - results.length].id}`
               )
             } else if (
               selectedIndex <
               results.length + persons.length + users.length
             ) {
               $router.push(
-                localePath(
-                  `/users/${
-                    users[selectedIndex - results.length - persons.length]
-                      .username
-                  }`
-                )
+                `/users/${
+                  users[selectedIndex - results.length - persons.length]
+                    .username
+                }`
               )
             }
             selectedIndex = 0
@@ -238,13 +227,13 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         "
       >
         <p class="text-center text-gray-500 dark:text-gray-300">
-          No results found
+          {{ $t("search.no_results") }}
         </p>
       </div>
-      <div v-else-if="search.length === 0" class="space-y-2">
+      <div v-else-if="search.length === 0" class="select-none space-y-2">
         <div v-if="history.length === 0">
           <p class="text-center text-gray-500 dark:text-gray-300">
-            No recent searches
+            {{ $t("search.no_recent_searches") }}
           </p>
         </div>
         <div v-else>
@@ -293,7 +282,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             tabindex="-1"
             @click="
               (e) => {
-                $router.push(localePath(route.path))
+                $router.push(route.path)
                 removeFocus(true)
               }
             "
@@ -316,7 +305,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
                     route.path === $route.path
                 }"
               />
-              {{ route.name }}
+              {{ $t(route.name) }}
             </span>
           </button>
         </div>
@@ -324,12 +313,12 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       <div v-else>
         <div v-if="results.length !== 0">
           <div class="mb-2 font-bold text-gray-500 dark:text-gray-300">
-            Movies & TV Shows
+            {{ $t("search.movies_and_tv_shows") }}
           </div>
 
           <div v-for="(result, i) in results" :key="i">
             <NuxtLink
-              :to="localePath(`/details/${result.media_type}/${result.id}`)"
+              :to="`/details/${result.media_type}/${result.id}`"
               @mouseenter="selectedIndex = i"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               @click="removeFocus(true)"
@@ -371,11 +360,11 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         </div>
         <div v-if="persons.length !== 0">
           <div class="mb-2 font-bold text-gray-500 dark:text-gray-300">
-            Persons
+            {{ $t("search.persons") }}
           </div>
           <div v-for="(person, i) in persons" :key="`person-${i}`">
             <NuxtLink
-              :to="localePath(`/details/person/${person.id}`)"
+              :to="`/details/person/${person.id}`"
               @mouseenter="selectedIndex = i + results.length"
               @click="removeFocus(true)"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
@@ -409,11 +398,11 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         </div>
         <div v-if="users.length !== 0">
           <div class="mb-2 font-bold text-gray-500 dark:text-gray-300">
-            Users
+            {{ $t("search.users") }}
           </div>
           <div v-for="(user, i) in users" :key="`user-${i}`">
             <NuxtLink
-              :to="localePath(`/users/@${user.username}`)"
+              :to="`/users/@${user.username}`"
               @mouseenter="selectedIndex = i + results.length + persons.length"
               @click="removeFocus(true)"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
@@ -445,8 +434,11 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       <div
         class="bottom-2 left-2.5 mt-4 hidden w-fit select-none space-x-2 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
       >
-        <span class="rounded border border-gray-500 px-1 py-0.5">Esc</span>
-        <span>to close</span>
+        <i18n-t keypath="search.close">
+          <template v-slot:key>
+            <span class="rounded border border-gray-500 px-1 py-0.5">Esc</span>
+          </template>
+        </i18n-t>
       </div>
     </div>
   </div>

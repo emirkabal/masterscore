@@ -1,9 +1,7 @@
 <script setup>
-import { Switch } from "@headlessui/vue"
 import { useLocalStorage } from "@vueuse/core"
 import IMDB from "~/components/IMDB.vue"
 import RottenTomatoes from "~/components/RottenTomatoes.vue"
-const localePath = useLocalePath()
 const headers = [
   { text: "Rank", value: "rank", sortable: true, width: 40 },
   {
@@ -88,7 +86,7 @@ watch([listType, disableReviewRequirement], () => {
       </select>
     </div>
     <div class="mb-4 flex items-center gap-2">
-      <Switch
+      <HeadlessSwitch
         id="disableReviewRequirement"
         v-model="disableReviewRequirement"
         :class="!disableReviewRequirement ? 'bg-blue-700' : 'bg-teal-700'"
@@ -102,7 +100,7 @@ watch([listType, disableReviewRequirement], () => {
           "
           class="pointer-events-none inline-block h-[14px] w-[14px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
         />
-      </Switch>
+      </HeadlessSwitch>
       <label for="disableReviewRequirement" class="select-none opacity-80">
         Show only entertainments with at least 3 reviews
       </label>
@@ -123,7 +121,7 @@ watch([listType, disableReviewRequirement], () => {
       <template #item-entertainment.info.title="{ entertainment }">
         <NuxtLink
           class="flex items-center gap-2 text-lg font-semibold hover:underline"
-          :to="localePath(`/details/${entertainment.type}/${entertainment.id}`)"
+          :to="`/details/${entertainment.type}/${entertainment.id}`"
         >
           <img
             :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${entertainment.info.poster}`"
@@ -133,12 +131,17 @@ watch([listType, disableReviewRequirement], () => {
         </NuxtLink>
       </template>
       <template #item-entertainment.info.release_date="item">
-        {{ $moment(item.entertainment.info.release_date).format("YYYY") }}
+        {{
+          $moment(item.entertainment.info.release_date)
+            .locale($i18n.locale)
+            .format("YYYY")
+        }}
       </template>
       <template #item-entertainment.info.runtime="item">
         {{
           $moment
             .duration(item.entertainment.info.runtime, "minutes")
+            .locale($i18n.locale)
             .format("h[h] m[m]")
         }}
       </template>
