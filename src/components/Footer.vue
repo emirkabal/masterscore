@@ -19,14 +19,14 @@ isDark.value = true
             <Logo class="text-2xl" />
           </NuxtLink>
           <span
-            class="text-gray-100"
+            class="text-xs text-gray-200"
             v-tooltip="{
               content: $moment(date).locale($i18n.locale).format('LLL')
             }"
             >v{{ version }}</span
           >
         </div>
-        <p class="max-w-xs pb-2 text-sm text-gray-100">
+        <p class="max-w-xs pb-2 text-sm text-gray-200">
           {{ $t("footer.about") }}
         </p>
         <p class="max-w-xs border-t border-t-zinc-700 pt-2 text-xs opacity-75">
