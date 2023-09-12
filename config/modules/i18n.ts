@@ -7,6 +7,7 @@ export default {
       code: 'en',
       name: 'English',
       iso: 'en-US',
+      flag: 'gb',
       file: 'en-US.json'
     },
     {
@@ -20,7 +21,45 @@ export default {
       name: 'Türkçe',
       iso: 'tr-TR',
       file: 'tr-TR.json'
-    }
+    },
+    {
+      code: 'fr',
+      name: 'Français',
+      iso: 'fr-FR',
+      file: 'fr-FR.json'
+    },
+    {
+      code: 'es',
+      name: 'Español',
+      iso: 'es-ES',
+      file: 'es-ES.json'
+    },
+    {
+      code: 'ru',
+      name: 'Русский',
+      iso: 'ru-RU',
+      file: 'ru-RU.json'
+    },
+    {
+      code: 'sv',
+      name: 'Svenska',
+      iso: 'sv-SE',
+      flag: 'se',
+      file: 'sv-SE.json'
+    },
+    {
+      code: 'hi',
+      name: 'हिन्दी',
+      iso: 'hi-IN',
+      flag: 'in',
+      file: 'hi-IN.json'
+    },
+    {
+      code: 'pt',
+      name: 'Português',
+      iso: 'pt-PT',
+      file: 'pt-PT.json'
+    },
   ],
   lazy: true,
   langDir: 'locales',

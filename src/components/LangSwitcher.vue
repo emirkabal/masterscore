@@ -6,18 +6,20 @@ const availableLocales = computed(() => {
 })
 </script>
 <template>
-  <div class="relative">
+  <div class="relative select-none">
     <HeadlessListbox>
       <HeadlessListboxButton class="flex items-center text-sm font-semibold">
-        <Icon
-          :name="`flag:${locale === 'en' ? 'gb' : locale}-4x3`"
-          class="mr-2 h-6 w-auto rounded"
-        />
+        <div class="relative mr-2 h-6 w-9 overflow-hidden rounded">
+          <Icon
+            :name="`flag:${localeProperties.flag || localeProperties.code}-4x3`"
+            class="absolute left-0 h-full w-full scale-[1.21]"
+          />
+        </div>
         {{ localeProperties.name }}
         <Icon name="ic:round-arrow-drop-down" class="h-6 w-auto rounded" />
       </HeadlessListboxButton>
       <HeadlessListboxOptions
-        class="absolute -top-24 left-0 flex flex-col overflow-hidden rounded-lg bg-zinc-900"
+        class="absolute -top-[308px] left-0 z-50 flex flex-col overflow-hidden rounded-lg bg-zinc-900"
         :class="{
           '!bg-gray-100': light
         }"
@@ -34,11 +36,15 @@ const availableLocales = computed(() => {
               light
           }"
         >
-          <Icon
-            :name="`flag:${l.code === 'en' ? 'gb' : l.code}-4x3`"
-            class="mr-2 h-6 w-auto rounded"
-          />
-          {{ l.name }}
+          <div class="flex flex-shrink-0 items-center gap-2">
+            <div class="relative h-5 w-9 overflow-hidden rounded">
+              <Icon
+                :name="`flag:${l.flag || l.code}-4x3`"
+                class="absolute left-0 h-full w-full scale-[1.3]"
+              />
+            </div>
+            <span>{{ l.name }}</span>
+          </div>
         </HeadlessListboxOption>
       </HeadlessListboxOptions>
     </HeadlessListbox>

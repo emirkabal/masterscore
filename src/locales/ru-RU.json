@@ -1,0 +1,181 @@
+{
+    "welcome": "Добро пожаловать в Masterscore",
+    "movies": "Фильмы",
+    "tv_shows": "Телепередачи",
+    "edited": "отредактировано",
+    "unknown": "Неизвестный",
+    "no_comment_for_this_review": "Нет комментариев к этому обзору.",
+    "guest": {
+        "sign_in": "Войти",
+        "sign_up": "Зарегистрироваться",
+        "dont_have_account": "У вас нет учетной записи?",
+        "already_have_account": "У вас уже есть учетная запись?",
+        "create_account": "Создать учетную запись",
+        "forgot_password": "Забыли пароль",
+        "form": {
+            "username": "Имя пользователя",
+            "password": "Пароль",
+            "email": "Электронная почта",
+            "confirm_password": "Подтверждение пароля",
+            "invite_code": "Код приглашения",
+            "passwords_not_match": "Пароли не совпадают."
+        }
+    },
+    "header": {
+        "home": "Главная",
+        "feed": "Корм",
+        "table": "Таблица",
+        "random_movie": "Случайный фильм",
+        "user": {
+            "profile": "Профиль",
+            "watchlist": "Список наблюдения",
+            "reviews": "Отзывы",
+            "settings": "Настройки",
+            "logout": "Выход из системы"
+        }
+    },
+    "activity": {
+        "reviewed": "Рассмотрено",
+        "liked": "Понравилось",
+        "added_to_watchlist": "Добавлено в список наблюдения"
+    },
+    "search": {
+        "text": "Введите для поиска...",
+        "no_results": "Результаты не найдены.",
+        "no_recent_searches": "Последние поиски не найдены.",
+        "movies_and_tv_shows": "Фильмы и телепередачи",
+        "persons": "Лица",
+        "users": "Пользователи",
+        "close": "{key} для закрытия"
+    },
+    "profile": {
+        "created": "создано {n}",
+        "edit_profile": "Редактировать профиль",
+        "copy_url": "Копировать URL",
+        "summary": "Резюме",
+        "watchlist": "Список наблюдения ({n})",
+        "reviews": "Отзывы ({n})",
+        "no_reviews": "Отзывов пока нет.",
+        "featured_entertainments": "Развлечения",
+        "latest_reviews": "Последние отзывы",
+        "latest_likes": "Последние лайки",
+        "last_added_to_watchlist": "Последние добавленные в список наблюдения"
+    },
+    "person": {
+        "personal_info": "Персональная информация",
+        "known_for": "Известность",
+        "birthday": "День рождения",
+        "place_of_birth": "Место рождения",
+        "deathday": "День смерти",
+        "gender": "Гендер",
+        "also_known_as": "Также известен как",
+        "biography": "Биография",
+        "no_biography": "Биография этого человека отсутствует.",
+        "read_more": "Читать далее...",
+        "age": "{n} лет",
+        "genders": {
+            "0": "Неизвестный",
+            "1": "Женщина",
+            "2": "Мужчина",
+            "3": "Другое"
+        },
+        "departments": {
+            "Acting": "Актер",
+            "Directing": "Директор",
+            "Writing": "Писатель",
+            "Production": "Производитель",
+            "Editing": "Редактор",
+            "Art": "Искусство",
+            "Sound": "Звук",
+            "Camera": "Камера",
+            "Crew": "Экипаж",
+            "Costume & Make-Up": "Костюм и грим",
+            "Visual Effects": "Визуальные эффекты",
+            "Lighting": "Освещение",
+            "Creator": "Создатель"
+        }
+    },
+    "settings": {
+        "title": "Настройки",
+        "edit_profile": "Редактировать профиль",
+        "preview": "Предварительный просмотр",
+        "about": "О сайте",
+        "cancel": "Отмена",
+        "confirm": "Подтвердить",
+        "avatar": "Аватар",
+        "dropzone_text": "Щелкните здесь или перетащите свой файл.",
+        "dropzone_types": "PNG, JPG или GIF (максимум: {0} | рекомендуется: {1})",
+        "username": "Имя пользователя",
+        "username_notice": "Менять имя пользователя можно только раз в {0} дней.",
+        "banner_url": "URL баннера",
+        "platform_recommended": "Рекомендуется: {0}",
+        "update_profile": "Обновление профиля",
+        "back_to_profile": "Назад к профилю",
+        "preferences": "Предпочтения",
+        "debug_mode": "Режим отладки"
+    },
+    "footer": {
+        "about": "Ваш лучший источник беспристрастных обзоров фильмов и телепередач. Откройте для себя новое любимое развлечение!",
+        "tmdb_text": "Отображаемые данные о фильмах, телепередачах и персонах поступают от {provider}"
+    },
+    "home": {
+        "recommended": "Рекомендуемый",
+        "top_rated": "Высшая оценка",
+        "more_info": "Дополнительная информация"
+    },
+    "entertainment": {
+        "watch_trailer": "Смотреть трейлер",
+        "reviews": "Отзывы",
+        "reviewed": "Рассмотрено",
+        "no_reviews": "Отзывов об этом развлечении пока нет.",
+        "collection": "Коллекция",
+        "cast": "Литье",
+        "crew": "Экипаж",
+        "similar": "Похожие",
+        "episodes": "Эпизоды",
+        "total_episodes": "Всего {total} эпизодов.",
+        "n_episodes": "{n} Эпизоды",
+        "buttons": {
+            "watch": "Смотреть",
+            "review": "Обзор",
+            "reviewed": "Рассмотрено",
+            "add_to_watchlist": "Добавить в список наблюдения",
+            "remove_from_watchlist": "Удалить из списка наблюдения"
+        },
+        "sidebar": {
+            "belongs_to_collection": "Принадлежность к коллекции",
+            "availabe_on": "Доступно на",
+            "original_name": "Оригинальное название",
+            "status": "Статус",
+            "language": "Язык",
+            "spoken_languages": "Языки общения",
+            "budget": "Бюджет",
+            "revenue": "Выручка",
+            "created_by": "Created By",
+            "other": "Другое",
+            "visit_website": "Посетите сайт",
+            "released": "Выпущено",
+            "ended_at": "Окончание на",
+            "returning_in": "Возвращение в",
+            "planned": "Планируемый",
+            "watch_on": "Смотрите на {provider}.",
+            "watch_on_masterscore": "Смотреть на {platform}. (Вы уже здесь <3)",
+            "powered_by": "Powered by {provider}"
+        },
+        "summary": {
+            "likes": "нравится",
+            "reviews": "отзывы"
+        }
+    },
+    "genres": {
+        "Comedy": "Комедия",
+        "Crime": "Преступление",
+        "Science Fiction": "Научная фантастика",
+        "Fantasy": "Фэнтези",
+        "Drama": "Драма",
+        "Family": "Семья",
+        "Animation": "Анимация",
+        "Adventure": "Приключения",
+        "Action": "Действие"
+    }
+}
