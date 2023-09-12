@@ -292,21 +292,19 @@ useHead({
       </div>
 
       <HeadlessTabGroup :selectedIndex="selectedTab" @change="changeTab">
-        <div class="flex overflow-x-auto scrollbar-none">
-          <HeadlessTabList>
-            <HeadlessTab>{{ $t("profile.summary") }}</HeadlessTab>
-            <HeadlessTab v-if="user.reviews?.length">{{
-              $t("profile.reviews", {
-                n: reviews.items.length || user.reviews?.length || 0
-              })
-            }}</HeadlessTab>
-            <HeadlessTab v-if="user.watchlist?.length">{{
-              $t("profile.watchlist", {
-                n: watchlist.items.length || user.watchlist?.length || 0
-              })
-            }}</HeadlessTab>
-          </HeadlessTabList>
-        </div>
+        <HeadlessTabList>
+          <HeadlessTab>{{ $t("profile.summary") }}</HeadlessTab>
+          <HeadlessTab v-if="user.reviews?.length">{{
+            $t("profile.reviews", {
+              n: reviews.items.length || user.reviews?.length || 0
+            })
+          }}</HeadlessTab>
+          <HeadlessTab v-if="user.watchlist?.length">{{
+            $t("profile.watchlist", {
+              n: watchlist.items.length || user.watchlist?.length || 0
+            })
+          }}</HeadlessTab>
+        </HeadlessTabList>
         <HeadlessTabPanels>
           <HeadlessTabPanel
             ><section>
@@ -347,12 +345,12 @@ useHead({
 
 <style scoped>
 div[role="tablist"] {
-  @apply mx-auto mt-6 flex items-center justify-center gap-2 md:mx-0;
+  @apply mx-auto mt-6 flex items-center  justify-start gap-2 overflow-x-auto scrollbar-none md:mx-0;
 }
 button[role="tab"] {
-  @apply block min-w-[120px] flex-shrink-0 select-none rounded-md bg-gray-100 px-4 py-2 text-sm text-gray-700 focus:outline-none dark:bg-zinc-900 dark:text-gray-300;
+  @apply block flex-shrink-0 select-none rounded-md bg-gray-100 px-4 py-2 text-sm text-gray-700 focus:outline-none dark:bg-zinc-900 dark:text-gray-300;
 }
 button[role="tab"][aria-selected="true"] {
-  @apply bg-yellow-500 font-semibold text-black transition-all focus:outline-none;
+  @apply bg-yellow-500 text-black transition-all focus:outline-none;
 }
 </style>
