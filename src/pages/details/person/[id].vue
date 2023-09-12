@@ -110,11 +110,11 @@ useHead({
               <p v-if="data.birthday">
                 <strong>{{ $t("person.birthday") }}</strong>
                 {{ data.birthday }}
-                {{ !data.deathday ? `(${$t("age", { n: age })})` : "" }}
+                {{ !data.deathday ? `(${$t("person.age", { n: age })})` : "" }}
               </p>
               <p v-if="data.deathday">
                 <strong>{{ $t("deathday") }}</strong>
-                {{ data.deathday }} ({{ $t("age", { n: age }) }})
+                {{ data.deathday }} ({{ $t("person.age", { n: age }) }})
               </p>
               <p v-if="data.place_of_birth">
                 <strong>{{ $t("person.place_of_birth") }}</strong>

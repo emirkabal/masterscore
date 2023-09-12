@@ -9,7 +9,7 @@ isDark.value = true
 </script>
 
 <template>
-  <footer class="w-full gap-24 border-t border-zinc-900 py-16">
+  <footer class="-mt-4 w-full gap-24 border-t border-zinc-900 py-16">
     <div
       class="max-w-8xl container mx-auto flex w-full flex-col-reverse justify-between gap-2 px-4 text-center md:flex-row md:text-left"
     >

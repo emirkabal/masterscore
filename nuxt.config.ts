@@ -57,8 +57,18 @@ export default defineNuxtConfig({
         {
           name: "viewport",
           content:
-            "width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         },
+        {
+          // @ts-ignore
+          viewport:
+            "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+          mobileAppIOS: true
+        },
+        { name: "mobile-web-app-capable", content: "yes" },
+        { name: "full-screen", content: "yes" },
+        { name: "browsermode", content: "application" },
+        { name: "screen-orientation", content: "portrait" },
         {
           hid: "description",
           name: "description",
