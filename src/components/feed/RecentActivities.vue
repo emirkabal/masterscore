@@ -3,7 +3,6 @@ import { IEntertainment, IReview } from "~/@types"
 import { useUrlSearchParams } from "@vueuse/core"
 import { vIntersectionObserver } from "@vueuse/components"
 import debounce from "lodash.debounce"
-const localePath = useLocalePath()
 const params = useUrlSearchParams("history")
 
 interface CustomIncomingData {
@@ -71,22 +70,13 @@ watch(
 </script>
 <template>
   <section>
-    <div class="mb-4 flex justify-between">
-      <h1
-        id="top"
-        class="border-l-4 border-blue-500 pl-2 text-2xl font-bold tracking-wide"
-      >
-        Recent Activities
-      </h1>
-
-      <button
-        @click="reset"
-        v-if="params.page !== '1' && activities.length === 10"
-        class="z-10 rounded bg-gray-200 px-2 py-1 font-semibold transition-colors hover:bg-gray-300 dark:bg-zinc-900 dark:hover:bg-zinc-800"
-      >
-        Reset Page
-      </button>
-    </div>
+    <button
+      @click="reset"
+      v-if="params.page !== '1' && activities.length === 10"
+      class="fixed bottom-0 left-0 right-0 z-10 origin-center rounded bg-gray-200 px-2 py-1 font-semibold transition-colors hover:bg-gray-300 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+    >
+      Reset Page
+    </button>
     <div v-if="loading" class="flex items-start py-8" v-for="i in 8" :key="i">
       <div
         class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 dark:bg-zinc-800 md:h-14 md:w-14"
@@ -118,7 +108,7 @@ watch(
       "
       :key="activity._id"
     >
-      <NuxtLink :to="localePath(`/users/@${activity.author.username}`)">
+      <NuxtLink :to="`/users/@${activity.author.username}`">
         <Avatar
           :username="activity.author.username"
           :avatar="activity.author.avatar"
@@ -142,7 +132,7 @@ watch(
             <span
               class="flex-shrink-0 text-xs text-gray-500 dark:text-gray-300"
             >
-              {{ $moment(activity.createdAt).fromNow() }}
+              {{ $moment(activity.createdAt).locale($i18n.locale).fromNow() }}
             </span>
           </div>
         </div>
@@ -166,7 +156,7 @@ watch(
         'opacity-100': pagination.loading && !pagination.finished && !loading
       }"
     >
-      <Spinner color="#000" />
+      <Loader />
     </div>
   </section>
 </template>

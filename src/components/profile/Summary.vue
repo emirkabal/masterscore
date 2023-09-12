@@ -31,7 +31,7 @@ defineProps<{
     <div v-else class="space-y-4">
       <div v-if="summary.featured.length > 0">
         <h1 class="mb-4 text-xl font-semibold md:text-2xl">
-          Featured Entertainments
+          {{ $t("profile.featured_entertainments") }}
         </h1>
         <EntertainmentSlider
           :data="
@@ -47,20 +47,22 @@ defineProps<{
       </div>
 
       <div v-if="summary.reviews.length > 0">
-        <h1 class="mb-4 text-xl font-semibold md:text-2xl">Latest Reviews</h1>
+        <h1 class="mb-4 text-xl font-semibold md:text-2xl">
+          {{ $t("profile.latest_reviews") }}
+        </h1>
         <EntertainmentSlider :data="summary.reviews" />
       </div>
 
       <div v-if="summary.recommendations.length > 0">
         <h1 class="mb-4 text-xl font-semibold md:text-2xl">
-          Latest Recommendations
+          {{ $t("profile.latest_likes") }}
         </h1>
         <EntertainmentSlider :data="summary.recommendations" />
       </div>
 
       <div v-if="summary.watchlist.length > 0">
         <h1 class="mb-4 text-xl font-semibold md:text-2xl">
-          Last Added to Watchlist
+          {{ $t("profile.last_added_to_watchlist") }}
         </h1>
         <EntertainmentSlider :data="summary.watchlist" />
       </div>

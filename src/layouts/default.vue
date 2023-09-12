@@ -24,7 +24,7 @@ watch(
 </script>
 <template>
   <div>
-    <div class="min-h-screen">
+    <div class="min-h-[90vh]">
       <Header />
       <div
         v-if="loading"

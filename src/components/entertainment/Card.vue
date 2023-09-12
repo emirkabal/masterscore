@@ -2,7 +2,7 @@
 import { IEntertainment } from "~/@types"
 import tinycolor from "tinycolor2"
 const { $colorthief } = useNuxtApp()
-const localePath = useLocalePath()
+const { t } = useI18n()
 
 const props = defineProps<{
   to: string
@@ -12,9 +12,9 @@ const props = defineProps<{
 }>()
 
 const strings: Record<string, string> = {
-  review: "Reviewed",
-  like: "Liked",
-  watchlist: "Added to watchlist"
+  review: t("activity.reviewed"),
+  like: t("activity.liked"),
+  watchlist: t("activity.added_to_watchlist")
 }
 
 const getActivityTitle = (type: string) => {
@@ -41,7 +41,7 @@ const imageLoading = ref(true)
 
 watch(imageLoading, () => {
   if (nuxtImageRefence.value) {
-    const color = $colorthief.getColor(nuxtImageRefence.value.$el)
+    const color = $colorthief.getColor(nuxtImageRefence.value)
     colors.background = color
     colors.gradient = Object.values(
       tinycolor("rgb " + color.join(" "))
@@ -55,7 +55,7 @@ watch(imageLoading, () => {
 
 <template>
   <NuxtLink
-    :to="localePath(to)"
+    :to="to"
     class="group mt-1 flex w-fit min-w-0 items-center gap-x-2 rounded bg-gray-500 p-2 dark:bg-zinc-800"
     :style="{
       background: imageLoading
@@ -64,11 +64,11 @@ watch(imageLoading, () => {
     }"
   >
     <span
-      class="skeleton-effect h-12 w-8 rounded bg-gray-400 dark:bg-zinc-900"
+      class="skeleton-effect h-12 w-8 flex-shrink-0 rounded bg-gray-400 dark:bg-zinc-900"
       v-if="imageLoading"
     >
     </span>
-    <nuxt-img
+    <img
       ref="nuxtImageRefence"
       :src="posterUrl"
       loading="lazy"

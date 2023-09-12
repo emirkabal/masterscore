@@ -1,4 +1,5 @@
 export default {
+  strategy: 'no_prefix',
   defaultLocale: 'en',
   fallbackLocale: 'en',
   locales: [

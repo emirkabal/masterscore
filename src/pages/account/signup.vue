@@ -1,8 +1,8 @@
 <script setup>
 import { useUserStore } from "~/store/user"
-const localePath = useLocalePath()
+const { t } = useI18n()
 useHead({
-  title: "Signup",
+  title: t("guest.sign_up"),
   titleTemplate: "%s - Masterscore"
 })
 const userStore = useUserStore()
@@ -37,7 +37,7 @@ if (userStore.isLoggedIn) {
 const submit = async (event) => {
   event.preventDefault()
   if (password.value !== confirmPassword.value) {
-    error.value = "Passwords do not match"
+    error.value = t("guest.form.passwords_not_match")
     return
   } else {
     error.value = ""
@@ -76,88 +76,47 @@ const submit = async (event) => {
         <Logo class="text-4xl !text-black" />
       </h1>
       <p class="text-center font-maven text-lg font-black !text-black">
-        Create account
+        {{ $t("guest.create_account") }}
       </p>
       <p v-if="error.length > 0" class="text-center text-red-600">
         {{ error }}
       </p>
-      <form @submit="submit" class="mt-2 space-y-4 !text-black">
-        <div class="relative">
-          <input
-            :value="username"
-            @input="(e) => (username = e.target.value)"
-            type="text"
-            placeholder=" "
-            class="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-          />
-          <label
-            for="floating_outlined"
-            class="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
-            >Username</label
-          >
-        </div>
-        <div class="relative">
-          <input
-            :value="email"
-            @input="(e) => (email = e.target.value)"
-            type="email"
-            placeholder=" "
-            class="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-          />
-          <label
-            for="floating_outlined"
-            class="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
-            >Email</label
-          >
-        </div>
-        <div class="relative">
-          <input
-            :value="password"
-            @input="(e) => (password = e.target.value)"
-            type="password"
-            placeholder=" "
-            class="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-          />
-          <label
-            for="floating_outlined"
-            class="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
-            >Password</label
-          >
-        </div>
-        <div class="relative">
-          <input
-            :value="confirmPassword"
-            @input="(e) => (confirmPassword = e.target.value)"
-            type="password"
-            placeholder=" "
-            class="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-          />
-          <label
-            for="floating_outlined"
-            class="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
-            >Confirm Password</label
-          >
-        </div>
-        <div class="relative">
-          <input
-            :value="inviteCode"
-            @input="(e) => (inviteCode = e.target.value)"
-            type="text"
-            placeholder=" "
-            class="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-          />
-          <label
-            for="floating_outlined"
-            class="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
-            >Invite Code</label
-          >
-        </div>
+      <form
+        @submit="submit"
+        class="mt-2 space-y-4 !text-black"
+        autocomplete="off"
+      >
+        <FormInput
+          v-model="username"
+          type="text"
+          :title="$t('guest.form.username')"
+        />
+        <FormInput
+          v-model="email"
+          type="email"
+          :title="$t('guest.form.email')"
+        />
+        <FormInput
+          v-model="password"
+          type="password"
+          :title="$t('guest.form.password')"
+        />
+        <FormInput
+          v-model="confirmPassword"
+          type="password"
+          :title="$t('guest.form.confirm_password')"
+        />
+        <FormInput
+          v-model="inviteCode"
+          type="text"
+          :title="$t('guest.form.invite_code')"
+        />
 
         <input
           v-if="!loading"
           type="submit"
           :disabled="disabled"
-          value="Signup"
+          :value="$t('guest.sign_up')"
           class="flex h-14 w-full cursor-pointer items-center justify-center rounded-lg bg-blue-700 px-4 py-4 text-white disabled:cursor-default disabled:bg-gray-400 enabled:hover:bg-blue-600"
         />
         <button
@@ -168,14 +127,23 @@ const submit = async (event) => {
           <Spinner />
         </button>
       </form>
+
       <p class="mt-4 text-center !text-black">
-        Already have an account?
+        {{ $t("guest.already_have_account") }}
         <NuxtLink
-          :to="localePath('/account/login')"
+          to="/account/login"
           class="font-semibold text-blue-700 hover:underline"
-          >Login</NuxtLink
+          >{{ $t("guest.sign_in") }}</NuxtLink
         >
       </p>
+    </div>
+    <div
+      class="fixed bottom-0 left-1/2 z-50 mb-4 block -translate-x-1/2 text-black md:hidden"
+    >
+      <LangSwitcher :light="true" />
+    </div>
+    <div class="absolute bottom-0 right-0 z-50 mb-4 mr-12">
+      <LangSwitcher :light="true" />
     </div>
     <div
       class="absolute right-0 top-0 z-10 hidden h-screen w-full bg-gradient-to-b from-yellow-600/80 backdrop-blur-sm md:block"

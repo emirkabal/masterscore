@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { TMDBData } from "~~/src/@types"
 const { $moment, $getTitle } = useNuxtApp()
+const { locale } = useI18n()
 
 const { data, isLight, loading } = defineProps<{
   data?: TMDBData
@@ -32,12 +33,15 @@ const runtime = computed(() => {
         45,
       "minutes"
     )
+    .locale(locale.value)
     .humanize()
 })
 const releaseDate = computed(() => {
   return $moment(
     (data && data.release_date) || (data && data.first_air_date) || 0
-  ).format("YYYY")
+  )
+    .locale(locale.value)
+    .format("YYYY")
 })
 
 useHead({

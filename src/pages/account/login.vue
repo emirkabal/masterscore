@@ -1,8 +1,8 @@
 <script setup>
 import { useUserStore } from "~/store/user"
-const localePath = useLocalePath()
+const { t } = useI18n()
 useHead({
-  title: "Login",
+  title: t("guest.sign_in"),
   titleTemplate: "%s - Masterscore"
 })
 const userStore = useUserStore()
@@ -46,38 +46,20 @@ const submit = async (event) => {
           {{ error }}
         </p>
         <form @submit="submit" class="mt-2 space-y-4 !text-black">
-          <div class="relative">
-            <input
-              :value="username"
-              @input="(e) => (username = e.target.value)"
-              type="text"
-              placeholder=" "
-              class="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-            />
-            <label
-              for="floating_outlined"
-              class="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
-              >Username</label
-            >
-          </div>
-          <div class="relative">
-            <input
-              :value="password"
-              @input="(e) => (password = e.target.value)"
-              type="password"
-              placeholder=" "
-              class="border-1 peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
-            />
-            <label
-              for="floating_outlined"
-              class="pointer-events-none absolute left-1 top-2 z-10 origin-[0] -translate-y-5 scale-75 transform bg-white px-2 text-gray-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600"
-              >Password</label
-            >
-          </div>
+          <FormInput
+            v-model="username"
+            type="text"
+            :title="$t('guest.form.username')"
+          />
+          <FormInput
+            v-model="password"
+            type="password"
+            :title="$t('guest.form.password')"
+          />
           <input
             v-if="!loading"
             type="submit"
-            value="Login"
+            :value="$t('guest.sign_in')"
             class="h-14 w-full cursor-pointer rounded-lg bg-blue-700 px-4 py-4 text-white hover:bg-blue-600"
           />
           <button
@@ -89,16 +71,25 @@ const submit = async (event) => {
           </button>
         </form>
         <p class="mt-3 text-center !text-black">
-          Don't have an account?
+          {{ $t("guest.dont_have_account") }}
           <NuxtLink
-            :to="localePath('/account/signup')"
+            :to="'/account/signup'"
             class="font-semibold text-blue-700 hover:underline"
-            >Sign up</NuxtLink
+            >{{ $t("guest.sign_up") }}</NuxtLink
           >
         </p>
       </div>
     </div>
+    <div
+      class="fixed bottom-0 left-1/2 z-50 mb-4 block -translate-x-1/2 text-black md:hidden"
+    >
+      <LangSwitcher :light="true" />
+    </div>
+
     <div class="hidden h-screen w-full md:block">
+      <div class="absolute bottom-0 right-0 z-50 mb-4 mr-12">
+        <LangSwitcher :light="true" />
+      </div>
       <div
         class="absolute right-0 top-0 h-screen w-full bg-gradient-to-r from-yellow-600 backdrop-blur-sm"
       ></div>

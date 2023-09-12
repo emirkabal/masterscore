@@ -1,12 +1,18 @@
 <script setup>
 import { vIntersectionObserver } from "@vueuse/components"
-const { $tfiltergenres } = useNuxtApp()
+const { $tfiltergenres, $listen } = useNuxtApp()
 useHead({
   title: "Masterscore",
   titleTemplate: "%s"
 })
 
-const { data: home, pending } = await useLazyFetch("/api/extra/home", {
+const refreshing = ref(false)
+
+const {
+  data: home,
+  pending,
+  refresh
+} = await useLazyFetch("/api/extra/home", {
   headers: generateHeaders()
 })
 
@@ -43,7 +49,7 @@ const genres = reactive(
 )
 
 const onIntersectionObserver = async ([{ isIntersecting }], genre) => {
-  if (isIntersecting && genre.pending) {
+  if (isIntersecting && genre.pending && !refreshing.value) {
     const { data, pending } = await useLazyFetch("/api/discover/movie", {
       headers: generateHeaders(),
       params: {
@@ -54,11 +60,19 @@ const onIntersectionObserver = async ([{ isIntersecting }], genre) => {
 
     genre.data = data.value.results
     genre.pending = pending.value
-
-    watch(data, (data) => (genre.data = data))
-    watch(pending, (pending) => (genre.pending = pending))
   }
 }
+
+$listen("refresh:entertainment", () => {
+  refreshing.value = true
+  refresh()
+  genres.forEach((genre) => {
+    genre.pending = true
+  })
+  setTimeout(() => {
+    refreshing.value = false
+  }, 1000)
+})
 </script>
 <template>
   <section v-if="pending && !home">

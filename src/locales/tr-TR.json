@@ -1,11 +1,123 @@
 {
   "welcome": "Masterscore'a hoşgeldiniz",
-  "search": "Aramak için tuşlayın...",
   "movies": "Filmler",
   "tv_shows": "Diziler",
   "edited": "düzenlendi",
   "unknown": "Bilinmeyen",
   "no_comment_for_this_review": "Bu değerlendirme için henüz yorum yok.",
+  "guest": {
+    "sign_in": "Giriş yap",
+    "sign_up": "Kayıt ol",
+    "dont_have_account": "Hesabınız yok mu?",
+    "already_have_account": "Zaten bir hesabınız var mı?",
+    "create_account": "Hesap oluştur",
+    "forgot_password": "Şifremi unuttum",
+    "form": {
+      "username": "Kullanıcı adı",
+      "password": "Şifre",
+      "email": "E-posta",
+      "confirm_password": "Şifre tekrarı",
+      "invite_code": "Davetiye kodu",
+      "passwords_not_match": "Şifreler eşleşmiyor."
+    }
+  },
+  "header": {
+    "home": "Ana sayfa",
+    "feed": "Akış",
+    "table": "Tablo",
+    "random_movie": "Rastgele film",
+    "user": {
+      "profile": "Profil",
+      "watchlist": "İzleme listesi",
+      "reviews": "Değerlendirmeler",
+      "settings": "Ayarlar",
+      "logout": "Çıkış yap"
+    }
+  },
+  "activity": {
+    "reviewed": "Değerlendirdi",
+    "liked": "Beğendi",
+    "added_to_watchlist": "İzleme listesine ekledi"
+  },
+  "search": {
+    "text": "Aramak için tuşlayın...",
+    "no_results": "Sonuç bulunamadı.",
+    "no_recent_searches": "Arama geçmişi bulunamadı.",
+    "movies_and_tv_shows": "Filmler & Diziler",
+    "persons": "Kişiler",
+    "users": "Kullanıcılar",
+    "close": "kapatmak için {key}"
+  },
+  "profile": {
+    "created": "{n} oluşturuldu",
+    "edit_profile": "Profili Düzenle",
+    "copy_url": "Bağlantıyı kopyala",
+    "summary": "Özet",
+    "watchlist": "İzleme listesi ({n})",
+    "reviews": "Değerlendirmeler ({n})",
+    "no_reviews": "Henüz değerlendirme yok.",
+    "featured_entertainments": "Öne Çıkan İçerikler",
+    "latest_reviews": "Son Değerlendirmeler",
+    "latest_likes": "Son Beğeniler",
+    "last_added_to_watchlist": "İzleme Listesine Son Eklenenler"
+  },
+  "person": {
+    "personal_info": "Kişisel Bilgiler",
+    "known_for": "Bilinen İşi",
+    "birthday": "Doğum Günü",
+    "place_of_birth": "Doğum Yeri",
+    "deathday": "Ölüm Günü",
+    "gender": "Cinsiyet",
+    "also_known_as": "Ayrıca Şöyle Bilinir",
+    "biography": "Biyografi",
+    "no_biography": "Bu kişi için biyografi bulunamadı.",
+    "read_more": "Devamını oku...",
+    "age": "{n} yaşında",
+    "genders": {
+      "0": "Bilinmiyor",
+      "1": "Kadın",
+      "2": "Erkek",
+      "3": "Diğer"
+    },
+    "departments": {
+      "Acting": "Oyuncu",
+      "Directing": "Yönetmen",
+      "Writing": "Yazar",
+      "Production": "Yapımcı",
+      "Editing": "Editör",
+      "Art": "Sanat",
+      "Sound": "Ses",
+      "Camera": "Kamera",
+      "Crew": "Ekip",
+      "Costume & Make-Up": "Kostüm & Makyaj",
+      "Visual Effects": "Görsel Efektler",
+      "Lighting": "Işık",
+      "Creator": "Yaratıcı"
+    }
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "edit_profile": "Profili Düzenle",
+    "preview": "Önizleme",
+    "about": "Hakkımda",
+    "cancel": "İptal",
+    "confirm": "Onayla",
+    "avatar": "Avatar",
+    "dropzone_text": "Buraya tıklayın veya dosyanızı sürükleyin.",
+    "dropzone_types": "PNG, JPG veya GIF (maks: {0} | önr. {1})",
+    "username": "Kullanıcı adı",
+    "username_notice": "Kullanıcı adınızı sadece {0} günde bir değiştirebilirsiniz.",
+    "banner_url": "Arkaplan Bağlantısı",
+    "platform_recommended": "{0} tavsiye edilir.",
+    "update_profile": "Profili Güncelle",
+    "back_to_profile": "Profile geri dön",
+    "preferences": "Tercihler",
+    "debug_mode": "Hata ayıklama modu"
+  },
+  "footer": {
+    "about": "Tarafsız film ve dizi incelemeleri için son nokta. Sonraki favori içeriğinizi keşfedin!",
+    "tmdb_text": "Görüntülenen film, dizi ve kişi verileri {provider}'den gelmektedir."
+  },
   "home": {
     "recommended": "Önerilenler",
     "top_rated": "En Çok Puan Alanlar",

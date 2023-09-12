@@ -10,6 +10,7 @@ type ApplicationEvents = {
   "entertainment:fetch:likes": boolean
   "entertainment:watch": string
   "entertainment:watch-feature-mismatch": void
+  "refresh:entertainment": void
 }
 
 export default defineNuxtPlugin(() => {

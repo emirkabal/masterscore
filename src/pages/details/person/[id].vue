@@ -2,19 +2,14 @@
 import { useStorage } from "@vueuse/core"
 import { TMDBPerson } from "~/@types"
 const { params } = useRoute()
-const { $moment } = useNuxtApp()
+const { $moment, $listen } = useNuxtApp()
+const { t, locale } = useI18n()
 const revealBio = ref(false)
 const showDetailsDev = ref(false)
 const flag = useStorage("debugMode", false)
-const {
-  data,
-  pending
-}: {
-  data: Ref<null | TMDBPerson>
-  pending: Ref<boolean>
-} = useFetch(`/api/person/details/${params.id}`)
-
-const genders = ["Unknown", "Female", "Male", "Non-binary"]
+const { data, pending, refresh } = useLazyFetch<null | TMDBPerson>(
+  `/api/person/details/${params.id}`
+)
 
 const name = computed(() => {
   return data.value?.name || "..."
@@ -23,9 +18,11 @@ const name = computed(() => {
 const age = computed(() => {
   if (!data.value || "status" in data.value) return 0
   if (!data.value.deathday && data.value.birthday) {
-    return $moment().diff(data.value.birthday, "years")
+    return $moment().locale(locale.value).diff(data.value.birthday, "years")
   } else if (data.value.deathday && data.value.birthday) {
-    return $moment(data.value.deathday).diff(data.value.birthday, "years")
+    return $moment(data.value.deathday)
+      .locale(locale.value)
+      .diff(data.value.birthday, "years")
   } else {
     return 0
   }
@@ -33,12 +30,16 @@ const age = computed(() => {
 
 const gender = computed(() => {
   if (!data.value || "status" in data.value) return 0
-  return genders[data.value.gender]
+  return t(`person.genders.${data.value.gender}`)
 })
 
 const isBig = computed(() => {
   if (!data.value || "status" in data.value) return false
   return data.value.biography.length > 500
+})
+
+$listen("refresh:entertainment", () => {
+  refresh()
 })
 
 useHead({
@@ -71,20 +72,23 @@ useHead({
           </h1>
           <div class="text-center md:text-left">
             <div
-              v-if="data.twitter_id || data.instagram_id"
+              v-if="
+                data.external_ids &&
+                (data.external_ids.twitter_id || data.external_ids.instagram_id)
+              "
               class="my-2 flex items-center justify-center gap-2 md:justify-start"
             >
               <a
-                v-if="data.twitter_id"
-                :href="`https://twitter.com/${data.twitter_id}`"
+                v-if="data.external_ids.twitter_id"
+                :href="`https://twitter.com/${data.external_ids.twitter_id}`"
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 class="transition-opacity hover:opacity-75"
                 ><Icon name="line-md:twitter-x" class="h-8 w-8"
               /></a>
               <a
-                v-if="data.instagram_id"
-                :href="`https://instagram.com/${data.instagram_id}`"
+                v-if="data.external_ids.instagram_id"
+                :href="`https://instagram.com/${data.external_ids.instagram_id}`"
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 class="transition-opacity hover:opacity-75"
@@ -92,32 +96,32 @@ useHead({
               /></a>
             </div>
             <h2 class="mb-4 text-2xl font-semibold tracking-tighter">
-              Personal Info
+              {{ $t("person.personal_info") }}
             </h2>
             <div class="personal space-y-2">
               <p v-if="data.known_for_department">
-                <strong>Known For</strong>
-                {{ data.known_for_department }}
+                <strong>{{ $t("person.known_for") }}</strong>
+                {{ $t(`person.departments.${data.known_for_department}`) }}
               </p>
               <p v-if="data.gender">
-                <strong>Gender</strong>
+                <strong>{{ $t("person.gender") }}</strong>
                 {{ gender }}
               </p>
               <p v-if="data.birthday">
-                <strong>Birthday</strong>
+                <strong>{{ $t("person.birthday") }}</strong>
                 {{ data.birthday }}
-                {{ !data.deathday ? `(${age} years old)` : "" }}
+                {{ !data.deathday ? `(${$t("age", { n: age })})` : "" }}
               </p>
               <p v-if="data.deathday">
-                <strong>Day of Death</strong>
-                {{ data.deathday }} ({{ age }} years old)
+                <strong>{{ $t("deathday") }}</strong>
+                {{ data.deathday }} ({{ $t("age", { n: age }) }})
               </p>
               <p v-if="data.place_of_birth">
-                <strong>Place of Birth</strong>
+                <strong>{{ $t("person.place_of_birth") }}</strong>
                 {{ data.place_of_birth }}
               </p>
               <p v-if="data.also_known_as.length !== 0">
-                <strong>Also known as</strong>
+                <strong>{{ $t("person.also_known_as") }}</strong>
                 {{ data.also_known_as.join(", ") }}
               </p>
             </div>
@@ -131,7 +135,7 @@ useHead({
           </h1>
           <div class="space-y-2 text-center md:text-left">
             <h1 class="font-maven text-2xl font-bold tracking-wide">
-              Biography
+              {{ $t("person.biography") }}
             </h1>
             <p class="relative whitespace-pre-wrap">
               <span
@@ -139,28 +143,30 @@ useHead({
                   'line-clamp-6': isBig && !revealBio
                 }"
               >
-                {{ data.biography || "There is no biography here..." }}
+                {{ data.biography || $t("person.no_biography") }}
               </span>
               <button
                 v-if="isBig && !revealBio"
                 @click="revealBio = !revealBio"
                 class="bg-gradi 5 group absolute bottom-0 right-0 w-full bg-gradient-to-l from-white text-right dark:from-black"
               >
-                <span class="font-semibold group-hover:opacity-75"
-                  >Read more...</span
-                >
+                <span class="font-semibold group-hover:opacity-75">{{
+                  $t("person.read_more")
+                }}</span>
               </button>
             </p>
           </div>
           <div
-            v-if="data.credits && data.credits.length > 0"
+            v-if="
+              data.combined_credits && data.combined_credits.cast.length > 0
+            "
             class="space-y-4 overflow-hidden"
           >
             <h1 class="font-maven text-2xl font-bold tracking-wide">
-              Known For
+              {{ $t("person.known_for") }}
             </h1>
             <EntertainmentSlider
-              :data="data.credits"
+              :data="data.combined_credits.cast"
               :fixed-media-type="'movie'"
               :item-size="'default'"
               :offset="0"

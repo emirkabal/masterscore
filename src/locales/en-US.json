@@ -1,11 +1,123 @@
 {
   "welcome": "Welcome to Masterscore",
-  "search": "Type to search...",
   "movies": "Movies",
   "tv_shows": "TV Shows",
   "edited": "edited",
   "unknown": "Unknown",
   "no_comment_for_this_review": "No comment for this review.",
+  "guest": {
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
+    "dont_have_account": "Don't have an account?",
+    "already_have_account": "Already have an account?",
+    "create_account": "Create Account",
+    "forgot_password": "Forgot Password",
+    "form": {
+      "username": "Username",
+      "password": "Password",
+      "email": "Email",
+      "confirm_password": "Confirm Password",
+      "invite_code": "Invite Code",
+      "passwords_not_match": "Passwords do not match."
+    }
+  },
+  "header": {
+    "home": "Home",
+    "feed": "Feed",
+    "table": "Table",
+    "random_movie": "Random Movie",
+    "user": {
+      "profile": "Profile",
+      "watchlist": "Watchlist",
+      "reviews": "Reviews",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
+  },
+  "activity": {
+    "reviewed": "Reviewed",
+    "liked": "Liked",
+    "added_to_watchlist": "Added to Watchlist"
+  },
+  "search": {
+    "text": "Type to search...",
+    "no_results": "No results found.",
+    "no_recent_searches": "No recent searches found.",
+    "movies_and_tv_shows": "Movies & TV Shows",
+    "persons": "Persons",
+    "users": "Users",
+    "close": "{key} to close"
+  },
+  "profile": {
+    "created": "created {n}",
+    "edit_profile": "Edit Profile",
+    "copy_url": "Copy URL",
+    "summary": "Summary",
+    "watchlist": "Watchlist ({n})",
+    "reviews": "Reviews ({n})",
+    "no_reviews": "No reviews yet.",
+    "featured_entertainments": "Featured Entertainments",
+    "latest_reviews": "Latest Reviews",
+    "latest_likes": "Latest Likes",
+    "last_added_to_watchlist": "Last Added to Watchlist"
+  },
+  "person": {
+    "personal_info": "Personal Info",
+    "known_for": "Known For",
+    "birthday": "Birthday",
+    "place_of_birth": "Place of Birth",
+    "deathday": "Deathday",
+    "gender": "Gender",
+    "also_known_as": "Also Known As",
+    "biography": "Biography",
+    "no_biography": "No biography available for this person.",
+    "read_more": "Read More...",
+    "age": "{n} years old",
+    "genders": {
+      "0": "Unknown",
+      "1": "Female",
+      "2": "Male",
+      "3": "Other"
+    },
+    "departments": {
+      "Acting": "Actor",
+      "Directing": "Director",
+      "Writing": "Writer",
+      "Production": "Producer",
+      "Editing": "Editor",
+      "Art": "Art",
+      "Sound": "Sound",
+      "Camera": "Camera",
+      "Crew": "Crew",
+      "Costume & Make-Up": "Costume & Make-Up",
+      "Visual Effects": "Visual Effects",
+      "Lighting": "Lighting",
+      "Creator": "Creator"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "edit_profile": "Edit Profile",
+    "preview": "Preview",
+    "about": "About",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "avatar": "Avatar",
+    "dropzone_text": "Click here or drag your file.",
+    "dropzone_types": "PNG, JPG, or GIF (max: {0} | recommended: {1})",
+    "username": "Username",
+    "username_notice": "You can only change your username every {0} days.",
+    "banner_url": "Banner URL",
+    "platform_recommended": "Recommended: {0}",
+    "update_profile": "Update Profile",
+    "back_to_profile": "Back to Profile",
+    "preferences": "Preferences",
+    "debug_mode": "Debug Mode"
+  },
+  "footer": {
+    "about": "Your ultimate source for unbiased movie and TV show reviews. Discover your next favorite entertainment!",
+    "tmdb_text": "The data displayed of movies, tv shows and persons come from {provider}"
+  },
   "home": {
     "recommended": "Recommended",
     "top_rated": "Top Rated",

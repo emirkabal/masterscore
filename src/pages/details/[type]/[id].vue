@@ -2,7 +2,6 @@
 import tinycolor from "tinycolor2"
 import { useStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
-const localePath = useLocalePath()
 const { $event, $listen, $colorthief, $getOriginalTitle } = useNuxtApp()
 const { params, query } = useRoute()
 const { feature } = query
@@ -10,7 +9,7 @@ const flag = useStorage("debugMode", false)
 
 const { user, isLoggedIn } = useUserStore()
 
-const { data, pending } = useLazyFetch(
+const { data, pending, refresh } = useLazyFetch(
   `/api/tmdb/${params.id}?type=${params.type}`
 )
 
@@ -144,6 +143,9 @@ watch(data, async () => {
           smartVideoError.value = true
         }
       })
+
+      smartVideoPending.value = null
+
       if (
         smartVideoData.value &&
         smartVideoData.value.length > 0 &&
@@ -168,12 +170,14 @@ watch(data, async () => {
       if (
         smartVideoData.value &&
         smartVideoData.value.length > 0 &&
-        smartVideoData.value.filter((e) => e.tmdb || e.imdb).length > 0 &&
-        !smartVideoData.value.find(
-          (e) => e.tmdb == data.value.id || e.imdb == data.value.imdb_id
+        data.value.release_date &&
+        smartVideoData.value.find(
+          (e) => e.year == data.value.release_date.split("-")[0]
         )
       ) {
-        smartVideoData.value = null
+        smartVideoData.value = smartVideoData.value.find(
+          (e) => e.year == data.value.release_date.split("-")[0]
+        )
       }
     }
     await find($getOriginalTitle(data.value))
@@ -216,6 +220,10 @@ $listen("entertainment:watch-feature-mismatch", () => {
   smartVideoId.value = null
   smartVideoData.value = null
   smartVideoPending.value = false
+})
+
+$listen("refresh:entertainment", () => {
+  refresh()
 })
 
 useHead({
@@ -376,8 +384,7 @@ useHead({
           {{ showDetailsDev ? "Hide" : "Show" }} details
         </button>
         <div v-if="showDetailsDev">
-          <p>Movie {{ params.id }}</p>
-          {{ backgroundColor }}
+          <p>{{ params.type }}: {{ params.id }}</p>
           <ClientOnly>
             <JsonViewer
               :value="data"
@@ -396,7 +403,7 @@ useHead({
       <h1 class="text-4xl font-semibold">404</h1>
       <p class="text-xl">Page not found</p>
       <NuxtLink
-        :to="localePath('/')"
+        to="/"
         class="mt-4 rounded bg-white px-4 py-2 font-maven font-bold text-black hover:bg-gray-200"
         >Go back to home</NuxtLink
       >

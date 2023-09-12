@@ -1,9 +1,7 @@
 <script setup>
 import VuePictureCropper, { cropper } from "vue-picture-cropper"
 import { useUserStore } from "~/store/user"
-import { Switch } from "@headlessui/vue"
 import { useStorage } from "@vueuse/core"
-const localePath = useLocalePath()
 definePageMeta({
   middleware: ["auth"]
 })
@@ -20,7 +18,6 @@ const error = ref(null)
 const about = ref(user.about)
 const banner = ref(user.banner)
 const username = ref("")
-const preview = ref(false)
 
 const croppingImage = ref(null)
 const avatar = ref(null)
@@ -142,13 +139,13 @@ const submit = async (e) => {
 <template>
   <div class="container mx-auto my-20 px-4">
     <h1 class="mb-2 border-b pb-4 text-2xl font-bold dark:border-zinc-900">
-      Settings
+      {{ $t("settings.title") }}
     </h1>
     <div class="px-2">
       <p
         class="mb-4 border-b px-2 py-4 font-maven font-semibold dark:border-zinc-900"
       >
-        Edit Profile
+        {{ $t("settings.edit_profile") }}
       </p>
       <div
         class="fixed left-0 top-0 z-20 flex h-screen w-full items-center justify-center bg-black/40"
@@ -163,7 +160,7 @@ const submit = async (e) => {
           <div
             class="absolute -left-2 -top-2 z-10 rounded bg-gray-100 px-4 font-maven font-semibold dark:bg-zinc-800"
           >
-            Preview
+            {{ $t("settings.preview") }}
           </div>
           <ProfileBanner
             :username="username || user.username"
@@ -172,7 +169,7 @@ const submit = async (e) => {
             class="absolute !m-0"
           />
           <div class="ml-10 mt-24" v-if="about?.length > 0">
-            <h1 class="text-xl font-semibold">About</h1>
+            <h1 class="text-xl font-semibold">{{ $t("settings.about") }}</h1>
             <p
               class="line-clamp-5 max-w-6xl truncate whitespace-pre-wrap break-words text-gray-500 dark:text-gray-100"
             >
@@ -216,12 +213,14 @@ const submit = async (e) => {
               </div>
             </template>
             <template v-slot:footer class>
-              <button @click="croppingImage = null">Cancel</button>
+              <button @click="croppingImage = null">
+                {{ $t("settings.cancel") }}
+              </button>
               <button
                 class="rounded bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
                 @click="cropImage"
               >
-                Confirm
+                {{ $t("settings.confirm") }}
               </button>
             </template>
           </Modal>
@@ -232,7 +231,7 @@ const submit = async (e) => {
               >
                 <div class="space-y-2">
                   <span class="flex items-center gap-2 text-xl font-bold"
-                    >Avatar
+                    >{{ $t("settings.avatar") }}
                   </span>
                   <div class="my-2 flex">
                     <div
@@ -289,11 +288,12 @@ const submit = async (e) => {
                           <p
                             class="mb-2 text-sm text-gray-500 dark:text-gray-400"
                           >
-                            <span class="font-semibold">Click to upload</span>
-                            or drag and drop
+                            {{ $t("settings.dropzone_text") }}
                           </p>
                           <p class="text-xs text-gray-500 dark:text-gray-400">
-                            PNG, JPG or GIF (Max: 1MB | Recommended: 512x512)
+                            {{
+                              $t("settings.dropzone_types", ["1MB", "512x512"])
+                            }}
                           </p>
                         </div>
                         <input
@@ -311,7 +311,9 @@ const submit = async (e) => {
                 class="mb-4 flex items-center gap-4 border-b pb-4 dark:border-zinc-800"
               >
                 <div class="space-y-2">
-                  <span class="text-xl font-bold">Username</span>
+                  <span class="text-xl font-bold">{{
+                    $t("settings.username")
+                  }}</span>
                   <div class="flex">
                     <span
                       class="inline-flex items-center border border-gray-300 bg-gray-100 px-3 text-sm text-gray-500 dark:border-zinc-800 dark:bg-zinc-900"
@@ -338,14 +340,16 @@ const submit = async (e) => {
                     />
                   </div>
                   <div class="text-sm text-gray-500 dark:text-gray-300">
-                    You can change your username once every 7 days.
+                    {{ $t("settings.username_notice", [7]) }}
                   </div>
                 </div>
               </div>
               <div
                 class="mb-4 gap-4 space-y-2 border-b pb-4 dark:border-zinc-800"
               >
-                <span class="text-xl font-bold">About</span>
+                <span class="text-xl font-bold">{{
+                  $t("settings.about")
+                }}</span>
                 <div class="relative">
                   <textarea
                     :value="about"
@@ -363,9 +367,11 @@ const submit = async (e) => {
               </div>
               <div class="space-y-2">
                 <span class="text-xl font-bold"
-                  >Banner URL
+                  >{{ $t("settings.banner_url") }}
                   <span class="text-base text-gray-400 dark:text-gray-300"
-                    >(Imgur is recommended)</span
+                    >({{
+                      $t("settings.platform_recommended", ["Imgur"])
+                    }})</span
                   ></span
                 >
 
@@ -392,14 +398,14 @@ const submit = async (e) => {
               </div>
               <div class="flex gap-2">
                 <NuxtLink
-                  :to="localePath('/users/@me')"
+                  to="/users/@me"
                   class="rounded bg-gray-50 px-4 py-2 font-bold text-black transition-colors hover:bg-gray-100"
-                  >Back to profile</NuxtLink
+                  >{{ $t("settings.back_to_profile") }}</NuxtLink
                 >
                 <button
                   class="rounded bg-blue-700 px-4 py-2 font-bold text-white transition-colors hover:bg-blue-600"
                 >
-                  Update Profile
+                  {{ $t("settings.update_profile") }}
                 </button>
               </div>
             </div>
@@ -411,14 +417,14 @@ const submit = async (e) => {
       <p
         class="mb-4 border-b px-2 py-4 font-maven font-semibold dark:border-zinc-900"
       >
-        Preferences
+        {{ $t("settings.preferences") }}
       </p>
       <label
         class="flex cursor-pointer items-center justify-between border px-4 py-6 dark:border-zinc-900"
         for="debugMode"
       >
-        <p>Debug Mode</p>
-        <Switch
+        <p>{{ $t("settings.debug_mode") }}</p>
+        <HeadlessSwitch
           id="debugMode"
           v-model="flag"
           :class="flag ? 'bg-blue-700' : 'bg-teal-700'"
@@ -430,7 +436,7 @@ const submit = async (e) => {
             :class="flag ? 'translate-x-7' : 'translate-x-0'"
             class="pointer-events-none inline-block h-[24px] w-[24px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
           />
-        </Switch>
+        </HeadlessSwitch>
       </label>
     </div>
   </div>

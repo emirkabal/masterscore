@@ -57,6 +57,7 @@ export interface CreditsResult {
   popularity: number
   profile_path: string
   department: string
+  media_type: string
 }
 
 export interface VideoResult {
@@ -314,10 +315,12 @@ export interface TMDBPersonSalt {
   profile_path?: string
   adult: boolean
   homepage?: string
-  credits?: TMDBData[]
+  combined_credits?: {
+    cast: CreditsResult[]
+    crew: CreditsResult[]
+  }
 }
 
-export type TMDBPerson = TMDBPersonSalt & ExternalIDs
 export interface ExternalIDs {
   id: number
   imdb_id?: string
@@ -330,6 +333,10 @@ export interface ExternalIDs {
   youtube_id?: string
   wikidata_id?: string
   tiktok_id?: string
+}
+
+export type TMDBPerson = TMDBPersonSalt & {
+  external_ids?: ExternalIDs
 }
 
 export interface IUser {
