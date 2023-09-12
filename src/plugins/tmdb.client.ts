@@ -183,8 +183,8 @@ export default defineNuxtPlugin(() => {
       timage: (path: string, size: PosterSizes | BackdropSizes | LogoSizes) => {
         return `https://image.tmdb.org/t/p/${size}/${path}`
       },
-      tgenre: (id: number) => {
-        return genres.find((genre) => genre.id === id)?.name
+      tgenre: (id: number | string) => {
+        return genres.find((genre) => genre.id == id)?.name
       },
       tfiltergenres: (names: Genre[], support?: "movie" | "tv") => {
         const list = genres.filter((genre) =>

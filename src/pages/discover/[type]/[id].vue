@@ -39,7 +39,7 @@ onMounted(() => {
 })
 
 useHead({
-  title: `${t("discover.explore", [$tgenre(Number(route.params.id))])}`,
+  title: t(`genres.${$tgenre(route.params.id.toString())}`),
   titleTemplate: "%s - Masterscore"
 })
 </script>
@@ -49,15 +49,11 @@ useHead({
     <h1
       class="text-center text-2xl font-bold md:px-[4vw] md:text-start md:text-5xl"
     >
-      {{
-        $t("discover.explore", [
-          $t("genres." + $tgenre(Number($route.params.id)))
-        ])
-      }}
+      {{ $t(`genres.${$tgenre($route.params.id.toString())}`) }}
     </h1>
     <NuxtLink
       to="/discover"
-      class="mt-2 block text-center text-lg text-gray-300 transition-colors hover:text-white md:px-[4vw] md:text-start md:text-2xl"
+      class="mt-2 inline-block text-center text-lg text-gray-300 transition-colors hover:text-white md:px-[4vw] md:text-start md:text-2xl"
     >
       {{ $t("discover.explore_more") }}
       <Icon name="ic:round-arrow-right-alt" class="inline h-6 w-6" />
@@ -70,7 +66,7 @@ useHead({
         v-for="item in results"
         class="!h-auto !w-auto !flex-shrink"
         :id="item.id"
-        :media_type="'movie'"
+        :media_type="$route.params.type === 'movie' ? 'movie' : 'tv'"
         :image="$timage(item.poster_path || '', 'w300')"
       />
 
