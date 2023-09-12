@@ -23,7 +23,7 @@ const { data: providerData, pending: providerPending } = useLazyFetch(
 const trailerModal = ref(false)
 
 const getDateDiff = (date: string) => {
-  return $moment(date).fromNow()
+  return $moment(date).locale(locale.value).fromNow()
 }
 
 const status = computed(() => {

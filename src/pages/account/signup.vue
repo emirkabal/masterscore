@@ -142,7 +142,7 @@ const submit = async (event) => {
     >
       <LangSwitcher :light="true" />
     </div>
-    <div class="absolute bottom-0 right-0 z-50 mb-4 mr-12">
+    <div class="absolute bottom-0 right-0 z-50 mb-4 mr-12 hidden md:block">
       <LangSwitcher :light="true" />
     </div>
     <div
