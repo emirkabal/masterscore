@@ -1,0 +1,181 @@
+{
+    "welcome": "Välkommen till Masterscore",
+    "movies": "Filmer",
+    "tv_shows": "TV-program",
+    "edited": "redigerad",
+    "unknown": "Okänd",
+    "no_comment_for_this_review": "Ingen kommentar till denna recension.",
+    "guest": {
+        "sign_in": "Logga in",
+        "sign_up": "Registrera dig",
+        "dont_have_account": "Har du inget konto?",
+        "already_have_account": "Har du redan ett konto?",
+        "create_account": "Skapa konto",
+        "forgot_password": "Glömt lösenord",
+        "form": {
+            "username": "Användarnamn",
+            "password": "Lösenord",
+            "email": "E-post",
+            "confirm_password": "Bekräfta lösenord",
+            "invite_code": "Inbjudningskod",
+            "passwords_not_match": "Lösenorden stämmer inte överens."
+        }
+    },
+    "header": {
+        "home": "Hem",
+        "feed": "Foder",
+        "table": "Tabell",
+        "random_movie": "Slumpmässig film",
+        "user": {
+            "profile": "Profil",
+            "watchlist": "Bevakningslista",
+            "reviews": "Recensioner",
+            "settings": "Inställningar",
+            "logout": "Logga ut"
+        }
+    },
+    "activity": {
+        "reviewed": "Granskad",
+        "liked": "Gillar",
+        "added_to_watchlist": "Tillagd på bevakningslistan"
+    },
+    "search": {
+        "text": "Skriv för att söka...",
+        "no_results": "Inga resultat hittades.",
+        "no_recent_searches": "Inga nya sökningar hittades.",
+        "movies_and_tv_shows": "Filmer och TV-program",
+        "persons": "Personer",
+        "users": "Användare",
+        "close": "{key} för att stänga"
+    },
+    "profile": {
+        "created": "skapad {n}",
+        "edit_profile": "Redigera profil",
+        "copy_url": "Kopiera URL",
+        "summary": "Sammanfattning",
+        "watchlist": "Bevakningslista ({n})",
+        "reviews": "Recensioner ({n})",
+        "no_reviews": "Inga recensioner ännu.",
+        "featured_entertainments": "Utvalda underhållningar",
+        "latest_reviews": "De senaste recensionerna",
+        "latest_likes": "Senaste gillanden",
+        "last_added_to_watchlist": "Senast tillagd på bevakningslistan"
+    },
+    "person": {
+        "personal_info": "Personlig information",
+        "known_for": "Känd för",
+        "birthday": "Födelsedag",
+        "place_of_birth": "Födelseort",
+        "deathday": "Dödsdag",
+        "gender": "Kön",
+        "also_known_as": "Även känd som",
+        "biography": "Biografi",
+        "no_biography": "Ingen biografi tillgänglig för denna person.",
+        "read_more": "Läs mer...",
+        "age": "{n} år gammal",
+        "genders": {
+            "0": "Okänd",
+            "1": "Kvinna",
+            "2": "Man",
+            "3": "Andra"
+        },
+        "departments": {
+            "Acting": "Skådespelare",
+            "Directing": "Direktör",
+            "Writing": "Författare",
+            "Production": "Producent",
+            "Editing": "Redaktör",
+            "Art": "Konst",
+            "Sound": "Ljud",
+            "Camera": "Kamera",
+            "Crew": "Besättning",
+            "Costume & Make-Up": "Kostym och smink",
+            "Visual Effects": "Visuella effekter",
+            "Lighting": "Belysning",
+            "Creator": "Skapare"
+        }
+    },
+    "settings": {
+        "title": "Inställningar",
+        "edit_profile": "Redigera profil",
+        "preview": "Förhandsvisning",
+        "about": "Om",
+        "cancel": "Avbryt",
+        "confirm": "Bekräfta",
+        "avatar": "Avatar",
+        "dropzone_text": "Klicka här eller dra din fil.",
+        "dropzone_types": "PNG, JPG eller GIF (max: {0} | rekommenderat: {1})",
+        "username": "Användarnamn",
+        "username_notice": "Du kan bara ändra ditt användarnamn var {0} dag.",
+        "banner_url": "Banner URL",
+        "platform_recommended": "Rekommenderad: {0}",
+        "update_profile": "Uppdatera profil",
+        "back_to_profile": "Tillbaka till profil",
+        "preferences": "Inställningar",
+        "debug_mode": "Felsökningsläge"
+    },
+    "footer": {
+        "about": "Din ultimata källa för opartiska recensioner av filmer och TV-program. Upptäck din nästa favoritunderhållning!",
+        "tmdb_text": "De data som visas för filmer, TV-program och personer kommer från {provider}"
+    },
+    "home": {
+        "recommended": "Rekommenderad",
+        "top_rated": "Högsta betyg",
+        "more_info": "Mer information"
+    },
+    "entertainment": {
+        "watch_trailer": "Se trailer",
+        "reviews": "Recensioner",
+        "reviewed": "Granskad",
+        "no_reviews": "Inga recensioner för denna underhållning ännu.",
+        "collection": "Samling",
+        "cast": "Kasta",
+        "crew": "Besättning",
+        "similar": "Liknande",
+        "episodes": "Episoder",
+        "total_episodes": "Totalt antal {total} avsnitt.",
+        "n_episodes": "{n} Episoder",
+        "buttons": {
+            "watch": "Titta på",
+            "review": "Granskning",
+            "reviewed": "Granskad",
+            "add_to_watchlist": "Lägg till på bevakningslistan",
+            "remove_from_watchlist": "Ta bort från bevakningslistan"
+        },
+        "sidebar": {
+            "belongs_to_collection": "Tillhör kollektionen",
+            "availabe_on": "Tillgänglig på",
+            "original_name": "Ursprungligt namn",
+            "status": "Status",
+            "language": "Språk",
+            "spoken_languages": "Talade språk",
+            "budget": "Budget",
+            "revenue": "Intäkter",
+            "created_by": "Skapad av",
+            "other": "Andra",
+            "visit_website": "Besök webbplatsen",
+            "released": "Utsläppt",
+            "ended_at": "Avslutad vid",
+            "returning_in": "Återkommer i",
+            "planned": "Planerad",
+            "watch_on": "Se på {provider}.",
+            "watch_on_masterscore": "Titta på {plattform}. (du är redan här <3)",
+            "powered_by": "Drivs av {provider}"
+        },
+        "summary": {
+            "likes": "gillar",
+            "reviews": "recensioner"
+        }
+    },
+    "genres": {
+        "Comedy": "Komedi",
+        "Crime": "Brott",
+        "Science Fiction": "Science fiction",
+        "Fantasy": "Fantasi",
+        "Drama": "Drama",
+        "Family": "Familj",
+        "Animation": "Animering",
+        "Adventure": "Äventyr",
+        "Action": "Åtgärder"
+    }
+}

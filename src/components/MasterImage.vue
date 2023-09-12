@@ -36,7 +36,7 @@ defineProps<{
       @error=";[(imageLoading = false), (noImage = true)]"
       class="h-full w-full object-cover"
       :class="{
-        'pointer-events-none absolute inset-0 -z-10 opacity-0':
+        'pointer-events-none absolute inset-0 -z-10 h-1 w-1 opacity-0':
           imageLoading && !loading
       }"
       :style="{
