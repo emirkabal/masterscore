@@ -4,7 +4,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     if (process.client) {
       window.scrollTo(0, 0)
     }
-    console.log("Locale switched", newLocale)
   })
   nuxtApp.hook("vue:setup", () => {
     const { locale, setLocaleCookie, getLocaleCookie } = useI18n()

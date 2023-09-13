@@ -76,18 +76,23 @@ const slideTo = (index: number) => {
                   {{ $getTitle(item) }}
                 </h1>
 
-                <div class="text flex items-center gap-3 text-lg font-semibold">
-                  <ScoreCircle :score="item.vote_average" />
-                  <span>{{ $getYear(item) }}</span>
+                <div
+                  class="text flex items-center gap-3 text-sm font-semibold lg:text-lg"
+                >
+                  <ScoreCircle
+                    class="text-sm lg:text-lg"
+                    :score="item.vote_average"
+                  />
                   <div class="flex gap-2">
                     <NuxtLink
                       v-for="genre in item.genre_ids"
                       :to="`/discover/${item.media_type}/${genre}`"
-                      class="text-white/90 transition-colors hover:text-white"
+                      class="transition-colors hover:text-white/75"
                     >
                       {{ $t("genres." + $tgenre(genre)) }}
                     </NuxtLink>
                   </div>
+                  <span>{{ $getYear(item) }}</span>
                 </div>
               </div>
               <p

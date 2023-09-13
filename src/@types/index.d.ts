@@ -419,6 +419,53 @@ export interface ReviewData {
   loading: boolean
 }
 
+export type PosterSizes =
+  | "w92"
+  | "w154"
+  | "w185"
+  | "w342"
+  | "w500"
+  | "w780"
+  | "original"
+export type BackdropSizes = "w300" | "w780" | "w1280" | "original"
+export type LogoSizes =
+  | "w45"
+  | "w92"
+  | "w154"
+  | "w185"
+  | "w300"
+  | "w500"
+  | "original"
+
+export type Genre =
+  | "Action & Adventure"
+  | "Animation"
+  | "Comedy"
+  | "Crime"
+  | "Family"
+  | "Kids"
+  | "News"
+  | "Reality"
+  | "Sci-Fi & Fantasy"
+  | "Soap"
+  | "Talk"
+  | "War & Politics"
+  | "Action"
+  | "Adventure"
+  | "Documentary"
+  | "Drama"
+  | "Fantasy"
+  | "History"
+  | "Horror"
+  | "Music"
+  | "Mystery"
+  | "Romance"
+  | "Science Fiction"
+  | "TV Movie"
+  | "Thriller"
+  | "War"
+  | "Western"
+
 export declare module "h3" {
   export interface H3EventContext {
     user?: IUser
