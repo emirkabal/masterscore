@@ -29,7 +29,7 @@ defineProps<{
     <ScoreCircle
       v-if="rating"
       :score="rating"
-      class="absolute bottom-0 m-2 text-sm md:m-4 md:text-lg"
+      class="absolute bottom-0 m-2 text-sm lg:m-4 lg:text-lg"
     />
   </NuxtLink>
 </template>

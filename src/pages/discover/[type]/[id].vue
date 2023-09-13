@@ -53,7 +53,7 @@ useHead({
     </h1>
     <NuxtLink
       to="/discover"
-      class="mt-2 inline-block text-center text-lg text-gray-300 transition-colors hover:text-white md:px-[4vw] md:text-start md:text-2xl"
+      class="mt-2 block text-center text-lg text-gray-300 transition-colors hover:text-white md:inline-block md:px-[4vw] md:text-start md:text-2xl"
     >
       {{ $t("discover.explore_more") }}
       <Icon name="ic:round-arrow-right-alt" class="inline h-6 w-6" />
