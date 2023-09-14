@@ -7,6 +7,7 @@ const { $listen } = useNuxtApp()
 const route = useRoute()
 const scroll = useWindowScroll()
 const menuRef = ref(null)
+const searchFocus = ref(false)
 onClickOutside(menuRef, () => {
   isMenuOpen.value = false
 })
@@ -39,6 +40,10 @@ $listen("entertainment:bright", (val) => {
 $listen("entertainment:load", (val) => {
   entertainment.loaded = true
 })
+
+$listen("searchbar:focus", (val) => {
+  searchFocus.value = val
+})
 </script>
 
 <template>
@@ -50,7 +55,12 @@ $listen("entertainment:load", (val) => {
     }"
   >
     <div class="flex w-full items-center justify-between">
-      <div class="flex items-center">
+      <div
+        class="flex items-center"
+        :class="{
+          'w-0 opacity-0 md:w-auto md:opacity-100': searchFocus
+        }"
+      >
         <NuxtLink
           to="/"
           @click="entertainment.bright = false"
@@ -77,8 +87,16 @@ $listen("entertainment:load", (val) => {
           ><span class="hidden md:inline-block">asterscore</span></NuxtLink
         >
       </div>
-      <Searchbar class="mx-4 lg:mx-0" />
-      <div>
+      <Searchbar
+        :class="{
+          'mx-4 md:mx-0': !searchFocus
+        }"
+      />
+      <div
+        :class="{
+          'w-0 opacity-0 md:w-auto md:opacity-100': searchFocus
+        }"
+      >
         <ClientOnly>
           <div v-if="userStore.isLoading" class="flex gap-2">
             <Spinner />

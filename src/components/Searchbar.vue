@@ -1,6 +1,7 @@
 <script setup>
 import debounce from "lodash.debounce"
 import { onKeyStroke, useStorage } from "@vueuse/core"
+const { $event } = useNuxtApp()
 const search = ref("")
 const loading = ref(false)
 const results = ref([])
@@ -54,7 +55,7 @@ const searchResults = debounce(async () => {
     history.value = [search.value, ...history.value].slice(0, 9)
     history.value = [...new Set(history.value)]
   }
-}, 500)
+}, 250)
 
 const removeHistoryItem = (index) => {
   history.value.splice(index, 1)
@@ -80,6 +81,10 @@ const focus = () => {
   inputElement.value.focus()
 }
 
+watch(focused, () => {
+  $event("searchbar:focus", focused.value)
+})
+
 onKeyStroke(["Control", "K", "k"], (e) => {
   if (!e.ctrlKey || e.code !== "KeyK") return
   e.preventDefault()
@@ -91,7 +96,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
 })
 </script>
 <template>
-  <div class="relative max-w-lg flex-grow">
+  <div class="relative flex-grow transition-all md:max-w-lg">
     <Transition name="fade">
       <div
         v-show="focused"
@@ -212,7 +217,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       class="absolute z-20 w-full rounded-bl-2xl rounded-br-2xl bg-white p-4 dark:bg-black"
     >
       <div class="flex justify-center" v-if="loading">
-        <Spinner color="#000" />
+        <Loader class="scale-75" />
       </div>
       <div
         v-else-if="
@@ -227,7 +232,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         </p>
       </div>
       <div v-else-if="search.length === 0" class="select-none space-y-2">
-        <div v-if="history.length === 0">
+        <!-- <div v-if="history.length === 0">
           <p class="text-center text-gray-500 dark:text-gray-300">
             {{ $t("search.no_recent_searches") }}
           </p>
@@ -270,9 +275,9 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               />
             </a>
           </div>
-        </div>
+        </div> -->
 
-        <hr class="dark:opacity-25" />
+        <!-- <hr class="dark:opacity-25" /> -->
         <div v-for="(route, i) in routes" :key="route.name">
           <button
             tabindex="-1"
