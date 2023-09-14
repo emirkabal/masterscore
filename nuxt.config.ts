@@ -147,9 +147,5 @@ export default defineNuxtConfig({
     public: {
       SUPABASE_STORAGE_URL: process.env.SUPABASE_STORAGE_URL
     }
-  },
-
-  experimental: {
-    watcher: "parcel"
   }
 })

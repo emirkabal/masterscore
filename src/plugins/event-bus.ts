@@ -11,6 +11,7 @@ type ApplicationEvents = {
   "entertainment:watch": string
   "entertainment:watch-feature-mismatch": void
   "refresh:entertainment": void
+  "searchbar:focus": boolean
 }
 
 export default defineNuxtPlugin(() => {
