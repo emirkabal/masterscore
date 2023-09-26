@@ -1,8 +1,9 @@
 import { Document } from "mongoose"
 import { ErrorResponse, IEntertainment, IReview, IUser } from "~/@types"
-import EntertainmentModel from "~/server/models/Entertainment.model"
 import UserModel from "~/server/models/User.model"
 import ReviewModel from "~/server/models/Review.model"
+import EntertainmentModel from "~/server/models/Entertainment.model"
+import ActivityModel from "~/server/models/Activity.model"
 
 export default defineEventHandler(async (event) => {
   const { id } = event.context.params as { id: string }
@@ -23,49 +24,58 @@ export default defineEventHandler(async (event) => {
     .limit(10)
     .lean()
 
-  await user.populate({
-    path: "reviews",
-    model: EntertainmentModel,
-    select: "id type info.title info.poster",
-    options: {
-      sort: {
-        createdAt: -1
-      },
-      limit: 10
-    }
-  })
+  const reviews = (
+    await ActivityModel.find({
+      author: id,
+      type: "review"
+    })
+      .select("entertainment createdAt -_id")
+      .populate({
+        path: "entertainment",
+        model: EntertainmentModel,
+        select: "id type info.title info.poster"
+      })
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .lean()
+  ).map((e) => e.entertainment) as IEntertainment[]
 
-  await user.populate({
-    path: "likes",
-    model: EntertainmentModel,
-    select: "id type info.title info.poster",
-    options: {
-      sort: {
-        createdAt: -1
-      },
-      limit: 10
-    }
-  })
+  const likes = (
+    await ActivityModel.find({
+      author: id,
+      type: "like"
+    })
+      .select("entertainment createdAt -_id")
+      .populate({
+        path: "entertainment",
+        model: EntertainmentModel,
+        select: "id type info.title info.poster"
+      })
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .lean()
+  ).map((e) => e.entertainment) as IEntertainment[]
 
-  await user.populate({
-    path: "watchlist",
-    model: EntertainmentModel,
-    select: "id type info.title info.poster",
-    options: {
-      sort: {
-        createdAt: -1
-      },
-      limit: 10
-    }
-  })
+  const watchlist = (
+    await ActivityModel.find({
+      author: id,
+      type: "watchlist"
+    })
+      .select("entertainment createdAt -_id")
+      .populate({
+        path: "entertainment",
+        model: EntertainmentModel,
+        select: "id type info.title info.poster"
+      })
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .lean()
+  ).map((e) => e.entertainment) as IEntertainment[]
 
   return {
     featured,
-    // @ts-ignore
-    reviews: user.reviews as IEntertainment[],
-    // @ts-ignore
-    likes: user.likes as IEntertainment[],
-    // @ts-ignore
-    watchlist: user.watchlist as IEntertainment[]
+    reviews,
+    likes,
+    watchlist
   }
 })

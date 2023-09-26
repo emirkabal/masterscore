@@ -1,24 +1,37 @@
 import { ErrorResponse, IEntertainment, IUser } from "~/@types"
-import EntertainmentModel from "~/server/models/Entertainment.model"
 import UserModel from "~/server/models/User.model"
+import EntertainmentModel from "~/server/models/Entertainment.model"
+import ActivityModel from "~/server/models/Activity.model"
 
 export default defineEventHandler(async (event) => {
   const { id } = event.context.params as { id: string }
-  if (!id) return { status: 400, message: "Missing author" } as ErrorResponse
-  const user: IUser | null = await UserModel.findById(id)
-    .populate({
-      path: "watchlist",
-      model: EntertainmentModel,
-      select:
-        "id type info.title info.poster info.release_date info.description",
-      options: {
-        sort: {
-          createdAt: -1
-        }
-      }
+  if (!id)
+    return createError({
+      statusCode: 400,
+      message: "Missing id field"
     })
-    .lean()
 
-  if (!user) return { status: 404, message: "User not found" } as ErrorResponse
-  return user.watchlist as unknown as IEntertainment[]
+  const user: IUser | null = await UserModel.findById(id).lean()
+  if (!user)
+    return createError({
+      statusCode: 404,
+      message: "User not found"
+    })
+
+  const watchlist = (
+    await ActivityModel.find({
+      author: id,
+      type: "watchlist"
+    })
+      .select("entertainment createdAt -_id")
+      .populate({
+        path: "entertainment",
+        model: EntertainmentModel,
+        select: "id type info.title info.poster"
+      })
+      .sort({ createdAt: -1 })
+      .lean()
+  ).map((e) => e.entertainment) as IEntertainment[]
+
+  return watchlist
 })

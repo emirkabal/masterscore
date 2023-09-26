@@ -107,12 +107,12 @@ watch(data, async () => {
     image.setAttribute("crossOrigin", "Anonymous")
     image.src = posterURL.value
     image.onload = () => {
-      const dominantColor = $colorthief.getColor(image)
-      colors.background = dominantColor
+      const dominantColor = $colorthief.getColor(image, {
+        algorithm: "dominant"
+      })
+      colors.background = dominantColor.value
       const gradient = Object.values(
-        tinycolor("rgb " + dominantColor.join(" "))
-          .darken(45)
-          .toRgb()
+        tinycolor(dominantColor.rgb).darken(45).toRgb()
       )
       colors.gradient = gradient
     }
