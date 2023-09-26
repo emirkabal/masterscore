@@ -47,7 +47,7 @@
     "@vueuse/components": "^9.13.0",
     "@vueuse/core": "^9.13.0",
     "bcrypt": "^5.1.1",
-    "colorthief": "^2.4.0",
+    "fast-average-color": "^9.4.0",
     "floating-vue": "^2.0.0-beta.24",
     "formidable": "^2.1.1",
     "joi": "^17.7.0",

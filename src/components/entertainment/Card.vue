@@ -30,25 +30,25 @@ const posterUrl = computed(() => {
   return "https://image.tmdb.org/t/p/w200" + props.entertainment.info.poster
 })
 
-const isLight = computed(() => {
-  return tinycolor("rgb " + colors.background.join(" "))
-    .darken()
-    .isLight()
-})
-
 const nuxtImageRefence = ref()
 const imageLoading = ref(true)
+const isLight = ref(false)
 
 watch(imageLoading, () => {
   if (nuxtImageRefence.value) {
-    const color = $colorthief.getColor(nuxtImageRefence.value.$el)
-    colors.background = color
-    colors.gradient = Object.values(
-      tinycolor("rgb " + color.join(" "))
-        .lighten(15)
-        .saturate(20)
-        .toRgb()
-    )
+    const color = $colorthief.getColor(nuxtImageRefence.value.$el, {
+      algorithm: "dominant",
+      ignoredColor: [
+        [255, 255, 255, 255],
+        [0, 0, 0, 255]
+      ]
+    })
+
+    const g = tinycolor(color.rgb).lighten(15)
+
+    isLight.value = g.getBrightness() >= 210
+    colors.background = color.value
+    colors.gradient = Object.values(g.toRgb())
   }
 })
 </script>
@@ -56,11 +56,11 @@ watch(imageLoading, () => {
 <template>
   <NuxtLink
     :to="to"
-    class="group mt-1 flex w-fit min-w-0 items-center gap-x-2 rounded bg-gray-500 p-2 dark:bg-zinc-800"
+    class="group mt-1 flex w-fit min-w-0 items-center gap-x-2 rounded-lg bg-gray-500 p-2 dark:bg-zinc-800"
     :style="{
       background: imageLoading
         ? ''
-        : `linear-gradient(135deg, rgba(${colors.background[0]}, ${colors.background[1]}, ${colors.background[2]}, 1) 0%, rgba(${colors.gradient[0]}, ${colors.gradient[1]}, ${colors.gradient[2]}, .99) 100%)`
+        : `linear-gradient(135deg, rgba(${colors.background[0]}, ${colors.background[1]}, ${colors.background[2]}, 1) 0%, rgba(${colors.gradient[0]}, ${colors.gradient[1]}, ${colors.gradient[2]}, 1) 100%)`
     }"
   >
     <span

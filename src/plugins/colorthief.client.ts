@@ -1,7 +1,7 @@
-import ColorThief from "colorthief"
+import { FastAverageColor } from "fast-average-color"
 
 export default defineNuxtPlugin(() => {
-  const colorthief = new ColorThief()
+  const colorthief = new FastAverageColor()
 
   return {
     provide: {

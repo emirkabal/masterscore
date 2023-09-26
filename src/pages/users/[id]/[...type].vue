@@ -178,7 +178,10 @@ useHead({
           :source="user?.banner"
           class="h-[calc(100vw*0.3)] max-h-[390px] min-h-[120px] select-none rounded-3xl"
         />
-        <div v-else class="h-[390px] w-full rounded-3xl bg-gray-800"></div>
+        <div
+          v-else
+          class="aspect-video max-h-[150px] w-full rounded-3xl bg-gradient-to-tl from-yellow-400 from-10% to-yellow-600"
+        ></div>
       </div>
 
       <div
