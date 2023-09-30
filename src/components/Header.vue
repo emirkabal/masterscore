@@ -48,10 +48,10 @@ $listen("searchbar:focus", (val) => {
 
 <template>
   <header
-    class="fixed top-0 z-30 flex h-16 w-full items-center justify-between bg-gradient-to-t from-transparent to-black px-4 transition-all dark:from-transparent dark:to-zinc-900 md:px-6"
+    class="absolute top-0 z-30 flex h-16 w-full items-center justify-between bg-gradient-to-t from-transparent to-black px-4 transition-all dark:from-transparent dark:to-zinc-900 md:px-6"
     :class="{
       hidden: isHeaderHidden,
-      'bg-gray-50 dark:bg-zinc-900': isHeaderShown
+      '!fixed bg-gray-50 dark:bg-zinc-900': isHeaderShown
     }"
   >
     <div class="flex w-full items-center justify-between">
@@ -93,6 +93,7 @@ $listen("searchbar:focus", (val) => {
         }"
       />
       <div
+        class="flex flex-shrink-0"
         :class="{
           'w-0 opacity-0 md:w-auto md:opacity-100': searchFocus
         }"
@@ -177,13 +178,12 @@ $listen("searchbar:focus", (val) => {
               </div>
             </Transition>
           </HeadlessMenu>
-          <div v-else class="flex items-center gap-4 pr-4 lg:pr-0">
-            <NuxtLink
-              to="/account/login"
-              class="flex-shrink-0 rounded bg-yellow-500 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-600"
-              >{{ $t("guest.sign_in") }}</NuxtLink
-            >
-          </div>
+          <NuxtLink
+            v-else
+            to="/account/login"
+            class="w-full flex-grow items-center rounded bg-yellow-500 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-600"
+            >{{ $t("guest.sign_in") }}</NuxtLink
+          >
         </ClientOnly>
       </div>
     </div>
