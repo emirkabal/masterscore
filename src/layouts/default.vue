@@ -1,10 +1,8 @@
 <script setup>
 import { useUserStore } from "~/store/user"
-import { useStorage } from "@vueuse/core"
 const route = useRoute()
 const userStore = useUserStore()
 const loading = ref(true)
-const dismissed = useStorage("alert-watch-feature-not-working", false)
 
 if (route.path === "/" || route.path.startsWith("/details/person/")) {
   loading.value = false
@@ -26,21 +24,6 @@ watch(
 </script>
 <template>
   <div>
-    <div
-      v-if="!dismissed"
-      class="flex items-center justify-center gap-4 bg-yellow-500 px-4 py-2 text-black"
-    >
-      <p>
-        <span class="font-semibold">Uyarı!</span> İzleme özelliği şu anda devre
-        dışıdır. 4-9 gün arasında tekrardan açılacaktır. (09/30/2023)
-      </p>
-      <button
-        @click="dismissed = true"
-        class="rounded border border-black px-3 py-0.5 transition-colors hover:bg-black hover:text-white"
-      >
-        Dismiss
-      </button>
-    </div>
     <div class="relative min-h-screen">
       <Header />
       <div
