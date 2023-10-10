@@ -15,7 +15,12 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
     "nuxt-headlessui",
-    "@nuxtjs/device",
+    [
+      "@nuxtjs/device",
+      {
+        refreshOnResize: true
+      }
+    ],
     "@vite-pwa/nuxt",
     "nuxt-twemoji",
     "nuxt-icon"

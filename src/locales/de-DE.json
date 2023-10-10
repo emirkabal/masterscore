@@ -105,7 +105,7 @@
     "confirm": "Bestätigen",
     "avatar": "Avatar",
     "dropzone_text": "Hier klicken oder Datei ziehen.",
-    "dropzone_types": "PNG, JPG oder GIF (maximal: {0} | empfohlen: {1})",
+    "dropzone_types": "PNG, JPG oder GIF (maximal: {0}, empfohlen: {1})",
     "username": "Benutzername",
     "username_notice": "Sie können Ihren Benutzernamen nur alle {0} Tage ändern.",
     "banner_url": "Banner-URL",

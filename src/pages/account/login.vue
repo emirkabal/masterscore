@@ -63,6 +63,7 @@ const submit = async (event) => {
           <FormInput
             v-model="password"
             type="password"
+            :reveal="true"
             :title="$t('guest.form.password')"
             placeholder="••••••••••"
           />
