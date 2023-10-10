@@ -79,15 +79,12 @@ const submit = async (event) => {
       <p v-if="error.length > 0" class="text-center text-red-600">
         {{ error }}
       </p>
-      <form
-        @submit="submit"
-        class="mt-2 space-y-4 !text-black"
-        autocomplete="off"
-      >
+      <form @submit="submit" class="mt-2 space-y-4 !text-black">
         <FormInput
           v-model="username"
           type="text"
           name="username"
+          autocomplete="name"
           :title="$t('guest.form.username')"
           placeholder="john"
         />
@@ -95,6 +92,7 @@ const submit = async (event) => {
           v-model="email"
           type="email"
           name="email"
+          autocomplete="email"
           :title="$t('guest.form.email')"
           placeholder="john@doe.com"
         />
@@ -102,6 +100,8 @@ const submit = async (event) => {
           v-model="password"
           type="password"
           name="new-password"
+          autocomplete="new-password"
+          :reveal="true"
           :title="$t('guest.form.password')"
           placeholder="••••••••••"
         />
@@ -109,6 +109,8 @@ const submit = async (event) => {
           v-model="confirmPassword"
           type="password"
           name="confirm-password"
+          autocomplete="new-password"
+          :reveal="true"
           :title="$t('guest.form.confirm_password')"
           placeholder="••••••••••"
         />

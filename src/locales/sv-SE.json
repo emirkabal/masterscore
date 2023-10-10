@@ -105,7 +105,7 @@
     "confirm": "Bekräfta",
     "avatar": "Avatar",
     "dropzone_text": "Klicka här eller dra din fil.",
-    "dropzone_types": "PNG, JPG eller GIF (max: {0} | rekommenderat: {1})",
+    "dropzone_types": "PNG, JPG eller GIF (max: {0}, rekommenderat: {1})",
     "username": "Användarnamn",
     "username_notice": "Du kan bara ändra ditt användarnamn var {0} dag.",
     "banner_url": "Banner URL",

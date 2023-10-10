@@ -105,7 +105,7 @@
     "confirm": "Onayla",
     "avatar": "Avatar",
     "dropzone_text": "Buraya tıklayın veya dosyanızı sürükleyin.",
-    "dropzone_types": "PNG, JPG veya GIF (maks: {0} | önr. {1})",
+    "dropzone_types": "PNG, JPG veya GIF (maks: {0}, önr. {1})",
     "username": "Kullanıcı adı",
     "username_notice": "Kullanıcı adınızı sadece {0} günde bir değiştirebilirsiniz.",
     "banner_url": "Arkaplan Bağlantısı",

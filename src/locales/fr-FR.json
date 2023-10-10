@@ -105,7 +105,7 @@
     "confirm": "Confirmer",
     "avatar": "Avatar",
     "dropzone_text": "Cliquez ici ou faites glisser votre fichier.",
-    "dropzone_types": "PNG, JPG ou GIF (max : {0} | recommandé : {1})",
+    "dropzone_types": "PNG, JPG ou GIF (max: {0}, recommandé: {1})",
     "username": "Nom d'utilisateur",
     "username_notice": "Vous ne pouvez changer de nom d'utilisateur que tous les {0} jours.",
     "banner_url": "URL de la bannière",

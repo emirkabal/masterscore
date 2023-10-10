@@ -2,6 +2,7 @@
 import VuePictureCropper, { cropper } from "vue-picture-cropper"
 import { useUserStore } from "~/store/user"
 import { useStorage } from "@vueuse/core"
+
 definePageMeta({
   middleware: ["auth"]
 })
@@ -340,7 +341,9 @@ const submit = async (e) => {
                     />
                   </div>
                   <div class="text-sm text-gray-500 dark:text-gray-300">
-                    {{ $t("settings.username_notice", ["7"]) }}
+                    {{
+                      $t("settings.username_notice", [7])
+                    }}
                   </div>
                 </div>
               </div>
