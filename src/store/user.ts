@@ -47,7 +47,7 @@ export const useUserStore = defineStore("user", {
         })
       })
 
-      if (data.status !== 200 || !("token" in data)) {
+      if (!("token" in data)) {
         return data
       }
 

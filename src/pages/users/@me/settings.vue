@@ -340,7 +340,7 @@ const submit = async (e) => {
                     />
                   </div>
                   <div class="text-sm text-gray-500 dark:text-gray-300">
-                    {{ $t("settings.username_notice", [7]) }}
+                    {{ $t("settings.username_notice", ["7"]) }}
                   </div>
                 </div>
               </div>
