@@ -36,31 +36,29 @@ if (userStore.isLoggedIn) {
 
 const submit = async (event) => {
   event.preventDefault()
-  if (password.value !== confirmPassword.value) {
-    error.value = t("guest.form.passwords_not_match")
-    return
-  } else {
-    error.value = ""
-  }
-  loading.value = true
-  const data = await $fetch("/api/auth/signup", {
-    method: "POST",
-    body: JSON.stringify({
-      username: username.value.toLowerCase(),
-      email: email.value.toLowerCase(),
-      password: password.value,
-      inviteCode: inviteCode.value
-    })
-  })
+  if (password.value !== confirmPassword.value)
+    return (error.value = t("guest.form.passwords_not_match"))
+  else error.value = ""
 
-  if (data.status === 200) {
+  loading.value = true
+  try {
+    const data = await $fetch("/api/auth/signup", {
+      method: "POST",
+      body: JSON.stringify({
+        username: username.value.toLowerCase(),
+        email: email.value.toLowerCase(),
+        password: password.value,
+        inviteCode: inviteCode.value
+      })
+    })
+
     error.value = ""
     userStore.setToken(data.token)
     await userStore.getUserData()
     useRouter().push("/")
-  } else {
+  } catch (err) {
     loading.value = false
-    error.value = grabErrorMessage(data)
+    error.value = grabErrorMessage(err)
   }
 }
 </script>
@@ -89,43 +87,46 @@ const submit = async (event) => {
         <FormInput
           v-model="username"
           type="text"
+          name="username"
           :title="$t('guest.form.username')"
+          placeholder="john"
         />
         <FormInput
           v-model="email"
           type="email"
+          name="email"
           :title="$t('guest.form.email')"
+          placeholder="john@doe.com"
         />
         <FormInput
           v-model="password"
           type="password"
+          name="new-password"
           :title="$t('guest.form.password')"
+          placeholder="••••••••••"
         />
         <FormInput
           v-model="confirmPassword"
           type="password"
+          name="confirm-password"
           :title="$t('guest.form.confirm_password')"
+          placeholder="••••••••••"
         />
         <FormInput
           v-model="inviteCode"
           type="text"
+          name="invite-code"
           :title="$t('guest.form.invite_code')"
+          placeholder="MS-SCORE-998E7"
         />
-
-        <input
-          v-if="!loading"
+        <FormButton
+          class="w-full"
           type="submit"
+          :loading="loading"
           :disabled="disabled"
-          :value="$t('guest.sign_up')"
-          class="flex h-14 w-full cursor-pointer items-center justify-center rounded-lg bg-blue-700 px-4 py-4 text-white disabled:cursor-default disabled:bg-gray-400 enabled:hover:bg-blue-600"
-        />
-        <button
-          v-else
-          type="button"
-          class="flex h-14 w-full cursor-auto items-center justify-center gap-2 rounded-lg bg-gray-200 px-4 py-4 text-white"
         >
-          <Spinner />
-        </button>
+          {{ $t("guest.sign_up") }}
+        </FormButton>
       </form>
 
       <p class="mt-4 text-center !text-black">

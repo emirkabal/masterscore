@@ -13,6 +13,7 @@
     "create_account": "Hesap oluştur",
     "forgot_password": "Şifremi unuttum",
     "form": {
+      "email_or_username": "E-posta veya kullanıcı adı",
       "username": "Kullanıcı adı",
       "password": "Şifre",
       "email": "E-posta",

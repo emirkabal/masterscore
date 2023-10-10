@@ -3,6 +3,7 @@ import { useUserStore } from "~/store/user"
 const route = useRoute()
 const userStore = useUserStore()
 const loading = ref(true)
+const { isMobileOrTablet } = useDevice()
 
 if (route.path === "/" || route.path.startsWith("/details/person/")) {
   loading.value = false
@@ -38,46 +39,83 @@ watch(
       </div>
     </div>
     <Footer />
+    <!-- PWA -->
     <ClientOnly>
-      <div v-if="$pwa?.needRefresh" class="pwa-toast" role="alert">
-        <div class="message">
-          <span> New content available </span>
-        </div>
-        <div class="flex items-center gap-2">
-          <button v-if="$pwa.needRefresh" @click="$pwa.updateServiceWorker()">
-            Reload
-          </button>
-          <button @click="$pwa.cancelPrompt()">Close</button>
+      <div
+        v-if="$pwa?.needRefresh"
+        class="fixed bottom-8 left-1/2 z-50 w-full max-w-lg -translate-x-1/2 px-4 sm:px-0"
+        role="alert"
+      >
+        <div
+          class="flex w-full items-center justify-between rounded-lg border border-yellow-500/10 bg-yellow-500/10 p-2 text-sm shadow backdrop-blur-xl sm:max-w-lg"
+        >
+          <div class="flex items-center gap-2">
+            <div
+              class="flex items-center justify-center rounded-lg bg-yellow-500 p-2"
+            >
+              <Icon
+                name="ic:outline-file-download"
+                class="h-5 w-5 flex-shrink-0"
+              />
+            </div>
+
+            <p class="font-bold">New content available</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <button
+              class="opacity-75 transition-opacity hover:opacity-100"
+              @click="$pwa.cancelPrompt()"
+            >
+              Cancel
+            </button>
+            <button
+              class="rounded-lg bg-yellow-500 px-4 py-2 font-semibold transition-colors hover:bg-yellow-600"
+              @click="$pwa.updateServiceWorker()"
+            >
+              Reload
+            </button>
+          </div>
         </div>
       </div>
       <div
         v-if="$pwa?.showInstallPrompt && !$pwa?.needRefresh"
-        class="pwa-toast"
+        class="fixed bottom-8 left-1/2 z-50 w-full max-w-lg -translate-x-1/2 px-4 sm:px-0"
         role="alert"
       >
-        <div class="flex items-center gap-2">
-          <Icon name="ic:outline-file-download" class="h-6 w-6 flex-shrink-0" />
-          <div class="message">
-            <span> Install PWA </span>
+        <div
+          class="flex w-full items-center justify-between rounded-lg border border-yellow-500/10 bg-yellow-500/10 p-2 text-sm shadow backdrop-blur-xl sm:max-w-lg"
+        >
+          <div class="flex items-center gap-2">
+            <div
+              class="flex items-center justify-center rounded-lg bg-yellow-500 p-2"
+            >
+              <Icon
+                name="ic:outline-file-download"
+                class="h-5 w-5 flex-shrink-0"
+              />
+            </div>
+
+            <p class="font-bold">
+              Install
+              {{ isMobileOrTablet ? "homepage" : "desktop" }} application
+            </p>
           </div>
-        </div>
-        <div class="flex items-center gap-2">
-          <button @click="$pwa.install()">Install</button>
-          <button @click="$pwa.cancelInstall()">Cancel</button>
+          <div class="flex items-center gap-4">
+            <button
+              class="opacity-75 transition-opacity hover:opacity-100"
+              @click="$pwa.cancelInstall()"
+            >
+              Cancel
+            </button>
+            <button
+              class="rounded-lg bg-yellow-500 px-4 py-2 font-semibold transition-colors hover:bg-yellow-600"
+              @click="$pwa.install()"
+            >
+              Install
+            </button>
+          </div>
         </div>
       </div>
     </ClientOnly>
   </div>
 </template>
-
-<style>
-.pwa-toast {
-  @apply fixed bottom-6 left-1/2 z-50 mx-auto flex w-full max-w-xs -translate-x-1/2 flex-col items-center  justify-between gap-2 rounded-3xl bg-yellow-400/40 p-6 shadow-2xl backdrop-blur-md dark:bg-yellow-400/40 sm:max-w-sm sm:flex-row;
-}
-.pwa-toast .message {
-  @apply flex flex-shrink-0 items-center justify-center font-semibold;
-}
-.pwa-toast button {
-  @apply rounded bg-white px-2 py-1 font-bold !text-black transition-colors hover:bg-gray-200;
-}
-</style>

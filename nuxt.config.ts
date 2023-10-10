@@ -144,6 +144,7 @@ export default defineNuxtConfig({
     SUPABASE_URL: process.env.SUPABASE_URL,
     SUPABASE_KEY: process.env.SUPABASE_KEY,
     INVITE_CODE: process.env.INVITE_CODE,
+    JWT_SECRET: process.env.JWT_SECRET,
     public: {
       SUPABASE_STORAGE_URL: process.env.SUPABASE_STORAGE_URL
     }

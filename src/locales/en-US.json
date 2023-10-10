@@ -13,6 +13,7 @@
     "create_account": "Create Account",
     "forgot_password": "Forgot Password",
     "form": {
+      "email_or_username": "Email or username",
       "username": "Username",
       "password": "Password",
       "email": "Email",

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken"
 import { IUser } from "~/@types"
 import UserModel from "../models/User.model"
+const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
   if (event.node.req.headers.authorization) {
@@ -11,7 +12,7 @@ export default defineEventHandler(async (event) => {
       const user: Partial<IUser> = await UserModel.findById(decoded.id).lean()
       if (user) {
         try {
-          const secret = `${user.password}${user.createdAt}`
+          const secret = config.JWT_SECRET + user.password
           const valid = jwt.verify(token, secret)
           if (valid) {
             delete user.password

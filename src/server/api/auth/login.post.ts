@@ -2,35 +2,47 @@ import UserModel from "~/server/models/User.model"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { IUser } from "~/@types"
+import { LoginSchema } from "~/server/validation"
+const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
+  const { error } = LoginSchema.validate(body)
 
-  const username = body.username.toLowerCase()
+  if (error)
+    return createError({
+      status: 400,
+      message: error.message
+    })
+
   const user: IUser | null = await UserModel.findOne({
     $or: [
       {
-        username
+        username: body.username
       },
       {
-        email: username
+        email: body.username
+      },
+      {
+        username: new RegExp(`^${body.username}$`, "i")
       }
     ]
   }).lean()
 
   if (!user)
-    return {
+    return createError({
       status: 400,
       message: "Username or password invalid."
-    }
+    })
 
   const valid = bcrypt.compareSync(body.password, user.password)
   if (!valid)
-    return {
+    return createError({
       status: 400,
       message: "Username or password invalid."
-    }
-  const secret = user.password + user.createdAt
+    })
+
+  const secret = config.JWT_SECRET + user.password
   const token = jwt.sign(
     {
       id: user._id,

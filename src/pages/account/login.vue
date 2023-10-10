@@ -24,51 +24,51 @@ if (userStore.isLoggedIn) {
 const submit = async (event) => {
   event.preventDefault()
   loading.value = true
-  const data = await userStore.login(username.value, password.value)
-  if (data.status === 200) {
+  try {
+    await userStore.login(username.value, password.value)
     error.value = ""
     useRouter().push("/")
-  } else {
+  } catch (err) {
     loading.value = false
-    error.value = data.message
+    error.value = grabErrorMessage(err)
   }
 }
 </script>
 
 <template>
   <div class="flex h-screen w-full">
-    <div class="z-10 h-screen w-full bg-white p-8 md:max-w-md">
-      <div class="mt-48 rounded-3xl md:bg-white md:p-8">
-        <h1 class="text-center">
-          <Logo class="text-4xl !text-black" />
-        </h1>
-        <p v-if="error.length > 0" class="text-center text-red-600">
-          {{ error }}
-        </p>
+    <div class="z-10 h-screen w-full bg-white p-4 md:max-w-md md:p-8">
+      <div class="mt-32 rounded-3xl md:bg-white md:p-8">
+        <div class="mb-4 text-center md:text-left">
+          <Logo
+            class="absolute left-0 top-0 m-4 text-2xl text-black md:relative md:m-0 md:text-lg"
+          />
+          <h1 class="font-maven text-4xl font-black text-black">
+            {{ $t("guest.sign_in") }}
+          </h1>
+          <p
+            v-if="error.length > 0"
+            class="my-4 font-mono leading-4 text-red-600"
+          >
+            {{ error }}
+          </p>
+        </div>
         <form @submit="submit" class="mt-2 space-y-4 !text-black">
           <FormInput
             v-model="username"
             type="text"
-            :title="$t('guest.form.username')"
+            :title="$t('guest.form.email_or_username')"
+            placeholder="john@doe.com"
           />
           <FormInput
             v-model="password"
             type="password"
             :title="$t('guest.form.password')"
+            placeholder="••••••••••"
           />
-          <input
-            v-if="!loading"
-            type="submit"
-            :value="$t('guest.sign_in')"
-            class="h-14 w-full cursor-pointer rounded-lg bg-blue-700 px-4 py-4 text-white hover:bg-blue-600"
-          />
-          <button
-            v-else
-            type="button"
-            class="flex h-14 w-full cursor-auto items-center justify-center gap-2 rounded-lg bg-gray-200 px-4 py-4 text-white"
-          >
-            <Spinner />
-          </button>
+          <FormButton class="w-full" type="submit" :loading="loading">
+            {{ $t("guest.sign_in") }}
+          </FormButton>
         </form>
         <p class="mt-3 text-center !text-black">
           {{ $t("guest.dont_have_account") }}
