@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { TMDBData } from "~/@types"
+import { ProviderResults, TMDBData } from "~/@types"
 import ScreenModal from "~/components/ScreenModal.vue"
 const { t, locale } = useI18n()
 const { $getTitle, $moment } = useNuxtApp()
+const { userAgent } = useDevice()
 const props = defineProps<{
   data: TMDBData
   smartVideoData: any
@@ -16,9 +17,12 @@ const formatter = new Intl.NumberFormat("en-US", {
   currencyDisplay: "symbol"
 })
 
-const { data: providerData, pending: providerPending } = useLazyFetch(
-  `/api/extra/providers/${props.data.id}?type=${props.data.localData.type}`
-)
+const { data: providerData, pending: providerPending } =
+  useLazyFetch<ProviderResults>(
+    `https://watchhub.strem.io/stream/movie/${
+      props.data.external_ids?.imdb_id || props.data.imdb_id
+    }.json`
+  )
 
 const trailerModal = ref(false)
 
@@ -118,14 +122,6 @@ const localName = computed(() => {
   }
 })
 
-const getProvider = computed(() => {
-  if (providerData.value && !providerPending.value) {
-    return providerData.value.results.TR
-  } else {
-    return null
-  }
-})
-
 const getCreator = computed(() => {
   if (props.data.created_by) {
     return props.data.created_by
@@ -198,13 +194,23 @@ const rtScore = computed(() => {
         <span>{{ $t("entertainment.watch_trailer") }}</span>
       </button>
 
-      <div
-        v-if="
-          (!providerPending &&
-            (getProvider?.flatrate || getProvider?.rent || getProvider?.buy)) ||
-          smartVideoData
-        "
-      >
+      <div v-if="providerPending" class="space-y-2">
+        <div
+          class="skeleton-effect h-2 w-1/2 rounded-full bg-gray-300 dark:bg-zinc-800"
+        ></div>
+        <div class="flex items-center gap-2">
+          <div
+            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"
+          ></div>
+          <div
+            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"
+          ></div>
+          <div
+            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"
+          ></div>
+        </div>
+      </div>
+      <div v-else-if="providerData?.streams?.length">
         <span class="font-bold">{{
           $t("entertainment.sidebar.availabe_on")
         }}</span>
@@ -222,73 +228,31 @@ const rtScore = computed(() => {
             <span class="-mt-1 select-none"> m </span>
           </span>
           <a
-            v-if="
-              !providerPending &&
-              (getProvider?.flatrate || getProvider?.rent || getProvider?.buy)
+            v-for="provider in providerData.streams"
+            :key="provider.name"
+            :href="
+              userAgent.includes('webOS')
+                ? provider.androidTvUrl
+                : provider.externalUrl
             "
-            v-for="provider in getProvider.flatrate ||
-            getProvider.rent ||
-            getProvider.buy"
-            :key="provider.provider_id"
-            :href="getProvider.link"
             target="_blank"
             v-tooltip="{
-              content: `${$t('entertainment.sidebar.watch_on', {
-                provider: `<b>${provider.provider_name}</b>`
-              })}`,
+              content: `<b>${provider.name}</b>, ${provider.title}`,
               html: true
             }"
             class="h-10 w-10 rounded-lg bg-cover bg-center bg-no-repeat transition-opacity hover:opacity-75"
             :style="{
-              backgroundImage: `url(https://image.tmdb.org/t/p/original/${provider.logo_path})`
+              backgroundImage: `url(${
+                $getProvider(provider.name)
+                  ? `https://image.tmdb.org/t/p/original/${
+                      $getProvider(provider.name)?.logo
+                    }`
+                  : 'https://i.imgur.com/qDIwea6.png'
+              })`
             }"
           >
           </a>
         </div>
-        <div
-          class="text-xs"
-          v-if="getProvider?.flatrate || getProvider?.rent || getProvider?.buy"
-        >
-          <i18n-t
-            tag="span"
-            keypath="entertainment.sidebar.powered_by"
-            class="mr-2 text-gray-600 dark:text-gray-50"
-          >
-            <template v-slot:provider>
-              <a href="https://www.justwatch.com/" target="_blank"
-                ><img
-                  class="mb-1 inline-block h-auto w-20"
-                  src="~/assets/images/justwatch-logo.png"
-                  alt=""
-              /></a>
-            </template>
-          </i18n-t>
-          <!-- <a href="https://www.justwatch.com/" target="_blank"
-            ><img
-              class="mb-1 inline-block h-auto w-20"
-              src="~/assets/images/justwatch-logo.png"
-              alt=""
-          /></a> -->
-        </div>
-      </div>
-      <div v-else-if="providerPending" class="space-y-2">
-        <div
-          class="skeleton-effect h-2 w-1/2 rounded-full bg-gray-300 dark:bg-zinc-800"
-        ></div>
-        <div class="flex items-center gap-2">
-          <div
-            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"
-          ></div>
-          <div
-            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"
-          ></div>
-          <div
-            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"
-          ></div>
-        </div>
-        <div
-          class="skeleton-effect h-2 w-1/3 rounded-full bg-gray-300 dark:bg-zinc-800"
-        ></div>
       </div>
 
       <EntertainmentCard
