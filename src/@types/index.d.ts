@@ -359,6 +359,15 @@ export interface IUser {
   createdAt: Date
   updatedAt: Date
 }
+
+export interface ProviderResults {
+  streams: {
+    name: string
+    title: string
+    externalUrl: string
+    androidTvUrl: string
+  }[]
+}
 export interface TMDBWatchProviderDetails {
   display_priority: number
   logo_path: string
