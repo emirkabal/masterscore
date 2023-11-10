@@ -1,18 +1,24 @@
-<script setup>
+<script setup lang="ts">
 import { useUserStore } from "~/store/user"
 
 const { user } = useUserStore()
 const emits = defineEmits(["edit", "remove"])
-const props = defineProps({
-  loading: {
-    type: Boolean,
-    default: false
-  },
-  data: {
-    type: Array,
-    default: () => []
+withDefaults(
+  defineProps<{
+    data?: any[]
+    loading?: boolean
+    mranking?: {
+      total: number
+      rating: number
+      good: number
+      poor: number
+    }
+  }>(),
+  {
+    data: () => [],
+    loading: false
   }
-})
+)
 </script>
 
 <template>
@@ -22,7 +28,25 @@ const props = defineProps({
     >
       {{ $t("entertainment.reviews") }}
     </h1>
-    <div class="space-y-4" v-if="props.loading">
+    <div v-if="mranking">
+      <EntertainmentMRanking :rating="mranking.rating" class="w-fit" />
+      <p class="text-gray-500 dark:text-gray-400">
+        {{ $t("entertainment.total_reviews") }}: {{ mranking.total }}
+      </p>
+      <p class="flex gap-2">
+        <span class="text-green-500 dark:text-green-400">
+          {{ $t("positive") }}: {{ mranking.good }} ({{
+            ((mranking.good * 100) / mranking.total).toFixed(2)
+          }}%)
+        </span>
+        <span class="text-red-500 dark:text-red-400">
+          {{ $t("negative") }}: {{ mranking.poor }} ({{
+            ((mranking.poor * 100) / mranking.total).toFixed(2)
+          }}%)
+        </span>
+      </p>
+    </div>
+    <div class="space-y-4" v-if="loading">
       <div class="flex items-center px-4 py-6" v-for="i in 4" :key="i">
         <div
           class="skeleton-effect h-14 w-14 flex-shrink-0 rounded-full bg-gray-300 dark:bg-zinc-800"
@@ -44,11 +68,11 @@ const props = defineProps({
       </div>
     </div>
     <div v-else-if="data.length > 0">
-      <div class="space-y-4">
+      <div class="space-y-4 divide-y-2 dark:divide-zinc-900">
         <div
           v-for="comment in data"
           :key="comment._id"
-          class="flex items-start border-b py-4 dark:border-zinc-900 md:px-4 md:py-6"
+          class="flex items-start py-4 md:px-4 md:py-6"
         >
           <NuxtLink :to="`/users/@${comment.author.username}`">
             <Avatar

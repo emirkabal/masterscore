@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { vIntersectionObserver } from "@vueuse/components"
-import { TMDBSearchResult } from "~/@types"
+import type { TMDBSearchResult } from "~/types"
 
 const { $tgenre } = useNuxtApp()
 const { t } = useI18n()

@@ -1,4 +1,4 @@
-import { ErrorResponse, IUser } from "~/@types"
+import type { ErrorResponse, IUser } from "~/types"
 import UserModel from "~/server/models/User.model"
 
 export default defineEventHandler(async (event) => {

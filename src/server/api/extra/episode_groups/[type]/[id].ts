@@ -1,4 +1,4 @@
-import { EpisodeGroups, EpisodeGroupsDetails } from "~/@types"
+import type { EpisodeGroups, EpisodeGroupsDetails } from "~/types"
 import getISO from "~/utils/getISO"
 
 const config = useRuntimeConfig()

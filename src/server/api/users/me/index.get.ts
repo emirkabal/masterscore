@@ -1,4 +1,4 @@
-import { ErrorResponse, IUser } from "~/@types"
+import type { ErrorResponse, IUser } from "~/types"
 import fixUserNullables from "~/utils/fixUserNullables"
 
 export default defineEventHandler(async (event) => {

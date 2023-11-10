@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ReviewData, TMDBData } from "~/@types"
+import type { ReviewData, TMDBData } from "~/types"
 import { useUserStore } from "~/store/user"
 import { onClickOutside } from "@vueuse/core"
 const { isMobileOrTablet } = useDevice()

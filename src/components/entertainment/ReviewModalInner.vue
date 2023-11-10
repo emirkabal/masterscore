@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ReviewData, TMDBData } from "~/@types"
+import type { ReviewData, TMDBData } from "~/types"
 import { useDark, onClickOutside } from "@vueuse/core"
 
 const isDark = useDark()
@@ -19,6 +19,8 @@ onClickOutside(emojiPicker, () => {
 watch(props.reviewData, () => {
   if (props.reviewData.rating < 0.5) {
     props.reviewData.rating = 0.5
+  } else if (props.reviewData.rating > 10) {
+    props.reviewData.rating = 10
   }
 })
 
@@ -43,20 +45,14 @@ const onSelectEmoji = (emoji: any) => {
       </p>
       <StarRating
         :animate="true"
-        :increment="0.5"
-        :max-rating="10"
+        :numberOfStars="10"
         :star-size="39"
-        :show-rating="false"
-        :star-points="[
-          23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36, 34, 46, 19,
-          31, 17
-        ]"
-        :active-border-color="['#a30000', '#ffc400']"
-        :active-color="['#f00', '#ff0']"
-        :inactive-color="isDark ? '#000' : '#fff'"
-        :border-width="2"
-        :active-on-click="true"
-        v-model:rating="props.reviewData.rating"
+        @click="
+          () => {
+            if (reviewData.rating >= 9.9) reviewData.rating = 10
+          }
+        "
+        v-model="props.reviewData.rating"
       ></StarRating>
     </div>
     <div>
@@ -64,17 +60,15 @@ const onSelectEmoji = (emoji: any) => {
         <p class="select-none text-lg font-semibold">Comment</p>
 
         <Transition name="fade">
-          <TwemojiParse png>
-            <EmojiPicker
-              v-show="isEmojiSelector"
-              ref="emojiPicker"
-              class="absolute right-0 z-20"
-              :display-recent="true"
-              :native="true"
-              :theme="isDark ? 'dark' : 'light'"
-              @select="onSelectEmoji"
-            />
-          </TwemojiParse>
+          <EmojiPicker
+            v-show="isEmojiSelector"
+            ref="emojiPicker"
+            class="absolute right-0 z-20"
+            :display-recent="true"
+            :native="true"
+            :theme="isDark ? 'dark' : 'light'"
+            @select="onSelectEmoji"
+          />
         </Transition>
       </div>
 
@@ -83,7 +77,7 @@ const onSelectEmoji = (emoji: any) => {
           type="text"
           :value="props.reviewData.comment"
           :maxlength="512"
-          @input="(e:any) => (props.reviewData.comment = e.target.value)"
+          @input="(e: any) => (props.reviewData.comment = e.target.value)"
           placeholder="Write a review..."
           class="h-32 w-full select-none resize-none rounded border-gray-400 dark:border-zinc-800 dark:bg-zinc-800"
         />

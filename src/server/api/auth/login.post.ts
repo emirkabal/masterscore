@@ -1,7 +1,7 @@
 import UserModel from "~/server/models/User.model"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import { IUser } from "~/@types"
+import type { IUser } from "~/types"
 import { LoginSchema } from "~/server/validation"
 const config = useRuntimeConfig()
 

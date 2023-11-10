@@ -1,9 +1,9 @@
-import {
+import type {
   ErrorResponse,
   IEntertainment,
   IUser,
   TMDBSearchResult
-} from "~/@types"
+} from "~/types"
 import EntertainmentModel from "~/server/models/Entertainment.model"
 import UserModel from "~/server/models/User.model"
 import getISO from "~/utils/getISO"

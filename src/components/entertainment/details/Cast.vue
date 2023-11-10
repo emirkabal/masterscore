@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SwiperSlide } from "swiper/vue"
-import { CreditsResult } from "~/@types"
+import type { CreditsResult } from "~/types"
 
 const { data, loading } = defineProps<{
   data?: {

@@ -1,20 +1,14 @@
-import { IEntertainment, TMDBSearchResult } from "~/@types"
+import type { IHomeResponse, TMDBSearchResult } from "~/types"
 import getISO from "~/utils/getISO"
 
 const config = useRuntimeConfig()
 
-interface TopRatedResult {
-  average: number
-  entertainment: IEntertainment
-  reviewsCount: number
-}
-
 export default defineEventHandler(async (event) => {
   const lang = getISO(getCookie(event, "locale"))
-  const result = {
-    recommendations: [] as TMDBSearchResult[],
-    trending: [] as TMDBSearchResult[],
-    top_rated: [] as TopRatedResult[]
+  const result: IHomeResponse = {
+    recommendations: [],
+    trending: [],
+    top_rated: []
   }
 
   if (event.context.user) {

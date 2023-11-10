@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ReviewData, TMDBData } from "~~/src/@types"
+import type { ReviewData, TMDBData } from "~/types"
 import { useUserStore } from "~/store/user"
 const { $event } = useNuxtApp()
 const { user, isLoggedIn } = useUserStore()
@@ -119,31 +119,32 @@ watchEffect(() => {
     <div
       class="mt-4 flex flex-col gap-2 text-lg lg:flex-row"
       :class="{
-        'grid grid-cols-1 md:grid-cols-2 xl:flex xl:grid-cols-4 xl:flex-row':
-          smartVideoData && smartVideoData.id
+        'flex flex-wrap': smartVideoData && smartVideoData.id
       }"
     >
-      <button
-        v-if="smartVideoData && smartVideoData.id"
-        @click="watchSmartVideo(smartVideoData.id)"
-        class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
-      >
-        <Icon name="ic:outline-play-arrow" class="h-7 w-7" />
-        {{ $t("entertainment.buttons.watch") }}
-      </button>
+      <div class="grid gap-2 sm:grid-cols-2 lg:flex">
+        <button
+          v-if="smartVideoData && smartVideoData.id"
+          @click="watchSmartVideo(smartVideoData.id)"
+          class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
+        >
+          <Icon name="ic:outline-play-arrow" class="h-7 w-7" />
+          {{ $t("entertainment.buttons.watch") }}
+        </button>
 
-      <button
-        @click="$emit('openReview')"
-        class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
-      >
-        <Icon name="ic:round-star" v-if="userReviewed" class="h-7 w-7" />
-        <Icon name="ic:round-star-border" v-else class="h-7 w-7" />
-        {{
-          userReviewed
-            ? $t("entertainment.buttons.reviewed")
-            : $t("entertainment.buttons.review")
-        }}
-      </button>
+        <button
+          @click="$emit('openReview')"
+          class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
+        >
+          <Icon name="ic:round-star" v-if="userReviewed" class="h-7 w-7" />
+          <Icon name="ic:round-star-border" v-else class="h-7 w-7" />
+          {{
+            userReviewed
+              ? $t("entertainment.buttons.reviewed")
+              : $t("entertainment.buttons.review")
+          }}
+        </button>
+      </div>
       <div class="flex items-center gap-2">
         <button
           v-if="!userAddedWatchlist"

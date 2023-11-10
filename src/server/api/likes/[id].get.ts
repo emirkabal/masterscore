@@ -1,4 +1,4 @@
-import { ErrorResponse, ILike } from "~/@types"
+import type { ILike } from "~/types"
 import LikeModel from "~/server/models/Like.model"
 
 export default defineEventHandler(async (event) => {

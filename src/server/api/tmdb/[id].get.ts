@@ -1,4 +1,4 @@
-import { ErrorResponse, TMDBData } from "~/@types"
+import type { TMDBData } from "~/types"
 import getDataFromTMDB from "~/utils/getDataFromTMDB"
 import getISO from "~/utils/getISO"
 

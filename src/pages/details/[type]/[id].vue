@@ -30,6 +30,8 @@ const showDetailsDev = ref(false)
 const reviewData = reactive({
   count: 0,
   rating: 0.5,
+  good: 0,
+  poor: 0,
   comment: "",
   spoiler: false,
   loading: true
@@ -67,7 +69,9 @@ const fetchReviews = async () => {
     if (review.review.spoiler) reviewData.spoiler = true
   }
   reviewData.count = review.count
-  masterRating.value = review.averageRating
+  reviewData.good = review?.average?.good || 0
+  reviewData.poor = review?.average?.poor || 0
+  masterRating.value = review?.average?.rating || 0
   reviewData.loading = false
 }
 
@@ -329,6 +333,7 @@ useHead({
           :data="data"
           :is-light="backgroundBright"
           :rating="masterRating"
+          :reviewData="reviewData"
         />
         <EntertainmentButtonGroup
           :data="data"
@@ -365,6 +370,12 @@ useHead({
           <EntertainmentDetailsReviews
             :loading="reviewData.loading"
             :data="comments"
+            :mranking="{
+              total: reviewData.count,
+              rating: masterRating,
+              good: reviewData.good,
+              poor: reviewData.poor
+            }"
             @edit="openReview"
             @remove="deleteReview"
           />

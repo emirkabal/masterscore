@@ -409,6 +409,18 @@ export interface IReview {
   updatedAt: Date
 }
 
+export interface TopRatedResult {
+  average: number
+  entertainment: IEntertainment
+  reviewsCount: number
+}
+
+export interface IHomeResponse {
+  recommendations: TMDBSearchResult[]
+  trending: TMDBsearchResult[]
+  top_rated: TopRatedResult[]
+}
+
 export interface ILike {
   _id?: string
   entertainment: IEntertainment

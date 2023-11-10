@@ -1,4 +1,4 @@
-import { ErrorResponse, IUser, TMDBSearchResult } from "~/@types"
+import type { ErrorResponse, IUser, TMDBSearchResult } from "~/types"
 import UserModel from "~/server/models/User.model"
 import getISO from "~/utils/getISO"
 const config = useRuntimeConfig()

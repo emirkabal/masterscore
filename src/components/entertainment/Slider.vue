@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {
+import type {
   IEntertainment,
   TMDBData,
   TMDBSearchResult,
   CreditsResult
-} from "~/@types"
+} from "~/types"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { FreeMode, Navigation } from "swiper/modules"
 import { useEventListener } from "@vueuse/core"

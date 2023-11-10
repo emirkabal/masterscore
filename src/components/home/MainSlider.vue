@@ -2,7 +2,7 @@
 import { Swiper as SwiperType } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { Autoplay, EffectFade, Parallax } from "swiper/modules"
-import { TMDBSearchResult } from "~/@types"
+import type { TMDBSearchResult } from "~/types"
 import "swiper/css"
 import "swiper/css/effect-fade"
 const props = defineProps<{
