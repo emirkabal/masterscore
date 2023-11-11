@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import debounce from "lodash.debounce"
-
 const props = defineProps(["rating"])
 const emit = defineEmits(["update:rating"])
 const rating = computed({
@@ -30,34 +28,6 @@ const increment = () => {
   rating.value += 0.1
 }
 
-const incrementHold = () =>
-  debounce(() => {
-    const interval = setInterval(() => {
-      rating.value += 0.1
-    }, 20)
-
-    const stop = () => {
-      clearInterval(interval)
-    }
-
-    window.addEventListener("mouseup", stop)
-    window.addEventListener("touchend", stop)
-  }, 200)()
-
-const decrementHold = () =>
-  debounce(() => {
-    const interval = setInterval(() => {
-      rating.value -= 0.1
-    }, 20)
-
-    const stop = () => {
-      clearInterval(interval)
-    }
-
-    window.addEventListener("mouseup", stop)
-    window.addEventListener("touchend", stop)
-  }, 200)()
-
 const decrement = () => {
   rating.value -= 0.1
 }
@@ -73,14 +43,12 @@ const decrement = () => {
     <div class="flex flex-col items-center justify-center">
       <button
         @click="increment"
-        @mousedown="incrementHold"
         class="flex items-center self-center px-2 py-1 hover:bg-gray-800"
       >
         <Icon name="ic:baseline-keyboard-arrow-up" class="h-4 w-4" />
       </button>
       <button
         @click="decrement"
-        @mousedown="decrementHold"
         class="flex items-center self-center px-2 py-1 hover:bg-gray-800"
       >
         <Icon name="ic:baseline-keyboard-arrow-down" class="h-4 w-4" />

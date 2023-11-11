@@ -36,7 +36,7 @@ const fetch = async () => {
   items.value = []
   pending.value = true
   const queries = new URLSearchParams()
-  queries.append("limit", 100)
+  queries.append("limit", 500)
   if (disableReviewRequirement.value)
     queries.append("disableReviewRequirement", disableReviewRequirement.value)
   queries.append("type", listType.value)
