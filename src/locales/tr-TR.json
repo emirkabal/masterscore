@@ -5,6 +5,7 @@
   "edited": "düzenlendi",
   "unknown": "Bilinmeyen",
   "no_comment_for_this_review": "Bu değerlendirme için henüz yorum yok.",
+  "total": "Toplam",
   "guest": {
     "sign_in": "Giriş yap",
     "sign_up": "Kayıt ol",
@@ -202,5 +203,21 @@
     "explore": "Keşfet {0}",
     "explore_more": "Daha fazlasını keşfet",
     "load_more": "Daha Fazla"
+  },
+  "mranking": {
+    "masterpiece": "Başyapıt",
+    "good": "Mükemmel",
+    "mixed": "Karmaşık",
+    "poor": "Kötü",
+    "reviewers_positive": "{0} olumlu ({1}%)",
+    "reviewers_negative": "{0} olumsuz ({1}%)"
+  },
+  "review_modal": {
+    "title": "Değerlendirme Yap",
+    "review": "Değerlendir",
+    "rating": "Puan",
+    "submit": "Gönder",
+    "comment": "Yorum",
+    "placeholder": "Herhangi bir yorum yazın..."
   }
 }

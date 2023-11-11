@@ -2,11 +2,11 @@
 module.exports = {
   darkMode: "class",
   content: [
-    "./components/**/*.vue",
-    "./layouts/**/*.vue",
-    "./pages/**/*.vue",
-    "./plugins/**/*.{js,ts}",
-    "./*.vue"
+    "./src/components/**/*.vue",
+    "./src/layouts/**/*.vue",
+    "./src/pages/**/*.vue",
+    "./src/plugins/**/*.{js,ts}",
+    "./src/*.vue"
   ],
   theme: {
     screens: {

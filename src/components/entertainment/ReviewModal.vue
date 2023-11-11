@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ReviewData, TMDBData } from "~/@types"
+import type { ReviewData, TMDBData } from "~/types"
 import { useUserStore } from "~/store/user"
 import { onClickOutside } from "@vueuse/core"
 const { isMobileOrTablet } = useDevice()
@@ -62,7 +62,7 @@ $listen("modal:review", (val) => {
     v-if="!isMobileOrTablet"
     :show="modal"
     @close="modal = false"
-    title="Review"
+    :title="$t('review_modal.title')"
   >
     <template v-slot:body>
       <EntertainmentReviewModalInner
@@ -73,15 +73,15 @@ $listen("modal:review", (val) => {
     <template v-slot:footer>
       <button
         @click="submitReview"
-        class="rounded bg-blue-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-700"
+        class="rounded bg-yellow-400 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-500"
       >
-        Submit Review
+        {{ $t("review_modal.submit") }}
       </button>
     </template>
   </Modal>
   <BottomModal
     v-else
-    title="Make a Review"
+    :title="$t('review_modal.title')"
     :show="modal"
     @close="modal = false"
   >
@@ -96,7 +96,7 @@ $listen("modal:review", (val) => {
         class="flex h-12 w-full select-none items-center justify-center rounded-full bg-yellow-500 px-4 py-2 font-semibold hover:opacity-75"
         @click="submitReview"
       >
-        Submit
+        {{ $t("review_modal.submit") }}
       </button>
     </template>
   </BottomModal>

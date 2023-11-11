@@ -1,0 +1,223 @@
+{
+  "welcome": "Masterscoreへようこそ",
+  "movies": "映画",
+  "tv_shows": "テレビ番組",
+  "edited": "編集済み",
+  "unknown": "不明",
+  "no_comment_for_this_review": "このレビューにコメントはありません。",
+  "total": "合計",
+  "guest": {
+    "sign_in": "サインイン",
+    "sign_up": "サインアップ",
+    "dont_have_account": "アカウントをお持ちでないですか？",
+    "already_have_account": "すでにアカウントをお持ちですか？",
+    "create_account": "アカウントを作成",
+    "forgot_password": "パスワードをお忘れですか？",
+    "form": {
+      "email_or_username": "メールアドレスまたはユーザー名",
+      "username": "ユーザー名",
+      "password": "パスワード",
+      "email": "メールアドレス",
+      "confirm_password": "パスワードの確認",
+      "invite_code": "招待コード",
+      "passwords_not_match": "パスワードが一致しません。"
+    }
+  },
+  "header": {
+    "home": "ホーム",
+    "feed": "フィード",
+    "table": "テーブル",
+    "random_movie": "ランダムな映画",
+    "user": {
+      "profile": "プロフィール",
+      "watchlist": "ウォッチリスト",
+      "reviews": "レビュー",
+      "settings": "設定",
+      "logout": "ログアウト"
+    }
+  },
+  "activity": {
+    "reviewed": "レビュー済み",
+    "liked": "いいね",
+    "added_to_watchlist": "ウォッチリストに追加"
+  },
+  "search": {
+    "text": "検索するには入力してください...",
+    "no_results": "結果が見つかりません。",
+    "no_recent_searches": "最近の検索はありません。",
+    "movies_and_tv_shows": "映画＆テレビ番組",
+    "persons": "人物",
+    "users": "ユーザー",
+    "close": "{key} で閉じる"
+  },
+  "profile": {
+    "created": "{n}に作成",
+    "edit_profile": "プロフィール編集",
+    "copy_url": "URLをコピー",
+    "summary": "概要",
+    "watchlist": "ウォッチリスト ({n})",
+    "reviews": "レビュー ({n})",
+    "no_reviews": "まだレビューはありません。",
+    "featured_entertainments": "注目のエンターテイメント",
+    "latest_reviews": "最新のレビュー",
+    "latest_likes": "最新のいいね",
+    "last_added_to_watchlist": "最後にウォッチリストに追加"
+  },
+  "person": {
+    "personal_info": "個人情報",
+    "known_for": "知られている作品",
+    "birthday": "誕生日",
+    "place_of_birth": "出生地",
+    "deathday": "死亡日",
+    "gender": "性別",
+    "also_known_as": "別名",
+    "biography": "伝記",
+    "no_biography": "この人物の伝記はありません。",
+    "read_more": "もっと読む...",
+    "age": "{n} 歳",
+    "genders": {
+      "0": "不明",
+      "1": "女性",
+      "2": "男性",
+      "3": "その他"
+    },
+    "departments": {
+      "Acting": "演技",
+      "Directing": "監督",
+      "Writing": "脚本",
+      "Production": "製作",
+      "Editing": "編集",
+      "Art": "アート",
+      "Sound": "サウンド",
+      "Camera": "カメラ",
+      "Crew": "クルー",
+      "Costume & Make-Up": "衣装＆メイクアップ",
+      "Visual Effects": "視覚効果",
+      "Lighting": "照明",
+      "Creator": "クリエーター"
+    }
+  },
+  "settings": {
+    "title": "設定",
+    "edit_profile": "プロフィール編集",
+    "preview": "プレビュー",
+    "about": "について",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "avatar": "アバター",
+    "dropzone_text": "ここをクリックするか、ファイルをドラッグしてください。",
+    "dropzone_types": "PNG、JPG、またはGIF（最大：{0}、推奨：{1}）",
+    "username": "ユーザー名",
+    "username_notice": "ユーザー名は{0}日ごとに変更できます。",
+    "banner_url": "バナーのURL",
+    "platform_recommended": "おすすめ：{0}",
+    "update_profile": "プロフィールを更新",
+    "back_to_profile": "プロフィールに戻る",
+    "preferences": "設定",
+    "debug_mode": "デバッグモード"
+  },
+  "footer": {
+    "about": "映画とテレビ番組の公正なレビューの究極の情報源。次のお気に入りのエンターテイメントを見つけてください！",
+    "tmdb_text": "映画、テレビ番組、および人物に関するデータは、{provider}から提供されています。"
+  },
+  "home": {
+    "recommended": "おすすめ",
+    "top_rated": "トップ評価",
+    "more_info": "詳細情報"
+  },
+  "entertainment": {
+    "watch_trailer": "予告編を見る",
+    "reviews": "レビュー",
+    "reviewed": "レビュー済み",
+    "no_reviews": "このエンターテイメントに対するレビューはありません。",
+    "collection": "コレクション",
+    "cast": "キャスト",
+    "crew": "制作陣",
+    "similar": "類似作品",
+    "episodes": "エピソード",
+    "total_episodes": "合計{total} エピソード",
+    "n_episodes": "{n} エピソード",
+    "buttons": {
+      "watch": "視聴",
+      "review": "レビュー",
+      "reviewed": "レビュー済み",
+      "add_to_watchlist": "ウォッチリストに追加",
+      "remove_from_watchlist": "ウォッチリストから削除"
+    },
+    "sidebar": {
+      "belongs_to_collection": "コレクションに属する",
+      "availabe_on": "利用可能なプラットフォーム",
+      "original_name": "原題",
+      "status": "ステータス",
+      "language": "言語",
+      "spoken_languages": "使用言語",
+      "budget": "予算",
+      "revenue": "収益",
+      "created_by": "製作者",
+      "other": "その他",
+      "visit_website": "ウェブサイトを訪れる",
+      "released": "リリース日",
+      "ended_at": "終了日",
+      "returning_in": "再開予定",
+      "planned": "予定中",
+      "watch_on": "{provider}で視聴",
+      "watch_on_masterscore": "{platform}で視聴（すでにここにいます <3）",
+      "powered_by": "{provider}提供"
+    },
+    "summary": {
+      "likes": "いいね",
+      "reviews": "レビュー"
+    }
+  },
+  "discover": {
+    "title": "発見",
+    "explore": "{0} を発見",
+    "explore_more": "さらなるジャンルを探索",
+    "load_more": "もっと読み込む"
+  },
+  "genres": {
+    "Comedy": "コメディ",
+    "Crime": "犯罪",
+    "Science Fiction": "サイエンスフィクション",
+    "Fantasy": "ファンタジー",
+    "Drama": "ドラマ",
+    "Family": "ファミリー",
+    "Animation": "アニメーション",
+    "Adventure": "冒険",
+    "Action": "アクション",
+    "Horror": "ホラー",
+    "Sci-Fi & Fantasy": "サイエンスフィクション＆ファンタジー",
+    "Action & Adventure": "アクション＆アドベンチャー",
+    "Kids": "子供",
+    "News": "ニュース",
+    "Reality": "リアリティ",
+    "Soap": "ソープ",
+    "Talk": "トーク",
+    "War & Politics": "戦争＆政治",
+    "Western": "西部劇",
+    "Mystery": "ミステリー",
+    "Documentary": "ドキュメンタリー",
+    "Music": "音楽",
+    "Romance": "ロマンス",
+    "Thriller": "スリラー",
+    "History": "歴史",
+    "War": "戦争",
+    "TV Movie": "テレビ映画"
+  },
+  "mranking": {
+    "masterpiece": "傑作",
+    "good": "良い",
+    "mixed": "ミックス",
+    "poor": "酷評",
+    "reviewers_positive": "肯定的なレビュー {0}（{1}%）",
+    "reviewers_negative": "否定的なレビュー {0}（{1}%）"
+  },
+  "review_modal": {
+    "title": "レビューを書く",
+    "review": "レビュー",
+    "rating": "評価",
+    "submit": "提出",
+    "comment": "コメント",
+    "placeholder": "レビューを書いてください..."
+  }
+}

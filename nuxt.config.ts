@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   },
   modules: [
     ["@nuxtjs/i18n", i18n],
-    "@nuxt/image-edge",
+    "@nuxt/image",
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
     "nuxt-headlessui",
@@ -22,7 +22,6 @@ export default defineNuxtConfig({
       }
     ],
     "@vite-pwa/nuxt",
-    "nuxt-twemoji",
     "nuxt-icon"
   ],
 

@@ -1,5 +1,4 @@
-import { userInfo } from "os"
-import { ErrorResponse, IUser } from "~/@types"
+import type { ErrorResponse } from "~/types"
 import UserModel from "~/server/models/User.model"
 import ActivityModel from "~/server/models/Activity.model"
 import grabUserWithoutPassword from "~/utils/grabUserWithoutPassword"

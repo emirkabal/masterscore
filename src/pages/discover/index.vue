@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Genre, TMDBSearchResult } from "~/@types"
+import type { Genre, TMDBSearchResult } from "~/types"
 
 const { $tgenres } = useNuxtApp()
 const { t } = useI18n()

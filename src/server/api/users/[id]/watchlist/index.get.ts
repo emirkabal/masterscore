@@ -1,4 +1,4 @@
-import { ErrorResponse, IEntertainment, IUser } from "~/@types"
+import type { IEntertainment, IUser } from "~/types"
 import UserModel from "~/server/models/User.model"
 import EntertainmentModel from "~/server/models/Entertainment.model"
 import ActivityModel from "~/server/models/Activity.model"

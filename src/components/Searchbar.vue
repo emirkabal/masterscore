@@ -118,7 +118,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       </div>
       <input
         type="text"
-        class="hover:foucs:ring-0 w-full rounded-lg border-none bg-white pl-10 shadow focus:ring-0 hover:ring dark:bg-black dark:placeholder:text-gray-300"
+        class="hover:foucs:ring-0 w-full rounded-lg border-none bg-white pl-10 shadow hover:ring focus:ring-0 dark:bg-black dark:placeholder:text-gray-300"
         :class="{
           'rounded-bl-none rounded-br-none rounded-tl-2xl rounded-tr-2xl focus:ring-0 hover:focus:ring-0':
             focused

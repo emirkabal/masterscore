@@ -1,23 +1,28 @@
 <script setup>
 import { vIntersectionObserver } from "@vueuse/components"
+import { useHomeStore } from "~/store/home"
 const { $tfiltergenres, $listen } = useNuxtApp()
+const homeStore = useHomeStore()
+
 useHead({
   title: "Masterscore",
   titleTemplate: "%s"
 })
 
 const refreshing = ref(false)
+const newContent = ref(false)
 
 const {
   data: home,
   pending,
   refresh
 } = await useLazyFetch("/api/extra/home", {
-  headers: generateHeaders()
+  headers: generateHeaders(),
+  server: false
 })
 
 const top_rated = computed(() => {
-  return home.value.top_rated.map((item) => {
+  return homeStore.top_rated.map((item) => {
     return {
       id: item.entertainment.id,
       media_type: item.entertainment.type,
@@ -29,7 +34,7 @@ const top_rated = computed(() => {
   })
 })
 
-const genres = reactive(
+const genres = useState("genres", () =>
   $tfiltergenres(
     [
       "Comedy",
@@ -57,16 +62,20 @@ const onIntersectionObserver = async ([{ isIntersecting }], genre) => {
       }
     })
     genre.pending = false
-
     genre.data = data.value.results
     genre.pending = pending.value
   }
 }
 
+watch(home, () => {
+  if (!homeStore.isStored) homeStore.setData(home.value)
+  else newContent.value = true
+})
+
 $listen("refresh:entertainment", () => {
   refreshing.value = true
   refresh()
-  genres.forEach((genre) => {
+  genres.value.forEach((genre) => {
     genre.pending = true
   })
   setTimeout(() => {
@@ -75,7 +84,7 @@ $listen("refresh:entertainment", () => {
 })
 </script>
 <template>
-  <section v-if="pending && !home">
+  <section v-if="pending && (!home || !homeStore.isStored)">
     <div
       class="mx-auto flex h-screen flex-col items-center justify-center gap-8"
     >
@@ -83,26 +92,48 @@ $listen("refresh:entertainment", () => {
     </div>
   </section>
   <section class="relative" v-else>
-    <!-- <HomeFeaturedEntertainment :data="home.featured" /> -->
-    <HomeMainSlider :data="home.trending" />
-    <div class="mx-auto mb-24 space-y-12">
-      <section class="relative z-10 -mt-20 space-y-8">
-        <h1 class="px-[4vw] font-maven text-2xl font-bold">
-          {{ $t("home.recommended") }}
-        </h1>
+    <HomeMainSlider :data="homeStore.trending" />
+    <div class="relative mx-auto mb-24 space-y-12">
+      <section
+        v-if="homeStore.recommendations.length > 0"
+        class="relative z-10 -mt-20 space-y-8"
+      >
+        <div class="flex h-10 items-center gap-x-4">
+          <h1 class="pl-[4vw] text-2xl font-bold">
+            {{ $t("home.recommended") }}
+          </h1>
+          <Loader v-if="pending" class="scale-50" />
+          <button
+            v-else-if="newContent"
+            @click="
+              () => {
+                newContent = false
+                homeStore.setData(home)
+              }
+            "
+            class="h-10 bg-white px-4 font-semibold text-black transition-colors hover:bg-gray-200"
+          >
+            New content available
+          </button>
+        </div>
         <EntertainmentSlider
-          :data="home.recommendations"
+          :data="homeStore.recommendations"
           :fixed-media-type="'movie'"
           :item-size="'large'"
           :offset="'auto'"
         />
       </section>
-      <section class="relative z-10 space-y-8">
+      <section
+        class="relative z-10 space-y-8"
+        :class="{
+          '-mt-20': homeStore.recommendations.length === 0
+        }"
+      >
         <div class="flex items-center gap-4 px-[4vw]">
-          <h1 class="font-maven text-2xl font-bold">
+          <h1 class="text-2xl font-bold">
             {{ $t("home.top_rated") }}
           </h1>
-          <span class="font-maven text-2xl font-black text-yellow-500">m</span>
+          <span class="text-2xl font-black text-yellow-500">m</span>
         </div>
         <EntertainmentSlider
           :data="top_rated"
@@ -117,7 +148,7 @@ $listen("refresh:entertainment", () => {
         v-for="genre in genres"
         :id="genre"
       >
-        <h1 class="px-[4vw] font-maven text-2xl font-bold">
+        <h1 class="px-[4vw] text-2xl font-bold">
           {{ $t("genres." + genre.name) }}
         </h1>
         <EntertainmentSlider

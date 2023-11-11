@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import { IUser } from "~/@types"
+import type { IUser } from "~/types"
 import UserModel from "../models/User.model"
 const config = useRuntimeConfig()
 

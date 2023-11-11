@@ -1,4 +1,4 @@
-import { IUser } from "~/@types"
+import type { IUser } from "~/types"
 
 export default (user: Partial<IUser>) => {
   delete user.password

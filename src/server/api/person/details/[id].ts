@@ -1,4 +1,4 @@
-import { ExternalIDs, TMDBPerson } from "~/@types"
+import type { TMDBPerson } from "~/types"
 import getISO from "~/utils/getISO"
 const config = useRuntimeConfig()
 

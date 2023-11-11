@@ -1,4 +1,4 @@
-import { TMDBData } from "~/@types"
+import type { TMDBData } from "~/types"
 import EntertainmentModel from "~/server/models/Entertainment.model"
 import redis from "~/utils/redis"
 const config = useRuntimeConfig()

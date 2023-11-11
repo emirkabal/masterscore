@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ReviewData, TMDBData } from "~/@types"
+import type { ReviewData, TMDBData } from "~/types"
 import { useDark, onClickOutside } from "@vueuse/core"
 
 const isDark = useDark()
@@ -16,12 +16,6 @@ onClickOutside(emojiPicker, () => {
   isEmojiSelector.value = false
 })
 
-watch(props.reviewData, () => {
-  if (props.reviewData.rating < 0.5) {
-    props.reviewData.rating = 0.5
-  }
-})
-
 const onSelectEmoji = (emoji: any) => {
   props.reviewData.comment += emoji.i
 }
@@ -30,51 +24,46 @@ const onSelectEmoji = (emoji: any) => {
 <template>
   <div class="space-y-4">
     <div>
-      <p class="flex items-center gap-2 text-lg font-semibold">
-        Your Rating:
-        <input
-          class="h-6 w-11 rounded p-0 text-center focus:outline-none focus:ring-0 dark:bg-zinc-700"
-          type="number"
-          :max="10"
-          :min="0.5"
-          :step="0.1"
-          v-model="props.reviewData.rating"
-        />
+      <p class="mb-2 flex items-center text-lg font-semibold tracking-tight">
+        {{ $t("review_modal.rating") }}
       </p>
-      <StarRating
-        :animate="true"
-        :increment="0.5"
-        :max-rating="10"
-        :star-size="39"
-        :show-rating="false"
-        :star-points="[
-          23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36, 34, 46, 19,
-          31, 17
-        ]"
-        :active-border-color="['#a30000', '#ffc400']"
-        :active-color="['#f00', '#ff0']"
-        :inactive-color="isDark ? '#000' : '#fff'"
-        :border-width="2"
-        :active-on-click="true"
-        v-model:rating="props.reviewData.rating"
-      ></StarRating>
+      <div class="flex flex-wrap items-center gap-2">
+        <FormStarInput
+          :rating="props.reviewData.rating"
+          @update:rating="(val: number) => (props.reviewData.rating = val)"
+        />
+        <div
+          @click="
+            () => {
+              if (props.reviewData.rating >= 9.6) props.reviewData.rating = 10
+            }
+          "
+        >
+          <StarRating
+            :animate="true"
+            :numberOfStars="10"
+            :star-size="36"
+            v-model="props.reviewData.rating"
+          ></StarRating>
+        </div>
+      </div>
     </div>
     <div>
       <div class="relative mb-2 flex items-center justify-between">
-        <p class="select-none text-lg font-semibold">Comment</p>
+        <p class="select-none text-lg font-semibold tracking-tight">
+          {{ $t("review_modal.comment") }}
+        </p>
 
         <Transition name="fade">
-          <TwemojiParse png>
-            <EmojiPicker
-              v-show="isEmojiSelector"
-              ref="emojiPicker"
-              class="absolute right-0 z-20"
-              :display-recent="true"
-              :native="true"
-              :theme="isDark ? 'dark' : 'light'"
-              @select="onSelectEmoji"
-            />
-          </TwemojiParse>
+          <EmojiPicker
+            v-show="isEmojiSelector"
+            ref="emojiPicker"
+            class="absolute right-0 z-20"
+            :display-recent="true"
+            :native="true"
+            :theme="isDark ? 'dark' : 'light'"
+            @select="onSelectEmoji"
+          />
         </Transition>
       </div>
 
@@ -83,9 +72,9 @@ const onSelectEmoji = (emoji: any) => {
           type="text"
           :value="props.reviewData.comment"
           :maxlength="512"
-          @input="(e:any) => (props.reviewData.comment = e.target.value)"
-          placeholder="Write a review..."
-          class="h-32 w-full select-none resize-none rounded border-gray-400 dark:border-zinc-800 dark:bg-zinc-800"
+          @input="(e: any) => (props.reviewData.comment = e.target.value)"
+          :placeholder="$t('review_modal.placeholder')"
+          class="h-32 w-full select-none resize-none border-gray-400 focus:ring-1 focus:ring-gray-700 dark:border-gray-800 dark:bg-gray-900"
         />
         <div
           class="absolute bottom-0 right-0 z-10 m-2 rounded text-sm text-gray-500 dark:text-gray-300"

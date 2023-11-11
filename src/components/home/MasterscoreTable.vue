@@ -21,6 +21,7 @@ const headers = [
     sortable: true,
     width: 80
   },
+  { text: "c", value: "reviewsCount", sortable: true, width: 80 },
   { text: "Rating", value: "average", sortable: true, width: 80 },
   { text: "Other Ratings", value: "otherRatings", sortable: false, width: 1 }
 ]
@@ -147,8 +148,8 @@ watch([listType, disableReviewRequirement], () => {
       </template>
       <template #item-average="{ average }">
         <div class="flex items-center justify-center gap-2">
-          <Icon name="ic:round-star" class="h-4 w-4 text-yellow-400" />
-          {{ average.toFixed(1) }}
+          <ScoreCircle class="text-sm" :score="average" />
+          <EntertainmentMRanking :rating="average.toFixed(1)" />
         </div>
       </template>
       <template #item-otherRatings="{ rating }">

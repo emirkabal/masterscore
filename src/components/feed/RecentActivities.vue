@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IEntertainment, IReview } from "~/@types"
+import type { IEntertainment, IReview } from "~/types"
 import { useUrlSearchParams } from "@vueuse/core"
 import { vIntersectionObserver } from "@vueuse/components"
 import debounce from "lodash.debounce"

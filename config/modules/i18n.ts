@@ -60,6 +60,40 @@ export default {
       iso: 'pt-PT',
       file: 'pt-PT.json'
     },
+    {
+      code: 'ja',
+      name: '日本語',
+      iso: 'ja-JP',
+      flag: 'jp',
+      file: 'ja-JP.json'
+    },
+    {
+      code: 'ar',
+      name: 'العربية',
+      iso: 'ar-AE',
+      flag: 'ae',
+      file: 'ar-AE.json'
+    },
+    {
+      code: 'ko',
+      name: '한국어',
+      iso: 'ko-KR',
+      flag: 'kr',
+      file: 'ko-KR.json'
+    },
+    {
+      code: "uk",
+      name: "Українська",
+      iso: "uk-UA",
+      flag: "ua",
+      file: "uk-UA.json"
+    },
+    {
+      code: "da",
+      name: "Dansk",
+      iso: "da-DK",
+      file: "da-DK.json"
+    }
   ],
   lazy: true,
   langDir: 'locales',

@@ -1,0 +1,223 @@
+{
+  "welcome": "Ласкаво просимо до Masterscore",
+  "movies": "Фільми",
+  "tv_shows": "Телешоу",
+  "edited": "відредаговано",
+  "unknown": "Невідомо",
+  "no_comment_for_this_review": "Немає коментарів до цього відгуку.",
+  "total": "Всього",
+  "guest": {
+    "sign_in": "Увійти",
+    "sign_up": "Зареєструватися",
+    "dont_have_account": "Немає акаунта?",
+    "already_have_account": "Вже є акаунт?",
+    "create_account": "Створити акаунт",
+    "forgot_password": "Забули пароль",
+    "form": {
+      "email_or_username": "Електронна пошта або ім'я користувача",
+      "username": "Ім'я користувача",
+      "password": "Пароль",
+      "email": "Електронна пошта",
+      "confirm_password": "Підтвердити пароль",
+      "invite_code": "Код запрошення",
+      "passwords_not_match": "Паролі не співпадають."
+    }
+  },
+  "header": {
+    "home": "Головна",
+    "feed": "Стрічка",
+    "table": "Таблиця",
+    "random_movie": "Випадковий фільм",
+    "user": {
+      "profile": "Профіль",
+      "watchlist": "Список перегляду",
+      "reviews": "Відгуки",
+      "settings": "Налаштування",
+      "logout": "Вийти"
+    }
+  },
+  "activity": {
+    "reviewed": "Прокоментовано",
+    "liked": "Подобається",
+    "added_to_watchlist": "Додано до списку перегляду"
+  },
+  "search": {
+    "text": "Введіть для пошуку...",
+    "no_results": "Результати не знайдено.",
+    "no_recent_searches": "Не знайдено недавніх пошуків.",
+    "movies_and_tv_shows": "Фільми та телешоу",
+    "persons": "Особи",
+    "users": "Користувачі",
+    "close": "{key} для закриття"
+  },
+  "profile": {
+    "created": "створено {n}",
+    "edit_profile": "Редагувати профіль",
+    "copy_url": "Скопіювати URL",
+    "summary": "Огляд",
+    "watchlist": "Список перегляду ({n})",
+    "reviews": "Відгуки ({n})",
+    "no_reviews": "Поки немає відгуків.",
+    "featured_entertainments": "Рекомендовані розваги",
+    "latest_reviews": "Останні відгуки",
+    "latest_likes": "Останні вподобання",
+    "last_added_to_watchlist": "Останні додані до списку перегляду"
+  },
+  "person": {
+    "personal_info": "Особиста інформація",
+    "known_for": "Відомий за",
+    "birthday": "День народження",
+    "place_of_birth": "Місце народження",
+    "deathday": "Дата смерті",
+    "gender": "Стать",
+    "also_known_as": "Також відомий як",
+    "biography": "Біографія",
+    "no_biography": "Немає доступної біографії для цієї особи.",
+    "read_more": "Читати далі...",
+    "age": "{n} років",
+    "genders": {
+      "0": "Невідомо",
+      "1": "Жіноча",
+      "2": "Чоловіча",
+      "3": "Інша"
+    },
+    "departments": {
+      "Acting": "Актор",
+      "Directing": "Режисер",
+      "Writing": "Сценарист",
+      "Production": "Виробництво",
+      "Editing": "Монтаж",
+      "Art": "Мистецтво",
+      "Sound": "Звук",
+      "Camera": "Камера",
+      "Crew": "Екіпаж",
+      "Costume & Make-Up": "Костюми та макіяж",
+      "Visual Effects": "Візуальні ефекти",
+      "Lighting": "Освітлення",
+      "Creator": "Творець"
+    }
+  },
+  "settings": {
+    "title": "Налаштування",
+    "edit_profile": "Редагувати профіль",
+    "preview": "Попередній перегляд",
+    "about": "Про нас",
+    "cancel": "Відмінити",
+    "confirm": "Підтвердити",
+    "avatar": "Аватар",
+    "dropzone_text": "Натисніть тут або перетягніть ваш файл.",
+    "dropzone_types": "PNG, JPG або GIF (максимальний розмір: {0}, рекомендований: {1})",
+    "username": "Ім'я користувача",
+    "username_notice": "Ви можете змінити своє ім'я користувача лише раз на {0} днів.",
+    "banner_url": "URL банера",
+    "platform_recommended": "Рекомендовано: {0}",
+    "update_profile": "Оновити профіль",
+    "back_to_profile": "Повернутися до профілю",
+    "preferences": "Уподобання",
+    "debug_mode": "Режим налагодження"
+  },
+  "footer": {
+    "about": "Ваш джерело об'єктивних відгуків на фільми та телешоу. Відкрийте для себе свій наступний улюблений розваговий продукт!",
+    "tmdb_text": "Дані про фільми, телешоу та особи надходять від {provider}"
+  },
+  "home": {
+    "recommended": "Рекомендовано",
+    "top_rated": "Найкраще з оцінок",
+    "more_info": "Докладніше"
+  },
+  "entertainment": {
+    "watch_trailer": "Переглянути трейлер",
+    "reviews": "Відгуки",
+    "reviewed": "Прокоментовано",
+    "no_reviews": "Немає відгуків для цього розвагового продукту.",
+    "collection": "Колекція",
+    "cast": "Актори",
+    "crew": "Екіпаж",
+    "similar": "Схоже",
+    "episodes": "Епізоди",
+    "total_episodes": "Всього {total} епізодів.",
+    "n_episodes": "{n} Епізоди",
+    "buttons": {
+      "watch": "Дивитися",
+      "review": "Відгук",
+      "reviewed": "Прокоментовано",
+      "add_to_watchlist": "Додати до списку перегляду",
+      "remove_from_watchlist": "Вилучити зі списку перегляду"
+    },
+    "sidebar": {
+      "belongs_to_collection": "Належить до колекції",
+      "availabe_on": "Доступно на",
+      "original_name": "Оригінальна назва",
+      "status": "Статус",
+      "language": "Мова",
+      "spoken_languages": "Мови озвучення",
+      "budget": "Бюджет",
+      "revenue": "Дохід",
+      "created_by": "Створено",
+      "other": "Інше",
+      "visit_website": "Відвідати веб-сайт",
+      "released": "Випущено",
+      "ended_at": "Закінчилось",
+      "returning_in": "Повернення",
+      "planned": "Заплановано",
+      "watch_on": "Дивитися на {provider}.",
+      "watch_on_masterscore": "Дивіться на {platform}. (ви вже тут <3)",
+      "powered_by": "Працює на {provider}"
+    },
+    "summary": {
+      "likes": "лайки",
+      "reviews": "відгуки"
+    }
+  },
+  "discover": {
+    "title": "Дізнатися",
+    "explore": "Дізнатися {0}",
+    "explore_more": "Досліджуйте більше жанрів",
+    "load_more": "Завантажити ще"
+  },
+  "genres": {
+    "Comedy": "Комедія",
+    "Crime": "Кримінал",
+    "Science Fiction": "Наукова фантастика",
+    "Fantasy": "Фентезі",
+    "Drama": "Драма",
+    "Family": "Сімейний",
+    "Animation": "Анімація",
+    "Adventure": "Пригода",
+    "Action": "Бойовик",
+    "Horror": "Жахи",
+    "Sci-Fi & Fantasy": "Наукова фантастика та фентезі",
+    "Action & Adventure": "Бойовик і пригода",
+    "Kids": "Дитячий",
+    "News": "Новини",
+    "Reality": "Реальність",
+    "Soap": "Мильна опера",
+    "Talk": "Ток-шоу",
+    "War & Politics": "Війна та політика",
+    "Western": "Вестерн",
+    "Mystery": "Містика",
+    "Documentary": "Документальний",
+    "Music": "Музика",
+    "Romance": "Романтика",
+    "Thriller": "Трилер",
+    "History": "Історія",
+    "War": "Війна",
+    "TV Movie": "ТБ-фільм"
+  },
+  "mranking": {
+    "masterpiece": "Шедевр",
+    "good": "Добре",
+    "mixed": "Змішаний",
+    "poor": "Погано",
+    "reviewers_positive": "{0} позитивні ({1}%)",
+    "reviewers_negative": "{0} негативні ({1}%)"
+  },
+  "review_modal": {
+    "title": "Написати відгук",
+    "review": "Відгук",
+    "rating": "Рейтинг",
+    "submit": "Надіслати",
+    "comment": "Коментар",
+    "placeholder": "Напишіть відгук..."
+  }
+}

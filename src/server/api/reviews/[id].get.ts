@@ -1,5 +1,5 @@
+import type { ErrorResponse, IReview } from "~/types"
 import { Types } from "mongoose"
-import { ErrorResponse, IReview } from "~/@types"
 import ReviewModel from "~/server/models/Review.model"
 import UserModel from "../../models/User.model"
 
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
     entertainment: id
   })
     .sort({ createdAt: -1 })
-    .limit(10)
+    .limit(25)
     .select("-entertainment -_id")
     .populate({
       path: "author",
@@ -53,7 +53,32 @@ export default defineEventHandler(async (event) => {
     {
       $group: {
         _id: null,
-        average: { $avg: "$rating" }
+        rating: { $avg: "$rating" },
+        good: {
+          $sum: {
+            $cond: [{ $gte: ["$rating", 7] }, 1, 0]
+          }
+        },
+        poor: {
+          $sum: {
+            $cond: [{ $lt: ["$rating", 7] }, 1, 0]
+          }
+        }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        rating: 1,
+        good: 1,
+        poor: 1,
+        overall: {
+          $cond: {
+            if: { $gte: ["$rating", 7] },
+            then: "good",
+            else: "poor"
+          }
+        }
       }
     }
   ])
@@ -61,7 +86,7 @@ export default defineEventHandler(async (event) => {
   return {
     status: 200,
     count,
-    averageRating: Number(average[0]?.average.toFixed(1)) || 0,
+    average: average[0],
     review,
     reviews
   }

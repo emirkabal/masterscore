@@ -1,5 +1,5 @@
+import type { ErrorResponse, IEntertainment, IReview, IUser } from "~/types"
 import { Document } from "mongoose"
-import { ErrorResponse, IEntertainment, IReview, IUser } from "~/@types"
 import UserModel from "~/server/models/User.model"
 import ReviewModel from "~/server/models/Review.model"
 import EntertainmentModel from "~/server/models/Entertainment.model"

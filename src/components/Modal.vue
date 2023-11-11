@@ -34,11 +34,11 @@ watch(
   <Transition name="fade">
     <div
       v-if="props.show"
-      class="fixed left-0 top-0 z-50 m-auto flex h-screen w-full items-center justify-center bg-black/40 px-4 shadow-2xl backdrop-blur md:px-0"
+      class="fixed inset-0 left-0 top-0 z-50 m-auto flex h-screen w-full items-center justify-center bg-yellow-500/10 px-4 shadow-2xl backdrop-blur md:px-0"
     >
       <div
         ref="modal"
-        class="w-full rounded-lg bg-white dark:bg-zinc-900 md:w-1/4 md:min-w-[460px]"
+        class="w-full rounded-lg bg-white dark:bg-black md:w-1/4 md:min-w-[460px]"
       >
         <div
           class="flex select-none items-center justify-between px-4 py-4 text-xl font-semibold shadow dark:shadow-lg"
@@ -56,12 +56,6 @@ watch(
         <div
           class="flex justify-end space-x-2 border-t p-2 dark:border-zinc-800"
         >
-          <!-- <button
-            class="bg-red-600 hover:bg-red-700 transition-colors px-4 py-2 text-white font-semibold rounded"
-            @click="$emit('close')"
-          >
-            Close
-          </button> -->
           <slot name="footer"></slot>
         </div>
       </div>

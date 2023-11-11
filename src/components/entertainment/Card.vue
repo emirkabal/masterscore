@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IEntertainment } from "~/@types"
+import type { IEntertainment } from "~/types"
 import tinycolor from "tinycolor2"
 const { $colorthief } = useNuxtApp()
 const { t } = useI18n()

@@ -1,6 +1,6 @@
+import type { IUser } from "~/types"
 import { defineStore } from "pinia"
 import { generateHeaders } from "../utils/request"
-import { IUser } from "~/@types"
 import { useLocalStorage } from "@vueuse/core"
 
 export const useUserStore = defineStore("user", {

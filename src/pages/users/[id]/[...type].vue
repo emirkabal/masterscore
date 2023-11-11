@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onClickOutside, useClipboard } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
-import { IEntertainment, IReview, IUser } from "~/@types"
+import type { IEntertainment, IReview, IUser } from "~/types"
 
 const url = window.location.origin
 const { copy } = useClipboard()

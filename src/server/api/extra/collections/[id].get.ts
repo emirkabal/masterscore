@@ -1,4 +1,4 @@
-import { TMDBCollectionDetails } from "~/@types"
+import type { TMDBCollectionDetails } from "~/types"
 import getISO from "~/utils/getISO"
 const config = useRuntimeConfig()
 

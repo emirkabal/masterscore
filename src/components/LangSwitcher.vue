@@ -19,7 +19,7 @@ const availableLocales = computed(() => {
         <Icon name="ic:round-arrow-drop-down" class="h-6 w-auto rounded" />
       </HeadlessListboxButton>
       <HeadlessListboxOptions
-        class="absolute -top-[330px] left-0 z-50 flex flex-col overflow-hidden rounded-lg border border-zinc-800 bg-black"
+        class="absolute -top-[330px] left-0 z-50 flex max-h-80 flex-col overflow-hidden overflow-y-scroll rounded-lg border border-zinc-800 bg-black"
         :class="{
           '!bg-gray-100': light
         }"

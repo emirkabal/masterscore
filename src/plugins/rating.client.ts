@@ -1,6 +1,5 @@
-// @ts-ignore
-import StarRating from "vue-star-rating"
+import vue3starRatings from "vue3-star-ratings"
 
 export default defineNuxtPlugin((nuxt) => {
-  nuxt.vueApp.component("StarRating", StarRating)
+  nuxt.vueApp.component("StarRating", vue3starRatings)
 })

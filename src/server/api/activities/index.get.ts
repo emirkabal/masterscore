@@ -1,8 +1,8 @@
-import { IActivity } from "~/@types"
+import type { IActivity } from "~/types"
 import ActivityModel from "~/server/models/Activity.model"
-import EntertainmentModel from "../../models/Entertainment.model"
-import UserModel from "../../models/User.model"
-import ReviewModel from "../../models/Review.model"
+import EntertainmentModel from "~/server/models/Entertainment.model"
+import UserModel from "~/server/models/User.model"
+import ReviewModel from "~/server/models/Review.model"
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)

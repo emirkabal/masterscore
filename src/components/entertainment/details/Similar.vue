@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TMDBSearchResult } from "~/@types"
+import type { TMDBSearchResult } from "~/types"
 
 const props = defineProps<{
   data?: {

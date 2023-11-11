@@ -1,11 +1,11 @@
-import {
+import type {
   BackdropSizes,
   Genre,
   LogoSizes,
   PosterSizes,
   TMDBData,
   TMDBSearchResult
-} from "~/@types"
+} from "~/types"
 
 const genres = [
   {

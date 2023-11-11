@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ProviderResults, TMDBData } from "~/@types"
+import type { ProviderResults, TMDBData } from "~/types"
 import ScreenModal from "~/components/ScreenModal.vue"
 const { t, locale } = useI18n()
 const { $getTitle, $moment } = useNuxtApp()

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TMDBData } from "~~/src/@types"
+import type { TMDBData } from "~/types"
 const { $moment, $getTitle } = useNuxtApp()
 const { locale } = useI18n()
 
@@ -8,6 +8,7 @@ const { data, isLight, loading } = defineProps<{
   isLight?: boolean
   loading?: boolean
   rating?: number
+  reviewData?: any
 }>()
 const title = computed(() => {
   return data ? $getTitle(data) : "..."
@@ -103,42 +104,33 @@ useHead({
   </div>
   <div v-else-if="data && !loading">
     <div class="flex flex-col-reverse text-center lg:text-left">
-      <h1
-        class="inline-block flex-shrink-0 font-semibold leading-8 lg:leading-none"
-        :class="{
-          'text-4xl md:text-5xl lg:text-6xl': title.length < 20,
-          'text-3xl md:text-4xl lg:text-5xl': title.length < 30,
-          'text-2xl md:text-3xl lg:text-4xl': title.length >= 30,
-          'text-black': isLight,
-          'text-white': !isLight
-        }"
+      <div
+        class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 lg:justify-normal"
       >
-        {{ title }}
-      </h1>
-      <!-- Mobile Extensions -->
-      <div class="my-2 flex items-center justify-center gap-2 lg:hidden">
-        <ScoreCircle :score="rating" />
-
-        <h2
-          v-if="contentRating && contentRating !== 'Not Rated'"
-          class="line-clamp-1 border px-2 text-lg font-semibold"
+        <h1
+          class="inline-block flex-shrink-0 font-semibold tracking-tight"
           :class="{
-            'border-black/40 text-black': isLight,
-            'border-white/40 text-white/70': !isLight
+            'text-4xl md:text-5xl lg:text-6xl': title.length < 20,
+            'text-3xl md:text-4xl lg:text-5xl': title.length < 30,
+            'text-2xl md:text-3xl lg:text-4xl': title.length >= 30,
+            'text-black': isLight,
+            'text-white': !isLight
           }"
         >
-          {{ contentRating || "NR" }}
-        </h2>
+          {{ title }}
+        </h1>
+        <ScoreCircle :score="rating" class="sm:!text-2xl" />
       </div>
+
       <!-- Desktop -->
       <div
-        class="flex items-center justify-center space-x-4 text-xs sm:text-sm lg:justify-start lg:text-lg"
+        class="flex flex-wrap items-center justify-center gap-y-2 space-x-4 text-xs sm:text-sm lg:justify-start lg:text-lg"
         :class="{
           'divide-black/20 text-black': isLight,
           'divide-white/20 text-white/70': !isLight
         }"
       >
-        <ScoreCircle :score="rating" class="ml-0.5 hidden md:block" />
+        <EntertainmentMRanking :rating="rating" />
         <h2 class="font-semibold md:ml-0.5">
           {{ releaseDate }}
         </h2>
@@ -155,7 +147,7 @@ useHead({
         <h2 class="line-clamp-1 flex-shrink-0 font-semibold">
           {{ runtime }}
         </h2>
-        <div class="hidden flex-shrink-0 items-center gap-2 lg:flex">
+        <div class="flex flex-shrink-0 items-center gap-2">
           <h2
             v-if="contentRating && contentRating !== 'Not Rated'"
             class="line-clamp-1 border px-2 text-lg font-semibold"
