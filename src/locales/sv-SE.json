@@ -202,5 +202,22 @@
     "History": "Historia",
     "War": "Krig",
     "TV Movie": "TV-film"
+  },
+  "total": "Totalt",
+  "mranking": {
+    "masterpiece": "Mästerverk",
+    "good": "Bra",
+    "mixed": "Blandat",
+    "poor": "Dåligt",
+    "reviewers_positive": "{0} positiva ({1}%)",
+    "reviewers_negative": "{0} negativa ({1}%)"
+  },
+  "review_modal": {
+    "title": "Gör en recension",
+    "review": "Recension",
+    "rating": "Betyg",
+    "submit": "Skicka",
+    "comment": "Kommentar",
+    "placeholder": "Skriv en recension..."
   }
 }

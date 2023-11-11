@@ -16,14 +16,6 @@ onClickOutside(emojiPicker, () => {
   isEmojiSelector.value = false
 })
 
-watch(props.reviewData, () => {
-  if (props.reviewData.rating < 0.5) {
-    props.reviewData.rating = 0.5
-  } else if (props.reviewData.rating > 10) {
-    props.reviewData.rating = 10
-  }
-})
-
 const onSelectEmoji = (emoji: any) => {
   props.reviewData.comment += emoji.i
 }
@@ -32,32 +24,35 @@ const onSelectEmoji = (emoji: any) => {
 <template>
   <div class="space-y-4">
     <div>
-      <p class="flex items-center gap-2 text-lg font-semibold">
-        Your Rating:
-        <input
-          class="h-6 w-11 rounded p-0 text-center focus:outline-none focus:ring-0 dark:bg-zinc-700"
-          type="number"
-          :max="10"
-          :min="0.5"
-          :step="0.1"
-          v-model="props.reviewData.rating"
-        />
+      <p class="mb-2 flex items-center text-lg font-semibold tracking-tight">
+        {{ $t("review_modal.rating") }}
       </p>
-      <StarRating
-        :animate="true"
-        :numberOfStars="10"
-        :star-size="39"
-        @click="
-          () => {
-            if (reviewData.rating >= 9.9) reviewData.rating = 10
-          }
-        "
-        v-model="props.reviewData.rating"
-      ></StarRating>
+      <div class="flex flex-wrap items-center gap-2">
+        <FormStarInput
+          :rating="props.reviewData.rating"
+          @update:rating="(val: number) => (props.reviewData.rating = val)"
+        />
+        <div
+          @click="
+            () => {
+              if (props.reviewData.rating >= 9.6) props.reviewData.rating = 10
+            }
+          "
+        >
+          <StarRating
+            :animate="true"
+            :numberOfStars="10"
+            :star-size="36"
+            v-model="props.reviewData.rating"
+          ></StarRating>
+        </div>
+      </div>
     </div>
     <div>
       <div class="relative mb-2 flex items-center justify-between">
-        <p class="select-none text-lg font-semibold">Comment</p>
+        <p class="select-none text-lg font-semibold tracking-tight">
+          {{ $t("review_modal.comment") }}
+        </p>
 
         <Transition name="fade">
           <EmojiPicker
@@ -78,8 +73,8 @@ const onSelectEmoji = (emoji: any) => {
           :value="props.reviewData.comment"
           :maxlength="512"
           @input="(e: any) => (props.reviewData.comment = e.target.value)"
-          placeholder="Write a review..."
-          class="h-32 w-full select-none resize-none rounded border-gray-400 dark:border-zinc-800 dark:bg-zinc-800"
+          :placeholder="$t('review_modal.placeholder')"
+          class="h-32 w-full select-none resize-none border-gray-400 focus:ring-1 focus:ring-gray-700 dark:border-gray-800 dark:bg-gray-900"
         />
         <div
           class="absolute bottom-0 right-0 z-10 m-2 rounded text-sm text-gray-500 dark:text-gray-300"

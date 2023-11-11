@@ -202,5 +202,22 @@
     "explore": "Откройте для себя {0}",
     "explore_more": "Изучите другие жанры",
     "load_more": "Загрузить Подробнее"
+  },
+  "total": "Всего",
+  "mranking": {
+    "masterpiece": "Шедевр",
+    "good": "Хорошо",
+    "mixed": "Смешанный",
+    "poor": "Плохо",
+    "reviewers_positive": "{0} положительных ({1}%)",
+    "reviewers_negative": "{0} отрицательных ({1}%)"
+  },
+  "review_modal": {
+    "title": "Оставить отзыв",
+    "review": "Отзыв",
+    "rating": "Рейтинг",
+    "submit": "Отправить",
+    "comment": "Комментарий",
+    "placeholder": "Напишите отзыв..."
   }
 }

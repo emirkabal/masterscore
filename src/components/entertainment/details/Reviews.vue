@@ -28,21 +28,27 @@ withDefaults(
     >
       {{ $t("entertainment.reviews") }}
     </h1>
-    <div v-if="mranking">
+    <div v-if="mranking?.good">
       <EntertainmentMRanking :rating="mranking.rating" class="w-fit" />
       <p class="text-gray-500 dark:text-gray-400">
-        {{ $t("entertainment.total_reviews") }}: {{ mranking.total }}
+        {{ $t("total") }}: {{ mranking.total }}
       </p>
-      <p class="flex gap-2">
+      <p class="flex flex-wrap gap-x-4">
         <span class="text-green-500 dark:text-green-400">
-          {{ $t("positive") }}: {{ mranking.good }} ({{
-            ((mranking.good * 100) / mranking.total).toFixed(2)
-          }}%)
+          {{
+            $t("mranking.reviewers_positive", [
+              mranking.good,
+              ((mranking.good * 100) / mranking.total).toFixed(2)
+            ])
+          }}
         </span>
         <span class="text-red-500 dark:text-red-400">
-          {{ $t("negative") }}: {{ mranking.poor }} ({{
-            ((mranking.poor * 100) / mranking.total).toFixed(2)
-          }}%)
+          {{
+            $t("mranking.reviewers_negative", [
+              mranking.poor,
+              ((mranking.poor * 100) / mranking.total).toFixed(2)
+            ])
+          }}
         </span>
       </p>
     </div>
@@ -68,11 +74,11 @@ withDefaults(
       </div>
     </div>
     <div v-else-if="data.length > 0">
-      <div class="space-y-4 divide-y-2 dark:divide-zinc-900">
+      <div class="space-y-8 divide-y dark:divide-zinc-900">
         <div
           v-for="comment in data"
           :key="comment._id"
-          class="flex items-start py-4 md:px-4 md:py-6"
+          class="flex items-start pt-8"
         >
           <NuxtLink :to="`/users/@${comment.author.username}`">
             <Avatar

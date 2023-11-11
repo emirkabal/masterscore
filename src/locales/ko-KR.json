@@ -1,0 +1,223 @@
+{
+  "welcome": "마스터스코어에 오신 것을 환영합니다",
+  "movies": "영화",
+  "tv_shows": "TV 프로그램",
+  "edited": "편집됨",
+  "unknown": "알 수 없음",
+  "no_comment_for_this_review": "이 리뷰에 대한 코멘트가 없습니다.",
+  "total": "총",
+  "guest": {
+    "sign_in": "로그인",
+    "sign_up": "가입하기",
+    "dont_have_account": "계정이 없으신가요?",
+    "already_have_account": "이미 계정이 있으신가요?",
+    "create_account": "계정 만들기",
+    "forgot_password": "비밀번호를 잊으셨나요?",
+    "form": {
+      "email_or_username": "이메일 또는 사용자 이름",
+      "username": "사용자 이름",
+      "password": "비밀번호",
+      "email": "이메일",
+      "confirm_password": "비밀번호 확인",
+      "invite_code": "초대 코드",
+      "passwords_not_match": "비밀번호가 일치하지 않습니다."
+    }
+  },
+  "header": {
+    "home": "홈",
+    "feed": "피드",
+    "table": "표",
+    "random_movie": "랜덤 영화",
+    "user": {
+      "profile": "프로필",
+      "watchlist": "보고 싶어요",
+      "reviews": "리뷰",
+      "settings": "설정",
+      "logout": "로그아웃"
+    }
+  },
+  "activity": {
+    "reviewed": "리뷰 작성함",
+    "liked": "좋아함",
+    "added_to_watchlist": "보고 싶어요에 추가됨"
+  },
+  "search": {
+    "text": "검색하려면 입력하세요...",
+    "no_results": "결과가 없습니다.",
+    "no_recent_searches": "최근 검색 기록이 없습니다.",
+    "movies_and_tv_shows": "영화 및 TV 프로그램",
+    "persons": "인물",
+    "users": "사용자",
+    "close": "{key} 닫기"
+  },
+  "profile": {
+    "created": "{n}에 생성됨",
+    "edit_profile": "프로필 편집",
+    "copy_url": "URL 복사",
+    "summary": "개요",
+    "watchlist": "보고 싶어요 ({n})",
+    "reviews": "리뷰 ({n})",
+    "no_reviews": "아직 리뷰가 없습니다.",
+    "featured_entertainments": "추천하는 엔터테인먼트",
+    "latest_reviews": "최신 리뷰",
+    "latest_likes": "최신 좋아요",
+    "last_added_to_watchlist": "최근 추가된 보고 싶어요"
+  },
+  "person": {
+    "personal_info": "개인 정보",
+    "known_for": "알려진 작품",
+    "birthday": "생일",
+    "place_of_birth": "출생지",
+    "deathday": "사망일",
+    "gender": "성별",
+    "also_known_as": "다른 이름",
+    "biography": "전기",
+    "no_biography": "이 인물에 대한 전기가 없습니다.",
+    "read_more": "더 읽기...",
+    "age": "{n}세",
+    "genders": {
+      "0": "알 수 없음",
+      "1": "여성",
+      "2": "남성",
+      "3": "기타"
+    },
+    "departments": {
+      "Acting": "배우",
+      "Directing": "감독",
+      "Writing": "작가",
+      "Production": "프로듀서",
+      "Editing": "편집",
+      "Art": "아트",
+      "Sound": "사운드",
+      "Camera": "카메라",
+      "Crew": "크루",
+      "Costume & Make-Up": "의상 및 화장",
+      "Visual Effects": "시각 효과",
+      "Lighting": "조명",
+      "Creator": "창조자"
+    }
+  },
+  "settings": {
+    "title": "설정",
+    "edit_profile": "프로필 편집",
+    "preview": "미리보기",
+    "about": "소개",
+    "cancel": "취소",
+    "confirm": "확인",
+    "avatar": "아바타",
+    "dropzone_text": "여기를 클릭하거나 파일을 드래그하세요.",
+    "dropzone_types": "PNG, JPG 또는 GIF (최대: {0}, 권장: {1})",
+    "username": "사용자 이름",
+    "username_notice": "사용자 이름은 {0}일마다 변경할 수 있습니다.",
+    "banner_url": "배너 URL",
+    "platform_recommended": "추천: {0}",
+    "update_profile": "프로필 업데이트",
+    "back_to_profile": "프로필로 돌아가기",
+    "preferences": "환경 설정",
+    "debug_mode": "디버그 모드"
+  },
+  "footer": {
+    "about": "영화 및 TV 프로그램에 대한 편향되지 않은 리뷰의 궁극적인 출처. 다음 좋아할 만한 엔터테인먼트를 발견하세요!",
+    "tmdb_text": "영화, TV 프로그램 및 인물에 대한 데이터는 {provider}에서 제공됩니다."
+  },
+  "home": {
+    "recommended": "추천",
+    "top_rated": "최고 평점",
+    "more_info": "자세히 보기"
+  },
+  "entertainment": {
+    "watch_trailer": "트레일러 시청",
+    "reviews": "리뷰",
+    "reviewed": "리뷰 작성됨",
+    "no_reviews": "이 엔터테인먼트에 대한 리뷰가 없습니다.",
+    "collection": "컬렉션",
+    "cast": "출연진",
+    "crew": "제작진",
+    "similar": "비슷한 작품",
+    "episodes": "에피소드",
+    "total_episodes": "총 {total} 에피소드",
+    "n_episodes": "{n} 에피소드",
+    "buttons": {
+      "watch": "시청",
+      "review": "리뷰 작성",
+      "reviewed": "리뷰 작성됨",
+      "add_to_watchlist": "보고 싶어요에 추가",
+      "remove_from_watchlist": "보고 싶어요에서 제거"
+    },
+    "sidebar": {
+      "belongs_to_collection": "컬렉션 소속",
+      "availabe_on": "제공 플랫폼",
+      "original_name": "원작 이름",
+      "status": "상태",
+      "language": "언어",
+      "spoken_languages": "언어",
+      "budget": "예산",
+      "revenue": "수익",
+      "created_by": "제작자",
+      "other": "기타",
+      "visit_website": "웹사이트 방문",
+      "released": "발매일",
+      "ended_at": "종료일",
+      "returning_in": "다음 시즌 예정",
+      "planned": "계획 중",
+      "watch_on": "{provider}에서 시청",
+      "watch_on_masterscore": "{platform}에서 시청 (이미 여기에 있어요 <3)",
+      "powered_by": "{provider} 제공"
+    },
+    "summary": {
+      "likes": "좋아요",
+      "reviews": "리뷰"
+    }
+  },
+  "discover": {
+    "title": "발견하기",
+    "explore": "{0} 발견하기",
+    "explore_more": "더 많은 장르 찾아보기",
+    "load_more": "더 보기"
+  },
+  "genres": {
+    "Comedy": "코미디",
+    "Crime": "범죄",
+    "Science Fiction": "과학 소설",
+    "Fantasy": "판타지",
+    "Drama": "드라마",
+    "Family": "가족",
+    "Animation": "애니메이션",
+    "Adventure": "모험",
+    "Action": "액션",
+    "Horror": "공포",
+    "Sci-Fi & Fantasy": "과학 소설 및 판타지",
+    "Action & Adventure": "액션 및 모험",
+    "Kids": "어린이",
+    "News": "뉴스",
+    "Reality": "리얼리티",
+    "Soap": "드라마",
+    "Talk": "토크쇼",
+    "War & Politics": "전쟁 및 정치",
+    "Western": "서부",
+    "Mystery": "미스터리",
+    "Documentary": "다큐멘터리",
+    "Music": "음악",
+    "Romance": "로맨스",
+    "Thriller": "스릴러",
+    "History": "역사",
+    "War": "전쟁",
+    "TV Movie": "TV 영화"
+  },
+  "mranking": {
+    "masterpiece": "걸작",
+    "good": "좋음",
+    "mixed": "혼합",
+    "poor": "나쁨",
+    "reviewers_positive": "긍정적인 리뷰 {0} ({1}%)",
+    "reviewers_negative": "부정적인 리뷰 {0} ({1}%)"
+  },
+  "review_modal": {
+    "title": "리뷰 작성",
+    "review": "리뷰",
+    "rating": "평점",
+    "submit": "제출",
+    "comment": "코멘트",
+    "placeholder": "리뷰를 작성하세요..."
+  }
+}

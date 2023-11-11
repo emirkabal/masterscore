@@ -5,6 +5,7 @@
   "edited": "edited",
   "unknown": "Unknown",
   "no_comment_for_this_review": "No comment for this review.",
+  "total": "Total",
   "guest": {
     "sign_in": "Sign in",
     "sign_up": "Sign up",
@@ -202,5 +203,21 @@
     "History": "History",
     "War": "War",
     "TV Movie": "TV Movie"
+  },
+  "mranking": {
+    "masterpiece": "Masterpiece",
+    "good": "Good",
+    "mixed": "Mixed",
+    "poor": "Poor",
+    "reviewers_positive": "{0} positive ({1}%)",
+    "reviewers_negative": "{0} negative ({1}%)"
+  },
+  "review_modal": {
+    "title": "Make a Review",
+    "review": "Review",
+    "rating": "Rating",
+    "submit": "Submit",
+    "comment": "Comment",
+    "placeholder": "Write a review..."
   }
 }

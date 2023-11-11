@@ -119,12 +119,17 @@ watchEffect(() => {
     <div
       class="mt-4 flex flex-col gap-2 text-lg lg:flex-row"
       :class="{
-        'flex flex-wrap': smartVideoData && smartVideoData.id
+        'flex flex-wrap': smartVideoData?.id
       }"
     >
-      <div class="grid gap-2 sm:grid-cols-2 lg:flex">
+      <div
+        class="grid gap-2 lg:flex"
+        :class="{
+          'sm:grid-cols-2': smartVideoData?.id
+        }"
+      >
         <button
-          v-if="smartVideoData && smartVideoData.id"
+          v-if="smartVideoData?.id"
           @click="watchSmartVideo(smartVideoData.id)"
           class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
         >

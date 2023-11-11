@@ -202,5 +202,22 @@
     "History": "Historia",
     "War": "Guerra",
     "TV Movie": "Película de TV"
+  },
+  "total": "Total",
+  "mranking": {
+    "masterpiece": "Obra maestra",
+    "good": "Bueno",
+    "mixed": "Mixto",
+    "poor": "Pobre",
+    "reviewers_positive": "{0} positivas ({1}%)",
+    "reviewers_negative": "{0} negativas ({1}%)"
+  },
+  "review_modal": {
+    "title": "Hacer una reseña",
+    "review": "Reseña",
+    "rating": "Calificación",
+    "submit": "Enviar",
+    "comment": "Comentario",
+    "placeholder": "Escribe una reseña..."
   }
 }

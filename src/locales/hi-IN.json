@@ -202,5 +202,22 @@
     "explore": "खोजें {0}",
     "explore_more": "अधिक शैलियों का अन्वेषण करें",
     "load_more": "और लोड करें"
+  },
+  "total": "कुल",
+  "mranking": {
+    "masterpiece": "मास्टरपीस",
+    "good": "अच्छा",
+    "mixed": "मिश्रित",
+    "poor": "खराब",
+    "reviewers_positive": "{0} सकारात्मक ({1}%)",
+    "reviewers_negative": "{0} नकारात्मक ({1}%)"
+  },
+  "review_modal": {
+    "title": "समीक्षा करें",
+    "review": "समीक्षा",
+    "rating": "रेटिंग",
+    "submit": "प्रस्तुत करें",
+    "comment": "टिप्पणी",
+    "placeholder": "समीक्षा लिखें..."
   }
 }

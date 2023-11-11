@@ -1,0 +1,223 @@
+{
+  "welcome": "Velkommen til Masterscore",
+  "movies": "Film",
+  "tv_shows": "TV-shows",
+  "edited": "redigeret",
+  "unknown": "Ukendt",
+  "no_comment_for_this_review": "Ingen kommentarer til denne anmeldelse.",
+  "total": "I alt",
+  "guest": {
+    "sign_in": "Log ind",
+    "sign_up": "Opret konto",
+    "dont_have_account": "Har ikke en konto?",
+    "already_have_account": "Har allerede en konto?",
+    "create_account": "Opret konto",
+    "forgot_password": "Glemt adgangskode",
+    "form": {
+      "email_or_username": "E-mail eller brugernavn",
+      "username": "Brugernavn",
+      "password": "Adgangskode",
+      "email": "E-mail",
+      "confirm_password": "Bekræft adgangskode",
+      "invite_code": "Invitationskode",
+      "passwords_not_match": "Adgangskoder matcher ikke."
+    }
+  },
+  "header": {
+    "home": "Hjem",
+    "feed": "Feed",
+    "table": "Tabel",
+    "random_movie": "Tilfældig film",
+    "user": {
+      "profile": "Profil",
+      "watchlist": "Watchlist",
+      "reviews": "Anmeldelser",
+      "settings": "Indstillinger",
+      "logout": "Log ud"
+    }
+  },
+  "activity": {
+    "reviewed": "Anmeldt",
+    "liked": "Synes godt om",
+    "added_to_watchlist": "Føjet til Watchlist"
+  },
+  "search": {
+    "text": "Skriv for at søge...",
+    "no_results": "Ingen resultater fundet.",
+    "no_recent_searches": "Ingen nylige søgninger fundet.",
+    "movies_and_tv_shows": "Film og TV-shows",
+    "persons": "Personer",
+    "users": "Brugere",
+    "close": "{key} for at lukke"
+  },
+  "profile": {
+    "created": "oprettet {n}",
+    "edit_profile": "Rediger profil",
+    "copy_url": "Kopier URL",
+    "summary": "Resumé",
+    "watchlist": "Watchlist ({n})",
+    "reviews": "Anmeldelser ({n})",
+    "no_reviews": "Ingen anmeldelser endnu.",
+    "featured_entertainments": "Udvalgte underholdninger",
+    "latest_reviews": "Seneste anmeldelser",
+    "latest_likes": "Seneste Synes godt om",
+    "last_added_to_watchlist": "Senest tilføjet til Watchlist"
+  },
+  "person": {
+    "personal_info": "Personlig information",
+    "known_for": "Kendt for",
+    "birthday": "Fødselsdag",
+    "place_of_birth": "Fødested",
+    "deathday": "Dødsdag",
+    "gender": "Køn",
+    "also_known_as": "Også kendt som",
+    "biography": "Biografi",
+    "no_biography": "Ingen biografi tilgængelig for denne person.",
+    "read_more": "Læs mere...",
+    "age": "{n} år gammel",
+    "genders": {
+      "0": "Ukendt",
+      "1": "Kvinde",
+      "2": "Mand",
+      "3": "Andet"
+    },
+    "departments": {
+      "Acting": "Skuespil",
+      "Directing": "Instruktion",
+      "Writing": "Skrivning",
+      "Production": "Produktion",
+      "Editing": "Redigering",
+      "Art": "Kunst",
+      "Sound": "Lyd",
+      "Camera": "Kamera",
+      "Crew": "Hold",
+      "Costume & Make-Up": "Kostume & Make-Up",
+      "Visual Effects": "Visuelle effekter",
+      "Lighting": "Belysning",
+      "Creator": "Skaber"
+    }
+  },
+  "settings": {
+    "title": "Indstillinger",
+    "edit_profile": "Rediger profil",
+    "preview": "Forhåndsvisning",
+    "about": "Om",
+    "cancel": "Annuller",
+    "confirm": "Bekræft",
+    "avatar": "Avatar",
+    "dropzone_text": "Klik her eller træk din fil her.",
+    "dropzone_types": "PNG, JPG eller GIF (maks: {0}, anbefalet: {1})",
+    "username": "Brugernavn",
+    "username_notice": "Du kan kun ændre dit brugernavn hver {0} dage.",
+    "banner_url": "Banner URL",
+    "platform_recommended": "Anbefalet: {0}",
+    "update_profile": "Opdater profil",
+    "back_to_profile": "Tilbage til profil",
+    "preferences": "Præferencer",
+    "debug_mode": "Debug-tilstand"
+  },
+  "footer": {
+    "about": "Din ultimative kilde til upartiske anmeldelser af film og tv-shows. Opdag dit næste yndlingsunderholdning!",
+    "tmdb_text": "Dataene vist for film, tv-shows og personer kommer fra {provider}"
+  },
+  "home": {
+    "recommended": "Anbefalet",
+    "top_rated": "Topkarakter",
+    "more_info": "Mere info"
+  },
+  "entertainment": {
+    "watch_trailer": "Se trailer",
+    "reviews": "Anmeldelser",
+    "reviewed": "Anmeldt",
+    "no_reviews": "Ingen anmeldelser af denne underholdning endnu.",
+    "collection": "Samling",
+    "cast": "Roliste",
+    "crew": "Besætning",
+    "similar": "Lignende",
+    "episodes": "Episoder",
+    "total_episodes": "I alt {total} episoder.",
+    "n_episodes": "{n} Episoder",
+    "buttons": {
+      "watch": "Se",
+      "review": "Anmeld",
+      "reviewed": "Anmeldt",
+      "add_to_watchlist": "Føj til Watchlist",
+      "remove_from_watchlist": "Fjern fra Watchlist"
+    },
+    "sidebar": {
+      "belongs_to_collection": "Tilhører samling",
+      "availabe_on": "Tilgængelig på",
+      "original_name": "Original navn",
+      "status": "Status",
+      "language": "Sprog",
+      "spoken_languages": "Talte sprog",
+      "budget": "Budget",
+      "revenue": "Indtjening",
+      "created_by": "Skabt af",
+      "other": "Andet",
+      "visit_website": "Besøg hjemmeside",
+      "released": "Udgivet",
+      "ended_at": "Sluttede",
+      "returning_in": "Vender tilbage om",
+      "planned": "Planlagt",
+      "watch_on": "Se på {provider}.",
+      "watch_on_masterscore": "Se på {platform}. (du er allerede her <3)",
+      "powered_by": "Drevet af {provider}"
+    },
+    "summary": {
+      "likes": "synes godt om",
+      "reviews": "anmeldelser"
+    }
+  },
+  "discover": {
+    "title": "Opdag",
+    "explore": "Opdag {0}",
+    "explore_more": "Udforsk flere genrer",
+    "load_more": "Indlæs mere"
+  },
+  "genres": {
+    "Comedy": "Komedie",
+    "Crime": "Kriminalitet",
+    "Science Fiction": "Science Fiction",
+    "Fantasy": "Fantasi",
+    "Drama": "Drama",
+    "Family": "Familie",
+    "Animation": "Animation",
+    "Adventure": "Eventyr",
+    "Action": "Action",
+    "Horror": "Gys",
+    "Sci-Fi & Fantasy": "Sci-Fi og Fantasy",
+    "Action & Adventure": "Action og Eventyr",
+    "Kids": "Børn",
+    "News": "Nyheder",
+    "Reality": "Reality",
+    "Soap": "Sæbeopera",
+    "Talk": "Talkshow",
+    "War & Politics": "Krig og Politik",
+    "Western": "Western",
+    "Mystery": "Mysterium",
+    "Documentary": "Dokumentar",
+    "Music": "Musik",
+    "Romance": "Romantik",
+    "Thriller": "Thriller",
+    "History": "Historie",
+    "War": "Krig",
+    "TV Movie": "TV-film"
+  },
+  "mranking": {
+    "masterpiece": "Mesterværk",
+    "good": "God",
+    "mixed": "Blandet",
+    "poor": "Dårlig",
+    "reviewers_positive": "{0} positive ({1}%)",
+    "reviewers_negative": "{0} negative ({1}%)"
+  },
+  "review_modal": {
+    "title": "Lav en anmeldelse",
+    "review": "Anmeldelse",
+    "rating": "Bedømmelse",
+    "submit": "Indsend",
+    "comment": "Kommentar",
+    "placeholder": "Skriv en anmeldelse..."
+  }
+}

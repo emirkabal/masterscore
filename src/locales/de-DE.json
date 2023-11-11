@@ -5,6 +5,7 @@
   "edited": "Bearbeitet",
   "unknown": "Unbekannt",
   "no_comment_for_this_review": "Für diese Bewertung gibt es keinen Kommentar.",
+  "total": "Gesamt",
   "guest": {
     "sign_in": "Anmelden",
     "sign_up": "Registrieren",
@@ -202,5 +203,21 @@
     "explore": "Entdecken {0}",
     "explore_more": "Mehr Genres erforschen",
     "load_more": "Mehr laden"
+  },
+  "mranking": {
+    "masterpiece": "Meisterwerk",
+    "good": "Gut",
+    "mixed": "Gemischt",
+    "poor": "Schlecht",
+    "reviewers_positive": "{0} positiv ({1}%)",
+    "reviewers_negative": "{0} negativ ({1}%)"
+  },
+  "review_modal": {
+    "title": "Eine Bewertung abgeben",
+    "review": "Bewertung",
+    "rating": "Bewertung",
+    "submit": "Absenden",
+    "comment": "Kommentar",
+    "placeholder": "Schreiben Sie eine Bewertung..."
   }
 }

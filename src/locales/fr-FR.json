@@ -202,5 +202,22 @@
     "explore": "Découvrir {0}",
     "explore_more": "Explorer d'autres genres",
     "load_more": "En savoir plus"
+  },
+  "total": "Total",
+  "mranking": {
+    "masterpiece": "Chef-d'œuvre",
+    "good": "Bien",
+    "mixed": "Mitigé",
+    "poor": "Médiocre",
+    "reviewers_positive": "{0} positif ({1}%)",
+    "reviewers_negative": "{0} négatif ({1}%)"
+  },
+  "review_modal": {
+    "title": "Faire une critique",
+    "review": "Critique",
+    "rating": "Note",
+    "submit": "Soumettre",
+    "comment": "Commentaire",
+    "placeholder": "Rédigez une critique..."
   }
 }

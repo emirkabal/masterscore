@@ -65,25 +65,25 @@ const slideTo = (index: number) => {
         >
           <div class="relative h-full w-full">
             <div
-              class="absolute top-[22vh] flex h-1/2 w-full flex-col justify-end gap-4 px-[4vw] font-maven text-white"
+              class="absolute top-[22vh] flex h-1/2 w-full flex-col justify-end gap-4 px-[4vw] text-white"
             >
               <div
                 class="flex flex-col gap-2"
                 data-swiper-parallax="-200"
                 data-swiper-parallax-duration="800"
               >
-                <h1 class="text-xl font-bold lg:text-5xl">
+                <h1 class="text-xl font-bold tracking-tight lg:text-5xl">
                   {{ $getTitle(item) }}
                 </h1>
 
                 <div
-                  class="text flex items-center gap-3 text-sm font-semibold lg:text-lg"
+                  class="text flex flex-wrap items-center gap-3 text-sm font-semibold lg:text-lg"
                 >
                   <ScoreCircle
                     class="text-sm lg:text-lg"
                     :score="item.vote_average"
                   />
-                  <div class="flex gap-2">
+                  <div class="flex flex-wrap gap-2">
                     <NuxtLink
                       v-for="genre in item.genre_ids"
                       :to="`/discover/${item.media_type}/${genre}`"

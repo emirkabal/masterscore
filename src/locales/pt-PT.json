@@ -202,5 +202,22 @@
     "explore": "Descobrir {0}",
     "explore_more": "Explorar mais géneros",
     "load_more": "Carregar mais"
+  },
+  "total": "Total",
+  "mranking": {
+    "masterpiece": "Obra-prima",
+    "good": "Bom",
+    "mixed": "Misto",
+    "poor": "Fraco",
+    "reviewers_positive": "{0} positivas ({1}%)",
+    "reviewers_negative": "{0} negativas ({1}%)"
+  },
+  "review_modal": {
+    "title": "Fazer uma Avaliação",
+    "review": "Avaliação",
+    "rating": "Classificação",
+    "submit": "Enviar",
+    "comment": "Comentário",
+    "placeholder": "Escreva uma avaliação..."
   }
 }

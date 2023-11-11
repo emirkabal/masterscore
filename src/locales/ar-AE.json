@@ -1,0 +1,223 @@
+{
+  "welcome": "مرحبًا بك في ماسترسكور",
+  "movies": "الأفلام",
+  "tv_shows": "البرامج التلفزيونية",
+  "edited": "تم التعديل",
+  "unknown": "غير معروف",
+  "no_comment_for_this_review": "لا توجد تعليقات لهذه المراجعة.",
+  "total": "الإجمالي",
+  "guest": {
+    "sign_in": "تسجيل الدخول",
+    "sign_up": "التسجيل",
+    "dont_have_account": "ليس لديك حساب؟",
+    "already_have_account": "هل لديك حساب بالفعل؟",
+    "create_account": "إنشاء حساب",
+    "forgot_password": "نسيت كلمة المرور؟",
+    "form": {
+      "email_or_username": "البريد الإلكتروني أو اسم المستخدم",
+      "username": "اسم المستخدم",
+      "password": "كلمة المرور",
+      "email": "البريد الإلكتروني",
+      "confirm_password": "تأكيد كلمة المرور",
+      "invite_code": "رمز الدعوة",
+      "passwords_not_match": "كلمات المرور غير متطابقة."
+    }
+  },
+  "header": {
+    "home": "الرئيسية",
+    "feed": "التغذية",
+    "table": "الجدول",
+    "random_movie": "فيلم عشوائي",
+    "user": {
+      "profile": "الملف الشخصي",
+      "watchlist": "قائمة المشاهدة",
+      "reviews": "المراجعات",
+      "settings": "الإعدادات",
+      "logout": "تسجيل الخروج"
+    }
+  },
+  "activity": {
+    "reviewed": "تمت المراجعة",
+    "liked": "أعجبني",
+    "added_to_watchlist": "تمت إضافته إلى قائمة المشاهدة"
+  },
+  "search": {
+    "text": "اكتب للبحث...",
+    "no_results": "لم يتم العثور على نتائج.",
+    "no_recent_searches": "لم يتم العثور على عمليات بحث حديثة.",
+    "movies_and_tv_shows": "الأفلام والبرامج التلفزيونية",
+    "persons": "الأشخاص",
+    "users": "المستخدمين",
+    "close": "{key} للإغلاق"
+  },
+  "profile": {
+    "created": "تم الإنشاء في {n}",
+    "edit_profile": "تعديل الملف الشخصي",
+    "copy_url": "نسخ الرابط",
+    "summary": "الملخص",
+    "watchlist": "قائمة المشاهدة ({n})",
+    "reviews": "المراجعات ({n})",
+    "no_reviews": "لا توجد مراجعات بعد.",
+    "featured_entertainments": "ترفيهات مميزة",
+    "latest_reviews": "آخر المراجعات",
+    "latest_likes": "آخر الإعجابات",
+    "last_added_to_watchlist": "آخر إضافة إلى قائمة المشاهدة"
+  },
+  "person": {
+    "personal_info": "المعلومات الشخصية",
+    "known_for": "مشهور بـ",
+    "birthday": "تاريخ الميلاد",
+    "place_of_birth": "مكان الميلاد",
+    "deathday": "تاريخ الوفاة",
+    "gender": "الجنس",
+    "also_known_as": "معروف أيضًا باسم",
+    "biography": "سيرة ذاتية",
+    "no_biography": "لا توجد سيرة ذاتية متاحة لهذا الشخص.",
+    "read_more": "اقرأ المزيد...",
+    "age": "{n} عامًا",
+    "genders": {
+      "0": "غير معروف",
+      "1": "أنثى",
+      "2": "ذكر",
+      "3": "آخر"
+    },
+    "departments": {
+      "Acting": "التمثيل",
+      "Directing": "الإخراج",
+      "Writing": "الكتابة",
+      "Production": "الإنتاج",
+      "Editing": "التحرير",
+      "Art": "الفن",
+      "Sound": "الصوت",
+      "Camera": "الكاميرا",
+      "Crew": "الطاقم",
+      "Costume & Make-Up": "الملابس والمكياج",
+      "Visual Effects": "التأثيرات البصرية",
+      "Lighting": "الإضاءة",
+      "Creator": "المبدع"
+    }
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "edit_profile": "تعديل الملف الشخصي",
+    "preview": "معاينة",
+    "about": "حول",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "avatar": "الصورة الرمزية",
+    "dropzone_text": "انقر هنا أو اسحب ملفك.",
+    "dropzone_types": "PNG، JPG، أو GIF (الحد الأقصى: {0}، الموصى به: {1})",
+    "username": "اسم المستخدم",
+    "username_notice": "يمكنك تغيير اسم المستخدم فقط كل {0} أيام.",
+    "banner_url": "رابط البانر",
+    "platform_recommended": "موصى به: {0}",
+    "update_profile": "تحديث الملف الشخصي",
+    "back_to_profile": "العودة إلى الملف الشخصي",
+    "preferences": "التفضيلات",
+    "debug_mode": "وضع التصحيح"
+  },
+  "footer": {
+    "about": "مصدرك النهائي لمراجعات الأفلام والبرامج التلفزيونية بدون تحيز. اكتشف ترفيهك المفضل التالي!",
+    "tmdb_text": "البيانات المعروضة للأفلام والبرامج التلفزيونية والأشخاص تأتي من {provider}"
+  },
+  "home": {
+    "recommended": "موصى به",
+    "top_rated": "الأعلى تقييمًا",
+    "more_info": "مزيد من المعلومات"
+  },
+  "entertainment": {
+    "watch_trailer": "شاهد الإعلان",
+    "reviews": "المراجعات",
+    "reviewed": "تمت المراجعة",
+    "no_reviews": "لا توجد مراجعات لهذا الترفيه حتى الآن.",
+    "collection": "المجموعة",
+    "cast": "الممثلون",
+    "crew": "الطاقم",
+    "similar": "مماثل",
+    "episodes": "الحلقات",
+    "total_episodes": "إجمالي {total} حلقة.",
+    "n_episodes": "{n} حلقة",
+    "buttons": {
+      "watch": "مشاهدة",
+      "review": "مراجعة",
+      "reviewed": "تمت المراجعة",
+      "add_to_watchlist": "إضافة إلى قائمة المشاهدة",
+      "remove_from_watchlist": "إزالة من قائمة المشاهدة"
+    },
+    "sidebar": {
+      "belongs_to_collection": "ينتمي إلى مجموعة",
+      "availabe_on": "متاح على",
+      "original_name": "الاسم الأصلي",
+      "status": "الحالة",
+      "language": "اللغة",
+      "spoken_languages": "اللغات المتحدث بها",
+      "budget": "الميزانية",
+      "revenue": "الإيرادات",
+      "created_by": "تم إنشاؤه بواسطة",
+      "other": "آخر",
+      "visit_website": "زيارة الموقع الإلكتروني",
+      "released": "تم الإصدار",
+      "ended_at": "انتهت في",
+      "returning_in": "العودة في",
+      "planned": "مخطط له",
+      "watch_on": "مشاهدة على {provider}.",
+      "watch_on_masterscore": "مشاهدة على {platform}. (أنت هنا بالفعل <3)",
+      "powered_by": "مشغل بواسطة {provider}"
+    },
+    "summary": {
+      "likes": "إعجابات",
+      "reviews": "مراجعات"
+    }
+  },
+  "discover": {
+    "title": "اكتشاف",
+    "explore": "اكتشف {0}",
+    "explore_more": "استكشف المزيد من الأنواع",
+    "load_more": "تحميل المزيد"
+  },
+  "genres": {
+    "Comedy": "كوميديا",
+    "Crime": "جريمة",
+    "Science Fiction": "خيال علمي",
+    "Fantasy": "خيال",
+    "Drama": "دراما",
+    "Family": "عائلي",
+    "Animation": "رسوم متحركة",
+    "Adventure": "مغامرة",
+    "Action": "حركة",
+    "Horror": "رعب",
+    "Sci-Fi & Fantasy": "خيال علمي وفانتازيا",
+    "Action & Adventure": "حركة ومغامرة",
+    "Kids": "أطفال",
+    "News": "أخبار",
+    "Reality": "واقع",
+    "Soap": "صابوني",
+    "Talk": "حديث",
+    "War & Politics": "حرب وسياسة",
+    "Western": "غربي",
+    "Mystery": "غموض",
+    "Documentary": "وثائقي",
+    "Music": "موسيقى",
+    "Romance": "رومانسية",
+    "Thriller": "إثارة",
+    "History": "تاريخ",
+    "War": "حرب",
+    "TV Movie": "فيلم تلفزيوني"
+  },
+  "mranking": {
+    "masterpiece": "تحفة",
+    "good": "جيد",
+    "mixed": "مختلط",
+    "poor": "ضعيف",
+    "reviewers_positive": "{0} إيجابي ({1}%)",
+    "reviewers_negative": "{0} سلبي ({1}%)"
+  },
+  "review_modal": {
+    "title": "كتابة مراجعة",
+    "review": "مراجعة",
+    "rating": "التقييم",
+    "submit": "إرسال",
+    "comment": "تعليق",
+    "placeholder": "اكتب مراجعة..."
+  }
+}

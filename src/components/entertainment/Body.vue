@@ -104,9 +104,11 @@ useHead({
   </div>
   <div v-else-if="data && !loading">
     <div class="flex flex-col-reverse text-center lg:text-left">
-      <div class="flex items-center justify-center gap-x-4 lg:justify-normal">
+      <div
+        class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 lg:justify-normal"
+      >
         <h1
-          class="inline-block flex-shrink-0 font-semibold leading-8 lg:leading-none"
+          class="inline-block flex-shrink-0 font-semibold tracking-tight"
           :class="{
             'text-4xl md:text-5xl lg:text-6xl': title.length < 20,
             'text-3xl md:text-4xl lg:text-5xl': title.length < 30,
@@ -117,7 +119,7 @@ useHead({
         >
           {{ title }}
         </h1>
-        <ScoreCircle :score="rating" class="mt-1 sm:!text-2xl lg:mt-2.5" />
+        <ScoreCircle :score="rating" class="sm:!text-2xl" />
       </div>
 
       <!-- Desktop -->
