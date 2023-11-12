@@ -97,21 +97,21 @@ watchEffect(() => {
   <div v-if="loading">
     <div class="mt-4 flex flex-col gap-2 lg:flex-row">
       <div
-        class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-zinc-800 lg:w-1/4"
+        class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-gray-800 lg:w-1/4"
       ></div>
       <div
-        class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-zinc-800 lg:w-1/4"
+        class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-gray-800 lg:w-1/4"
       ></div>
       <div
-        class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-zinc-800 lg:w-4/12"
+        class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-gray-800 lg:w-4/12"
       ></div>
     </div>
     <div class="mt-3 flex flex-row gap-2">
       <div
-        class="skeleton-effect h-3 w-3/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-zinc-800"
+        class="skeleton-effect h-3 w-3/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800"
       ></div>
       <div
-        class="skeleton-effect h-3 w-3/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-zinc-800"
+        class="skeleton-effect h-3 w-3/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800"
       ></div>
     </div>
   </div>

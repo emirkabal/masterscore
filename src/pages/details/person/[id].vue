@@ -176,7 +176,7 @@ useHead({
           <div v-if="flag">
             <button
               @click="showDetailsDev = !showDetailsDev"
-              class="font-semibod mt-8 rounded bg-white px-4 py-2 shadow dark:bg-zinc-900"
+              class="font-semibod mt-8 rounded bg-white px-4 py-2 shadow dark:bg-gray-900"
             >
               {{ showDetailsDev ? "Hide" : "Show" }} details
             </button>

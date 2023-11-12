@@ -38,7 +38,7 @@ watch(
     >
       <div
         ref="modal"
-        class="w-full rounded-lg bg-white dark:bg-black md:w-1/4 md:min-w-[460px]"
+        class="w-full rounded-lg bg-white dark:bg-gray-950 md:w-1/4 md:min-w-[460px]"
       >
         <div
           class="flex select-none items-center justify-between px-4 py-4 text-xl font-semibold shadow dark:shadow-lg"
@@ -54,7 +54,7 @@ watch(
           <slot name="body"></slot>
         </div>
         <div
-          class="flex justify-end space-x-2 border-t p-2 dark:border-zinc-800"
+          class="flex justify-end space-x-2 border-t p-2 dark:border-gray-800"
         >
           <slot name="footer"></slot>
         </div>

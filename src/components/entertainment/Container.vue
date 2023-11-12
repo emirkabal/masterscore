@@ -17,12 +17,12 @@ const colors = computed(() => {
 <template>
   <div v-if="loading">
     <div
-      class="skeleton-effect relative h-full min-h-[900px] w-full bg-gray-100 dark:bg-zinc-900 lg:h-[90vh] lg:min-h-[780px]"
+      class="skeleton-effect relative h-full min-h-[900px] w-full bg-gray-100 dark:bg-gray-900 lg:h-[90vh] lg:min-h-[780px]"
       :style="{
         background: `linear-gradient(
-            rgba(24, 24, 27, 1) 0%,
-            rgb(24, 24, 27, .85) 80%,
-            rgb(24, 24, 27, 0) 100%
+            rgba(15, 23, 42, 1) 0%,
+            rgb(15, 23, 42, .85) 80%,
+            rgb(3, 7, 18, 0) 100%
           )`
       }"
     >
@@ -59,7 +59,7 @@ const colors = computed(() => {
       :style="{
         background: `linear-gradient(
             rgba(${colors.background[0]}, ${colors.background[1]}, ${colors.background[2]}, .75) 0%,
-            rgb(0, 0, 0) 100%
+            rgb(3, 7, 18) 100%
           )`
       }"
     >

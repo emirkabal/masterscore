@@ -58,8 +58,8 @@ const slideTo = (index: number) => {
           class="h-[85vh] bg-cover bg-top bg-no-repeat"
           :style="{
             backgroundImage: `linear-gradient(
-            rgba(0, 0, 0, 0) 0%,
-            rgb(0, 0, 0) 100%
+            rgba(3, 7, 18, 0) 0%,
+            rgb(3, 7, 18) 100%
           ), url(${$timage(item.backdrop_path || '-', 'original')})`
           }"
         >

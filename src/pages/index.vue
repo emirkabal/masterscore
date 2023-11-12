@@ -91,11 +91,11 @@ $listen("refresh:entertainment", () => {
       <Loader />
     </div>
   </section>
-  <section class="relative" v-else>
+  <section class="relative bg-gray-950" v-else>
     <HomeMainSlider :data="homeStore.trending" />
     <div class="relative mx-auto mb-24 space-y-12">
       <section
-        v-if="homeStore.recommendations.length > 0"
+        v-if="homeStore.recommendations.length"
         class="relative z-10 -mt-20 space-y-8"
       >
         <div class="flex h-10 items-center gap-x-4">
@@ -123,20 +123,18 @@ $listen("refresh:entertainment", () => {
           :offset="'auto'"
         />
       </section>
-      <section>
-        <HomeResumeWatch />
-      </section>
+      <HomeResumeWatch />
       <section
         class="relative z-10 space-y-8"
         :class="{
-          '-mt-20': homeStore.recommendations.length === 0
+          '-mt-20': !homeStore.recommendations.length
         }"
       >
         <div class="flex items-center gap-4 px-[4vw]">
           <h1 class="text-2xl font-bold">
             {{ $t("home.top_rated") }}
           </h1>
-          <span class="text-2xl font-black text-yellow-500">m</span>
+          <span class="font-maven text-2xl font-black text-yellow-500">m</span>
         </div>
         <EntertainmentSlider
           :data="top_rated"
@@ -149,7 +147,7 @@ $listen("refresh:entertainment", () => {
       <section
         class="relative z-10 space-y-8"
         v-for="genre in genres"
-        :id="genre"
+        :key="genre.id"
       >
         <h1 class="px-[4vw] text-2xl font-bold">
           {{ $t("genres." + genre.name) }}

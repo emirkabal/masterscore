@@ -11,7 +11,7 @@ const watchModal = ref(false)
 const data = shallowRef<HistoryItem>()
 </script>
 <template>
-  <section class="px-[4vw]">
+  <section class="px-[4vw]" v-if="history.length">
     <EntertainmentWatch
       v-if="data"
       :watchModal="watchModal"
@@ -27,7 +27,7 @@ const data = shallowRef<HistoryItem>()
       </span>
     </div>
 
-    <div v-if="history.length" class="flex gap-2 overflow-x-auto pb-6">
+    <div class="flex gap-2 overflow-x-auto pb-6">
       <div
         v-for="(item, index) in list"
         :key="index"
@@ -37,41 +37,59 @@ const data = shallowRef<HistoryItem>()
             watchModal = true
           }
         "
-        class="relative max-w-lg cursor-pointer overflow-hidden rounded-xl bg-gray-900"
+        class="group relative cursor-pointer"
       >
-        <div class="absolute right-0 top-0 m-2">
-          <button
-            @click="
-              (e) => {
-                e.stopPropagation()
-                remove(index)
-              }
-            "
-            class="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 transition-colors hover:bg-black/60"
-          >
-            <Icon name="ic:round-close" class="text-white" />
-          </button>
-        </div>
-
-        <div class="absolute bottom-0 w-full bg-black/40 px-4 py-2">
-          <div class="flex justify-between">
-            <div
-              class="flex items-center gap-x-4 font-semibold tracking-tight text-white"
+        <div class="min-w-[512px] max-w-lg overflow-hidden rounded-2xl">
+          <div class="absolute right-0 top-0 m-2">
+            <button
+              @click="
+                (e) => {
+                  e.stopPropagation()
+                  remove(index)
+                }
+              "
+              class="flex h-8 w-8 items-center justify-center rounded-full bg-black/40 transition-colors hover:bg-black/60"
             >
-              <h1 class="text-2xl font-semibold tracking-tight">
-                {{ item.title }}
-              </h1>
-              <span
-                v-if="item.series"
-                class="mt-1 text-sm font-semibold tracking-tight text-gray-400"
-              >
-                S{{ item.series.season }} E{{ item.series.episode }}
-              </span>
-            </div>
-            <span class="text-2xl font-black text-yellow-500">m</span>
+              <Icon name="ic:round-close" class="text-white" />
+            </button>
           </div>
+
+          <div
+            class="absolute bottom-0 w-full p-4 transition-all group-hover:p-0"
+          >
+            <div
+              class="transform-gpu rounded-2xl bg-gray-900/70 px-4 py-2 transition-all group-hover:rounded-none group-hover:bg-gray-900/50 group-hover:backdrop-blur-sm"
+            >
+              <div class="flex items-center justify-between">
+                <div
+                  class="flex items-center gap-x-4 font-semibold tracking-tight text-white"
+                >
+                  <h1 class="text-2xl font-semibold tracking-tight">
+                    {{ item.title }}
+                  </h1>
+                  <span
+                    v-if="item.series"
+                    class="mt-1 text-sm font-semibold tracking-tight text-gray-300"
+                  >
+                    S{{ item.series.season }} E{{ item.series.episode }}
+                  </span>
+                </div>
+                <span class="font-maven text-2xl font-black text-yellow-500"
+                  >m</span
+                >
+              </div>
+              <div>
+                <p>
+                  Continue watching from
+                  <span class="font-semibold">{{
+                    $moment.duration(item.currentTime, "seconds").format()
+                  }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <MasterImage :source="item.backdrop" class="h-64 w-full" />
         </div>
-        <MasterImage :source="item.backdrop" class="w-full" />
       </div>
     </div>
   </section>

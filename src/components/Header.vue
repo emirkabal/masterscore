@@ -48,10 +48,10 @@ $listen("searchbar:focus", (val) => {
 
 <template>
   <header
-    class="absolute top-0 z-30 flex h-16 w-full items-center justify-between bg-gradient-to-t from-transparent to-black px-4 transition-all dark:from-transparent dark:to-zinc-900 md:px-6"
+    class="absolute top-0 z-30 flex h-16 w-full items-center justify-between bg-gradient-to-t from-transparent to-black px-4 transition-all dark:from-transparent dark:to-gray-900 md:px-6"
     :class="{
       hidden: isHeaderHidden,
-      '!fixed bg-gray-50 dark:bg-zinc-900': isHeaderShown
+      '!fixed bg-gray-50 dark:bg-gray-900': isHeaderShown
     }"
   >
     <div class="flex w-full items-center justify-between">
@@ -127,7 +127,7 @@ $listen("searchbar:focus", (val) => {
               <div v-show="isMenuOpen" @click="isMenuOpen = !isMenuOpen">
                 <HeadlessMenuItems
                   :static="true"
-                  class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-zinc-900 dark:bg-black"
+                  class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-gray-900 dark:bg-black"
                 >
                   <div class="px-1 py-1">
                     <span class="block px-2 py-1"
@@ -137,28 +137,28 @@ $listen("searchbar:focus", (val) => {
                   <div class="px-1 py-1">
                     <HeadlessMenuItem>
                       <NuxtLink
-                        class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
+                        class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
                         to="/users/@me"
                         >{{ $t("header.user.profile") }}</NuxtLink
                       >
                     </HeadlessMenuItem>
                     <HeadlessMenuItem>
                       <NuxtLink
-                        class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
+                        class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
                         to="/users/@me/watchlist"
                         >{{ $t("header.user.watchlist") }}</NuxtLink
                       >
                     </HeadlessMenuItem>
                     <HeadlessMenuItem>
                       <NuxtLink
-                        class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
+                        class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
                         to="/users/@me/reviews"
                         >{{ $t("header.user.reviews") }}</NuxtLink
                       >
                     </HeadlessMenuItem>
                     <HeadlessMenuItem>
                       <NuxtLink
-                        class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-zinc-900"
+                        class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
                         to="/users/@me/settings"
                         >{{ $t("header.user.settings") }}</NuxtLink
                       >

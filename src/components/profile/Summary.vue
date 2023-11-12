@@ -17,12 +17,12 @@ defineProps<{
     <div v-if="summary.pending" class="space-y-4">
       <div v-for="i in 4" :key="'ppp-' + i">
         <div
-          class="skeleton-effect mb-4 h-4 w-32 rounded bg-gray-300 dark:bg-zinc-800"
+          class="skeleton-effect mb-4 h-4 w-32 rounded bg-gray-300 dark:bg-gray-900"
         ></div>
         <div class="flex gap-2 overflow-x-hidden">
           <div class="flex flex-col" v-for="i in 8" :key="i">
             <div
-              class="skeleton-effect h-40 w-[100px] rounded bg-gray-300 dark:bg-zinc-800 md:h-[300px] md:w-[200px]"
+              class="skeleton-effect h-40 w-[100px] rounded bg-gray-300 dark:bg-gray-900 md:h-[300px] md:w-[200px]"
             ></div>
           </div>
         </div>

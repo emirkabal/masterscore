@@ -65,18 +65,18 @@ const cast = computed(() => {
     </h1>
     <div v-if="loading || !data" class="space-y-2">
       <div
-        class="skeleton-effect my-2 h-6 w-32 rounded bg-gray-300 dark:bg-zinc-800"
+        class="skeleton-effect my-2 h-6 w-32 rounded bg-gray-300 dark:bg-gray-900"
       ></div>
       <div class="flex gap-2 overflow-x-hidden">
         <div class="flex flex-col" v-for="i in 8" :key="i">
           <div
-            class="skeleton-effect h-32 w-[100px] rounded bg-gray-300 dark:bg-zinc-800 md:h-[240px] md:w-[140px]"
+            class="skeleton-effect h-32 w-[100px] rounded bg-gray-300 dark:bg-gray-900 md:h-[240px] md:w-[140px]"
           ></div>
           <div
-            class="skeleton-effect mt-2 h-2 w-4/5 self-center rounded-full bg-gray-300 dark:bg-zinc-800"
+            class="skeleton-effect mt-2 h-2 w-4/5 self-center rounded-full bg-gray-300 dark:bg-gray-900"
           ></div>
           <div
-            class="skeleton-effect mt-2 h-2 w-3/4 self-center rounded-full bg-gray-300 dark:bg-zinc-800"
+            class="skeleton-effect mt-2 h-2 w-3/4 self-center rounded-full bg-gray-300 dark:bg-gray-900"
           ></div>
         </div>
       </div>

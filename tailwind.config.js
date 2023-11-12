@@ -1,4 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+
+const customBreakpoints = {
+  sm: "640px",
+  md: "768px",
+  lg: "1024px",
+  xl: "1280px",
+  "2xl": "1537px"
+}
 module.exports = {
   darkMode: "class",
   content: [
@@ -9,12 +17,12 @@ module.exports = {
     "./src/*.vue"
   ],
   theme: {
+    container: {
+      screens: customBreakpoints
+    },
     screens: {
-      sm: "640px",
-      md: "768px",
-      lg: "1024px",
-      xl: "1280px",
-      "2xl": "1537px"
+      ...customBreakpoints,
+      "3xl": "1920px"
     },
     extend: {
       fontFamily: {

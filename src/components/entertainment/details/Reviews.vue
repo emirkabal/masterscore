@@ -55,26 +55,26 @@ withDefaults(
     <div class="space-y-4" v-if="loading">
       <div class="flex items-center px-4 py-6" v-for="i in 4" :key="i">
         <div
-          class="skeleton-effect h-14 w-14 flex-shrink-0 rounded-full bg-gray-300 dark:bg-zinc-800"
+          class="skeleton-effect h-14 w-14 flex-shrink-0 rounded-full bg-gray-300 dark:bg-gray-900"
         ></div>
         <div class="ml-4 flex w-full flex-col">
           <div
-            class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"
+            class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"
           ></div>
           <div
-            class="skeleton-effect mt-1 h-2 w-1/2 rounded bg-gray-300 dark:bg-zinc-800"
+            class="skeleton-effect mt-1 h-2 w-1/2 rounded bg-gray-300 dark:bg-gray-900"
           ></div>
           <div
-            class="skeleton-effect mt-1 h-2 w-1/3 rounded bg-gray-300 dark:bg-zinc-800"
+            class="skeleton-effect mt-1 h-2 w-1/3 rounded bg-gray-300 dark:bg-gray-900"
           ></div>
           <div
-            class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-zinc-800"
+            class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"
           ></div>
         </div>
       </div>
     </div>
     <div v-else-if="data.length > 0">
-      <div class="space-y-8 divide-y dark:divide-zinc-900">
+      <div class="space-y-8 divide-y dark:divide-gray-900">
         <div
           v-for="comment in data"
           :key="comment._id"
@@ -130,7 +130,7 @@ withDefaults(
               >
                 <button
                   @click="$emit('edit')"
-                  class="ml-auto rounded bg-white px-2 py-1 text-xs font-semibold shadow transition hover:bg-gray-50 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+                  class="ml-auto rounded bg-white px-2 py-1 text-xs font-semibold shadow transition hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-zinc-700"
                 >
                   <Icon name="ic:round-edit" class="h-4 w-4" />
                 </button>

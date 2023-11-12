@@ -11,7 +11,7 @@ defineProps<{
 <template>
   <div
     v-if="loading"
-    class="skeleton-effect flex-shrink-0 bg-gray-300 dark:bg-zinc-900"
+    class="skeleton-effect flex-shrink-0 bg-gray-300 dark:bg-gray-900"
   ></div>
   <div
     v-else
@@ -19,7 +19,7 @@ defineProps<{
   >
     <span
       v-if="imageLoading && !noImage"
-      class="skeleton-effect h-full w-full bg-gray-400 dark:bg-zinc-900"
+      class="skeleton-effect h-full w-full bg-gray-400 dark:bg-gray-900"
     >
     </span>
     <div
