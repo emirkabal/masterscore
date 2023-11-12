@@ -6,7 +6,12 @@ const availableLocales = computed(() => {
 })
 </script>
 <template>
-  <div class="relative select-none">
+  <div
+    class="relative select-none rounded px-4 py-2"
+    :class="{
+      'border border-gray-800 bg-gray-900': !light
+    }"
+  >
     <HeadlessListbox>
       <HeadlessListboxButton class="flex items-center text-sm font-semibold">
         <Icon
@@ -19,7 +24,7 @@ const availableLocales = computed(() => {
         <Icon name="ic:round-arrow-drop-down" class="h-6 w-auto rounded" />
       </HeadlessListboxButton>
       <HeadlessListboxOptions
-        class="absolute -top-[330px] left-0 z-50 flex max-h-80 flex-col overflow-hidden overflow-y-scroll rounded-lg border border-zinc-800 bg-black"
+        class="absolute -left-3 -top-[330px] z-50 flex max-h-80 flex-col overflow-hidden overflow-y-scroll rounded-lg border border-gray-800 bg-gray-900 p-1"
         :class="{
           '!bg-gray-100': light
         }"
@@ -30,7 +35,7 @@ const availableLocales = computed(() => {
           :value="l.code"
           :disabled="locale === l.code"
           @click="setLocale(l.code)"
-          class="flex cursor-pointer items-center px-4 py-2 text-sm font-semibold transition-colors hover:bg-zinc-900 hover:text-gray-100"
+          class="flex cursor-pointer items-center rounded-lg px-4 py-2 text-sm font-semibold transition-colors hover:bg-gray-800 hover:text-gray-100"
           :class="{
             'bg-gray-100 text-gray-900 hover:!bg-gray-200 hover:text-gray-800':
               light

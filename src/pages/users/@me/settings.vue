@@ -139,12 +139,12 @@ const submit = async (e) => {
 </script>
 <template>
   <div class="container mx-auto my-20 px-4">
-    <h1 class="mb-2 border-b pb-4 text-2xl font-bold dark:border-zinc-900">
+    <h1 class="mb-2 border-b pb-4 text-2xl font-bold dark:border-gray-900">
       {{ $t("settings.title") }}
     </h1>
     <div class="px-2">
       <p
-        class="mb-4 border-b px-2 py-4 font-maven font-semibold dark:border-zinc-900"
+        class="mb-4 border-b px-2 py-4 font-maven font-semibold dark:border-gray-900"
       >
         {{ $t("settings.edit_profile") }}
       </p>
@@ -159,7 +159,7 @@ const submit = async (e) => {
           class="relative rounded border-4 border-gray-100 dark:border-gray-800"
         >
           <div
-            class="absolute -left-2 -top-2 z-10 rounded bg-gray-100 px-4 font-maven font-semibold dark:bg-zinc-800"
+            class="absolute -left-2 -top-2 z-10 rounded bg-gray-100 px-4 font-maven font-semibold dark:bg-gray-900"
           >
             {{ $t("settings.preview") }}
           </div>
@@ -228,7 +228,7 @@ const submit = async (e) => {
           <form @submit="submit" class="space-y-2">
             <div class="mb-4 space-y-2">
               <div
-                class="mb-4 flex items-center gap-4 border-b pb-4 dark:border-zinc-800"
+                class="mb-4 flex items-center gap-4 border-b pb-4 dark:border-gray-800"
               >
                 <div class="space-y-2">
                   <span class="flex items-center gap-2 text-xl font-bold"
@@ -237,7 +237,7 @@ const submit = async (e) => {
                   <div class="my-2 flex">
                     <div
                       v-if="avatar || (user.avatar && avatarHandle !== 'edit')"
-                      class="flex items-center gap-2 border border-gray-200 bg-gray-100 px-4 py-2 dark:border-zinc-900 dark:bg-zinc-950"
+                      class="flex items-center gap-2 border border-gray-200 bg-gray-100 px-4 py-2 dark:border-gray-900 dark:bg-zinc-950"
                     >
                       <Avatar
                         v-if="user.avatar && avatarHandle !== 'edit'"
@@ -277,7 +277,7 @@ const submit = async (e) => {
                     <div v-else class="flex w-full items-center justify-center">
                       <label
                         for="dropzone-file"
-                        class="dark:hover:bg-bray-800 flex h-36 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:bg-gray-100 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-zinc-700 dark:hover:bg-zinc-900"
+                        class="dark:hover:bg-bray-800 flex h-36 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-zinc-950 dark:hover:border-zinc-700 dark:hover:bg-gray-900"
                       >
                         <div
                           class="flex select-none flex-col items-center justify-center px-4 pb-6 pt-5"
@@ -309,7 +309,7 @@ const submit = async (e) => {
                 </div>
               </div>
               <div
-                class="mb-4 flex items-center gap-4 border-b pb-4 dark:border-zinc-800"
+                class="mb-4 flex items-center gap-4 border-b pb-4 dark:border-gray-800"
               >
                 <div class="space-y-2">
                   <span class="text-xl font-bold">{{
@@ -317,7 +317,7 @@ const submit = async (e) => {
                   }}</span>
                   <div class="flex">
                     <span
-                      class="inline-flex items-center border border-gray-300 bg-gray-100 px-3 text-sm text-gray-500 dark:border-zinc-800 dark:bg-zinc-900"
+                      class="inline-flex items-center border border-gray-300 bg-gray-100 px-3 text-sm text-gray-500 dark:border-gray-800 dark:bg-gray-900"
                       :class="{
                         'opacity-50': !isUsernameChangeAvailable
                       }"
@@ -336,7 +336,7 @@ const submit = async (e) => {
                       :maxlength="16"
                       :placeholder="user.username"
                       :disabled="!isUsernameChangeAvailable"
-                      class="form-input w-full resize-none disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900"
+                      class="form-input w-full resize-none disabled:opacity-50 dark:border-gray-800 dark:bg-gray-900"
                       type="text"
                     />
                   </div>
@@ -346,7 +346,7 @@ const submit = async (e) => {
                 </div>
               </div>
               <div
-                class="mb-4 gap-4 space-y-2 border-b pb-4 dark:border-zinc-800"
+                class="mb-4 gap-4 space-y-2 border-b pb-4 dark:border-gray-800"
               >
                 <span class="text-xl font-bold">{{
                   $t("settings.about")
@@ -356,7 +356,7 @@ const submit = async (e) => {
                     :value="about"
                     :maxlength="512"
                     @input="(e) => (about = e.target.value)"
-                    class="h-36 w-full resize-none dark:border-zinc-800 dark:bg-zinc-900"
+                    class="h-36 w-full resize-none dark:border-gray-800 dark:bg-gray-900"
                   >
                   </textarea>
                   <div
@@ -381,7 +381,7 @@ const submit = async (e) => {
                   @input="(e) => (banner = e.target.value)"
                   :maxlength="128"
                   placeholder="https://i.imgur.com/BiwjCWt.jpg"
-                  class="form-input w-full resize-none dark:border-zinc-800 dark:bg-zinc-900"
+                  class="form-input w-full resize-none dark:border-gray-800 dark:bg-gray-900"
                   type="text"
                 />
               </div>
@@ -416,12 +416,12 @@ const submit = async (e) => {
     </div>
     <div class="px-2 py-8">
       <p
-        class="mb-4 border-b px-2 py-4 font-maven font-semibold dark:border-zinc-900"
+        class="mb-4 border-b px-2 py-4 font-maven font-semibold dark:border-gray-900"
       >
         {{ $t("settings.preferences") }}
       </p>
       <label
-        class="flex cursor-pointer items-center justify-between border px-4 py-6 dark:border-zinc-900"
+        class="flex cursor-pointer items-center justify-between border px-4 py-6 dark:border-gray-900"
         for="debugMode"
       >
         <p>{{ $t("settings.debug_mode") }}</p>

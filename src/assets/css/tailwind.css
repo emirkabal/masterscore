@@ -11,7 +11,7 @@ html {
   @apply scroll-smooth;
 }
 body {
-  @apply bg-black text-white;
+  @apply bg-gray-950 text-white;
 }
 
 ::-webkit-scrollbar {
@@ -81,20 +81,20 @@ body {
 }
 
 table {
-  @apply border-collapse border border-gray-200 bg-white dark:border-zinc-900 dark:bg-black;
+  @apply border-collapse border border-gray-200 bg-white dark:border-gray-900 dark:bg-gray-950;
 }
 table th {
-  @apply border border-gray-200 dark:border-zinc-800;
+  @apply border border-gray-200 dark:border-gray-800;
 }
 table td {
-  @apply border border-gray-200 dark:border-zinc-800;
+  @apply border border-gray-200 dark:border-gray-800;
 }
 table tr:nth-child(even) {
-  @apply bg-gray-100 dark:bg-zinc-900;
+  @apply bg-gray-100 dark:bg-gray-900;
 }
 
 .vue3-easy-data-table {
-  @apply w-full overflow-x-auto rounded-lg bg-white shadow dark:bg-zinc-900;
+  @apply w-full overflow-x-auto rounded-lg bg-white shadow dark:bg-gray-900;
 }
 
 /* Table container */
@@ -117,7 +117,7 @@ table tr:nth-child(even) {
 /* Border cell */
 .vue3-easy-data-table .border-cell tr td,
 .vue3-easy-data-table .border-cell tr th {
-  @apply border-r border-slate-200 last:border-none dark:border-zinc-900;
+  @apply border-r border-slate-200 last:border-none dark:border-gray-900;
 }
 
 .vue3-easy-data-table .border-cell tr td.can-expand,
@@ -132,7 +132,7 @@ table tr:nth-child(even) {
 
 /* Teableheader row */
 .vue3-easy-data-table__header tr {
-  @apply border-b bg-slate-100 dark:bg-zinc-900;
+  @apply border-b bg-slate-100 dark:bg-gray-900;
 }
 
 /* Table header th tag */
@@ -176,7 +176,7 @@ p-1 transition duration-300;
 }
 /* Table body tr */
 .vue3-easy-data-table__body.row-alternation tr {
-  @apply transition even:bg-slate-50  hover:bg-slate-100 dark:even:bg-zinc-900 dark:hover:bg-zinc-800;
+  @apply transition even:bg-slate-50  hover:bg-slate-100 dark:even:bg-gray-900 dark:hover:bg-gray-800;
 }
 
 /* Expand slot */
@@ -195,7 +195,7 @@ p-1 transition duration-300;
 /* Footer */
 
 .vue3-easy-data-table__footer {
-  @apply flex w-full flex-col items-start gap-5 border-t px-6 py-5 text-sm  dark:border-zinc-900 lg:flex-row lg:items-center;
+  @apply flex w-full flex-col items-start gap-5 border-t px-6 py-5 text-sm  dark:border-gray-900 lg:flex-row lg:items-center;
 }
 
 /* Rows per page */
@@ -239,10 +239,10 @@ p-1 transition duration-300;
 }
 /* Button items */
 .buttons-pagination .item.button {
-  @apply flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border text-xs transition;
+  @apply flex h-7 w-7 cursor-pointer items-center rounded justify-center text-xs transition;
 }
 .buttons-pagination .item.button.active {
-  @apply border-blue-600 bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 text-white;
+  @apply bg-gray-800  text-white ;
 }
 
 /* Page index */
@@ -298,12 +298,12 @@ before:h-5 before:w-5;
 /* JSON Viewer */
 
 .jsonviewer {
-  @apply rounded-lg border border-gray-200 bg-white font-mono text-gray-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-gray-200;
+  @apply rounded-lg border border-gray-200 bg-white font-mono text-gray-600 dark:border-zinc-700 dark:bg-gray-900 dark:text-gray-200;
   white-space: nowrap;
   font-size: 14px;
 }
 .jsonviewer .jv-ellipsis {
-  @apply bg-gray-100 text-gray-500 dark:bg-zinc-800 dark:text-gray-400;
+  @apply bg-gray-100 text-gray-500 dark:bg-gray-900 dark:text-gray-400;
   display: inline-block;
   line-height: 0.9;
   font-size: 0.9em;
@@ -359,6 +359,6 @@ before:h-5 before:w-5;
 
 
 .cropper-bg {
-  @apply bg-gray-100 dark:bg-zinc-900;
+  @apply bg-gray-100 dark:bg-gray-900;
   background-image: none !important;
 }

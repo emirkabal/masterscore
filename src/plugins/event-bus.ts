@@ -8,7 +8,13 @@ type ApplicationEvents = {
   "entertainment:load": boolean
   "entertainment:fetch:reviews": boolean
   "entertainment:fetch:likes": boolean
-  "entertainment:watch": string
+  "entertainment:watch": [
+    string,
+    {
+      episode_number: string | number
+      season_number: string | number
+    }
+  ]
   "entertainment:watch-feature-mismatch": void
   "refresh:entertainment": void
   "searchbar:focus": boolean

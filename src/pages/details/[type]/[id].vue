@@ -18,6 +18,7 @@ const smartVideoData = ref(null)
 const smartVideoId = ref("")
 const smartVideoPending = ref(false)
 const smartVideoError = ref(false)
+const smartVideoEpisodes = shallowRef([])
 
 const colors = reactive({
   background: [3, 50, 71],
@@ -214,8 +215,17 @@ watch(colors, (val) => {
   }
 })
 
-$listen("entertainment:watch", (id) => {
-  smartVideoId.value = id
+$listen("entertainment:watch", (data) => {
+  if (data.length) {
+    smartVideoId.value = data[0]
+    smartVideoEpisodes.value = {
+      episode: data[1].episode_number,
+      season: data[1].season_number
+    }
+  } else {
+    smartVideoId.value = data
+    smartVideoEpisodes.value = undefined
+  }
   watchModal.value = true
 })
 
@@ -240,10 +250,17 @@ useHead({
   <EntertainmentLoading v-if="pending" />
   <div v-else-if="data && reviewData">
     <EntertainmentWatch
-      :smartVideoData="smartVideoData"
-      :smartVideoPending="smartVideoPending"
-      :smartVideoId="smartVideoId"
       :watchModal="watchModal"
+      :data="{
+        title: $getTitle(data),
+        poster: posterURL,
+        backdrop: backgroundURL,
+        tmdbId: data.id,
+        imdbId: data.imdb_id,
+        type: params.type,
+        playlistId: smartVideoId,
+        series: smartVideoEpisodes || undefined
+      }"
       @close="
         () => {
           watchModal = false
@@ -390,7 +407,7 @@ useHead({
       <div v-if="flag">
         <button
           @click="showDetailsDev = !showDetailsDev"
-          class="font-semibod mt-8 rounded bg-white px-4 py-2 shadow dark:bg-zinc-900"
+          class="font-semibod mt-8 rounded bg-white px-4 py-2 shadow dark:bg-gray-900"
         >
           {{ showDetailsDev ? "Hide" : "Show" }} details
         </button>

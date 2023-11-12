@@ -187,7 +187,7 @@ const rtScore = computed(() => {
     <div class="space-y-6">
       <button
         v-if="getVideo"
-        class="flex w-full items-center justify-center gap-2 rounded bg-gray-50 px-4 py-2 transition-opacity hover:opacity-90 dark:bg-zinc-900"
+        class="flex w-full items-center justify-center gap-2 rounded bg-gray-50 px-4 py-2 transition-opacity hover:opacity-90 dark:bg-gray-900"
         @click="trailerModal = true"
       >
         <Icon name="ic:outline-play-arrow" class="h-6 w-6 text-yellow-600" />
@@ -196,17 +196,17 @@ const rtScore = computed(() => {
 
       <div v-if="providerPending" class="space-y-2">
         <div
-          class="skeleton-effect h-2 w-1/2 rounded-full bg-gray-300 dark:bg-zinc-800"
+          class="skeleton-effect h-2 w-1/2 rounded-full bg-gray-300 dark:bg-gray-900"
         ></div>
         <div class="flex items-center gap-2">
           <div
-            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"
+            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-gray-900"
           ></div>
           <div
-            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"
+            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-gray-900"
           ></div>
           <div
-            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-zinc-800"
+            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-gray-900"
           ></div>
         </div>
       </div>
@@ -214,7 +214,7 @@ const rtScore = computed(() => {
         <span class="font-bold">{{
           $t("entertainment.sidebar.availabe_on")
         }}</span>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
           <span
             v-if="smartVideoData"
             v-tooltip="{
@@ -223,7 +223,7 @@ const rtScore = computed(() => {
               })}`,
               html: true
             }"
-            class="flex h-10 w-10 cursor-default items-center justify-center rounded-lg bg-gray-100 bg-cover bg-center bg-no-repeat font-maven text-3xl font-black text-yellow-500 transition-opacity hover:opacity-75 dark:bg-zinc-900"
+            class="flex h-10 w-10 cursor-default items-center justify-center rounded-lg bg-gray-100 bg-cover bg-center bg-no-repeat font-maven text-3xl font-black text-yellow-500 transition-opacity hover:opacity-75 dark:bg-gray-900"
           >
             <span class="-mt-1 select-none"> m </span>
           </span>

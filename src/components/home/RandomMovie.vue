@@ -18,7 +18,7 @@ const getRandomMovie = async () => {
 <template>
   <div
     v-if="loading"
-    class="flex flex-col items-center justify-center rounded-lg bg-gray-50 transition-all duration-300 ease-in-out hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+    class="flex flex-col items-center justify-center rounded-lg bg-gray-50 transition-all duration-300 ease-in-out hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800"
     :class="{
       'p-6': collapsed,
       'h-12': collapsed,
@@ -39,7 +39,7 @@ const getRandomMovie = async () => {
   <button
     v-else
     @click="getRandomMovie"
-    class="flex flex-col items-center justify-center rounded-lg bg-gray-50 drop-shadow-xl transition-all duration-300 ease-in-out hover:bg-gray-100 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+    class="flex flex-col items-center justify-center rounded-lg bg-gray-50 drop-shadow-xl transition-all duration-300 ease-in-out hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800"
     :class="collapsed ? 'p-6' : 'p-8'"
   >
     <Icon

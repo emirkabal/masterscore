@@ -56,7 +56,7 @@ watch(imageLoading, () => {
 <template>
   <NuxtLink
     :to="to"
-    class="group mt-1 flex w-fit min-w-0 items-center gap-x-2 rounded-lg bg-gray-500 p-2 dark:bg-zinc-800"
+    class="group mt-1 flex w-fit min-w-0 items-center gap-x-2 rounded-lg bg-gray-500 p-2 dark:bg-gray-900"
     :style="{
       background: imageLoading
         ? ''
@@ -64,7 +64,7 @@ watch(imageLoading, () => {
     }"
   >
     <span
-      class="skeleton-effect h-12 w-8 flex-shrink-0 rounded bg-gray-400 dark:bg-zinc-900"
+      class="skeleton-effect h-12 w-8 flex-shrink-0 rounded bg-gray-400 dark:bg-gray-900"
       v-if="imageLoading"
     >
     </span>

@@ -251,7 +251,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               @mouseenter="selectedIndex = i"
               :data-index="i"
               :class="{
-                'bg-gray-100 dark:bg-zinc-900': i === selectedIndex,
+                'bg-gray-100 dark:bg-gray-900': i === selectedIndex,
                 'bg-white dark:bg-black': i !== selectedIndex
               }"
               class="flex items-center justify-between rounded-2xl px-2 py-1"
@@ -290,7 +290,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             @mouseenter="selectedIndex = i + history.length"
             :data-index="i + history.length"
             :class="{
-              'bg-gray-100 dark:bg-zinc-900':
+              'bg-gray-100 dark:bg-gray-900':
                 i + history.length === selectedIndex,
               'bg-white dark:bg-black': i + history.length !== selectedIndex
             }"
@@ -317,7 +317,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               @click="removeFocus(true)"
               :data-index="i"
               :class="{
-                'bg-gray-100 dark:bg-zinc-900': i === selectedIndex,
+                'bg-gray-100 dark:bg-gray-900': i === selectedIndex,
                 'bg-white dark:bg-black': i !== selectedIndex
               }"
             >
@@ -363,7 +363,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               :data-index="i + results.length"
               :class="{
-                'bg-gray-100 dark:bg-zinc-900':
+                'bg-gray-100 dark:bg-gray-900':
                   i + results.length === selectedIndex,
                 'bg-white dark:bg-black': i + results.length !== selectedIndex
               }"
@@ -401,7 +401,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               :data-index="i + results.length"
               :class="{
-                'bg-gray-100 dark:bg-zinc-900':
+                'bg-gray-100 dark:bg-gray-900':
                   i + (results.length + persons.length) === selectedIndex,
                 'bg-white dark:bg-black':
                   i + (results.length + persons.length) !== selectedIndex

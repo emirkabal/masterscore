@@ -111,7 +111,7 @@ const watchSmartVideo = (episode: Episode) => {
     )
   }
   if (!episode.smartVideoId) return
-  $event("entertainment:watch", episode.smartVideoId)
+  $event("entertainment:watch", [episode.smartVideoId, episode])
 }
 
 watch(seasonData, () => {
@@ -264,7 +264,7 @@ watch(
         class="cursor-pointer rounded border p-4 transition-colors duration-75"
         :class="{
           'border-gray-600 dark:border-gray-400': seasonData[item.id].show,
-          'hover:border-gray-600 dark:border-zinc-800 hover:dark:border-gray-400':
+          'hover:border-gray-600 dark:border-gray-800 hover:dark:border-gray-400':
             !seasonData[item.id].show
         }"
       >
@@ -357,7 +357,7 @@ watch(
                 v-for="episode in seasonData[item.id].episodes"
                 :key="episode.id"
                 @click="watchSmartVideo(episode)"
-                class="flex cursor-pointer select-none items-center gap-2 rounded-lg p-2 transition-colors hover:bg-gray-200 hover:dark:bg-neutral-900 md:gap-4"
+                class="flex cursor-pointer select-none items-center gap-2 rounded-lg p-2 transition-colors hover:bg-gray-200 hover:dark:bg-gray-900 md:gap-4"
               >
                 <MasterImage
                   v-if="episode.still_path"

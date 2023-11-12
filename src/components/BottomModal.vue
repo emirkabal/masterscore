@@ -111,7 +111,7 @@ watch(
     >
       <div
         ref="modal"
-        class="w-full bg-white px-2 pb-3 dark:bg-black"
+        class="w-full bg-white px-2 pb-3 dark:bg-gray-950"
         :class="{
           'transition-transform': inAnimation
         }"
@@ -122,7 +122,7 @@ watch(
           class="flex w-full cursor-default items-center justify-center pb-4 pt-2"
         >
           <span
-            class="h-1.5 w-10 rounded-full bg-gray-300 dark:bg-zinc-800"
+            class="h-1.5 w-10 rounded-full bg-gray-300 dark:bg-gray-900"
           ></span>
         </button>
         <div
@@ -133,7 +133,7 @@ watch(
         <div class="px-4 py-4">
           <slot name="body"></slot>
         </div>
-        <div class="flex w-full justify-center px-4 pb-4 dark:border-zinc-800">
+        <div class="flex w-full justify-center px-4 pb-4 dark:border-gray-800">
           <slot name="footer"></slot>
         </div>
       </div>

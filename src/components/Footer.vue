@@ -2,14 +2,16 @@
 import { useDark } from "@vueuse/core"
 const isDark = useDark()
 const version = computed(() => {
-  return "2.1.1-alpha"
+  return "2.1.3-alpha"
 })
 const date = useAppConfig().buildDate
 isDark.value = true
 </script>
 
 <template>
-  <footer class="-mt-4 w-full gap-24 border-t border-zinc-900 py-16">
+  <footer
+    class="-mt-4 w-full gap-24 border-t border-gray-800 bg-gray-900/30 py-16"
+  >
     <div
       class="max-w-8xl container mx-auto flex w-full flex-col-reverse justify-between gap-2 px-4 text-center md:flex-row md:text-left"
     >
@@ -29,7 +31,7 @@ isDark.value = true
         <p class="max-w-xs pb-2 text-sm text-gray-200">
           {{ $t("footer.about") }}
         </p>
-        <p class="max-w-xs border-t border-t-zinc-700 pt-2 text-xs opacity-75">
+        <p class="max-w-xs pb-6 text-xs opacity-50">
           <i18n-t keypath="footer.tmdb_text">
             <template v-slot:provider>
               <a
@@ -42,8 +44,26 @@ isDark.value = true
             </template>
           </i18n-t>
         </p>
+
+        <p class="max-w-xs text-sm text-gray-300">
+          &copy; {{ new Date().getFullYear() }} Masterscore
+        </p>
+        <a
+          class="flex items-center justify-center gap-x-4 pt-4 opacity-90 hover:opacity-100 sm:hidden"
+          href="https://emirkabal.com"
+          >created by <IconsEKLogo class="inline h-6 w-auto"
+        /></a>
       </div>
-      <LangSwitcher class="mx-auto md:mx-0" />
+      <div
+        class="flex flex-col items-center justify-center sm:items-end sm:justify-between"
+      >
+        <LangSwitcher />
+        <a
+          class="hidden items-center gap-x-4 opacity-90 hover:opacity-100 sm:flex"
+          href="https://emirkabal.com"
+          >created by <IconsEKLogo class="inline h-6 w-auto"
+        /></a>
+      </div>
     </div>
   </footer>
 </template>

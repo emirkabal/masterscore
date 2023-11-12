@@ -77,7 +77,7 @@ watch([listType, disableReviewRequirement], () => {
         Masterscore Table
       </h1>
       <select
-        class="h-12 rounded-lg dark:border-zinc-800 dark:bg-zinc-900"
+        class="h-12 rounded-lg dark:border-gray-800 dark:bg-gray-900"
         :value="listType"
         @input="(e) => (listType = e.target.value)"
       >

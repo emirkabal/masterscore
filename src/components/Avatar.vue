@@ -50,7 +50,7 @@ watch(imageLoading, () => {
 <template>
   <div
     v-if="loading"
-    class="skeleton-effect flex-shrink-0 bg-gray-300 dark:bg-zinc-800"
+    class="skeleton-effect flex-shrink-0 bg-gray-300 dark:bg-gray-900"
     :class="{
       'rounded-full': !square,
       'rounded-lg': square
@@ -66,7 +66,7 @@ watch(imageLoading, () => {
     }"
   >
     <span
-      class="skeleton-effect h-full w-full bg-gray-400 dark:bg-zinc-900"
+      class="skeleton-effect h-full w-full bg-gray-400 dark:bg-gray-900"
       v-if="imageLoading && !loading"
     >
     </span>
