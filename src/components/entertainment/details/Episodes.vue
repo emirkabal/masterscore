@@ -111,7 +111,7 @@ const watchSmartVideo = (episode: Episode) => {
     )
   }
   if (!episode.smartVideoId) return
-  $event("entertainment:watch", episode.smartVideoId)
+  $event("entertainment:watch", [episode.smartVideoId, episode])
 }
 
 watch(seasonData, () => {

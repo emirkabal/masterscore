@@ -123,6 +123,9 @@ $listen("refresh:entertainment", () => {
           :offset="'auto'"
         />
       </section>
+      <section>
+        <HomeResumeWatch />
+      </section>
       <section
         class="relative z-10 space-y-8"
         :class="{

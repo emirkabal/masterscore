@@ -1,5 +1,22 @@
 import { H3Event } from "h3"
 
+export interface HistoryItem {
+  tmdbId: string
+  imdbId?: string
+  playlistId: string
+  type: string
+  title: string
+  poster: string
+  backdrop: string
+  currentTime: number
+  duration: number
+  series?: {
+    episode: number
+    season: number
+  }
+  playedAt: number
+}
+
 export interface IEntertainment {
   _id?: string
   id: string

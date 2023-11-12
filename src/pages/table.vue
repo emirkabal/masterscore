@@ -5,5 +5,7 @@ useHead({
 })
 </script>
 <template>
-  <HomeMasterscoreTable class="my-24" />
+  <div>
+    <HomeMasterscoreTable class="my-24" />
+  </div>
 </template>

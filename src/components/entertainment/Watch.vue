@@ -1,37 +1,27 @@
 <script setup lang="ts">
 const props = defineProps<{
-  smartVideoData?: any
-  smartVideoPending?: boolean
-  smartVideoId?: string | number
   watchModal: boolean
+  data: {
+    title: string
+    poster: string
+    backdrop: string
+    tmdbId: string
+    imdbId?: string
+    type: string
+    playlistId: string
+    series?: any
+  }
 }>()
-
-const watchIframe = ref<HTMLIFrameElement | null>(null)
-const iframeLoading = ref(true)
 
 const emits = defineEmits(["close"])
 
 const close = () => {
-  iframeLoading.value = true
   emits("close")
 }
 </script>
 
 <template>
-  <ScreenModal v-if="smartVideoData" :modal="watchModal" @close="close">
-    <Spinner v-show="iframeLoading" class="h-screen max-h-[648px]" />
-    <iframe
-      ref="watchIframe"
-      v-show="!iframeLoading"
-      :src="'https://videoseyred.in/embed/' + smartVideoId"
-      frameborder="0"
-      width="1920"
-      height="1080"
-      class="aspect-video h-auto max-h-[648px] w-full rounded-xl"
-      title="Watch Feature"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-      @load="iframeLoading = false"
-    ></iframe>
+  <ScreenModal v-if="data.playlistId" :modal="watchModal" @close="close">
+    <CorePlayer v-bind="data" class="aspect-video overflow-hidden rounded-xl" />
   </ScreenModal>
 </template>
