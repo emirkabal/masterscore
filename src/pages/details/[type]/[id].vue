@@ -144,6 +144,7 @@ watch(data, async () => {
   if (isLoggedIn && user.features.includes("WATCH")) {
     smartVideoPending.value = true
     const find = async (title) => {
+      if(smartVideoData.value) return
       smartVideoData.value = await $fetch(
         `https://api.emirkabal.com/v1/smartvideo/${
           params.type === "tv" ? "series" : "movies"
@@ -158,8 +159,7 @@ watch(data, async () => {
       })
 
       if (
-        smartVideoData.value &&
-        smartVideoData.value.length > 0 &&
+        smartVideoData.value?.length &&
         smartVideoData.value.find((e) => e.tmdb == data.value.id)
       ) {
         smartVideoData.value = smartVideoData.value.find(
@@ -168,8 +168,7 @@ watch(data, async () => {
       }
 
       if (
-        smartVideoData.value &&
-        smartVideoData.value.length > 0 &&
+        smartVideoData.value?.length &&
         data.value.imdb_id &&
         smartVideoData.value.find((e) => e.imdb == data.value.imdb_id)
       ) {
@@ -179,8 +178,7 @@ watch(data, async () => {
       }
 
       if (
-        smartVideoData.value &&
-        smartVideoData.value.length > 0 &&
+        smartVideoData.value?.length &&
         data.value.release_date &&
         smartVideoData.value.find(
           (e) => e.year == data.value.release_date.split("-")[0]
