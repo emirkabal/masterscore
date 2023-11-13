@@ -103,9 +103,6 @@ devDependencies:
   '@types/color-thief-node':
     specifier: ^1.0.4
     version: 1.0.4
-  '@types/hepburn':
-    specifier: ^1.2.2
-    version: 1.2.2
   '@types/jsonwebtoken':
     specifier: ^9.0.5
     version: 9.0.5
@@ -139,9 +136,6 @@ devDependencies:
   autoprefixer:
     specifier: ^10.4.16
     version: 10.4.16(postcss@8.4.31)
-  hepburn:
-    specifier: ^1.2.1
-    version: 1.2.1
   kuroshiro:
     specifier: ^1.2.0
     version: 1.2.0
@@ -3224,10 +3218,6 @@ packages:
   /@types/estree@1.0.5:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
-  /@types/hepburn@1.2.2:
-    resolution: {integrity: sha512-DWLYgf44kFJNKYyaZdGlWkAaIaK9mPpxoiZ7BCpr020qiWpgyagWEDvSFPc8OQpN2kPh2JJTGTQE0uMR3bob3Q==}
-    dev: true
-
   /@types/http-proxy@1.17.14:
     resolution: {integrity: sha512-SSrD0c1OQzlFX7pGu1eXxSEjemej64aaNPRhhVYUGqXh0BtldAAx37MG8btcumvpgKyZp1F5Gn3JkktdxiFv6w==}
     dependencies:
@@ -4213,10 +4203,6 @@ packages:
     resolution: {integrity: sha512-qwVpFEHNfhYJIzNRBvd2C1kyo6jz3ZSMPyyuR47OPdiKWlbYnZNyDWuyR175qDnAJLiCo5fBBqPb3RiXgWlkOQ==}
     dependencies:
       semver: 7.5.4
-    dev: true
-
-  /bulk-replace@0.0.1:
-    resolution: {integrity: sha512-IxLEnfsCYLjlpf6mG7SWpWgA4A8IAT5dAX3FxXHFn+6FTLf3ums771elQ74sj1BCOVanBf6esu0rEC6zgwfmIg==}
     dev: true
 
   /bundle-name@3.0.0:
@@ -5896,13 +5882,6 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       function-bind: 1.1.2
-
-  /hepburn@1.2.1:
-    resolution: {integrity: sha512-v/VUHmiHhNbjDBGxYkwDXzYvfOTIKFquAn0KrPtH1D3Zv539VBPEOGYoWpLnb/FBT9vAx9anQef3noJZ2fPIBw==}
-    engines: {node: '>=4'}
-    dependencies:
-      bulk-replace: 0.0.1
-    dev: true
 
   /hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
