@@ -155,29 +155,6 @@ const submit = async (e) => {
         <Spinner color="#000" />
       </div>
       <div class="my-12 grid gap-8 lg:my-0 lg:grid-cols-2">
-        <div
-          class="relative rounded border-4 border-gray-100 dark:border-gray-800"
-        >
-          <div
-            class="absolute -left-2 -top-2 z-10 rounded bg-gray-100 px-4 font-maven font-semibold dark:bg-gray-900"
-          >
-            {{ $t("settings.preview") }}
-          </div>
-          <ProfileBanner
-            :username="username || user.username"
-            :banner="banner"
-            :avatar="user.avatar"
-            class="absolute !m-0"
-          />
-          <div class="ml-10 mt-24" v-if="about?.length > 0">
-            <h1 class="text-xl font-semibold">{{ $t("settings.about") }}</h1>
-            <p
-              class="line-clamp-5 max-w-6xl truncate whitespace-pre-wrap break-words text-gray-500 dark:text-gray-100"
-            >
-              {{ about }}
-            </p>
-          </div>
-        </div>
         <div>
           <Modal
             :show="croppingImage !== null"
@@ -237,7 +214,7 @@ const submit = async (e) => {
                   <div class="my-2 flex">
                     <div
                       v-if="avatar || (user.avatar && avatarHandle !== 'edit')"
-                      class="flex items-center gap-2 border border-gray-200 bg-gray-100 px-4 py-2 dark:border-gray-900 dark:bg-zinc-950"
+                      class="flex items-center gap-2 border border-gray-200 bg-gray-100 px-4 py-2 dark:border-gray-800 dark:bg-gray-900"
                     >
                       <Avatar
                         v-if="user.avatar && avatarHandle !== 'edit'"
@@ -277,7 +254,7 @@ const submit = async (e) => {
                     <div v-else class="flex w-full items-center justify-center">
                       <label
                         for="dropzone-file"
-                        class="dark:hover:bg-bray-800 flex h-36 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-zinc-950 dark:hover:border-zinc-700 dark:hover:bg-gray-900"
+                        class="dark:hover:bg-bray-800 flex h-36 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-zinc-700 dark:hover:bg-gray-950"
                       >
                         <div
                           class="flex select-none flex-col items-center justify-center px-4 pb-6 pt-5"
@@ -411,6 +388,30 @@ const submit = async (e) => {
               </div>
             </div>
           </form>
+        </div>
+        <!-- preview -->
+        <div
+          class="relative rounded border-4 border-gray-100 dark:border-gray-800"
+        >
+          <div
+            class="absolute -left-2 -top-2 z-10 rounded bg-gray-100 px-4 font-maven font-semibold dark:bg-gray-900"
+          >
+            {{ $t("settings.preview") }}
+          </div>
+          <ProfileBanner
+            :username="username || user.username"
+            :banner="banner"
+            :avatar="user.avatar"
+            class="absolute !m-0"
+          />
+          <div class="ml-10 mt-20" v-if="about?.length > 0">
+            <h1 class="text-xl font-semibold">{{ $t("settings.about") }}</h1>
+            <p
+              class="line-clamp-5 max-w-6xl truncate whitespace-pre-wrap break-words text-gray-500 dark:text-gray-100"
+            >
+              {{ about }}
+            </p>
+          </div>
         </div>
       </div>
     </div>

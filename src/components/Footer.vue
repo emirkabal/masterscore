@@ -2,7 +2,7 @@
 import { useDark } from "@vueuse/core"
 const isDark = useDark()
 const version = computed(() => {
-  return "2.1.3-alpha"
+  return "2.1.4-alpha"
 })
 const date = useAppConfig().buildDate
 isDark.value = true
@@ -49,7 +49,7 @@ isDark.value = true
           &copy; {{ new Date().getFullYear() }} Masterscore
         </p>
         <a
-          class="flex items-center justify-center gap-x-4 pt-4 opacity-90 hover:opacity-100 sm:hidden"
+          class="flex items-center justify-center gap-x-3 pt-4 text-xs tracking-tight opacity-90 hover:opacity-100 sm:hidden"
           href="https://emirkabal.com"
           >created by <IconsEKLogo class="inline h-6 w-auto"
         /></a>
@@ -59,9 +59,11 @@ isDark.value = true
       >
         <LangSwitcher />
         <a
-          class="hidden items-center gap-x-4 opacity-90 hover:opacity-100 sm:flex"
+          class="group hidden items-center gap-x-3 text-xs tracking-tight opacity-90 hover:opacity-100 sm:flex"
           href="https://emirkabal.com"
-          >created by <IconsEKLogo class="inline h-6 w-auto"
+          >created by
+          <IconsEKLogo
+            class="inline h-6 w-auto transform-gpu transition-transform group-hover:-rotate-90"
         /></a>
       </div>
     </div>

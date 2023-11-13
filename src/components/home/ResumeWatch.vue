@@ -21,7 +21,7 @@ const data = shallowRef<HistoryItem>()
     <div class="mb-4 flex items-center gap-x-2">
       <h1 class="text-2xl font-bold tracking-tight">Resume Watching</h1>
       <span
-        class="flex h-6 items-center rounded-full bg-yellow-400 px-2 text-xs font-black uppercase tracking-tight text-black"
+        class="flex h-6 items-center rounded-full bg-yellow-400 px-2 text-xs font-black uppercase tracking-tight text-gray-900"
       >
         BETA
       </span>
@@ -37,9 +37,11 @@ const data = shallowRef<HistoryItem>()
             watchModal = true
           }
         "
-        class="group relative cursor-pointer"
+        class="relative cursor-pointer"
       >
-        <div class="min-w-[512px] max-w-lg overflow-hidden rounded-2xl">
+        <div
+          class="h-40 min-w-[300px] max-w-lg overflow-hidden rounded-2xl sm:h-auto sm:min-w-[512px]"
+        >
           <div class="absolute right-0 top-0 m-2">
             <button
               @click="
@@ -54,17 +56,15 @@ const data = shallowRef<HistoryItem>()
             </button>
           </div>
 
-          <div
-            class="absolute bottom-0 w-full p-4 transition-all group-hover:p-0"
-          >
+          <div class="absolute bottom-0 w-full p-2 sm:p-4">
             <div
-              class="transform-gpu rounded-2xl bg-gray-900/70 px-4 py-2 transition-all group-hover:rounded-none group-hover:bg-gray-900/50 group-hover:backdrop-blur-sm"
+              class="rounded-2xl bg-gray-900/70 px-4 py-2 transition-all hover:bg-gray-900"
             >
               <div class="flex items-center justify-between">
                 <div
                   class="flex items-center gap-x-4 font-semibold tracking-tight text-white"
                 >
-                  <h1 class="text-2xl font-semibold tracking-tight">
+                  <h1 class="text-xl font-semibold tracking-tight sm:text-2xl">
                     {{ item.title }}
                   </h1>
                   <span
@@ -74,18 +74,17 @@ const data = shallowRef<HistoryItem>()
                     S{{ item.series.season }} E{{ item.series.episode }}
                   </span>
                 </div>
-                <span class="font-maven text-2xl font-black text-yellow-500"
+                <span
+                  class="font-maven text-lg font-black text-yellow-500 sm:text-2xl"
                   >m</span
                 >
               </div>
-              <div>
-                <p>
-                  Continue watching from
-                  <span class="font-semibold">{{
-                    $moment.duration(item.currentTime, "seconds").format()
-                  }}</span>
-                </p>
-              </div>
+              <p class="text-xs tracking-tight sm:text-base">
+                Continue watching from
+                <span class="font-semibold">{{
+                  $moment.duration(item.currentTime, "seconds").format()
+                }}</span>
+              </p>
             </div>
           </div>
           <MasterImage :source="item.backdrop" class="h-64 w-full" />

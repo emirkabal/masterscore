@@ -2,7 +2,15 @@
 import tinycolor from "tinycolor2"
 import { useStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
-const { $event, $listen, $colorthief, $getOriginalTitle } = useNuxtApp()
+const {
+  $event,
+  $listen,
+  $colorthief,
+  $getOriginalTitle,
+  $getTitle,
+  $getKanaTitle,
+  $hasJapanese
+} = useNuxtApp()
 const { params, query } = useRoute()
 const { feature } = query
 const flag = useStorage("debugMode", false)
@@ -149,8 +157,6 @@ watch(data, async () => {
         }
       })
 
-      smartVideoPending.value = null
-
       if (
         smartVideoData.value &&
         smartVideoData.value.length > 0 &&
@@ -185,26 +191,25 @@ watch(data, async () => {
         )
       }
     }
-    await find($getOriginalTitle(data.value))
-    if (!smartVideoData.value || smartVideoData.value.length === 0) {
+    if ($hasJapanese($getOriginalTitle(data.value))) {
+      const text = await $getKanaTitle(data.value)
+      await find(text)
+    } else await find($getOriginalTitle(data.value))
+
+    if (!smartVideoData.value || !smartVideoData.value?.length) {
       if (data.value.belongs_to_collection && data.value.belongs_to_collection)
         await find(
           data.value.belongs_to_collection.name
             .replace(" Collection", "")
             .replace("[Seri]", "")
         )
-      else await find(data.value.original_name || data.value.original_title)
+      else await find($getTitle(data.value))
     }
-    if (
-      smartVideoData.value &&
-      smartVideoData.value.length > 0 &&
-      params.type === "movie"
-    ) {
+    if (smartVideoData.value?.length > 0 && params.type === "movie") {
       smartVideoData.value = smartVideoData.value[0]
     }
-    if (smartVideoData.value && smartVideoData.value.length === 0) {
+    if (!smartVideoData.value && !smartVideoData.value?.length)
       smartVideoData.value = null
-    }
     smartVideoPending.value = false
   }
 })

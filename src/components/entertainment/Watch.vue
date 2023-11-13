@@ -1,15 +1,20 @@
 <script setup lang="ts">
-const props = defineProps<{
+import type { HistoryItem } from "~/types"
+
+defineProps<{
   watchModal: boolean
   data: {
     title: string
     poster: string
     backdrop: string
-    tmdbId: string
+    tmdbId: number
     imdbId?: string
     type: string
-    playlistId: string
-    series?: any
+    playlistId: number
+    series?: {
+      episode: number
+      season: number
+    }
   }
 }>()
 

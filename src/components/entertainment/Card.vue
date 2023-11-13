@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { IEntertainment } from "~/types"
 import tinycolor from "tinycolor2"
-const { $colorthief } = useNuxtApp()
+const { $colorthief, $hasJapanese, $toRomaji } = useNuxtApp()
 const { t } = useI18n()
 
 const props = defineProps<{
@@ -33,6 +33,7 @@ const posterUrl = computed(() => {
 const nuxtImageRefence = ref()
 const imageLoading = ref(true)
 const isLight = ref(false)
+const eTitle = shallowRef(props.entertainment.info.title)
 
 watch(imageLoading, () => {
   if (nuxtImageRefence.value) {
@@ -51,6 +52,13 @@ watch(imageLoading, () => {
     colors.gradient = Object.values(g.toRgb())
   }
 })
+
+onMounted(async () => {
+  if ($hasJapanese(eTitle.value)) {
+    const romaji = await $toRomaji(eTitle.value)
+    eTitle.value = romaji
+  }
+})
 </script>
 
 <template>
@@ -64,7 +72,7 @@ watch(imageLoading, () => {
     }"
   >
     <span
-      class="skeleton-effect h-12 w-8 flex-shrink-0 rounded bg-gray-400 dark:bg-gray-900"
+      class="skeleton-effect h-12 w-8 flex-shrink-0 rounded bg-gray-400 dark:bg-gray-800"
       v-if="imageLoading"
     >
     </span>
@@ -93,7 +101,7 @@ watch(imageLoading, () => {
         {{ getActivityTitle(title) }} {{ score && `${score}/10` }}
       </span>
       <span class="line-clamp-1 break-all">
-        {{ entertainment.info.title }}
+        {{ eTitle }}
       </span>
     </div>
   </NuxtLink>

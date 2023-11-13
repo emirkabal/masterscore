@@ -191,7 +191,7 @@ useHead({
           <Avatar
             :avatar="user?.avatar"
             :username="user.username"
-            class="h-[120px] w-[120px] rounded-full border-8 border-white align-top dark:border-black md:h-[160px] md:w-[160px]"
+            class="h-[120px] w-[120px] rounded-full border-8 border-white align-top dark:border-gray-950 md:h-[160px] md:w-[160px]"
           />
         </div>
         <div class="details inline-block text-center md:ml-7 md:text-left">

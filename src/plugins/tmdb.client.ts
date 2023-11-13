@@ -6,6 +6,7 @@ import type {
   TMDBData,
   TMDBSearchResult
 } from "~/types"
+import { exportRomaji, hasJapanese } from "~/utils/functions"
 
 const genres = [
   {
@@ -210,6 +211,23 @@ export default defineNuxtPlugin(() => {
           ("original_name" in data && data.original_name) ||
           "Untitled"
         )
+      },
+      getKanaTitle: async (data: TMDBData | TMDBSearchResult) => {
+        const title =
+          data.original_title ||
+          ("original_name" in data && data.original_name) ||
+          data.title ||
+          data.name ||
+          "Untitled"
+
+        const res = await exportRomaji(title)
+        return res
+      },
+      hasJapanese: (str: string) => {
+        return hasJapanese(str)
+      },
+      toRomaji: async (str: string) => {
+        return exportRomaji(str)
       },
       getYear: (item: TMDBData | TMDBSearchResult) => {
         return (

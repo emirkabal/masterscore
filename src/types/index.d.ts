@@ -1,9 +1,9 @@
 import { H3Event } from "h3"
 
 export interface HistoryItem {
-  tmdbId: string
+  tmdbId: number
   imdbId?: string
-  playlistId: string
+  playlistId: number
   type: string
   title: string
   poster: string

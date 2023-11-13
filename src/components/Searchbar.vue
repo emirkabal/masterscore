@@ -118,7 +118,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       </div>
       <input
         type="text"
-        class="hover:foucs:ring-0 w-full rounded-lg border-none bg-white pl-10 shadow hover:ring focus:ring-0 dark:bg-black dark:placeholder:text-gray-300"
+        class="hover:foucs:ring-0 w-full rounded-lg border-none bg-white pl-10 shadow hover:ring focus:ring-0 dark:bg-gray-950 dark:placeholder:text-gray-300"
         :class="{
           'rounded-bl-none rounded-br-none rounded-tl-2xl rounded-tr-2xl focus:ring-0 hover:focus:ring-0':
             focused
@@ -214,7 +214,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
     </div>
     <div
       v-if="focused"
-      class="absolute z-20 w-full rounded-bl-2xl rounded-br-2xl bg-white p-4 dark:bg-black"
+      class="absolute z-20 w-full rounded-bl-2xl rounded-br-2xl bg-white p-4 dark:bg-gray-950"
     >
       <div class="flex justify-center" v-if="loading">
         <Loader class="scale-75" />
@@ -252,7 +252,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               :data-index="i"
               :class="{
                 'bg-gray-100 dark:bg-gray-900': i === selectedIndex,
-                'bg-white dark:bg-black': i !== selectedIndex
+                'bg-white dark:bg-gray-950': i !== selectedIndex
               }"
               class="flex items-center justify-between rounded-2xl px-2 py-1"
             >
@@ -292,7 +292,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             :class="{
               'bg-gray-100 dark:bg-gray-900':
                 i + history.length === selectedIndex,
-              'bg-white dark:bg-black': i + history.length !== selectedIndex
+              'bg-white dark:bg-gray-950': i + history.length !== selectedIndex
             }"
             class="inline-flex w-full items-center justify-between rounded-2xl px-2 py-1"
           >
@@ -318,7 +318,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               :data-index="i"
               :class="{
                 'bg-gray-100 dark:bg-gray-900': i === selectedIndex,
-                'bg-white dark:bg-black': i !== selectedIndex
+                'bg-white dark:bg-gray-950': i !== selectedIndex
               }"
             >
               <div class="flex w-full items-center">
@@ -365,7 +365,8 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               :class="{
                 'bg-gray-100 dark:bg-gray-900':
                   i + results.length === selectedIndex,
-                'bg-white dark:bg-black': i + results.length !== selectedIndex
+                'bg-white dark:bg-gray-950':
+                  i + results.length !== selectedIndex
               }"
             >
               <div class="flex w-full items-center">
@@ -403,7 +404,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               :class="{
                 'bg-gray-100 dark:bg-gray-900':
                   i + (results.length + persons.length) === selectedIndex,
-                'bg-white dark:bg-black':
+                'bg-white dark:bg-gray-950':
                   i + (results.length + persons.length) !== selectedIndex
               }"
             >
