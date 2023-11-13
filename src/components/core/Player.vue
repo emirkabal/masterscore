@@ -1,31 +1,30 @@
 <template>
   <Loader v-if="pending" />
   <div v-else-if="error">SOMETING WENT WRONG</div>
-  <div class="h-full w-full" v-else>
-    <VideoPlayer
-      :class="[
-        'video-player vjs-big-play-centered aspect-video w-full overflow-hidden rounded-xl',
-        { loading: !state }
-      ]"
-      :sources="mediaConfig.sources"
-      :poster="mediaConfig.poster"
-      :tracks="mediaConfig.tracks"
-      :autoplay="config.autoplay"
-      :playbackRates="config.playbackRates"
-      :fluid="config.fluid"
-      :loop="config.loop"
-      crossorigin="anonymous"
-      playsinline
-      :height="480"
-      v-model:volume="config.volume"
-      v-model:playbackRate="config.playbackRate"
-      v-model:controls="config.controls"
-      v-model:muted="config.muted"
-      :onTimeupdate="handleProgress"
-      @mounted="handleMounted"
-    >
-    </VideoPlayer>
-  </div>
+  <VideoPlayer
+    v-else
+    :class="[
+      'video-player vjs-big-play-centered aspect-video w-full overflow-hidden rounded-xl',
+      { loading: !state }
+    ]"
+    :sources="mediaConfig.sources"
+    :poster="mediaConfig.poster"
+    :tracks="mediaConfig.tracks"
+    :autoplay="config.autoplay"
+    :playbackRates="config.playbackRates"
+    :fluid="config.fluid"
+    :loop="config.loop"
+    crossorigin="anonymous"
+    playsinline
+    :height="480"
+    v-model:volume="config.volume"
+    v-model:playbackRate="config.playbackRate"
+    v-model:controls="config.controls"
+    v-model:muted="config.muted"
+    :onTimeupdate="handleProgress"
+    @mounted="handleMounted"
+  >
+  </VideoPlayer>
 </template>
 
 <script setup lang="ts">
@@ -42,7 +41,7 @@ const props = defineProps<{
   poster: string
   backdrop: string
   tmdbId: number
-  imdbId?: string | number
+  imdbId?: string
   type: string
   playlistId: number
   series?: {

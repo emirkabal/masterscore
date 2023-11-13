@@ -2,7 +2,8 @@
 import type { ProviderResults, TMDBData } from "~/types"
 import ScreenModal from "~/components/ScreenModal.vue"
 const { t, locale } = useI18n()
-const { $getTitle, $moment } = useNuxtApp()
+const { $getTitle, $getOriginalTitle, $moment, $hasJapanese, $getKanaTitle } =
+  useNuxtApp()
 const { userAgent } = useDevice()
 const props = defineProps<{
   data: TMDBData
@@ -25,6 +26,7 @@ const { data: providerData, pending: providerPending } =
   )
 
 const trailerModal = ref(false)
+const romajiTitle = ref("")
 
 const getDateDiff = (date: string) => {
   return $moment(date).locale(locale.value).fromNow()
@@ -97,19 +99,8 @@ const revenue = computed(() => {
 })
 
 const originalName = computed(() => {
-  if (
-    "original_title" in props.data &&
-    props.data.original_title !== $getTitle(props.data)
-  ) {
-    return props.data.original_title
-  } else if (
-    "original_name" in props.data &&
-    props.data.original_name !== $getTitle(props.data)
-  ) {
-    return props.data.original_name
-  } else {
-    return null
-  }
+  let title = $getOriginalTitle(props.data)
+  return title === "Untitled" ? null : title
 })
 
 const localName = computed(() => {
@@ -165,6 +156,15 @@ const imdbScore = computed(() => {
 
 const rtScore = computed(() => {
   return props.data && props.data.localData.info.ratings?.rotten_tomatoes
+})
+
+onMounted(async () => {
+  if (originalName.value && $hasJapanese(originalName.value)) {
+    const res = await $getKanaTitle(props.data)
+    if (res) {
+      romajiTitle.value = ` (${res})`
+    }
+  }
 })
 </script>
 
@@ -276,7 +276,7 @@ const rtScore = computed(() => {
 
       <p v-if="originalName">
         <strong>{{ $t("entertainment.sidebar.original_name") }}</strong>
-        <span>{{ originalName }}</span>
+        <span>{{ originalName }}{{ romajiTitle }}</span>
       </p>
       <p>
         <strong>{{ $t("entertainment.sidebar.status") }}</strong>

@@ -13,7 +13,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="my-8">
+  <div class="mb-24 mt-8">
     <div v-if="summary.pending" class="space-y-4">
       <div v-for="i in 4" :key="'ppp-' + i">
         <div

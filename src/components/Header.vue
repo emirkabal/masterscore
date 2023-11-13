@@ -127,10 +127,10 @@ $listen("searchbar:focus", (val) => {
               <div v-show="isMenuOpen" @click="isMenuOpen = !isMenuOpen">
                 <HeadlessMenuItems
                   :static="true"
-                  class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-gray-900 dark:bg-black"
+                  class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md border bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-gray-900 dark:border-gray-800 dark:bg-gray-950"
                 >
                   <div class="px-1 py-1">
-                    <span class="block px-2 py-1"
+                    <span class="block px-2 py-1 italic tracking-tight"
                       >@{{ userStore.user.username }}</span
                     >
                   </div>
