@@ -95,7 +95,8 @@
       "Visual Effects": "Görsel Efektler",
       "Lighting": "Işık",
       "Creator": "Yaratıcı"
-    }
+    },
+    "detailed-job-history": "Detaylı İş Geçmişi"
   },
   "settings": {
     "title": "Ayarlar",
@@ -162,7 +163,8 @@
       "planned": "Planlandı",
       "watch_on": "{provider} üzerinde izle.",
       "watch_on_masterscore": "{platform} üzerinde izle. (zaten buradasınız <3)",
-      "powered_by": "{provider} tarafından."
+      "powered_by": "{provider} tarafından.",
+      "important-crew-members": "Önemli Ekip Üyeleri"
     },
     "summary": {
       "likes": "beğeni",
@@ -225,5 +227,6 @@
     "submit": "Gönder",
     "comment": "Yorum",
     "placeholder": "Herhangi bir yorum yazın..."
-  }
+  },
+  "cancel": "İptal"
 }

@@ -133,7 +133,7 @@ watch(
   <Transition name="fade">
     <div
       v-if="props.show"
-      class="fixed left-0 top-0 z-50 m-auto flex h-[100dvh] w-full items-end justify-center bg-black/40 shadow-2xl backdrop-blur"
+      class="fixed left-0 top-0 z-50 m-auto flex h-full w-full items-end justify-center bg-black/40 shadow-2xl backdrop-blur"
       ref="area"
     >
       <div

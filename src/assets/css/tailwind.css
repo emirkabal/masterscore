@@ -15,7 +15,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  @apply h-2.5 w-2.5 bg-transparent;
+  @apply h-2 w-2 bg-transparent;
 }
 
 ::-webkit-scrollbar-track {

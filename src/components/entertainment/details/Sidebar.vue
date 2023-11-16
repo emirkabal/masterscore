@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProviderResults, TMDBData } from "~/types"
+import type { CreditsResult, ProviderResults, TMDBData } from "~/types"
 import ScreenModal from "~/components/ScreenModal.vue"
 const { t, locale } = useI18n()
 const { $getTitle, $getOriginalTitle, $moment, $hasJapanese, $getKanaTitle } =
@@ -158,6 +158,35 @@ const rtScore = computed(() => {
   return props.data && props.data.localData.info.ratings?.rotten_tomatoes
 })
 
+const crew = computed(() => {
+  return (
+    props.data &&
+    props.data.credits.crew
+      .filter((e) =>
+        ["Director", "Writer", "Novel", "Screenplay"].includes(e.job)
+      )
+      .reduce((acc: any, cur: any) => {
+        const found = acc.find((e: any) => e.id === cur.id)
+        if (found) {
+          found.job += `, ${cur.job}`
+        } else {
+          acc.push(cur)
+        }
+        return acc
+      }, [])
+      .sort((a: CreditsResult, b: CreditsResult) => {
+        if (a.job < b.job) {
+          return -1
+        }
+        if (a.job > b.job) {
+          return 1
+        }
+        return 0
+      })
+      .slice(0, 10)
+  )
+})
+
 onMounted(async () => {
   if (originalName.value && $hasJapanese(originalName.value)) {
     const res = await $getKanaTitle(props.data)
@@ -176,9 +205,7 @@ onMounted(async () => {
       @close="trailerModal = false"
     >
       <iframe
-        width="1920"
-        height="1080"
-        class="aspect-video h-auto max-h-[648px] w-full rounded-xl md:h-auto"
+        class="aspect-video h-auto w-full rounded-xl md:h-[720px]"
         :src="`https://www.youtube.com/embed/${
           getVideo.split('/')[3]
         }?autoplay=1`"
@@ -210,7 +237,7 @@ onMounted(async () => {
           ></div>
         </div>
       </div>
-      <div v-else-if="providerData?.streams?.length">
+      <div v-else-if="providerData?.streams?.length || smartVideoData">
         <span class="font-bold">{{
           $t("entertainment.sidebar.availabe_on")
         }}</span>
@@ -228,6 +255,7 @@ onMounted(async () => {
             <span class="-mt-1 select-none"> m </span>
           </span>
           <a
+            v-if="providerData?.streams?.length"
             v-for="provider in providerData.streams"
             :key="provider.name"
             :href="
@@ -276,6 +304,23 @@ onMounted(async () => {
       <p v-if="originalName && originalName !== $getTitle(props.data)">
         <strong>{{ $t("entertainment.sidebar.original_name") }}</strong>
         <span>{{ originalName }}{{ romajiTitle }}</span>
+      </p>
+      <p v-if="crew?.length">
+        <strong>{{
+          $t("entertainment.sidebar.important-crew-members")
+        }}</strong>
+        <span class="flex flex-col">
+          <NuxtLink
+            v-for="person in crew"
+            v-tooltip="{
+              content: `<b>${person.name}</b>, ${person.job}`,
+              html: true
+            }"
+            :to="`/details/person/${person.id}`"
+            class="w-fit hover:underline"
+            >{{ person.name }}</NuxtLink
+          >
+        </span>
       </p>
       <p>
         <strong>{{ $t("entertainment.sidebar.status") }}</strong>

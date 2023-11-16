@@ -75,6 +75,10 @@ export interface CreditsResult {
   profile_path: string
   department: string
   media_type: string
+  release_date: string
+  first_air_date: string
+  title: string
+  job: string
 }
 
 export interface VideoResult {

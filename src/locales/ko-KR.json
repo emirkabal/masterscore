@@ -95,7 +95,8 @@
       "Visual Effects": "시각 효과",
       "Lighting": "조명",
       "Creator": "창조자"
-    }
+    },
+    "detailed-job-history": "상세한 직무 이력"
   },
   "settings": {
     "title": "설정",
@@ -162,7 +163,8 @@
       "planned": "계획 중",
       "watch_on": "{provider}에서 시청",
       "watch_on_masterscore": "{platform}에서 시청 (이미 여기에 있어요 <3)",
-      "powered_by": "{provider} 제공"
+      "powered_by": "{provider} 제공",
+      "important-crew-members": "중요한 승무원"
     },
     "summary": {
       "likes": "좋아요",
@@ -225,5 +227,6 @@
     "submit": "제출",
     "comment": "코멘트",
     "placeholder": "리뷰를 작성하세요..."
-  }
+  },
+  "cancel": "취소"
 }

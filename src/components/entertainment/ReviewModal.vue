@@ -71,6 +71,9 @@ $listen("modal:review", (val) => {
       />
     </template>
     <template v-slot:footer>
+      <button class="mr-6 font-semibold hover:underline" @click="modal = false">
+        {{ $t("cancel") }}
+      </button>
       <button
         @click="submitReview"
         class="rounded bg-yellow-400 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-500"

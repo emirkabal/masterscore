@@ -94,7 +94,8 @@
       "Visual Effects": "Efectos visuales",
       "Lighting": "Iluminación",
       "Creator": "Creador"
-    }
+    },
+    "detailed-job-history": "Historial de trabajo detallado"
   },
   "settings": {
     "title": "Ajustes",
@@ -161,7 +162,8 @@
       "planned": "Planificado",
       "watch_on": "Ver en {provider}.",
       "watch_on_masterscore": "Ver en {platform}. (ya estás aquí <3)",
-      "powered_by": "Desarrollado por {provider}"
+      "powered_by": "Desarrollado por {provider}",
+      "important-crew-members": "Miembros importantes de la tripulación"
     },
     "summary": {
       "likes": "le gusta",
@@ -225,5 +227,6 @@
     "submit": "Enviar",
     "comment": "Comentario",
     "placeholder": "Escribe una reseña..."
-  }
+  },
+  "cancel": "Cancelar"
 }

@@ -28,20 +28,16 @@ watch(
   <Transition name="fade">
     <div
       v-if="modal"
-      class="fixed inset-0 left-0 top-0 z-40 h-[100dvh] w-full bg-black/80"
+      class="fixed inset-0 left-0 top-0 z-40 flex h-full w-full items-center justify-center bg-black/80 px-4"
     >
-      <div
-        class="z-50 m-auto flex h-full max-w-[1920px] flex-col items-center justify-center p-2 sm:p-24 md:p-32 lg:p-40 2xl:p-96"
-      >
+      <div class="relative flex w-full justify-center md:w-auto" ref="slotEl">
+        <slot />
         <button
           @click="emits('close')"
-          class="mb-1 self-end opacity-50 transition-opacity hover:opacity-100"
+          class="absolute -top-10 right-0 mb-1 opacity-50 transition-opacity hover:opacity-100"
         >
           <Icon name="ic:round-close" class="h-8 w-8 text-white" />
         </button>
-        <div class="flex w-full justify-center" ref="slotEl">
-          <slot />
-        </div>
       </div>
     </div>
   </Transition>

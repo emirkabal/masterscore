@@ -94,7 +94,8 @@
       "Visual Effects": "दृश्यात्मक प्रभाव",
       "Lighting": "प्रकाश",
       "Creator": "निर्माता"
-    }
+    },
+    "detailed-job-history": "विस्तृत कार्य इतिहास"
   },
   "settings": {
     "title": "समायोजन",
@@ -161,7 +162,8 @@
       "planned": "की योजना बनाई",
       "watch_on": "{provider} पर देखें.",
       "watch_on_masterscore": "{platform} पर देखें. (आप पहले से ही यहां हैं <3)",
-      "powered_by": "{provider} द्वारा संचालित"
+      "powered_by": "{provider} द्वारा संचालित",
+      "important-crew-members": "महत्वपूर्ण क्रू सदस्य"
     },
     "summary": {
       "likes": "पसंद है",
@@ -225,5 +227,6 @@
     "submit": "प्रस्तुत करें",
     "comment": "टिप्पणी",
     "placeholder": "समीक्षा लिखें..."
-  }
+  },
+  "cancel": "रद्द करना"
 }
