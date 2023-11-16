@@ -4,7 +4,7 @@
   <VideoPlayer
     v-else
     :class="[
-      'video-player vjs-big-play-centered overflow-hidden rounded-xl',
+      'video-player vjs-big-play-centered h-full w-full overflow-hidden rounded-xl',
       { loading: !state }
     ]"
     :sources="mediaConfig.sources"
