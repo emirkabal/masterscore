@@ -31,12 +31,17 @@
 import { VideoPlayer } from "@videojs-player/vue"
 import type { HistoryItem } from "~/types"
 import type { VideoPlayerProps, VideoPlayerState } from "@videojs-player/vue"
+import {
+  useLocalStorage,
+  useScreenOrientation,
+  useEventListener,
+  isIOS
+} from "@vueuse/core"
 import videojs from "video.js"
 import "video.js/dist/video-js.css"
 
-import "videojs-landscape-fullscreen"
-
-import { useLocalStorage } from "@vueuse/core"
+const { isIos } = useDevice()
+const { angle, lockOrientation, orientation } = useScreenOrientation()
 
 const history = useLocalStorage<HistoryItem[]>("player-history", [])
 const props = defineProps<{
@@ -144,15 +149,6 @@ const handleProgress = (payload: any) => {
 }
 
 const handleMounted = (payload: any) => {
-  payload.player.landscapeFullscreen({
-    fullscreen: {
-      enterOnRotate: true,
-      exitOnRotate: true,
-      alwaysInLandscapeMode: true,
-      iOS: true
-    }
-  })
-
   state.value = payload.state
   player.value = payload.player
 
@@ -162,6 +158,64 @@ const handleMounted = (payload: any) => {
   if (historyItem && player.value) {
     player.value.currentTime(historyItem.currentTime)
   }
+
+  if (!player.value) return
+
+  player.value.addClass("vjs-landscape-fullscreen")
+
+  if (isIos && !player.value.el_.ownerDocument.querySelector(".bc-iframe")) {
+    player.value.tech_.el_.setAttribute("playsinline", "playsinline")
+    // @ts-ignore
+    player.value.tech_.supportsFullScreen = function () {
+      return false
+    }
+  }
+
+  const rotationHandler = () => {
+    if (!player.value) return
+    const currentAngle = angle.value
+    console.log(currentAngle)
+
+    if (currentAngle === 90 || currentAngle === 270 || currentAngle === -90) {
+      if (player.value.paused() === false) {
+        player.value.requestFullscreen()
+        lockOrientation("landscape")
+      }
+    }
+    if (currentAngle === 0 || currentAngle === 180) {
+      if (player.value.isFullscreen()) {
+        player.value.exitFullscreen()
+      }
+    }
+  }
+
+  if (isIos) {
+    useEventListener("orientationchange", rotationHandler)
+  } else if (screen && screen.orientation) {
+    // addEventListener('orientationchange') is not a user interaction on Android
+    watch(
+      orientation,
+      () => {
+        rotationHandler()
+      },
+      {
+        immediate: true
+      }
+    )
+  }
+
+  player.value.on("fullscreenchange", () => {
+    if (!player.value) return
+    if (videojs.browser.IS_ANDROID || isIOS) {
+      if (!angle.value && player.value.isFullscreen()) {
+        lockOrientation("landscape")
+      }
+    }
+  })
+
+  player.value.on("dispose", () => {
+    window.removeEventListener("orientationchange", rotationHandler)
+  })
 }
 </script>
 

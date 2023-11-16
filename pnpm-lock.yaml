@@ -175,9 +175,6 @@ devDependencies:
   video.js:
     specifier: ^8.6.1
     version: 8.6.1
-  videojs-landscape-fullscreen:
-    specifier: ^11.1111.0
-    version: 11.1111.0(video.js@8.6.1)
   vue-json-viewer:
     specifier: ^3.0.4
     version: 3.0.4(vue@3.3.8)
@@ -10280,15 +10277,6 @@ packages:
 
   /videojs-font@4.1.0:
     resolution: {integrity: sha512-X1LuPfLZPisPLrANIAKCknZbZu5obVM/ylfd1CN+SsCmPZQ3UMDPcvLTpPBJxcBuTpHQq2MO1QCFt7p8spnZ/w==}
-    dev: true
-
-  /videojs-landscape-fullscreen@11.1111.0(video.js@8.6.1):
-    resolution: {integrity: sha512-Rsw+N5mB6Q24uh5gIFoeNvUs8uPOKJx//fFBHZUw8BxYpr6egC48fGLRoMYFAdveJ/bYNn1bd5ZSINAAEaU7HQ==}
-    peerDependencies:
-      video.js: 5.x || 6.x || 7.x || * || 8.x
-    dependencies:
-      global: 4.4.0
-      video.js: 8.6.1
     dev: true
 
   /videojs-vtt.js@0.15.5:
