@@ -34,9 +34,7 @@ import type { VideoPlayerProps, VideoPlayerState } from "@videojs-player/vue"
 import videojs from "video.js"
 import "video.js/dist/video-js.css"
 
-// @ts-ignore
-import fullscreen from "videojs-landscape-fullscreen"
-videojs.registerPlugin("landscapeFullscreen", fullscreen)
+import "videojs-landscape-fullscreen"
 
 import { useLocalStorage } from "@vueuse/core"
 
