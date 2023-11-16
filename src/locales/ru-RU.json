@@ -94,7 +94,8 @@
       "Visual Effects": "Визуальные эффекты",
       "Lighting": "Освещение",
       "Creator": "Создатель"
-    }
+    },
+    "detailed-job-history": "Подробная история работы"
   },
   "settings": {
     "title": "Настройки",
@@ -161,7 +162,8 @@
       "planned": "Планируемый",
       "watch_on": "Смотрите на {provider}.",
       "watch_on_masterscore": "Смотреть на {platform}. (Вы уже здесь <3)",
-      "powered_by": "Powered by {provider}"
+      "powered_by": "Powered by {provider}",
+      "important-crew-members": "Важные члены экипажа"
     },
     "summary": {
       "likes": "нравится",
@@ -225,5 +227,6 @@
     "submit": "Отправить",
     "comment": "Комментарий",
     "placeholder": "Напишите отзыв..."
-  }
+  },
+  "cancel": "Отмена"
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useStorage } from "@vueuse/core"
-import type { TMDBPerson } from "~/types"
+import type { CreditsResult, TMDBPerson } from "~/types"
 const { params } = useRoute()
 const { $moment, $listen } = useNuxtApp()
 const { t, locale } = useI18n()
@@ -38,6 +38,25 @@ const isBig = computed(() => {
   return data.value.biography.length > 500
 })
 
+const getCrew = computed(() => {
+  if (!data.value?.combined_credits?.crew?.length) return null
+  return data.value.combined_credits.crew
+    .reduce((acc: CreditsResult[], curr) => {
+      const found = acc.find((e) => e.id === curr.id)
+      if (found) {
+        found.job = `${found.job}, ${curr.job}`
+      } else {
+        acc.push(curr)
+      }
+      return acc
+    }, [])
+    .sort(
+      (a, b) =>
+        new Date(b.release_date || b.first_air_date).getTime() -
+        new Date(a.release_date || b.first_air_date).getTime()
+    )
+})
+
 $listen("refresh:entertainment", () => {
   refresh()
 })
@@ -66,7 +85,7 @@ useHead({
             class="mx-auto h-96 max-w-[300px] rounded-lg shadow-lg md:mx-0 md:h-[450px]"
           />
           <h1
-            class="mt-2 block text-center font-maven text-3xl font-bold tracking-wide md:hidden"
+            class="mt-2 block text-center text-3xl font-bold tracking-wide md:hidden"
           >
             {{ name }}
           </h1>
@@ -128,13 +147,11 @@ useHead({
           </div>
         </div>
         <div class="min-w-0 max-w-4xl flex-1 space-y-6">
-          <h1
-            class="hidden font-maven text-3xl font-bold tracking-wide md:block"
-          >
+          <h1 class="hidden text-3xl font-bold tracking-wide md:block">
             {{ data.name }}
           </h1>
           <div class="space-y-2 text-center md:text-left">
-            <h1 class="font-maven text-2xl font-bold tracking-wide">
+            <h1 class="text-2xl font-bold tracking-wide">
               {{ $t("person.biography") }}
             </h1>
             <p class="relative whitespace-pre-wrap">
@@ -157,20 +174,68 @@ useHead({
             </p>
           </div>
           <div
-            v-if="
-              data.combined_credits && data.combined_credits.cast.length > 0
-            "
+            v-if="data.combined_credits?.cast?.length"
             class="space-y-4 overflow-hidden"
           >
-            <h1 class="font-maven text-2xl font-bold tracking-wide">
+            <h1 class="text-2xl font-bold tracking-wide">
               {{ $t("person.known_for") }}
             </h1>
             <EntertainmentSlider
-              :data="data.combined_credits.cast"
+              :data="
+                data.combined_credits.cast.sort(
+                  (a, b) => b.popularity - a.popularity
+                )
+              "
               :fixed-media-type="'movie'"
               :item-size="'default'"
               :offset="0"
             />
+            <div class="flex flex-col gap-2" v-if="getCrew">
+              <h2
+                class="text-center text-xl font-semibold tracking-tight md:text-left"
+              >
+                {{ $t("person.detailed-job-history") }}
+                <span class="text-gray-400">({{ getCrew.length }})</span>
+              </h2>
+              <NuxtLink
+                v-for="crew in getCrew"
+                class="rounded-full px-4 py-2 hover:bg-gray-900 focus:bg-gray-900 focus:outline-none"
+                :to="`/details/${crew.media_type}/${crew.id}`"
+              >
+                <div class="flex min-w-0 items-center justify-between">
+                  <div class="flex items-center gap-x-2">
+                    <h3
+                      class="line-clamp-1 flex-grow text-lg font-semibold tracking-tight text-gray-100"
+                    >
+                      {{ crew.title || crew.name }}
+                    </h3>
+                    <span
+                      class="h-0.5 w-3 self-center border border-gray-700"
+                    ></span>
+                    <h4 class="line-clamp-1 text-gray-400">
+                      {{ crew.job }}
+                    </h4>
+                  </div>
+                  <time
+                    class="ml-2 flex-shrink-0 self-center py-1 text-xs font-semibold text-gray-500"
+                    v-tooltip="{
+                      content: $moment(
+                        new Date(crew.release_date || crew.first_air_date)
+                      )
+                        .locale($i18n.locale)
+                        .format('LL')
+                    }"
+                    >{{
+                      $moment(
+                        new Date(crew.release_date || crew.first_air_date)
+                      )
+                        .locale($i18n.locale)
+                        .fromNow()
+                    }}</time
+                  >
+                </div>
+              </NuxtLink>
+            </div>
           </div>
 
           <div v-if="flag">
@@ -204,6 +269,6 @@ useHead({
   @apply block font-semibold;
 }
 .personal p {
-  @apply block font-maven;
+  @apply block;
 }
 </style>

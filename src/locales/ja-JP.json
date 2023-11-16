@@ -95,7 +95,8 @@
       "Visual Effects": "視覚効果",
       "Lighting": "照明",
       "Creator": "クリエーター"
-    }
+    },
+    "detailed-job-history": "詳細なジョブ履歴"
   },
   "settings": {
     "title": "設定",
@@ -162,7 +163,8 @@
       "planned": "予定中",
       "watch_on": "{provider}で視聴",
       "watch_on_masterscore": "{platform}で視聴（すでにここにいます <3）",
-      "powered_by": "{provider}提供"
+      "powered_by": "{provider}提供",
+      "important-crew-members": "重要な乗組員"
     },
     "summary": {
       "likes": "いいね",
@@ -225,5 +227,6 @@
     "submit": "提出",
     "comment": "コメント",
     "placeholder": "レビューを書いてください..."
-  }
+  },
+  "cancel": "キャンセル"
 }

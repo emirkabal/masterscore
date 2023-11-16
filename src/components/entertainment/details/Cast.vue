@@ -100,7 +100,7 @@ const cast = computed(() => {
         </button>
         <ScreenModal :modal="allModal" @close="allModal = false">
           <div
-            class="h-full max-h-[550px] w-full rounded-xl bg-gray-200 p-2 dark:bg-zinc-950 md:max-h-[780px] md:p-4"
+            class="h-full max-h-[550px] w-full max-w-[1200px] overflow-hidden rounded-xl bg-gray-200 p-2 dark:bg-gray-900 md:max-h-[780px] md:p-4"
           >
             <div class="h-full max-h-[780px] overflow-auto">
               <div v-for="(item, i) in crew" :key="'crew-' + i">

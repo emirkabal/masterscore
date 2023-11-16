@@ -95,7 +95,8 @@
       "Visual Effects": "التأثيرات البصرية",
       "Lighting": "الإضاءة",
       "Creator": "المبدع"
-    }
+    },
+    "detailed-job-history": "التاريخ الوظيفي التفصيلي"
   },
   "settings": {
     "title": "الإعدادات",
@@ -162,7 +163,8 @@
       "planned": "مخطط له",
       "watch_on": "مشاهدة على {provider}.",
       "watch_on_masterscore": "مشاهدة على {platform}. (أنت هنا بالفعل <3)",
-      "powered_by": "مشغل بواسطة {provider}"
+      "powered_by": "مشغل بواسطة {provider}",
+      "important-crew-members": "أعضاء الطاقم المهمين"
     },
     "summary": {
       "likes": "إعجابات",
@@ -225,5 +227,6 @@
     "submit": "إرسال",
     "comment": "تعليق",
     "placeholder": "اكتب مراجعة..."
-  }
+  },
+  "cancel": "يلغي"
 }

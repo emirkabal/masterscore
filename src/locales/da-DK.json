@@ -95,7 +95,8 @@
       "Visual Effects": "Visuelle effekter",
       "Lighting": "Belysning",
       "Creator": "Skaber"
-    }
+    },
+    "detailed-job-history": "Detaljeret jobhistorik"
   },
   "settings": {
     "title": "Indstillinger",
@@ -162,7 +163,8 @@
       "planned": "Planlagt",
       "watch_on": "Se på {provider}.",
       "watch_on_masterscore": "Se på {platform}. (du er allerede her <3)",
-      "powered_by": "Drevet af {provider}"
+      "powered_by": "Drevet af {provider}",
+      "important-crew-members": "Vigtige besætningsmedlemmer"
     },
     "summary": {
       "likes": "synes godt om",
@@ -225,5 +227,6 @@
     "submit": "Indsend",
     "comment": "Kommentar",
     "placeholder": "Skriv en anmeldelse..."
-  }
+  },
+  "cancel": "Afbestille"
 }

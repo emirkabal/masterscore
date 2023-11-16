@@ -94,7 +94,8 @@
       "Visual Effects": "Visuella effekter",
       "Lighting": "Belysning",
       "Creator": "Skapare"
-    }
+    },
+    "detailed-job-history": "Detaljerad jobbhistorik"
   },
   "settings": {
     "title": "Inställningar",
@@ -161,7 +162,8 @@
       "planned": "Planerad",
       "watch_on": "Se på {provider}.",
       "watch_on_masterscore": "Titta på {plattform}. (du är redan här <3)",
-      "powered_by": "Drivs av {provider}"
+      "powered_by": "Drivs av {provider}",
+      "important-crew-members": "Viktiga besättningsmedlemmar"
     },
     "summary": {
       "likes": "gillar",
@@ -225,5 +227,6 @@
     "submit": "Skicka",
     "comment": "Kommentar",
     "placeholder": "Skriv en recension..."
-  }
+  },
+  "cancel": "Annullera"
 }

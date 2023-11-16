@@ -95,7 +95,8 @@
       "Visual Effects": "Visual Effects",
       "Lighting": "Lighting",
       "Creator": "Creator"
-    }
+    },
+    "detailed-job-history": "Detailed Job History"
   },
   "settings": {
     "title": "Settings",
@@ -162,7 +163,8 @@
       "planned": "Planned",
       "watch_on": "Watch on {provider}.",
       "watch_on_masterscore": "Watch on {platform}. (you are already here <3)",
-      "powered_by": "Powered by {provider}"
+      "powered_by": "Powered by {provider}",
+      "important-crew-members": "Important Crew Members"
     },
     "summary": {
       "likes": "likes",
@@ -225,5 +227,6 @@
     "submit": "Submit",
     "comment": "Comment",
     "placeholder": "Write a review..."
-  }
+  },
+  "cancel": "Cancel"
 }

@@ -95,7 +95,8 @@
       "Visual Effects": "Візуальні ефекти",
       "Lighting": "Освітлення",
       "Creator": "Творець"
-    }
+    },
+    "detailed-job-history": "Детальна історія роботи"
   },
   "settings": {
     "title": "Налаштування",
@@ -162,7 +163,8 @@
       "planned": "Заплановано",
       "watch_on": "Дивитися на {provider}.",
       "watch_on_masterscore": "Дивіться на {platform}. (ви вже тут <3)",
-      "powered_by": "Працює на {provider}"
+      "powered_by": "Працює на {provider}",
+      "important-crew-members": "Важливі члени команди"
     },
     "summary": {
       "likes": "лайки",
@@ -225,5 +227,6 @@
     "submit": "Надіслати",
     "comment": "Коментар",
     "placeholder": "Напишіть відгук..."
-  }
+  },
+  "cancel": "Скасувати"
 }

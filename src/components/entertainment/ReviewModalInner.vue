@@ -44,7 +44,7 @@ const onSelectEmoji = (emoji: any) => {
             :animate="true"
             :numberOfStars="10"
             :star-size="isMobile ? 30 : 36"
-            :inactiveColor="isMobile ? '#1f2937' : '#111827'"
+            inactiveColor="#1f2937"
             starColor="#facc15"
             v-model="props.reviewData.rating"
           ></StarRating>
@@ -77,7 +77,7 @@ const onSelectEmoji = (emoji: any) => {
           :maxlength="512"
           @input="(e: any) => (props.reviewData.comment = e.target.value)"
           :placeholder="$t('review_modal.placeholder')"
-          class="h-32 w-full select-none resize-none border-gray-400 focus:ring-1 focus:ring-gray-700 dark:border-gray-800 dark:bg-gray-900"
+          class="h-32 w-full select-none resize-none rounded border-gray-400 focus:ring-1 focus:ring-gray-700 dark:border-gray-700 dark:bg-gray-800"
         />
         <div
           class="absolute bottom-0 right-0 z-10 m-2 rounded text-sm text-gray-500 dark:text-gray-300"

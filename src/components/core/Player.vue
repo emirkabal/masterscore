@@ -4,7 +4,7 @@
   <VideoPlayer
     v-else
     :class="[
-      'video-player vjs-big-play-centered aspect-video w-full overflow-hidden rounded-xl',
+      'video-player vjs-big-play-centered overflow-hidden rounded-xl',
       { loading: !state }
     ]"
     :sources="mediaConfig.sources"
@@ -16,7 +16,6 @@
     :loop="config.loop"
     crossorigin="anonymous"
     playsinline
-    :height="480"
     v-model:volume="config.volume"
     v-model:playbackRate="config.playbackRate"
     v-model:controls="config.controls"
