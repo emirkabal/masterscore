@@ -28,7 +28,7 @@ watch(
   <Transition name="fade">
     <div
       v-if="modal"
-      class="fixed inset-0 left-0 top-0 z-40 h-[100vh] w-full bg-black/80"
+      class="fixed inset-0 left-0 top-0 z-40 h-[100dvh] w-full bg-black/80"
     >
       <div
         class="z-50 m-auto flex h-full max-w-[1920px] flex-col items-center justify-center p-2 sm:p-24 md:p-32 lg:p-40 2xl:p-96"

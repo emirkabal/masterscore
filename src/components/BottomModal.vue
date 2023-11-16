@@ -9,7 +9,6 @@ const props = defineProps<{
 }>()
 
 const area = ref()
-console.log("area", area.value)
 
 const { height: windowHeight } = useWindowSize({
   includeScrollbar: true
@@ -26,8 +25,6 @@ const calculateHeight = () => {
   if (!area.value) return
   height.value =
     area.value.clientHeight - (area.value.clientHeight - windowHeight.value)
-
-  console.log("height", height.value)
 }
 
 const getCalculatedY = (e?: TouchEvent) => {
