@@ -210,7 +210,13 @@
     "mixed": "Mixed",
     "poor": "Poor",
     "reviewers_positive": "{0} positive ({1}%)",
-    "reviewers_negative": "{0} negative ({1}%)"
+    "reviewers_negative": "{0} negative ({1}%)",
+    "tooltips": {
+      "masterpiece": "The masters really, really liked this content. That's why it is a masterpiece.",
+      "good": "A content that you will enjoy watching.",
+      "mixed": "A entertainment that will confuse you when you watch it.",
+      "poor": "The masters think it's mediocre. We therefore do not recommend watching it."
+    }
   },
   "review_modal": {
     "title": "Make a Review",

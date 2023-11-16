@@ -64,7 +64,9 @@ const data = shallowRef<HistoryItem>()
                 <div
                   class="flex items-center gap-x-4 font-semibold tracking-tight text-white"
                 >
-                  <h1 class="text-xl font-semibold tracking-tight sm:text-2xl">
+                  <h1
+                    class="line-clamp-1 text-xl font-semibold tracking-tight sm:text-2xl"
+                  >
                     {{ item.title }}
                   </h1>
                   <span

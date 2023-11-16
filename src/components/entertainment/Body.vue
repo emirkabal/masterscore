@@ -104,24 +104,18 @@ useHead({
   </div>
   <div v-else-if="data && !loading">
     <div class="flex flex-col-reverse text-center lg:text-left">
-      <div
-        class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 lg:justify-normal"
+      <h1
+        class="inline-block flex-shrink-0 font-semibold tracking-tight"
+        :class="{
+          'text-4xl md:text-5xl lg:text-6xl': title.length < 20,
+          'text-3xl md:text-4xl lg:text-5xl': title.length < 30,
+          'text-2xl md:text-3xl lg:text-4xl': title.length >= 30,
+          'text-black': isLight,
+          'text-white': !isLight
+        }"
       >
-        <h1
-          class="inline-block flex-shrink-0 font-semibold tracking-tight"
-          :class="{
-            'text-4xl md:text-5xl lg:text-6xl': title.length < 20,
-            'text-3xl md:text-4xl lg:text-5xl': title.length < 30,
-            'text-2xl md:text-3xl lg:text-4xl': title.length >= 30,
-            'text-black': isLight,
-            'text-white': !isLight
-          }"
-        >
-          {{ title }}
-        </h1>
-        <ScoreCircle :score="rating" class="sm:!text-2xl" />
-      </div>
-
+        {{ title }}
+      </h1>
       <!-- Desktop -->
       <div
         class="flex flex-wrap items-center justify-center gap-y-2 space-x-4 text-xs sm:text-sm lg:justify-start lg:text-lg"
@@ -130,12 +124,13 @@ useHead({
           'divide-white/20 text-white/70': !isLight
         }"
       >
+        <ScoreCircle :score="rating" />
         <EntertainmentMRanking :rating="rating" />
         <h2 class="font-semibold md:ml-0.5">
           {{ releaseDate }}
         </h2>
 
-        <div class="line-clamp-1 flex gap-2 break-all font-semibold">
+        <div class="line-clamp-1 flex gap-3.5 break-all font-semibold">
           <NuxtLink
             v-for="genre in genres"
             :to="`/discover/${$route.params.type}/${genre.id}`"

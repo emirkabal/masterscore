@@ -210,7 +210,13 @@
     "mixed": "Misto",
     "poor": "Fraco",
     "reviewers_positive": "{0} positivas ({1}%)",
-    "reviewers_negative": "{0} negativas ({1}%)"
+    "reviewers_negative": "{0} negativas ({1}%)",
+    "tooltips": {
+      "good": "Um conteúdo que você vai gostar de assistir.",
+      "masterpiece": "Os mestres gostaram muito, muito desse conteúdo. \nÉ por isso que é uma obra-prima.",
+      "mixed": "Um entretenimento que vai te confundir ao assistir.",
+      "poor": "Os mestres acham que é medíocre. \nPortanto, não recomendamos assisti-lo."
+    }
   },
   "review_modal": {
     "title": "Fazer uma Avaliação",

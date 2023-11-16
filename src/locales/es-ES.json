@@ -210,7 +210,13 @@
     "mixed": "Mixto",
     "poor": "Pobre",
     "reviewers_positive": "{0} positivas ({1}%)",
-    "reviewers_negative": "{0} negativas ({1}%)"
+    "reviewers_negative": "{0} negativas ({1}%)",
+    "tooltips": {
+      "good": "Un contenido que disfrutarás viendo.",
+      "masterpiece": "A los maestros les gustó mucho este contenido. \nPor eso es una obra maestra.",
+      "mixed": "Un entretenimiento que te confundirá cuando lo veas.",
+      "poor": "Los maestros piensan que es mediocre. \nPor lo tanto, no recomendamos verlo."
+    }
   },
   "review_modal": {
     "title": "Hacer una reseña",

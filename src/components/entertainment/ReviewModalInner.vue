@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ReviewData, TMDBData } from "~/types"
 import { useDark, onClickOutside } from "@vueuse/core"
+const { isMobile } = useDevice()
 
 const isDark = useDark()
 
@@ -42,7 +43,9 @@ const onSelectEmoji = (emoji: any) => {
           <StarRating
             :animate="true"
             :numberOfStars="10"
-            :star-size="36"
+            :star-size="isMobile ? 30 : 36"
+            :inactiveColor="isMobile ? '#1f2937' : '#111827'"
+            starColor="#facc15"
             v-model="props.reviewData.rating"
           ></StarRating>
         </div>

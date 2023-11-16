@@ -208,9 +208,15 @@
     "masterpiece": "Başyapıt",
     "good": "Mükemmel",
     "mixed": "Karmaşık",
-    "poor": "Kötü",
+    "poor": "Vasat",
     "reviewers_positive": "{0} olumlu ({1}%)",
-    "reviewers_negative": "{0} olumsuz ({1}%)"
+    "reviewers_negative": "{0} olumsuz ({1}%)",
+    "tooltips": {
+      "good": "İzlemekten keyif alacağınız bir içerik.",
+      "masterpiece": "Ustalar bu içeriği gerçekten çok beğendiler. \nBu yüzden bir başyapıttır.",
+      "mixed": "İzlediğinizde kafanızı karıştıracak bir içerik.",
+      "poor": "Ustalar bunun vasat olduğunu düşünüyor. \nBu nedenle izlemenizi tavsiye etmiyoruz."
+    }
   },
   "review_modal": {
     "title": "Değerlendirme Yap",

@@ -100,7 +100,20 @@ const getSeason = async (key: string, season_number: number) => {
 const isWatchAvailable = (season: number, episode: number) => {
   if (watchFeatureAnalyzing.value) return false
   const ep = getActualEpisode(season, episode)
-  return props.smartVideoData && ep <= props.smartVideoData.length
+  return (
+    props.smartVideoData &&
+    ep <= props.smartVideoData.length &&
+    getSmartVideo(season, episode)
+  )
+}
+
+const isSeasonAvailable = (season: number) => {
+  if (watchFeatureAnalyzing.value) return false
+  return (
+    (props.smartVideoData &&
+      props.smartVideoData.find((e: any) => e.season == season)) ||
+    isWatchAvailable(season, 1)
+  )
 }
 
 const watchSmartVideo = (episode: Episode) => {
@@ -276,8 +289,7 @@ watch(
         >
           <span
             v-if="
-              !seasonData[item.id].show &&
-              isWatchAvailable(item.season_number, 1)
+              !seasonData[item.id].show && isSeasonAvailable(item.season_number)
             "
             class="flex-shrink-0"
             ><Icon name="ic:outline-play-arrow" class="h-6 w-6"
