@@ -1,5 +1,9 @@
 {
   "css.lint.unknownAtRules": "ignore",
   "css.lint.unknownProperties": "ignore",
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "i18n-ally.localesPaths": [
+    "src/locales"
+  ],
+  "i18n-ally.keystyle": "nested"
 }

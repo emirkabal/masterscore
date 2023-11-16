@@ -210,7 +210,13 @@
     "mixed": "Gemischt",
     "poor": "Schlecht",
     "reviewers_positive": "{0} positiv ({1}%)",
-    "reviewers_negative": "{0} negativ ({1}%)"
+    "reviewers_negative": "{0} negativ ({1}%)",
+    "tooltips": {
+      "good": "Ein Inhalt, den Sie gerne ansehen werden.",
+      "masterpiece": "Den Meistern hat dieser Inhalt wirklich sehr gut gefallen. \nDeshalb ist es ein Meisterwerk.",
+      "mixed": "Eine Unterhaltung, die Sie beim Anschauen verwirren wird.",
+      "poor": "Die Meister halten es für mittelmäßig. \nWir empfehlen daher nicht, den Film anzuschauen."
+    }
   },
   "review_modal": {
     "title": "Eine Bewertung abgeben",

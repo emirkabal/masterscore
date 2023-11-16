@@ -2,7 +2,7 @@
 import { useDark } from "@vueuse/core"
 const isDark = useDark()
 const version = computed(() => {
-  return "2.1.4-alpha"
+  return "2.1.5-alpha"
 })
 const date = useAppConfig().buildDate
 isDark.value = true

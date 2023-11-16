@@ -7,6 +7,16 @@ defineProps<{
   <span
     v-if="rating"
     class="duration-2 flex select-none items-center justify-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold uppercase text-white transition-colors"
+    v-tooltip="{
+      content:
+        rating >= 9
+          ? $t('mranking.tooltips.masterpiece')
+          : rating >= 7
+          ? $t('mranking.tooltips.good')
+          : rating >= 4 && rating < 7
+          ? $t('mranking.tooltips.mixed')
+          : $t('mranking.tooltips.poor')
+    }"
     :class="{
       'bg-yellow-400 font-maven !font-black !text-black': rating >= 9,
       'bg-green-500': rating >= 7,

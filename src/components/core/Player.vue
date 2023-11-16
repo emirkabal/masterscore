@@ -33,6 +33,11 @@ import type { HistoryItem } from "~/types"
 import type { VideoPlayerProps, VideoPlayerState } from "@videojs-player/vue"
 import videojs from "video.js"
 import "video.js/dist/video-js.css"
+
+// @ts-ignore
+import fullscreen from "videojs-landscape-fullscreen"
+videojs.registerPlugin("landscapeFullscreen", fullscreen)
+
 import { useLocalStorage } from "@vueuse/core"
 
 const history = useLocalStorage<HistoryItem[]>("player-history", [])
@@ -141,6 +146,15 @@ const handleProgress = (payload: any) => {
 }
 
 const handleMounted = (payload: any) => {
+  payload.player.landscapeFullscreen({
+    fullscreen: {
+      enterOnRotate: true,
+      exitOnRotate: true,
+      alwaysInLandscapeMode: true,
+      iOS: true
+    }
+  })
+
   state.value = payload.state
   player.value = payload.player
 

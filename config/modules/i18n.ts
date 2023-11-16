@@ -71,7 +71,7 @@ export default {
       code: 'ar',
       name: 'العربية',
       iso: 'ar-AE',
-      flag: 'ae',
+      flag: 'sa',
       file: 'ar-AE.json'
     },
     {

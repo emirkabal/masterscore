@@ -210,7 +210,13 @@
     "mixed": "Blandet",
     "poor": "Dårlig",
     "reviewers_positive": "{0} positive ({1}%)",
-    "reviewers_negative": "{0} negative ({1}%)"
+    "reviewers_negative": "{0} negative ({1}%)",
+    "tooltips": {
+      "good": "Et indhold, du vil nyde at se.",
+      "masterpiece": "Mestrene kunne virkelig godt lide dette indhold. \nDerfor er det et mesterværk.",
+      "mixed": "En underholdning, der vil forvirre dig, når du ser den.",
+      "poor": "Mestrene synes, det er middelmådigt. \nVi anbefaler derfor ikke at se den."
+    }
   },
   "review_modal": {
     "title": "Lav en anmeldelse",

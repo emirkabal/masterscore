@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onClickOutside } from "@vueuse/core"
+import { onClickOutside, useWindowSize } from "@vueuse/core"
 const modal = ref<HTMLElement | null>(null)
 const inAnimation = ref(false)
 const emits = defineEmits(["close"])
@@ -8,11 +8,27 @@ const props = defineProps<{
   show: boolean
 }>()
 
+const area = ref()
+console.log("area", area.value)
+
+const { height: windowHeight } = useWindowSize({
+  includeScrollbar: true
+})
+const height = ref(0)
+
 const lastTouchEvents = reactive({
   touchY: 0,
   maxTranslateY: 0,
   maximumTouchY: 0
 })
+
+const calculateHeight = () => {
+  if (!area.value) return
+  height.value =
+    area.value.clientHeight - (area.value.clientHeight - windowHeight.value)
+
+  console.log("height", height.value)
+}
 
 const getCalculatedY = (e?: TouchEvent) => {
   if (!modal.value || !e || e.touches.length < 1)
@@ -22,9 +38,8 @@ const getCalculatedY = (e?: TouchEvent) => {
       maximumTouchY: lastTouchEvents.maximumTouchY
     }
   const modalHeight = modal.value.offsetHeight
-  const windowHeight = window.innerHeight
-  const maxTranslateY = windowHeight - modalHeight
-  const maximumTouchY = windowHeight - maxTranslateY - 110
+  const maxTranslateY = height.value - modalHeight
+  const maximumTouchY = height.value - maxTranslateY - 110
   const touchY = e.touches[0].clientY - maxTranslateY - 20
   lastTouchEvents.touchY = touchY
   lastTouchEvents.maxTranslateY = maxTranslateY
@@ -40,7 +55,9 @@ const closeWithAnimation = () => {
   if (!modal.value) return
   const { maxTranslateY } = getCalculatedY()
   inAnimation.value = true
-  modal.value.style.transform = `translateY(${maxTranslateY}px)`
+  modal.value.style.transform = `translateY(${
+    maxTranslateY + modal.value.clientHeight / 2
+  }px)`
   setTimeout(() => {
     emits("close")
   }, 200)
@@ -77,19 +94,31 @@ const touchEnd = (e: TouchEvent) => {
   }
 }
 
+const resetModal = () => {
+  if (!modal.value) return
+  const modalHeight = modal.value.offsetHeight
+  const maxTranslateY = height.value - modalHeight
+  const maximumTouchY = height.value - maxTranslateY - 80
+  lastTouchEvents.maxTranslateY = maxTranslateY
+  lastTouchEvents.maximumTouchY = maximumTouchY
+}
+
+watch(area, () => {
+  calculateHeight()
+  resetModal()
+})
+
+watch(windowHeight, () => {
+  calculateHeight()
+  resetModal()
+})
+
 onClickOutside(modal, () => {
   closeWithAnimation()
 })
 
 watchEffect(() => {
-  if (modal.value) {
-    const modalHeight = modal.value.offsetHeight
-    const windowHeight = window.innerHeight
-    const maxTranslateY = windowHeight - modalHeight
-    const maximumTouchY = windowHeight - maxTranslateY - 80
-    lastTouchEvents.maxTranslateY = maxTranslateY
-    lastTouchEvents.maximumTouchY = maximumTouchY
-  }
+  resetModal()
 })
 
 watch(
@@ -107,11 +136,12 @@ watch(
   <Transition name="fade">
     <div
       v-if="props.show"
-      class="fixed left-0 top-0 z-50 m-auto flex h-screen w-full items-end justify-center bg-black/40 shadow-2xl backdrop-blur"
+      class="fixed left-0 top-0 z-50 m-auto flex h-[100dvh] w-full items-end justify-center bg-black/40 shadow-2xl backdrop-blur"
+      ref="area"
     >
       <div
         ref="modal"
-        class="w-full bg-white px-2 pb-3 dark:bg-gray-950"
+        class="w-full transform-gpu rounded-tl-3xl rounded-tr-3xl bg-white px-2 pb-3 will-change-transform dark:bg-gray-900"
         :class="{
           'transition-transform': inAnimation
         }"
@@ -122,7 +152,7 @@ watch(
           class="flex w-full cursor-default items-center justify-center pb-4 pt-2"
         >
           <span
-            class="h-1.5 w-10 rounded-full bg-gray-300 dark:bg-gray-900"
+            class="h-1.5 w-10 rounded-full bg-gray-300 dark:bg-gray-700"
           ></span>
         </button>
         <div

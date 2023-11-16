@@ -362,3 +362,17 @@ before:h-5 before:w-5;
   @apply bg-gray-100 dark:bg-gray-900;
   background-image: none !important;
 }
+
+
+
+.v-popper__popper .v-popper__inner {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+.v-popper__popper .v-popper__arrow-inner {
+  @apply invisible;
+}
+
+.v-popper__popper .v-popper__arrow-outer {
+  @apply invisible;
+}

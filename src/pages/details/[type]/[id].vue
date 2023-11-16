@@ -144,7 +144,7 @@ watch(data, async () => {
   if (isLoggedIn && user.features.includes("WATCH")) {
     smartVideoPending.value = true
     const find = async (title) => {
-      if(smartVideoData.value) return
+      if (smartVideoData.value) return
       smartVideoData.value = await $fetch(
         `https://api.emirkabal.com/v1/smartvideo/${
           params.type === "tv" ? "series" : "movies"
@@ -206,8 +206,8 @@ watch(data, async () => {
     if (smartVideoData.value?.length > 0 && params.type === "movie") {
       smartVideoData.value = smartVideoData.value[0]
     }
-    if (!smartVideoData.value && !smartVideoData.value?.length)
-      smartVideoData.value = null
+    console.log(smartVideoData.value?.length)
+    if (smartVideoData.value?.length === 0) smartVideoData.value = null
     smartVideoPending.value = false
   }
 })
