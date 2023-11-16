@@ -273,8 +273,7 @@ onMounted(async () => {
         }"
         :to="$route.path"
       />
-
-      <p v-if="originalName">
+      <p v-if="originalName && originalName !== $getTitle(props.data)">
         <strong>{{ $t("entertainment.sidebar.original_name") }}</strong>
         <span>{{ originalName }}{{ romajiTitle }}</span>
       </p>
