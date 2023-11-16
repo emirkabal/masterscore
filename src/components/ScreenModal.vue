@@ -30,7 +30,10 @@ watch(
       v-if="modal"
       class="fixed inset-0 left-0 top-0 z-40 flex h-full w-full items-center justify-center bg-black/80 px-4"
     >
-      <div class="relative flex w-full justify-center md:w-auto" ref="slotEl">
+      <div
+        class="relative flex h-1/2 w-full justify-center md:w-1/2"
+        ref="slotEl"
+      >
         <slot />
         <button
           @click="emits('close')"
