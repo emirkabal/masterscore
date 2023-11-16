@@ -116,7 +116,6 @@ const config = shallowReactive<VideoPlayerProps>({
 })
 
 watch(data, () => {
-  console.log(data.value)
   if (!data.value) return
   const handledMediaData = getMediaData()
   mediaConfig.value = {
@@ -174,7 +173,6 @@ const handleMounted = (payload: any) => {
   const rotationHandler = () => {
     if (!player.value) return
     const currentAngle = angle.value
-    console.log(currentAngle)
 
     if (currentAngle === 90 || currentAngle === 270 || currentAngle === -90) {
       if (player.value.paused() === false) {
