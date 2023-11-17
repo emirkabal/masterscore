@@ -90,10 +90,7 @@ const onSelectEmoji = (emoji: any) => {
           </button>
         </div>
       </div>
-      <div
-        class="flex items-center gap-2"
-        v-if="props.reviewData.comment.trim().length > 0"
-      >
+      <div class="flex items-center gap-2" v-if="props.reviewData.comment.trim().length > 0">
         <HeadlessSwitch
           id="spoiler"
           v-model="props.reviewData.spoiler"
@@ -103,9 +100,7 @@ const onSelectEmoji = (emoji: any) => {
           <span class="sr-only">Use setting</span>
           <span
             aria-hidden="true"
-            :class="
-              props.reviewData.spoiler ? 'translate-x-3.5' : 'translate-x-0'
-            "
+            :class="props.reviewData.spoiler ? 'translate-x-3.5' : 'translate-x-0'"
             class="pointer-events-none inline-block h-[14px] w-[14px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
           />
         </HeadlessSwitch>

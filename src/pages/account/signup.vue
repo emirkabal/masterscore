@@ -64,9 +64,7 @@ const submit = async (event) => {
 </script>
 
 <template>
-  <div
-    class="flex h-screen items-center justify-center bg-white px-4 md:bg-gray-500 md:px-0"
-  >
+  <div class="flex h-screen items-center justify-center bg-white px-4 md:bg-gray-500 md:px-0">
     <div
       class="z-20 w-full max-w-xl rounded-3xl drop-shadow-none md:bg-white md:p-8 md:drop-shadow-2xl"
     >
@@ -121,28 +119,19 @@ const submit = async (event) => {
           :title="$t('guest.form.invite_code')"
           placeholder="MS-SCORE-998E7"
         />
-        <FormButton
-          class="w-full"
-          type="submit"
-          :loading="loading"
-          :disabled="disabled"
-        >
+        <FormButton class="w-full" type="submit" :loading="loading" :disabled="disabled">
           {{ $t("guest.sign_up") }}
         </FormButton>
       </form>
 
       <p class="mt-4 text-center !text-black">
         {{ $t("guest.already_have_account") }}
-        <NuxtLink
-          to="/account/login"
-          class="font-semibold text-blue-700 hover:underline"
-          >{{ $t("guest.sign_in") }}</NuxtLink
-        >
+        <NuxtLink to="/account/login" class="font-semibold text-blue-700 hover:underline">{{
+          $t("guest.sign_in")
+        }}</NuxtLink>
       </p>
     </div>
-    <div
-      class="fixed bottom-0 left-1/2 z-50 mb-4 block -translate-x-1/2 text-black md:hidden"
-    >
+    <div class="fixed bottom-0 left-1/2 z-50 mb-4 block -translate-x-1/2 text-black md:hidden">
       <LangSwitcher :light="true" />
     </div>
     <div class="absolute bottom-0 right-0 z-50 mb-4 mr-12 hidden md:block">

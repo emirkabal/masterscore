@@ -25,10 +25,7 @@ const { data } = defineProps<{
         <p class="line-clamp-2 break-words text-xs font-semibold md:text-base">
           {{ data.name }}
         </p>
-        <p
-          class="line-clamp-1 break-words text-xs md:text-base"
-          v-if="data.attr"
-        >
+        <p class="line-clamp-1 break-words text-xs md:text-base" v-if="data.attr">
           {{ data.attr }}
         </p>
       </div>

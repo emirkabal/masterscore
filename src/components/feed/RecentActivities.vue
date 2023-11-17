@@ -82,30 +82,18 @@ watch(
         class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 dark:bg-gray-900 md:h-14 md:w-14"
       ></div>
       <div class="ml-4 flex w-full flex-col">
-        <div
-          class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"
-        ></div>
-        <div
-          class="skeleton-effect mt-1 h-2 w-1/2 rounded bg-gray-300 dark:bg-gray-900"
-        ></div>
-        <div
-          class="skeleton-effect mt-1 h-2 w-1/3 rounded bg-gray-300 dark:bg-gray-900"
-        ></div>
-        <div
-          class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"
-        ></div>
-        <div
-          class="skeleton-effect mt-1 h-14 w-32 rounded bg-gray-300 dark:bg-gray-900"
-        ></div>
+        <div class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"></div>
+        <div class="skeleton-effect mt-1 h-2 w-1/2 rounded bg-gray-300 dark:bg-gray-900"></div>
+        <div class="skeleton-effect mt-1 h-2 w-1/3 rounded bg-gray-300 dark:bg-gray-900"></div>
+        <div class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"></div>
+        <div class="skeleton-effect mt-1 h-14 w-32 rounded bg-gray-300 dark:bg-gray-900"></div>
       </div>
     </div>
     <div
       v-else
       class="flex w-full items-start gap-4 border-b py-8 dark:border-gray-900"
       v-for="(activity, i) in activities"
-      v-intersection-observer="
-        i === activities.length - 1 ? onIntersectionObserver : () => {}
-      "
+      v-intersection-observer="i === activities.length - 1 ? onIntersectionObserver : () => {}"
       :key="activity._id"
     >
       <NuxtLink :to="`/users/@${activity.author.username}`">
@@ -120,18 +108,14 @@ watch(
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
             <div class="flex items-center gap-x-1 font-semibold">
-              <span class="line-clamp-1 break-all"
-                >@{{ activity.author.username }}</span
-              >
+              <span class="line-clamp-1 break-all">@{{ activity.author.username }}</span>
               <Icon
                 v-if="activity.author.verified"
                 name="material-symbols:verified-rounded"
                 class="h-5 w-5 flex-shrink-0 text-yellow-500"
               />
             </div>
-            <span
-              class="flex-shrink-0 text-xs text-gray-500 dark:text-gray-300"
-            >
+            <span class="flex-shrink-0 text-xs text-gray-500 dark:text-gray-300">
               {{ $moment(activity.createdAt).locale($i18n.locale).fromNow() }}
             </span>
           </div>

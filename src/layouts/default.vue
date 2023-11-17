@@ -50,13 +50,8 @@ watch(
           class="flex w-full items-center justify-between rounded-lg border border-yellow-500/10 bg-yellow-500/10 p-2 text-sm shadow backdrop-blur-xl sm:max-w-lg"
         >
           <div class="flex items-center gap-2">
-            <div
-              class="flex items-center justify-center rounded-lg bg-yellow-500 p-2"
-            >
-              <Icon
-                name="ic:outline-file-download"
-                class="h-5 w-5 flex-shrink-0"
-              />
+            <div class="flex items-center justify-center rounded-lg bg-yellow-500 p-2">
+              <Icon name="ic:outline-file-download" class="h-5 w-5 flex-shrink-0" />
             </div>
 
             <p class="font-bold">New content available</p>
@@ -86,13 +81,8 @@ watch(
           class="flex w-full items-center justify-between rounded-lg border border-yellow-500/10 bg-yellow-500/10 p-2 text-sm shadow backdrop-blur-xl sm:max-w-lg"
         >
           <div class="flex items-center gap-2">
-            <div
-              class="flex items-center justify-center rounded-lg bg-yellow-500 p-2"
-            >
-              <Icon
-                name="ic:outline-file-download"
-                class="h-5 w-5 flex-shrink-0"
-              />
+            <div class="flex items-center justify-center rounded-lg bg-yellow-500 p-2">
+              <Icon name="ic:outline-file-download" class="h-5 w-5 flex-shrink-0" />
             </div>
 
             <p class="font-bold">

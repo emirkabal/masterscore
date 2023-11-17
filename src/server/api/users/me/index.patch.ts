@@ -15,17 +15,14 @@ export default defineEventHandler(async (event) => {
     return { status: 400, message: error.message } as ErrorResponse
   }
 
-  const user: Partial<IUser> | null = await UserModel.findById(
-    event.context.user._id
-  ).lean()
+  const user: Partial<IUser> | null = await UserModel.findById(event.context.user._id).lean()
 
   if (!user) {
     return { status: 404, message: "User not found" } as ErrorResponse
   }
 
   if (user.latestUsernameChange && body.username) {
-    const timeSinceLastChange =
-      new Date().getTime() - user.latestUsernameChange.getTime()
+    const timeSinceLastChange = new Date().getTime() - user.latestUsernameChange.getTime()
     if (timeSinceLastChange < 1000 * 60 * 60 * 24 * 7) {
       return {
         status: 400,

@@ -10,9 +10,7 @@ const award = useLocalStorage("easteregg", 0)
     <p class="font-maven font-semibold">
       Congratulations! <br />
       You won the
-      <NuxtLink to="/details/movie/408425" class="hover:underline"
-        >"Best User"</NuxtLink
-      >
+      <NuxtLink to="/details/movie/408425" class="hover:underline">"Best User"</NuxtLink>
       award!
     </p>
   </div>

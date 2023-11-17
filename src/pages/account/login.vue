@@ -46,10 +46,7 @@ const submit = async (event) => {
           <h1 class="font-maven text-4xl font-black text-black">
             {{ $t("guest.sign_in") }}
           </h1>
-          <p
-            v-if="error.length > 0"
-            class="my-4 font-mono leading-4 text-red-600"
-          >
+          <p v-if="error.length > 0" class="my-4 font-mono leading-4 text-red-600">
             {{ error }}
           </p>
         </div>
@@ -73,17 +70,13 @@ const submit = async (event) => {
         </form>
         <p class="mt-3 text-center !text-black">
           {{ $t("guest.dont_have_account") }}
-          <NuxtLink
-            :to="'/account/signup'"
-            class="font-semibold text-blue-700 hover:underline"
-            >{{ $t("guest.sign_up") }}</NuxtLink
-          >
+          <NuxtLink :to="'/account/signup'" class="font-semibold text-blue-700 hover:underline">{{
+            $t("guest.sign_up")
+          }}</NuxtLink>
         </p>
       </div>
     </div>
-    <div
-      class="fixed bottom-0 left-1/2 z-50 mb-4 block -translate-x-1/2 text-black md:hidden"
-    >
+    <div class="fixed bottom-0 left-1/2 z-50 mb-4 block -translate-x-1/2 text-black md:hidden">
       <LangSwitcher :light="true" />
     </div>
 

@@ -25,9 +25,7 @@ const fetch = async () => {
 }
 fetch()
 
-const onIntersectionObserver: any = async ([
-  e
-]: IntersectionObserverEntry[]) => {
+const onIntersectionObserver: any = async ([e]: IntersectionObserverEntry[]) => {
   if (e.isIntersecting && fetching.value < 2 && results.value.length < 100) {
     page.value += 1
     fetch()
@@ -46,9 +44,7 @@ useHead({
 
 <template>
   <section class="my-24">
-    <h1
-      class="text-center text-2xl font-bold md:px-[4vw] md:text-start md:text-5xl"
-    >
+    <h1 class="text-center text-2xl font-bold md:px-[4vw] md:text-start md:text-5xl">
       {{ $t(`genres.${$tgenre($route.params.id.toString())}`) }}
     </h1>
     <NuxtLink

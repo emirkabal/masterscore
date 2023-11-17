@@ -21,9 +21,7 @@ export default defineEventHandler(async (event) => {
       message: "Entertainment not found or is an adult content"
     })
 
-  data.credits.cast = data.credits.cast.filter(
-    (v, i, a) => a.findIndex((t) => t.id === v.id) === i
-  )
+  data.credits.cast = data.credits.cast.filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i)
 
   return data as TMDBData
 })

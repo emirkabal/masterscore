@@ -71,9 +71,7 @@ watch([listType, disableReviewRequirement], () => {
   </div>
   <div class="container mx-auto my-12 px-4 md:px-24" v-else>
     <div class="flex items-center justify-between">
-      <h1
-        class="block border-l-4 border-blue-700 pl-2 text-2xl font-bold tracking-wide"
-      >
+      <h1 class="block border-l-4 border-blue-700 pl-2 text-2xl font-bold tracking-wide">
         Masterscore Table
       </h1>
       <select
@@ -96,9 +94,7 @@ watch([listType, disableReviewRequirement], () => {
         <span class="sr-only">Use setting</span>
         <span
           aria-hidden="true"
-          :class="
-            !disableReviewRequirement ? 'translate-x-3.5' : 'translate-x-0'
-          "
+          :class="!disableReviewRequirement ? 'translate-x-3.5' : 'translate-x-0'"
           class="pointer-events-none inline-block h-[14px] w-[14px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
         />
       </HeadlessSwitch>
@@ -132,11 +128,7 @@ watch([listType, disableReviewRequirement], () => {
         </NuxtLink>
       </template>
       <template #item-entertainment.info.release_date="item">
-        {{
-          $moment(item.entertainment.info.release_date)
-            .locale($i18n.locale)
-            .format("YYYY")
-        }}
+        {{ $moment(item.entertainment.info.release_date).locale($i18n.locale).format("YYYY") }}
       </template>
       <template #item-entertainment.info.runtime="item">
         {{

@@ -72,9 +72,7 @@ const fetchReviews = async () => {
 const fetchWatchlist = async () => {
   watchlist.pending = true
   // @ts-ignore
-  const data = await $fetch<IEntertainment[]>(
-    `/api/users/${user.value?._id}/watchlist`
-  )
+  const data = await $fetch<IEntertainment[]>(`/api/users/${user.value?._id}/watchlist`)
   watchlist.pending = false
   if ("status" in data) {
     return
@@ -160,14 +158,9 @@ useHead({
 </script>
 <template>
   <div v-if="error" class="my-28">
-    <p class="text-center font-maven text-6xl font-black uppercase">
-      User not found
-    </p>
+    <p class="text-center font-maven text-6xl font-black uppercase">User not found</p>
   </div>
-  <div
-    class="mx-auto flex h-screen items-center justify-center"
-    v-else-if="loading"
-  >
+  <div class="mx-auto flex h-screen items-center justify-center" v-else-if="loading">
     <Loader />
   </div>
   <div class="my-20" v-else>
@@ -184,9 +177,7 @@ useHead({
         ></div>
       </div>
 
-      <div
-        class="user -mt-20 flex select-none flex-col items-center md:flex-row md:pl-5"
-      >
+      <div class="user -mt-20 flex select-none flex-col items-center md:flex-row md:pl-5">
         <div class="avatar relative">
           <Avatar
             :avatar="user?.avatar"
@@ -195,18 +186,14 @@ useHead({
           />
         </div>
         <div class="details inline-block text-center md:ml-7 md:text-left">
-          <div
-            class="username mb-1 flex items-center gap-2 text-3xl font-semibold md:mt-24"
-          >
+          <div class="username mb-1 flex items-center gap-2 text-3xl font-semibold md:mt-24">
             <span> @{{ user.username }} </span>
             <Verified v-if="user.verified" />
           </div>
           <div
             class="opacity-75"
             v-tooltip="{
-              content: $moment(user.createdAt)
-                .locale($i18n.locale)
-                .format('LLL'),
+              content: $moment(user.createdAt).locale($i18n.locale).format('LLL'),
               delay: 20
             }"
           >
@@ -218,18 +205,12 @@ useHead({
           </div>
         </div>
         <div class="md:ml-auto md:mt-20">
-          <HeadlessMenu
-            as="div"
-            class="relative z-10 inline-block text-left"
-            ref="menuRef"
-          >
+          <HeadlessMenu as="div" class="relative z-10 inline-block text-left" ref="menuRef">
             <div>
               <HeadlessMenuButton
                 class="rounded-full p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-900"
                 @click="isMenuOpen = !isMenuOpen"
-                ><Icon
-                  name="mdi:dots-vertical"
-                  class="h-6 w-6 rotate-90 md:rotate-0"
+                ><Icon name="mdi:dots-vertical" class="h-6 w-6 rotate-90 md:rotate-0"
               /></HeadlessMenuButton>
             </div>
             <Transition
@@ -258,13 +239,9 @@ useHead({
                       <HeadlessMenuItem>
                         <button
                           class="inline-flex w-full rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
-                          @click="
-                            giveWatchAccess(!user.features.includes('WATCH'))
-                          "
+                          @click="giveWatchAccess(!user.features.includes('WATCH'))"
                         >
-                          {{
-                            user.features.includes("WATCH") ? "Revoke" : "Give"
-                          }}
+                          {{ user.features.includes("WATCH") ? "Revoke" : "Give" }}
                           access to watch
                         </button>
                       </HeadlessMenuItem>
@@ -311,10 +288,7 @@ useHead({
         <HeadlessTabPanels>
           <HeadlessTabPanel
             ><section>
-              <div
-                v-if="user.about"
-                class="mt-8 rounded border-l-4 border-l-yellow-500 p-2 pl-6"
-              >
+              <div v-if="user.about" class="mt-8 rounded border-l-4 border-l-yellow-500 p-2 pl-6">
                 <p
                   class="line-clamp-5 truncate whitespace-pre-wrap break-words text-gray-500 dark:text-gray-100"
                 >
@@ -332,12 +306,7 @@ useHead({
             <ProfileWatchlist
               :watchlist="watchlist"
               :self="isSelf"
-              @remove="
-                (id) =>
-                  (watchlist.items = watchlist.items.filter(
-                    (i) => i._id !== id
-                  ))
-              "
+              @remove="(id) => (watchlist.items = watchlist.items.filter((i) => i._id !== id))"
             />
           </HeadlessTabPanel>
         </HeadlessTabPanels>

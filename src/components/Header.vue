@@ -19,9 +19,7 @@ const entertainment = reactive({
 const isHeaderShown = computed(() => {
   return (
     scroll.y.value > 0 ||
-    !(
-      route.name.startsWith("details-type-id") || route.name.startsWith("index")
-    )
+    !(route.name.startsWith("details-type-id") || route.name.startsWith("index"))
   )
 })
 
@@ -67,21 +65,16 @@ $listen("searchbar:focus", (val) => {
           class="select-none font-maven text-2xl font-black transition hover:opacity-75"
           :class="{
             'drop-shadow-md': isEntertainmentPage && !isHeaderShown,
-            'text-black':
-              entertainment.bright && !isHeaderShown && isEntertainmentPage,
+            'text-black': entertainment.bright && !isHeaderShown && isEntertainmentPage,
             'text-white':
-              (!entertainment.bright &&
-                !isHeaderShown &&
-                isEntertainmentPage) ||
+              (!entertainment.bright && !isHeaderShown && isEntertainmentPage) ||
               ($route.name === 'index' && !isHeaderShown)
           }"
           ><span
             class="text-yellow-500 transition"
             :class="{
-              '!text-yellow-500':
-                !entertainment.bright && isEntertainmentPage && !isHeaderShown,
-              '!text-yellow-300':
-                entertainment.bright && isEntertainmentPage && !isHeaderShown
+              '!text-yellow-500': !entertainment.bright && isEntertainmentPage && !isHeaderShown,
+              '!text-yellow-300': entertainment.bright && isEntertainmentPage && !isHeaderShown
             }"
             >m</span
           ><span class="hidden md:inline-block">asterscore</span></NuxtLink

@@ -3,9 +3,7 @@ import type { HistoryItem } from "~/types"
 import { useLocalStorage } from "@vueuse/core"
 
 const history = useLocalStorage<HistoryItem[]>("player-history", [])
-const list = computed(() =>
-  history.value.sort((a, b) => b.playedAt - a.playedAt)
-)
+const list = computed(() => history.value.sort((a, b) => b.playedAt - a.playedAt))
 const remove = (index: number) => history.value.splice(index, 1)
 const watchModal = ref(false)
 const data = shallowRef<HistoryItem>()
@@ -57,16 +55,10 @@ const data = shallowRef<HistoryItem>()
           </div>
 
           <div class="absolute bottom-0 w-full p-2 sm:p-4">
-            <div
-              class="rounded-2xl bg-gray-900/70 px-4 py-2 transition-all hover:bg-gray-900"
-            >
+            <div class="rounded-2xl bg-gray-900/70 px-4 py-2 transition-all hover:bg-gray-900">
               <div class="flex items-center justify-between">
-                <div
-                  class="flex items-center gap-x-4 font-semibold tracking-tight text-white"
-                >
-                  <h1
-                    class="line-clamp-1 text-xl font-semibold tracking-tight sm:text-2xl"
-                  >
+                <div class="flex items-center gap-x-4 font-semibold tracking-tight text-white">
+                  <h1 class="line-clamp-1 text-xl font-semibold tracking-tight sm:text-2xl">
                     {{ item.title }}
                   </h1>
                   <span
@@ -76,10 +68,7 @@ const data = shallowRef<HistoryItem>()
                     S{{ item.series.season }} E{{ item.series.episode }}
                   </span>
                 </div>
-                <span
-                  class="font-maven text-lg font-black text-yellow-500 sm:text-2xl"
-                  >m</span
-                >
+                <span class="font-maven text-lg font-black text-yellow-500 sm:text-2xl">m</span>
               </div>
               <p class="text-xs tracking-tight sm:text-base">
                 Continue watching from

@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import type {
-  IEntertainment,
-  TMDBData,
-  TMDBSearchResult,
-  CreditsResult
-} from "~/types"
+import type { IEntertainment, TMDBData, TMDBSearchResult, CreditsResult } from "~/types"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { FreeMode, Navigation } from "swiper/modules"
 import { useEventListener } from "@vueuse/core"
@@ -51,17 +46,12 @@ useEventListener("resize", () => {
       }"
     >
       <SwiperSlide v-if="loading" v-for="i in 13" :key="i">
-        <EntertainmentSliderCard
-          class="flex-shrink-0"
-          :loading="true"
-          :size="itemSize"
-        />
+        <EntertainmentSliderCard class="flex-shrink-0" :loading="true" :size="itemSize" />
       </SwiperSlide>
       <SwiperSlide v-else v-for="item in data" :key="item.id">
         <EntertainmentSliderCard
           :image="
-            ('info' in item && item.info.poster) ||
-            ('poster_path' in item && item.poster_path)
+            ('info' in item && item.info.poster) || ('poster_path' in item && item.poster_path)
               ? $timage(
                   ('info' in item && item.info.poster) ||
                     ('poster_path' in item && item.poster_path) ||
@@ -71,17 +61,9 @@ useEventListener("resize", () => {
               : 'loading'
           "
           :id="item.id"
-          :media_type="
-            ('info' in item ? item.type : item.media_type) ||
-            fixedMediaType ||
-            'movie'
-          "
+          :media_type="('info' in item ? item.type : item.media_type) || fixedMediaType || 'movie'"
           :size="itemSize"
-          :rating="
-            showRatings && 'vote_average' in item
-              ? item.vote_average
-              : undefined
-          "
+          :rating="showRatings && 'vote_average' in item ? item.vote_average : undefined"
         />
       </SwiperSlide>
       <slot />

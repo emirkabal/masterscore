@@ -40,14 +40,13 @@ export const upload = async (
       }
     }
 
-    const filename = md5(`${Date.now()}${blob.name}${blob.type}`)
-    const { error } = await supabase.storage
-      .from("assets")
-      .upload("avatars/" + filename, blob, {
-        cacheControl: "3600",
-        upsert: false,
-        contentType: blob.type
-      })
+    const filename = md5(`${Date.now()}${blob.type}`)
+
+    const { error } = await supabase.storage.from("assets").upload("avatars/" + filename, blob, {
+      cacheControl: "3600",
+      upsert: false,
+      contentType: blob.type
+    })
 
     if (error) {
       return { status: 400, message: error.message, isSupabaseError: true }

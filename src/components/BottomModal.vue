@@ -23,8 +23,7 @@ const lastTouchEvents = reactive({
 
 const calculateHeight = () => {
   if (!area.value) return
-  height.value =
-    area.value.clientHeight - (area.value.clientHeight - windowHeight.value)
+  height.value = area.value.clientHeight - (area.value.clientHeight - windowHeight.value)
 }
 
 const getCalculatedY = (e?: TouchEvent) => {
@@ -52,9 +51,7 @@ const closeWithAnimation = () => {
   if (!modal.value) return
   const { maxTranslateY } = getCalculatedY()
   inAnimation.value = true
-  modal.value.style.transform = `translateY(${
-    maxTranslateY + modal.value.clientHeight / 2
-  }px)`
+  modal.value.style.transform = `translateY(${maxTranslateY + modal.value.clientHeight / 2}px)`
   setTimeout(() => {
     emits("close")
   }, 200)
@@ -148,13 +145,9 @@ watch(
           @touchend="touchEnd"
           class="flex w-full cursor-default items-center justify-center pb-4 pt-2"
         >
-          <span
-            class="h-1.5 w-10 rounded-full bg-gray-300 dark:bg-gray-700"
-          ></span>
+          <span class="h-1.5 w-10 rounded-full bg-gray-300 dark:bg-gray-700"></span>
         </button>
-        <div
-          class="ml-0.5 flex items-center justify-between px-4 text-xl font-bold"
-        >
+        <div class="ml-0.5 flex items-center justify-between px-4 text-xl font-bold">
           <span>{{ props.title }}</span>
         </div>
         <div class="px-4 py-4">

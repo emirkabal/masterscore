@@ -17,9 +17,7 @@ const props = defineProps<{
 }>()
 
 const seasonsComputed = computed(() => {
-  return props.data.seasons
-    ? props.data.seasons.filter((season) => season.season_number !== 0)
-    : []
+  return props.data.seasons ? props.data.seasons.filter((season) => season.season_number !== 0) : []
 })
 
 const watchFeatureAnalyzing = ref(false)
@@ -39,7 +37,9 @@ const seasonData = reactive<SeasonData>({
 })
 
 const seasons = computed(() =>
-  Object.values(seasonData).sort((a, b) => a.season_number - b.season_number)
+  Object.values(seasonData)
+    .sort((a, b) => a.season_number - b.season_number)
+    .filter((e) => e.episode_count)
 )
 
 const totalEpisodes = computed(() => {
@@ -74,9 +74,7 @@ const getSmartVideo = (season: number, episode: number) => {
         return data.id
       }
     } else {
-      const data = props.smartVideoData.find(
-        (e: any) => e.season == season && e.episode == episode
-      )
+      const data = props.smartVideoData.find((e: any) => e.season == season && e.episode == episode)
       if (data) {
         return data.id
       }
@@ -86,9 +84,7 @@ const getSmartVideo = (season: number, episode: number) => {
 }
 
 const getSeason = async (key: string, season_number: number) => {
-  const data = await $fetch(
-    `/api/extra/season/${props.data.id}/${season_number}`
-  )
+  const data = await $fetch(`/api/extra/season/${props.data.id}/${season_number}`)
   seasonData[key].episodes = data.episodes.map((episode: Episode) => {
     return {
       ...episode,
@@ -100,28 +96,20 @@ const getSeason = async (key: string, season_number: number) => {
 const isWatchAvailable = (season: number, episode: number) => {
   if (watchFeatureAnalyzing.value) return false
   const ep = getActualEpisode(season, episode)
-  return (
-    props.smartVideoData &&
-    ep <= props.smartVideoData.length &&
-    getSmartVideo(season, episode)
-  )
+  return props.smartVideoData && ep <= props.smartVideoData.length && getSmartVideo(season, episode)
 }
 
 const isSeasonAvailable = (season: number) => {
   if (watchFeatureAnalyzing.value) return false
   return (
-    (props.smartVideoData &&
-      props.smartVideoData.find((e: any) => e.season == season)) ||
+    (props.smartVideoData && props.smartVideoData.find((e: any) => e.season == season)) ||
     isWatchAvailable(season, 1)
   )
 }
 
 const watchSmartVideo = (episode: Episode) => {
   if (!episode.smartVideoId) {
-    episode.smartVideoId = getSmartVideo(
-      episode.season_number,
-      episode.episode_number
-    )
+    episode.smartVideoId = getSmartVideo(episode.season_number, episode.episode_number)
   }
   if (!episode.smartVideoId) return
   $event("entertainment:watch", [episode.smartVideoId, episode])
@@ -130,16 +118,14 @@ const watchSmartVideo = (episode: Episode) => {
 watch(seasonData, () => {
   Object.keys(seasonData).forEach((key) => {
     if (seasonData[key].show) {
-      if (seasonData[key].episodes.length === 0)
-        getSeason(key, seasonData[key].season_number)
+      if (seasonData[key].episodes.length === 0) getSeason(key, seasonData[key].season_number)
       if (process.client) {
         const item = document.querySelector(`[aria-details="${key}"]`)
         if (item) {
           setTimeout(() => {
             window.scrollTo({
               top: item.getBoundingClientRect().top + window.scrollY - 120,
-              behavior:
-                seasonData[key].episodes.length === 0 ? "instant" : "smooth"
+              behavior: seasonData[key].episodes.length === 0 ? "instant" : "smooth"
             })
           }, 10)
         }
@@ -152,14 +138,9 @@ watch(
   () => props.smartVideoData,
   async () => {
     if (props.smartVideoData) {
-      if (
-        props.smartVideoData.length &&
-        props.smartVideoData.length !== totalEpisodes.value
-      ) {
+      if (props.smartVideoData.length && props.smartVideoData.length !== totalEpisodes.value) {
         watchFeatureAnalyzing.value = true
-        const data = await $fetch(
-          `/api/extra/episode_groups/groups/${props.data.id}`
-        )
+        const data = await $fetch(`/api/extra/episode_groups/groups/${props.data.id}`)
 
         if (data && "results" in data) {
           const bestMatch = data.results.find(
@@ -167,9 +148,7 @@ watch(
           )
 
           if (bestMatch) {
-            const data = await $fetch(
-              `/api/extra/episode_groups/details/${bestMatch.id}`
-            )
+            const data = await $fetch(`/api/extra/episode_groups/details/${bestMatch.id}`)
 
             if (data && "groups" in data) {
               Object.keys(seasonData).forEach((key) => {
@@ -189,10 +168,7 @@ watch(
                       ...episode,
                       episode_number: i + 1,
                       season_number: group.order,
-                      smartVideoId: getSmartVideo(
-                        group.order,
-                        episode.episode_number
-                      )
+                      smartVideoId: getSmartVideo(group.order, episode.episode_number)
                     }
                   })
                 }
@@ -218,15 +194,13 @@ watch(
         if (watchableSeasons.includes(0)) return
 
         watchableSeasons.forEach((season: any) => {
-          const eps = props.smartVideoData.filter(
-            (e: any) => e.season == season
-          ).length
+          const eps = props.smartVideoData.filter((e: any) => e.season == season).length
 
           if (
             eps >
             3 +
-              (seasons.value.find((se) => se.season_number == season)
-                ?.episode_count || seasons.value[0].episode_count)
+              (seasons.value.find((se) => se.season_number == season)?.episode_count ||
+                seasons.value[0].episode_count)
           ) {
             $event("entertainment:watch-feature-mismatch")
           }
@@ -239,9 +213,7 @@ watch(
 
 <template>
   <section>
-    <div
-      class="my-4 flex items-start justify-between border-l-4 border-green-500 pl-4"
-    >
+    <div class="my-4 flex items-start justify-between border-l-4 border-green-500 pl-4">
       <span>
         <h1 class="text-2xl font-bold tracking-wide">
           {{ $t("entertainment.episodes") }}
@@ -251,10 +223,7 @@ watch(
         </p>
       </span>
 
-      <div
-        v-if="watchFeatureAnalyzing"
-        class="flex items-center gap-1 text-xs opacity-90"
-      >
+      <div v-if="watchFeatureAnalyzing" class="flex items-center gap-1 text-xs opacity-90">
         <Spinner class="-mr-2 scale-50" />
         Optimizing for watch feature...
       </div>
@@ -288,9 +257,7 @@ watch(
           }"
         >
           <span
-            v-if="
-              !seasonData[item.id].show && isSeasonAvailable(item.season_number)
-            "
+            v-if="!seasonData[item.id].show && isSeasonAvailable(item.season_number)"
             class="flex-shrink-0"
             ><Icon name="ic:outline-play-arrow" class="h-6 w-6"
           /></span>
@@ -329,9 +296,7 @@ watch(
           <div class="w-full">
             <div class="cursor-text" @click="(e) => e.stopPropagation()">
               <div class="flex min-w-0 items-center gap-2">
-                <span class="line-clamp-1 font-semibold md:text-xl">{{
-                  item.name
-                }}</span>
+                <span class="line-clamp-1 font-semibold md:text-xl">{{ item.name }}</span>
                 <span
                   class="flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:mt-0.5 md:text-base"
                   >{{
@@ -342,11 +307,7 @@ watch(
                 >
               </div>
               <p class="text-xs font-semibold opacity-75 md:text-base">
-                {{
-                  $moment(item.air_date)
-                    .locale($i18n.locale)
-                    .format("MMMM D, YYYY")
-                }}
+                {{ $moment(item.air_date).locale($i18n.locale).format("MMMM D, YYYY") }}
               </p>
               <p
                 class="ml-auto line-clamp-4 cursor-text text-xs opacity-90 md:text-base md:leading-5"
@@ -354,14 +315,8 @@ watch(
                 {{ item.overview }}
               </p>
             </div>
-            <div
-              class="mt-4 w-full space-y-2"
-              @click="(e) => e.stopPropagation()"
-            >
-              <div
-                v-if="seasonData[item.id].episodes.length === 0"
-                class="my-6"
-              >
+            <div class="mt-4 w-full space-y-2" @click="(e) => e.stopPropagation()">
+              <div v-if="seasonData[item.id].episodes.length === 0" class="my-6">
                 <Spinner />
               </div>
               <div
@@ -378,23 +333,15 @@ watch(
                 />
                 <div class="w-full">
                   <div class="flex min-w-0 items-center gap-2 font-semibold">
-                    <span class="line-clamp-1 text-xs md:text-xl">{{
-                      episode.name
-                    }}</span>
+                    <span class="line-clamp-1 text-xs md:text-xl">{{ episode.name }}</span>
                     <span
                       class="flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:text-base"
                       >E-{{ episode.episode_number }}</span
                     >
                   </div>
-                  <div
-                    class="flex gap-2 text-xs font-semibold opacity-75 md:text-base"
-                  >
+                  <div class="flex gap-2 text-xs font-semibold opacity-75 md:text-base">
                     <p>
-                      {{
-                        $moment(episode.air_date)
-                          .locale($i18n.locale)
-                          .format("MMMM D, YYYY")
-                      }}
+                      {{ $moment(episode.air_date).locale($i18n.locale).format("MMMM D, YYYY") }}
                     </p>
                     <p>
                       {{

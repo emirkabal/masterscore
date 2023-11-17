@@ -20,9 +20,7 @@ const age = computed(() => {
   if (!data.value.deathday && data.value.birthday) {
     return $moment().locale(locale.value).diff(data.value.birthday, "years")
   } else if (data.value.deathday && data.value.birthday) {
-    return $moment(data.value.deathday)
-      .locale(locale.value)
-      .diff(data.value.birthday, "years")
+    return $moment(data.value.deathday).locale(locale.value).diff(data.value.birthday, "years")
   } else {
     return 0
   }
@@ -84,9 +82,7 @@ useHead({
             :source="$timage(data.profile_path || '-', 'w500')"
             class="mx-auto h-96 max-w-[300px] rounded-lg shadow-lg md:mx-0 md:h-[450px]"
           />
-          <h1
-            class="mt-2 block text-center text-3xl font-bold tracking-wide md:hidden"
-          >
+          <h1 class="mt-2 block text-center text-3xl font-bold tracking-wide md:hidden">
             {{ name }}
           </h1>
           <div class="text-center md:text-left">
@@ -173,27 +169,18 @@ useHead({
               </button>
             </p>
           </div>
-          <div
-            v-if="data.combined_credits?.cast?.length"
-            class="space-y-4 overflow-hidden"
-          >
+          <div v-if="data.combined_credits?.cast?.length" class="space-y-4 overflow-hidden">
             <h1 class="text-2xl font-bold tracking-wide">
               {{ $t("person.known_for") }}
             </h1>
             <EntertainmentSlider
-              :data="
-                data.combined_credits.cast.sort(
-                  (a, b) => b.popularity - a.popularity
-                )
-              "
+              :data="data.combined_credits.cast.sort((a, b) => b.popularity - a.popularity)"
               :fixed-media-type="'movie'"
               :item-size="'default'"
               :offset="0"
             />
             <div class="flex flex-col gap-2" v-if="getCrew">
-              <h2
-                class="text-center text-xl font-semibold tracking-tight md:text-left"
-              >
+              <h2 class="text-center text-xl font-semibold tracking-tight md:text-left">
                 {{ $t("person.detailed-job-history") }}
                 <span class="text-gray-400">({{ getCrew.length }})</span>
               </h2>
@@ -209,9 +196,7 @@ useHead({
                     >
                       {{ crew.title || crew.name }}
                     </h3>
-                    <span
-                      class="h-0.5 w-3 self-center border border-gray-700"
-                    ></span>
+                    <span class="h-0.5 w-3 self-center border border-gray-700"></span>
                     <h4 class="line-clamp-1 text-gray-400">
                       {{ crew.job }}
                     </h4>
@@ -219,16 +204,12 @@ useHead({
                   <time
                     class="ml-2 flex-shrink-0 self-center py-1 text-xs font-semibold text-gray-500"
                     v-tooltip="{
-                      content: $moment(
-                        new Date(crew.release_date || crew.first_air_date)
-                      )
+                      content: $moment(new Date(crew.release_date || crew.first_air_date))
                         .locale($i18n.locale)
                         .format('LL')
                     }"
                     >{{
-                      $moment(
-                        new Date(crew.release_date || crew.first_air_date)
-                      )
+                      $moment(new Date(crew.release_date || crew.first_air_date))
                         .locale($i18n.locale)
                         .fromNow()
                     }}</time
@@ -248,13 +229,7 @@ useHead({
             <div v-if="showDetailsDev">
               <p>Person: {{ params.id }}</p>
               <ClientOnly>
-                <JsonViewer
-                  :value="data"
-                  copyable
-                  sort
-                  expanded
-                  theme="jsonviewer"
-                />
+                <JsonViewer :value="data" copyable sort expanded theme="jsonviewer" />
               </ClientOnly>
             </div>
           </div>

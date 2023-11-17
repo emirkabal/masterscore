@@ -7,14 +7,15 @@ export default defineEventHandler(async (event) => {
   const { type } = event.context.params as {
     type: string
   }
-  const { with_genres, without_genres, with_keywords, without_keywords, page } =
-    getQuery(event) as {
-      with_genres: string
-      without_genres: string
-      with_keywords: string
-      without_keywords: string
-      page: string
-    }
+  const { with_genres, without_genres, with_keywords, without_keywords, page } = getQuery(
+    event
+  ) as {
+    with_genres: string
+    without_genres: string
+    with_keywords: string
+    without_keywords: string
+    page: string
+  }
 
   const language = getISO(getCookie(event, "locale"))
   const params = new URLSearchParams({
@@ -35,9 +36,7 @@ export default defineEventHandler(async (event) => {
     total_pages: number
     total_results: number
     page: number
-  } = await $fetch(
-    `https://api.themoviedb.org/3/discover/${type}?${params.toString()}`
-  )
+  } = await $fetch(`https://api.themoviedb.org/3/discover/${type}?${params.toString()}`)
 
   return data
 })

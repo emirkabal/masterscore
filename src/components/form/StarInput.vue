@@ -33,9 +33,7 @@ const decrement = () => {
 }
 </script>
 <template>
-  <div
-    class="flex w-fit items-center rounded border border-gray-700 bg-gray-800"
-  >
+  <div class="flex w-fit items-center rounded border border-gray-700 bg-gray-800">
     <Icon name="ic:baseline-star" class="ml-2 h-4 w-4" />
     <input
       type="text"

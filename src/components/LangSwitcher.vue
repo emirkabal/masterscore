@@ -15,9 +15,7 @@ const availableLocales = computed(() => {
     <HeadlessListbox>
       <HeadlessListboxButton class="flex items-center text-sm font-semibold">
         <Icon
-          :name="`circle-flags:${
-            localeProperties.flag || localeProperties.code
-          }`"
+          :name="`circle-flags:${localeProperties.flag || localeProperties.code}`"
           class="mr-2 h-6 w-6"
         />
         {{ localeProperties.name }}
@@ -37,8 +35,7 @@ const availableLocales = computed(() => {
           @click="setLocale(l.code)"
           class="flex cursor-pointer items-center rounded-lg px-4 py-2 text-sm font-semibold transition-colors hover:bg-gray-800 hover:text-gray-100"
           :class="{
-            'bg-gray-100 text-gray-900 hover:!bg-gray-200 hover:text-gray-800':
-              light
+            'bg-gray-100 text-gray-900 hover:!bg-gray-200 hover:text-gray-800': light
           }"
         >
           <div class="flex flex-shrink-0 items-center gap-2">

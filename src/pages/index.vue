@@ -85,19 +85,14 @@ $listen("refresh:entertainment", () => {
 </script>
 <template>
   <section v-if="pending && (!home || !homeStore.isStored)">
-    <div
-      class="mx-auto flex h-screen flex-col items-center justify-center gap-8"
-    >
+    <div class="mx-auto flex h-screen flex-col items-center justify-center gap-8">
       <Loader />
     </div>
   </section>
   <section class="relative bg-gray-950" v-else>
     <HomeMainSlider :data="homeStore.trending" />
     <div class="relative mx-auto mb-24 space-y-12">
-      <section
-        v-if="homeStore.recommendations.length"
-        class="relative z-10 -mt-20 space-y-8"
-      >
+      <section v-if="homeStore.recommendations.length" class="relative z-10 -mt-20 space-y-8">
         <div class="flex h-10 items-center gap-x-4">
           <h1 class="pl-[4vw] text-2xl font-bold">
             {{ $t("home.recommended") }}
@@ -144,11 +139,7 @@ $listen("refresh:entertainment", () => {
           :show-ratings="true"
         />
       </section>
-      <section
-        class="relative z-10 space-y-8"
-        v-for="genre in genres"
-        :key="genre.id"
-      >
+      <section class="relative z-10 space-y-8" v-for="genre in genres" :key="genre.id">
         <h1 class="px-[4vw] text-2xl font-bold">
           {{ $t("genres." + genre.name) }}
         </h1>

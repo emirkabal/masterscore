@@ -6,7 +6,6 @@ import type {
   TMDBData,
   TMDBSearchResult
 } from "~/types"
-import { exportRomaji, hasJapanese } from "~/utils/functions"
 
 const genres = [
   {
@@ -188,11 +187,8 @@ export default defineNuxtPlugin(() => {
         return genres.find((genre) => genre.id == id)?.name
       },
       tfiltergenres: (names: Genre[], support?: "movie" | "tv") => {
-        const list = genres.filter((genre) =>
-          names.includes(genre.name as Genre)
-        )
-        if (support)
-          return list.filter((genre) => genre.support.includes(support))
+        const list = genres.filter((genre) => names.includes(genre.name as Genre))
+        if (support) return list.filter((genre) => genre.support.includes(support))
         return list
       },
       tgetgenre: (name: Genre) => {
@@ -206,28 +202,7 @@ export default defineNuxtPlugin(() => {
         return providers.find((p) => p.name === name)
       },
       getOriginalTitle: (data: TMDBData | TMDBSearchResult) => {
-        return (
-          data.original_title ||
-          ("original_name" in data && data.original_name) ||
-          "Untitled"
-        )
-      },
-      getKanaTitle: async (data: TMDBData | TMDBSearchResult) => {
-        const title =
-          data.original_title ||
-          ("original_name" in data && data.original_name) ||
-          data.title ||
-          data.name ||
-          "Untitled"
-
-        const res = await exportRomaji(title)
-        return res
-      },
-      hasJapanese: (str: string) => {
-        return hasJapanese(str)
-      },
-      toRomaji: async (str: string) => {
-        return exportRomaji(str)
+        return data.original_title || ("original_name" in data && data.original_name) || "Untitled"
       },
       getYear: (item: TMDBData | TMDBSearchResult) => {
         return (
