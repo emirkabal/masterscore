@@ -23,16 +23,12 @@ withDefaults(
 
 <template>
   <div>
-    <h1
-      class="my-4 border-l-4 border-yellow-500 pl-4 text-2xl font-bold tracking-wide"
-    >
+    <h1 class="my-4 border-l-4 border-yellow-500 pl-4 text-2xl font-bold tracking-wide">
       {{ $t("entertainment.reviews") }}
     </h1>
     <div v-if="mranking?.good">
       <EntertainmentMRanking :rating="mranking.rating" class="w-fit" />
-      <p class="text-gray-500 dark:text-gray-400">
-        {{ $t("total") }}: {{ mranking.total }}
-      </p>
+      <p class="text-gray-500 dark:text-gray-400">{{ $t("total") }}: {{ mranking.total }}</p>
       <p class="flex flex-wrap gap-x-4">
         <span class="text-green-500 dark:text-green-400">
           {{
@@ -58,28 +54,16 @@ withDefaults(
           class="skeleton-effect h-14 w-14 flex-shrink-0 rounded-full bg-gray-300 dark:bg-gray-900"
         ></div>
         <div class="ml-4 flex w-full flex-col">
-          <div
-            class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"
-          ></div>
-          <div
-            class="skeleton-effect mt-1 h-2 w-1/2 rounded bg-gray-300 dark:bg-gray-900"
-          ></div>
-          <div
-            class="skeleton-effect mt-1 h-2 w-1/3 rounded bg-gray-300 dark:bg-gray-900"
-          ></div>
-          <div
-            class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"
-          ></div>
+          <div class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"></div>
+          <div class="skeleton-effect mt-1 h-2 w-1/2 rounded bg-gray-300 dark:bg-gray-900"></div>
+          <div class="skeleton-effect mt-1 h-2 w-1/3 rounded bg-gray-300 dark:bg-gray-900"></div>
+          <div class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"></div>
         </div>
       </div>
     </div>
     <div v-else-if="data.length > 0">
       <div class="space-y-8 divide-y dark:divide-gray-900">
-        <div
-          v-for="comment in data"
-          :key="comment._id"
-          class="flex items-start pt-8"
-        >
+        <div v-for="comment in data" :key="comment._id" class="flex items-start pt-8">
           <NuxtLink :to="`/users/@${comment.author.username}`">
             <Avatar
               :username="comment.author.username"
@@ -94,9 +78,7 @@ withDefaults(
                 :to="`/users/@${comment.author.username}`"
                 class="flex min-w-0 items-center gap-1 font-semibold hover:underline"
               >
-                <span class="truncate break-words">
-                  @{{ comment.author.username }}
-                </span>
+                <span class="truncate break-words"> @{{ comment.author.username }} </span>
                 <Icon
                   v-if="comment.author.verified"
                   name="material-symbols:verified-rounded"
@@ -105,14 +87,8 @@ withDefaults(
               <p
                 class="line-clamp-1 flex-shrink-0 break-words text-xs text-gray-500 dark:text-gray-300"
               >
-                <span
-                  v-text="
-                    $moment(comment.createdAt).locale($i18n.locale).fromNow()
-                  "
-                ></span>
-                <span
-                  v-if="comment.createdAt !== comment.updatedAt"
-                  class="ml-1"
+                <span v-text="$moment(comment.createdAt).locale($i18n.locale).fromNow()"></span>
+                <span v-if="comment.createdAt !== comment.updatedAt" class="ml-1"
                   >({{ $t("edited") }})</span
                 >
               </p>

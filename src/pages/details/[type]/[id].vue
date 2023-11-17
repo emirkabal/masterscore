@@ -2,24 +2,14 @@
 import tinycolor from "tinycolor2"
 import { useStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
-const {
-  $event,
-  $listen,
-  $colorthief,
-  $getOriginalTitle,
-  $getTitle,
-  $getKanaTitle,
-  $hasJapanese
-} = useNuxtApp()
+const { $event, $listen, $colorthief, $getOriginalTitle, $getTitle } = useNuxtApp()
 const { params, query } = useRoute()
 const { feature } = query
 const flag = useStorage("debugMode", false)
 
 const { user, isLoggedIn } = useUserStore()
 
-const { data, pending, refresh } = useLazyFetch(
-  `/api/tmdb/${params.id}?type=${params.type}`
-)
+const { data, pending, refresh, error } = useLazyFetch(`/api/tmdb/${params.id}?type=${params.type}`)
 
 const watchModal = ref(false)
 const smartVideoData = ref(null)
@@ -115,6 +105,7 @@ const deleteReview = async () => {
 }
 
 watch(data, async () => {
+  if (error.value) return
   if (posterURL.value && process.client) {
     const image = new Image()
     image.setAttribute("crossOrigin", "Anonymous")
@@ -124,9 +115,7 @@ watch(data, async () => {
         algorithm: "dominant"
       })
       colors.background = dominantColor.value
-      const gradient = Object.values(
-        tinycolor(dominantColor.rgb).darken(45).toRgb()
-      )
+      const gradient = Object.values(tinycolor(dominantColor.rgb).darken(45).toRgb())
       colors.gradient = gradient
     }
     image.onerror = () => {
@@ -162,9 +151,7 @@ watch(data, async () => {
         smartVideoData.value?.length &&
         smartVideoData.value.find((e) => e.tmdb == data.value.id)
       ) {
-        smartVideoData.value = smartVideoData.value.find(
-          (e) => e.tmdb == data.value.id
-        )
+        smartVideoData.value = smartVideoData.value.find((e) => e.tmdb == data.value.id)
       }
 
       if (
@@ -172,41 +159,38 @@ watch(data, async () => {
         data.value.imdb_id &&
         smartVideoData.value.find((e) => e.imdb == data.value.imdb_id)
       ) {
-        smartVideoData.value = smartVideoData.value.find(
-          (e) => e.imdb == data.value.imdb_id
-        )
+        smartVideoData.value = smartVideoData.value.find((e) => e.imdb == data.value.imdb_id)
       }
 
       if (
         smartVideoData.value?.length &&
         data.value.release_date &&
-        smartVideoData.value.find(
-          (e) => e.year == data.value.release_date.split("-")[0]
-        )
+        smartVideoData.value.find((e) => e.year == data.value.release_date.split("-")[0])
       ) {
         smartVideoData.value = smartVideoData.value.find(
           (e) => e.year == data.value.release_date.split("-")[0]
         )
       }
-    }
-    if ($hasJapanese($getOriginalTitle(data.value))) {
-      const text = await $getKanaTitle(data.value)
-      await find(text)
-    } else await find($getOriginalTitle(data.value))
 
-    if (!smartVideoData.value || !smartVideoData.value?.length) {
-      if (data.value.belongs_to_collection && data.value.belongs_to_collection)
+      if (smartVideoData.value?.length === 0) {
+        smartVideoData.value = null
+      }
+    }
+    await find(data.value.localData.info.title)
+
+    if (!smartVideoData.value?.length || smartVideoData.value?.length === 0) {
+      if (data.value?.belongs_to_collection)
         await find(
-          data.value.belongs_to_collection.name
-            .replace(" Collection", "")
-            .replace("[Seri]", "")
+          data.value.belongs_to_collection.name.replace(" Collection", "").replace("[Seri]", "")
         )
       else await find($getTitle(data.value))
     }
-    if (smartVideoData.value?.length > 0 && params.type === "movie") {
+    if (!smartVideoData.value?.length || smartVideoData.value?.length === 0)
+      await find($getOriginalTitle(data.value))
+
+    if (smartVideoData.value?.length && params.type === "movie")
       smartVideoData.value = smartVideoData.value[0]
-    }
-    console.log(smartVideoData.value?.length)
+
     if (smartVideoData.value?.length === 0) smartVideoData.value = null
     smartVideoPending.value = false
   }
@@ -271,11 +255,7 @@ useHead({
       "
     />
     <EntertainmentReviewModal :data="data" :reviewData="reviewData" />
-    <EntertainmentContainer
-      :colors="colors"
-      :background-u-r-l="backgroundURL"
-      :feature="feature"
-    >
+    <EntertainmentContainer :colors="colors" :background-u-r-l="backgroundURL" :feature="feature">
       <div class="relative">
         <EntertainmentPoster :poster-u-r-l="posterURL" />
         <div class="left-0 right-0 lg:absolute">
@@ -287,18 +267,12 @@ useHead({
             class="group mt-2 flex h-6 cursor-default select-none items-center justify-center"
           >
             <Icon name="ic:round-close" class="h-6 w-6 text-red-500" />
-            <span
-              class="text-white opacity-90 transition-opacity group-hover:opacity-100"
-            >
+            <span class="text-white opacity-90 transition-opacity group-hover:opacity-100">
               Failed to check watch feature
             </span>
           </span>
           <span
-            v-else-if="
-              smartVideoData &&
-              smartVideoData.length > 0 &&
-              smartVideoData[0]?.copyright
-            "
+            v-else-if="smartVideoData && smartVideoData.length > 0 && smartVideoData[0]?.copyright"
             v-tooltip.bottom="{
               content: `Copy-righted content. You can't watch this ${
                 params.type === 'movie' ? 'movie' : 'tv show'
@@ -307,13 +281,8 @@ useHead({
             }"
             class="group mt-2 flex h-6 cursor-default select-none items-center justify-center gap-1"
           >
-            <Icon
-              name="ic:round-warning-amber"
-              class="h-6 w-6 text-yellow-400"
-            />
-            <span
-              class="text-white opacity-90 transition-opacity group-hover:opacity-100"
-            >
+            <Icon name="ic:round-warning-amber" class="h-6 w-6 text-yellow-400" />
+            <span class="text-white opacity-90 transition-opacity group-hover:opacity-100">
               Watch Unsupported
             </span>
           </span>
@@ -327,12 +296,8 @@ useHead({
             }"
             class="group mt-2 flex h-6 cursor-default select-none items-center justify-center gap-1"
           >
-            <Icon
-              name="material-symbols:verified-rounded"
-              class="h-6 w-6 text-yellow-400"
-            />
-            <span
-              class="text-white opacity-90 transition-opacity group-hover:opacity-100"
+            <Icon name="material-symbols:verified-rounded" class="h-6 w-6 text-yellow-400" />
+            <span class="text-white opacity-90 transition-opacity group-hover:opacity-100"
               >Watch Supported</span
             >
           </span>
@@ -341,8 +306,7 @@ useHead({
             class="group mt-2 flex h-6 cursor-default select-none items-center justify-center"
           >
             <Spinner class="-mr-1.5 scale-50" />
-            <span
-              class="text-white opacity-90 transition-opacity group-hover:opacity-100"
+            <span class="text-white opacity-90 transition-opacity group-hover:opacity-100"
               >Checking watch feature...</span
             >
           </span>
@@ -360,11 +324,7 @@ useHead({
           :isLight="backgroundBright"
           @openReview="openReview"
           :reviewData="reviewData"
-          :smartVideoData="
-            smartVideoData && !smartVideoData[0]?.copyright
-              ? smartVideoData
-              : null
-          "
+          :smartVideoData="smartVideoData && !smartVideoData[0]?.copyright ? smartVideoData : null"
         />
       </div>
     </EntertainmentContainer>
@@ -380,9 +340,7 @@ useHead({
             v-if="data.seasons"
             :data="data"
             :smartVideoData="
-              smartVideoData && !smartVideoData[0]?.copyright
-                ? smartVideoData
-                : null
+              smartVideoData && !smartVideoData[0]?.copyright ? smartVideoData : null
             "
           />
           <EntertainmentDetailsSimilar :data="data.similar" />
@@ -417,13 +375,7 @@ useHead({
         <div v-if="showDetailsDev">
           <p>{{ params.type }}: {{ params.id }}</p>
           <ClientOnly>
-            <JsonViewer
-              :value="data"
-              copyable
-              sort
-              expanded
-              theme="jsonviewer"
-            />
+            <JsonViewer :value="data" copyable sort expanded theme="jsonviewer" />
           </ClientOnly>
         </div>
       </div>

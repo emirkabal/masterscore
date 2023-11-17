@@ -9,9 +9,7 @@ isDark.value = true
 </script>
 
 <template>
-  <footer
-    class="-mt-4 w-full gap-24 border-t border-gray-800 bg-gray-900/30 py-16"
-  >
+  <footer class="-mt-4 w-full gap-24 border-t border-gray-800 bg-gray-900/30 py-16">
     <div
       class="max-w-8xl container mx-auto flex w-full flex-col-reverse justify-between gap-2 px-4 text-center md:flex-row md:text-left"
     >
@@ -34,11 +32,7 @@ isDark.value = true
         <p class="max-w-xs pb-6 text-xs opacity-50">
           <i18n-t keypath="footer.tmdb_text">
             <template v-slot:provider>
-              <a
-                href="https://www.themoviedb.org/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
+              <a href="https://www.themoviedb.org/" rel="noopener noreferrer" target="_blank">
                 <IconsTMDB class="-mt-0.5 inline h-2 w-auto" />
               </a>
             </template>
@@ -54,9 +48,7 @@ isDark.value = true
           >created by <IconsEKLogo class="inline h-6 w-auto"
         /></a>
       </div>
-      <div
-        class="flex flex-col items-center justify-center sm:items-end sm:justify-between"
-      >
+      <div class="flex flex-col items-center justify-center sm:items-end sm:justify-between">
         <LangSwitcher />
         <a
           class="group hidden items-center gap-x-3 text-xs tracking-tight opacity-90 hover:opacity-100 sm:flex"

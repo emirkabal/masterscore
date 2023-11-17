@@ -30,12 +30,7 @@
 import { VideoPlayer } from "@videojs-player/vue"
 import type { HistoryItem } from "~/types"
 import type { VideoPlayerProps, VideoPlayerState } from "@videojs-player/vue"
-import {
-  useLocalStorage,
-  useScreenOrientation,
-  useEventListener,
-  isIOS
-} from "@vueuse/core"
+import { useLocalStorage, useScreenOrientation, useEventListener, isIOS } from "@vueuse/core"
 import videojs from "video.js"
 import "video.js/dist/video-js.css"
 
@@ -150,9 +145,7 @@ const handleMounted = (payload: any) => {
   state.value = payload.state
   player.value = payload.player
 
-  const historyItem = history.value.find(
-    (e) => e.playlistId === props.playlistId
-  )
+  const historyItem = history.value.find((e) => e.playlistId === props.playlistId)
   if (historyItem && player.value) {
     player.value.currentTime(historyItem.currentTime)
   }

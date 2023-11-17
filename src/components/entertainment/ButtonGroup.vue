@@ -96,15 +96,9 @@ watchEffect(() => {
 <template>
   <div v-if="loading">
     <div class="mt-4 flex flex-col gap-2 lg:flex-row">
-      <div
-        class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-gray-800 lg:w-1/4"
-      ></div>
-      <div
-        class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-gray-800 lg:w-1/4"
-      ></div>
-      <div
-        class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-gray-800 lg:w-4/12"
-      ></div>
+      <div class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-gray-800 lg:w-1/4"></div>
+      <div class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-gray-800 lg:w-1/4"></div>
+      <div class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-gray-800 lg:w-4/12"></div>
     </div>
     <div class="mt-3 flex flex-row gap-2">
       <div
@@ -144,9 +138,7 @@ watchEffect(() => {
           <Icon name="ic:round-star" v-if="userReviewed" class="h-7 w-7" />
           <Icon name="ic:round-star-border" v-else class="h-7 w-7" />
           {{
-            userReviewed
-              ? $t("entertainment.buttons.reviewed")
-              : $t("entertainment.buttons.review")
+            userReviewed ? $t("entertainment.buttons.reviewed") : $t("entertainment.buttons.review")
           }}
         </button>
       </div>
@@ -187,9 +179,7 @@ watchEffect(() => {
       class="mt-2 flex gap-2 divide-x-2 text-sm"
     >
       <p>{{ likes }} {{ $t("entertainment.summary.likes") }}</p>
-      <p class="pl-2">
-        {{ reviewData.count }} {{ $t("entertainment.summary.reviews") }}
-      </p>
+      <p class="pl-2">{{ reviewData.count }} {{ $t("entertainment.summary.reviews") }}</p>
     </div>
   </div>
 </template>

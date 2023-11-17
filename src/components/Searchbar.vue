@@ -47,9 +47,7 @@ const searchResults = debounce(async () => {
   users.value = data.users
 
   if (
-    (data.tmdb.length > 0 ||
-      data.persons.length > 0 ||
-      data.users.length > 0) &&
+    (data.tmdb.length > 0 || data.persons.length > 0 || data.users.length > 0) &&
     search.value.length > 0
   ) {
     history.value = [search.value, ...history.value].slice(0, 9)
@@ -106,10 +104,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
     </Transition>
 
     <div class="relative z-20 w-full">
-      <Icon
-        name="ic:round-search"
-        class="pointer-events-none absolute left-2 top-[9px] h-6 w-6"
-      />
+      <Icon name="ic:round-search" class="pointer-events-none absolute left-2 top-[9px] h-6 w-6" />
       <div
         v-if="!focused"
         class="pointer-events-none absolute right-2.5 top-2 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
@@ -139,9 +134,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
                     : selectedIndex
               } else {
                 selectedIndex =
-                  selectedIndex < routes.length - 1
-                    ? selectedIndex + 1
-                    : selectedIndex
+                  selectedIndex < routes.length - 1 ? selectedIndex + 1 : selectedIndex
               }
               return
             }
@@ -154,8 +147,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         @keydown.arrow-up="
           (e) => {
             e.preventDefault()
-            selectedIndex =
-              selectedIndex > 0 ? selectedIndex - 1 : selectedIndex
+            selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : selectedIndex
           }
         "
         @keydown.enter="
@@ -180,18 +172,10 @@ onKeyStroke(["Control", "K", "k"], (e) => {
                 `/details/${results[selectedIndex].media_type}/${results[selectedIndex].id}`
               )
             } else if (selectedIndex < results.length + persons.length) {
+              $router.push(`/details/person/${persons[selectedIndex - results.length].id}`)
+            } else if (selectedIndex < results.length + persons.length + users.length) {
               $router.push(
-                `/details/person/${persons[selectedIndex - results.length].id}`
-              )
-            } else if (
-              selectedIndex <
-              results.length + persons.length + users.length
-            ) {
-              $router.push(
-                `/users/${
-                  users[selectedIndex - results.length - persons.length]
-                    .username
-                }`
+                `/users/${users[selectedIndex - results.length - persons.length].username}`
               )
             }
             selectedIndex = 0
@@ -221,10 +205,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       </div>
       <div
         v-else-if="
-          results.length === 0 &&
-          users.length === 0 &&
-          persons.length === 0 &&
-          search.length !== 0
+          results.length === 0 && users.length === 0 && persons.length === 0 && search.length !== 0
         "
       >
         <p class="text-center text-gray-500 dark:text-gray-300">
@@ -290,8 +271,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             @mouseenter="selectedIndex = i + history.length"
             :data-index="i + history.length"
             :class="{
-              'bg-gray-100 dark:bg-gray-900':
-                i + history.length === selectedIndex,
+              'bg-gray-100 dark:bg-gray-900': i + history.length === selectedIndex,
               'bg-white dark:bg-gray-950': i + history.length !== selectedIndex
             }"
             class="inline-flex w-full items-center justify-between rounded-2xl px-2 py-1"
@@ -338,13 +318,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
                     {{ $getTitle(result) }}
                   </p>
                   <p class="text-gray-500 dark:text-gray-300">
-                    {{
-                      (
-                        result.first_air_date ||
-                        result.release_date ||
-                        "-"
-                      ).split("-")[0]
-                    }}
+                    {{ (result.first_air_date || result.release_date || "-").split("-")[0] }}
                   </p>
                 </div>
               </div>
@@ -363,10 +337,8 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               :data-index="i + results.length"
               :class="{
-                'bg-gray-100 dark:bg-gray-900':
-                  i + results.length === selectedIndex,
-                'bg-white dark:bg-gray-950':
-                  i + results.length !== selectedIndex
+                'bg-gray-100 dark:bg-gray-900': i + results.length === selectedIndex,
+                'bg-white dark:bg-gray-950': i + results.length !== selectedIndex
               }"
             >
               <div class="flex w-full items-center">
@@ -404,8 +376,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               :class="{
                 'bg-gray-100 dark:bg-gray-900':
                   i + (results.length + persons.length) === selectedIndex,
-                'bg-white dark:bg-gray-950':
-                  i + (results.length + persons.length) !== selectedIndex
+                'bg-white dark:bg-gray-950': i + (results.length + persons.length) !== selectedIndex
               }"
             >
               <div class="flex w-full items-center">
@@ -416,9 +387,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
                   :border="true"
                 />
                 <div class="ml-2 max-w-sm">
-                  <p class="truncate text-ellipsis font-bold">
-                    @{{ user.username }}
-                  </p>
+                  <p class="truncate text-ellipsis font-bold">@{{ user.username }}</p>
                 </div>
               </div>
             </NuxtLink>

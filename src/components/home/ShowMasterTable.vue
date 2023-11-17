@@ -10,10 +10,9 @@
         <span class="text-yellow-500 group-hover:text-black">m</span>aster table
       </h1>
       <p class="text-lg leading-6 opacity-75">
-        Master table is a feature that shows the top 100 movies and TV shows
-        based on user reviews. With filters for year, genre, and more, Master
-        table helps users find high-quality movies and TV shows based on popular
-        opinions.
+        Master table is a feature that shows the top 100 movies and TV shows based on user reviews.
+        With filters for year, genre, and more, Master table helps users find high-quality movies
+        and TV shows based on popular opinions.
       </p>
 
       <div

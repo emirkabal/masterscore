@@ -20,10 +20,7 @@ export default defineEventHandler(async (event) => {
 
   const user = grabUserWithoutPassword(event.context.user)
 
-  if (
-    user.reviews &&
-    !user.reviews.map((e) => e.toString()).includes(entertainment)
-  ) {
+  if (user.reviews && !user.reviews.map((e) => e.toString()).includes(entertainment)) {
     return {
       status: 400,
       message: "You haven't reviewed this entertainment"

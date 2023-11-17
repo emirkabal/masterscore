@@ -11,9 +11,7 @@ const props = defineProps<{
 
 const filtered = computed(() => {
   return props.data
-    .filter(
-      (item) => item.backdrop_path && ["tv", "movie"].includes(item.media_type)
-    )
+    .filter((item) => item.backdrop_path && ["tv", "movie"].includes(item.media_type))
     .slice(0, 6)
 })
 
@@ -79,10 +77,7 @@ const slideTo = (index: number) => {
                 <div
                   class="text flex flex-wrap items-center gap-3 text-sm font-semibold lg:text-lg"
                 >
-                  <ScoreCircle
-                    class="text-sm lg:text-lg"
-                    :score="item.vote_average"
-                  />
+                  <ScoreCircle class="text-sm lg:text-lg" :score="item.vote_average" />
                   <div class="flex flex-wrap gap-2">
                     <NuxtLink
                       v-for="genre in item.genre_ids"
@@ -115,9 +110,7 @@ const slideTo = (index: number) => {
         </div>
       </SwiperSlide>
       <div class="pointer-events-none absolute top-0 z-10 h-screen w-full">
-        <div
-          class="absolute bottom-[29%] left-[4vw] flex gap-2 sm:bottom-[31%]"
-        >
+        <div class="absolute bottom-[29%] left-[4vw] flex gap-2 sm:bottom-[31%]">
           <SliderControlDot
             v-for="i in filtered.length"
             :key="i"

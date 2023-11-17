@@ -2,8 +2,7 @@
 import type { CreditsResult, ProviderResults, TMDBData } from "~/types"
 import ScreenModal from "~/components/ScreenModal.vue"
 const { t, locale } = useI18n()
-const { $getTitle, $getOriginalTitle, $moment, $hasJapanese, $getKanaTitle } =
-  useNuxtApp()
+const { $getTitle, $getOriginalTitle, $moment } = useNuxtApp()
 const { userAgent } = useDevice()
 const props = defineProps<{
   data: TMDBData
@@ -18,15 +17,13 @@ const formatter = new Intl.NumberFormat("en-US", {
   currencyDisplay: "symbol"
 })
 
-const { data: providerData, pending: providerPending } =
-  useLazyFetch<ProviderResults>(
-    `https://watchhub.strem.io/stream/movie/${
-      props.data.external_ids?.imdb_id || props.data.imdb_id
-    }.json`
-  )
+const { data: providerData, pending: providerPending } = useLazyFetch<ProviderResults>(
+  `https://watchhub.strem.io/stream/movie/${
+    props.data.external_ids?.imdb_id || props.data.imdb_id
+  }.json`
+)
 
 const trailerModal = ref(false)
-const romajiTitle = ref("")
 
 const getDateDiff = (date: string) => {
   return $moment(date).locale(locale.value).fromNow()
@@ -47,20 +44,16 @@ const status = computed(() => {
     const lastAirDate = $moment(props.data.last_air_date).locale(locale.value)
     return `${t("entertainment.sidebar.ended_at")}: ${lastAirDate.format(
       "MMMM D, YYYY"
-    )}<br/>${firstAirDate.format("YYYY")}-${lastAirDate.format(
-      "YYYY"
-    )}<br/>${getDateDiff(props.data.last_air_date)}`
+    )}<br/>${firstAirDate.format("YYYY")}-${lastAirDate.format("YYYY")}<br/>${getDateDiff(
+      props.data.last_air_date
+    )}`
   } else if (
     props.data?.status === "Returning Series" &&
     props.data.first_air_date &&
     props.data.next_episode_to_air
   ) {
-    const nextAirDate = $moment(props.data.next_episode_to_air.air_date).locale(
-      locale.value
-    )
-    return `${t("entertainment.sidebar.returning_in")}: ${nextAirDate.format(
-      "MMMM D, YYYY"
-    )}`
+    const nextAirDate = $moment(props.data.next_episode_to_air.air_date).locale(locale.value)
+    return `${t("entertainment.sidebar.returning_in")}: ${nextAirDate.format("MMMM D, YYYY")}`
   } else if (props.data?.status === "Planned") {
     return t("entertainment.sidebar.planned")
   }
@@ -74,16 +67,13 @@ const website = computed(() => {
 
 const language = computed(() => {
   return (
-    props.data.spoken_languages?.find(
-      (e) => e.iso_639_1 === props.data.original_language
-    )?.name || t("unknown")
+    props.data.spoken_languages?.find((e) => e.iso_639_1 === props.data.original_language)?.name ||
+    t("unknown")
   )
 })
 
 const spokenLanguages = computed(() => {
-  return (
-    props.data.spoken_languages?.map((e) => e.name).join(", ") || t("unknown")
-  )
+  return props.data.spoken_languages?.map((e) => e.name).join(", ") || t("unknown")
 })
 
 const budget = computed(() => {
@@ -162,9 +152,7 @@ const crew = computed(() => {
   return (
     props.data &&
     props.data.credits.crew
-      .filter((e) =>
-        ["Director", "Writer", "Novel", "Screenplay"].includes(e.job)
-      )
+      .filter((e) => ["Director", "Writer", "Novel", "Screenplay", "Story"].includes(e.job))
       .reduce((acc: any, cur: any) => {
         const found = acc.find((e: any) => e.id === cur.id)
         if (found) {
@@ -186,29 +174,14 @@ const crew = computed(() => {
       .slice(0, 10)
   )
 })
-
-onMounted(async () => {
-  if (originalName.value && $hasJapanese(originalName.value)) {
-    const res = await $getKanaTitle(props.data)
-    if (res) {
-      romajiTitle.value = ` (${res})`
-    }
-  }
-})
 </script>
 
 <template>
   <div class="z-20 w-full rounded-3xl p-0 lg:px-6 lg:pt-6">
-    <ScreenModal
-      v-if="getVideo"
-      :modal="trailerModal"
-      @close="trailerModal = false"
-    >
+    <ScreenModal v-if="getVideo" :modal="trailerModal" @close="trailerModal = false">
       <iframe
         class="aspect-video h-auto w-full rounded-xl md:h-[720px]"
-        :src="`https://www.youtube.com/embed/${
-          getVideo.split('/')[3]
-        }?autoplay=1`"
+        :src="`https://www.youtube.com/embed/${getVideo.split('/')[3]}?autoplay=1`"
       />
     </ScreenModal>
     <div class="space-y-6">
@@ -222,25 +195,15 @@ onMounted(async () => {
       </button>
 
       <div v-if="providerPending" class="space-y-2">
-        <div
-          class="skeleton-effect h-2 w-1/2 rounded-full bg-gray-300 dark:bg-gray-900"
-        ></div>
+        <div class="skeleton-effect h-2 w-1/2 rounded-full bg-gray-300 dark:bg-gray-900"></div>
         <div class="flex items-center gap-2">
-          <div
-            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-gray-900"
-          ></div>
-          <div
-            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-gray-900"
-          ></div>
-          <div
-            class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-gray-900"
-          ></div>
+          <div class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-gray-900"></div>
+          <div class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-gray-900"></div>
+          <div class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-gray-900"></div>
         </div>
       </div>
       <div v-else-if="providerData?.streams?.length || smartVideoData">
-        <span class="font-bold">{{
-          $t("entertainment.sidebar.availabe_on")
-        }}</span>
+        <span class="font-bold">{{ $t("entertainment.sidebar.availabe_on") }}</span>
         <div class="flex flex-wrap items-center gap-2">
           <span
             v-if="smartVideoData"
@@ -258,11 +221,7 @@ onMounted(async () => {
             v-if="providerData?.streams?.length"
             v-for="provider in providerData.streams"
             :key="provider.name"
-            :href="
-              userAgent.includes('webOS')
-                ? provider.androidTvUrl
-                : provider.externalUrl
-            "
+            :href="userAgent.includes('webOS') ? provider.androidTvUrl : provider.externalUrl"
             target="_blank"
             v-tooltip="{
               content: `<b>${provider.name}</b>, ${provider.title}`,
@@ -272,9 +231,7 @@ onMounted(async () => {
             :style="{
               backgroundImage: `url(${
                 $getProvider(provider.name)
-                  ? `https://image.tmdb.org/t/p/original/${
-                      $getProvider(provider.name)?.logo
-                    }`
+                  ? `https://image.tmdb.org/t/p/original/${$getProvider(provider.name)?.logo}`
                   : 'https://i.imgur.com/qDIwea6.png'
               })`
             }"
@@ -292,9 +249,7 @@ onMounted(async () => {
           type: '0',
           info: {
             release_date: '0',
-            title: data.belongs_to_collection.name
-              .replace(' Collection', '')
-              .replace('[Seri]', ''),
+            title: data.belongs_to_collection.name.replace(' Collection', '').replace('[Seri]', ''),
             poster: data.belongs_to_collection.poster_path,
             backdrop: data.belongs_to_collection.backdrop_path
           }
@@ -303,12 +258,15 @@ onMounted(async () => {
       />
       <p v-if="originalName && originalName !== $getTitle(props.data)">
         <strong>{{ $t("entertainment.sidebar.original_name") }}</strong>
-        <span>{{ originalName }}{{ romajiTitle }}</span>
+        <span
+          >{{ originalName
+          }}{{
+            originalName !== data.localData.info.title ? ` (${data.localData.info.title})` : ""
+          }}</span
+        >
       </p>
       <p v-if="crew?.length">
-        <strong>{{
-          $t("entertainment.sidebar.important-crew-members")
-        }}</strong>
+        <strong>{{ $t("entertainment.sidebar.important-crew-members") }}</strong>
         <span class="flex flex-col">
           <NuxtLink
             v-for="person in crew"
@@ -370,11 +328,7 @@ onMounted(async () => {
       <div v-if="props.data?.imdb_id || rtScore">
         <strong>{{ $t("entertainment.sidebar.other") }}</strong>
         <div class="flex w-fit gap-2">
-          <IMDBLink
-            v-if="props.data?.imdb_id"
-            :imdb="props.data?.imdb_id"
-            :score="imdbScore"
-          />
+          <IMDBLink v-if="props.data?.imdb_id" :imdb="props.data?.imdb_id" :score="imdbScore" />
           <RottenTomatoes v-if="rtScore" :score="rtScore" />
         </div>
       </div>

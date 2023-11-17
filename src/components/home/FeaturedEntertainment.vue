@@ -80,17 +80,12 @@ if (process.client && isDesktop) {
 }
 watch(iframeLoaded, () => {
   if (player.value && player.value.contentWindow) {
-    player.value.contentWindow.postMessage(
-      '{"event":"listening","id":1,"channel":"widget"}',
-      "*"
-    )
+    player.value.contentWindow.postMessage('{"event":"listening","id":1,"channel":"widget"}', "*")
   }
 })
 </script>
 <template>
-  <section
-    class="relative flex h-[90vh] w-full items-center overflow-hidden bg-black"
-  >
+  <section class="relative flex h-[90vh] w-full items-center overflow-hidden bg-black">
     <NuxtImg
       class="absolute inset-0 h-full w-full select-none object-cover brightness-50 filter md:brightness-75"
       :src="$timage(data.backdrop_path, 'original')"
@@ -132,9 +127,7 @@ watch(iframeLoaded, () => {
     >
 
     <div class="container z-10 mx-auto w-full px-4">
-      <div
-        class="flex max-w-xl flex-col items-center text-center md:items-start md:text-left"
-      >
+      <div class="flex max-w-xl flex-col items-center text-center md:items-start md:text-left">
         <MasterImage
           class="mb-8 w-3/4 select-none bg-transparent drop-shadow"
           :alt="`${data.title || data.name || 'Untitled'} Logo`"

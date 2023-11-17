@@ -27,18 +27,14 @@ const genres = computed(() => {
 const runtime = computed(() => {
   return $moment
     .duration(
-      (data && data.runtime) ||
-        (data && data.episode_run_time && data.episode_run_time[0]) ||
-        45,
+      (data && data.runtime) || (data && data.episode_run_time && data.episode_run_time[0]) || 45,
       "minutes"
     )
     .locale(locale.value)
     .humanize()
 })
 const releaseDate = computed(() => {
-  return $moment(
-    (data && data.release_date) || (data && data.first_air_date) || 0
-  )
+  return $moment((data && data.release_date) || (data && data.first_air_date) || 0)
     .locale(locale.value)
     .format("YYYY")
 })
@@ -90,79 +86,67 @@ useHead({
         </div>
       </div>
       <div class="mt-2.5 flex flex-col items-center gap-2 lg:items-start">
-        <div
-          class="skeleton-effect h-4 w-11/12 rounded bg-gray-300 dark:bg-gray-800"
-        ></div>
-        <div
-          class="skeleton-effect h-4 w-10/12 rounded bg-gray-300 dark:bg-gray-800"
-        ></div>
-        <div
-          class="skeleton-effect h-4 w-6/12 rounded bg-gray-300 dark:bg-gray-800"
-        ></div>
+        <div class="skeleton-effect h-4 w-11/12 rounded bg-gray-300 dark:bg-gray-800"></div>
+        <div class="skeleton-effect h-4 w-10/12 rounded bg-gray-300 dark:bg-gray-800"></div>
+        <div class="skeleton-effect h-4 w-6/12 rounded bg-gray-300 dark:bg-gray-800"></div>
       </div>
     </div>
   </div>
   <div v-else-if="data && !loading">
     <div class="flex flex-col-reverse text-center lg:text-left">
       <h1
-        class="inline-block flex-shrink-0 font-semibold tracking-tight"
+        class="inline-block flex-shrink-0 font-semibold tracking-tight text-white"
         :class="{
           'text-4xl md:text-5xl lg:text-6xl': title.length < 20,
           'text-3xl md:text-4xl lg:text-5xl': title.length < 30,
-          'text-2xl md:text-3xl lg:text-4xl': title.length >= 30,
-          'text-black': isLight,
-          'text-white': !isLight
+          'text-2xl md:text-3xl lg:text-4xl': title.length >= 30
         }"
       >
         {{ title }}
       </h1>
       <!-- Desktop -->
+
       <div
-        class="flex flex-wrap items-center justify-center gap-y-2 space-x-4 text-xs sm:text-sm lg:justify-start lg:text-lg"
+        class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 lg:justify-start"
         :class="{
-          'divide-black/20 text-black': isLight,
-          'divide-white/20 text-white/70': !isLight
+          'text-black': isLight,
+          'text-white/70': !isLight
         }"
       >
         <ScoreCircle :score="rating" />
         <EntertainmentMRanking :rating="rating" />
-        <h2 class="font-semibold md:ml-0.5">
-          {{ releaseDate }}
-        </h2>
-
-        <div class="line-clamp-1 flex gap-3.5 break-all font-semibold">
-          <NuxtLink
-            v-for="genre in genres"
-            :to="`/discover/${$route.params.type}/${genre.id}`"
-            class="transition-colors hover:text-white"
-          >
-            {{ genre.name }}
-          </NuxtLink>
-        </div>
-        <h2 class="line-clamp-1 flex-shrink-0 font-semibold">
-          {{ runtime }}
-        </h2>
-        <div class="flex flex-shrink-0 items-center gap-2">
-          <h2
-            v-if="contentRating && contentRating !== 'Not Rated'"
-            class="line-clamp-1 border px-2 text-lg font-semibold"
-            :class="{
-              'border-black/40': isLight,
-              'border-white/40': !isLight
-            }"
-          >
-            {{ contentRating || "NR" }}
-          </h2>
-        </div>
       </div>
     </div>
-    <p
-      class="mt-2 line-clamp-6 text-center text-base lg:text-left lg:text-xl"
-      :class="{
-        'text-black/80': isLight,
-        'text-white/80 ': !isLight
-      }"
+    <div
+      class="my-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-white/80 lg:justify-start"
     >
+      <h2
+        v-if="contentRating && contentRating !== 'Not Rated'"
+        class="line-clamp-1 border px-2 font-semibold"
+        :class="{
+          'border-black/40': isLight,
+          'border-white/40': !isLight
+        }"
+      >
+        {{ contentRating || "NR" }}
+      </h2>
+      <h2 class="font-semibold md:ml-0.5">
+        {{ releaseDate }}
+      </h2>
+
+      <NuxtLink
+        v-for="genre in genres"
+        :to="`/discover/${$route.params.type}/${genre.id}`"
+        class="font-semibold transition-colors hover:text-white"
+      >
+        {{ genre.name }}
+      </NuxtLink>
+
+      <h2 class="line-clamp-1 flex-shrink-0 font-semibold">
+        {{ runtime }}
+      </h2>
+    </div>
+    <p class="mt-2 line-clamp-6 text-center text-base text-white/80 lg:text-left lg:text-xl">
       {{ overview }}
     </p>
   </div>

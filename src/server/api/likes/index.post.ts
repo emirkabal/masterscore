@@ -20,15 +20,8 @@ export default defineEventHandler(async (event) => {
     } as ErrorResponse
 
   const user = grabUserWithoutPassword(event.context.user)
-  if (
-    user.likes &&
-    user.likes.map((e) => e.toString()).includes(id) &&
-    type === "remove"
-  ) {
-    await UserModel.findOneAndUpdate(
-      { _id: user._id },
-      { $pull: { likes: id } }
-    )
+  if (user.likes && user.likes.map((e) => e.toString()).includes(id) && type === "remove") {
+    await UserModel.findOneAndUpdate({ _id: user._id }, { $pull: { likes: id } })
     const { likes } = await LikeModel.findOneAndUpdate(
       { entertainment: id },
       { $inc: { likes: -1 } },
@@ -41,15 +34,8 @@ export default defineEventHandler(async (event) => {
     })
 
     return { status: 200, message: "Unliked", likes }
-  } else if (
-    user.likes &&
-    !user.likes.map((e) => e.toString()).includes(id) &&
-    type === "add"
-  ) {
-    await UserModel.findOneAndUpdate(
-      { _id: user._id },
-      { $push: { likes: id } }
-    )
+  } else if (user.likes && !user.likes.map((e) => e.toString()).includes(id) && type === "add") {
+    await UserModel.findOneAndUpdate({ _id: user._id }, { $push: { likes: id } })
     const { likes } = await LikeModel.findOneAndUpdate(
       { entertainment: id },
       { $inc: { likes: 1 } },

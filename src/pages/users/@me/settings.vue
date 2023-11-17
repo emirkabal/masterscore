@@ -98,10 +98,7 @@ const submit = async (e) => {
         name: avatar.value.name,
         type: avatar.value.type || "image/png",
         size: avatar.value.size,
-        file: (await getBase64(avatar.value)).replace(
-          "application/octet-stream",
-          "image/png"
-        )
+        file: (await getBase64(avatar.value)).replace("application/octet-stream", "image/png")
       }
     }
   }
@@ -143,9 +140,7 @@ const submit = async (e) => {
       {{ $t("settings.title") }}
     </h1>
     <div class="px-2">
-      <p
-        class="mb-4 border-b px-2 py-4 font-maven font-semibold dark:border-gray-900"
-      >
+      <p class="mb-4 border-b px-2 py-4 font-maven font-semibold dark:border-gray-900">
         {{ $t("settings.edit_profile") }}
       </p>
       <div
@@ -156,11 +151,7 @@ const submit = async (e) => {
       </div>
       <div class="my-12 grid gap-8 lg:my-0 lg:grid-cols-2">
         <div>
-          <Modal
-            :show="croppingImage !== null"
-            @close="croppingImage = null"
-            title="Crop Image"
-          >
+          <Modal :show="croppingImage !== null" @close="croppingImage = null" title="Crop Image">
             <template v-slot:body>
               <div>
                 <VuePictureCropper
@@ -204,9 +195,7 @@ const submit = async (e) => {
           </Modal>
           <form @submit="submit" class="space-y-2">
             <div class="mb-4 space-y-2">
-              <div
-                class="mb-4 flex items-center gap-4 border-b pb-4 dark:border-gray-800"
-              >
+              <div class="mb-4 flex items-center gap-4 border-b pb-4 dark:border-gray-800">
                 <div class="space-y-2">
                   <span class="flex items-center gap-2 text-xl font-bold"
                     >{{ $t("settings.avatar") }}
@@ -259,19 +248,12 @@ const submit = async (e) => {
                         <div
                           class="flex select-none flex-col items-center justify-center px-4 pb-6 pt-5"
                         >
-                          <Icon
-                            name="ic:outline-file-download"
-                            class="rotate-180 opacity-50"
-                          />
-                          <p
-                            class="mb-2 text-sm text-gray-500 dark:text-gray-400"
-                          >
+                          <Icon name="ic:outline-file-download" class="rotate-180 opacity-50" />
+                          <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
                             {{ $t("settings.dropzone_text") }}
                           </p>
                           <p class="text-xs text-gray-500 dark:text-gray-400">
-                            {{
-                              $t("settings.dropzone_types", ["1MB", "512x512"])
-                            }}
+                            {{ $t("settings.dropzone_types", ["1MB", "512x512"]) }}
                           </p>
                         </div>
                         <input
@@ -285,13 +267,9 @@ const submit = async (e) => {
                   </div>
                 </div>
               </div>
-              <div
-                class="mb-4 flex items-center gap-4 border-b pb-4 dark:border-gray-800"
-              >
+              <div class="mb-4 flex items-center gap-4 border-b pb-4 dark:border-gray-800">
                 <div class="space-y-2">
-                  <span class="text-xl font-bold">{{
-                    $t("settings.username")
-                  }}</span>
+                  <span class="text-xl font-bold">{{ $t("settings.username") }}</span>
                   <div class="flex">
                     <span
                       class="inline-flex items-center border border-gray-300 bg-gray-100 px-3 text-sm text-gray-500 dark:border-gray-800 dark:bg-gray-900"
@@ -303,13 +281,7 @@ const submit = async (e) => {
                     </span>
                     <input
                       :value="username"
-                      @input="
-                        (e) =>
-                          (username = e.target.value.replace(
-                            /[^A-Za-z0-9]/g,
-                            ''
-                          ))
-                      "
+                      @input="(e) => (username = e.target.value.replace(/[^A-Za-z0-9]/g, ''))"
                       :maxlength="16"
                       :placeholder="user.username"
                       :disabled="!isUsernameChangeAvailable"
@@ -322,12 +294,8 @@ const submit = async (e) => {
                   </div>
                 </div>
               </div>
-              <div
-                class="mb-4 gap-4 space-y-2 border-b pb-4 dark:border-gray-800"
-              >
-                <span class="text-xl font-bold">{{
-                  $t("settings.about")
-                }}</span>
+              <div class="mb-4 gap-4 space-y-2 border-b pb-4 dark:border-gray-800">
+                <span class="text-xl font-bold">{{ $t("settings.about") }}</span>
                 <div class="relative">
                   <textarea
                     :value="about"
@@ -347,9 +315,7 @@ const submit = async (e) => {
                 <span class="text-xl font-bold"
                   >{{ $t("settings.banner_url") }}
                   <span class="text-base text-gray-400 dark:text-gray-300"
-                    >({{
-                      $t("settings.platform_recommended", ["Imgur"])
-                    }})</span
+                    >({{ $t("settings.platform_recommended", ["Imgur"]) }})</span
                   ></span
                 >
 
@@ -390,9 +356,7 @@ const submit = async (e) => {
           </form>
         </div>
         <!-- preview -->
-        <div
-          class="relative rounded border-4 border-gray-100 dark:border-gray-800"
-        >
+        <div class="relative rounded border-4 border-gray-100 dark:border-gray-800">
           <div
             class="absolute -left-2 -top-2 z-10 rounded bg-gray-100 px-4 font-maven font-semibold dark:bg-gray-900"
           >
@@ -416,9 +380,7 @@ const submit = async (e) => {
       </div>
     </div>
     <div class="px-2 py-8">
-      <p
-        class="mb-4 border-b px-2 py-4 font-maven font-semibold dark:border-gray-900"
-      >
+      <p class="mb-4 border-b px-2 py-4 font-maven font-semibold dark:border-gray-900">
         {{ $t("settings.preferences") }}
       </p>
       <label

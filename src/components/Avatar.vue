@@ -20,9 +20,7 @@ const defaultAvatar = computed(() => {
 })
 
 const avatar = computed(() => {
-  return props.avatar
-    ? `${config.public.SUPABASE_STORAGE_URL}${props.avatar}`
-    : defaultAvatar.value
+  return props.avatar ? `${config.public.SUPABASE_STORAGE_URL}${props.avatar}` : defaultAvatar.value
 })
 
 const isAlpha = ref(false)
@@ -80,8 +78,7 @@ watch(imageLoading, () => {
       :onload="() => (imageLoading = false)"
       crossorigin="anonymous"
       :class="{
-        'pointer-events-none absolute inset-0 opacity-0':
-          imageLoading && !loading,
+        'pointer-events-none absolute inset-0 opacity-0': imageLoading && !loading,
         'rounded-full': !square,
         'rounded-lg': square,
         'scale-125': isAlpha

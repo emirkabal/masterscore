@@ -65,10 +65,7 @@ $listen("modal:review", (val) => {
     :title="$t('review_modal.title')"
   >
     <template v-slot:body>
-      <EntertainmentReviewModalInner
-        :data="props.data"
-        :reviewData="props.reviewData"
-      />
+      <EntertainmentReviewModalInner :data="props.data" :reviewData="props.reviewData" />
     </template>
     <template v-slot:footer>
       <button class="mr-6 font-semibold hover:underline" @click="modal = false">
@@ -82,17 +79,9 @@ $listen("modal:review", (val) => {
       </button>
     </template>
   </Modal>
-  <BottomModal
-    v-else
-    :title="$t('review_modal.title')"
-    :show="modal"
-    @close="modal = false"
-  >
+  <BottomModal v-else :title="$t('review_modal.title')" :show="modal" @close="modal = false">
     <template v-slot:body>
-      <EntertainmentReviewModalInner
-        :data="props.data"
-        :reviewData="props.reviewData"
-      />
+      <EntertainmentReviewModalInner :data="props.data" :reviewData="props.reviewData" />
     </template>
     <template v-slot:footer>
       <button

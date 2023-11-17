@@ -23,9 +23,7 @@ const crew = computed(() => {
     })
   }
 
-  crewData = crewData.filter(
-    (v, i, a) => a.findIndex((t) => t.title === v.title) === i
-  )
+  crewData = crewData.filter((v, i, a) => a.findIndex((t) => t.title === v.title) === i)
 
   for (const c of data.crew) {
     for (const i of crewData) {
@@ -64,9 +62,7 @@ const cast = computed(() => {
       {{ $t("entertainment.cast") }}
     </h1>
     <div v-if="loading || !data" class="space-y-2">
-      <div
-        class="skeleton-effect my-2 h-6 w-32 rounded bg-gray-300 dark:bg-gray-900"
-      ></div>
+      <div class="skeleton-effect my-2 h-6 w-32 rounded bg-gray-300 dark:bg-gray-900"></div>
       <div class="flex gap-2 overflow-x-hidden">
         <div class="flex flex-col" v-for="i in 8" :key="i">
           <div
@@ -95,9 +91,7 @@ const cast = computed(() => {
         </SwiperSlide>
       </EntertainmentSlider>
       <div v-if="crew.length > 0">
-        <button @click="allModal = true" class="my-2 text-lg opacity-90">
-          Show more..
-        </button>
+        <button @click="allModal = true" class="my-2 text-lg opacity-90">Show more..</button>
         <ScreenModal :modal="allModal" @close="allModal = false">
           <div
             class="h-full max-h-[550px] w-full max-w-[1200px] overflow-hidden rounded-xl bg-gray-200 p-2 dark:bg-gray-900 md:max-h-[780px] md:p-4"

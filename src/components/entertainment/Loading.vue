@@ -15,9 +15,7 @@
           <EntertainmentDetailsCast :loading="true" />
           <EntertainmentDetailsReviews :loading="true" />
         </div>
-        <div
-          class="static top-14 w-full self-start lg:sticky lg:min-w-[300px] lg:max-w-[300px]"
-        >
+        <div class="static top-14 w-full self-start lg:sticky lg:min-w-[300px] lg:max-w-[300px]">
           <div class="mt-12 flex items-center justify-center">
             <Loader class="!scale-100" />
           </div>

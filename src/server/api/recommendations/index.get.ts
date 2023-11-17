@@ -1,9 +1,4 @@
-import type {
-  ErrorResponse,
-  IEntertainment,
-  IUser,
-  TMDBSearchResult
-} from "~/types"
+import type { ErrorResponse, IEntertainment, IUser, TMDBSearchResult } from "~/types"
 import EntertainmentModel from "~/server/models/Entertainment.model"
 import UserModel from "~/server/models/User.model"
 import getISO from "~/utils/getISO"
@@ -20,10 +15,7 @@ export default defineEventHandler(async (event) => {
   }
 
   // @ts-ignore:2322
-  const {
-    likes,
-    reviews
-  }: { likes: IEntertainment[]; reviews: IEntertainment[] } =
+  const { likes, reviews }: { likes: IEntertainment[]; reviews: IEntertainment[] } =
     await UserModel.findById(user._id)
       .populate({
         path: "likes",
@@ -49,26 +41,17 @@ export default defineEventHandler(async (event) => {
   )
 
   data.releated = releatedEntertainment
-  data.results = data.results.filter(
-    (result) => result.poster_path && result.backdrop_path
-  )
+  data.results = data.results.filter((result) => result.poster_path && result.backdrop_path)
   likes.forEach((like) => {
     data.results = data.results.filter(
-      (result) =>
-        !(
-          result.id?.toString() === like.id.toString() &&
-          result.media_type === like.type
-        )
+      (result) => !(result.id?.toString() === like.id.toString() && result.media_type === like.type)
     )
   })
 
   reviews.forEach((review) => {
     data.results = data.results.filter(
       (result) =>
-        !(
-          result.id?.toString() === review.id.toString() &&
-          result.media_type === review.type
-        )
+        !(result.id?.toString() === review.id.toString() && result.media_type === review.type)
     )
   })
 

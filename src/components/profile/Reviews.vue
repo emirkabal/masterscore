@@ -18,18 +18,10 @@ defineProps<{
           ></div>
 
           <div class="flex flex-col gap-2">
-            <div
-              class="skeleton-effect h-3 w-24 rounded bg-gray-300 dark:bg-gray-900"
-            ></div>
-            <div
-              class="skeleton-effect h-2 w-32 rounded bg-gray-300 dark:bg-gray-900"
-            ></div>
-            <div
-              class="skeleton-effect h-2 w-12 rounded bg-gray-300 dark:bg-gray-900"
-            ></div>
-            <div
-              class="skeleton-effect h-2 w-20 rounded bg-gray-300 dark:bg-gray-900"
-            ></div>
+            <div class="skeleton-effect h-3 w-24 rounded bg-gray-300 dark:bg-gray-900"></div>
+            <div class="skeleton-effect h-2 w-32 rounded bg-gray-300 dark:bg-gray-900"></div>
+            <div class="skeleton-effect h-2 w-12 rounded bg-gray-300 dark:bg-gray-900"></div>
+            <div class="skeleton-effect h-2 w-20 rounded bg-gray-300 dark:bg-gray-900"></div>
           </div>
         </div>
       </div>
@@ -40,9 +32,7 @@ defineProps<{
     <div class="flex flex-col gap-6" v-else>
       <div v-for="review in reviews.items" :key="review._id">
         <div class="flex items-start overflow-hidden rounded">
-          <NuxtLink
-            :to="`/details/${review.entertainment.type}/${review.entertainment.id}`"
-          >
+          <NuxtLink :to="`/details/${review.entertainment.type}/${review.entertainment.id}`">
             <MasterImage
               v-if="review.entertainment.info.poster"
               :source="$timage(review.entertainment.info.poster, 'w92')"
@@ -57,15 +47,11 @@ defineProps<{
               >
                 {{ review.entertainment.info.title }}
               </NuxtLink>
-              <p
-                class="flex-shrink-0 text-base text-gray-500 dark:text-gray-400"
-              >
+              <p class="flex-shrink-0 text-base text-gray-500 dark:text-gray-400">
                 {{ $moment(review.createdAt).locale($i18n.locale).fromNow() }}
               </p>
             </div>
-            <span class="text-sm opacity-90">
-              Reviewed: {{ review.rating }}/10
-            </span>
+            <span class="text-sm opacity-90"> Reviewed: {{ review.rating }}/10 </span>
             <ReviewContent :review="review" />
           </div>
         </div>

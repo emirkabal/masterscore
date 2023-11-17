@@ -35,18 +35,10 @@ const removeItem = async (id: any) => {
           ></div>
 
           <div class="flex flex-col gap-2">
-            <div
-              class="skeleton-effect h-3 w-24 rounded bg-gray-300 dark:bg-gray-900"
-            ></div>
-            <div
-              class="skeleton-effect h-2 w-32 rounded bg-gray-300 dark:bg-gray-900"
-            ></div>
-            <div
-              class="skeleton-effect h-2 w-12 rounded bg-gray-300 dark:bg-gray-900"
-            ></div>
-            <div
-              class="skeleton-effect h-2 w-20 rounded bg-gray-300 dark:bg-gray-900"
-            ></div>
+            <div class="skeleton-effect h-3 w-24 rounded bg-gray-300 dark:bg-gray-900"></div>
+            <div class="skeleton-effect h-2 w-32 rounded bg-gray-300 dark:bg-gray-900"></div>
+            <div class="skeleton-effect h-2 w-12 rounded bg-gray-300 dark:bg-gray-900"></div>
+            <div class="skeleton-effect h-2 w-20 rounded bg-gray-300 dark:bg-gray-900"></div>
           </div>
         </div>
       </div>
@@ -75,11 +67,7 @@ const removeItem = async (id: any) => {
               </NuxtLink>
             </div>
             <span class="text-sm opacity-90">
-              {{
-                $moment(entertainment.info.release_date)
-                  .locale($i18n.locale)
-                  .format("YYYY")
-              }}
+              {{ $moment(entertainment.info.release_date).locale($i18n.locale).format("YYYY") }}
             </span>
           </div>
           <button

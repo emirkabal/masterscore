@@ -38,9 +38,7 @@ export default defineEventHandler(async (event) => {
     .lean()
 
   if (review && reviews) {
-    reviews = reviews.filter(
-      (r) => r.author._id?.toString() != review?.author._id?.toString()
-    )
+    reviews = reviews.filter((r) => r.author._id?.toString() != review?.author._id?.toString())
     reviews.unshift(review)
   }
 

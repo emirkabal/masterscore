@@ -26,9 +26,7 @@ const getName = computed(() => {
       {{ $t("entertainment.similar") }} {{ $t(getName) }}
     </h1>
     <div v-if="!data || loading">
-      <div
-        class="skeleton-effect my-4 h-6 w-32 rounded bg-gray-300 dark:bg-gray-900"
-      ></div>
+      <div class="skeleton-effect my-4 h-6 w-32 rounded bg-gray-300 dark:bg-gray-900"></div>
       <div class="flex gap-2 overflow-x-hidden">
         <div class="flex flex-col" v-for="i in 8" :key="i">
           <div
@@ -38,11 +36,7 @@ const getName = computed(() => {
       </div>
     </div>
     <div v-else-if="data && data.results.length > 0">
-      <EntertainmentSlider
-        :data="data.results"
-        :fixed-media-type="type"
-        :offset="0"
-      />
+      <EntertainmentSlider :data="data.results" :fixed-media-type="type" :offset="0" />
     </div>
   </section>
 </template>

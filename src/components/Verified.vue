@@ -22,8 +22,7 @@ const showTooltip = (e: MouseEvent) => {
           />
           <div class="flex flex-col items-start">
             <span class="text-left leading-5 opacity-75">
-              This user is verified because the user was one of the first
-              contributors.
+              This user is verified because the user was one of the first contributors.
             </span>
             <a href="#" class="text-blue-500">Learn more</a>
           </div>

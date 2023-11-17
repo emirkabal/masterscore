@@ -42,10 +42,7 @@ onMounted(async () => {
     headers: generateHeaders(),
     params: {
       with_genres: $tgenres
-        .filter(
-          (e) =>
-            e.support.includes("movie") && !banned.includes(e.name as Genre)
-        )
+        .filter((e) => e.support.includes("movie") && !banned.includes(e.name as Genre))
         .map((e) => e.id)
         .join("|")
     }
@@ -64,8 +61,7 @@ onMounted(async () => {
     .filter((e) => !e.image)
     .forEach((e) => {
       const notUsed = results.value.filter(
-        (result) =>
-          !genres.value.find((genre) => genre.image === result.poster_path)
+        (result) => !genres.value.find((genre) => genre.image === result.poster_path)
       )
       const random = notUsed[Math.floor(Math.random() * notUsed.length)]
 
@@ -84,9 +80,7 @@ useHead({
     <h1 class="my-8 text-center text-4xl font-bold md:text-start md:text-5xl">
       {{ $t("discover.title") }}
     </h1>
-    <div
-      class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
-    >
+    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
       <NuxtLink
         :to="`/discover/${genre.support[0]}/${genre.id}`"
         v-for="genre in genres"

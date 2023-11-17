@@ -13,9 +13,8 @@
     >
       <h1 class="font-maven text-4xl font-bold">Looking for activities?</h1>
       <p class="text-lg leading-6 opacity-75">
-        We are working on a feature like a Twitter feed to show you the latest
-        activities of your friends and other users. Click the button below to
-        learn more.
+        We are working on a feature like a Twitter feed to show you the latest activities of your
+        friends and other users. Click the button below to learn more.
       </p>
 
       <div
