@@ -22,7 +22,8 @@ export default defineNuxtConfig({
       }
     ],
     "@vite-pwa/nuxt",
-    "nuxt-icon"
+    "nuxt-icon",
+    "~/modules/socket-server.ts"
   ],
 
   css: [
@@ -60,13 +61,11 @@ export default defineNuxtConfig({
         { charset: "utf-8" },
         {
           name: "viewport",
-          content:
-            "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         },
         {
           // @ts-ignore
-          viewport:
-            "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+          viewport: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
           mobileAppIOS: true
         },
         { name: "mobile-web-app-capable", content: "yes" },

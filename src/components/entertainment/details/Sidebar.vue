@@ -152,7 +152,9 @@ const crew = computed(() => {
   return (
     props.data &&
     props.data.credits.crew
-      .filter((e) => ["Director", "Writer", "Novel", "Screenplay", "Story"].includes(e.job))
+      .filter((e) =>
+        ["Director", "Writer", "Novel", "Screenplay", "Story", "Characters"].includes(e.job)
+      )
       .reduce((acc: any, cur: any) => {
         const found = acc.find((e: any) => e.id === cur.id)
         if (found) {
