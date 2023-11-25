@@ -42,6 +42,10 @@ export default defineNuxtConfig({
     "/api/**": {
       cors: true,
       isr: false
+    },
+    "/socket.io/**": {
+      cors: true,
+      isr: false
     }
   },
 
