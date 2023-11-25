@@ -22,8 +22,7 @@ export default defineNuxtConfig({
       }
     ],
     "@vite-pwa/nuxt",
-    "nuxt-icon",
-    "~/modules/socket-server.ts"
+    "nuxt-icon"
   ],
 
   css: [
@@ -109,30 +108,30 @@ export default defineNuxtConfig({
     client: {
       installPrompt: true,
       periodicSyncForUpdates: 20
-    },
-    workbox: {
-      navigateFallback: null,
-      globDirectory: ".vercel/output",
-      globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
-      globIgnores: ["**/node_modules/**"],
-      runtimeCaching: [
-        {
-          urlPattern: "/api/.*",
-          handler: "NetworkFirst",
-          method: "GET",
-          options: {
-            cacheName: "api-cache",
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 7
-            },
-            cacheableResponse: {
-              statuses: [0, 200]
-            }
-          }
-        }
-      ]
     }
+    // workbox: {
+    //   navigateFallback: null,
+    //   globDirectory: ".vercel/output",
+    //   globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+    //   globIgnores: ["**/node_modules/**"],
+    //   runtimeCaching: [
+    //     {
+    //       urlPattern: "/api/.*",
+    //       handler: "NetworkFirst",
+    //       method: "GET",
+    //       options: {
+    //         cacheName: "api-cache",
+    //         expiration: {
+    //           maxEntries: 100,
+    //           maxAgeSeconds: 60 * 60 * 24 * 7
+    //         },
+    //         cacheableResponse: {
+    //           statuses: [0, 200]
+    //         }
+    //       }
+    //     }
+    //   ]
+    // }
   },
 
   tailwindcss: {

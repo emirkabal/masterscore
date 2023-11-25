@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getRandomCharacter } from "~/utils/functions"
 const { $socket } = useNuxtApp()
-const connected = ref($socket.connected)
+const connected = ref(false)
 
 const config = reactive({
   user: {
@@ -35,6 +35,7 @@ const leaveRoom = () => {
     message: "Left"
   })
   config.joined = false
+  config.user.host = false
   chatHistory.value = []
 }
 
@@ -50,8 +51,6 @@ const sendMsg = () => {
 }
 
 onMounted(() => {
-  $socket.connect()
-
   $socket.on("message", (d) => {
     switch (d.type) {
       case "hello":
@@ -79,6 +78,8 @@ onMounted(() => {
   $socket.on("disconnect", () => {
     connected.value = $socket.connected
   })
+
+  $socket.connect()
 })
 
 onUnmounted(() => {
@@ -86,6 +87,7 @@ onUnmounted(() => {
   $socket.off("connect")
   $socket.off("disconnect")
   $socket.off("message")
+  $socket.off("joined")
 })
 </script>
 
@@ -96,10 +98,16 @@ onUnmounted(() => {
       <p>Host: {{ config.user.host }}</p>
       <input
         type="text"
-        class="rounded border-0 bg-gray-800 px-4 py-2"
+        class="rounded border-0 bg-gray-800 px-4 py-2 disabled:opacity-75"
+        :disabled="config.joined"
         v-model="config.user.username"
       />
-      <input type="text" class="rounded border-0 bg-gray-800 px-4 py-2" v-model="config.roomId" />
+      <input
+        type="text"
+        class="rounded border-0 bg-gray-800 px-4 py-2 disabled:opacity-75"
+        :disabled="config.joined"
+        v-model="config.roomId"
+      />
       <button
         v-if="!config.joined"
         class="rounded border border-gray-400 px-4 py-2 text-sm font-bold uppercase text-white"
