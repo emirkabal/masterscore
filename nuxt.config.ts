@@ -42,10 +42,6 @@ export default defineNuxtConfig({
     "/api/**": {
       cors: true,
       isr: false
-    },
-    "/socket.io/**": {
-      cors: true,
-      isr: false
     }
   },
 
@@ -152,6 +148,7 @@ export default defineNuxtConfig({
     INVITE_CODE: process.env.INVITE_CODE,
     JWT_SECRET: process.env.JWT_SECRET,
     public: {
+      SOCKET_SERVER: process.env.SOCKET_SERVER,
       SUPABASE_STORAGE_URL: process.env.SUPABASE_STORAGE_URL
     }
   }

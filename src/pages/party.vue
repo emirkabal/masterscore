@@ -93,7 +93,8 @@ onUnmounted(() => {
 
 <template>
   <div class="mt-24 px-6">
-    <div class="flex w-fit flex-col gap-2">
+    <p v-if="!connected">Connecting...</p>
+    <div class="flex w-fit flex-col gap-2" v-else>
       <p>Connected: {{ connected }}</p>
       <p>Host: {{ config.user.host }}</p>
       <input

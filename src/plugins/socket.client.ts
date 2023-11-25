@@ -1,9 +1,8 @@
 import io from "socket.io-client"
-
 export default defineNuxtPlugin(() => {
-  const socket = io({
-    autoConnect: false,
-    transports: ["polling"]
+  const config = useRuntimeConfig()
+  const socket = io(config.public.SOCKET_SERVER, {
+    autoConnect: false
   })
 
   return {

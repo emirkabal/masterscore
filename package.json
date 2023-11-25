@@ -67,7 +67,6 @@
     "moment-duration-format": "^2.3.2",
     "mongoose": "^8.0.0",
     "pinia": "^2.1.7",
-    "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
     "swiper": "^11.0.4",
     "tinycolor2": "^1.6.0",
