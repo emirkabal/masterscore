@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { useScroll } from "@vueuse/core"
+import { useScroll, useEventBus, useIntervalFn, useInterval } from "@vueuse/core"
 import { getRandomCharacter } from "~/utils/functions"
 const { $socket, $event } = useNuxtApp()
+
+const bus = useEventBus<{
+  time?: number
+  type?: string
+}>("player")
 
 const connected = ref(false)
 
@@ -9,19 +14,26 @@ interface SocketUser {
   id: string
   username: string
   host: boolean
+  player: {
+    time: number
+    paused: boolean
+    updatedAt: number
+  }
 }
 
 const config = reactive({
   user: {
     id: "user",
     username: "",
-    host: false
+    host: false,
+    player: {
+      time: 0,
+      paused: true,
+      updatedAt: Date.now()
+    }
   } as SocketUser,
   roomId: "",
-  joined: false,
-  player: {
-    time: 0
-  }
+  joined: false
 })
 const users = ref<SocketUser[]>([])
 
@@ -45,16 +57,14 @@ const joinRoom = () => {
 }
 
 const leaveRoom = () => {
-  $socket.emit("leave", config.roomId)
-  $socket.emit("message", {
-    type: "hello",
-    to: config.roomId,
-    user: config.user,
-    message: "Left"
-  })
+  $socket.disconnect()
   config.joined = false
   config.user.host = false
   chatHistory.value = []
+  users.value = []
+  setTimeout(() => {
+    $socket.connect()
+  }, 1000)
 }
 
 const sendMsg = () => {
@@ -67,16 +77,28 @@ const sendMsg = () => {
   }
   $socket.emit("message", message)
   chatHistory.value.push(message)
-  nextTick(() => (chatBox.value.scrollTop = chatBox.value.scrollHeight))
+  nextTick(() => (chatBox.value.scrollTop = chatBox.value?.scrollHeight))
   msg.value = ""
+}
+
+const sendChatMessage = (message: string) => {
+  if (message.trim().length === 0) return
+  const msg = {
+    user: {
+      id: "system"
+    },
+    message
+  }
+  chatHistory.value.push(msg)
+  nextTick(() => (chatBox.value.scrollTop = chatBox.value?.scrollHeight))
 }
 
 onMounted(() => {
   $socket.on("message", (d) => {
     if ((d.recipent && d.recipent !== config.user.id) || d.user.id === config.user.id) return
-    if (d.type === "hello" || d.type === "chat" || d.type === "entertainment") {
+    if ("message" in d) {
       chatHistory.value.push(d)
-      nextTick(() => (chatBox.value.scrollTop = chatBox.value.scrollHeight))
+      nextTick(() => (chatBox.value.scrollTop = chatBox.value?.scrollHeight))
     }
     switch (d.type) {
       case "hello":
@@ -87,47 +109,40 @@ onMounted(() => {
               to: config.roomId,
               recipent: d.user.id,
               user: config.user,
-              message: "Changed entertainment",
               data: data.value
             })
+          users.value.push(d.user)
           $socket.emit("message", {
             type: "users",
             to: config.roomId,
-            recipent: d.user.id,
             user: config.user,
-            message: users.value
+            data: users.value
           })
         }
         break
       case "users":
-        if (config.user.host) return
-        users.value = d.message
-        if (!users.value.map((e) => e.id).includes(config.user.id)) {
-          users.value.push(config.user)
-          if (!users.value.filter((e) => e.host).length) {
-            users.value[0].host = true
-            $socket.emit("message", {
-              type: "users",
-              to: config.roomId,
-              user: config.user,
-              message: users.value
-            })
-          }
-        }
+        users.value = d.data
         break
       case "entertainment":
+        if (d.data.playlistId === currentId.value) return
         data.value = null
-        nextTick(() => {
+        setTimeout(() => {
           data.value = d.data
-        })
+        }, 10)
         break
-      case "player":
-        if (config.player.time === d.data.time && d.data.type === "seek") return
-        config.player.time = d.data.time
-        $event("core:player", {
-          paused: d.data.type === "pause",
-          time: d.data.time
-        })
+      case "user_update":
+        const found = users.value.findIndex((e) => e.id === d.user.id)
+        if (found) users.value[found] = d.user
+        if (config.user.host) shareUpdates()
+        break
+
+      case "player_update":
+        if (d.data.type === "play") playAtTime(d.data.time)
+        else if (d.data.type === "pause") pause()
+
+        const f = users.value.findIndex((e) => e.id === d.user.id)
+        if (f) users.value[f] = d.user
+        if (config.user.host) shareUpdates()
         break
       default:
         break
@@ -138,6 +153,12 @@ onMounted(() => {
     if (l === 1) config.user.host = true
     config.joined = true
     users.value.push(config.user)
+  })
+
+  $socket.on("left", (u) => {
+    const user = users.value.find((e) => e.id === u.id)
+    sendChatMessage(`${user?.username} left the room`)
+    users.value = users.value.filter((e) => e.id !== u.id)
   })
 
   $socket.on("connect", () => {
@@ -162,20 +183,142 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  leaveRoom()
   $socket.disconnect()
   $socket.off("connect")
   $socket.off("disconnect")
   $socket.off("message")
   $socket.off("joined")
+  $socket.off("left")
 })
 
-const updatePlayer = (e: { time: number; type: string }) => {
-  config.player.time = e.time
+const syncPlayers = () => {
+  users.value.forEach((e) => {
+    if (!e.player.paused) {
+      e.player.time = e.player.time + 0.1
+    }
+  })
+  if (users.value.length < 2) return
+  const sorted = [...users.value].sort((a, b) => b.player.updatedAt - a.player.updatedAt)
+  for (let i = 1; i < sorted.length; i++) {
+    const u = sorted[i]
+    const diff = sorted[0].player.time - u.player.time
+    if ((diff > 1.5 || diff < -1.5) && !frozen.value) {
+      playAtTime(sorted[0].player.time)
+      handlePlayEvent()
+      setTimeout(() => {
+        pause(sorted[0].player.time)
+        handlePauseEvent()
+      }, 100)
+    }
+  }
+}
+
+useIntervalFn(() => {
+  syncPlayers()
+}, 100)
+
+// useIntervalFn(() => {
+//   if (config.user.host) shareUpdates()
+// }, 1000)
+
+function shareUpdates() {
+  if (config.user.host) {
+    return $socket.emit("message", {
+      type: "users",
+      to: config.roomId,
+      user: config.user,
+      data: users.value
+    })
+  }
   $socket.emit("message", {
-    type: "player",
+    type: "user_update",
+    to: config.roomId,
+    user: config.user
+  })
+}
+
+const frozen = ref(false)
+
+function freezeControls() {
+  frozen.value = true
+  setTimeout(() => {
+    frozen.value = false
+  }, 500)
+}
+
+function pause(time?: number) {
+  if (frozen.value || config.user.player.paused) return
+  else {
+    freezeControls()
+    config.user.player.paused = true
+    bus.emit({
+      time,
+      type: "pause"
+    })
+  }
+  shareUpdates()
+}
+
+function playAtTime(time: number) {
+  if (!config.user.player.paused) return
+  else {
+    config.user.player.paused = false
+    bus.emit({
+      time,
+      type: "play"
+    })
+  }
+  shareUpdates()
+}
+
+const handlePlayEvent = () => {
+  if (!config.user.player.paused) return
+  config.user.player.paused = false
+  $socket.emit("message", {
+    type: "player_update",
     to: config.roomId,
     user: config.user,
-    data: e
+    data: {
+      time: config.user.player.time,
+      type: "play"
+    }
+  })
+}
+
+const handlePauseEvent = () => {
+  if (config.user.player.paused) return
+  config.user.player.paused = true
+  $socket.emit("message", {
+    type: "player_update",
+    to: config.roomId,
+    user: config.user,
+    data: {
+      type: "pause"
+    }
+  })
+}
+
+const updatePlayer = (e: { time?: number; type: string }) => {
+  config.user.player.updatedAt = Date.now()
+  if (e.time) {
+    config.user.player.time = e.time
+  }
+  if (e.type === "play") handlePlayEvent()
+  else if (e.type === "pause") handlePauseEvent()
+}
+
+const handleSelector = (_: any) => {
+  data.value = null
+  setTimeout(() => {
+    data.value = _
+  }, 100)
+  $socket.emit("message", {
+    type: "entertainment",
+    to: config.roomId,
+    user: config.user,
+    message: `Changed to ${_.title || _.name}`,
+    data: _
   })
 }
 
@@ -183,19 +326,6 @@ watch(chatBox, () => {
   if (chatBox.value) {
     scroller.value = useScroll(chatBox, {
       behavior: "smooth"
-    })
-  }
-})
-
-watch(data, () => {
-  if (data.value && currentId.value !== data.value.playlistId) {
-    currentId.value = data.value.playlistId
-    $socket.emit("message", {
-      type: "entertainment",
-      to: config.roomId,
-      user: config.user,
-      message: `I'm watching ${data.value.title}`,
-      data: data.value
     })
   }
 })
@@ -208,7 +338,23 @@ watch(data, () => {
       <p>Connected: {{ connected }}</p>
       <p>ID: {{ config.user.id }}</p>
       <p>Host: {{ config.user.host }}</p>
-      <p v-if="users?.length">Users: {{ users.map((e) => e.username) }}</p>
+      <p v-if="users?.length">
+        Users:<br />
+        <span
+          v-html="
+            users
+              .map(
+                (e) =>
+                  `${e.username}: ${e.player.paused ? 'duraklatıldı' : 'oynatılıyor'} - ${$moment
+                    .duration(e.player.time, 'seconds')
+                    .format('hh:mm:ss')}`
+              )
+              .join('<br/>')
+          "
+        ></span
+        ><br />
+        Diff: {{ users[0]?.player?.time - users[1]?.player?.time }}
+      </p>
       <FormInput
         type="text"
         placeholder="general-chat"
@@ -245,9 +391,14 @@ watch(data, () => {
     </div>
     <div v-if="config.joined" class="container mx-auto my-24">
       <div class="mb-4 flex items-center justify-between">
-        <h1 class="text-2xl font-semibold tracking-tight">
-          {{ data?.title || "İçerik bekleniyor..." }}
-        </h1>
+        <div>
+          <h1 class="text-2xl font-semibold tracking-tight">
+            {{ data?.title || "İçerik bekleniyor..." }}
+          </h1>
+          <span class="text-gray-300">
+            {{ $moment.duration(config.user.player.time, "seconds").format("hh:mm:ss") }}
+          </span>
+        </div>
         <div class="flex items-center gap-x-2">
           <button class="px-4 py-2 text-sm">
             <Icon class="h-6 w-6 text-gray-400" name="mdi:link-variant" />
@@ -265,12 +416,13 @@ watch(data, () => {
         <div class="flex h-[720px] w-full items-center justify-center rounded-2xl bg-gray-900">
           <CorePlayer
             v-if="data"
-            :title="data.title"
+            :title="data.title || data.name"
             :poster="'-'"
             :backdrop="'-'"
             :tmdbId="data.id"
             :type="data.localData.type"
             :playlistId="data.playlistId"
+            :disable-history="true"
             @update="updatePlayer"
           />
           <Logo class="text-center text-4xl" v-else />
@@ -284,18 +436,25 @@ watch(data, () => {
                 class="flex items-center gap-x-4 px-6 py-2 hover:bg-gray-800"
                 v-for="msg in chatHistory"
               >
-                <Avatar :username="msg.user.id" class="h-12 w-12" />
+                <Avatar
+                  :username="msg.user.id"
+                  class="h-12 w-12"
+                  :class="{
+                    invisible: msg.user.id === 'system'
+                  }"
+                />
                 <div class="flex flex-col">
                   <div class="flex gap-x-2">
                     <span class="line-clamp-1 break-all font-semibold tracking-tight text-white">{{
-                      msg?.user?.username
+                      msg?.user?.username || "System"
                     }}</span>
                     <span
+                      v-if="msg.type"
                       class="inline-block rounded bg-neutral-800 px-2 text-center text-sm font-semibold text-yellow-200"
                       >{{ msg.type }}</span
                     >
                     <span
-                      v-if="msg.user.host"
+                      v-if="msg.user?.host"
                       class="inline-block rounded bg-neutral-800 px-2 text-center text-sm font-semibold text-yellow-200"
                       >host</span
                     >
@@ -355,14 +514,7 @@ watch(data, () => {
         </div>
       </div>
       <div class="mt-4">
-        <PartySelector
-          @handle="
-            (_) => {
-              data = null
-              data = _
-            }
-          "
-        />
+        <PartySelector @handle="handleSelector" />
       </div>
     </div>
   </div>

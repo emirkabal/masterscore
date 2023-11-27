@@ -14,7 +14,6 @@
     :playbackRates="config.playbackRates"
     :fluid="config.fluid"
     :loop="config.loop"
-    crossorigin="anonymous"
     playsinline
     v-model:volume="config.volume"
     v-model:playbackRate="config.playbackRate"
@@ -30,7 +29,13 @@
 import { VideoPlayer } from "@videojs-player/vue"
 import type { HistoryItem } from "~/types"
 import type { VideoPlayerProps, VideoPlayerState } from "@videojs-player/vue"
-import { useLocalStorage, useScreenOrientation, useEventListener, isIOS } from "@vueuse/core"
+import {
+  useLocalStorage,
+  useScreenOrientation,
+  useEventListener,
+  isIOS,
+  useEventBus
+} from "@vueuse/core"
 import videojs from "video.js"
 import "video.js/dist/video-js.css"
 
@@ -53,9 +58,10 @@ const props = defineProps<{
     episode: number
     season: number
   }
+  disableHistory?: boolean
 }>()
 
-const { data, error, pending } = await useLazyFetch<
+const { data, error, pending, refresh } = await useLazyFetch<
   {
     sources: {
       file: string
@@ -98,7 +104,7 @@ const getMediaData = () => {
 
 type VideoJsPlayer = ReturnType<typeof videojs>
 
-const player = shallowRef<VideoJsPlayer>()
+const player = ref<VideoJsPlayer>()
 const state = shallowRef<VideoPlayerState>()
 const mediaConfig = shallowRef<any>()
 const config = shallowReactive<VideoPlayerProps>({
@@ -110,16 +116,6 @@ const config = shallowReactive<VideoPlayerProps>({
   fluid: false,
   muted: false,
   loop: false
-})
-
-watch(data, () => {
-  if (!data.value) return
-  const handledMediaData = getMediaData()
-  mediaConfig.value = {
-    sources: handledMediaData.sources ?? [],
-    poster: props.backdrop,
-    tracks: handledMediaData.tracks ?? []
-  }
 })
 
 $listen("core:player", (d) => {
@@ -135,8 +131,37 @@ $listen("core:player", (d) => {
   if (d.time) player.value?.currentTime(d.time)
 })
 
+const bus = useEventBus<{
+  time?: number
+  type?: string
+}>("player")
+
+const playerListener = (payload: { time?: number; type?: string }) => {
+  console.log(payload)
+  if (!player.value) return
+  if (payload?.time) {
+    player.value.currentTime(payload.time)
+  }
+  if (payload?.type === "play") {
+    player.value.play()
+  } else if (payload?.type === "pause") {
+    player.value.pause()
+  }
+}
+bus.on(playerListener)
+
+watch(data, () => {
+  if (!data.value) return
+  const handledMediaData = getMediaData()
+  mediaConfig.value = {
+    sources: handledMediaData.sources ?? [],
+    poster: props.backdrop,
+    tracks: handledMediaData.tracks ?? []
+  }
+})
+
 const handleProgress = (payload: any) => {
-  if (!payload) return
+  if (!payload || props.disableHistory) return
   const currentTime = player.value?.currentTime() || 0
   const duration = player.value?.duration() || 0
   history.value = [
@@ -157,28 +182,30 @@ const handleProgress = (payload: any) => {
   ]
 }
 
+watch(props, () => {
+  refresh()
+})
+
 const handleMounted = (payload: any) => {
   state.value = payload.state
   player.value = payload.player
 
-  const historyItem = history.value.find((e) => e.playlistId === props.playlistId)
-  if (historyItem && player.value) {
-    player.value.currentTime(historyItem.currentTime)
+  if (!props.disableHistory) {
+    const historyItem = history.value.find((e) => e.playlistId === props.playlistId)
+    if (historyItem && player.value) {
+      player.value.currentTime(historyItem.currentTime)
+    }
   }
 
   if (!player.value) return
 
-  player.value.on("seeked", () => {
-    emits("update", {
-      time: player.value?.currentTime(),
-      type: "seek"
-    })
-  })
+  if (!props.disableHistory) {
+    player.value.pause()
+  }
 
-  player.value.on("seeking", () => {
+  player.value.on("timeupdate", () => {
     emits("update", {
-      time: player.value?.currentTime(),
-      type: "seek"
+      time: player.value?.currentTime()
     })
   })
 
