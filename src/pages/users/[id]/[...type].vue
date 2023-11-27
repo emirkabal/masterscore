@@ -224,13 +224,13 @@ useHead({
               <div v-show="isMenuOpen" @click="isMenuOpen = !isMenuOpen">
                 <HeadlessMenuItems
                   :static="true"
-                  class="absolute right-0 z-10 mt-2 w-56 origin-top-right translate-x-1/2 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-gray-900 dark:bg-zinc-950 md:translate-x-0"
+                  class="absolute right-0 z-10 mt-2 w-56 origin-top-right translate-x-1/2 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-gray-900 dark:bg-gray-900 md:translate-x-0"
                 >
                   <div class="px-1 py-1">
                     <div v-if="self?._id === '63f4dcf150582a1ca831f639'">
                       <HeadlessMenuItem>
                         <button
-                          class="inline-flex w-full rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
+                          class="inline-flex w-full rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-800"
                           @click="verifyUser(!user.verified)"
                         >
                           {{ user.verified ? "Revoke" : "Give" }} verified
@@ -238,7 +238,7 @@ useHead({
                       </HeadlessMenuItem>
                       <HeadlessMenuItem>
                         <button
-                          class="inline-flex w-full rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
+                          class="inline-flex w-full rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-800"
                           @click="giveWatchAccess(!user.features.includes('WATCH'))"
                         >
                           {{ user.features.includes("WATCH") ? "Revoke" : "Give" }}
@@ -248,7 +248,7 @@ useHead({
                     </div>
                     <HeadlessMenuItem>
                       <button
-                        class="inline-flex w-full rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
+                        class="inline-flex w-full rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-800"
                         @click="copy(`${url}/users/@${user?.username}`)"
                       >
                         {{ $t("profile.copy_url") }}
@@ -258,7 +258,7 @@ useHead({
                   <div v-if="isSelf" class="px-1 py-1">
                     <HeadlessMenuItem>
                       <NuxtLink
-                        class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
+                        class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-800"
                         to="/users/@me/settings"
                         >{{ $t("profile.edit_profile") }}</NuxtLink
                       >

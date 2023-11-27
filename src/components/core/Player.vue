@@ -36,6 +36,9 @@ import "video.js/dist/video-js.css"
 
 const { isIos } = useDevice()
 const { angle, lockOrientation, orientation } = useScreenOrientation()
+const { $listen } = useNuxtApp()
+
+const emits = defineEmits(["update"])
 
 const history = useLocalStorage<HistoryItem[]>("player-history", [])
 const props = defineProps<{
@@ -119,6 +122,19 @@ watch(data, () => {
   }
 })
 
+$listen("core:player", (d) => {
+  if (!player.value) return
+  console.log(d)
+  console.log(player.value.paused())
+  if (d?.paused && !player.value.paused()) {
+    player.value?.pause()
+  } else if (player.value.paused() && d?.paused === false) {
+    player.value?.play()
+  }
+
+  if (d.time) player.value?.currentTime(d.time)
+})
+
 const handleProgress = (payload: any) => {
   if (!payload) return
   const currentTime = player.value?.currentTime() || 0
@@ -151,6 +167,34 @@ const handleMounted = (payload: any) => {
   }
 
   if (!player.value) return
+
+  player.value.on("seeked", () => {
+    emits("update", {
+      time: player.value?.currentTime(),
+      type: "seek"
+    })
+  })
+
+  player.value.on("seeking", () => {
+    emits("update", {
+      time: player.value?.currentTime(),
+      type: "seek"
+    })
+  })
+
+  player.value.on("play", () => {
+    emits("update", {
+      time: player.value?.currentTime(),
+      type: "play"
+    })
+  })
+
+  player.value.on("pause", () => {
+    emits("update", {
+      time: player.value?.currentTime(),
+      type: "pause"
+    })
+  })
 
   player.value.addClass("vjs-landscape-fullscreen")
 
