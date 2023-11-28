@@ -34,7 +34,8 @@
       "reviews": "المراجعات",
       "settings": "الإعدادات",
       "logout": "تسجيل الخروج"
-    }
+    },
+    "party": "مسرح"
   },
   "activity": {
     "reviewed": "تمت المراجعة",
@@ -228,5 +229,6 @@
     "comment": "تعليق",
     "placeholder": "اكتب مراجعة..."
   },
-  "cancel": "يلغي"
+  "cancel": "يلغي",
+  "go-to-bottom": "اذهب إلى الأسفل"
 }

@@ -33,7 +33,8 @@
       "reviews": "Commentaires",
       "settings": "Paramètres",
       "logout": "Déconnexion"
-    }
+    },
+    "party": "Théâtre"
   },
   "activity": {
     "reviewed": "Examiné",
@@ -228,5 +229,6 @@
     "comment": "Commentaire",
     "placeholder": "Rédigez une critique..."
   },
-  "cancel": "Annuler"
+  "cancel": "Annuler",
+  "go-to-bottom": "aller en bas"
 }

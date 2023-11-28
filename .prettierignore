@@ -3,4 +3,3 @@ node_modules/*
 /src/public/icons/*
 /src/assets/*
 .vscode/*
-config/*

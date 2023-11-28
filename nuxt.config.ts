@@ -60,13 +60,11 @@ export default defineNuxtConfig({
         { charset: "utf-8" },
         {
           name: "viewport",
-          content:
-            "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         },
         {
           // @ts-ignore
-          viewport:
-            "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+          viewport: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
           mobileAppIOS: true
         },
         { name: "mobile-web-app-capable", content: "yes" },
@@ -110,30 +108,30 @@ export default defineNuxtConfig({
     client: {
       installPrompt: true,
       periodicSyncForUpdates: 20
-    },
-    workbox: {
-      navigateFallback: null,
-      globDirectory: ".vercel/output",
-      globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
-      globIgnores: ["**/node_modules/**"],
-      runtimeCaching: [
-        {
-          urlPattern: "/api/.*",
-          handler: "NetworkFirst",
-          method: "GET",
-          options: {
-            cacheName: "api-cache",
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 7
-            },
-            cacheableResponse: {
-              statuses: [0, 200]
-            }
-          }
-        }
-      ]
     }
+    // workbox: {
+    //   navigateFallback: null,
+    //   globDirectory: ".vercel/output",
+    //   globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+    //   globIgnores: ["**/node_modules/**"],
+    //   runtimeCaching: [
+    //     {
+    //       urlPattern: "/api/.*",
+    //       handler: "NetworkFirst",
+    //       method: "GET",
+    //       options: {
+    //         cacheName: "api-cache",
+    //         expiration: {
+    //           maxEntries: 100,
+    //           maxAgeSeconds: 60 * 60 * 24 * 7
+    //         },
+    //         cacheableResponse: {
+    //           statuses: [0, 200]
+    //         }
+    //       }
+    //     }
+    //   ]
+    // }
   },
 
   tailwindcss: {
@@ -150,6 +148,7 @@ export default defineNuxtConfig({
     INVITE_CODE: process.env.INVITE_CODE,
     JWT_SECRET: process.env.JWT_SECRET,
     public: {
+      SOCKET_SERVER: process.env.SOCKET_SERVER,
       SUPABASE_STORAGE_URL: process.env.SUPABASE_STORAGE_URL
     }
   }

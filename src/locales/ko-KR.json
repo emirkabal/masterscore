@@ -34,7 +34,8 @@
       "reviews": "리뷰",
       "settings": "설정",
       "logout": "로그아웃"
-    }
+    },
+    "party": "극장"
   },
   "activity": {
     "reviewed": "리뷰 작성함",
@@ -228,5 +229,6 @@
     "comment": "코멘트",
     "placeholder": "리뷰를 작성하세요..."
   },
-  "cancel": "취소"
+  "cancel": "취소",
+  "go-to-bottom": "맨 아래로 가다"
 }

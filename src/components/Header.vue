@@ -135,6 +135,7 @@ $listen("searchbar:focus", (val) => {
                         >{{ $t("header.user.profile") }}</NuxtLink
                       >
                     </HeadlessMenuItem>
+
                     <HeadlessMenuItem>
                       <NuxtLink
                         class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
@@ -155,6 +156,21 @@ $listen("searchbar:focus", (val) => {
                         to="/users/@me/settings"
                         >{{ $t("header.user.settings") }}</NuxtLink
                       >
+                    </HeadlessMenuItem>
+                  </div>
+                  <div class="px-1 py-1" v-if="userStore.user.verified">
+                    <HeadlessMenuItem>
+                      <NuxtLink
+                        class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
+                        to="/theater"
+                      >
+                        <Icon name="fa6-solid:masks-theater" class="mr-2 h-5 w-5" />
+                        <span class="mr-2">{{ $t("header.party") }}</span>
+                        <span
+                          class="rounded-lg bg-yellow-400 px-2 py-1 text-center text-sm font-bold uppercase text-black"
+                          >New
+                        </span>
+                      </NuxtLink>
                     </HeadlessMenuItem>
                   </div>
                   <div class="px-1 py-1">

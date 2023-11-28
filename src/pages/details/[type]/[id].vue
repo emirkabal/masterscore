@@ -235,7 +235,12 @@ useHead({
 
 <template>
   <EntertainmentLoading v-if="pending" />
-  <div v-else-if="data && reviewData">
+  <div
+    v-else-if="data && reviewData"
+    :class="{
+      'font-mono': data.localId === '6413083c89dfe11b9d6c6dc4'
+    }"
+  >
     <EntertainmentWatch
       :watchModal="watchModal"
       :data="{
@@ -312,7 +317,7 @@ useHead({
           </span>
         </div>
       </div>
-      <div class="w-full max-w-4xl">
+      <div class="w-full max-w-5xl">
         <EntertainmentBody
           :data="data"
           :is-light="backgroundBright"

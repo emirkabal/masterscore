@@ -27,6 +27,7 @@
     "home": "Home",
     "feed": "Feed",
     "table": "Table",
+    "party": "Theater",
     "random_movie": "Random Movie",
     "user": {
       "profile": "Profile",
@@ -228,5 +229,6 @@
     "comment": "Comment",
     "placeholder": "Write a review..."
   },
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "go-to-bottom": "go to bottom"
 }

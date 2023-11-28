@@ -4,10 +4,13 @@ import getISO from "~/utils/getISO"
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
-  const { q } = getQuery(event)
-  if (!q) {
-    return { status: 400, message: "Missing query" } as ErrorResponse
-  }
+  const { q, limit: queryLimit } = getQuery(event)
+
+  const limit = isNaN(queryLimit as any)
+    ? 5
+    : parseInt(queryLimit as any) > 20
+    ? 20
+    : parseInt(queryLimit as any)
 
   const lang = getISO(getCookie(event, "locale"))
   const data: {
@@ -23,7 +26,7 @@ export default defineEventHandler(async (event) => {
         ["movie", "tv"].includes(result.media_type) &&
         (result.release_date || result.first_air_date)
     )
-    .slice(0, 5)
+    .slice(0, limit)
 
   const persons = data.results
     // @ts-ignore

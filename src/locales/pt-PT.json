@@ -33,7 +33,8 @@
       "reviews": "Avaliações",
       "settings": "Configurações",
       "logout": "Sair"
-    }
+    },
+    "party": "Teatro"
   },
   "activity": {
     "reviewed": "Avaliou",
@@ -228,5 +229,6 @@
     "comment": "Comentário",
     "placeholder": "Escreva uma avaliação..."
   },
-  "cancel": "Cancelar"
+  "cancel": "Cancelar",
+  "go-to-bottom": "vá para o fundo"
 }

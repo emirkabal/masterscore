@@ -34,7 +34,8 @@
       "reviews": "Bewertungen",
       "settings": "Einstellungen",
       "logout": "Abmelden"
-    }
+    },
+    "party": "Theater"
   },
   "activity": {
     "reviewed": "Bewertet",
@@ -228,5 +229,6 @@
     "comment": "Kommentar",
     "placeholder": "Schreiben Sie eine Bewertung..."
   },
-  "cancel": "Stornieren"
+  "cancel": "Stornieren",
+  "go-to-bottom": "nach unten gehen"
 }

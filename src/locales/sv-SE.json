@@ -33,7 +33,8 @@
       "reviews": "Recensioner",
       "settings": "Inställningar",
       "logout": "Logga ut"
-    }
+    },
+    "party": "Fest"
   },
   "activity": {
     "reviewed": "Granskad",
@@ -228,5 +229,6 @@
     "comment": "Kommentar",
     "placeholder": "Skriv en recension..."
   },
-  "cancel": "Annullera"
+  "cancel": "Annullera",
+  "go-to-bottom": "gå till botten"
 }
