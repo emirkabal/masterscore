@@ -19,11 +19,6 @@ const routes = [
     icon: "tabler:home"
   },
   {
-    name: "header.party",
-    path: "/theater",
-    icon: "fa6-solid:masks-theater"
-  },
-  {
     name: "header.feed",
     path: "/feed",
     icon: "tabler:message-2"

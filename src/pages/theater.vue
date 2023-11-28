@@ -43,7 +43,10 @@ const config = reactive({
     }
   } as SocketUser,
   roomId: route.query.room ? (route.query.room as string) : "",
-  joined: false
+  joined: false,
+  joining: false,
+  autoSync: true,
+  showUsers: false
 })
 const users = ref<SocketUser[]>([])
 
@@ -67,6 +70,7 @@ const copyLink = () => {
 }
 
 const joinRoom = (guest = true) => {
+  if (config.joined || config.joining) return
   if (!guest && user) {
     config.user.username = user.username
     config.user.verified = user.verified
@@ -89,15 +93,17 @@ const joinRoom = (guest = true) => {
 
 const leaveRoom = () => {
   if (!config.joined) return
-  $socket.disconnect()
+  $socket.emit("leave", config.roomId)
   config.joined = false
   config.user.host = false
+  config.user.username = getRandomCharacter()
+  config.user.isPublic = false
+  config.user.avatar = undefined
+  config.user.verified = false
   config.roomId = ""
   chatHistory.value = []
   users.value = []
-  setTimeout(() => {
-    $socket.connect()
-  }, 1000)
+  if (!$socket.connected) $socket.connect()
 }
 
 const sendMsg = () => {
@@ -151,8 +157,8 @@ onMounted(() => {
             user: config.user,
             data: users.value
           })
-          sendChatMessage(`${d.user.username} joined the room`)
         }
+        sendChatMessage(`${d.user.username} joined the room`)
         break
       case "users":
         users.value = d.data
@@ -172,7 +178,24 @@ onMounted(() => {
 
       case "player_update":
         if (d.data.type === "play") playAtTime(d.data.time)
-        else if (d.data.type === "pause") pause()
+        else if (d.data.type === "pause") pause(d.data.time)
+        if (d.recipent) {
+          sendChatMessage(`The host syncing player with you.`)
+        }
+
+        if (d.data.type !== "sync") {
+          setTimeout(() => {
+            $socket.emit("message", {
+              type: "player_update",
+              to: config.roomId,
+              user: config.user,
+              data: {
+                time: config.user.player.time,
+                type: "sync"
+              }
+            })
+          }, 500)
+        }
 
         const f = users.value.findIndex((e) => e.id === d.user.id)
         if (f) users.value[f] = d.user
@@ -184,6 +207,7 @@ onMounted(() => {
   })
 
   $socket.on("joined", (l) => {
+    config.joining = false
     if (l === 1 && !config.user.isPublic && !config.user.verified) {
       sendChatMessage("You removed from the room because you are not verified")
       $socket.disconnect()
@@ -230,6 +254,13 @@ onMounted(() => {
 
   $socket.on("disconnect", () => {
     connected.value = $socket.connected
+    users.value = []
+    config.user.host = false
+    config.joined = false
+    config.user.player.paused = true
+    config.user.player.time = 0
+    config.user.player.updatedAt = Date.now()
+    sendChatMessage("You are disconnected from the room")
   })
 
   $socket.connect()
@@ -246,30 +277,32 @@ onUnmounted(() => {
 })
 
 const syncPlayers = () => {
-  users.value.forEach((e) => {
-    if (!e.player.paused) {
-      e.player.time = e.player.time + 0.1
-    }
-  })
-  if (users.value.length < 2) return
-  const sorted = [...users.value].sort((a, b) => b.player.updatedAt - a.player.updatedAt)
-  for (let i = 1; i < sorted.length; i++) {
+  if (users.value.length < 2 || frozen.value || config.user.player.paused) return
+  const sorted = [...users.value]
+    .filter((e) => e.id !== config.user.id)
+    .sort((a, b) => {
+      return a.player.time - b.player.time
+    })
+  for (let i = 0; i < sorted.length; i++) {
     const u = sorted[i]
-    const diff = sorted[0].player.time - u.player.time
-    if ((diff > 1.5 || diff < -1.5) && !frozen.value) {
-      playAtTime(sorted[0].player.time)
-      handlePlayEvent()
-      setTimeout(() => {
-        pause(sorted[0].player.time)
-        handlePauseEvent()
-      }, 100)
+    const diff = config.user.player.time - u.player.time
+    if (diff > 2.3 || diff < -2.3) {
+      handlePlayEvent(u.id)
+      sendChatMessage(`The host syncing player with ${u.username}`)
     }
   }
 }
 
 useIntervalFn(() => {
+  if (!config.user.host || !config.autoSync) return
   syncPlayers()
-}, 100)
+}, 1000)
+
+useIntervalFn(() => {
+  users.value.forEach((e) => {
+    if (!e.player.paused) e.player.time = e.player.time + 0.2
+  })
+}, 200)
 
 function shareUpdates() {
   if (config.user.host) {
@@ -321,12 +354,13 @@ function playAtTime(time: number) {
   shareUpdates()
 }
 
-const handlePlayEvent = () => {
-  if (!config.user.player.paused) return
+const handlePlayEvent = (recipent?: string) => {
+  if (!config.user.player.paused && !recipent) return
   config.user.player.paused = false
   $socket.emit("message", {
     type: "player_update",
     to: config.roomId,
+    recipent,
     user: config.user,
     data: {
       time: config.user.player.time,
@@ -343,6 +377,7 @@ const handlePauseEvent = () => {
     to: config.roomId,
     user: config.user,
     data: {
+      time: config.user.player.time,
       type: "pause"
     }
   })
@@ -399,7 +434,7 @@ watch(chatBox, () => {
             @click="joinRoom(false)"
           >
             <Avatar
-              :username="user.username"
+              :username="$socket.id.substring(0, 5)"
               :avatar="user?.avatar"
               :verified="user?.verified"
               class="h-32 w-32"
@@ -421,7 +456,7 @@ watch(chatBox, () => {
       <div class="mb-4 flex items-center justify-between">
         <div>
           <h1 class="text-2xl font-semibold tracking-tight">
-            {{ data?.title || "İçerik bekleniyor..." }}
+            {{ data?.title || data?.name || "İçerik bekleniyor..." }}
           </h1>
           <span class="text-gray-300">
             {{ $moment.duration(config.user.player.time, "seconds").format("hh:mm:ss") }}
@@ -458,7 +493,68 @@ watch(chatBox, () => {
         <div
           class="relative flex h-[720px] max-h-[720px] w-full max-w-md flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 pb-6 pt-4"
         >
+          <Transition name="fade">
+            <button
+              class="absolute right-0 top-0 z-20 m-2 !mr-6 flex items-center gap-x-2 rounded-full bg-gray-800/60 px-2 py-1 text-sm font-semibold hover:bg-gray-800"
+              @click="config.showUsers = !config.showUsers"
+              v-if="!config.showUsers"
+            >
+              {{ users.length }}
+              <Icon class="h-6 w-6 text-gray-200" name="lucide:users-2" />
+            </button>
+          </Transition>
+          <Transition
+            enter-active-class="transition ease-out duration-300"
+            enter-from-class="transform -translate-y-full"
+            enter-to-class="transform translate-y-0"
+            leave-active-class="transition ease-in duration-300"
+            leave-from-class="transform translate-y-0"
+            leave-to-class="transform -translate-y-full"
+          >
+            <div
+              v-if="config.showUsers"
+              class="absolute left-0 top-0 z-10 h-[300px] w-full overflow-hidden rounded-bl-3xl rounded-br-3xl bg-gray-900 py-2 shadow-2xl"
+            >
+              <div class="flex items-center justify-between px-6 pb-2">
+                <h1 class="text-xl font-semibold tracking-tight">Users</h1>
+                <button
+                  class="flex items-center gap-x-2 rounded-full bg-gray-800/60 px-2 py-1 text-sm font-semibold hover:bg-gray-800"
+                  @click="config.showUsers = !config.showUsers"
+                >
+                  {{ users.length }}
+                  <Icon class="h-6 w-6 text-gray-200" name="lucide:users-2" />
+                </button>
+              </div>
+              <div class="mr-1 flex h-56 flex-col gap-y-2 overflow-y-scroll px-6 py-2 pr-1">
+                <div v-for="u in users" class="flex w-full items-center gap-x-4">
+                  <Avatar
+                    :username="u.id.substring(0, 5)"
+                    :avatar="u.avatar"
+                    :verified="u.verified"
+                    :minimize="true"
+                    class="h-12 w-12"
+                  />
+                  <div class="flex w-full flex-col">
+                    <div class="flex items-center gap-x-2">
+                      <span
+                        class="line-clamp-1 max-w-[128px] break-words font-semibold tracking-tight"
+                        >{{ u.username }}</span
+                      >
+                      <span v-if="u.id === config.user.id" class="text-sm text-gray-300">
+                        you
+                      </span>
+                    </div>
+                    <span class="text-sm text-gray-300">
+                      {{ u.player.paused ? "Paused" : "Playing" }}:
+                      {{ $moment.duration(u.player.time, "seconds").format("hh:mm:ss") }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Transition>
           <div class="relative">
+            <!-- Chat -->
             <div class="mr-1 max-h-[620px] overflow-y-scroll pr-1" ref="chatBox">
               <div
                 class="flex items-start gap-x-4 px-6 py-2 hover:bg-gray-800"
@@ -483,7 +579,7 @@ watch(chatBox, () => {
                   }"
                 >
                   <Avatar
-                    :username="msg.user.id"
+                    :username="msg?.user?.id?.substring(0, 5) || 'm'"
                     :avatar="msg?.user?.avatar"
                     :verified="msg?.user?.verified"
                     :minimize="true"
@@ -571,26 +667,13 @@ watch(chatBox, () => {
           </Transition>
         </div>
       </div>
-      <div v-if="flag">
-        <p v-if="users?.length">
-          Users:<br />
-          <span
-            v-html="
-              users
-                .map(
-                  (e) =>
-                    `${e.username}: ${e.player.paused ? 'duraklatıldı' : 'oynatılıyor'} - ${$moment
-                      .duration(e.player.time, 'seconds')
-                      .format('hh:mm:ss')}`
-                )
-                .join('<br/>')
-            "
-          ></span
-          ><br />
-          Diff: {{ users[0]?.player?.time - users[1]?.player?.time }}
-        </p>
+      <div v-if="config.user.host && flag">
+        <label for="autosynccheck">
+          Auto Sync
+          <input id="autosynccheck" type="checkbox" v-model="config.autoSync" />
+        </label>
       </div>
-      <div class="mb-36 mt-4" v-if="config.user?.isPublic && config.user?.verified">
+      <div class="mt-4 pb-20" v-if="config.user?.isPublic && config.user?.verified">
         <TheaterSelector @handle="handleSelector" />
       </div>
     </div>

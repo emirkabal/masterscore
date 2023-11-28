@@ -111,7 +111,7 @@ const config = shallowReactive<VideoPlayerProps>({
   autoplay: false,
   volume: 0.5,
   playbackRate: 1,
-  playbackRates: [1, 2, 3],
+  playbackRates: [1],
   controls: true,
   fluid: false,
   muted: false,
