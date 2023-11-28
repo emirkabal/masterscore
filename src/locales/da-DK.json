@@ -34,7 +34,8 @@
       "reviews": "Anmeldelser",
       "settings": "Indstillinger",
       "logout": "Log ud"
-    }
+    },
+    "party": "Teater"
   },
   "activity": {
     "reviewed": "Anmeldt",
@@ -228,5 +229,6 @@
     "comment": "Kommentar",
     "placeholder": "Skriv en anmeldelse..."
   },
-  "cancel": "Afbestille"
+  "cancel": "Afbestille",
+  "go-to-bottom": "gå til bunds"
 }

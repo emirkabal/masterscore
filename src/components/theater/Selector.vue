@@ -76,7 +76,12 @@ watch(
           :loading="pending"
         />
       </div>
-      <div v-if="tab === -1">Search something</div>
+      <div
+        v-if="tab === -1"
+        class="flex h-24 w-full items-center justify-center rounded-3xl text-2xl font-semibold tracking-tight"
+      >
+        Search something
+      </div>
       <div v-else-if="tab === 1">
         <div v-if="pending">
           <div class="flex items-center justify-center">
@@ -134,6 +139,12 @@ watch(
         </div>
       </div>
       <div class="space-y-6" v-else-if="tab === 0">
+        <div v-if="!smart.movies.length && !smart.series.length">
+          <div class="flex flex-col items-center justify-center text-2xl font-semibold">
+            <Icon name="mdi:emoticon-sad-outline" class="h-8 w-8 text-gray-400" />
+            Not found
+          </div>
+        </div>
         <div class="space-y-2" v-if="smart.movies.length">
           <h2 class="text-xl font-semibold tracking-tight text-gray-300">Movies</h2>
           <div class="flex flex-col">

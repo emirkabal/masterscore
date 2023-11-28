@@ -1,8 +1,15 @@
 <script setup lang="ts">
-import { useScroll, useEventBus, useIntervalFn, useInterval } from "@vueuse/core"
+import { useScroll, useEventBus, useIntervalFn, useClipboard, useStorage } from "@vueuse/core"
+import { useUserStore } from "~/store/user"
 import { getRandomCharacter } from "~/utils/functions"
-const { $socket, $event } = useNuxtApp()
+const { $socket } = useNuxtApp()
 
+const { isLoggedIn, user } = useUserStore()
+const route = useRoute()
+const router = useRouter()
+
+const flag = useStorage("debugMode", false)
+const { copy } = useClipboard()
 const bus = useEventBus<{
   time?: number
   type?: string
@@ -13,7 +20,10 @@ const connected = ref(false)
 interface SocketUser {
   id: string
   username: string
+  avatar?: string
+  verified?: boolean
   host: boolean
+  isPublic: boolean
   player: {
     time: number
     paused: boolean
@@ -24,7 +34,7 @@ interface SocketUser {
 const config = reactive({
   user: {
     id: "user",
-    username: "",
+    username: getRandomCharacter(),
     host: false,
     player: {
       time: 0,
@@ -32,7 +42,7 @@ const config = reactive({
       updatedAt: Date.now()
     }
   } as SocketUser,
-  roomId: "",
+  roomId: route.query.room ? (route.query.room as string) : "",
   joined: false
 })
 const users = ref<SocketUser[]>([])
@@ -43,23 +53,46 @@ const chatBox = ref()
 const scroller = ref()
 const currentId = ref()
 
+watch(config, () => {
+  router.push({
+    path: "/theater",
+    query: { room: config.roomId || undefined }
+  })
+})
+
 const data = ref()
 
-const joinRoom = () => {
+const copyLink = () => {
+  copy(window.location.href)
+}
+
+const joinRoom = (guest = true) => {
+  if (!guest && user) {
+    config.user.username = user.username
+    config.user.verified = user.verified
+    if (user.avatar) config.user.avatar = user.avatar
+    config.user.isPublic = true
+  }
+
+  if (config.roomId.trim().length === 0) {
+    config.roomId = Math.random().toString(36).substring(7)
+  }
+
   if (config.roomId.trim().length === 0 || config.user.username.trim().length === 0) return
   $socket.emit("join", config.roomId)
   $socket.emit("message", {
     type: "hello",
     to: config.roomId,
-    user: config.user,
-    message: "Joined"
+    user: config.user
   })
 }
 
 const leaveRoom = () => {
+  if (!config.joined) return
   $socket.disconnect()
   config.joined = false
   config.user.host = false
+  config.roomId = ""
   chatHistory.value = []
   users.value = []
   setTimeout(() => {
@@ -77,7 +110,7 @@ const sendMsg = () => {
   }
   $socket.emit("message", message)
   chatHistory.value.push(message)
-  nextTick(() => (chatBox.value.scrollTop = chatBox.value?.scrollHeight))
+  if (chatBox.value) nextTick(() => (chatBox.value.scrollTop = chatBox.value?.scrollHeight))
   msg.value = ""
 }
 
@@ -90,7 +123,7 @@ const sendChatMessage = (message: string) => {
     message
   }
   chatHistory.value.push(msg)
-  nextTick(() => (chatBox.value.scrollTop = chatBox.value?.scrollHeight))
+  if (chatBox.value) nextTick(() => (chatBox.value.scrollTop = chatBox.value?.scrollHeight))
 }
 
 onMounted(() => {
@@ -98,7 +131,7 @@ onMounted(() => {
     if ((d.recipent && d.recipent !== config.user.id) || d.user.id === config.user.id) return
     if ("message" in d) {
       chatHistory.value.push(d)
-      nextTick(() => (chatBox.value.scrollTop = chatBox.value?.scrollHeight))
+      if (chatBox.value) nextTick(() => (chatBox.value.scrollTop = chatBox.value?.scrollHeight))
     }
     switch (d.type) {
       case "hello":
@@ -118,6 +151,7 @@ onMounted(() => {
             user: config.user,
             data: users.value
           })
+          sendChatMessage(`${d.user.username} joined the room`)
         }
         break
       case "users":
@@ -150,7 +184,15 @@ onMounted(() => {
   })
 
   $socket.on("joined", (l) => {
-    if (l === 1) config.user.host = true
+    if (l === 1 && !config.user.isPublic && !config.user.verified) {
+      sendChatMessage("You removed from the room because you are not verified")
+      $socket.disconnect()
+    } else if (l === 1) {
+      config.user.host = true
+      sendChatMessage(`You are the host of the room`)
+    } else {
+      sendChatMessage(`You joined the room`)
+    }
     config.joined = true
     users.value.push(config.user)
   })
@@ -159,6 +201,17 @@ onMounted(() => {
     const user = users.value.find((e) => e.id === u.id)
     sendChatMessage(`${user?.username} left the room`)
     users.value = users.value.filter((e) => e.id !== u.id)
+    if (users.value[0].id === config.user.id && !config.user.host) {
+      if (!config.user.isPublic && !config.user.verified) {
+        sendChatMessage("You removed from the room because you are not verified")
+        $socket.disconnect()
+        return
+      }
+      config.user.host = true
+      users.value[0].host = true
+      sendChatMessage(`You are the host of the room`)
+      shareUpdates()
+    }
   })
 
   $socket.on("connect", () => {
@@ -217,10 +270,6 @@ const syncPlayers = () => {
 useIntervalFn(() => {
   syncPlayers()
 }, 100)
-
-// useIntervalFn(() => {
-//   if (config.user.host) shareUpdates()
-// }, 1000)
 
 function shareUpdates() {
   if (config.user.host) {
@@ -332,64 +381,43 @@ watch(chatBox, () => {
 </script>
 
 <template>
-  <div class="mt-24 px-6">
-    <p v-if="!connected">Connecting...</p>
-    <div class="flex w-fit flex-col gap-2" v-else>
-      <p>Connected: {{ connected }}</p>
-      <p>ID: {{ config.user.id }}</p>
-      <p>Host: {{ config.user.host }}</p>
-      <p v-if="users?.length">
-        Users:<br />
-        <span
-          v-html="
-            users
-              .map(
-                (e) =>
-                  `${e.username}: ${e.player.paused ? 'duraklatıldı' : 'oynatılıyor'} - ${$moment
-                    .duration(e.player.time, 'seconds')
-                    .format('hh:mm:ss')}`
-              )
-              .join('<br/>')
-          "
-        ></span
-        ><br />
-        Diff: {{ users[0]?.player?.time - users[1]?.player?.time }}
-      </p>
-      <FormInput
-        type="text"
-        placeholder="general-chat"
-        v-model="config.roomId"
-        :disabled="config.joined"
-        title="Room ID"
-        variant="general"
-      />
-      <div class="flex items-center">
-        <FormInput
-          type="text"
-          placeholder="Batman"
-          v-model="config.user.username"
-          :disabled="config.joined"
-          title="Nickname"
-          variant="general"
-        />
-        <button class="ml-2 mt-6" @click="config.user.username = getRandomCharacter()">
-          <Icon
-            class="h-8 w-8 text-gray-400 transition-all hover:rotate-45 hover:text-gray-200"
-            name="mdi:dice-5"
-          />
-        </button>
+  <div class="mt-36 px-6">
+    <div v-if="!config.joined" class="flex flex-col items-center justify-center">
+      <div class="flex items-center gap-x-2">
+        <Icon v-if="connected" class="h-6 w-6 text-gray-400" name="mdi:cloud-check-outline" />
+        <Icon v-else class="h-6 w-6 animate-spin text-gray-400" name="mdi:loading" />
+        <p class="text-gray-400">
+          {{ connected ? "Connected" : "Connecting" }}
+        </p>
       </div>
-
-      <button
-        v-if="!config.joined"
-        :disabled="config.roomId.trim().length === 0 || config.user.username.trim().length === 0"
-        class="rounded border border-gray-400 px-4 py-2 text-sm font-bold uppercase text-white disabled:opacity-40"
-        @click="joinRoom"
-      >
-        join
-      </button>
+      <div class="h-[80vh]" v-if="connected">
+        <h1 class="text-center text-5xl font-semibold tracking-tight">Select profile</h1>
+        <div class="flex h-full items-center justify-center gap-x-12">
+          <button
+            v-if="isLoggedIn && user"
+            class="flex flex-col items-center gap-6 hover:opacity-75"
+            @click="joinRoom(false)"
+          >
+            <Avatar
+              :username="user.username"
+              :avatar="user?.avatar"
+              :verified="user?.verified"
+              class="h-32 w-32"
+            />
+            <span class="text-center text-xl font-semibold tracking-tight">
+              {{ user.username }}
+            </span>
+          </button>
+          <button class="flex flex-col items-center gap-6 hover:opacity-75" @click="joinRoom(true)">
+            <Avatar class="h-32 w-32" :username="config.user.id" />
+            <span class="text-center text-xl font-semibold tracking-tight">{{
+              config.user.username
+            }}</span>
+          </button>
+        </div>
+      </div>
     </div>
-    <div v-if="config.joined" class="container mx-auto my-24">
+    <div v-else class="container mx-auto my-24">
       <div class="mb-4 flex items-center justify-between">
         <div>
           <h1 class="text-2xl font-semibold tracking-tight">
@@ -400,7 +428,7 @@ watch(chatBox, () => {
           </span>
         </div>
         <div class="flex items-center gap-x-2">
-          <button class="px-4 py-2 text-sm">
+          <button class="px-4 py-2 text-sm" @click="copyLink">
             <Icon class="h-6 w-6 text-gray-400" name="mdi:link-variant" />
             Copy Invite Link
           </button>
@@ -431,35 +459,61 @@ watch(chatBox, () => {
           class="relative flex h-[720px] max-h-[720px] w-full max-w-md flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 pb-6 pt-4"
         >
           <div class="relative">
-            <div class="mr-1 max-h-[620px] space-y-2 overflow-y-scroll pr-1" ref="chatBox">
+            <div class="mr-1 max-h-[620px] overflow-y-scroll pr-1" ref="chatBox">
               <div
-                class="flex items-center gap-x-4 px-6 py-2 hover:bg-gray-800"
-                v-for="msg in chatHistory"
+                class="flex items-start gap-x-4 px-6 py-2 hover:bg-gray-800"
+                v-for="(msg, index) in chatHistory"
+                :class="{
+                  '!py-0': chatHistory[index - 1]?.user?.id === msg.user.id,
+                  '!pb-0': chatHistory[index + 1]?.user?.id === msg.user.id
+                }"
               >
-                <Avatar
-                  :username="msg.user.id"
-                  class="h-12 w-12"
+                <div
+                  v-if="chatHistory[chatHistory.indexOf(msg) - 1]?.user?.id === msg.user.id"
+                  class="h-0.5 w-12 flex-shrink-0"
                   :class="{
-                    invisible: msg.user.id === 'system'
+                    hidden: msg.user.id === 'system'
                   }"
-                />
-                <div class="flex flex-col">
-                  <div class="flex gap-x-2">
-                    <span class="line-clamp-1 break-all font-semibold tracking-tight text-white">{{
-                      msg?.user?.username || "System"
-                    }}</span>
-                    <span
-                      v-if="msg.type"
-                      class="inline-block rounded bg-neutral-800 px-2 text-center text-sm font-semibold text-yellow-200"
-                      >{{ msg.type }}</span
-                    >
-                    <span
+                ></div>
+                <NuxtLink
+                  v-else
+                  :to="msg.user?.isPublic ? `/users/@${msg.user.username}` : undefined"
+                  :class="{
+                    hidden: msg.user.id === 'system'
+                  }"
+                >
+                  <Avatar
+                    :username="msg.user.id"
+                    :avatar="msg?.user?.avatar"
+                    :verified="msg?.user?.verified"
+                    :minimize="true"
+                    class="h-12 w-12"
+                  />
+                </NuxtLink>
+                <div class="flex w-[calc(100%-3rem)] flex-col">
+                  <NuxtLink
+                    v-if="chatHistory[chatHistory.indexOf(msg) - 1]?.user?.id !== msg.user.id"
+                    :to="msg.user?.isPublic ? `/users/@${msg.user.username}` : undefined"
+                    class="flex items-center gap-x-2 break-all font-semibold tracking-tight text-white"
+                    :class="{
+                      'hover:underline': msg.user?.isPublic
+                    }"
+                  >
+                    <span class="line-clamp-1">
+                      {{ msg?.user?.username || "System" }}
+                    </span>
+                    <Icon
                       v-if="msg.user?.host"
-                      class="inline-block rounded bg-neutral-800 px-2 text-center text-sm font-semibold text-yellow-200"
-                      >host</span
-                    >
+                      v-tooltip="{
+                        content: 'Host',
+                        placement: 'bottom'
+                      }"
+                      class="inline-block h-5 w-5 flex-shrink-0 text-yellow-400"
+                      name="fa6-solid:masks-theater"
+                  /></NuxtLink>
+                  <div class="break-words text-gray-300">
+                    {{ msg?.message }}
                   </div>
-                  <div class="text break-all text-gray-300">{{ msg?.message }}</div>
                 </div>
               </div>
             </div>
@@ -474,9 +528,13 @@ watch(chatBox, () => {
               <button
                 @click="scroller.y = 9999999"
                 v-if="!scroller?.arrivedState?.bottom"
-                class="absolute bottom-0 left-0 z-0 h-10 w-1/2 translate-x-1/2 rounded-tl-2xl rounded-tr-2xl bg-gray-800 px-4 font-semibold uppercase tracking-tight transition-all hover:bg-gray-700"
+                class="absolute bottom-2 left-1/2 z-0 -translate-x-1/2 space-x-2 rounded-full bg-gray-800/80 px-4 py-1 text-sm font-semibold uppercase tracking-tight text-white/80 transition-all hover:bg-gray-700"
               >
-                go to bottom
+                <Icon
+                  class="h-6 w-6 text-gray-400"
+                  name="material-symbols:keyboard-arrow-down-rounded"
+                />
+                <span>{{ $t("go-to-bottom") }}</span>
               </button>
             </Transition>
           </div>
@@ -513,8 +571,27 @@ watch(chatBox, () => {
           </Transition>
         </div>
       </div>
-      <div class="mt-4">
-        <PartySelector @handle="handleSelector" />
+      <div v-if="flag">
+        <p v-if="users?.length">
+          Users:<br />
+          <span
+            v-html="
+              users
+                .map(
+                  (e) =>
+                    `${e.username}: ${e.player.paused ? 'duraklatıldı' : 'oynatılıyor'} - ${$moment
+                      .duration(e.player.time, 'seconds')
+                      .format('hh:mm:ss')}`
+                )
+                .join('<br/>')
+            "
+          ></span
+          ><br />
+          Diff: {{ users[0]?.player?.time - users[1]?.player?.time }}
+        </p>
+      </div>
+      <div class="mb-36 mt-4" v-if="config.user?.isPublic && config.user?.verified">
+        <TheaterSelector @handle="handleSelector" />
       </div>
     </div>
   </div>

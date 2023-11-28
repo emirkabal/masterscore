@@ -9,6 +9,8 @@ const props = defineProps<{
   border?: boolean
   loading?: boolean
   square?: boolean
+  verified?: boolean
+  minimize?: boolean
 }>()
 
 const defaultAvatar = computed(() => {
@@ -56,11 +58,12 @@ watch(imageLoading, () => {
   ></div>
   <div
     v-else
-    class="flex flex-shrink-0 items-center justify-center overflow-hidden bg-gray-200 dark:bg-gray-800"
+    class="relative flex flex-shrink-0 items-center justify-center bg-gray-200 dark:bg-gray-800"
     :class="{
       'outline outline-4 outline-gray-300 dark:outline-zinc-700': border,
       'rounded-full': !square,
-      'rounded-lg': square
+      'rounded-lg': square,
+      'overflow-hidden': loading || imageLoading
     }"
   >
     <span
@@ -68,6 +71,21 @@ watch(imageLoading, () => {
       v-if="imageLoading && !loading"
     >
     </span>
+    <div
+      v-if="verified"
+      class="m absolute bottom-0 right-0 -m-1.5 flex h-10 w-10 items-center justify-center rounded-full bg-gray-950 p-1"
+      :class="{
+        'h-6 w-6 !bg-gray-900 ': minimize
+      }"
+    >
+      <Icon
+        name="material-symbols:verified-rounded"
+        class="h-6 w-6 text-yellow-400"
+        :class="{
+          'h-4 w-4': minimize
+        }"
+      />
+    </div>
     <nuxt-img
       ref="avatarReference"
       :src="avatar"
@@ -80,8 +98,7 @@ watch(imageLoading, () => {
       :class="{
         'pointer-events-none absolute inset-0 opacity-0': imageLoading && !loading,
         'rounded-full': !square,
-        'rounded-lg': square,
-        'scale-125': isAlpha
+        'rounded-lg': square
       }"
       draggable="false"
     />

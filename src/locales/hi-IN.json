@@ -33,7 +33,8 @@
       "reviews": "समीक्षा",
       "settings": "समायोजन",
       "logout": "लॉग आउट"
-    }
+    },
+    "party": "थिएटर"
   },
   "activity": {
     "reviewed": "समीक्षित",
@@ -228,5 +229,6 @@
     "comment": "टिप्पणी",
     "placeholder": "समीक्षा लिखें..."
   },
-  "cancel": "रद्द करना"
+  "cancel": "रद्द करना",
+  "go-to-bottom": "नीचे तक जाओ"
 }

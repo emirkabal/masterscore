@@ -33,7 +33,8 @@
       "reviews": "Reseñas",
       "settings": "Ajustes",
       "logout": "Cierre de sesión"
-    }
+    },
+    "party": "Teatro"
   },
   "activity": {
     "reviewed": "Revisado",
@@ -228,5 +229,6 @@
     "comment": "Comentario",
     "placeholder": "Escribe una reseña..."
   },
-  "cancel": "Cancelar"
+  "cancel": "Cancelar",
+  "go-to-bottom": "ir al fondo"
 }

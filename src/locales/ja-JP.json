@@ -34,7 +34,8 @@
       "reviews": "レビュー",
       "settings": "設定",
       "logout": "ログアウト"
-    }
+    },
+    "party": "劇場"
   },
   "activity": {
     "reviewed": "レビュー済み",
@@ -228,5 +229,6 @@
     "comment": "コメント",
     "placeholder": "レビューを書いてください..."
   },
-  "cancel": "キャンセル"
+  "cancel": "キャンセル",
+  "go-to-bottom": "最下位に行く"
 }

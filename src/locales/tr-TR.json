@@ -34,7 +34,8 @@
       "reviews": "Değerlendirmeler",
       "settings": "Ayarlar",
       "logout": "Çıkış yap"
-    }
+    },
+    "party": "Tiyatro"
   },
   "activity": {
     "reviewed": "Değerlendirdi",
@@ -228,5 +229,6 @@
     "comment": "Yorum",
     "placeholder": "Herhangi bir yorum yazın..."
   },
-  "cancel": "İptal"
+  "cancel": "İptal",
+  "go-to-bottom": "aşağıya git"
 }

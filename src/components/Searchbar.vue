@@ -19,14 +19,19 @@ const routes = [
     icon: "tabler:home"
   },
   {
-    name: "discover.title",
-    path: "/discover",
-    icon: "ion:compass-outline"
+    name: "header.party",
+    path: "/theater",
+    icon: "fa6-solid:masks-theater"
   },
   {
     name: "header.feed",
     path: "/feed",
     icon: "tabler:message-2"
+  },
+  {
+    name: "discover.title",
+    path: "/discover",
+    icon: "ion:compass-outline"
   },
   {
     name: "header.table",
@@ -54,10 +59,6 @@ const searchResults = debounce(async () => {
     history.value = [...new Set(history.value)]
   }
 }, 250)
-
-const removeHistoryItem = (index) => {
-  history.value.splice(index, 1)
-}
 
 const searchInput = (e) => {
   search.value = e.target.value
