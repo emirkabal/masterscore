@@ -429,7 +429,15 @@ onMounted(() => {
     users.value = []
     connected.value = $socket.connected
     config.user.id = theaterUser.value.id
-    if (config.joined) $socket.emit("join", [config.roomId, config.user.id])
+    if (config.joined) {
+      $socket.emit("join", [config.roomId, config.user.id])
+      $socket.emit("message", {
+        type: "hello",
+        to: config.roomId,
+        user: config.user
+      })
+      sendChatMessage("dunkof baglantin kotpi düzeltim")
+    }
   })
 
   $socket.on("disconnect", () => {
