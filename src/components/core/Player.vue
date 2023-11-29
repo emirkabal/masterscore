@@ -155,7 +155,7 @@ watch(data, () => {
   const handledMediaData = getMediaData()
   mediaConfig.value = {
     sources: handledMediaData.sources ?? [],
-    poster: props.backdrop,
+    poster: props.backdrop || props.poster,
     tracks: handledMediaData.tracks ?? []
   }
 })

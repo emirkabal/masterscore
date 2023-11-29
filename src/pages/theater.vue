@@ -9,6 +9,10 @@ const route = useRoute()
 const router = useRouter()
 
 const flag = useStorage("debugMode", false)
+const theaterUser = useStorage("theaterUser", {
+  id: Math.random().toString(36).substring(7),
+  guestName: getRandomCharacter()
+})
 const { copy } = useClipboard()
 const bus = useEventBus<{
   time?: number
@@ -24,6 +28,8 @@ interface SocketUser {
   verified?: boolean
   host: boolean
   isPublic: boolean
+  left: boolean
+  lastSeen?: number
   player: {
     time: number
     paused: boolean
@@ -33,9 +39,10 @@ interface SocketUser {
 
 const config = reactive({
   user: {
-    id: "user",
-    username: getRandomCharacter(),
+    id: theaterUser.value.id,
+    username: theaterUser.value.guestName,
     host: false,
+    left: false,
     player: {
       time: 0,
       paused: true,
@@ -46,7 +53,8 @@ const config = reactive({
   joined: false,
   joining: false,
   autoSync: true,
-  showUsers: false
+  showUsers: false,
+  hostWaiting: false
 })
 const users = ref<SocketUser[]>([])
 
@@ -83,7 +91,7 @@ const joinRoom = (guest = true) => {
   }
 
   if (config.roomId.trim().length === 0 || config.user.username.trim().length === 0) return
-  $socket.emit("join", config.roomId)
+  $socket.emit("join", [config.roomId, config.user.id])
   $socket.emit("message", {
     type: "hello",
     to: config.roomId,
@@ -122,13 +130,18 @@ const sendMsg = () => {
   // }
   if (msg.value.startsWith("/")) {
     const cmd = msg.value.split(" ")[0]
+    const args = msg.value.split(" ").slice(1)
     switch (cmd) {
       case "/clear":
         chatHistory.value = []
         sendChatMessage("Chat cleared")
         break
       case "/nick":
-        const nick = msg.value.split(" ")[1]
+        const nick = args.join(" ")
+        if (nick?.length > 16) {
+          sendChatMessage("Nickname can't be longer than 16 characters")
+          break
+        }
         if (nick) {
           config.user.username = nick
           sendChatMessage(`Your nickname changed to ${nick}`)
@@ -201,22 +214,85 @@ onMounted(() => {
             data: users.value
           })
         }
+        const returnedUser = users.value.find((e) => e.id === d.user.id)
+        if (returnedUser) {
+          if (returnedUser.host) {
+            config.hostWaiting = false
+            returnedUser.host = true
+            returnedUser.left = false
+            returnedUser.lastSeen = Date.now()
+            $socket.emit("message", {
+              type: "users",
+              to: config.roomId,
+              user: config.user,
+              data: users.value
+            })
+            $socket.emit("message", {
+              type: "entertainment",
+              to: config.roomId,
+              recipent: d.user.id,
+              user: config.user,
+              data: data.value
+            })
+            sendChatMessage(`The host is reconnected.`)
+            break
+          }
+        }
         sendChatMessage(`${d.user.username} joined the room`)
         break
       case "users":
         users.value = d.data
+        if (d.data[0].id === config.user.id) {
+          config.user = d.data[0]
+          config.hostWaiting = false
+          sendChatMessage(`Welcome back ${config.user.username}`)
+        }
         break
       case "entertainment":
         if (d.data.playlistId === currentId.value) return
         data.value = null
         setTimeout(() => {
           data.value = d.data
+          pause(0)
         }, 10)
+        break
+      case "host_update":
+        users.value = d.data
+        if (d.user.id === config.user.id) {
+          config.hostWaiting = false
+          sendChatMessage(`${d.user.username} is the new host`)
+        }
+        break
+      case "reconnected":
+        const u = users.value.find((e) => e.id === d.user.id)
+        if (u) {
+          u.left = false
+          u.host = d.user.host
+          u.player = d.user.player
+          u.username = d.user.username
+          u.avatar = d.user.avatar
+          u.verified = d.user.verified
+          if (u.host) {
+            config.hostWaiting = false
+            sendChatMessage(`${d.user.username} is the new host`)
+          }
+        }
+        if (config.user.id) shareUpdates()
+        else if (users.value[1]?.id === config.user.id) {
+          $socket.emit("message", {
+            type: "users",
+            to: config.roomId,
+            user: config.user,
+            data: users.value
+          })
+        }
+        sendChatMessage(`${d.user.username} reconnected to the room`)
         break
       case "user_update":
         const found = users.value.findIndex((e) => e.id === d.user.id)
         if (found) users.value[found] = d.user
-        if (config.user.host) shareUpdates()
+        else users.value.push(d.user)
+        shareUpdates()
         break
 
       case "player_update":
@@ -267,37 +343,60 @@ onMounted(() => {
 
   $socket.on("left", (u) => {
     const user = users.value.find((e) => e.id === u.id)
+    if (!user) return
     sendChatMessage(`${user?.username} left the room`)
-    users.value = users.value.filter((e) => e.id !== u.id)
-    if (users.value[0].id === config.user.id && !config.user.host) {
-      if (!config.user.isPublic && !config.user.verified) {
-        sendChatMessage("You removed from the room because you are not verified")
-        $socket.disconnect()
-        return
+    user.lastSeen = Date.now()
+    user.left = true
+    const updateRoom = () => {
+      users.value = users.value.filter((e) => e.id !== u.id)
+      if (users.value[0].id === config.user.id && !config.user.host) {
+        if (!config.user.isPublic && !config.user.verified) {
+          sendChatMessage("You removed from the room because you are not verified")
+          $socket.disconnect()
+          return
+        }
+        config.user.host = true
+        users.value[0].host = true
+        $socket.emit("message", {
+          type: "host_update",
+          to: config.roomId,
+          user: config.user,
+          data: users.value
+        })
+        sendChatMessage(`You are the host of the room`)
+        shareUpdates()
       }
-      config.user.host = true
-      users.value[0].host = true
-      sendChatMessage(`You are the host of the room`)
-      shareUpdates()
     }
+    if (user?.host) {
+      config.hostWaiting = true
+      sendChatMessage(`The host left the room. Waiting for new host...`)
+      setTimeout(() => {
+        if (config.hostWaiting) {
+          config.hostWaiting = false
+          updateRoom()
+        }
+      }, 10000)
+      return
+    }
+    updateRoom()
   })
 
   $socket.on("connect", () => {
+    users.value = []
     connected.value = $socket.connected
-    config.user.id = $socket.id
+    config.user.id = theaterUser.value.id
     if (config.joined) {
-      $socket.emit("join", config.roomId)
+      $socket.emit("join", [config.roomId, config.user.id])
       $socket.emit("message", {
-        type: "hello",
+        type: "reconnected",
         to: config.roomId,
-        user: config.user,
-        message: "Joined"
+        user: config.user
       })
+      sendChatMessage("You are reconnected to the room")
     }
   })
 
   $socket.on("disconnect", () => {
-    users.value = []
     connected.value = $socket.connected
     sendChatMessage("You are disconnected from the room")
   })
@@ -448,9 +547,17 @@ const handleSelector = (_: any) => {
     type: "entertainment",
     to: config.roomId,
     user: config.user,
-    message: `Changed to ${_.title || _.name}`,
+    message: `Changed to ${_.title || _.name}${
+      _?.episode !== undefined ? ` S${_?.season || 1}E${_?.episode || 0}` : ``
+    }`,
     data: _
   })
+  sendChatMessage(
+    `Changed to ${_.title || _.name}${
+      _?.episode !== undefined ? ` S${_?.season || 1}E${_?.episode || 0}` : ``
+    }`
+  )
+  pause(0)
 }
 
 watch(chatBox, () => {
@@ -493,7 +600,7 @@ watch(chatBox, () => {
           <button class="flex flex-col items-center gap-6 hover:opacity-75" @click="joinRoom(true)">
             <Avatar class="h-32 w-32" :username="config.user.id" />
             <span class="text-center text-xl font-semibold tracking-tight">{{
-              config.user.username
+              theaterUser.guestName
             }}</span>
           </button>
         </div>
@@ -502,9 +609,14 @@ watch(chatBox, () => {
     <div v-else class="container mx-auto my-24">
       <div class="mb-4 flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-semibold tracking-tight">
-            {{ data?.title || data?.name || "İçerik bekleniyor..." }}
-          </h1>
+          <div class="flex items-center gap-x-2">
+            <h1 class="text-2xl font-semibold tracking-tight">
+              {{ data?.title || data?.name || "İçerik bekleniyor..." }}
+            </h1>
+            <div v-if="data?.episode !== undefined">
+              <span class="text-gray-300">S{{ data?.season || 1 }}E{{ data?.episode || 0 }}</span>
+            </div>
+          </div>
           <span class="text-gray-300">
             {{ $moment.duration(config.user.player.time, "seconds").format("hh:mm:ss") }}
           </span>
@@ -527,8 +639,8 @@ watch(chatBox, () => {
           <CorePlayer
             v-if="data"
             :title="data.title || data.name"
-            :poster="'-'"
-            :backdrop="'-'"
+            :poster="$timage(data?.poster_path, 'w1280')"
+            :backdrop="$timage(data?.backdrop_path, 'w1280')"
             :tmdbId="data.id"
             :type="data.localData.type"
             :playlistId="data.playlistId"
@@ -575,7 +687,7 @@ watch(chatBox, () => {
               <div class="mr-1 flex h-56 flex-col gap-y-2 overflow-y-scroll px-6 py-2 pr-1">
                 <div v-for="u in users" class="flex w-full items-center gap-x-4">
                   <Avatar
-                    :username="u.id.substring(0, 5)"
+                    :username="u.id"
                     :avatar="u.avatar"
                     :verified="u.verified"
                     :minimize="true"
@@ -626,7 +738,7 @@ watch(chatBox, () => {
                   }"
                 >
                   <Avatar
-                    :username="msg?.user?.id?.substring(0, 5) || 'm'"
+                    :username="msg?.user?.id"
                     :avatar="msg?.user?.avatar"
                     :verified="msg?.user?.verified"
                     :minimize="true"
