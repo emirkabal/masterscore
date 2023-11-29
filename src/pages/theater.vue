@@ -122,13 +122,18 @@ const sendMsg = () => {
   // }
   if (msg.value.startsWith("/")) {
     const cmd = msg.value.split(" ")[0]
+    const args = msg.value.split(" ").slice(1)
     switch (cmd) {
       case "/clear":
         chatHistory.value = []
         sendChatMessage("Chat cleared")
         break
       case "/nick":
-        const nick = msg.value.split(" ")[1]
+        const nick = args.join(" ")
+        if (nick?.length > 16) {
+          sendChatMessage("Nickname can't be longer than 16 characters")
+          break
+        }
         if (nick) {
           config.user.username = nick
           sendChatMessage(`Your nickname changed to ${nick}`)
@@ -288,11 +293,14 @@ onMounted(() => {
     if (config.joined) {
       $socket.emit("join", config.roomId)
       $socket.emit("message", {
-        type: "hello",
+        type: "chat",
         to: config.roomId,
-        user: config.user,
-        message: "Joined"
+        user: {
+          id: "system"
+        },
+        message: `${config.user.username} reconnected to the room`
       })
+      sendChatMessage("You are reconnected to the room")
     }
   })
 
