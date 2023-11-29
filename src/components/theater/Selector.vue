@@ -117,7 +117,14 @@ watch(
               <div
                 v-else
                 v-for="ep in episodes"
-                @click="$emit('handle', { playlistId: ep.id, ...details })"
+                @click="
+                  $emit('handle', {
+                    playlistId: ep.id,
+                    season: ep.season || 0,
+                    episode: ep.episode || 0,
+                    ...details
+                  })
+                "
                 class="cursor-pointer rounded-full px-4 py-2 hover:bg-gray-900 focus:bg-gray-900 focus:outline-none"
               >
                 <div class="flex min-w-0 items-center justify-between">
