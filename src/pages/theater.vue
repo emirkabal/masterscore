@@ -11,7 +11,8 @@ const router = useRouter()
 const flag = useStorage("debugMode", false)
 const theaterUser = useStorage("theaterUser", {
   id: Math.random().toString(36).substring(7),
-  guestName: getRandomCharacter()
+  guestName: getRandomCharacter(),
+  alreadyConnectedToAnyRoom: false
 })
 const { copy } = useClipboard()
 const bus = useEventBus<{
@@ -30,6 +31,7 @@ interface SocketUser {
   isPublic: boolean
   left: boolean
   lastSeen?: number
+  typing?: boolean
   player: {
     time: number
     paused: boolean
@@ -39,6 +41,7 @@ interface SocketUser {
 
 const config = reactive({
   user: {
+    // id: $socket.id,
     id: theaterUser.value.id,
     username: theaterUser.value.guestName,
     host: false,
@@ -63,6 +66,9 @@ const chatHistory = ref<any[]>([])
 const chatBox = ref()
 const scroller = ref()
 const currentId = ref()
+
+const usersSize = computed(() => users.value.filter((e) => !e.left).length)
+const typingUsers = computed(() => users.value.filter((e) => e.typing && !e.left))
 
 watch(config, () => {
   router.push({
@@ -97,6 +103,7 @@ const joinRoom = (guest = true) => {
     to: config.roomId,
     user: config.user
   })
+  theaterUser.value.alreadyConnectedToAnyRoom = true
 }
 
 const leaveRoom = () => {
@@ -104,30 +111,30 @@ const leaveRoom = () => {
   $socket.emit("leave", config.roomId)
   config.joined = false
   config.user.host = false
-  config.user.username = getRandomCharacter()
   config.user.isPublic = false
   config.user.avatar = undefined
   config.user.verified = false
-  config.roomId = ""
+  // config.roomId = ""
   chatHistory.value = []
   users.value = []
   if (!$socket.connected) $socket.connect()
+  theaterUser.value.alreadyConnectedToAnyRoom = false
+}
+
+const startTyping = () => {
+  $socket.emit("message", {
+    type: "typing",
+    to: config.roomId,
+    user: config.user
+  })
+}
+
+const getMe = () => {
+  return users.value.find((e) => e.id === config.user.id)
 }
 
 const sendMsg = () => {
   if (msg.value.trim().length === 0) return
-  // if (msg.value === "/clear") {
-  //   chatHistory.value = []
-  //   msg.value = ""
-  //   sendChatMessage("Chat cleared")
-  //   return
-  // }
-  // if (msg.value === "/clear") {
-  //   chatHistory.value = []
-  //   msg.value = ""
-  //   sendChatMessage("Chat cleared")
-  //   return
-  // }
   if (msg.value.startsWith("/")) {
     const cmd = msg.value.split(" ")[0]
     const args = msg.value.split(" ").slice(1)
@@ -148,6 +155,9 @@ const sendMsg = () => {
         } else {
           sendChatMessage(`Your nickname is ${config.user.username}`)
         }
+        const me = getMe()
+        if (me) me.username = config.user.username
+        shareUpdates()
         break
       case "/dc":
         $socket.disconnect()
@@ -189,6 +199,7 @@ const sendChatMessage = (message: string) => {
 }
 
 onMounted(() => {
+  theaterUser.value.alreadyConnectedToAnyRoom = false
   $socket.on("message", (d) => {
     if ((d.recipent && d.recipent !== config.user.id) || d.user.id === config.user.id) return
     if ("message" in d) {
@@ -197,30 +208,14 @@ onMounted(() => {
     }
     switch (d.type) {
       case "hello":
-        if (config.user.host) {
-          if (data.value)
-            $socket.emit("message", {
-              type: "entertainment",
-              to: config.roomId,
-              recipent: d.user.id,
-              user: config.user,
-              data: data.value
-            })
-          users.value.push(d.user)
-          $socket.emit("message", {
-            type: "users",
-            to: config.roomId,
-            user: config.user,
-            data: users.value
-          })
-        }
         const returnedUser = users.value.find((e) => e.id === d.user.id)
         if (returnedUser) {
+          returnedUser.left = false
+          returnedUser.lastSeen = Date.now()
+          returnedUser.username = d.user.username
           if (returnedUser.host) {
             config.hostWaiting = false
             returnedUser.host = true
-            returnedUser.left = false
-            returnedUser.lastSeen = Date.now()
             $socket.emit("message", {
               type: "users",
               to: config.roomId,
@@ -237,8 +232,28 @@ onMounted(() => {
             sendChatMessage(`The host is reconnected.`)
             break
           }
+          sendChatMessage(`${d.user.username} reconnect to the room`)
+        } else {
+          users.value.push(d.user)
+          sendChatMessage(`${d.user.username} joined the room`)
         }
-        sendChatMessage(`${d.user.username} joined the room`)
+
+        if (config.user.host) {
+          if (data.value)
+            $socket.emit("message", {
+              type: "entertainment",
+              to: config.roomId,
+              recipent: d.user.id,
+              user: config.user,
+              data: data.value
+            })
+          $socket.emit("message", {
+            type: "users",
+            to: config.roomId,
+            user: config.user,
+            data: users.value
+          })
+        }
         break
       case "users":
         users.value = d.data
@@ -294,7 +309,13 @@ onMounted(() => {
         else users.value.push(d.user)
         shareUpdates()
         break
-
+      case "typing":
+        const foundUser = users.value.find((e) => e.id === d.user.id)
+        if (foundUser) foundUser.typing = true
+        setTimeout(() => {
+          if (foundUser) foundUser.typing = false
+        }, 3000)
+        break
       case "player_update":
         if (d.data.type === "play") playAtTime(d.data.time)
         else if (d.data.type === "pause") pause(d.data.time)
@@ -348,15 +369,14 @@ onMounted(() => {
     user.lastSeen = Date.now()
     user.left = true
     const updateRoom = () => {
-      users.value = users.value.filter((e) => e.id !== u.id)
-      if (users.value[0].id === config.user.id && !config.user.host) {
+      if (users.value[1].id === config.user.id && !config.user.host) {
         if (!config.user.isPublic && !config.user.verified) {
           sendChatMessage("You removed from the room because you are not verified")
           $socket.disconnect()
           return
         }
         config.user.host = true
-        users.value[0].host = true
+        users.value[1].host = true
         $socket.emit("message", {
           type: "host_update",
           to: config.roomId,
@@ -424,7 +444,7 @@ const syncPlayers = () => {
   for (let i = 0; i < sorted.length; i++) {
     const u = sorted[i]
     const diff = config.user.player.time - u.player.time
-    if (diff > 2.3 || diff < -2.3) {
+    if ((diff > 2.3 || diff < -2.3) && !u.left) {
       $socket.emit("message", {
         type: "player_update",
         to: config.roomId,
@@ -450,6 +470,11 @@ useIntervalFn(() => {
     if (!e.player.paused) e.player.time = e.player.time + 0.2
   })
 }, 200)
+
+useIntervalFn(() => {
+  if (!config.joined && !theaterUser.value.alreadyConnectedToAnyRoom) return
+  theaterUser.value.alreadyConnectedToAnyRoom = true
+}, 100)
 
 function shareUpdates() {
   if (config.user.host) {
@@ -579,9 +604,14 @@ watch(chatBox, () => {
           {{ connected ? "Connected" : "Connecting" }}
         </p>
       </div>
-      <div class="h-[80vh]" v-if="connected">
+      <div class="h-[80vh]" v-if="connected && !config.joining">
         <h1 class="text-center text-5xl font-semibold tracking-tight">Select profile</h1>
-        <div class="flex h-full items-center justify-center gap-x-12">
+        <div
+          class="flex h-full items-center justify-center gap-x-12"
+          :class="{
+            'pointer-events-none opacity-25': theaterUser.alreadyConnectedToAnyRoom
+          }"
+        >
           <button
             v-if="isLoggedIn && user"
             class="flex flex-col items-center gap-6 hover:opacity-75"
@@ -604,8 +634,25 @@ watch(chatBox, () => {
             }}</span>
           </button>
         </div>
+        <div class="mx-auto -mt-24 w-fit rounded-full bg-gray-900 px-4 py-2">
+          <span v-if="theaterUser.alreadyConnectedToAnyRoom">
+            You are already connected to a room. Please leave the room to create/join another room.
+          </span>
+          <span v-else-if="!config.roomId" class="text-gray-300">Creating new room...</span>
+          <span v-else class="flex items-center text-gray-300"
+            ><button
+              class="group mr-2 flex items-center justify-center rounded-full p-1.5 hover:bg-gray-800"
+              @click="config.roomId = ''"
+            >
+              <Icon class="h-5 w-5 text-gray-400 group-hover:text-gray-200" name="ic:close" />
+            </button>
+            {{ config.roomId }}
+          </span>
+        </div>
       </div>
     </div>
+
+    <!-- Room Area -->
     <div v-else class="container mx-auto my-24">
       <div class="mb-4 flex items-center justify-between">
         <div>
@@ -658,7 +705,7 @@ watch(chatBox, () => {
               @click="config.showUsers = !config.showUsers"
               v-if="!config.showUsers"
             >
-              {{ users.length }}
+              {{ usersSize }}
               <Icon class="h-6 w-6 text-gray-200" name="lucide:users-2" />
             </button>
           </Transition>
@@ -680,7 +727,7 @@ watch(chatBox, () => {
                   class="flex items-center gap-x-2 rounded-full bg-gray-800/60 px-2 py-1 text-sm font-semibold hover:bg-gray-800"
                   @click="config.showUsers = !config.showUsers"
                 >
-                  {{ users.length }}
+                  {{ usersSize }}
                   <Icon class="h-6 w-6 text-gray-200" name="lucide:users-2" />
                 </button>
               </div>
@@ -702,11 +749,21 @@ watch(chatBox, () => {
                       <span v-if="u.id === config.user.id" class="text-sm text-gray-300">
                         you
                       </span>
+                      <Icon
+                        v-if="u.host"
+                        v-tooltip="'Host'"
+                        class="inline-block h-5 w-5 flex-shrink-0 text-yellow-400"
+                        name="fa6-solid:masks-theater"
+                      />
                     </div>
-                    <span class="text-sm text-gray-300">
+                    <span v-if="!u.left" class="text-sm text-gray-300">
                       {{ u.player.paused ? "Paused" : "Playing" }}:
                       {{ $moment.duration(u.player.time, "seconds").format("hh:mm:ss") }}
                     </span>
+                    <span v-else class="text-sm text-red-300"> Disconnected </span>
+                  </div>
+                  <div v-if="u.typing">
+                    <Icon class="h-6 w-6 text-gray-400" name="eos-icons:three-dots-loading" />
                   </div>
                 </div>
               </div>
@@ -726,24 +783,20 @@ watch(chatBox, () => {
                 <div
                   v-if="chatHistory[chatHistory.indexOf(msg) - 1]?.user?.id === msg.user.id"
                   class="h-0.5 w-12 flex-shrink-0"
-                  :class="{
-                    hidden: msg.user.id === 'system'
-                  }"
                 ></div>
                 <NuxtLink
                   v-else
                   :to="msg.user?.isPublic ? `/users/@${msg.user.username}` : undefined"
-                  :class="{
-                    hidden: msg.user.id === 'system'
-                  }"
                 >
                   <Avatar
+                    v-if="msg.user.id !== 'system'"
                     :username="msg?.user?.id"
                     :avatar="msg?.user?.avatar"
                     :verified="msg?.user?.verified"
                     :minimize="true"
                     class="h-12 w-12"
                   />
+                  <img src="~/assets/images/master.png" class="h-12 w-12 rounded-full" />
                 </NuxtLink>
                 <div class="flex w-[calc(100%-3rem)] flex-col">
                   <div
@@ -751,16 +804,18 @@ watch(chatBox, () => {
                     class="flex items-center gap-x-2 break-all font-semibold tracking-tight text-white"
                   >
                     <span class="line-clamp-1">
-                      {{ msg?.user?.username || "System" }}
+                      {{ msg?.user?.username || "Master" }}
                     </span>
                     <Icon
                       v-if="msg.user?.host"
-                      v-tooltip="{
-                        content: 'Host',
-                        placement: 'bottom'
-                      }"
+                      v-tooltip="'Host'"
                       class="inline-block h-5 w-5 flex-shrink-0 text-yellow-400"
                       name="fa6-solid:masks-theater"
+                    />
+                    <IconsM
+                      v-if="msg.user.id === 'system'"
+                      v-tooltip="'System'"
+                      class="inline-block h-4 w-4 flex-shrink-0 text-yellow-400"
                     />
                   </div>
                   <div class="break-words text-gray-300">
@@ -790,7 +845,7 @@ watch(chatBox, () => {
               </button>
             </Transition>
           </div>
-          <div class="z-10 flex items-center !bg-gray-900 px-6 pt-4">
+          <div class="z-10 flex items-center !bg-gray-900 px-6 pb-4 pt-4">
             <FormInput
               type="text"
               class="w-full"
@@ -799,6 +854,7 @@ watch(chatBox, () => {
               placeholder="Type your message here..."
               :disabled="!connected"
               @keyup.enter="sendMsg"
+              @input="startTyping"
             />
             <button class="h-10 pl-4 text-sm font-bold uppercase text-white" @click="sendMsg">
               <Icon
@@ -810,6 +866,17 @@ watch(chatBox, () => {
               />
             </button>
           </div>
+          <Transition name="fade">
+            <div v-if="typingUsers.length" class="absolute bottom-0 z-10">
+              <div class="flex items-center gap-x-2 px-6 py-2">
+                <Icon class="h-6 w-6 text-gray-400" name="eos-icons:three-dots-loading" />
+                <span v-if="typingUsers.length < 3" class="text-gray-300">
+                  {{ typingUsers.map((e) => e.username).join(", ") }} is typing...
+                </span>
+                <span v-else class="text-gray-300"> Multiple users are typing... </span>
+              </div>
+            </div>
+          </Transition>
           <Transition name="fade">
             <div
               v-if="!connected"
