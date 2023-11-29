@@ -261,6 +261,10 @@ onMounted(() => {
           config.user = d.data[0]
           config.hostWaiting = false
           sendChatMessage(`Welcome back ${config.user.username}`)
+          users.value
+            .filter((e) => e.host && e.id !== config.user.id)
+            .forEach((e) => (e.host = false))
+          shareUpdates()
         }
         break
       case "entertainment":
@@ -796,7 +800,7 @@ watch(chatBox, () => {
                     :minimize="true"
                     class="h-12 w-12"
                   />
-                  <img src="~/assets/images/master.png" class="h-12 w-12 rounded-full" />
+                  <img v-else src="~/assets/images/master.png" class="h-12 w-12 rounded-full" />
                 </NuxtLink>
                 <div class="flex w-[calc(100%-3rem)] flex-col">
                   <div
