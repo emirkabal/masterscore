@@ -171,8 +171,8 @@ const sendMsg = () => {
         break
       case "/nick":
         const nick = args.join(" ")
-        if (nick?.length > 16) {
-          sendChatMessage("Nickname can't be longer than 16 characters")
+        if (nick?.length > 24) {
+          sendChatMessage("Nickname can't be longer than 24 characters")
           break
         }
         if (nick) {
@@ -311,12 +311,10 @@ onMounted(() => {
         if (config.user.host) shareUpdates()
         break
       case "nick_update":
-        const foundNick = users.value.findIndex((e) => e.id === d.user.id)
+        const foundNick = users.value.find((e) => e.id === d.user.id)
         if (foundNick) {
-          sendChatMessage(
-            `${users.value[foundNick].username} changed nickname to ${d.user.username}`
-          )
-          users.value[foundNick] = d.user
+          sendChatMessage(`${foundNick.username} changed nickname to ${d.user.username}`)
+          foundNick.username = d.user.username
           chatHistory.value.forEach((e) => {
             if (e.user.id === d.user.id) e.user.username = d.user.username
           })
