@@ -708,7 +708,7 @@ watch(chatBox, () => {
       <div
         class="mx-auto flex items-center gap-x-4"
         :class="{
-          'fixed left-0 top-0 z-50 h-full w-full gap-x-0 bg-black': config.theaterMode
+          'fixed left-0 top-0 z-50 h-full w-full !gap-x-0 bg-black': config.theaterMode
         }"
       >
         <div
