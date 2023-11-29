@@ -60,7 +60,8 @@ const config = reactive({
   joining: false,
   autoSync: true,
   showUsers: false,
-  hostWaiting: false
+  hostWaiting: false,
+  theaterMode: false
 })
 const users = ref<SocketUser[]>([])
 
@@ -76,6 +77,11 @@ const typingUsers = computed(() =>
 )
 
 watch(config, () => {
+  if (config.theaterMode) {
+    document.body.style.overflow = "hidden"
+  } else {
+    document.body.style.overflow = "auto"
+  }
   router.push({
     path: "/theater",
     query: { room: config.roomId || undefined }
@@ -165,8 +171,8 @@ const sendMsg = () => {
         break
       case "/nick":
         const nick = args.join(" ")
-        if (nick?.length > 16) {
-          sendChatMessage("Nickname can't be longer than 16 characters")
+        if (nick?.length > 24) {
+          sendChatMessage("Nickname can't be longer than 24 characters")
           break
         }
         if (nick) {
@@ -177,7 +183,11 @@ const sendMsg = () => {
         }
         const me = getMe()
         if (me) me.username = config.user.username
-        shareUpdates()
+        $socket.emit("message", {
+          type: "nick_update",
+          to: config.roomId,
+          user: config.user
+        })
         break
       case "/dc":
         $socket.disconnect()
@@ -294,36 +304,21 @@ onMounted(() => {
         config.hostWaiting = false
         sendChatMessage(`${d.user.username} is the new host`)
         break
-      case "reconnected":
-        const u = users.value.find((e) => e.id === d.user.id)
-        if (u) {
-          u.left = false
-          u.host = d.user.host
-          u.player = d.user.player
-          u.username = d.user.username
-          u.avatar = d.user.avatar
-          u.verified = d.user.verified
-          if (u.host) {
-            config.hostWaiting = false
-            sendChatMessage(`${d.user.username} is the new host`)
-          }
-        }
-        if (config.user.id) shareUpdates()
-        else if (users.value[1]?.id === config.user.id) {
-          $socket.emit("message", {
-            type: "users",
-            to: config.roomId,
-            user: config.user,
-            data: users.value
-          })
-        }
-        sendChatMessage(`${d.user.username} reconnected to the room`)
-        break
       case "user_update":
         const found = users.value.findIndex((e) => e.id === d.user.id)
         if (found) users.value[found] = d.user
         else users.value.push(d.user)
         if (config.user.host) shareUpdates()
+        break
+      case "nick_update":
+        const foundNick = users.value.find((e) => e.id === d.user.id)
+        if (foundNick) {
+          sendChatMessage(`${foundNick.username} changed nickname to ${d.user.username}`)
+          foundNick.username = d.user.username
+          chatHistory.value.forEach((e) => {
+            if (e.user.id === d.user.id) e.user.username = d.user.username
+          })
+        } else users.value.push(d.user)
         break
       case "typing":
         const foundUser = users.value.find((e) => e.id === d.user.id)
@@ -367,8 +362,8 @@ onMounted(() => {
     config.joining = false
     if (l === 1 && !config.user.isPublic && !config.user.verified) {
       sendChatMessage("You removed from the room because you are not verified")
-      users.value = []
       $socket.disconnect()
+      users.value = []
     } else if (l === 1) {
       config.user.host = true
       sendChatMessage(`You are the host of the room`)
@@ -395,8 +390,8 @@ onMounted(() => {
       if (!hostSize && usersSorted.length && usersSorted[0].id === config.user.id) {
         if (!config.user.isPublic && !config.user.verified) {
           sendChatMessage("You removed from the room because you are not verified")
-          users.value = []
           $socket.disconnect()
+          users.value = []
           return
         }
         config.user.host = true
@@ -434,15 +429,7 @@ onMounted(() => {
     users.value = []
     connected.value = $socket.connected
     config.user.id = theaterUser.value.id
-    if (config.joined) {
-      $socket.emit("join", [config.roomId, config.user.id])
-      $socket.emit("message", {
-        type: "reconnected",
-        to: config.roomId,
-        user: config.user
-      })
-      sendChatMessage("You are reconnected to the room")
-    }
+    if (config.joined) $socket.emit("join", [config.roomId, config.user.id])
   })
 
   $socket.on("disconnect", () => {
@@ -710,8 +697,18 @@ watch(chatBox, () => {
           </button>
         </div>
       </div>
-      <div class="mx-auto flex items-center gap-x-4">
-        <div class="flex h-[720px] w-full items-center justify-center rounded-2xl bg-gray-900">
+      <div
+        class="mx-auto flex items-center gap-x-4"
+        :class="{
+          'fixed left-0 top-0 z-50 h-full w-full gap-x-0 bg-black': config.theaterMode
+        }"
+      >
+        <div
+          class="flex h-[720px] w-full items-center justify-center rounded-2xl bg-gray-900"
+          :class="{
+            'h-screen w-screen rounded-none': config.theaterMode
+          }"
+        >
           <CorePlayer
             v-if="data"
             :title="data.title || data.name"
@@ -727,6 +724,9 @@ watch(chatBox, () => {
         </div>
         <div
           class="relative flex h-[720px] max-h-[720px] w-full max-w-md flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 pb-6 pt-4"
+          :class="{
+            'h-full max-h-full w-screen rounded-none': config.theaterMode
+          }"
         >
           <Transition name="fade">
             <button
@@ -800,7 +800,13 @@ watch(chatBox, () => {
           </Transition>
           <div class="relative">
             <!-- Chat -->
-            <div class="mr-1 max-h-[620px] overflow-y-scroll pr-1" ref="chatBox">
+            <div
+              class="mr-1 max-h-[620px] overflow-y-scroll pr-1"
+              ref="chatBox"
+              :class="{
+                'max-h-[calc(100vh-6.5rem)]': config.theaterMode
+              }"
+            >
               <div
                 class="flex items-start gap-x-4 px-6 py-2 hover:bg-gray-800"
                 v-for="(msg, index) in chatHistory"
@@ -919,10 +925,19 @@ watch(chatBox, () => {
           </Transition>
         </div>
       </div>
-      <div v-if="config.user.host && flag">
-        <label for="autosynccheck">
+      <div>
+        <label for="autosynccheck" v-if="config.user.host && flag">
           Auto Sync
           <input id="autosynccheck" type="checkbox" v-model="config.autoSync" />
+        </label>
+        <label
+          for="theatermode"
+          :class="{
+            'fixed bottom-0 right-0 z-[999] text-xs': config.theaterMode
+          }"
+        >
+          Theater Mode
+          <input id="theatermode" type="checkbox" v-model="config.theaterMode" />
         </label>
       </div>
       <div class="mt-4 pb-20" v-if="config.user?.isPublic && config.user?.verified">
