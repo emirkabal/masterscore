@@ -108,6 +108,49 @@ const leaveRoom = () => {
 
 const sendMsg = () => {
   if (msg.value.trim().length === 0) return
+  // if (msg.value === "/clear") {
+  //   chatHistory.value = []
+  //   msg.value = ""
+  //   sendChatMessage("Chat cleared")
+  //   return
+  // }
+  // if (msg.value === "/clear") {
+  //   chatHistory.value = []
+  //   msg.value = ""
+  //   sendChatMessage("Chat cleared")
+  //   return
+  // }
+  if (msg.value.startsWith("/")) {
+    const cmd = msg.value.split(" ")[0]
+    switch (cmd) {
+      case "/clear":
+        chatHistory.value = []
+        sendChatMessage("Chat cleared")
+        break
+      case "/nick":
+        const nick = msg.value.split(" ")[1]
+        if (nick) {
+          config.user.username = nick
+          sendChatMessage(`Your nickname changed to ${nick}`)
+        } else {
+          sendChatMessage(`Your nickname is ${config.user.username}`)
+        }
+        break
+      case "/dc":
+        $socket.disconnect()
+        setTimeout(() => {
+          $socket.connect()
+        }, 1000)
+        break
+      default:
+        sendChatMessage("Unknown command")
+        break
+    }
+    msg.value = ""
+
+    return
+  }
+
   const message = {
     type: "chat",
     to: config.roomId,
@@ -179,6 +222,7 @@ onMounted(() => {
       case "player_update":
         if (d.data.type === "play") playAtTime(d.data.time)
         else if (d.data.type === "pause") pause(d.data.time)
+        else if (d.data.type === "play-force") playAtTime(d.data.time, true)
         if (d.recipent) {
           sendChatMessage(`The host syncing player with you.`)
         }
@@ -253,13 +297,8 @@ onMounted(() => {
   })
 
   $socket.on("disconnect", () => {
-    connected.value = $socket.connected
     users.value = []
-    config.user.host = false
-    config.joined = false
-    config.user.player.paused = true
-    config.user.player.time = 0
-    config.user.player.updatedAt = Date.now()
+    connected.value = $socket.connected
     sendChatMessage("You are disconnected from the room")
   })
 
@@ -287,7 +326,16 @@ const syncPlayers = () => {
     const u = sorted[i]
     const diff = config.user.player.time - u.player.time
     if (diff > 2.3 || diff < -2.3) {
-      handlePlayEvent(u.id)
+      $socket.emit("message", {
+        type: "player_update",
+        to: config.roomId,
+        recipent: u.id,
+        user: config.user,
+        data: {
+          time: config.user.player.time,
+          type: "play-force"
+        }
+      })
       sendChatMessage(`The host syncing player with ${u.username}`)
     }
   }
@@ -342,8 +390,8 @@ function pause(time?: number) {
   shareUpdates()
 }
 
-function playAtTime(time: number) {
-  if (!config.user.player.paused) return
+function playAtTime(time: number, force = false) {
+  if (!config.user.player.paused && !force) return
   else {
     config.user.player.paused = false
     bus.emit({
@@ -354,13 +402,12 @@ function playAtTime(time: number) {
   shareUpdates()
 }
 
-const handlePlayEvent = (recipent?: string) => {
-  if (!config.user.player.paused && !recipent) return
+const handlePlayEvent = () => {
+  if (!config.user.player.paused) return
   config.user.player.paused = false
   $socket.emit("message", {
     type: "player_update",
     to: config.roomId,
-    recipent,
     user: config.user,
     data: {
       time: config.user.player.time,
@@ -587,13 +634,9 @@ watch(chatBox, () => {
                   />
                 </NuxtLink>
                 <div class="flex w-[calc(100%-3rem)] flex-col">
-                  <NuxtLink
+                  <div
                     v-if="chatHistory[chatHistory.indexOf(msg) - 1]?.user?.id !== msg.user.id"
-                    :to="msg.user?.isPublic ? `/users/@${msg.user.username}` : undefined"
                     class="flex items-center gap-x-2 break-all font-semibold tracking-tight text-white"
-                    :class="{
-                      'hover:underline': msg.user?.isPublic
-                    }"
                   >
                     <span class="line-clamp-1">
                       {{ msg?.user?.username || "System" }}
@@ -606,7 +649,8 @@ watch(chatBox, () => {
                       }"
                       class="inline-block h-5 w-5 flex-shrink-0 text-yellow-400"
                       name="fa6-solid:masks-theater"
-                  /></NuxtLink>
+                    />
+                  </div>
                   <div class="break-words text-gray-300">
                     {{ msg?.message }}
                   </div>
