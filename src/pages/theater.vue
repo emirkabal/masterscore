@@ -32,6 +32,7 @@ interface SocketUser {
   left: boolean
   lastSeen?: number
   typing?: boolean
+  joinedAt: number
   player: {
     time: number
     paused: boolean
@@ -46,6 +47,8 @@ const config = reactive({
     username: theaterUser.value.guestName,
     host: false,
     left: false,
+    joinedAt: Date.now(),
+    typing: false,
     player: {
       time: 0,
       paused: true,
@@ -68,7 +71,9 @@ const scroller = ref()
 const currentId = ref()
 
 const usersSize = computed(() => users.value.filter((e) => !e.left).length)
-const typingUsers = computed(() => users.value.filter((e) => e.typing && !e.left))
+const typingUsers = computed(() =>
+  users.value.filter((e) => e.typing && !e.left && e.id !== config.user.id)
+)
 
 watch(config, () => {
   router.push({
@@ -97,6 +102,7 @@ const joinRoom = (guest = true) => {
   }
 
   if (config.roomId.trim().length === 0 || config.user.username.trim().length === 0) return
+  config.user.joinedAt = Date.now()
   $socket.emit("join", [config.roomId, config.user.id])
   $socket.emit("message", {
     type: "hello",
@@ -122,15 +128,29 @@ const leaveRoom = () => {
 }
 
 const startTyping = () => {
+  if (config.user.typing) return
+  config.user.typing = true
   $socket.emit("message", {
     type: "typing",
     to: config.roomId,
     user: config.user
   })
+  setTimeout(() => {
+    config.user.typing = false
+  }, 3000)
 }
 
 const getMe = () => {
   return users.value.find((e) => e.id === config.user.id)
+}
+
+const getBetterUser = () => {
+  const sorted = [...users.value]
+    .filter((e) => !e.left)
+    .sort((a, b) => {
+      return a.joinedAt - b.joinedAt
+    })
+  return sorted[0]
 }
 
 const sendMsg = () => {
@@ -215,20 +235,23 @@ onMounted(() => {
           returnedUser.username = d.user.username
           if (returnedUser.host) {
             config.hostWaiting = false
+            config.user.host = true
             returnedUser.host = true
-            $socket.emit("message", {
-              type: "users",
-              to: config.roomId,
-              user: config.user,
-              data: users.value
-            })
-            $socket.emit("message", {
-              type: "entertainment",
-              to: config.roomId,
-              recipent: d.user.id,
-              user: config.user,
-              data: data.value
-            })
+            if (getBetterUser().id === d.user.id) {
+              $socket.emit("message", {
+                type: "users",
+                to: config.roomId,
+                user: config.user,
+                data: users.value
+              })
+              $socket.emit("message", {
+                type: "entertainment",
+                to: config.roomId,
+                recipent: d.user.id,
+                user: config.user,
+                data: data.value
+              })
+            }
             sendChatMessage(`The host is reconnected.`)
             break
           }
@@ -257,15 +280,6 @@ onMounted(() => {
         break
       case "users":
         users.value = d.data
-        if (d.data[0].id === config.user.id) {
-          config.user = d.data[0]
-          config.hostWaiting = false
-          sendChatMessage(`Welcome back ${config.user.username}`)
-          users.value
-            .filter((e) => e.host && e.id !== config.user.id)
-            .forEach((e) => (e.host = false))
-          shareUpdates()
-        }
         break
       case "entertainment":
         if (d.data.playlistId === currentId.value) return
@@ -277,10 +291,8 @@ onMounted(() => {
         break
       case "host_update":
         users.value = d.data
-        if (d.user.id === config.user.id) {
-          config.hostWaiting = false
-          sendChatMessage(`${d.user.username} is the new host`)
-        }
+        config.hostWaiting = false
+        sendChatMessage(`${d.user.username} is the new host`)
         break
       case "reconnected":
         const u = users.value.find((e) => e.id === d.user.id)
@@ -311,7 +323,7 @@ onMounted(() => {
         const found = users.value.findIndex((e) => e.id === d.user.id)
         if (found) users.value[found] = d.user
         else users.value.push(d.user)
-        shareUpdates()
+        if (config.user.host) shareUpdates()
         break
       case "typing":
         const foundUser = users.value.find((e) => e.id === d.user.id)
@@ -355,6 +367,7 @@ onMounted(() => {
     config.joining = false
     if (l === 1 && !config.user.isPublic && !config.user.verified) {
       sendChatMessage("You removed from the room because you are not verified")
+      users.value = []
       $socket.disconnect()
     } else if (l === 1) {
       config.user.host = true
@@ -373,14 +386,26 @@ onMounted(() => {
     user.lastSeen = Date.now()
     user.left = true
     const updateRoom = () => {
-      if (users.value[1].id === config.user.id && !config.user.host) {
+      const hostSize = users.value.filter((e) => e.host && !e.left).length
+      const usersSorted = [...users.value]
+        .filter((e) => !e.left)
+        .sort((a, b) => {
+          return a.joinedAt - b.joinedAt
+        })
+      if (!hostSize && usersSorted.length && usersSorted[0].id === config.user.id) {
         if (!config.user.isPublic && !config.user.verified) {
           sendChatMessage("You removed from the room because you are not verified")
+          users.value = []
           $socket.disconnect()
           return
         }
         config.user.host = true
-        users.value[1].host = true
+        const me = getMe()
+        if (me) me.host = true
+        users.value.forEach((e) => {
+          if (e.id === config.user.id) e.host = true
+          else e.host = false
+        })
         $socket.emit("message", {
           type: "host_update",
           to: config.roomId,
@@ -399,7 +424,7 @@ onMounted(() => {
           config.hostWaiting = false
           updateRoom()
         }
-      }, 10000)
+      }, 3000)
       return
     }
     updateRoom()
@@ -875,7 +900,7 @@ watch(chatBox, () => {
               <div class="flex items-center gap-x-2 px-6 py-2">
                 <Icon class="h-6 w-6 text-gray-400" name="eos-icons:three-dots-loading" />
                 <span v-if="typingUsers.length < 3" class="text-gray-300">
-                  {{ typingUsers.map((e) => e.username).join(", ") }} is typing...
+                  {{ typingUsers.map((e) => e.username).join(" and ") }} is typing...
                 </span>
                 <span v-else class="text-gray-300"> Multiple users are typing... </span>
               </div>
