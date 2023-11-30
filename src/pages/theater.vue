@@ -2,7 +2,7 @@
 import { useScroll, useEventBus, useIntervalFn, useClipboard, useStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
 import { getRandomCharacter } from "~/utils/functions"
-const { $socket } = useNuxtApp()
+const { $socket, $moment } = useNuxtApp()
 
 const { isLoggedIn, user } = useUserStore()
 const route = useRoute()
@@ -244,16 +244,16 @@ onMounted(() => {
           returnedUser.lastSeen = Date.now()
           returnedUser.username = d.user.username
           if (returnedUser.host) {
+            config.user.host = false
             config.hostWaiting = false
-            config.user.host = true
             returnedUser.host = true
-            if (getBetterUser().id === d.user.id) {
-              $socket.emit("message", {
-                type: "users",
-                to: config.roomId,
-                user: config.user,
-                data: users.value
-              })
+            $socket.emit("message", {
+              type: "users",
+              to: config.roomId,
+              user: config.user,
+              data: users.value
+            })
+            if (data.value) {
               $socket.emit("message", {
                 type: "entertainment",
                 to: config.roomId,
@@ -261,6 +261,18 @@ onMounted(() => {
                 user: config.user,
                 data: data.value
               })
+              setTimeout(() => {
+                $socket.emit("message", {
+                  type: "player_update",
+                  to: config.roomId,
+                  recipent: d.user.id,
+                  user: config.user,
+                  data: {
+                    time: config.user.player.time,
+                    type: "play-force"
+                  }
+                })
+              }, 1000)
             }
             sendChatMessage(`The host is reconnected.`)
             break
@@ -290,6 +302,11 @@ onMounted(() => {
         break
       case "users":
         users.value = d.data
+        const fu = users.value.find((e) => e.id === config.user.id)
+        if (fu && fu.host && !config.user.host) {
+          config.user.host = true
+          sendChatMessage(`You are the host of the room`)
+        }
         break
       case "entertainment":
         if (d.data.playlistId === currentId.value) return
@@ -305,9 +322,20 @@ onMounted(() => {
         sendChatMessage(`${d.user.username} is the new host`)
         break
       case "user_update":
-        const found = users.value.findIndex((e) => e.id === d.user.id)
-        if (found) users.value[found] = d.user
-        else users.value.push(d.user)
+        const found = users.value.find((e) => e.id === d.user.id)
+        if (found) {
+          found.lastSeen = Date.now()
+          found.left = false
+          found.username = d.user.username
+          found.host = d.user.host
+          found.isPublic = d.user.isPublic
+          found.avatar = d.user.avatar
+          found.verified = d.user.verified
+          found.player = d.user.player
+        } else {
+          users.value.push(d.user)
+          sendChatMessage(`${d.user.username} joined the room`)
+        }
         if (config.user.host) shareUpdates()
         break
       case "nick_update":
@@ -328,12 +356,18 @@ onMounted(() => {
         }, 3000)
         break
       case "player_update":
+        const diff = Math.abs(d.data.time - config.user.player.time)
+        if (diff >= 5) {
+          sendChatMessage(
+            `${d.user.username} jumped to ${$moment
+              .duration(d.data.time, "seconds")
+              .format("hh:mm:ss")}`
+          )
+        }
         if (d.data.type === "play") playAtTime(d.data.time)
         else if (d.data.type === "pause") pause(d.data.time)
         else if (d.data.type === "play-force") playAtTime(d.data.time, true)
-        if (d.recipent) {
-          sendChatMessage(`The host syncing player with you.`)
-        }
+        if (d.recipent) sendChatMessage(`The host syncing player with you.`)
 
         if (d.data.type !== "sync") {
           setTimeout(() => {
@@ -349,8 +383,8 @@ onMounted(() => {
           }, 500)
         }
 
-        const f = users.value.findIndex((e) => e.id === d.user.id)
-        if (f) users.value[f] = d.user
+        const f = users.value.find((e) => e.id === d.user.id)
+        if (f) f.player = d.user.player
         if (config.user.host) shareUpdates()
         break
       default:
@@ -419,7 +453,7 @@ onMounted(() => {
           config.hostWaiting = false
           updateRoom()
         }
-      }, 3000)
+      }, 15000)
       return
     }
     updateRoom()
@@ -436,7 +470,7 @@ onMounted(() => {
         to: config.roomId,
         user: config.user
       })
-      sendChatMessage("dunkof baglantin kotpi düzeltim")
+      sendChatMessage("Your internet connection so bad xd. You are reconnected to the room")
     }
   })
 
@@ -459,7 +493,7 @@ onUnmounted(() => {
 })
 
 const syncPlayers = () => {
-  if (users.value.length < 2 || frozen.value || config.user.player.paused) return
+  if (users.value.length < 2 || frozen.value) return
   const sorted = [...users.value]
     .filter((e) => e.id !== config.user.id)
     .sort((a, b) => {
@@ -501,6 +535,8 @@ useIntervalFn(() => {
 }, 100)
 
 function shareUpdates() {
+  const f = users.value.find((e) => e.id === config.user.id)
+  if (f) f.player = config.user.player
   if (config.user.host) {
     return $socket.emit("message", {
       type: "users",
@@ -596,13 +632,13 @@ const handleSelector = (_: any) => {
     type: "entertainment",
     to: config.roomId,
     user: config.user,
-    message: `Changed to ${_.title || _.name}${
+    message: `Changed entertainment to ${_.title || _.name}${
       _?.episode !== undefined ? ` S${_?.season || 1}E${_?.episode || 0}` : ``
     }`,
     data: _
   })
   sendChatMessage(
-    `Changed to ${_.title || _.name}${
+    `You changed entertainment to ${_.title || _.name}${
       _?.episode !== undefined ? ` S${_?.season || 1}E${_?.episode || 0}` : ``
     }`
   )
@@ -726,6 +762,7 @@ watch(chatBox, () => {
             :type="data.localData.type"
             :playlistId="data.playlistId"
             :disable-history="true"
+            :disable-rounded="config.theaterMode"
             @update="updatePlayer"
           />
           <Logo class="text-center text-4xl" v-else />
@@ -756,7 +793,7 @@ watch(chatBox, () => {
           >
             <div
               v-if="config.showUsers"
-              class="absolute left-0 top-0 z-10 h-[300px] w-full overflow-hidden rounded-bl-3xl rounded-br-3xl bg-gray-900 py-2 shadow-2xl"
+              class="absolute left-0 top-0 z-10 h-[300px] w-full overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#0c111c] py-2 shadow-2xl"
             >
               <div class="flex items-center justify-between px-6 pb-2">
                 <h1 class="text-xl font-semibold tracking-tight">Users</h1>
@@ -768,7 +805,7 @@ watch(chatBox, () => {
                   <Icon class="h-6 w-6 text-gray-200" name="lucide:users-2" />
                 </button>
               </div>
-              <div class="mr-1 flex h-56 flex-col gap-y-2 overflow-y-scroll px-6 py-2 pr-1">
+              <div class="mr-1 flex h-60 flex-col gap-y-2 overflow-y-auto px-6 py-2 pr-1">
                 <div v-for="u in users" class="flex w-full items-center gap-x-4">
                   <Avatar
                     :username="u.id"
@@ -783,15 +820,15 @@ watch(chatBox, () => {
                         class="line-clamp-1 max-w-[128px] break-words font-semibold tracking-tight"
                         >{{ u.username }}</span
                       >
-                      <span v-if="u.id === config.user.id" class="text-sm text-gray-300">
-                        you
-                      </span>
                       <Icon
                         v-if="u.host"
                         v-tooltip="'Host'"
                         class="inline-block h-5 w-5 flex-shrink-0 text-yellow-400"
                         name="fa6-solid:masks-theater"
                       />
+                      <span v-if="u.id === config.user.id" class="text-sm text-gray-300">
+                        you
+                      </span>
                     </div>
                     <span v-if="!u.left" class="text-sm text-gray-300">
                       {{ u.player.paused ? "Paused" : "Playing" }}:
@@ -910,7 +947,7 @@ watch(chatBox, () => {
             </button>
           </div>
           <Transition name="fade">
-            <div v-if="typingUsers.length" class="absolute bottom-0 z-10">
+            <div v-if="typingUsers.length" class="absolute bottom-0 z-10 text-sm">
               <div class="flex items-center gap-x-2 px-6 py-2">
                 <Icon class="h-6 w-6 text-gray-400" name="eos-icons:three-dots-loading" />
                 <span v-if="typingUsers.length < 3" class="text-gray-300">
