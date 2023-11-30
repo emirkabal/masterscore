@@ -78,8 +78,10 @@ const typingUsers = computed(() =>
 
 watch(config, () => {
   if (config.theaterMode) {
+    scrollToBottom()
     document.body.style.overflow = "hidden"
   } else {
+    scrollToBottom()
     document.body.style.overflow = "auto"
   }
   router.push({
@@ -159,7 +161,16 @@ const getBetterUser = () => {
   return sorted[0]
 }
 
-const sendMsg = () => {
+const scrollToBottom = (immediatlly = false) => {
+  if (!chatBox.value) return
+  if (immediatlly) chatBox.value.scrollTop = chatBox.value.scrollHeight
+  else
+    nextTick(() => {
+      chatBox.value.scrollTop = chatBox.value.scrollHeight
+    })
+}
+
+const sendMsg = async () => {
   if (msg.value.trim().length === 0) return
   if (msg.value.startsWith("/")) {
     const cmd = msg.value.split(" ")[0]
@@ -189,6 +200,27 @@ const sendMsg = () => {
           user: config.user
         })
         break
+      case "/gif":
+        if (!args.length) {
+          sendChatMessage("Please enter a search term")
+          break
+        }
+        msg.value = ""
+        const search = args.join(" ")
+        const data = await $fetch<any>(
+          `https://g.tenor.com/v1/search?q=${search}&key=LIVDSRZULELA&limit=8`
+        )
+        if (
+          data?.results?.length &&
+          data.results[0]?.media?.length &&
+          data.results[0]?.media[0]?.gif?.url
+        ) {
+          msg.value = `tenor:${data.results[0]?.media[0]?.gif?.url}`
+          sendMsg()
+        } else {
+          sendChatMessage("No gif found")
+        }
+        break
       case "/dc":
         $socket.disconnect()
         setTimeout(() => {
@@ -208,11 +240,14 @@ const sendMsg = () => {
     type: "chat",
     to: config.roomId,
     user: config.user,
-    message: msg.value
+    message: {
+      content: msg.value,
+      createdAt: Date.now()
+    }
   }
   $socket.emit("message", message)
   chatHistory.value.push(message)
-  if (chatBox.value) nextTick(() => (chatBox.value.scrollTop = chatBox.value?.scrollHeight))
+  scrollToBottom()
   msg.value = ""
 }
 
@@ -222,10 +257,13 @@ const sendChatMessage = (message: string) => {
     user: {
       id: "system"
     },
-    message
+    message: {
+      content: message,
+      createdAt: Date.now()
+    }
   }
   chatHistory.value.push(msg)
-  if (chatBox.value) nextTick(() => (chatBox.value.scrollTop = chatBox.value?.scrollHeight))
+  scrollToBottom()
 }
 
 onMounted(() => {
@@ -234,7 +272,7 @@ onMounted(() => {
     if ((d.recipent && d.recipent !== config.user.id) || d.user.id === config.user.id) return
     if ("message" in d) {
       chatHistory.value.push(d)
-      if (chatBox.value) nextTick(() => (chatBox.value.scrollTop = chatBox.value?.scrollHeight))
+      scrollToBottom()
     }
     switch (d.type) {
       case "hello":
@@ -411,6 +449,16 @@ onMounted(() => {
   $socket.on("left", (u) => {
     const user = users.value.find((e) => e.id === u.id)
     if (!user) return
+    if (u.id === config.user.id) {
+      users.value = []
+      $socket.emit("join", [config.roomId, config.user.id])
+      $socket.emit("message", {
+        type: "hello",
+        to: config.roomId,
+        user: config.user
+      })
+      return
+    }
     sendChatMessage(`${user?.username} left the room`)
     user.lastSeen = Date.now()
     user.left = true
@@ -647,9 +695,7 @@ const handleSelector = (_: any) => {
 
 watch(chatBox, () => {
   if (chatBox.value) {
-    scroller.value = useScroll(chatBox, {
-      behavior: "smooth"
-    })
+    scroller.value = useScroll(chatBox)
   }
 })
 </script>
@@ -851,11 +897,11 @@ watch(chatBox, () => {
               class="mr-1 max-h-[620px] overflow-y-scroll pr-1"
               ref="chatBox"
               :class="{
-                'max-h-[calc(100vh-6.5rem)]': config.theaterMode
+                'max-h-[calc(100vh-6.15rem)]': config.theaterMode
               }"
             >
               <div
-                class="flex items-start gap-x-4 px-6 py-2 hover:bg-gray-800"
+                class="group flex items-start gap-x-4 px-6 py-2 hover:bg-gray-800"
                 v-for="(msg, index) in chatHistory"
                 :class="{
                   '!py-0': chatHistory[index - 1]?.user?.id === msg.user.id,
@@ -864,8 +910,10 @@ watch(chatBox, () => {
               >
                 <div
                   v-if="chatHistory[chatHistory.indexOf(msg) - 1]?.user?.id === msg.user.id"
-                  class="h-0.5 w-12 flex-shrink-0"
-                ></div>
+                  class="flex min-h-[25px] w-12 flex-shrink-0 items-center justify-center self-start text-xs text-gray-300 opacity-0 group-hover:opacity-100"
+                >
+                  {{ $moment(msg.message.createdAt).locale($i18n.locale).format("HH:mm") }}
+                </div>
                 <NuxtLink
                   v-else
                   :to="msg.user?.isPublic ? `/users/@${msg.user.username}` : undefined"
@@ -878,7 +926,11 @@ watch(chatBox, () => {
                     :minimize="true"
                     class="h-12 w-12"
                   />
-                  <img v-else src="~/assets/images/master.png" class="h-12 w-12 rounded-full" />
+                  <img
+                    v-else
+                    src="~/assets/images/master.png"
+                    class="h-12 w-12 min-w-[48px] rounded-full"
+                  />
                 </NuxtLink>
                 <div class="flex w-[calc(100%-3rem)] flex-col">
                   <div
@@ -899,15 +951,40 @@ watch(chatBox, () => {
                       v-tooltip="'System'"
                       class="inline-block h-4 w-4 flex-shrink-0 text-yellow-400"
                     />
+                    <span class="flex-shrink-0 text-xs text-gray-300">
+                      {{ $moment(msg?.message?.createdAt).locale($i18n.locale).calendar() }}
+                    </span>
                   </div>
-                  <div class="break-words text-gray-300">
-                    {{ msg?.message }}
+                  <div v-if="msg?.message?.content?.startsWith('tenor:')">
+                    <img
+                      :class="{
+                        'opacity-100': msg.message.loaded,
+                        'pointer-events-none absolute bottom-0 left-0 opacity-0':
+                          !msg.message.loaded
+                      }"
+                      :src="msg.message.content.replace('tenor:', '')"
+                      loading="lazy"
+                      v-on:load="
+                        () => {
+                          msg.message.loaded = true
+                          scrollToBottom()
+                        }
+                      "
+                      class="my-2 h-auto max-h-[200px] w-fit rounded-xl"
+                    />
+                    <div v-show="!msg.message?.loaded">
+                      <Icon class="h-6 w-6 animate-spin text-gray-400" name="mdi:loading" />
+                      <span class="text-gray-400">Loading gif...</span>
+                    </div>
+                  </div>
+                  <div v-else class="break-words text-gray-300">
+                    {{ msg?.message?.content }}
                   </div>
                 </div>
               </div>
             </div>
             <Transition
-              enter-active-class="transition ease-out duration-300"
+              enter-active-class="transition ease-out duration-300 "
               enter-from-class="transform translate-y-full"
               enter-to-class="transform translate-y-0"
               leave-active-class="transition ease-in duration-300"
@@ -915,7 +992,7 @@ watch(chatBox, () => {
               leave-to-class="transform translate-y-full"
             >
               <button
-                @click="scroller.y = 9999999"
+                @click="scrollToBottom()"
                 v-if="!scroller?.arrivedState?.bottom"
                 class="absolute bottom-2 left-1/2 z-0 -translate-x-1/2 space-x-2 rounded-full bg-gray-800/80 px-4 py-1 text-sm font-semibold uppercase tracking-tight text-white/80 transition-all hover:bg-gray-700"
               >
