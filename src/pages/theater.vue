@@ -762,8 +762,10 @@ watch(chatBox, () => {
             :type="data.localData.type"
             :playlistId="data.playlistId"
             :disable-history="true"
-            :disable-rounded="config.theaterMode"
             @update="updatePlayer"
+            :class="{
+              '!rounded-none': config.theaterMode
+            }"
           />
           <Logo class="text-center text-4xl" v-else />
         </div>
