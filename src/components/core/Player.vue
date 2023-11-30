@@ -1,12 +1,13 @@
 <template>
   <Loader v-if="pending" />
-  <div v-else-if="error">SOMETING WENT WRONG</div>
+  <div v-else-if="error">SOMETHING WENT WRONG</div>
   <VideoPlayer
     v-else
-    :class="[
-      'video-player vjs-big-play-centered h-full w-full overflow-hidden rounded-xl',
-      { loading: !state }
-    ]"
+    class="video-js vjs-big-play-centered h-full w-full overflow-hidden rounded-xl"
+    :class="{
+      loading: !state,
+      '!rounded-none': disableRounded
+    }"
     :sources="mediaConfig.sources"
     :poster="mediaConfig.poster"
     :tracks="mediaConfig.tracks"
@@ -21,8 +22,7 @@
     v-model:muted="config.muted"
     :onTimeupdate="handleProgress"
     @mounted="handleMounted"
-  >
-  </VideoPlayer>
+  />
 </template>
 
 <script setup lang="ts">
@@ -41,7 +41,7 @@ import "video.js/dist/video-js.css"
 
 const { isIos } = useDevice()
 const { angle, lockOrientation, orientation } = useScreenOrientation()
-const { $listen } = useNuxtApp()
+const volume = useLocalStorage<number>("player-volume", 0.5)
 
 const emits = defineEmits(["update"])
 
@@ -54,6 +54,7 @@ const props = defineProps<{
   imdbId?: string
   type: string
   playlistId: number
+  disableRounded?: boolean
   series?: {
     episode: number
     season: number
@@ -109,7 +110,7 @@ const state = shallowRef<VideoPlayerState>()
 const mediaConfig = shallowRef<any>()
 const config = shallowReactive<VideoPlayerProps>({
   autoplay: false,
-  volume: 0.5,
+  volume: volume.value,
   playbackRate: 1,
   playbackRates: [1],
   controls: true,
@@ -118,26 +119,12 @@ const config = shallowReactive<VideoPlayerProps>({
   loop: false
 })
 
-$listen("core:player", (d) => {
-  if (!player.value) return
-  console.log(d)
-  console.log(player.value.paused())
-  if (d?.paused && !player.value.paused()) {
-    player.value?.pause()
-  } else if (player.value.paused() && d?.paused === false) {
-    player.value?.play()
-  }
-
-  if (d.time) player.value?.currentTime(d.time)
-})
-
 const bus = useEventBus<{
   time?: number
   type?: string
 }>("player")
 
 const playerListener = (payload: { time?: number; type?: string }) => {
-  console.log(payload)
   if (!player.value) return
   if (payload?.time) {
     player.value.currentTime(payload.time)
@@ -223,6 +210,10 @@ const handleMounted = (payload: any) => {
     })
   })
 
+  player.value.on("volumechange", () => {
+    volume.value = player.value?.volume()
+  })
+
   player.value.addClass("vjs-landscape-fullscreen")
 
   if (isIos && !player.value.el_.ownerDocument.querySelector(".bc-iframe")) {
@@ -253,7 +244,6 @@ const handleMounted = (payload: any) => {
   if (isIos) {
     useEventListener("orientationchange", rotationHandler)
   } else if (screen && screen.orientation) {
-    // addEventListener('orientationchange') is not a user interaction on Android
     watch(
       orientation,
       () => {
