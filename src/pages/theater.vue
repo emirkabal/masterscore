@@ -15,10 +15,16 @@ const theaterUser = useStorage("theaterUser", {
   alreadyConnectedToAnyRoom: false
 })
 const { copy } = useClipboard()
+
 const bus = useEventBus<{
   time?: number
   type?: string
 }>("player")
+
+const chatBus = useEventBus<{
+  scroll?: boolean
+  new_message?: boolean
+}>("theater-chat")
 
 const connected = ref(false)
 
@@ -66,9 +72,8 @@ const config = reactive({
 const users = ref<SocketUser[]>([])
 
 const msg = ref("")
-const chatHistory = ref<any[]>([])
-const chatBox = ref()
-const scroller = ref()
+const chatHistory = shallowRef<any[]>([])
+
 const currentId = ref()
 
 const usersSize = computed(() => users.value.filter((e) => !e.left).length)
@@ -78,10 +83,8 @@ const typingUsers = computed(() =>
 
 watch(config, () => {
   if (config.theaterMode) {
-    scrollToBottom()
     document.body.style.overflow = "hidden"
   } else {
-    scrollToBottom()
     document.body.style.overflow = "auto"
   }
   router.push({
@@ -152,24 +155,6 @@ const getMe = () => {
   return users.value.find((e) => e.id === config.user.id)
 }
 
-const getBetterUser = () => {
-  const sorted = [...users.value]
-    .filter((e) => !e.left)
-    .sort((a, b) => {
-      return a.joinedAt - b.joinedAt
-    })
-  return sorted[0]
-}
-
-const scrollToBottom = (immediatlly = false) => {
-  if (!chatBox.value) return
-  if (immediatlly) chatBox.value.scrollTop = chatBox.value.scrollHeight
-  else
-    nextTick(() => {
-      chatBox.value.scrollTop = chatBox.value.scrollHeight
-    })
-}
-
 const sendMsg = async () => {
   if (msg.value.trim().length === 0) return
   if (msg.value.startsWith("/")) {
@@ -232,7 +217,9 @@ const sendMsg = async () => {
         break
     }
     msg.value = ""
-
+    chatBus.emit({
+      scroll: true
+    })
     return
   }
 
@@ -246,9 +233,12 @@ const sendMsg = async () => {
     }
   }
   $socket.emit("message", message)
-  chatHistory.value.push(message)
-  scrollToBottom()
+  chatHistory.value = [...chatHistory.value, message]
+
   msg.value = ""
+  chatBus.emit({
+    scroll: true
+  })
 }
 
 const sendChatMessage = (message: string) => {
@@ -262,8 +252,10 @@ const sendChatMessage = (message: string) => {
       createdAt: Date.now()
     }
   }
-  chatHistory.value.push(msg)
-  scrollToBottom()
+  chatHistory.value = [...chatHistory.value, msg]
+  chatBus.emit({
+    scroll: true
+  })
 }
 
 onMounted(() => {
@@ -271,8 +263,10 @@ onMounted(() => {
   $socket.on("message", (d) => {
     if ((d.recipent && d.recipent !== config.user.id) || d.user.id === config.user.id) return
     if ("message" in d) {
-      chatHistory.value.push(d)
-      scrollToBottom()
+      chatHistory.value = [...chatHistory.value, d]
+      chatBus.emit({
+        new_message: true
+      })
     }
     switch (d.type) {
       case "hello":
@@ -561,7 +555,7 @@ const syncPlayers = () => {
           type: "play-force"
         }
       })
-      sendChatMessage(`The host syncing player with ${u.username}`)
+      sendChatMessage(`You are syncing player with ${u.username}`)
     }
   }
 }
@@ -680,9 +674,11 @@ const handleSelector = (_: any) => {
     type: "entertainment",
     to: config.roomId,
     user: config.user,
-    message: `Changed entertainment to ${_.title || _.name}${
-      _?.episode !== undefined ? ` S${_?.season || 1}E${_?.episode || 0}` : ``
-    }`,
+    message: {
+      content: `Changed entertainment to ${_.title || _.name}${
+        _?.episode !== undefined ? ` S${_?.season || 1}E${_?.episode || 0}` : ``
+      }`
+    },
     data: _
   })
   sendChatMessage(
@@ -692,12 +688,6 @@ const handleSelector = (_: any) => {
   )
   pause(0)
 }
-
-watch(chatBox, () => {
-  if (chatBox.value) {
-    scroller.value = useScroll(chatBox)
-  }
-})
 </script>
 
 <template>
@@ -796,7 +786,7 @@ watch(chatBox, () => {
         <div
           class="flex h-[720px] w-full items-center justify-center rounded-2xl bg-gray-900"
           :class="{
-            'h-screen w-screen rounded-none': config.theaterMode
+            'h-screen w-screen rounded-none !bg-gray-950': config.theaterMode
           }"
         >
           <CorePlayer
@@ -821,210 +811,15 @@ watch(chatBox, () => {
             'h-full max-h-full w-screen rounded-none': config.theaterMode
           }"
         >
-          <Transition name="fade">
-            <button
-              class="absolute right-0 top-0 z-20 m-2 !mr-6 flex items-center gap-x-2 rounded-full bg-gray-800/60 px-2 py-1 text-sm font-semibold hover:bg-gray-800"
-              @click="config.showUsers = !config.showUsers"
-              v-if="!config.showUsers"
-            >
-              {{ usersSize }}
-              <Icon class="h-6 w-6 text-gray-200" name="lucide:users-2" />
-            </button>
-          </Transition>
-          <Transition
-            enter-active-class="transition ease-out duration-300"
-            enter-from-class="transform -translate-y-full"
-            enter-to-class="transform translate-y-0"
-            leave-active-class="transition ease-in duration-300"
-            leave-from-class="transform translate-y-0"
-            leave-to-class="transform -translate-y-full"
-          >
-            <div
-              v-if="config.showUsers"
-              class="absolute left-0 top-0 z-10 h-[300px] w-full overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#0c111c] py-2 shadow-2xl"
-            >
-              <div class="flex items-center justify-between px-6 pb-2">
-                <h1 class="text-xl font-semibold tracking-tight">Users</h1>
-                <button
-                  class="flex items-center gap-x-2 rounded-full bg-gray-800/60 px-2 py-1 text-sm font-semibold hover:bg-gray-800"
-                  @click="config.showUsers = !config.showUsers"
-                >
-                  {{ usersSize }}
-                  <Icon class="h-6 w-6 text-gray-200" name="lucide:users-2" />
-                </button>
-              </div>
-              <div class="mr-1 flex h-60 flex-col gap-y-2 overflow-y-auto px-6 py-2 pr-1">
-                <div v-for="u in users" class="flex w-full items-center gap-x-4">
-                  <Avatar
-                    :username="u.id"
-                    :avatar="u.avatar"
-                    :verified="u.verified"
-                    :minimize="true"
-                    class="h-12 w-12"
-                  />
-                  <div class="flex w-full flex-col">
-                    <div class="flex items-center gap-x-2">
-                      <span
-                        class="line-clamp-1 max-w-[128px] break-words font-semibold tracking-tight"
-                        >{{ u.username }}</span
-                      >
-                      <Icon
-                        v-if="u.host"
-                        v-tooltip="'Host'"
-                        class="inline-block h-5 w-5 flex-shrink-0 text-yellow-400"
-                        name="fa6-solid:masks-theater"
-                      />
-                      <span v-if="u.id === config.user.id" class="text-sm text-gray-300">
-                        you
-                      </span>
-                    </div>
-                    <span v-if="!u.left" class="text-sm text-gray-300">
-                      {{ u.player.paused ? "Paused" : "Playing" }}:
-                      {{ $moment.duration(u.player.time, "seconds").format("hh:mm:ss") }}
-                    </span>
-                    <span v-else class="text-sm text-red-300"> Disconnected </span>
-                  </div>
-                  <div v-if="u.typing">
-                    <Icon class="h-6 w-6 text-gray-400" name="eos-icons:three-dots-loading" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Transition>
-          <div class="relative">
-            <!-- Chat -->
-            <div
-              class="mr-1 max-h-[620px] overflow-y-scroll pr-1"
-              ref="chatBox"
-              :class="{
-                'max-h-[calc(100vh-6.15rem)]': config.theaterMode
-              }"
-            >
-              <div
-                class="group flex items-start gap-x-4 px-6 py-2 hover:bg-gray-800"
-                v-for="(msg, index) in chatHistory"
-                :class="{
-                  '!py-0': chatHistory[index - 1]?.user?.id === msg.user.id,
-                  '!pb-0': chatHistory[index + 1]?.user?.id === msg.user.id
-                }"
-              >
-                <div
-                  v-if="chatHistory[chatHistory.indexOf(msg) - 1]?.user?.id === msg.user.id"
-                  class="flex min-h-[25px] w-12 flex-shrink-0 items-center justify-center self-start text-xs text-gray-300 opacity-0 group-hover:opacity-100"
-                >
-                  {{ $moment(msg.message.createdAt).locale($i18n.locale).format("HH:mm") }}
-                </div>
-                <NuxtLink
-                  v-else
-                  :to="msg.user?.isPublic ? `/users/@${msg.user.username}` : undefined"
-                >
-                  <Avatar
-                    v-if="msg.user.id !== 'system'"
-                    :username="msg?.user?.id"
-                    :avatar="msg?.user?.avatar"
-                    :verified="msg?.user?.verified"
-                    :minimize="true"
-                    class="h-12 w-12"
-                  />
-                  <img
-                    v-else
-                    src="~/assets/images/master.png"
-                    class="h-12 w-12 min-w-[48px] rounded-full"
-                  />
-                </NuxtLink>
-                <div class="flex w-[calc(100%-3rem)] flex-col">
-                  <div
-                    v-if="chatHistory[chatHistory.indexOf(msg) - 1]?.user?.id !== msg.user.id"
-                    class="flex items-center gap-x-2 break-all font-semibold tracking-tight text-white"
-                  >
-                    <span class="line-clamp-1">
-                      {{ msg?.user?.username || "Master" }}
-                    </span>
-                    <Icon
-                      v-if="msg.user?.host"
-                      v-tooltip="'Host'"
-                      class="inline-block h-5 w-5 flex-shrink-0 text-yellow-400"
-                      name="fa6-solid:masks-theater"
-                    />
-                    <IconsM
-                      v-if="msg.user.id === 'system'"
-                      v-tooltip="'System'"
-                      class="inline-block h-4 w-4 flex-shrink-0 text-yellow-400"
-                    />
-                    <span class="flex-shrink-0 text-xs text-gray-300">
-                      {{ $moment(msg?.message?.createdAt).locale($i18n.locale).calendar() }}
-                    </span>
-                  </div>
-                  <div v-if="msg?.message?.content?.startsWith('tenor:')">
-                    <img
-                      :class="{
-                        'opacity-100': msg.message.loaded,
-                        'pointer-events-none absolute bottom-0 left-0 opacity-0':
-                          !msg.message.loaded
-                      }"
-                      :src="msg.message.content.replace('tenor:', '')"
-                      loading="lazy"
-                      v-on:load="
-                        () => {
-                          msg.message.loaded = true
-                          scrollToBottom()
-                        }
-                      "
-                      class="my-2 h-auto max-h-[200px] w-fit rounded-xl"
-                    />
-                    <div v-show="!msg.message?.loaded">
-                      <Icon class="h-6 w-6 animate-spin text-gray-400" name="mdi:loading" />
-                      <span class="text-gray-400">Loading gif...</span>
-                    </div>
-                  </div>
-                  <div v-else class="break-words text-gray-300">
-                    {{ msg?.message?.content }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <Transition
-              enter-active-class="transition ease-out duration-300 "
-              enter-from-class="transform translate-y-full"
-              enter-to-class="transform translate-y-0"
-              leave-active-class="transition ease-in duration-300"
-              leave-from-class="transform translate-y-0"
-              leave-to-class="transform translate-y-full"
-            >
-              <button
-                @click="scrollToBottom()"
-                v-if="!scroller?.arrivedState?.bottom"
-                class="absolute bottom-2 left-1/2 z-0 -translate-x-1/2 space-x-2 rounded-full bg-gray-800/80 px-4 py-1 text-sm font-semibold uppercase tracking-tight text-white/80 transition-all hover:bg-gray-700"
-              >
-                <Icon
-                  class="h-6 w-6 text-gray-400"
-                  name="material-symbols:keyboard-arrow-down-rounded"
-                />
-                <span>{{ $t("go-to-bottom") }}</span>
-              </button>
-            </Transition>
-          </div>
-          <div class="z-10 flex items-center !bg-gray-900 px-6 pb-4 pt-4">
-            <FormInput
-              type="text"
-              class="w-full"
-              variant="general"
-              v-model="msg"
-              placeholder="Type your message here..."
-              :disabled="!connected"
-              @keyup.enter="sendMsg"
-              @input="startTyping"
-            />
-            <button class="h-10 pl-4 text-sm font-bold uppercase text-white" @click="sendMsg">
-              <Icon
-                class="h-6 w-6 text-gray-400"
-                :class="{
-                  '!text-blue-500': msg.trim().length > 0
-                }"
-                name="ic:round-send"
-              />
-            </button>
-          </div>
+          <TheaterChatUpper :config="config" :users="users" :usersSize="usersSize" />
+          <TheaterChat
+            v-model="msg"
+            :config="config"
+            :connected="connected"
+            :chatHistory="chatHistory"
+            :sendMsg="sendMsg"
+            :startTyping="startTyping"
+          />
           <Transition name="fade">
             <div v-if="typingUsers.length" class="absolute bottom-0 z-10 text-sm">
               <div class="flex items-center gap-x-2 px-6 py-2">
