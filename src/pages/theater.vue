@@ -342,6 +342,7 @@ onMounted(() => {
         break
       case "entertainment":
         if (d.data.playlistId === currentId.value) return
+        currentId.value = d.data.playlistId
         data.value = null
         setTimeout(() => {
           data.value = d.data
@@ -666,6 +667,7 @@ const updatePlayer = (e: { time?: number; type: string }) => {
 }
 
 const handleSelector = (_: any) => {
+  currentId.value = _.playlistId
   data.value = null
   setTimeout(() => {
     data.value = _
