@@ -293,23 +293,11 @@ onMounted(() => {
                 user: config.user,
                 data: data.value
               })
-              setTimeout(() => {
-                $socket.emit("message", {
-                  type: "player_update",
-                  to: config.roomId,
-                  recipent: d.user.id,
-                  user: config.user,
-                  data: {
-                    time: config.user.player.time,
-                    type: "play-force"
-                  }
-                })
-              }, 1000)
             }
             sendChatMessage(`The host is reconnected.`)
             break
           }
-          sendChatMessage(`${d.user.username} reconnect to the room`)
+          sendChatMessage(`${d.user.username} reconnected to the room`)
         } else {
           users.value.push(d.user)
           sendChatMessage(`${d.user.username} joined the room`)
@@ -347,6 +335,17 @@ onMounted(() => {
         setTimeout(() => {
           data.value = d.data
           pause(0)
+          setTimeout(() => {
+            const diff = Math.abs(d.user.player.time - config.user.player.time)
+            if (diff >= 5) {
+              sendChatMessage(
+                `${d.user.username} jumped to ${$moment
+                  .duration(d.user.player.time, "seconds")
+                  .format("hh:mm:ss")}`
+              )
+              playAtTime(d.user.player.time)
+            }
+          }, 1000)
         }, 10)
         break
       case "host_update":
@@ -513,7 +512,7 @@ onMounted(() => {
         to: config.roomId,
         user: config.user
       })
-      sendChatMessage("Your internet connection so bad xd. You are reconnected to the room")
+      sendChatMessage("You are reconnected to the room")
     }
   })
 
