@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import type { CreditsResult, ProviderResults, TMDBData } from "~/types"
-import ScreenModal from "~/components/ScreenModal.vue"
 const { t, locale } = useI18n()
 const { $getTitle, $getOriginalTitle, $moment } = useNuxtApp()
 const { userAgent } = useDevice()
 const props = defineProps<{
   data: TMDBData
   smartVideoData: any
+  teaser: string | null | undefined
 }>()
+
+defineEmits(["watchTrailer"])
 
 const formatter = new Intl.NumberFormat("en-US", {
   notation: "compact",
@@ -22,8 +24,6 @@ const { data: providerData, pending: providerPending } = useLazyFetch<ProviderRe
     props.data.external_ids?.imdb_id || props.data.imdb_id
   }.json`
 )
-
-const trailerModal = ref(false)
 
 const getDateDiff = (date: string) => {
   return $moment(date).locale(locale.value).fromNow()
@@ -111,31 +111,6 @@ const getCreator = computed(() => {
   }
 })
 
-const getVideo = computed(() => {
-  if (props.data.videos?.results?.length > 0) {
-    const offical = props.data.videos.results.find(
-      (e: any) => e.official && e.type === "Trailer" && e.site === "YouTube"
-    )
-    if (offical) {
-      return `https://youtu.be/${offical.key}`
-    }
-    const trailer = props.data.videos.results.find(
-      (e: any) => e.type === "Trailer" && e.site === "YouTube"
-    )
-    if (trailer) {
-      return `https://youtu.be/${trailer.key}`
-    }
-    const teaser = props.data.videos.results.find(
-      (e: any) => e.type === "Teaser" && e.site === "YouTube"
-    )
-    if (teaser) {
-      return `https://youtu.be/${teaser.key}`
-    }
-
-    return null
-  }
-})
-
 const imdbScore = computed(() => {
   return (
     (props.data && props.data.localData.info.ratings?.imdb) ||
@@ -147,50 +122,15 @@ const imdbScore = computed(() => {
 const rtScore = computed(() => {
   return props.data && props.data.localData.info.ratings?.rotten_tomatoes
 })
-
-const crew = computed(() => {
-  return (
-    props.data &&
-    props.data.credits.crew
-      .filter((e) =>
-        ["Director", "Writer", "Novel", "Screenplay", "Story", "Characters"].includes(e.job)
-      )
-      .reduce((acc: any, cur: any) => {
-        const found = acc.find((e: any) => e.id === cur.id)
-        if (found) {
-          found.job += `, ${cur.job}`
-        } else {
-          acc.push(cur)
-        }
-        return acc
-      }, [])
-      .sort((a: CreditsResult, b: CreditsResult) => {
-        if (a.job < b.job) {
-          return -1
-        }
-        if (a.job > b.job) {
-          return 1
-        }
-        return 0
-      })
-      .slice(0, 10)
-  )
-})
 </script>
 
 <template>
-  <div class="z-20 w-full rounded-3xl p-0 lg:px-6 lg:pt-6">
-    <ScreenModal v-if="getVideo" :modal="trailerModal" @close="trailerModal = false">
-      <iframe
-        class="aspect-video h-auto w-full rounded-xl md:h-[720px]"
-        :src="`https://www.youtube.com/embed/${getVideo.split('/')[3]}?autoplay=1`"
-      />
-    </ScreenModal>
+  <div class="z-10 w-full rounded-3xl p-0 lg:px-6 lg:pt-6">
     <div class="space-y-6">
       <button
-        v-if="getVideo"
+        v-if="teaser"
         class="flex w-full items-center justify-center gap-2 rounded bg-gray-50 px-4 py-2 transition-opacity hover:opacity-90 dark:bg-gray-900"
-        @click="trailerModal = true"
+        @click="$emit('watchTrailer')"
       >
         <Icon name="ic:outline-play-arrow" class="h-6 w-6 text-yellow-600" />
         <span>{{ $t("entertainment.watch_trailer") }}</span>
@@ -267,21 +207,6 @@ const crew = computed(() => {
           }}</span
         >
       </p>
-      <p v-if="crew?.length">
-        <strong>{{ $t("entertainment.sidebar.important-crew-members") }}</strong>
-        <span class="flex flex-col">
-          <NuxtLink
-            v-for="person in crew"
-            v-tooltip="{
-              content: `<b>${person.name}</b>, ${person.job}`,
-              html: true
-            }"
-            :to="`/details/person/${person.id}`"
-            class="w-fit hover:underline"
-            >{{ person.name }}</NuxtLink
-          >
-        </span>
-      </p>
       <p>
         <strong>{{ $t("entertainment.sidebar.status") }}</strong>
         <span v-html="status"></span>
@@ -315,17 +240,6 @@ const crew = computed(() => {
           }"
           >{{ revenue }}</span
         >
-      </p>
-      <p v-if="getCreator">
-        <strong>{{ $t("entertainment.sidebar.created_by") }}</strong>
-        <span class="flex flex-col">
-          <NuxtLink
-            :to="`/details/person/${creator.id}`"
-            v-for="creator in getCreator"
-            class="hover:underline"
-            >{{ creator.name }}</NuxtLink
-          >
-        </span>
       </p>
       <div v-if="props.data?.imdb_id || rtScore">
         <strong>{{ $t("entertainment.sidebar.other") }}</strong>

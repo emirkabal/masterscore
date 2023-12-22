@@ -14,7 +14,7 @@ defineProps<{
       <div v-for="i in 10" :key="i">
         <div class="flex items-start">
           <div
-            class="skeleton-effect mr-4 h-16 w-10 rounded bg-gray-300 dark:bg-gray-900 md:h-24 md:w-16"
+            class="skeleton-effect mr-4 h-16 w-10 rounded bg-gray-300 md:h-24 md:w-16 dark:bg-gray-900"
           ></div>
 
           <div class="flex flex-col gap-2">
@@ -47,8 +47,13 @@ defineProps<{
               >
                 {{ review.entertainment.info.title }}
               </NuxtLink>
-              <p class="flex-shrink-0 text-base text-gray-500 dark:text-gray-400">
-                {{ $moment(review.createdAt).locale($i18n.locale).fromNow() }}
+              <p
+                v-tooltip="{
+                  content: $moment(review.createdAt).locale($i18n.locale).fromNow()
+                }"
+                class="flex-shrink-0 cursor-default text-base text-gray-500 dark:text-gray-400"
+              >
+                {{ $moment(review.createdAt).locale($i18n.locale).calendar() }}
               </p>
             </div>
             <span class="text-sm opacity-90"> Reviewed: {{ review.rating }}/10 </span>

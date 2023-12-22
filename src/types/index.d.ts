@@ -239,13 +239,7 @@ export interface TMDBMovie {
 export interface TMDBTV {
   imdb_id?: string
   backdrop_path?: string
-  created_by?: {
-    id: number
-    credit_id: string
-    name: string
-    gender: number
-    profile_path?: string
-  }[]
+  created_by?: CreditsResult[]
   episode_run_time?: number[]
   first_air_date?: string
   genres?: {

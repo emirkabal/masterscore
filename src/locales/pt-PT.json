@@ -143,7 +143,11 @@
       "review": "Avaliar",
       "reviewed": "Avaliado",
       "add_to_watchlist": "Adicionar à Lista de Desejos",
-      "remove_from_watchlist": "Remover da Lista de Desejos"
+      "remove_from_watchlist": "Remover da Lista de Desejos",
+      "like": "Como",
+      "liked": "Apreciado",
+      "remove": "Remover",
+      "save": "Salvar"
     },
     "sidebar": {
       "belongs_to_collection": "Pertence à Coleção",
@@ -169,7 +173,8 @@
     "summary": {
       "likes": "curtidas",
       "reviews": "avaliações"
-    }
+    },
+    "top-billed-cast": "Elenco mais faturado"
   },
   "genres": {
     "Comedy": "Comédia",
@@ -230,5 +235,14 @@
     "placeholder": "Escreva uma avaliação..."
   },
   "cancel": "Cancelar",
-  "go-to-bottom": "vá para o fundo"
+  "go-to-bottom": "vá para o fundo",
+  "jobs": {
+    "characters": "Personagens",
+    "creator": "O Criador",
+    "director": "Diretor",
+    "novel": "Romance",
+    "screenplay": "Roteiro",
+    "story": "História",
+    "writer": "Escritor"
+  }
 }

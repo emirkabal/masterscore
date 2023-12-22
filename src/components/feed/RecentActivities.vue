@@ -69,7 +69,7 @@ watch(
 )
 </script>
 <template>
-  <section>
+  <section class="px-4">
     <button
       @click="reset"
       v-if="params.page !== '1' && activities.length === 10"
@@ -79,7 +79,7 @@ watch(
     </button>
     <div v-if="loading" class="flex items-start py-8" v-for="i in 8" :key="i">
       <div
-        class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 dark:bg-gray-900 md:h-14 md:w-14"
+        class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 md:h-14 md:w-14 dark:bg-gray-900"
       ></div>
       <div class="ml-4 flex w-full flex-col">
         <div class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"></div>
@@ -115,8 +115,13 @@ watch(
                 class="h-5 w-5 flex-shrink-0 text-yellow-500"
               />
             </div>
-            <span class="flex-shrink-0 text-xs text-gray-500 dark:text-gray-300">
-              {{ $moment(activity.createdAt).locale($i18n.locale).fromNow() }}
+            <span
+              v-tooltip="{
+                content: $moment(activity.createdAt).locale($i18n.locale).fromNow()
+              }"
+              class="flex-shrink-0 cursor-default text-xs text-gray-500 dark:text-gray-300"
+            >
+              {{ $moment(activity.createdAt).locale($i18n.locale).calendar() }}
             </span>
           </div>
         </div>

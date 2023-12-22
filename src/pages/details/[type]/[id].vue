@@ -8,9 +8,9 @@ const { feature } = query
 const flag = useStorage("debugMode", false)
 
 const { user, isLoggedIn } = useUserStore()
-
 const { data, pending, refresh, error } = useLazyFetch(`/api/tmdb/${params.id}?type=${params.type}`)
 
+const trailerModal = ref(false)
 const watchModal = ref(false)
 const smartVideoData = ref(null)
 const smartVideoId = ref("")
@@ -104,6 +104,15 @@ const deleteReview = async () => {
   fetchReviews()
 }
 
+const getTeaser = computed(() => {
+  if (!data.value.videos?.results?.length) return null
+  const vid = data.value.videos.results.find(
+    (e) => e.site === "YouTube" && (e.type === "Trailer" || e.type === "Teaser")
+  )
+  if (!vid) return null
+  return `https://youtu.be/${vid.key}`
+})
+
 watch(data, async () => {
   if (error.value) return
   if (posterURL.value && process.client) {
@@ -112,7 +121,7 @@ watch(data, async () => {
     image.src = posterURL.value
     image.onload = () => {
       const dominantColor = $colorthief.getColor(image, {
-        algorithm: "dominant"
+        algorithm: "sqrt"
       })
       colors.background = dominantColor.value
       const gradient = Object.values(tinycolor(dominantColor.rgb).darken(45).toRgb())
@@ -196,12 +205,6 @@ watch(data, async () => {
   }
 })
 
-watch(colors, (val) => {
-  if (val) {
-    $event("entertainment:bright", backgroundBright.value)
-  }
-})
-
 $listen("entertainment:watch", (data) => {
   if (data.length) {
     smartVideoId.value = data[0]
@@ -241,6 +244,12 @@ useHead({
       'font-mono': data.localId === '6413083c89dfe11b9d6c6dc4'
     }"
   >
+    <ScreenModal v-if="getTeaser" :modal="trailerModal" @close="trailerModal = false">
+      <iframe
+        class="aspect-video h-auto w-full rounded-xl"
+        :src="`https://www.youtube.com/embed/${getTeaser.split('/')[3]}?autoplay=1`"
+      />
+    </ScreenModal>
     <EntertainmentWatch
       :watchModal="watchModal"
       :data="{
@@ -253,11 +262,7 @@ useHead({
         playlistId: smartVideoId,
         series: smartVideoEpisodes || undefined
       }"
-      @close="
-        () => {
-          watchModal = false
-        }
-      "
+      @close="watchModal = false"
     />
     <EntertainmentReviewModal :data="data" :reviewData="reviewData" />
     <EntertainmentContainer :colors="colors" :background-u-r-l="backgroundURL" :feature="feature">
@@ -323,16 +328,20 @@ useHead({
           :is-light="backgroundBright"
           :rating="masterRating"
           :reviewData="reviewData"
-        />
-        <EntertainmentButtonGroup
-          :data="data"
-          :isLight="backgroundBright"
-          @openReview="openReview"
-          :reviewData="reviewData"
-          :smartVideoData="smartVideoData && !smartVideoData[0]?.copyright ? smartVideoData : null"
-        />
+        >
+          <EntertainmentButtonGroup
+            :data="data"
+            @openReview="openReview"
+            :reviewData="reviewData"
+            :smartVideoData="
+              smartVideoData && !smartVideoData[0]?.copyright ? smartVideoData : null
+            "
+          />
+        </EntertainmentBody>
+        <EntertainmentDetailsTopCrew :data="data" />
       </div>
     </EntertainmentContainer>
+    <EntertainmentButtonGroupMobile :id="data.localId" :watchable="smartVideoData?.id" />
 
     <div class="container mx-auto mb-28 mt-12 px-4 lg:-mt-28 2xl:-mt-36">
       <div class="flex flex-col-reverse items-stretch gap-4 lg:flex-row">
@@ -348,8 +357,8 @@ useHead({
               smartVideoData && !smartVideoData[0]?.copyright ? smartVideoData : null
             "
           />
-          <EntertainmentDetailsSimilar :data="data.similar" />
           <EntertainmentDetailsCast :data="data.credits" />
+          <EntertainmentDetailsSimilar :data="data.similar" />
           <EntertainmentDetailsReviews
             :loading="reviewData.loading"
             :data="comments"
@@ -367,6 +376,8 @@ useHead({
           class="static top-14 w-full self-start lg:sticky lg:min-w-[300px] lg:max-w-[300px]"
           :data="data"
           :smartVideoData="smartVideoData"
+          :teaser="getTeaser"
+          @watchTrailer="trailerModal = true"
         />
       </div>
 

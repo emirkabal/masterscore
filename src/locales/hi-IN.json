@@ -143,7 +143,11 @@
       "review": "समीक्षा",
       "reviewed": "समीक्षित",
       "add_to_watchlist": "घड़ी सूची में जोड़ें",
-      "remove_from_watchlist": "निगरानी सूची से हटाएँ"
+      "remove_from_watchlist": "निगरानी सूची से हटाएँ",
+      "like": "पसंद",
+      "liked": "पसंद किया",
+      "remove": "निकालना",
+      "save": "बचाना"
     },
     "sidebar": {
       "belongs_to_collection": "संग्रह के अंतर्गत आता है",
@@ -169,7 +173,8 @@
     "summary": {
       "likes": "पसंद है",
       "reviews": "समीक्षा"
-    }
+    },
+    "top-billed-cast": "टॉप बिल कास्ट"
   },
   "genres": {
     "Comedy": "कॉमेडी",
@@ -230,5 +235,14 @@
     "placeholder": "समीक्षा लिखें..."
   },
   "cancel": "रद्द करना",
-  "go-to-bottom": "नीचे तक जाओ"
+  "go-to-bottom": "नीचे तक जाओ",
+  "jobs": {
+    "characters": "पात्र",
+    "creator": "निर्माता",
+    "director": "निदेशक",
+    "novel": "उपन्यास",
+    "screenplay": "पटकथा",
+    "story": "कहानी",
+    "writer": "लेखक"
+  }
 }

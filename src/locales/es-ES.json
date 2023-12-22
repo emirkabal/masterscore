@@ -143,7 +143,11 @@
       "review": "Consulte",
       "reviewed": "Revisado",
       "add_to_watchlist": "Añadir a la lista",
-      "remove_from_watchlist": "Eliminar de la lista de vigilancia"
+      "remove_from_watchlist": "Eliminar de la lista de vigilancia",
+      "like": "Como",
+      "liked": "Apreciado",
+      "remove": "Eliminar",
+      "save": "Ahorrar"
     },
     "sidebar": {
       "belongs_to_collection": "Pertenece a la colección",
@@ -169,7 +173,8 @@
     "summary": {
       "likes": "le gusta",
       "reviews": "reseñas"
-    }
+    },
+    "top-billed-cast": "Elenco más facturado"
   },
   "discover": {
     "title": "Descubre",
@@ -230,5 +235,14 @@
     "placeholder": "Escribe una reseña..."
   },
   "cancel": "Cancelar",
-  "go-to-bottom": "ir al fondo"
+  "go-to-bottom": "ir al fondo",
+  "jobs": {
+    "characters": "Caracteres",
+    "creator": "Creador",
+    "director": "Director",
+    "novel": "Novedoso",
+    "screenplay": "Guión",
+    "story": "Historia",
+    "writer": "Escritor"
+  }
 }

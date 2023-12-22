@@ -12,7 +12,7 @@ const { data, pending } = await useLazyFetch<
 
 <template>
   <section>
-    <EntertainmentSlider>
+    <EntertainmentSlider :offset="16">
       <SwiperSlide v-if="pending" v-for="i in 15" :key="i">
         <Avatar :loading="true" username="hello" class="my-3 h-16 w-16" />
       </SwiperSlide>

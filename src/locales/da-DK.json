@@ -144,7 +144,11 @@
       "review": "Anmeld",
       "reviewed": "Anmeldt",
       "add_to_watchlist": "Føj til Watchlist",
-      "remove_from_watchlist": "Fjern fra Watchlist"
+      "remove_from_watchlist": "Fjern fra Watchlist",
+      "like": "Synes godt om",
+      "liked": "Kunne lide",
+      "remove": "Fjerne",
+      "save": "Gemme"
     },
     "sidebar": {
       "belongs_to_collection": "Tilhører samling",
@@ -170,7 +174,8 @@
     "summary": {
       "likes": "synes godt om",
       "reviews": "anmeldelser"
-    }
+    },
+    "top-billed-cast": "Top Billed Cast"
   },
   "discover": {
     "title": "Opdag",
@@ -230,5 +235,14 @@
     "placeholder": "Skriv en anmeldelse..."
   },
   "cancel": "Afbestille",
-  "go-to-bottom": "gå til bunds"
+  "go-to-bottom": "gå til bunds",
+  "jobs": {
+    "characters": "Karakterer",
+    "creator": "Skaber",
+    "director": "Direktør",
+    "novel": "Roman",
+    "screenplay": "Manuskript",
+    "story": "Historie",
+    "writer": "Forfatter"
+  }
 }

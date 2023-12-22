@@ -1,6 +1,6 @@
 import mitt from "mitt"
 
-type ApplicationEvents = {
+export type ApplicationEvents = {
   "user:init": boolean
   "modal:trailer": boolean
   "modal:review": boolean
@@ -8,6 +8,7 @@ type ApplicationEvents = {
   "entertainment:load": boolean
   "entertainment:fetch:reviews": boolean
   "entertainment:fetch:likes": boolean
+  "entertainment:handle:button": "like" | "watchlist" | "review" | ["watch", string | number]
   "entertainment:watch": [
     string,
     {
@@ -30,7 +31,8 @@ export default defineNuxtPlugin(() => {
   return {
     provide: {
       event: emitter.emit, // Will emit an event
-      listen: emitter.on // Will register a listener for an event
+      listen: emitter.on, // Will register a listener for an event,
+      dispatch: emitter.off
     }
   }
 })

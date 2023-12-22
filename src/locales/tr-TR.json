@@ -56,8 +56,8 @@
     "edit_profile": "Profili Düzenle",
     "copy_url": "Bağlantıyı kopyala",
     "summary": "Özet",
-    "watchlist": "İzleme listesi ({n})",
-    "reviews": "Değerlendirmeler ({n})",
+    "watchlist": "{n} Kaydedilen",
+    "reviews": "{n} Değerlendirme",
     "no_reviews": "Henüz değerlendirme yok.",
     "featured_entertainments": "Öne Çıkan İçerikler",
     "latest_reviews": "Son Değerlendirmeler",
@@ -144,7 +144,11 @@
       "review": "Değerlendir",
       "reviewed": "Değerlendirildi",
       "add_to_watchlist": "İzleme listesine ekle",
-      "remove_from_watchlist": "İzleme listesinden çıkar"
+      "remove_from_watchlist": "İzleme listesinden çıkar",
+      "like": "Beğen",
+      "liked": "Beğenildi",
+      "save": "Kaydet",
+      "remove": "Çıkar"
     },
     "sidebar": {
       "belongs_to_collection": "Koleksiyon",
@@ -170,7 +174,8 @@
     "summary": {
       "likes": "beğeni",
       "reviews": "değerlendirme"
-    }
+    },
+    "top-billed-cast": "Başrol Oyuncuları"
   },
   "genres": {
     "Comedy": "Komedi",
@@ -230,5 +235,14 @@
     "placeholder": "Herhangi bir yorum yazın..."
   },
   "cancel": "İptal",
-  "go-to-bottom": "aşağıya git"
+  "go-to-bottom": "aşağıya git",
+  "jobs": {
+    "characters": "Karakterler",
+    "creator": "Yaratıcı",
+    "director": "Yönetmen",
+    "novel": "Roman",
+    "screenplay": "Senarist",
+    "story": "Hikaye",
+    "writer": "Yazar"
+  }
 }
