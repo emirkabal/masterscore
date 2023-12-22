@@ -12,7 +12,8 @@ isDark.value = true
   <footer
     class="mt-4 w-full gap-24 border-t border-gray-800 bg-gray-900/30 py-16"
     :class="{
-      'mb-[59px]': $route.path.startsWith('/details/tv') || $route.path.startsWith('/details/movie')
+      'mb-[59px] lg:mb-0':
+        $route.path.startsWith('/details/tv') || $route.path.startsWith('/details/movie')
     }"
   >
     <div
