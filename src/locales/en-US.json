@@ -144,7 +144,11 @@
       "review": "Review",
       "reviewed": "Reviewed",
       "add_to_watchlist": "Add to watchlist",
-      "remove_from_watchlist": "Remove from watchlist"
+      "remove_from_watchlist": "Remove from watchlist",
+      "like": "Like",
+      "liked": "Liked",
+      "save": "Save",
+      "remove": "Remove"
     },
     "sidebar": {
       "belongs_to_collection": "Belongs To Collection",
@@ -170,7 +174,8 @@
     "summary": {
       "likes": "likes",
       "reviews": "reviews"
-    }
+    },
+    "top-billed-cast": "Top Billed Cast"
   },
   "discover": {
     "title": "Discover",
@@ -230,5 +235,14 @@
     "placeholder": "Write a review..."
   },
   "cancel": "Cancel",
-  "go-to-bottom": "go to bottom"
+  "go-to-bottom": "go to bottom",
+  "jobs": {
+    "director": "Director",
+    "screenplay": "Screenplay",
+    "story": "Story",
+    "novel": "Novel",
+    "writer": "Writer",
+    "characters": "Characters",
+    "creator": "Creator"
+  }
 }

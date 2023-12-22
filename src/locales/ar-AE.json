@@ -144,7 +144,11 @@
       "review": "مراجعة",
       "reviewed": "تمت المراجعة",
       "add_to_watchlist": "إضافة إلى قائمة المشاهدة",
-      "remove_from_watchlist": "إزالة من قائمة المشاهدة"
+      "remove_from_watchlist": "إزالة من قائمة المشاهدة",
+      "like": "يحب",
+      "liked": "احب",
+      "remove": "يزيل",
+      "save": "يحفظ"
     },
     "sidebar": {
       "belongs_to_collection": "ينتمي إلى مجموعة",
@@ -170,7 +174,8 @@
     "summary": {
       "likes": "إعجابات",
       "reviews": "مراجعات"
-    }
+    },
+    "top-billed-cast": "أعلى الممثلين الفاتورة"
   },
   "discover": {
     "title": "اكتشاف",
@@ -230,5 +235,14 @@
     "placeholder": "اكتب مراجعة..."
   },
   "cancel": "يلغي",
-  "go-to-bottom": "اذهب إلى الأسفل"
+  "go-to-bottom": "اذهب إلى الأسفل",
+  "jobs": {
+    "characters": "الشخصيات",
+    "creator": "المنشئ",
+    "director": "مخرج",
+    "novel": "رواية",
+    "screenplay": "سيناريو",
+    "story": "قصة",
+    "writer": "كاتب"
+  }
 }

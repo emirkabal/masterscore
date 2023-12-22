@@ -144,7 +144,11 @@
       "review": "Відгук",
       "reviewed": "Прокоментовано",
       "add_to_watchlist": "Додати до списку перегляду",
-      "remove_from_watchlist": "Вилучити зі списку перегляду"
+      "remove_from_watchlist": "Вилучити зі списку перегляду",
+      "like": "Люблю",
+      "liked": "Сподобалось",
+      "remove": "видалити",
+      "save": "зберегти"
     },
     "sidebar": {
       "belongs_to_collection": "Належить до колекції",
@@ -170,7 +174,8 @@
     "summary": {
       "likes": "лайки",
       "reviews": "відгуки"
-    }
+    },
+    "top-billed-cast": "Найкращий акторський склад"
   },
   "discover": {
     "title": "Дізнатися",
@@ -230,5 +235,14 @@
     "placeholder": "Напишіть відгук..."
   },
   "cancel": "Скасувати",
-  "go-to-bottom": "йти вниз"
+  "go-to-bottom": "йти вниз",
+  "jobs": {
+    "characters": "Персонажі",
+    "creator": "Творець",
+    "director": "Директор",
+    "novel": "Роман",
+    "screenplay": "Сценарій",
+    "story": "Розповідь",
+    "writer": "Письменник"
+  }
 }

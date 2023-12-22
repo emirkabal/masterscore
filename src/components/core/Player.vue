@@ -217,11 +217,12 @@ const handleMounted = (payload: any) => {
   player.value.addClass("vjs-landscape-fullscreen")
 
   if (isIos && !player.value.el_.ownerDocument.querySelector(".bc-iframe")) {
-    player.value.tech_.el_.setAttribute("playsinline", "playsinline")
-    // @ts-ignore
-    player.value.tech_.supportsFullScreen = function () {
-      return false
-    }
+    try {
+      player.value.tech_.el_.setAttribute("playsinline", "playsinline")
+      player.value.tech_.supportsFullScreen = function () {
+        return false
+      }
+    } catch (error) {}
   }
 
   const rotationHandler = () => {

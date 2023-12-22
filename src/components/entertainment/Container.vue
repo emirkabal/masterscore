@@ -17,7 +17,7 @@ const colors = computed(() => {
 <template>
   <div v-if="loading">
     <div
-      class="skeleton-effect relative h-full min-h-[900px] w-full bg-gray-100 dark:bg-gray-900 lg:h-[90vh] lg:min-h-[780px]"
+      class="skeleton-effect relative h-full min-h-[900px] w-full bg-gray-100 lg:h-[90vh] lg:min-h-[780px] dark:bg-gray-900"
       :style="{
         background: `linear-gradient(
             rgba(15, 23, 42, 1) 0%,
@@ -38,7 +38,7 @@ const colors = computed(() => {
   </div>
   <div
     v-else-if="colors"
-    class="relative h-full min-h-[900px] w-full bg-cover bg-center bg-no-repeat lg:h-[90vh] lg:min-h-[780px]"
+    class="h-full min-h-[900px] w-full bg-cover bg-center bg-no-repeat lg:h-[90vh] lg:min-h-[780px]"
     :style="{
       'background-image': props.backgroundURL ? `url(${props.backgroundURL})` : 'none'
     }"
@@ -50,7 +50,7 @@ const colors = computed(() => {
       class="h-full w-full"
       :style="{
         background: `linear-gradient(
-            rgba(${colors.background[0]}, ${colors.background[1]}, ${colors.background[2]}, .75) 0%,
+            rgba(${colors.background[0]}, ${colors.background[1]}, ${colors.background[2]}, .80) 0%,
             rgb(3, 7, 18) 100%
           )`
       }"

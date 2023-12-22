@@ -27,6 +27,9 @@ const close = () => {
 
 <template>
   <ScreenModal v-if="data.playlistId" :modal="watchModal" @close="close">
-    <CorePlayer v-bind="data" class="overflow-hidden rounded-xl" />
+    <CorePlayer
+      v-bind="data"
+      class="h-[195px] w-[350px] rounded-xl lg:aspect-video lg:h-auto lg:w-full"
+    />
   </ScreenModal>
 </template>

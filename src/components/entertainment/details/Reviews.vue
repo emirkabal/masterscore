@@ -23,7 +23,10 @@ withDefaults(
 
 <template>
   <div>
-    <h1 class="my-4 border-l-4 border-yellow-500 pl-4 text-2xl font-bold tracking-wide">
+    <h1
+      v-if="!loading"
+      class="my-4 border-l-4 border-yellow-500 pl-4 text-2xl font-bold tracking-wide"
+    >
       {{ $t("entertainment.reviews") }}
     </h1>
     <div v-if="mranking?.good">
@@ -48,7 +51,8 @@ withDefaults(
         </span>
       </p>
     </div>
-    <div class="space-y-4" v-if="loading">
+    <div v-if="loading">
+      <div class="skeleton-effect my-2 h-6 w-32 rounded bg-gray-300 dark:bg-gray-900"></div>
       <div class="flex items-center px-4 py-6" v-for="i in 4" :key="i">
         <div
           class="skeleton-effect h-14 w-14 flex-shrink-0 rounded-full bg-gray-300 dark:bg-gray-900"
@@ -85,9 +89,14 @@ withDefaults(
                   class="h-5 w-5 flex-shrink-0 text-yellow-500"
               /></NuxtLink>
               <p
-                class="line-clamp-1 flex-shrink-0 break-words text-xs text-gray-500 dark:text-gray-300"
+                class="line-clamp-1 flex-shrink-0 cursor-default break-words text-xs text-gray-500 dark:text-gray-300"
               >
-                <span v-text="$moment(comment.createdAt).locale($i18n.locale).fromNow()"></span>
+                <span
+                  v-tooltip="{
+                    content: $moment(comment.createdAt).locale($i18n.locale).fromNow()
+                  }"
+                  v-text="$moment(comment.createdAt).locale($i18n.locale).calendar()"
+                ></span>
                 <span v-if="comment.createdAt !== comment.updatedAt" class="ml-1"
                   >({{ $t("edited") }})</span
                 >

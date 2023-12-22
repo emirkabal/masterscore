@@ -1,29 +1,29 @@
 <script setup lang="ts">
 import type { ReviewData, TMDBData } from "~/types"
 import { useUserStore } from "~/store/user"
-const { $event } = useNuxtApp()
+import type { ApplicationEvents } from "~/plugins/event-bus"
+const { $event, $listen, $dispatch } = useNuxtApp()
 const { user, isLoggedIn } = useUserStore()
 const cooldown = ref(false)
-const { data, isLight, reviewData, smartVideoData } = defineProps<{
+const props = defineProps<{
   data?: TMDBData
-  isLight?: boolean
   reviewData?: ReviewData
   loading?: boolean
   smartVideoData?: any
 }>()
 
-defineEmits(["openReview"])
+const emits = defineEmits(["openReview"])
 
 const likes = ref(0)
 
 const userLiked = computed(() => {
-  return data && user?.likes?.includes(data.localId)
+  return props.data && user?.likes?.includes(props.data.localId)
 })
 const userReviewed = computed(() => {
-  return data && user?.reviews?.includes(data.localId)
+  return props.data && user?.reviews?.includes(props.data.localId)
 })
 const userAddedWatchlist = computed(() => {
-  return data && user?.watchlist?.includes(data.localId)
+  return props.data && user?.watchlist?.includes(props.data.localId)
 })
 
 const like = async () => {
@@ -31,19 +31,19 @@ const like = async () => {
     return useRouter().push("/account/login")
   }
   if (cooldown.value) return
-  if (data && user?.likes && user.likes.includes(data.localId)) {
-    user.likes = user.likes.filter((e) => e !== data.localId)
-  } else if (data && user?.likes) {
-    user.likes.push(data.localId)
+  if (props.data && user?.likes && user.likes.includes(props.data.localId)) {
+    user.likes = user.likes.filter((e) => e !== props.data?.localId)
+  } else if (props.data && user?.likes) {
+    user.likes.push(props.data.localId)
   }
-  if (!data) return
+  if (!props.data) return
   cooldown.value = true
   const { likes: entertainmentLikes } = await $fetch<{
     likes: number
   }>(`/api/likes`, {
     method: "POST",
     body: JSON.stringify({
-      id: data.localId,
+      id: props.data.localId,
       type: userLiked.value ? "add" : "remove"
     }),
     headers: generateHeaders()
@@ -58,16 +58,16 @@ const submitToWatchlist = async () => {
   if (!isLoggedIn) {
     return useRouter().push("/account/login")
   }
-  if (data && user?.watchlist && user.watchlist.includes(data.localId)) {
-    user.watchlist = user.watchlist.filter((e) => e !== data.localId)
-  } else if (data && user?.watchlist) {
-    user.watchlist.push(data.localId)
+  if (props.data && user?.watchlist && user.watchlist.includes(props.data.localId)) {
+    user.watchlist = user.watchlist.filter((e) => e !== props.data?.localId)
+  } else if (props.data && user?.watchlist) {
+    user.watchlist.push(props.data.localId)
   }
-  if (!data) return
+  if (!props.data) return
   await $fetch("/api/users/me/watchlist", {
     method: "POST",
     body: JSON.stringify({
-      id: data.localId,
+      id: props.data.localId,
       type: userAddedWatchlist.value ? "add" : "remove"
     }),
     headers: generateHeaders()
@@ -75,111 +75,114 @@ const submitToWatchlist = async () => {
 }
 
 const fetchLikes = async () => {
-  if (!data) return
+  if (!props.data) return
   const { likes: entertainmentLikes } = await $fetch<{
     likes: number
-  }>(`/api/likes/${data.localId}`)
+  }>(`/api/likes/${props.data.localId}`)
   likes.value = entertainmentLikes
 }
-
 const watchSmartVideo = (id: any) => {
   $event("entertainment:watch", id)
 }
 
 watchEffect(() => {
-  if (data) {
-    fetchLikes()
+  if (props.data) fetchLikes()
+})
+
+const handleEvents = (val: ApplicationEvents["entertainment:handle:button"]) => {
+  if (val[0] === "watch") {
+    watchSmartVideo(val[1])
+  } else if (val === "review") {
+    emits("openReview")
+  } else if (val === "like") {
+    like()
+  } else if (val === "watchlist") {
+    submitToWatchlist()
   }
+}
+
+onMounted(() => {
+  $listen("entertainment:handle:button", handleEvents)
+})
+
+onUnmounted(() => {
+  $dispatch("entertainment:handle:button", handleEvents)
 })
 </script>
 
 <template>
   <div v-if="loading">
-    <div class="mt-4 flex flex-col gap-2 lg:flex-row">
-      <div class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-gray-800 lg:w-1/4"></div>
-      <div class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-gray-800 lg:w-1/4"></div>
-      <div class="skeleton-effect h-10 w-full rounded bg-gray-300 dark:bg-gray-800 lg:w-4/12"></div>
-    </div>
-    <div class="mt-3 flex flex-row gap-2">
-      <div
-        class="skeleton-effect h-3 w-3/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800"
-      ></div>
-      <div
-        class="skeleton-effect h-3 w-3/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800"
-      ></div>
+    <div class="flex flex-row gap-2">
+      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-800"></div>
+      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-800"></div>
+      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-800"></div>
     </div>
   </div>
-  <div v-else-if="!loading && data && reviewData">
-    <div
-      class="mt-4 flex flex-col gap-2 text-lg lg:flex-row"
+  <div v-else-if="!loading && data && reviewData" class="mb-4 hidden gap-2 text-lg lg:flex">
+    <button
+      v-if="smartVideoData?.id"
+      @click="watchSmartVideo(smartVideoData.id)"
+      v-tooltip="{
+        content: $t('entertainment.buttons.watch')
+      }"
+      class="btn"
+    >
+      <Icon name="ic:round-play-arrow" class="h-7 w-7" />
+    </button>
+    <button
+      @click="$emit('openReview')"
+      class="btn"
       :class="{
-        'flex flex-wrap': smartVideoData?.id
+        active: userReviewed
+      }"
+      v-tooltip="{
+        content: userReviewed
+          ? $t('entertainment.buttons.reviewed')
+          : $t('entertainment.buttons.review')
       }"
     >
-      <div
-        class="grid gap-2 lg:flex"
-        :class="{
-          'sm:grid-cols-2': smartVideoData?.id
-        }"
-      >
-        <button
-          v-if="smartVideoData?.id"
-          @click="watchSmartVideo(smartVideoData.id)"
-          class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
-        >
-          <Icon name="ic:outline-play-arrow" class="h-7 w-7" />
-          {{ $t("entertainment.buttons.watch") }}
-        </button>
-
-        <button
-          @click="$emit('openReview')"
-          class="flex h-10 items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:bg-opacity-80"
-        >
-          <Icon name="ic:round-star" v-if="userReviewed" class="h-7 w-7" />
-          <Icon name="ic:round-star-border" v-else class="h-7 w-7" />
-          {{
-            userReviewed ? $t("entertainment.buttons.reviewed") : $t("entertainment.buttons.review")
-          }}
-        </button>
-      </div>
-      <div class="flex items-center gap-2">
-        <button
-          v-if="!userAddedWatchlist"
-          @click="submitToWatchlist"
-          class="flex h-10 flex-grow items-center gap-1 rounded border bg-transparent px-4 py-2 font-semibold leading-4 transition hover:opacity-80"
-          :class="{
-            'border-black text-black': isLight,
-            'border-white text-white': !isLight
-          }"
-        >
-          <Icon name="ic:outline-playlist-add" class="h-7 w-7" />
-          {{ $t("entertainment.buttons.add_to_watchlist") }}
-        </button>
-        <button
-          v-else
-          @click="submitToWatchlist"
-          class="flex h-10 flex-shrink-0 flex-grow items-center gap-1 rounded bg-white px-4 py-2 font-semibold text-black transition hover:opacity-80"
-        >
-          <Icon name="ic:outline-playlist-remove" class="h-7 w-7" />
-          {{ $t("entertainment.buttons.remove_from_watchlist") }}
-        </button>
-        <button
-          @click="like"
-          class="flex h-10 items-center gap-1 font-semibold text-white hover:bg-opacity-80"
-        >
-          <Like :liked="userLiked" />
-        </button>
-      </div>
-    </div>
-    <div
+      <Icon name="ic:round-star" class="h-7 w-7" />
+    </button>
+    <button
+      @click="like"
+      class="btn"
       :class="{
-        'divide-black/20 text-black/80': isLight,
-        'divide-white/20 text-white/80': !isLight
+        active: userLiked
       }"
-      class="mt-2 flex gap-2 divide-x-2 text-sm"
+      v-tooltip="{
+        content: userLiked ? $t('entertainment.buttons.liked') : $t('entertainment.buttons.like')
+      }"
     >
-      <p>{{ likes }} {{ $t("entertainment.summary.likes") }}</p>
-      <p class="pl-2">{{ reviewData.count }} {{ $t("entertainment.summary.reviews") }}</p>
-    </div>
+      <Icon name="ic:round-favorite" class="h-7 w-7" />
+    </button>
+    <button
+      @click="submitToWatchlist"
+      class="btn"
+      :class="{
+        active: userAddedWatchlist
+      }"
+      v-tooltip="{
+        content: userAddedWatchlist
+          ? $t('entertainment.buttons.remove_from_watchlist')
+          : $t('entertainment.buttons.add_to_watchlist')
+      }"
+    >
+      <Icon name="ic:round-bookmark-add" v-if="!userAddedWatchlist" class="h-7 w-7" />
+      <Icon name="ic:round-bookmark-remove" v-else class="h-7 w-7" />
+    </button>
   </div>
 </template>
+
+<style>
+.btn {
+  @apply flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-white p-2 transition-colors hover:bg-white hover:text-black;
+}
+
+.btn.active {
+  @apply bg-white text-black;
+}
+
+.btn.active:hover {
+  @apply opacity-75 transition-opacity;
+}
+</style>

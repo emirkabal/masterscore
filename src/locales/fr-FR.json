@@ -143,7 +143,11 @@
       "review": "Révision",
       "reviewed": "Examiné",
       "add_to_watchlist": "Ajouter à la liste de surveillance",
-      "remove_from_watchlist": "Supprimer de la liste de surveillance"
+      "remove_from_watchlist": "Supprimer de la liste de surveillance",
+      "like": "Comme",
+      "liked": "Aimé",
+      "remove": "Retirer",
+      "save": "Sauvegarder"
     },
     "sidebar": {
       "belongs_to_collection": "Appartient à la collection",
@@ -169,7 +173,8 @@
     "summary": {
       "likes": "aime",
       "reviews": "revues"
-    }
+    },
+    "top-billed-cast": "Casting le plus facturé"
   },
   "genres": {
     "Comedy": "Comédie",
@@ -230,5 +235,14 @@
     "placeholder": "Rédigez une critique..."
   },
   "cancel": "Annuler",
-  "go-to-bottom": "aller en bas"
+  "go-to-bottom": "aller en bas",
+  "jobs": {
+    "characters": "Personnages",
+    "creator": "Créateur",
+    "director": "Directeur",
+    "novel": "Roman",
+    "screenplay": "Scénario",
+    "story": "Histoire",
+    "writer": "Écrivain"
+  }
 }

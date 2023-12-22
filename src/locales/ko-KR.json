@@ -144,7 +144,11 @@
       "review": "리뷰 작성",
       "reviewed": "리뷰 작성됨",
       "add_to_watchlist": "보고 싶어요에 추가",
-      "remove_from_watchlist": "보고 싶어요에서 제거"
+      "remove_from_watchlist": "보고 싶어요에서 제거",
+      "like": "좋다",
+      "liked": "좋아요를 누른",
+      "remove": "제거하다",
+      "save": "구하다"
     },
     "sidebar": {
       "belongs_to_collection": "컬렉션 소속",
@@ -170,7 +174,8 @@
     "summary": {
       "likes": "좋아요",
       "reviews": "리뷰"
-    }
+    },
+    "top-billed-cast": "최고 청구 출연진"
   },
   "discover": {
     "title": "발견하기",
@@ -230,5 +235,14 @@
     "placeholder": "리뷰를 작성하세요..."
   },
   "cancel": "취소",
-  "go-to-bottom": "맨 아래로 가다"
+  "go-to-bottom": "맨 아래로 가다",
+  "jobs": {
+    "characters": "캐릭터",
+    "creator": "창조자",
+    "director": "감독",
+    "novel": "소설",
+    "screenplay": "각본",
+    "story": "이야기",
+    "writer": "작가"
+  }
 }

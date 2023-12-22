@@ -4,7 +4,6 @@ export default {
   strategy: "no_prefix",
   defaultLocale: "en",
   fallbackLocale: "en",
-  formatFallbackMessages: true,
   locales: [
     {
       code: "en",

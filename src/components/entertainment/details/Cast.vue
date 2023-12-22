@@ -50,7 +50,7 @@ const crew = computed(() => {
 
 const cast = computed(() => {
   if (!data) return []
-  return data.cast.filter((c) => c.profile_path)
+  return data.cast.filter((c) => c.profile_path).slice(0, 20)
 })
 </script>
 <template>
@@ -59,20 +59,14 @@ const cast = computed(() => {
       v-if="cast.length > 0 || crew.length > 0"
       class="my-4 border-l-4 border-blue-700 pl-4 text-2xl font-bold tracking-wide"
     >
-      {{ $t("entertainment.cast") }}
+      {{ $t("entertainment.top-billed-cast") }}
     </h1>
     <div v-if="loading || !data" class="space-y-2">
       <div class="skeleton-effect my-2 h-6 w-32 rounded bg-gray-300 dark:bg-gray-900"></div>
       <div class="flex gap-2 overflow-x-hidden">
         <div class="flex flex-col" v-for="i in 8" :key="i">
           <div
-            class="skeleton-effect h-32 w-[100px] rounded bg-gray-300 dark:bg-gray-900 md:h-[240px] md:w-[140px]"
-          ></div>
-          <div
-            class="skeleton-effect mt-2 h-2 w-4/5 self-center rounded-full bg-gray-300 dark:bg-gray-900"
-          ></div>
-          <div
-            class="skeleton-effect mt-2 h-2 w-3/4 self-center rounded-full bg-gray-300 dark:bg-gray-900"
+            class="skeleton-effect h-32 w-[100px] rounded bg-gray-300 md:h-[240px] md:w-[140px] dark:bg-gray-900"
           ></div>
         </div>
       </div>
@@ -94,7 +88,7 @@ const cast = computed(() => {
         <button @click="allModal = true" class="my-2 text-lg opacity-90">Show more..</button>
         <ScreenModal :modal="allModal" @close="allModal = false">
           <div
-            class="h-full max-h-[550px] w-full max-w-[1200px] overflow-hidden rounded-xl bg-gray-200 p-2 dark:bg-gray-900 md:max-h-[780px] md:p-4"
+            class="h-full max-h-[550px] w-full max-w-[1200px] overflow-hidden rounded-xl bg-gray-200 p-2 md:max-h-[780px] md:p-4 dark:bg-gray-900"
           >
             <div class="h-full max-h-[780px] overflow-auto">
               <div v-for="(item, i) in crew" :key="'crew-' + i">

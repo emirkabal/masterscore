@@ -143,7 +143,11 @@
       "review": "Granskning",
       "reviewed": "Granskad",
       "add_to_watchlist": "Lägg till på bevakningslistan",
-      "remove_from_watchlist": "Ta bort från bevakningslistan"
+      "remove_from_watchlist": "Ta bort från bevakningslistan",
+      "like": "Tycka om",
+      "liked": "Gillade",
+      "remove": "Avlägsna",
+      "save": "Spara"
     },
     "sidebar": {
       "belongs_to_collection": "Tillhör kollektionen",
@@ -169,7 +173,8 @@
     "summary": {
       "likes": "gillar",
       "reviews": "recensioner"
-    }
+    },
+    "top-billed-cast": "Top Billed Cast"
   },
   "discover": {
     "title": "Upptäck",
@@ -230,5 +235,14 @@
     "placeholder": "Skriv en recension..."
   },
   "cancel": "Annullera",
-  "go-to-bottom": "gå till botten"
+  "go-to-bottom": "gå till botten",
+  "jobs": {
+    "characters": "Tecken",
+    "creator": "Skapare",
+    "director": "Direktör",
+    "novel": "Roman",
+    "screenplay": "Manus",
+    "story": "Berättelse",
+    "writer": "Författare"
+  }
 }

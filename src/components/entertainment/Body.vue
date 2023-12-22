@@ -48,47 +48,42 @@ useHead({
 <template>
   <div v-if="loading">
     <div>
-      <div class="flex flex-col-reverse text-center lg:text-left">
-        <h1
-          class="skeleton-effect inline-block h-10 w-full flex-shrink-0 rounded bg-gray-300 font-semibold leading-8 dark:bg-gray-800 lg:leading-none"
-        ></h1>
-        <!-- Mobile Extensions -->
-        <div class="my-2 flex items-center justify-center gap-2 lg:hidden">
-          <div
-            class="skeleton-effect h-6 w-4/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800"
-          ></div>
-          <div
-            class="skeleton-effect h-6 w-4/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800"
-          ></div>
-        </div>
-        <!-- Desktop -->
+      <div class="flex flex-col items-center lg:items-start">
         <div
-          class="flex items-center justify-center gap-2 text-xs sm:text-sm lg:mb-2 lg:justify-start lg:text-lg"
+          class="skeleton-effect inline-block h-10 w-4/6 flex-shrink-0 rounded bg-gray-300 font-semibold leading-8 lg:leading-none dark:bg-gray-800"
+        ></div>
+        <div
+          class="mt-2 flex w-full items-center justify-center gap-2 text-xs sm:text-sm lg:justify-start lg:text-lg"
         >
           <div
+            v-for="i in 4"
             class="skeleton-effect h-4 w-1/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800"
-          ></div>
-          <div
-            class="skeleton-effect h-4 w-1/4 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800"
-          ></div>
-          <div
-            class="skeleton-effect h-4 w-2/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800"
-          ></div>
-          <div
-            class="skeleton-effect hidden h-6 w-1/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800 lg:block"
-          ></div>
-          <div
-            class="skeleton-effect hidden h-6 w-1/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800 lg:block"
-          ></div>
-          <div
-            class="skeleton-effect hidden h-6 w-1/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800 lg:block"
           ></div>
         </div>
       </div>
-      <div class="mt-2.5 flex flex-col items-center gap-2 lg:items-start">
-        <div class="skeleton-effect h-4 w-11/12 rounded bg-gray-300 dark:bg-gray-800"></div>
+      <div class="my-4 hidden lg:block">
+        <slot />
+      </div>
+      <div class="mt-2.5 flex flex-col items-start gap-2">
+        <div class="skeleton-effect h-4 w-1/12 rounded bg-gray-300 dark:bg-gray-800"></div>
         <div class="skeleton-effect h-4 w-10/12 rounded bg-gray-300 dark:bg-gray-800"></div>
+        <div class="skeleton-effect h-4 w-8/12 rounded bg-gray-300 dark:bg-gray-800"></div>
         <div class="skeleton-effect h-4 w-6/12 rounded bg-gray-300 dark:bg-gray-800"></div>
+        <div class="skeleton-effect h-4 w-4/12 rounded bg-gray-300 dark:bg-gray-800"></div>
+      </div>
+      <div class="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div class="w-full space-y-2">
+          <div class="skeleton-effect h-4 w-1/2 rounded bg-gray-300 dark:bg-gray-800"></div>
+          <div class="skeleton-effect h-4 w-1/4 rounded bg-gray-300 dark:bg-gray-800"></div>
+        </div>
+        <div class="w-full space-y-2">
+          <div class="skeleton-effect h-4 w-1/2 rounded bg-gray-300 dark:bg-gray-800"></div>
+          <div class="skeleton-effect h-4 w-1/4 rounded bg-gray-300 dark:bg-gray-800"></div>
+        </div>
+        <div class="w-full space-y-2">
+          <div class="skeleton-effect h-4 w-1/2 rounded bg-gray-300 dark:bg-gray-800"></div>
+          <div class="skeleton-effect h-4 w-1/4 rounded bg-gray-300 dark:bg-gray-800"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -105,7 +100,6 @@ useHead({
         {{ title }}
       </h1>
       <!-- Desktop -->
-
       <div
         class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 lg:justify-start"
         :class="{
@@ -117,6 +111,7 @@ useHead({
         <EntertainmentMRanking :rating="rating" />
       </div>
     </div>
+
     <div
       class="my-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-white/80 lg:justify-start"
     >
@@ -146,8 +141,15 @@ useHead({
         {{ runtime }}
       </h2>
     </div>
-    <p class="mt-2 line-clamp-6 text-center text-base text-white/80 lg:text-left lg:text-xl">
-      {{ overview }}
-    </p>
+    <div class="my-4">
+      <slot />
+    </div>
+
+    <section class="mt-2" v-if="overview?.length">
+      <h2 class="font-semibold tracking-tight">{{ $t("profile.summary") }}</h2>
+      <p class="line-clamp-4 text-base text-white/80">
+        {{ overview }}
+      </p>
+    </section>
   </div>
 </template>

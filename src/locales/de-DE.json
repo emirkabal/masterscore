@@ -144,7 +144,11 @@
       "review": "Bewerten",
       "reviewed": "Bewertet",
       "add_to_watchlist": "Zur beobachtungsliste hinzufügen",
-      "remove_from_watchlist": "Von der beobachtungsliste entfernen"
+      "remove_from_watchlist": "Von der beobachtungsliste entfernen",
+      "like": "Wie",
+      "liked": "Gefallen",
+      "remove": "Entfernen",
+      "save": "Speichern"
     },
     "sidebar": {
       "belongs_to_collection": "Gehört zur Sammlung",
@@ -170,7 +174,8 @@
     "summary": {
       "likes": "likes",
       "reviews": "bewertungen"
-    }
+    },
+    "top-billed-cast": "Top-Besetzung"
   },
   "genres": {
     "Comedy": "Komödie",
@@ -230,5 +235,14 @@
     "placeholder": "Schreiben Sie eine Bewertung..."
   },
   "cancel": "Stornieren",
-  "go-to-bottom": "nach unten gehen"
+  "go-to-bottom": "nach unten gehen",
+  "jobs": {
+    "characters": "Figuren",
+    "creator": "Schöpfer",
+    "director": "Direktor",
+    "novel": "Roman",
+    "screenplay": "Drehbuch",
+    "story": "Geschichte",
+    "writer": "Schriftsteller"
+  }
 }

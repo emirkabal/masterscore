@@ -111,7 +111,7 @@ watch(chatBox, () => {
           <div v-if="msg?.message?.content?.startsWith('tenor:')">
             <UseImage
               :src="msg.message.content.replace('tenor:', '')"
-              @vnode-updated="scrollToBottom()"
+              @vue:updated="scrollToBottom()"
               class="my-2 h-auto max-h-[200px] w-fit rounded-xl"
             >
               <template #loading>

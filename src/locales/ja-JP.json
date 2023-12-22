@@ -144,7 +144,11 @@
       "review": "レビュー",
       "reviewed": "レビュー済み",
       "add_to_watchlist": "ウォッチリストに追加",
-      "remove_from_watchlist": "ウォッチリストから削除"
+      "remove_from_watchlist": "ウォッチリストから削除",
+      "like": "のように",
+      "liked": "気に入った",
+      "remove": "取り除く",
+      "save": "保存"
     },
     "sidebar": {
       "belongs_to_collection": "コレクションに属する",
@@ -170,7 +174,8 @@
     "summary": {
       "likes": "いいね",
       "reviews": "レビュー"
-    }
+    },
+    "top-billed-cast": "人気のキャスト"
   },
   "discover": {
     "title": "発見",
@@ -230,5 +235,14 @@
     "placeholder": "レビューを書いてください..."
   },
   "cancel": "キャンセル",
-  "go-to-bottom": "最下位に行く"
+  "go-to-bottom": "最下位に行く",
+  "jobs": {
+    "characters": "キャラクター",
+    "creator": "クリエイター",
+    "director": "監督",
+    "novel": "小説",
+    "screenplay": "脚本",
+    "story": "話",
+    "writer": "ライター"
+  }
 }

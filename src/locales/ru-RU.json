@@ -143,7 +143,11 @@
       "review": "Обзор",
       "reviewed": "Рассмотрено",
       "add_to_watchlist": "Добавить в список наблюдения",
-      "remove_from_watchlist": "Удалить из списка наблюдения"
+      "remove_from_watchlist": "Удалить из списка наблюдения",
+      "like": "Нравиться",
+      "liked": "Понравилось",
+      "remove": "Удалять",
+      "save": "Сохранять"
     },
     "sidebar": {
       "belongs_to_collection": "Принадлежность к коллекции",
@@ -169,7 +173,8 @@
     "summary": {
       "likes": "нравится",
       "reviews": "отзывы"
-    }
+    },
+    "top-billed-cast": "Актеры с самым высоким рейтингом"
   },
   "genres": {
     "Comedy": "Комедия",
@@ -230,5 +235,14 @@
     "placeholder": "Напишите отзыв..."
   },
   "cancel": "Отмена",
-  "go-to-bottom": "идти ко дну"
+  "go-to-bottom": "идти ко дну",
+  "jobs": {
+    "characters": "Персонажи",
+    "creator": "Создатель",
+    "director": "Директор",
+    "novel": "Роман",
+    "screenplay": "Сценарий",
+    "story": "История",
+    "writer": "Писатель"
+  }
 }
