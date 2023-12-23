@@ -66,7 +66,7 @@ const localizedJobs = (job: string) => {
       <div
         v-for="member in crew"
         :key="member.id"
-        class="rounded-xl bg-gray-900/50 px-4 py-2 lg:bg-transparent lg:px-0"
+        class="rounded-xl bg-gray-900/40 px-4 py-2 lg:bg-transparent lg:px-0"
       >
         <NuxtLink
           :to="`/details/person/${member.id}`"

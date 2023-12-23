@@ -88,9 +88,9 @@ useHead({
     </div>
   </div>
   <div v-else-if="data && !loading">
-    <div class="flex flex-col-reverse text-center lg:text-left">
+    <div class="flex flex-col text-center lg:text-left">
       <h1
-        class="inline-block flex-shrink-0 font-semibold tracking-tight text-white"
+        class="mb-1 inline-block flex-shrink-0 font-semibold tracking-tight text-white"
         :class="{
           'text-4xl md:text-5xl lg:text-6xl': title.length < 20,
           'text-3xl md:text-4xl lg:text-5xl': title.length < 30,
@@ -141,7 +141,7 @@ useHead({
         {{ runtime }}
       </h2>
     </div>
-    <div class="my-4">
+    <div class="mb-4">
       <slot />
     </div>
 
