@@ -24,12 +24,13 @@ export default defineEventHandler(async (event) => {
     page: page || "1",
     include_adult: "false",
     include_video: "false",
-    sort_by: "popularity.desc",
-    with_genres,
-    without_genres,
-    with_keywords,
-    without_keywords
+    sort_by: "popularity.desc"
   })
+
+  if (with_genres) params.append("with_genres", with_genres)
+  if (without_genres) params.append("without_genres", without_genres)
+  if (with_keywords) params.append("with_keywords", with_keywords)
+  if (without_keywords) params.append("without_keywords", without_keywords)
 
   const data: {
     results: TMDBSearchResult[]
