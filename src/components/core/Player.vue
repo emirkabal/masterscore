@@ -1,6 +1,6 @@
 <template>
   <Loader v-if="pending" />
-  <div v-else-if="error">SOMETHING WENT WRONG</div>
+  <div v-else-if="error && !mediaUrl">SOMETHING WENT WRONG</div>
   <VideoPlayer
     v-else
     class="video-js vjs-big-play-centered h-full w-full overflow-hidden rounded-xl"
@@ -9,7 +9,6 @@
       '!rounded-none': disableRounded
     }"
     :sources="mediaConfig.sources"
-    :poster="mediaConfig.poster"
     :tracks="mediaConfig.tracks"
     :autoplay="config.autoplay"
     :playbackRates="config.playbackRates"
@@ -54,6 +53,7 @@ const props = defineProps<{
   imdbId?: string
   type: string
   playlistId: number
+  mediaUrl?: string
   disableRounded?: boolean
   series?: {
     episode: number
@@ -137,15 +137,26 @@ const playerListener = (payload: { time?: number; type?: string }) => {
 }
 bus.on(playerListener)
 
-watch(data, () => {
-  if (!data.value) return
-  const handledMediaData = getMediaData()
+if (props.mediaUrl) {
   mediaConfig.value = {
-    sources: handledMediaData.sources ?? [],
-    poster: props.backdrop || props.poster,
-    tracks: handledMediaData.tracks ?? []
+    sources: [
+      {
+        src: props.mediaUrl,
+        type: "application/x-mpegURL"
+      }
+    ]
   }
-})
+} else {
+  watch(data, () => {
+    if (!data.value) return
+    const handledMediaData = getMediaData()
+    mediaConfig.value = {
+      sources: handledMediaData.sources ?? [],
+      poster: props.backdrop || props.poster,
+      tracks: handledMediaData.tracks ?? []
+    }
+  })
+}
 
 const handleProgress = (payload: any) => {
   if (!payload || props.disableHistory) return

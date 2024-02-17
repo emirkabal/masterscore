@@ -99,17 +99,17 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       ></div>
     </Transition>
 
-    <div class="relative z-20 w-full">
+    <div class="relative z-20 h-10 w-full">
       <Icon name="ic:round-search" class="pointer-events-none absolute left-2 top-[9px] h-6 w-6" />
       <div
         v-if="!focused"
-        class="pointer-events-none absolute right-2.5 top-2 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
+        class="pointer-events-none absolute right-2.5 top-2 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 lg:block dark:text-gray-400"
       >
         Ctrl K
       </div>
       <input
         type="text"
-        class="hover:foucs:ring-0 w-full rounded-lg border-none bg-white pl-10 shadow hover:ring focus:ring-0 dark:bg-gray-950 dark:placeholder:text-gray-300"
+        class="h-full w-full rounded-lg border-none bg-white pl-10 shadow hover:ring focus:outline-none focus:ring-0 dark:bg-gray-950 dark:placeholder:text-gray-300"
         :class="{
           'rounded-bl-none rounded-br-none rounded-tl-2xl rounded-tr-2xl focus:ring-0 hover:focus:ring-0':
             focused
@@ -391,7 +391,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         </div>
       </div>
       <div
-        class="bottom-2 left-2.5 mt-4 hidden w-fit select-none space-x-2 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
+        class="bottom-2 left-2.5 mt-4 hidden w-fit select-none space-x-2 text-center font-mono text-sm text-gray-800 lg:block dark:text-gray-400"
       >
         <i18n-t keypath="search.close">
           <template v-slot:key>

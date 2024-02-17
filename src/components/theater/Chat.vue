@@ -151,7 +151,7 @@ watch(chatBox, () => {
     </Transition>
   </div>
   <div class="z-10 flex items-center !bg-gray-900 px-6 pb-4 pt-4">
-    <FormInput
+    <UiInput
       type="text"
       class="w-full"
       variant="general"

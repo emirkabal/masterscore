@@ -90,17 +90,19 @@ useHead({
   <div v-else-if="data && !loading">
     <div class="flex flex-col text-center lg:text-left">
       <h1
-        class="mb-1 inline-block flex-shrink-0 font-semibold tracking-tight text-white"
+        class="inline-block flex-shrink-0 font-semibold tracking-tight text-white"
         :class="{
           'text-4xl md:text-5xl lg:text-6xl': title.length < 20,
           'text-3xl md:text-4xl lg:text-5xl': title.length < 30,
-          'text-2xl md:text-3xl lg:text-4xl': title.length >= 30
+          'text-2xl md:text-3xl lg:text-4xl': title.length >= 30,
+          'mb-2.5': rating
         }"
       >
         {{ title }}
       </h1>
       <!-- Desktop -->
       <div
+        v-if="rating"
         class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 lg:justify-start"
         :class="{
           'text-black': isLight,

@@ -55,6 +55,24 @@ const getCrew = computed(() => {
     )
 })
 
+const knownFor = computed<CreditsResult[]>(() => {
+  if (!data.value?.combined_credits?.cast?.length) return []
+  return data.value.combined_credits.cast
+
+    .filter(
+      (e) =>
+        e.character !== "Himself" &&
+        e.character !== "Herself" &&
+        e.character !== "Self" &&
+        e.character !== ""
+    )
+    .sort((a, b) => {
+      if (a.order) return a.order - b.order
+      else return b.vote_count - a.vote_count
+    })
+    .slice(0, 9)
+})
+
 $listen("refresh:entertainment", () => {
   refresh()
 })
@@ -174,7 +192,7 @@ useHead({
               {{ $t("person.known_for") }}
             </h1>
             <EntertainmentSlider
-              :data="data.combined_credits.cast.sort((a, b) => b.popularity - a.popularity)"
+              :data="knownFor"
               :fixed-media-type="'movie'"
               :item-size="'default'"
               :offset="0"
