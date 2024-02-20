@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
+    "shadcn-nuxt",
     "nuxt-headlessui",
     [
       "@nuxtjs/device",

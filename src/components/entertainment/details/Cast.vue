@@ -57,7 +57,7 @@ const cast = computed(() => {
   <section class="overflow-hidden">
     <h1
       v-if="cast.length > 0 || crew.length > 0"
-      class="my-4 border-l-4 border-blue-700 pl-4 text-2xl font-bold tracking-wide"
+      class="my-4 ml-4 border-l-4 border-blue-700 pl-4 text-2xl font-bold tracking-wide"
     >
       {{ $t("entertainment.top-billed-cast") }}
     </h1>
@@ -66,14 +66,14 @@ const cast = computed(() => {
       <div class="flex gap-2 overflow-x-hidden">
         <div class="flex flex-col" v-for="i in 8" :key="i">
           <div
-            class="skeleton-effect h-32 w-[100px] rounded bg-gray-300 md:h-[240px] md:w-[140px] dark:bg-gray-900"
+            class="skeleton-effect h-32 w-[100px] rounded bg-gray-300 dark:bg-gray-900 md:h-[240px] md:w-[140px]"
           ></div>
         </div>
       </div>
     </div>
     <div v-else-if="cast.length > 0 || crew.length > 0" class="space-y-2">
-      <EntertainmentSlider v-if="cast.length > 0">
-        <SwiperSlide v-for="(item, i) in cast" :key="'cast-' + i">
+      <EntertainmentSlider v-if="cast.length > 0" :offset="16">
+        <SwiperSlide v-for="item in cast">
           <PersonCard
             :data="{
               id: item.id,
@@ -85,10 +85,10 @@ const cast = computed(() => {
         </SwiperSlide>
       </EntertainmentSlider>
       <div v-if="crew.length > 0">
-        <button @click="allModal = true" class="my-2 text-lg opacity-90">Show more..</button>
+        <button @click="allModal = true" class="my-2 ml-4 text-lg opacity-90">Show more..</button>
         <ScreenModal :modal="allModal" @close="allModal = false">
           <div
-            class="h-full max-h-[550px] w-full max-w-[1200px] overflow-hidden rounded-xl bg-gray-200 p-2 md:max-h-[780px] md:p-4 dark:bg-gray-900"
+            class="h-full max-h-[550px] w-full max-w-[1200px] overflow-hidden rounded-xl bg-gray-200 p-2 dark:bg-gray-900 md:max-h-[780px] md:p-4"
           >
             <div class="h-full max-h-[780px] overflow-auto">
               <div v-for="(item, i) in crew" :key="'crew-' + i">

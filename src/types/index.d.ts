@@ -77,8 +77,11 @@ export interface CreditsResult {
   media_type: string
   release_date: string
   first_air_date: string
+  vote_count: number
+  vote_average: number
   title: string
   job: string
+  year: string
 }
 
 export interface VideoResult {

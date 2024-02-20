@@ -158,7 +158,7 @@ $listen("searchbar:focus", (val) => {
                       >
                     </HeadlessMenuItem>
                   </div>
-                  <div class="px-1 py-1" v-if="userStore.user.verified">
+                  <div class="px-1 py-1" v-if="userStore.user.features.includes('WATCH')">
                     <HeadlessMenuItem>
                       <NuxtLink
                         class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"

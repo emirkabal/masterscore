@@ -69,6 +69,7 @@ const config = reactive({
   hostWaiting: false,
   theaterMode: false
 })
+const skipIntro = ref()
 const users = ref<SocketUser[]>([])
 
 const msg = ref("")
@@ -329,8 +330,12 @@ onMounted(() => {
         }
         break
       case "entertainment":
-        if (d.data.playlistId === currentId.value) return
-        currentId.value = d.data.playlistId
+        if (
+          (d.data?.playlistId && d.data?.playlistId === currentId.value) ||
+          (d.data?.mediaUrl && d.data?.mediaUrl === currentId.value)
+        )
+          return
+        currentId.value = d.data?.playlistId ?? d.data?.mediaUrl
         data.value = null
         setTimeout(() => {
           data.value = d.data
@@ -666,7 +671,10 @@ const updatePlayer = (e: { time?: number; type: string }) => {
 }
 
 const handleSelector = (_: any) => {
-  currentId.value = _.playlistId
+  if (_.skipIntro) {
+    skipIntro.value = _.skipIntro
+  }
+  currentId.value = _?.playlistId || _?.mediaUrl
   data.value = null
   setTimeout(() => {
     data.value = _
@@ -710,7 +718,7 @@ const handleSelector = (_: any) => {
           }"
         >
           <button
-            v-if="isLoggedIn && user"
+            v-if="isLoggedIn && user && $socket.id"
             class="flex flex-col items-center gap-6 hover:opacity-75"
             @click="joinRoom(false)"
           >
@@ -785,7 +793,7 @@ const handleSelector = (_: any) => {
         }"
       >
         <div
-          class="flex h-[720px] w-full items-center justify-center rounded-2xl bg-gray-900"
+          class="relative flex h-[720px] w-full items-center justify-center rounded-2xl bg-gray-900"
           :class="{
             'h-screen w-screen rounded-none !bg-gray-950': config.theaterMode
           }"
@@ -796,8 +804,9 @@ const handleSelector = (_: any) => {
             :poster="$timage(data?.poster_path, 'w1280')"
             :backdrop="$timage(data?.backdrop_path, 'w1280')"
             :tmdbId="data.id"
-            :type="data.localData.type"
-            :playlistId="data.playlistId"
+            :type="data.localData?.type"
+            :playlistId="data?.playlistId"
+            :mediaUrl="data?.mediaUrl"
             :disable-history="true"
             @update="updatePlayer"
             :class="{
@@ -805,6 +814,20 @@ const handleSelector = (_: any) => {
             }"
           />
           <Logo class="text-center text-4xl" v-else />
+          <button
+            v-if="
+              skipIntro &&
+              config.user.player.time >= skipIntro.startOffset &&
+              config.user.player.time < skipIntro.skipToOffset
+            "
+            @click="() => {
+              pause(0)
+              playAtTime(skipIntro.skipToOffset)
+            }"
+            class="absolute bottom-12 right-8 rounded-lg bg-white px-4 py-2 text-lg font-bold text-black z-20"
+          >
+            Skip Intro
+          </button>
         </div>
         <div
           class="relative flex h-[720px] max-h-[720px] w-full max-w-md flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 pb-6 pt-4"
@@ -860,7 +883,7 @@ const handleSelector = (_: any) => {
           <input id="theatermode" type="checkbox" v-model="config.theaterMode" />
         </label>
       </div>
-      <div class="mt-4 pb-20" v-if="config.user?.isPublic && config.user?.verified">
+      <div class="mt-4 pb-20" v-if="config.user?.isPublic && user?.features.includes('WATCH')">
         <TheaterSelector @handle="handleSelector" />
       </div>
     </div>

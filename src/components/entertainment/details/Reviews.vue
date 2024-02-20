@@ -22,7 +22,7 @@ withDefaults(
 </script>
 
 <template>
-  <div>
+  <div class="px-4">
     <h1
       v-if="!loading"
       class="my-4 border-l-4 border-yellow-500 pl-4 text-2xl font-bold tracking-wide"

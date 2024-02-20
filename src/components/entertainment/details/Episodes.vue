@@ -212,7 +212,7 @@ watch(
 </script>
 
 <template>
-  <section>
+  <section class="px-4">
     <div class="my-4 flex items-start justify-between border-l-4 border-green-500 pl-4">
       <span>
         <h1 class="text-2xl font-bold tracking-wide">

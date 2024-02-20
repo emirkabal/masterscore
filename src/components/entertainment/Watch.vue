@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { HistoryItem } from "~/types"
-
 defineProps<{
   watchModal: boolean
   data: {
