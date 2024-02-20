@@ -81,6 +81,7 @@ export interface CreditsResult {
   vote_average: number
   title: string
   job: string
+  year: string
 }
 
 export interface VideoResult {

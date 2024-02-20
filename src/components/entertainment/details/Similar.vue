@@ -21,7 +21,7 @@ const getName = computed(() => {
   <section v-if="loading || data">
     <h1
       v-if="data && data.results.length > 0"
-      class="my-4 border-l-4 border-pink-600 pl-4 text-2xl font-bold tracking-wide"
+      class="my-4 ml-4 border-l-4 border-pink-600 pl-4 text-2xl font-bold tracking-wide"
     >
       {{ $t("entertainment.similar") }} {{ $t(getName) }}
     </h1>
@@ -36,7 +36,7 @@ const getName = computed(() => {
       </div>
     </div>
     <div v-else-if="data && data.results.length > 0">
-      <EntertainmentSlider :data="data.results" :fixed-media-type="type" :offset="0" />
+      <EntertainmentSlider :data="data.results" :fixed-media-type="type" :offset="16" />
     </div>
   </section>
 </template>

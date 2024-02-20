@@ -36,41 +36,66 @@ const isBig = computed(() => {
   return data.value.biography.length > 500
 })
 
-const getCrew = computed(() => {
-  if (!data.value?.combined_credits?.crew?.length) return null
-  return data.value.combined_credits.crew
-    .reduce((acc: CreditsResult[], curr) => {
-      const found = acc.find((e) => e.id === curr.id)
-      if (found) {
-        found.job = `${found.job}, ${curr.job}`
-      } else {
-        acc.push(curr)
-      }
-      return acc
-    }, [])
-    .sort(
-      (a, b) =>
-        new Date(b.release_date || b.first_air_date).getTime() -
-        new Date(a.release_date || b.first_air_date).getTime()
-    )
+const getCrew = computed<Record<string, CreditsResult[]>>(() => {
+  if (!data.value?.combined_credits?.crew?.length) return {}
+  const group = data.value.combined_credits.crew.reduce((acc, movie) => {
+    // @ts-ignore
+    if (!acc[movie.department]) acc[movie.department] = []
+    movie.year = (movie.release_date || movie.first_air_date)?.split("-")[0] || "—"
+    // @ts-ignore
+    acc[movie.department].push(movie)
+    return acc
+  }, {})
+
+  // @ts-ignore
+  group.Acting = data.value.combined_credits.cast
+    .map((e) => {
+      e.year = (e.release_date || e.first_air_date)?.split("-")[0] || "—"
+      return e
+    })
+    .sort((a, b) => {
+      if (!a.release_date && !a.first_air_date) return -1
+      else if (a.release_date && b.release_date)
+        return new Date(b.release_date).getTime() - new Date(a.release_date).getTime()
+      else if (a.first_air_date && b.first_air_date)
+        return new Date(b.first_air_date).getTime() - new Date(a.first_air_date).getTime()
+      return 0
+    })
+
+  Object.keys(group).forEach((e) =>
+    // @ts-ignore
+    group[e].sort((a, b) => {
+      if (a.year === "—") return -1
+      return new Date(b.year).getTime() - new Date(a.year).getTime()
+      return 0
+    })
+  )
+
+  return group
+})
+
+const departmentTitles = computed(() => {
+  const group = getCrew.value
+  const personDepartment = data.value?.known_for_department
+  return Object.keys(group).sort((a, b) => {
+    if (a === personDepartment) return -1
+    else if (b === personDepartment) return 1
+    // @ts-ignore
+    else if (group[a].length > group[b].length) return -1
+    // @ts-ignore
+    else if (group[a].length < group[b].length) return 1
+    return 0
+  })
 })
 
 const knownFor = computed<CreditsResult[]>(() => {
-  if (!data.value?.combined_credits?.cast?.length) return []
-  return data.value.combined_credits.cast
-
-    .filter(
-      (e) =>
-        e.character !== "Himself" &&
-        e.character !== "Herself" &&
-        e.character !== "Self" &&
-        e.character !== ""
-    )
-    .sort((a, b) => {
-      if (a.order) return a.order - b.order
-      else return b.vote_count - a.vote_count
-    })
+  if (!data.value?.combined_credits?.cast?.length && !data.value?.combined_credits?.crew?.length)
+    return []
+  const sorted = [...data.value.combined_credits?.cast, ...data.value.combined_credits?.crew]
+    .filter((movie, index, self) => self.findIndex((m) => m.id === movie.id) === index)
+    .sort((a, b) => b.vote_count - a.vote_count)
     .slice(0, 9)
+  return sorted
 })
 
 $listen("refresh:entertainment", () => {
@@ -165,9 +190,9 @@ useHead({
             {{ data.name }}
           </h1>
           <div class="space-y-2 text-center md:text-left">
-            <h1 class="text-2xl font-bold tracking-wide">
+            <h2 class="text-2xl font-bold tracking-wide">
               {{ $t("person.biography") }}
-            </h1>
+            </h2>
             <p class="relative whitespace-pre-wrap">
               <span
                 :class="{
@@ -179,7 +204,7 @@ useHead({
               <button
                 v-if="isBig && !revealBio"
                 @click="revealBio = !revealBio"
-                class="bg-gradi 5 group absolute bottom-0 right-0 w-full bg-gradient-to-l from-white text-right dark:from-black"
+                class="5 group absolute bottom-0 right-0 w-full bg-gradient-to-l from-white text-right dark:from-gray-950"
               >
                 <span class="font-semibold group-hover:opacity-75">{{
                   $t("person.read_more")
@@ -187,53 +212,49 @@ useHead({
               </button>
             </p>
           </div>
-          <div v-if="data.combined_credits?.cast?.length" class="space-y-4 overflow-hidden">
-            <h1 class="text-2xl font-bold tracking-wide">
+          <div v-if="knownFor" class="space-y-4 overflow-hidden">
+            <h3 class="text-2xl font-bold tracking-wide">
               {{ $t("person.known_for") }}
-            </h1>
+            </h3>
             <EntertainmentSlider
               :data="knownFor"
               :fixed-media-type="'movie'"
               :item-size="'default'"
               :offset="0"
             />
-            <div class="flex flex-col gap-2" v-if="getCrew">
-              <h2 class="text-center text-xl font-semibold tracking-tight md:text-left">
-                {{ $t("person.detailed-job-history") }}
-                <span class="text-gray-400">({{ getCrew.length }})</span>
-              </h2>
-              <NuxtLink
-                v-for="crew in getCrew"
-                class="rounded-full px-4 py-2 hover:bg-gray-900 focus:bg-gray-900 focus:outline-none"
-                :to="`/details/${crew.media_type}/${crew.id}`"
-              >
-                <div class="flex min-w-0 items-center justify-between">
-                  <div class="flex items-center gap-x-2">
-                    <h3
-                      class="line-clamp-1 flex-grow text-lg font-semibold tracking-tight text-gray-100"
+            <div v-if="getCrew">
+              <div v-for="(department, i) in departmentTitles" :key="i">
+                <div class="mt-4">
+                  <h3 class="pb-2 text-2xl font-bold tracking-wide">
+                    {{ $t(`person.departments.${department}`) }}
+                  </h3>
+                  <div class="flex flex-col gap-4 rounded-xl bg-gray-900 py-4">
+                    <div
+                      v-for="(movie, i) in getCrew[department]"
+                      :key="i"
+                      class="flex items-center gap-4 px-4"
+                      :class="{
+                        'border-t border-gray-700 pt-4':
+                          getCrew[department][i - 1]?.year !== movie.year && i !== 0
+                      }"
                     >
-                      {{ crew.title || crew.name }}
-                    </h3>
-                    <span class="h-0.5 w-3 self-center border border-gray-700"></span>
-                    <h4 class="line-clamp-1 text-gray-400">
-                      {{ crew.job }}
-                    </h4>
+                      <div class="flex items-start gap-x-4">
+                        <span class="mt-0.5 w-10 text-center font-maven">{{ movie.year }}</span>
+                        <div>
+                          <NuxtLink
+                            :to="`/details/${movie.media_type}/${movie.id}`"
+                            class="text-lg font-semibold text-white hover:text-gray-200"
+                            >{{ movie.title || movie.name }}</NuxtLink
+                          >
+                          <p class="text-gray-400" v-if="movie.job || movie.character">
+                            as <span class="text-white">{{ movie.job || movie.character }}</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <time
-                    class="ml-2 flex-shrink-0 self-center py-1 text-xs font-semibold text-gray-500"
-                    v-tooltip="{
-                      content: $moment(new Date(crew.release_date || crew.first_air_date))
-                        .locale($i18n.locale)
-                        .format('LL')
-                    }"
-                    >{{
-                      $moment(new Date(crew.release_date || crew.first_air_date))
-                        .locale($i18n.locale)
-                        .fromNow()
-                    }}</time
-                  >
                 </div>
-              </NuxtLink>
+              </div>
             </div>
           </div>
 
