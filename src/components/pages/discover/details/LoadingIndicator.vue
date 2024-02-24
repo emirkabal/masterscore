@@ -6,7 +6,7 @@
 
 <style scoped>
 .loading {
-  animation: loading 2s infinite;
+  animation: loading 800ms infinite;
 }
 @keyframes loading {
   0% {

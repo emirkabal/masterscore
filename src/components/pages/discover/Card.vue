@@ -9,9 +9,9 @@ defineProps<{
 <template>
   <div class="group w-full cursor-pointer p-4 focus:outline-none" tabindex="0">
     <div
-      class="aspect-poster relative overflow-hidden rounded-3xl"
+      class="relative aspect-poster overflow-hidden rounded-3xl"
       :class="{
-        'ring-primary-500 ring-4': selected
+        'ring-4 ring-gray-200': selected
       }"
     >
       <MasterImage

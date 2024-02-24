@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { UseImage } from "@vueuse/components"
 import type { TMDBData, TMDBSearchResult } from "~/types"
-const { $humanize } = useNuxtApp()
+import { UseImage } from "@vueuse/components"
+const { $humanize, $tgenre } = useNuxtApp()
 const { locale } = useI18n()
 
 const props = defineProps<{ meta: TMDBSearchResult }>()
@@ -12,27 +12,34 @@ const data = reactive({
   pending: true
 })
 
-const logoPath = computed(() => {
-  return data.details?.images?.logos?.length && data.details?.images?.logos[0].file_path
-})
+const details = computed(() => {
+  return {
+    logo: data.details?.images?.logos?.length && data.details?.images?.logos[0].file_path,
+    runtime: $humanize(
+      ((data && data.details?.runtime) ||
+        (data && data.details?.episode_run_time && data.details?.episode_run_time[0]) ||
+        120) *
+        60 *
+        1000,
+      {
+        language: locale.value,
+        delimiter: " ",
+        units: ["m"],
+        // dakika -> dak
+        // minutes -> min
 
-const runtime = computed(() => {
-  const ms =
-    ((data && data.details?.runtime) ||
-      (data && data.details?.episode_run_time && data.details?.episode_run_time[0]) ||
-      120) *
-    60 *
-    1000
-  return $humanize(ms, {
-    language: locale.value,
-    delimiter: " ",
-    units: ["m"],
-    // dakika -> dak
-    // minutes -> min
-
-    maxDecimalPoints: 0,
-    fallbacks: ["en"]
-  })
+        maxDecimalPoints: 0,
+        fallbacks: ["en"]
+      }
+    ),
+    score:
+      data.details?.localData?.info?.ratings?.imdb ||
+      (props.meta?.vote_average && props.meta.vote_average.toFixed(1)) ||
+      "N/A",
+    cast: data.details?.credits?.cast?.slice(0, 5),
+    director: data.details?.credits?.crew?.find((i) => i.job === "Director"),
+    genres: props.meta.genre_ids || []
+  }
 })
 
 const fetch = async () => {
@@ -65,8 +72,9 @@ watch(props, fetch)
     <ScrollArea class="h-[calc(100%-96px)] px-4 font-maven">
       <div class="my-8 flex h-24 items-center justify-center text-2xl font-black">
         <UseImage
-          v-if="logoPath"
-          :src="$timage(logoPath, 'w300')"
+          v-if="details.logo"
+          :src="$timage(details.logo, 'w300')"
+          :alt="$getTitle(meta)"
           class="mx-auto max-h-24 w-auto object-cover object-top text-center"
         >
           <template v-slot:error v-slot:loading>
@@ -78,14 +86,14 @@ watch(props, fetch)
 
       <div class="mb-12 flex justify-between whitespace-nowrap text-2xl font-medium">
         <span>
-          {{ runtime }}
+          {{ details.runtime }}
         </span>
         <span>
           {{ $getYear(meta) }}
         </span>
         <div v-if="meta.vote_average" class="flex items-center gap-x-2">
           <span>
-            {{ meta.vote_average.toFixed(1) }}
+            {{ details.score }}
           </span>
           <div class="h-5 w-10 rounded bg-yellow-400">
             <IconsImdb class="fill-black" />
@@ -96,6 +104,31 @@ watch(props, fetch)
       <p class="text-base leading-7 tracking-tight text-gray-200">
         {{ meta.overview }}
       </p>
+
+      <!-- <div>
+        {{ details.cast }}
+      </div> -->
+      <PagesDiscoverDetailsTags
+        title="Genres"
+        :tags="
+          details.genres.map((i) => ({
+            name: $tgenre(i) || '-',
+            url: `/discover?genre=${i}&type=${mediaType}`
+          }))
+        "
+      />
+
+      <PagesDiscoverDetailsTags
+        v-if="details.cast?.length"
+        title="Cast"
+        :tags="details.cast.map((i) => ({ name: i.name, url: `/details/person/${i.id}` }))"
+      />
+
+      <PagesDiscoverDetailsTags
+        v-if="details.director"
+        title="Director"
+        :tags="[{ name: details.director.name, url: `/details/person/${details.director.id}` }]"
+      />
     </ScrollArea>
 
     <PagesDiscoverDetailsButtonGroup :id="data.details.localId" />

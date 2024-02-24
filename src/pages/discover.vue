@@ -8,6 +8,8 @@ const { $tfiltergenres } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
 
+const queryRef = toRefs(route.query)
+
 const content = ref<TMDBSearchResult[]>([])
 const select = ref<number>(0)
 const selected = computed(() => content.value[select.value])
@@ -38,7 +40,6 @@ watch(
   type,
   () => {
     if (type.value === config.type) return
-    selectedGenres.value = []
     if (type.value === "movie") {
       genres.value = $tfiltergenres([], "movie").map((i) => ({ value: i.id, label: i.name }))
     } else {
@@ -125,7 +126,7 @@ useHead({
     <section class="flex h-full w-full pt-24">
       <div class="h-full w-full px-6">
         <div class="flex w-full gap-x-4 pr-8">
-          <Select v-model="type">
+          <Select v-model="type" @update:model-value="selectedGenres = []">
             <SelectTrigger class="max-w-[180px]">
               <SelectValue placeholder="Select a type" />
             </SelectTrigger>
