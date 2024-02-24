@@ -55,15 +55,14 @@ const genres = useState("genres", () =>
 
 const onIntersectionObserver = async ([{ isIntersecting }], genre) => {
   if (isIntersecting && genre.pending && !refreshing.value) {
-    const { data, pending } = await useLazyFetch("/api/discover/movie", {
+    const data = await $fetch("/api/discover/movie", {
       headers: generateHeaders(),
       params: {
         with_genres: genre.id
       }
     })
     genre.pending = false
-    genre.data = data.value.results
-    genre.pending = pending.value
+    genre.data = data.results
   }
 }
 
@@ -118,7 +117,6 @@ $listen("refresh:entertainment", () => {
           :offset="'auto'"
         />
       </section>
-      <HomeResumeWatch />
       <section
         class="relative z-10 space-y-8"
         :class="{
@@ -140,9 +138,12 @@ $listen("refresh:entertainment", () => {
         />
       </section>
       <section class="relative z-10 space-y-8" v-for="genre in genres" :key="genre.id">
-        <h1 class="px-[4vw] text-2xl font-bold">
-          {{ $t("genres." + genre.name) }}
-        </h1>
+        <NuxtLink :to="`/discover?genres=${genre.id}`" class="flex items-center gap-x-4 px-[4vw]">
+          <h3 class="text-2xl font-bold">
+            {{ $t("genres." + genre.name) }}
+          </h3>
+          <Icon name="ic:round-chevron-right" class="mt-1 h-7 w-auto" />
+        </NuxtLink>
         <EntertainmentSlider
           v-intersection-observer="(e) => onIntersectionObserver(e, genre)"
           :loading="genre.pending"

@@ -210,7 +210,12 @@
     "title": "Entdecken Sie",
     "explore": "Entdecken {0}",
     "explore_more": "Mehr Genres erforschen",
-    "load_more": "Mehr laden"
+    "load_more": "Mehr laden",
+    "cast": "Gießen",
+    "genres": "Genres",
+    "apply-filters": "Wenden Sie Filter an",
+    "content-not-available": "Inhalt nicht verfügbar.",
+    "reset-filters": "Filter zurücksetzen"
   },
   "mranking": {
     "masterpiece": "Meisterwerk",
@@ -244,5 +249,9 @@
     "screenplay": "Drehbuch",
     "story": "Geschichte",
     "writer": "Schriftsteller"
+  },
+  "notify": {
+    "template": "{0} wurde erneuert!",
+    "button": "Bring mich dahin"
   }
 }

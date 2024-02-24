@@ -181,7 +181,12 @@
     "title": "Opdag",
     "explore": "Opdag {0}",
     "explore_more": "Udforsk flere genrer",
-    "load_more": "Indlæs mere"
+    "load_more": "Indlæs mere",
+    "cast": "Cast",
+    "genres": "Genrer",
+    "apply-filters": "Anvend filtre",
+    "content-not-available": "Indhold ikke tilgængeligt.",
+    "reset-filters": "Nulstil filtre"
   },
   "genres": {
     "Comedy": "Komedie",
@@ -244,5 +249,9 @@
     "screenplay": "Manuskript",
     "story": "Historie",
     "writer": "Forfatter"
+  },
+  "notify": {
+    "template": "{0} er blevet fornyet!",
+    "button": "Tag mig derhen"
   }
 }

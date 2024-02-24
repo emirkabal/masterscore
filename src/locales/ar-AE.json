@@ -181,7 +181,12 @@
     "title": "اكتشاف",
     "explore": "اكتشف {0}",
     "explore_more": "استكشف المزيد من الأنواع",
-    "load_more": "تحميل المزيد"
+    "load_more": "تحميل المزيد",
+    "cast": "يقذف",
+    "genres": "الأنواع",
+    "apply-filters": "تطبيق المرشحات",
+    "content-not-available": "المحتوى غير متوفر.",
+    "reset-filters": "إعادة تعيين المرشحات"
   },
   "genres": {
     "Comedy": "كوميديا",
@@ -244,5 +249,9 @@
     "screenplay": "سيناريو",
     "story": "قصة",
     "writer": "كاتب"
+  },
+  "notify": {
+    "template": "تم تجديد {0}!",
+    "button": "خذني هناك"
   }
 }

@@ -1,15 +1,14 @@
 <script setup>
 import { useDark } from "@vueuse/core"
 const isDark = useDark()
-const version = computed(() => {
-  return "3.0.0-alpha"
-})
+const version = useAppConfig().version
 const date = useAppConfig().buildDate
 isDark.value = true
 </script>
 
 <template>
   <footer
+    v-if="!$route.name?.startsWith('discover')"
     class="mt-4 w-full gap-24 border-t border-gray-800 bg-gray-900/30 py-16"
     :class="{
       'mb-[59px] lg:mb-0':

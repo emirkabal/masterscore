@@ -81,7 +81,7 @@ const slideTo = (index: number) => {
                   <div class="flex flex-wrap gap-2">
                     <NuxtLink
                       v-for="genre in item.genre_ids"
-                      :to="`/discover/${item.media_type}/${genre}`"
+                      :to="`/discover?genres=${genre}&type=${item.media_type}`"
                       class="transition-colors hover:text-white/75"
                     >
                       {{ $t("genres." + $tgenre(genre)) }}

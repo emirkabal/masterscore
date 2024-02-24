@@ -9,7 +9,6 @@ const props = defineProps<{
   data?: TMDBData
   reviewData?: ReviewData
   loading?: boolean
-  smartVideoData?: any
 }>()
 
 const emits = defineEmits(["openReview"])
@@ -81,18 +80,13 @@ const fetchLikes = async () => {
   }>(`/api/likes/${props.data.localId}`)
   likes.value = entertainmentLikes
 }
-const watchSmartVideo = (id: any) => {
-  $event("entertainment:watch", id)
-}
 
 watchEffect(() => {
   if (props.data) fetchLikes()
 })
 
 const handleEvents = (val: ApplicationEvents["entertainment:handle:button"]) => {
-  if (val[0] === "watch") {
-    watchSmartVideo(val[1])
-  } else if (val === "review") {
+  if (val === "review") {
     emits("openReview")
   } else if (val === "like") {
     like()
@@ -119,16 +113,6 @@ onUnmounted(() => {
     </div>
   </div>
   <div v-else-if="!loading && data && reviewData" class="mb-4 hidden gap-2 text-lg lg:flex">
-    <button
-      v-if="smartVideoData?.id"
-      @click="watchSmartVideo(smartVideoData.id)"
-      v-tooltip="{
-        content: $t('entertainment.buttons.watch')
-      }"
-      class="btn"
-    >
-      <Icon name="ic:round-play-arrow" class="h-7 w-7" />
-    </button>
     <button
       @click="$emit('openReview')"
       class="btn"

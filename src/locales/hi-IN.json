@@ -209,7 +209,12 @@
     "title": "खोज करना",
     "explore": "खोजें {0}",
     "explore_more": "अधिक शैलियों का अन्वेषण करें",
-    "load_more": "और लोड करें"
+    "load_more": "और लोड करें",
+    "cast": "ढालना",
+    "genres": "शैलियां",
+    "apply-filters": "फ़िल्टर लागू करें",
+    "content-not-available": "सामग्री उपलब्ध नहीं है.",
+    "reset-filters": "फ़िल्टर रीसेट करें"
   },
   "total": "कुल",
   "mranking": {
@@ -244,5 +249,9 @@
     "screenplay": "पटकथा",
     "story": "कहानी",
     "writer": "लेखक"
+  },
+  "notify": {
+    "template": "{0} का नवीनीकरण कर दिया गया है!",
+    "button": "मुझे वहाँ ले जाएँ"
   }
 }

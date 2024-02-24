@@ -106,7 +106,6 @@ export interface Season {
 }
 
 export interface Episode {
-  smartVideoId?: string
   air_date: string
   episode_number: number
   id: number
@@ -180,6 +179,35 @@ export type TMDBData = Partial<TMDBMovie> &
       title: string
       type: string
     }[]
+    images: {
+      backdrops: {
+        aspect_ratio: number
+        file_path: string
+        height: number
+        iso_639_1: string
+        vote_average: number
+        vote_count: number
+        width: number
+      }[]
+      posters: {
+        aspect_ratio: number
+        file_path: string
+        height: number
+        iso_639_1: string
+        vote_average: number
+        vote_count: number
+        width: number
+      }[]
+      logos: {
+        aspect_ratio: number
+        file_path: string
+        height: number
+        iso_639_1: string
+        vote_average: number
+        vote_count: number
+        width: number
+      }[]
+    }
   }
 
 export interface TMDBCollectionDetails {

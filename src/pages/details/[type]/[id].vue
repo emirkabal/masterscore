@@ -11,12 +11,6 @@ const { user, isLoggedIn } = useUserStore()
 const { data, pending, refresh, error } = useLazyFetch(`/api/tmdb/${params.id}?type=${params.type}`)
 
 const trailerModal = ref(false)
-const watchModal = ref(false)
-const smartVideoData = ref(null)
-const smartVideoId = ref("")
-const smartVideoPending = ref(false)
-const smartVideoError = ref(false)
-const smartVideoEpisodes = shallowRef([])
 
 const colors = reactive({
   background: [3, 50, 71],
@@ -138,92 +132,6 @@ watch(data, async () => {
   setTimeout(() => {
     $event("entertainment:load", true)
   }, 400)
-
-  if (isLoggedIn && user.features.includes("WATCH")) {
-    smartVideoPending.value = true
-    const find = async (title) => {
-      if (smartVideoData.value) return
-      smartVideoData.value = await $fetch(
-        `https://api.emirkabal.com/v1/smartvideo/${
-          params.type === "tv" ? "series" : "movies"
-        }?q=${title}`,
-        {
-          timeout: 10000
-        }
-      ).catch((e) => {
-        if (e?.name === "AbortError") {
-          smartVideoError.value = true
-        }
-      })
-
-      if (
-        smartVideoData.value?.length &&
-        smartVideoData.value.find((e) => e.tmdb == data.value.id)
-      ) {
-        smartVideoData.value = smartVideoData.value.find((e) => e.tmdb == data.value.id)
-      }
-
-      if (
-        smartVideoData.value?.length &&
-        data.value.imdb_id &&
-        smartVideoData.value.find((e) => e.imdb == data.value.imdb_id)
-      ) {
-        smartVideoData.value = smartVideoData.value.find((e) => e.imdb == data.value.imdb_id)
-      }
-
-      if (
-        smartVideoData.value?.length &&
-        data.value.release_date &&
-        smartVideoData.value.find((e) => e.year == data.value.release_date.split("-")[0])
-      ) {
-        smartVideoData.value = smartVideoData.value.find(
-          (e) => e.year == data.value.release_date.split("-")[0]
-        )
-      }
-
-      if (smartVideoData.value?.length === 0) {
-        smartVideoData.value = null
-      }
-    }
-    await find(data.value.localData.info.title)
-
-    if (!smartVideoData.value?.length || smartVideoData.value?.length === 0) {
-      if (data.value?.belongs_to_collection)
-        await find(
-          data.value.belongs_to_collection.name.replace(" Collection", "").replace("[Seri]", "")
-        )
-      else await find($getTitle(data.value))
-    }
-    if (!smartVideoData.value?.length || smartVideoData.value?.length === 0)
-      await find($getOriginalTitle(data.value))
-
-    if (smartVideoData.value?.length && params.type === "movie")
-      smartVideoData.value = smartVideoData.value[0]
-
-    if (smartVideoData.value?.length === 0) smartVideoData.value = null
-    smartVideoPending.value = false
-  }
-})
-
-$listen("entertainment:watch", (data) => {
-  if (data.length) {
-    smartVideoId.value = data[0]
-    smartVideoEpisodes.value = {
-      episode: data[1].episode_number,
-      season: data[1].season_number
-    }
-  } else {
-    smartVideoId.value = data
-    smartVideoEpisodes.value = undefined
-  }
-  watchModal.value = true
-})
-
-$listen("entertainment:watch-feature-mismatch", () => {
-  watchModal.value = false
-  smartVideoId.value = null
-  smartVideoData.value = null
-  smartVideoPending.value = false
 })
 
 $listen("refresh:entertainment", () => {
@@ -250,77 +158,10 @@ useHead({
         :src="`https://www.youtube.com/embed/${getTeaser.split('/')[3]}?autoplay=1`"
       />
     </ScreenModal>
-    <EntertainmentWatch
-      :watchModal="watchModal"
-      :data="{
-        title: $getTitle(data),
-        poster: posterURL,
-        backdrop: backgroundURL,
-        tmdbId: data.id,
-        imdbId: data.imdb_id,
-        type: params.type,
-        playlistId: smartVideoId,
-        series: smartVideoEpisodes || undefined
-      }"
-      @close="watchModal = false"
-    />
     <EntertainmentReviewModal :data="data" :reviewData="reviewData" />
     <EntertainmentContainer :colors="colors" :background-u-r-l="backgroundURL" :feature="feature">
       <div class="relative">
         <EntertainmentPoster :poster-u-r-l="posterURL" />
-        <div class="left-0 right-0 lg:absolute">
-          <span
-            v-if="smartVideoError && !smartVideoPending && !smartVideoData"
-            v-tooltip.bottom="{
-              content: 'Failed to check watch feature. Please try again later.'
-            }"
-            class="group mt-2 flex h-6 cursor-default select-none items-center justify-center"
-          >
-            <Icon name="ic:round-close" class="h-6 w-6 text-red-500" />
-            <span class="text-white opacity-90 transition-opacity group-hover:opacity-100">
-              Failed to check watch feature
-            </span>
-          </span>
-          <span
-            v-else-if="smartVideoData && smartVideoData.length > 0 && smartVideoData[0]?.copyright"
-            v-tooltip.bottom="{
-              content: `Copy-righted content. You can't watch this ${
-                params.type === 'movie' ? 'movie' : 'tv show'
-              }.`,
-              html: true
-            }"
-            class="group mt-2 flex h-6 cursor-default select-none items-center justify-center gap-1"
-          >
-            <Icon name="ic:round-warning-amber" class="h-6 w-6 text-yellow-400" />
-            <span class="text-white opacity-90 transition-opacity group-hover:opacity-100">
-              Watch Unsupported
-            </span>
-          </span>
-          <span
-            v-else-if="smartVideoData"
-            v-tooltip.bottom="{
-              content: `You can watch this ${
-                params.type === 'movie' ? 'movie' : 'tv show'
-              } because you are a <b>eligible</b>.`,
-              html: true
-            }"
-            class="group mt-2 flex h-6 cursor-default select-none items-center justify-center gap-1"
-          >
-            <Icon name="material-symbols:verified-rounded" class="h-6 w-6 text-yellow-400" />
-            <span class="text-white opacity-90 transition-opacity group-hover:opacity-100"
-              >Watch Supported</span
-            >
-          </span>
-          <span
-            v-else-if="smartVideoPending"
-            class="group mt-2 flex h-6 cursor-default select-none items-center justify-center"
-          >
-            <Spinner class="-mr-1.5 scale-50" />
-            <span class="text-white opacity-90 transition-opacity group-hover:opacity-100"
-              >Checking watch feature...</span
-            >
-          </span>
-        </div>
       </div>
       <div class="w-full max-w-5xl">
         <EntertainmentBody
@@ -333,15 +174,12 @@ useHead({
             :data="data"
             @openReview="openReview"
             :reviewData="reviewData"
-            :smartVideoData="
-              smartVideoData && !smartVideoData[0]?.copyright ? smartVideoData : null
-            "
           />
         </EntertainmentBody>
         <EntertainmentDetailsTopCrew :data="data" />
       </div>
     </EntertainmentContainer>
-    <EntertainmentButtonGroupMobile :id="data.localId" :watchable="smartVideoData?.id" />
+    <EntertainmentButtonGroupMobile :id="data.localId" />
 
     <div class="container mx-auto mb-28 mt-12 px-0 lg:-mt-28 2xl:-mt-36">
       <div class="flex flex-col-reverse items-stretch gap-4 lg:flex-row">
@@ -350,13 +188,7 @@ useHead({
             v-if="data.belongs_to_collection"
             :data="data.belongs_to_collection"
           />
-          <EntertainmentDetailsEpisodes
-            v-if="data.seasons"
-            :data="data"
-            :smartVideoData="
-              smartVideoData && !smartVideoData[0]?.copyright ? smartVideoData : null
-            "
-          />
+          <EntertainmentDetailsEpisodes v-if="data.seasons" :data="data" />
           <EntertainmentDetailsCast :data="data.credits" />
           <EntertainmentDetailsSimilar :data="data.similar" />
           <EntertainmentDetailsReviews
@@ -375,7 +207,6 @@ useHead({
         <EntertainmentDetailsSidebar
           class="static top-14 w-full self-start px-4 lg:sticky lg:min-w-[300px] lg:max-w-[300px]"
           :data="data"
-          :smartVideoData="smartVideoData"
           :teaser="getTeaser"
           @watchTrailer="trailerModal = true"
         />

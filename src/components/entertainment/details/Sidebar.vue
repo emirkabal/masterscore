@@ -5,7 +5,6 @@ const { $getTitle, $getOriginalTitle, $moment } = useNuxtApp()
 const { userAgent } = useDevice()
 const props = defineProps<{
   data: TMDBData
-  smartVideoData: any
   teaser: string | null | undefined
 }>()
 
@@ -144,21 +143,9 @@ const rtScore = computed(() => {
           <div class="skeleton-effect h-10 w-10 rounded-lg bg-gray-300 dark:bg-gray-900"></div>
         </div>
       </div>
-      <div v-else-if="providerData?.streams?.length || smartVideoData">
+      <div v-else-if="providerData?.streams?.length">
         <span class="font-bold">{{ $t("entertainment.sidebar.availabe_on") }}</span>
         <div class="flex flex-wrap items-center gap-2">
-          <span
-            v-if="smartVideoData"
-            v-tooltip="{
-              content: `${$t('entertainment.sidebar.watch_on_masterscore', {
-                platform: `<b>Masterscore</b>`
-              })}`,
-              html: true
-            }"
-            class="flex h-10 w-10 cursor-default items-center justify-center rounded-lg bg-gray-100 bg-cover bg-center bg-no-repeat font-maven text-3xl font-black text-yellow-500 transition-opacity hover:opacity-75 dark:bg-gray-900"
-          >
-            <span class="-mt-1 select-none"> m </span>
-          </span>
           <a
             v-if="providerData?.streams?.length"
             v-for="provider in providerData.streams"

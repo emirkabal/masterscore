@@ -209,7 +209,12 @@
     "title": "Descobrir",
     "explore": "Descobrir {0}",
     "explore_more": "Explorar mais géneros",
-    "load_more": "Carregar mais"
+    "load_more": "Carregar mais",
+    "cast": "Elenco",
+    "genres": "Gêneros",
+    "apply-filters": "Aplicar filtros",
+    "content-not-available": "Conteúdo não disponível.",
+    "reset-filters": "Redefinir filtros"
   },
   "total": "Total",
   "mranking": {
@@ -244,5 +249,9 @@
     "screenplay": "Roteiro",
     "story": "História",
     "writer": "Escritor"
+  },
+  "notify": {
+    "template": "{0} foi renovado!",
+    "button": "Leve-me lá"
   }
 }

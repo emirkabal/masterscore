@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import icons from "./config/icons"
 import i18n from "./config/modules/i18n"
+import { version } from "./package.json"
 
 export default defineNuxtConfig({
   srcDir: "src/",
@@ -14,7 +15,12 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
-    "shadcn-nuxt",
+    [
+      "shadcn-nuxt",
+      {
+        componentDir: "src/components/ui"
+      }
+    ],
     "nuxt-headlessui",
     [
       "@nuxtjs/device",
@@ -90,7 +96,8 @@ export default defineNuxtConfig({
     }
   },
   appConfig: {
-    buildDate: new Date().toISOString()
+    buildDate: new Date().toISOString(),
+    version
   },
   pwa: {
     registerType: "autoUpdate",
@@ -148,6 +155,7 @@ export default defineNuxtConfig({
     SUPABASE_KEY: process.env.SUPABASE_KEY,
     INVITE_CODE: process.env.INVITE_CODE,
     JWT_SECRET: process.env.JWT_SECRET,
+    VERSION: version,
     public: {
       SOCKET_SERVER: process.env.SOCKET_SERVER,
       SUPABASE_STORAGE_URL: process.env.SUPABASE_STORAGE_URL

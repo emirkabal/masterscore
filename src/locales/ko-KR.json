@@ -181,7 +181,12 @@
     "title": "발견하기",
     "explore": "{0} 발견하기",
     "explore_more": "더 많은 장르 찾아보기",
-    "load_more": "더 보기"
+    "load_more": "더 보기",
+    "cast": "깁스",
+    "genres": "장르",
+    "apply-filters": "필터 적용",
+    "content-not-available": "콘텐츠를 사용할 수 없습니다.",
+    "reset-filters": "필터 재설정"
   },
   "genres": {
     "Comedy": "코미디",
@@ -244,5 +249,9 @@
     "screenplay": "각본",
     "story": "이야기",
     "writer": "작가"
+  },
+  "notify": {
+    "template": "{0}이(가) 갱신되었습니다!",
+    "button": "거기로 데려가 줘"
   }
 }
