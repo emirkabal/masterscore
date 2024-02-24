@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TMDBData } from "~/types"
-const { $moment, $getTitle } = useNuxtApp()
+const { $moment, $humanize, $getTitle } = useNuxtApp()
 const { locale } = useI18n()
 
 const { data, isLight, loading } = defineProps<{
@@ -25,13 +25,18 @@ const genres = computed(() => {
   return data && data.genres
 })
 const runtime = computed(() => {
-  return $moment
-    .duration(
-      (data && data.runtime) || (data && data.episode_run_time && data.episode_run_time[0]) || 45,
-      "minutes"
-    )
-    .locale(locale.value)
-    .humanize()
+  const ms =
+    ((data && data.runtime) || (data && data.episode_run_time && data.episode_run_time[0]) || 45) *
+    60 *
+    1000
+  return $humanize(ms, {
+    language: locale.value,
+    delimiter: " ",
+    units: ["h", "m"],
+
+    maxDecimalPoints: 0,
+    fallbacks: ["en"]
+  })
 })
 const releaseDate = computed(() => {
   return $moment((data && data.release_date) || (data && data.first_air_date) || 0)
@@ -50,7 +55,7 @@ useHead({
     <div>
       <div class="flex flex-col items-center lg:items-start">
         <div
-          class="skeleton-effect inline-block h-10 w-4/6 flex-shrink-0 rounded bg-gray-300 font-semibold leading-8 lg:leading-none dark:bg-gray-800"
+          class="skeleton-effect inline-block h-10 w-4/6 flex-shrink-0 rounded bg-gray-300 font-semibold leading-8 dark:bg-gray-800 lg:leading-none"
         ></div>
         <div
           class="mt-2 flex w-full items-center justify-center gap-2 text-xs sm:text-sm lg:justify-start lg:text-lg"
@@ -133,7 +138,7 @@ useHead({
 
       <NuxtLink
         v-for="genre in genres"
-        :to="`/discover/${$route.params.type}/${genre.id}`"
+        :to="`/discover?genres=${genre.id}&type=${$route.params.type}`"
         class="font-semibold transition-colors hover:text-white"
       >
         {{ genre.name }}

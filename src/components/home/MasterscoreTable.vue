@@ -39,7 +39,7 @@ const fetch = async () => {
   queries.append("limit", 500)
   if (disableReviewRequirement.value)
     queries.append("disableReviewRequirement", disableReviewRequirement.value)
-  queries.append("type", listType.value)
+  if (listType.value !== "all") queries.append("type", listType.value)
   const data = await $fetch("/api/reviews?" + queries.toString(), {
     headers: generateHeaders()
   })
@@ -74,15 +74,19 @@ watch([listType, disableReviewRequirement], () => {
       <h1 class="block border-l-4 border-blue-700 pl-2 text-2xl font-bold tracking-wide">
         Masterscore Table
       </h1>
-      <select
-        class="h-12 rounded-lg dark:border-gray-800 dark:bg-gray-900"
-        :value="listType"
-        @input="(e) => (listType = e.target.value)"
-      >
-        <option value="">All</option>
-        <option value="movie">Movies</option>
-        <option value="tv">TV Shows</option>
-      </select>
+
+      <Select v-model="listType">
+        <SelectTrigger class="max-w-[180px]">
+          <SelectValue placeholder="Select a type" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectItem value="all"> All </SelectItem>
+            <SelectItem value="movie"> Movies </SelectItem>
+            <SelectItem value="tv"> Series </SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
     </div>
     <div class="mb-4 flex items-center gap-2">
       <HeadlessSwitch

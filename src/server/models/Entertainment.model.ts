@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose"
 
-const schema: Schema = new Schema(
+const EntertainmentSchema = new Schema(
   {
     id: {
       type: String,
@@ -69,4 +69,4 @@ const schema: Schema = new Schema(
   }
 )
 
-export default model("Entertainment", schema)
+export default model("Entertainment", EntertainmentSchema)

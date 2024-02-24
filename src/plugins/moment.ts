@@ -1,4 +1,5 @@
 import moment from "moment"
+import humanize from "humanize-duration"
 import "moment/dist/locale/tr"
 import "moment/dist/locale/de"
 import "moment/dist/locale/es"
@@ -19,7 +20,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   momentDurationFormatSetup(moment)
   return {
     provide: {
-      moment
+      moment,
+      humanize
     }
   }
 })

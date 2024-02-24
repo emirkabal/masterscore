@@ -187,7 +187,9 @@ export default defineNuxtPlugin(() => {
         return genres.find((genre) => genre.id == id)?.name
       },
       tfiltergenres: (names: Genre[], support?: "movie" | "tv") => {
-        const list = genres.filter((genre) => names.includes(genre.name as Genre))
+        const list = names.length
+          ? genres.filter((genre) => names.includes(genre.name as Genre))
+          : genres
         if (support) return list.filter((genre) => genre.support.includes(support))
         return list
       },

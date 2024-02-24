@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
       .populate({
         path: "entertainment",
         model: EntertainmentModel,
-        select: "id type info.title info.poster"
+        select: "id type info.title info.poster info.release_date"
       })
       .sort({ createdAt: -1 })
       .lean()

@@ -4,11 +4,11 @@ import redis from "~/utils/redis"
 const config = useRuntimeConfig()
 
 export default async (id: string, type: string, lang: string): Promise<TMDBData | null> => {
-  const key = `m:${type}:${id}`
+  const key = `${config.VERSION}:${type}:${id}`
 
   // @ts-ignore
   const data: TMDBData = await $fetch(
-    `https://api.themoviedb.org/3/${type}/${id}?api_key=${config.TMDB_API_KEY}&language=${lang}&append_to_response=external_ids,videos,credits,similar,alternative_titles`
+    `https://api.themoviedb.org/3/${type}/${id}?api_key=${config.TMDB_API_KEY}&language=${lang}&append_to_response=external_ids,videos,images,credits,similar,alternative_titles&include_image_language=en`
   ).catch(() => null)
 
   if (!data || data.adult) return null

@@ -21,11 +21,11 @@ defineProps<{
         <span class="mb-2 block text-lg font-semibold tracking-tight text-white">
           Profil fotoğrafı
         </span>
-        <UiInput class="h-10 w-full" placeholder="rickrolled" v-model="settings.account.username" />
+        <Input class="h-10 w-full" placeholder="rickrolled" v-model="settings.account.username" />
       </div>
       <div>
         <span class="mb-2 block text-lg font-semibold tracking-tight text-white"> Hesap adı </span>
-        <UiInput class="h-10 w-full" placeholder="rickrolled" v-model="settings.account.username" />
+        <Input class="h-10 w-full" placeholder="rickrolled" v-model="settings.account.username" />
       </div>
     </div>
   </section>

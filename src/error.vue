@@ -1,30 +1,40 @@
-<script setup>
-const props = defineProps({
-  error: {
-    type: Object,
-    required: true
-  }
-})
+<script setup lang="ts">
+import type { NuxtError } from "#app"
+useRouter()
+
+defineProps<{
+  error: NuxtError
+}>()
+
+const handleError = () => {
+  clearError({
+    redirect: "/"
+  })
+}
 </script>
 
 <template>
-  <div class="items relative mx-auto flex h-screen flex-col justify-center text-center font-maven">
+  <div class="items relative mx-auto flex h-screen text-left font-maven">
     <img
       src="~/assets/images/bg.jpg"
       class="absolute h-screen w-full object-cover"
       draggable="false"
     />
     <div
-      class="absolute left-0 top-0 z-10 h-screen w-full bg-gradient-to-t from-yellow-500/80 backdrop-blur-md"
+      class="absolute left-0 top-0 z-10 h-screen w-full bg-gradient-to-r from-black/90 backdrop-blur-md"
     ></div>
-    <div class="z-20 mx-auto w-fit rounded-3xl bg-black/20 p-12 text-white drop-shadow-2xl">
-      <h1 class="mb-2 text-6xl font-bold sm:text-9xl">404</h1>
-      <p class="mb-3 text-xl">Page not found.</p>
-      <NuxtLink
-        to="/"
-        class="w-full rounded bg-white px-4 py-2 font-maven font-bold text-black hover:bg-gray-200"
-        >Go back to home</NuxtLink
+    <div class="absolute bottom-0 left-0 z-20 m-12">
+      <span class="select-none font-maven text-4xl font-black text-yellow-500">m</span>
+    </div>
+    <div class="z-20 w-fit max-w-2xl p-12">
+      <h1 class="mb-2 text-4xl font-bold">{{ error?.statusCode }}</h1>
+      <p class="mb-8 text-lg text-gray-200">{{ error?.statusMessage }}</p>
+      <button
+        @click="handleError"
+        class="w-full max-w-52 rounded bg-white px-4 py-2 font-maven font-bold text-black hover:bg-gray-200"
       >
+        Go back to home
+      </button>
     </div>
   </div>
 </template>

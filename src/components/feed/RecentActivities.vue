@@ -117,7 +117,7 @@ watch(
             </div>
             <span
               v-tooltip="{
-                content: $moment(activity.createdAt).locale($i18n.locale).fromNow()
+                content: $moment(activity.createdAt).locale($i18n.locale).format('LLLL')
               }"
               class="flex-shrink-0 cursor-default text-xs text-gray-500 dark:text-gray-300"
             >

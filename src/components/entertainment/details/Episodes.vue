@@ -13,15 +13,12 @@ interface SeasonData {
 
 const props = defineProps<{
   data: TMDBData
-  smartVideoData?: any
 }>()
 
 const seasonsComputed = computed(() => {
   return props.data.seasons ? props.data.seasons.filter((season) => season.season_number !== 0) : []
 })
 
-const watchFeatureAnalyzing = ref(false)
-const watchFeatureAnalyzed = ref(false)
 const seasonData = reactive<SeasonData>({
   ...Object.fromEntries(
     seasonsComputed.value.map((season) => [
@@ -48,71 +45,9 @@ const totalEpisodes = computed(() => {
   }, 0)
 })
 
-const getActualEpisode = (season: number, episode: number) => {
-  const episodesPerSeason = [0]
-  seasons.value.forEach((season) => {
-    episodesPerSeason.push(season.episode_count)
-  })
-  let totalEpisodes = 0
-
-  for (let i = 1; i < season; i++) {
-    totalEpisodes += episodesPerSeason[i]
-  }
-
-  let actualEpisode = totalEpisodes + episode
-
-  return actualEpisode
-}
-
-const getSmartVideo = (season: number, episode: number) => {
-  if (props.smartVideoData) {
-    if (props.smartVideoData[0].season == 0) {
-      const data = props.smartVideoData.find(
-        (e: any) => e.episode == getActualEpisode(season, episode)
-      )
-      if (data) {
-        return data.id
-      }
-    } else {
-      const data = props.smartVideoData.find((e: any) => e.season == season && e.episode == episode)
-      if (data) {
-        return data.id
-      }
-    }
-  }
-  return null
-}
-
 const getSeason = async (key: string, season_number: number) => {
   const data = await $fetch(`/api/extra/season/${props.data.id}/${season_number}`)
-  seasonData[key].episodes = data.episodes.map((episode: Episode) => {
-    return {
-      ...episode,
-      smartVideoId: getSmartVideo(season_number, episode.episode_number)
-    }
-  })
-}
-
-const isWatchAvailable = (season: number, episode: number) => {
-  if (watchFeatureAnalyzing.value) return false
-  const ep = getActualEpisode(season, episode)
-  return props.smartVideoData && ep <= props.smartVideoData.length && getSmartVideo(season, episode)
-}
-
-const isSeasonAvailable = (season: number) => {
-  if (watchFeatureAnalyzing.value) return false
-  return (
-    (props.smartVideoData && props.smartVideoData.find((e: any) => e.season == season)) ||
-    isWatchAvailable(season, 1)
-  )
-}
-
-const watchSmartVideo = (episode: Episode) => {
-  if (!episode.smartVideoId) {
-    episode.smartVideoId = getSmartVideo(episode.season_number, episode.episode_number)
-  }
-  if (!episode.smartVideoId) return
-  $event("entertainment:watch", [episode.smartVideoId, episode])
+  seasonData[key].episodes = data.episodes
 }
 
 watch(seasonData, () => {
@@ -133,82 +68,6 @@ watch(seasonData, () => {
     }
   })
 })
-
-watch(
-  () => props.smartVideoData,
-  async () => {
-    if (props.smartVideoData) {
-      if (props.smartVideoData.length && props.smartVideoData.length !== totalEpisodes.value) {
-        watchFeatureAnalyzing.value = true
-        const data = await $fetch(`/api/extra/episode_groups/groups/${props.data.id}`)
-
-        if (data && "results" in data) {
-          const bestMatch = data.results.find(
-            (epg) => epg.episode_count === props.smartVideoData.length
-          )
-
-          if (bestMatch) {
-            const data = await $fetch(`/api/extra/episode_groups/details/${bestMatch.id}`)
-
-            if (data && "groups" in data) {
-              Object.keys(seasonData).forEach((key) => {
-                delete seasonData[key]
-              })
-
-              data.groups.forEach((group) => {
-                seasonData[group.id] = {
-                  ...group,
-                  show: false,
-                  season_number: group.order,
-                  episode_count: group.episodes.length,
-                  overview: data.description,
-                  air_date: group.episodes[0].air_date,
-                  episodes: group.episodes.map((episode: Episode, i) => {
-                    return {
-                      ...episode,
-                      episode_number: i + 1,
-                      season_number: group.order,
-                      smartVideoId: getSmartVideo(group.order, episode.episode_number)
-                    }
-                  })
-                }
-              })
-
-              watchFeatureAnalyzed.value = true
-            }
-          }
-        }
-
-        watchFeatureAnalyzing.value = false
-      }
-
-      if (
-        props.smartVideoData.length &&
-        props.smartVideoData.length > 0 &&
-        !watchFeatureAnalyzed.value
-      ) {
-        const watchableSeasons = props.smartVideoData
-          .map((e: any) => e.season)
-          .filter((e: any, i: any, a: any) => a.indexOf(e) === i)
-
-        if (watchableSeasons.includes(0)) return
-
-        watchableSeasons.forEach((season: any) => {
-          const eps = props.smartVideoData.filter((e: any) => e.season == season).length
-
-          if (
-            eps >
-            3 +
-              (seasons.value.find((se) => se.season_number == season)?.episode_count ||
-                seasons.value[0].episode_count)
-          ) {
-            $event("entertainment:watch-feature-mismatch")
-          }
-        })
-      }
-    }
-  }
-)
 </script>
 
 <template>
@@ -222,11 +81,6 @@ watch(
           {{ $t("entertainment.total_episodes", { total: totalEpisodes }) }}
         </p>
       </span>
-
-      <div v-if="watchFeatureAnalyzing" class="flex items-center gap-1 text-xs opacity-90">
-        <Spinner class="-mr-2 scale-50" />
-        Optimizing for watch feature...
-      </div>
     </div>
     <div class="flex flex-col gap-2">
       <div
@@ -256,11 +110,6 @@ watch(
             'h-0': seasonData[item.id].show
           }"
         >
-          <span
-            v-if="!seasonData[item.id].show && isSeasonAvailable(item.season_number)"
-            class="flex-shrink-0"
-            ><Icon name="ic:outline-play-arrow" class="h-6 w-6"
-          /></span>
           <span
             v-if="!seasonData[item.id].show"
             class="max-w-xl truncate font-semibold md:text-lg"
@@ -323,7 +172,6 @@ watch(
                 v-else
                 v-for="episode in seasonData[item.id].episodes"
                 :key="episode.id"
-                @click="watchSmartVideo(episode)"
                 class="flex cursor-pointer select-none items-center gap-2 rounded-lg p-2 transition-colors hover:bg-gray-200 hover:dark:bg-gray-900 md:gap-4"
               >
                 <MasterImage

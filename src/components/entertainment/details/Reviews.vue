@@ -93,7 +93,7 @@ withDefaults(
               >
                 <span
                   v-tooltip="{
-                    content: $moment(comment.createdAt).locale($i18n.locale).fromNow()
+                    content: $moment(comment.createdAt).locale($i18n.locale).format('LLLL')
                   }"
                   v-text="$moment(comment.createdAt).locale($i18n.locale).calendar()"
                 ></span>
