@@ -57,7 +57,7 @@ watch(props, fetch)
 
 <template>
   <div
-    class="relative z-0 hidden w-[29rem] flex-shrink-0 overflow-hidden rounded-bl-2xl rounded-tl-2xl p-6 lg:block"
+    class="relative z-0 hidden w-[27rem] flex-shrink-0 overflow-hidden rounded-bl-xl rounded-tl-xl p-6 lg:block"
     :style="{
       backgroundColor: '#0f0d20'
     }"
@@ -71,7 +71,7 @@ watch(props, fetch)
       />
     </div>
     <ScrollArea class="h-[calc(100%-96px)] px-4 font-maven">
-      <div class="my-8 flex h-24 items-center justify-center text-2xl font-black">
+      <div class="mb-8 flex h-24 items-center justify-center text-center text-2xl font-black">
         <UseImage
           v-if="details.logo"
           :src="$timage(details.logo, 'w300')"
@@ -85,14 +85,16 @@ watch(props, fetch)
         <h3 v-else>{{ $getTitle(meta) }}</h3>
       </div>
 
-      <div class="mb-12 flex justify-between whitespace-nowrap text-2xl font-medium">
+      <div
+        class="mb-8 flex justify-between whitespace-nowrap font-sans text-xl font-medium text-gray-200"
+      >
         <span>
           {{ details.runtime }}
         </span>
         <span>
           {{ $getYear(meta) }}
         </span>
-        <div v-if="meta.vote_average" class="flex items-center gap-x-2">
+        <div v-if="meta.vote_average" class="flex items-center gap-x-4">
           <span>
             {{ details.score }}
           </span>
@@ -102,11 +104,11 @@ watch(props, fetch)
         </div>
       </div>
 
-      <p class="mb-8 text-base leading-7 tracking-tight text-gray-200">
+      <p class="mb-2 text-base leading-7 tracking-tight text-gray-200">
         {{ meta.overview }}
       </p>
 
-      <div class="space-y-4">
+      <div class="space-y-2">
         <PagesDiscoverDetailsTags
           :title="$t('discover.genres')"
           :tags="

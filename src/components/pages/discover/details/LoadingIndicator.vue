@@ -1,6 +1,6 @@
 <template>
   <div class="loading relative top-0 w-full">
-    <div class="absolute -top-6 z-10 h-1 w-24 rounded-full bg-slate-500"></div>
+    <div class="absolute -top-6 z-10 h-1 w-24 rounded-full bg-gray-400/40"></div>
   </div>
 </template>
 

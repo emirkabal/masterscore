@@ -6,14 +6,16 @@ defineProps<{
 </script>
 
 <template>
-  <section class="py-2">
-    <h4 class="mb-2 text-base font-bold text-gray-200">{{ title }}</h4>
+  <section class="py-2 font-sans">
+    <h4 class="mb-2 text-base font-semibold uppercase tracking-tight text-gray-200/30">
+      {{ title }}
+    </h4>
     <div class="flex flex-wrap gap-2">
       <NuxtLink
         v-for="tag in tags"
         :key="tag.name"
         :to="tag.url"
-        class="rounded-full bg-gray-400/20 px-2 py-1 font-medium text-gray-100 hover:bg-gray-400/40"
+        class="rounded-full bg-gray-400/10 px-5 py-1.5 font-medium text-gray-200 hover:bg-gray-400/40"
       >
         {{ tag.name }}
       </NuxtLink>

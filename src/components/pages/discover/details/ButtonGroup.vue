@@ -36,7 +36,7 @@ const handleWatchlist = async () => {
   <div class="flex h-24 items-center justify-between px-6">
     <button
       @click="handleWatchlist"
-      class="flex items-center gap-2 rounded-full bg-gray-400/20 p-4 font-semibold hover:bg-gray-400/40"
+      class="flex items-center gap-2 rounded-full bg-gray-400/10 p-4 font-semibold hover:bg-gray-400/40"
       v-tooltip="{
         content: inWatchlist ? $t('entertainment.buttons.remove') : $t('entertainment.buttons.save')
       }"
@@ -49,7 +49,7 @@ const handleWatchlist = async () => {
       <Icon v-else name="material-symbols:bookmark-remove-rounded" class="h-7 w-7 text-gray-200" />
     </button>
     <button
-      class="flex items-center rounded-full bg-gray-400/20 py-2 font-semibold hover:bg-gray-400/40"
+      class="flex items-center rounded-full bg-gray-400/10 py-2 font-semibold hover:bg-gray-400/40"
     >
       <Icon name="material-symbols:play-arrow-rounded" class="h-8 w-auto px-2 text-gray-200" />
       <span class="pr-4"> Play Trailer </span>
