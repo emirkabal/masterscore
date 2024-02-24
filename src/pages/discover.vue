@@ -108,7 +108,7 @@ const onLoadMore = async () => {
   config.freeze = true
   setTimeout(() => {
     config.freeze = false
-  }, 500)
+  }, 700)
   search()
 }
 
@@ -135,7 +135,7 @@ useHead({
   <main
     class="h-screen select-none bg-gradient-to-tr from-gray-950 via-gray-950 via-25% to-[#232054]"
   >
-    <section class="flex h-full w-full pt-24">
+    <section class="flex h-full w-full pt-20">
       <div class="h-full w-full px-6">
         <div class="flex w-full gap-x-4 pr-8">
           <Select v-model="type" @update:model-value="selectedGenres = []">
@@ -171,7 +171,7 @@ useHead({
             <span> {{ $t("discover.reset-filters") }} </span>
           </button>
         </div>
-        <ScrollArea class="h-[calc(100%-56px)] w-full pr-4 pt-4">
+        <ScrollArea class="h-[calc(100%-56px)] w-full pr-4">
           <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 2xl:grid-cols-9">
             <div v-if="config.pending && !content.length" v-for="i in 40" class="p-4">
               <div class="skeleton-effect aspect-poster w-full rounded-lg bg-gray-900/50"></div>
@@ -184,14 +184,12 @@ useHead({
               @click="changeSelect(i)"
             />
             <div class="h-1 w-1" v-infinite-scroll="onLoadMore"></div>
-
-            <div v-infinite-scroll="onLoadMore"></div>
           </div>
         </ScrollArea>
       </div>
       <div
         v-if="config.pending && !selected"
-        class="skeleton-effect hidden w-[29rem] flex-shrink-0 rounded-bl-3xl rounded-tl-3xl bg-gray-900/50 lg:block"
+        class="skeleton-effect hidden w-[27rem] flex-shrink-0 rounded-bl-xl rounded-tl-xl bg-gray-900/50 lg:block"
       ></div>
       <PagesDiscoverDetails v-else-if="selected" :meta="selected" />
     </section>

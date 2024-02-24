@@ -50,7 +50,7 @@ $listen("searchbar:focus", (val) => {
 
 <template>
   <header
-    class="absolute top-0 z-30 flex h-16 w-full items-center justify-between bg-gradient-to-t from-transparent to-black px-4 transition-all dark:from-transparent dark:to-gray-900 md:px-6"
+    class="absolute top-0 z-30 flex h-16 w-full items-center justify-between px-4 transition-all md:px-6"
     :class="{
       hidden: isHeaderHidden,
       '!fixed bg-gray-50 dark:bg-gray-900': isHeaderShown

@@ -174,7 +174,8 @@ const providers = [
   { name: "Classix", logo: "/iaMw6nOyxUzXSacrLQ0Au6CfZkc.jpg" },
   { name: "TOD", logo: "/eXxCDzaz4F7bkkgkZ8p6AbNQ8Dk.jpg" },
   { name: "Crunchyroll", logo: "/8Gt1iClBlzTeQs8WQm8UrCoIxnQ.jpg" },
-  { name: "Shahid VIP", logo: "/uurfHKuprPDeKfIs7FYd5lQzw0L.jpg" }
+  { name: "Shahid VIP", logo: "/uurfHKuprPDeKfIs7FYd5lQzw0L.jpg" },
+  { name: "TV+", logo: "/c8ryDZroFQtuyRVPBwXq5PLpTWV.jpg" }
 ]
 
 export default defineNuxtPlugin(() => {
