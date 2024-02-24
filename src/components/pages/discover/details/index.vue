@@ -38,6 +38,7 @@ const details = computed(() => {
       "N/A",
     cast: data.details?.credits?.cast?.slice(0, 5),
     director: data.details?.credits?.crew?.find((i) => i.job === "Director"),
+    createdBy: data.details?.created_by && data.details?.created_by[0],
     genres: props.meta.genre_ids || []
   }
 })
@@ -101,34 +102,39 @@ watch(props, fetch)
         </div>
       </div>
 
-      <p class="text-base leading-7 tracking-tight text-gray-200">
+      <p class="mb-8 text-base leading-7 tracking-tight text-gray-200">
         {{ meta.overview }}
       </p>
 
-      <!-- <div>
-        {{ details.cast }}
-      </div> -->
-      <PagesDiscoverDetailsTags
-        title="Genres"
-        :tags="
-          details.genres.map((i) => ({
-            name: $tgenre(i) || '-',
-            url: `/discover?genre=${i}&type=${mediaType}`
-          }))
-        "
-      />
+      <div class="space-y-4">
+        <PagesDiscoverDetailsTags
+          :title="$t('discover.genres')"
+          :tags="
+            details.genres.map((i) => ({
+              name: $t(`genres.${$tgenre(i)}`),
+              url: `/discover?genres=${i}&type=${mediaType}`
+            }))
+          "
+        />
 
-      <PagesDiscoverDetailsTags
-        v-if="details.cast?.length"
-        title="Cast"
-        :tags="details.cast.map((i) => ({ name: i.name, url: `/details/person/${i.id}` }))"
-      />
+        <PagesDiscoverDetailsTags
+          v-if="details.cast?.length"
+          :title="$t('discover.cast')"
+          :tags="details.cast.map((i) => ({ name: i.name, url: `/details/person/${i.id}` }))"
+        />
 
-      <PagesDiscoverDetailsTags
-        v-if="details.director"
-        title="Director"
-        :tags="[{ name: details.director.name, url: `/details/person/${details.director.id}` }]"
-      />
+        <PagesDiscoverDetailsTags
+          v-if="details.createdBy"
+          :title="$t('jobs.creator')"
+          :tags="[{ name: details.createdBy.name, url: `/details/person/${details.createdBy.id}` }]"
+        />
+
+        <PagesDiscoverDetailsTags
+          v-if="details.director"
+          :title="$t('jobs.director')"
+          :tags="[{ name: details.director.name, url: `/details/person/${details.director.id}` }]"
+        />
+      </div>
     </ScrollArea>
 
     <PagesDiscoverDetailsButtonGroup :id="data.details.localId" />

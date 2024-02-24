@@ -181,7 +181,12 @@
     "title": "発見",
     "explore": "{0} を発見",
     "explore_more": "さらなるジャンルを探索",
-    "load_more": "もっと読み込む"
+    "load_more": "もっと読み込む",
+    "cast": "キャスト",
+    "genres": "ジャンル",
+    "apply-filters": "フィルターを適用する",
+    "content-not-available": "コンテンツは利用できません。",
+    "reset-filters": "フィルターをリセットする"
   },
   "genres": {
     "Comedy": "コメディ",
@@ -244,5 +249,9 @@
     "screenplay": "脚本",
     "story": "話",
     "writer": "ライター"
+  },
+  "notify": {
+    "template": "{0} が更新されました!",
+    "button": "私をそこへ連れていって"
   }
 }

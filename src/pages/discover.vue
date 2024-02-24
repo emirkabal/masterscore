@@ -8,18 +8,17 @@ const { $tfiltergenres } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
 
-const queryRef = toRefs(route.query)
-
 const content = ref<TMDBSearchResult[]>([])
 const select = ref<number>(0)
 const selected = computed(() => content.value[select.value])
+const queryRef = toRef(route, "query")
 
 const config = reactive({
   type: "movie",
   genres: [] as number[],
   page: 1,
   finish: false,
-  pending: true,
+  pending: false,
   freeze: false
 })
 
@@ -56,12 +55,12 @@ const isDisabled = computed(() => {
 })
 
 const changeSelect = (index: number) => {
-  if (select.value === index && selected.value)
-    return router.push(`/details/${config.type}/${selected.value.id}`)
+  if (index === select.value) return router.push(`/details/${type.value}/${selected.value.id}`)
   select.value = index
 }
 
 const search = async () => {
+  if (config.pending) return
   if (config.genres.join("") !== selectedGenres.value.join("") || config.type !== type.value) {
     config.page = 1
     content.value = []
@@ -87,12 +86,12 @@ const search = async () => {
   })
 
   content.value = [...content.value, ...data.results]
-  if (config.page === 1) changeSelect(0)
+  if (config.page === 1) select.value = 0
 
   config.pending = false
   config.page++
   if (data.page >= data.total_pages) config.finish = true
-  if (config.page === 2) search()
+  else config.finish = false
 }
 
 const reset = () => {
@@ -113,6 +112,19 @@ const onLoadMore = async () => {
   search()
 }
 
+watch(queryRef, () => {
+  if (route.query.type && route.query.type.toString() !== type.value)
+    type.value = route.query.type.toString()
+  if (route.query.genres) {
+    selectedGenres.value = route.query.genres
+      .toString()
+      .split(",")
+      .map((e) => parseInt(e))
+
+    if (selectedGenres.value.length) search()
+  }
+})
+
 useHead({
   title: t("discover.title"),
   titleTemplate: "%s - Masterscore"
@@ -132,8 +144,8 @@ useHead({
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="movie"> Movies </SelectItem>
-                <SelectItem value="tv"> Series </SelectItem>
+                <SelectItem value="movie"> {{ $t("movies") }} </SelectItem>
+                <SelectItem value="tv"> {{ $t("tv_shows") }} </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -145,18 +157,18 @@ useHead({
             class="flex h-10 flex-shrink-0 items-center gap-x-2 rounded-full bg-popover px-4 font-medium text-gray-300 transition hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Icon name="ic:round-tune" class="h-6 w-6" />
-            <span> Apply filters </span>
+            <span> {{ $t("discover.apply-filters") }} </span>
           </button>
         </div>
         <div v-if="!config.pending && config.finish && !content.length">
-          <p class="mt-4 text-center text-gray-300">Content not available.</p>
+          <p class="mt-4 text-center text-gray-300">{{ $t("discover.content-not-available") }}</p>
 
           <button
             @click="reset"
             class="mx-auto mt-4 flex h-10 flex-shrink-0 items-center gap-x-2 rounded-full bg-popover px-4 font-medium text-gray-300 transition hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Icon name="ic:round-tune" class="h-6 w-6" />
-            <span> Reset filters </span>
+            <span> {{ $t("discover.reset-filters") }} </span>
           </button>
         </div>
         <ScrollArea class="h-[calc(100%-56px)] w-full pr-4 pt-4">

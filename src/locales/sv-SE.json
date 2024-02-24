@@ -180,7 +180,12 @@
     "title": "Upptäck",
     "explore": "Upptäck {0}",
     "explore_more": "Utforska fler genrer",
-    "load_more": "Ladda mer"
+    "load_more": "Ladda mer",
+    "cast": "Kasta",
+    "genres": "Genrer",
+    "apply-filters": "Använd filter",
+    "content-not-available": "Innehållet är inte tillgängligt.",
+    "reset-filters": "Återställ filter"
   },
   "genres": {
     "Comedy": "Komedi",
@@ -244,5 +249,9 @@
     "screenplay": "Manus",
     "story": "Berättelse",
     "writer": "Författare"
+  },
+  "notify": {
+    "template": "{0} har förnyats!",
+    "button": "Ta mig dit"
   }
 }

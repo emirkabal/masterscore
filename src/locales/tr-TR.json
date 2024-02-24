@@ -210,7 +210,12 @@
     "title": "Keşfet",
     "explore": "Keşfet {0}",
     "explore_more": "Daha fazlasını keşfet",
-    "load_more": "Daha Fazla"
+    "load_more": "Daha Fazla",
+    "cast": "Oyuncular",
+    "genres": "Türler",
+    "apply-filters": "Filtreleri uygula",
+    "content-not-available": "İçerik mevcut değil.",
+    "reset-filters": "Filtreleri sıfırla"
   },
   "mranking": {
     "masterpiece": "Başyapıt",
@@ -244,5 +249,10 @@
     "screenplay": "Senarist",
     "story": "Hikaye",
     "writer": "Yazar"
+  },
+  "notify": {
+    "text": "Keşfet",
+    "template": "{0} yenilendi!",
+    "button": "Beni oraya götür"
   }
 }

@@ -209,7 +209,12 @@
     "title": "Découvrir",
     "explore": "Découvrir {0}",
     "explore_more": "Explorer d'autres genres",
-    "load_more": "En savoir plus"
+    "load_more": "En savoir plus",
+    "cast": "Casting",
+    "genres": "Genre",
+    "apply-filters": "Appliquer des filtres",
+    "content-not-available": "Contenu non disponible.",
+    "reset-filters": "Réinitialiser les filtres"
   },
   "total": "Total",
   "mranking": {
@@ -244,5 +249,9 @@
     "screenplay": "Scénario",
     "story": "Histoire",
     "writer": "Écrivain"
+  },
+  "notify": {
+    "template": "{0} a été renouvelé !",
+    "button": "Emmène-moi là-bas"
   }
 }

@@ -1,7 +1,7 @@
 {
   "welcome": "Welcome to Masterscore",
   "movies": "Movies",
-  "tv_shows": "TV Shows",
+  "tv_shows": "Series",
   "edited": "edited",
   "unknown": "Unknown",
   "no_comment_for_this_review": "No comment for this review.",
@@ -181,7 +181,12 @@
     "title": "Discover",
     "explore": "Discover {0}",
     "explore_more": "Explore more genres",
-    "load_more": "Load More"
+    "load_more": "Load More",
+    "cast": "Cast",
+    "genres": "Genres",
+    "apply-filters": "Apply filters",
+    "content-not-available": "Content not available.",
+    "reset-filters": "Reset filters"
   },
   "genres": {
     "Comedy": "Comedy",
@@ -244,5 +249,9 @@
     "writer": "Writer",
     "characters": "Characters",
     "creator": "Creator"
+  },
+  "notify": {
+    "template": "{0} has been renewed!",
+    "button": "Take me there"
   }
 }

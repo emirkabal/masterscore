@@ -180,7 +180,12 @@
     "title": "Descubre",
     "explore": "Descubre {0}",
     "explore_more": "Explora más géneros",
-    "load_more": "Cargar más"
+    "load_more": "Cargar más",
+    "cast": "Elenco",
+    "genres": "Géneros",
+    "apply-filters": "Aplicar filtros",
+    "content-not-available": "Contenido no disponible.",
+    "reset-filters": "Restablecer filtros"
   },
   "genres": {
     "Comedy": "Comedia",
@@ -244,5 +249,9 @@
     "screenplay": "Guión",
     "story": "Historia",
     "writer": "Escritor"
+  },
+  "notify": {
+    "template": "¡{0} ha sido renovado!",
+    "button": "Llévame allí"
   }
 }

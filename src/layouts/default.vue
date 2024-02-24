@@ -1,6 +1,8 @@
 <script setup>
+import { useLocalStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
 const route = useRoute()
+const router = useRouter()
 const userStore = useUserStore()
 const loading = ref(true)
 const { isMobileOrTablet } = useDevice()
@@ -9,6 +11,13 @@ if (route.path === "/" || route.path.startsWith("/details/person/")) {
   loading.value = false
 }
 userStore.init()
+
+const notify = useLocalStorage("notify-discover-restored", true)
+
+const handleNotify = () => {
+  router.push("/discover")
+  notify.value = false
+}
 
 watch(
   userStore,
@@ -25,6 +34,26 @@ watch(
 </script>
 <template>
   <div>
+    <div
+      v-if="notify && route.path !== '/discover' && !isMobileOrTablet"
+      class="flex h-10 w-full items-center justify-center gap-x-4 bg-blue-700 text-sm text-white"
+    >
+      <p>
+        <i18n-t keypath="notify.template">
+          <template v-slot>
+            <span class="font-semibold">
+              {{ $t("discover.title") }}
+            </span>
+          </template>
+        </i18n-t>
+      </p>
+      <button
+        @click="handleNotify"
+        class="rounded border px-2 py-1 font-semibold transition hover:bg-white hover:text-background"
+      >
+        {{ $t("notify.button") }}
+      </button>
+    </div>
     <div class="relative min-h-screen">
       <Header />
       <div
