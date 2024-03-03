@@ -3,11 +3,14 @@ import { useUserStore } from "~/store/user"
 
 const { $listen } = useNuxtApp()
 const hidden = ref(false)
-const { user, isLoggedIn } = useUserStore()
+const { user } = useUserStore()
 
 const props = defineProps<{
   id: string
+  teaser?: string
 }>()
+
+defineEmits(["watchTrailer"])
 
 const isLiked = computed(() => {
   return user?.likes?.includes(props.id)
@@ -31,6 +34,16 @@ $listen("modal:trailer", (val) => {
       hidden: hidden
     }"
   >
+    <button
+      v-if="teaser"
+      @click="$emit('watchTrailer')"
+      class="flex w-16 flex-col items-center justify-center"
+    >
+      <Icon name="ic:round-play-arrow" class="h-7 w-7 text-gray-200" />
+      <span class="line-clamp-1 text-[10px] font-semibold tracking-tighter text-gray-300">
+        {{ $t("entertainment.watch_trailer") }}
+      </span>
+    </button>
     <button
       @click="() => $event('entertainment:handle:button', 'review')"
       class="flex w-16 flex-col items-center justify-center"

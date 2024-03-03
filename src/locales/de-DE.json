@@ -228,8 +228,10 @@
       "good": "Ein Inhalt, den Sie gerne ansehen werden.",
       "masterpiece": "Den Meistern hat dieser Inhalt wirklich sehr gut gefallen. \nDeshalb ist es ein Meisterwerk.",
       "mixed": "Eine Unterhaltung, die Sie beim Anschauen verwirren wird.",
-      "poor": "Die Meister halten es für mittelmäßig. \nWir empfehlen daher nicht, den Film anzuschauen."
-    }
+      "poor": "Die Meister halten es für mittelmäßig. \nWir empfehlen daher nicht, den Film anzuschauen.",
+      "perfect": "Ein Inhalt, der nahezu perfekt ist. \nEs ist sehr zu empfehlen."
+    },
+    "perfect": "Perfekt"
   },
   "review_modal": {
     "title": "Eine Bewertung abgeben",

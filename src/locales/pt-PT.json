@@ -228,8 +228,10 @@
       "good": "Um conteúdo que você vai gostar de assistir.",
       "masterpiece": "Os mestres gostaram muito, muito desse conteúdo. \nÉ por isso que é uma obra-prima.",
       "mixed": "Um entretenimento que vai te confundir ao assistir.",
-      "poor": "Os mestres acham que é medíocre. \nPortanto, não recomendamos assisti-lo."
-    }
+      "poor": "Os mestres acham que é medíocre. \nPortanto, não recomendamos assisti-lo.",
+      "perfect": "Um conteúdo quase perfeito. \nÉ altamente recomendado."
+    },
+    "perfect": "Perfeito"
   },
   "review_modal": {
     "title": "Fazer uma Avaliação",

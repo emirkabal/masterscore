@@ -228,8 +228,10 @@
       "good": "Et indhold, du vil nyde at se.",
       "masterpiece": "Mestrene kunne virkelig godt lide dette indhold. \nDerfor er det et mesterværk.",
       "mixed": "En underholdning, der vil forvirre dig, når du ser den.",
-      "poor": "Mestrene synes, det er middelmådigt. \nVi anbefaler derfor ikke at se den."
-    }
+      "poor": "Mestrene synes, det er middelmådigt. \nVi anbefaler derfor ikke at se den.",
+      "perfect": "Et indhold, der næsten er perfekt. \nDet kan varmt anbefales."
+    },
+    "perfect": "Perfekt"
   },
   "review_modal": {
     "title": "Lav en anmeldelse",

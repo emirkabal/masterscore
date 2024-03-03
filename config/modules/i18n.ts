@@ -1,4 +1,4 @@
-import type { VueI18nOptions } from "@nuxtjs/i18n/dist/runtime/composables"
+import type { NuxtI18nOptions } from "@nuxtjs/i18n"
 
 export default {
   strategy: "no_prefix",
@@ -106,4 +106,4 @@ export default {
     fallbackLocale: "en",
     redirectOn: "all"
   }
-} as VueI18nOptions
+} as NuxtI18nOptions

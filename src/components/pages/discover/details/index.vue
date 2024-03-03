@@ -25,9 +25,6 @@ const details = computed(() => {
         language: locale.value,
         delimiter: " ",
         units: ["m"],
-        // dakika -> dak
-        // minutes -> min
-
         maxDecimalPoints: 0,
         fallbacks: ["en"]
       }

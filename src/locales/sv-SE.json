@@ -228,8 +228,10 @@
       "good": "Ett innehåll som du kommer att njuta av att titta på.",
       "masterpiece": "Mästarna gillade verkligen det här innehållet. \nDet är därför det är ett mästerverk.",
       "mixed": "En underhållning som kommer att förvirra dig när du ser den.",
-      "poor": "Mästarna tycker att det är mediokert. \nVi rekommenderar därför inte att titta på den."
-    }
+      "poor": "Mästarna tycker att det är mediokert. \nVi rekommenderar därför inte att titta på den.",
+      "perfect": "Ett innehåll som är nästan perfekt. \nDet rekommenderas starkt."
+    },
+    "perfect": "Perfekt"
   },
   "review_modal": {
     "title": "Gör en recension",

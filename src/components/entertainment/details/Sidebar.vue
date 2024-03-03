@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import type { CreditsResult, ProviderResults, TMDBData } from "~/types"
+import type { ProviderResults, TMDBData } from "~/types"
 const { t, locale } = useI18n()
 const { $getTitle, $getOriginalTitle, $moment } = useNuxtApp()
 const { userAgent } = useDevice()
 const props = defineProps<{
   data: TMDBData
-  teaser: string | null | undefined
 }>()
 
 defineEmits(["watchTrailer"])
@@ -102,14 +101,6 @@ const localName = computed(() => {
   }
 })
 
-const getCreator = computed(() => {
-  if (props.data.created_by) {
-    return props.data.created_by
-  } else {
-    return null
-  }
-})
-
 const imdbScore = computed(() => {
   return (
     (props.data && props.data.localData.info.ratings?.imdb) ||
@@ -126,15 +117,6 @@ const rtScore = computed(() => {
 <template>
   <div class="z-10 w-full rounded-3xl p-0 lg:px-6 lg:pt-6">
     <div class="space-y-6">
-      <button
-        v-if="teaser"
-        class="flex w-full items-center justify-center gap-2 rounded bg-gray-50 px-4 py-2 transition-opacity hover:opacity-90 dark:bg-gray-900"
-        @click="$emit('watchTrailer')"
-      >
-        <Icon name="ic:outline-play-arrow" class="h-6 w-6 text-yellow-600" />
-        <span>{{ $t("entertainment.watch_trailer") }}</span>
-      </button>
-
       <div v-if="providerPending" class="space-y-2">
         <div class="skeleton-effect h-2 w-1/2 rounded-full bg-gray-300 dark:bg-gray-900"></div>
         <div class="flex items-center gap-2">
@@ -156,15 +138,19 @@ const rtScore = computed(() => {
               content: `<b>${provider.name}</b>, ${provider.title}`,
               html: true
             }"
-            class="h-10 w-10 rounded-lg bg-cover bg-center bg-no-repeat transition-opacity hover:opacity-75"
+            class="h-10 w-10 overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat transition-opacity hover:opacity-75"
             :style="{
               backgroundImage: `url(${
-                $getProvider(provider.name)
-                  ? `https://image.tmdb.org/t/p/original/${$getProvider(provider.name)?.logo}`
-                  : 'https://i.imgur.com/qDIwea6.png'
+                $getProvider(provider.name) &&
+                `https://image.tmdb.org/t/p/original/${$getProvider(provider.name)?.logo}`
               })`
             }"
           >
+            <img
+              v-if="!$getProvider(provider.name)"
+              :src="'https://api.dicebear.com/7.x/initials/svg?seed=' + provider.name"
+              :alt="provider.name"
+            />
           </a>
         </div>
       </div>

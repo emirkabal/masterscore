@@ -11,39 +11,46 @@ defineProps<{
       content:
         rating >= 9
           ? $t('mranking.tooltips.masterpiece')
-          : rating >= 7
-          ? $t('mranking.tooltips.good')
-          : rating >= 4 && rating < 7
-          ? $t('mranking.tooltips.mixed')
-          : $t('mranking.tooltips.poor')
+          : rating >= 8
+            ? $t('mranking.tooltips.perfect')
+            : rating >= 7
+              ? $t('mranking.tooltips.good')
+              : rating >= 4 && rating < 7
+                ? $t('mranking.tooltips.mixed')
+                : $t('mranking.tooltips.poor')
     }"
     :class="{
       'bg-yellow-400 font-maven !font-black !text-black': rating >= 9,
+      'bg-yellow-300 font-maven !font-semibold !text-black': rating >= 8 && rating < 9,
       'bg-green-500': rating >= 7,
-      'bg-yellow-500': rating >= 4 && rating < 7,
+      'bg-gray-500': rating >= 4 && rating < 7,
       'bg-red-500': rating < 4
     }"
   >
     <Icon
-      :name="`ic:${
+      :name="`${
         rating >= 9
-          ? 'round-star'
-          : rating >= 7
-          ? 'round-check-circle'
-          : rating >= 4 && rating < 7
-          ? 'baseline-sentiment-dissatisfied'
-          : 'outline-mood-bad'
+          ? 'solar:cup-star-bold'
+          : rating >= 8 && rating < 9
+            ? 'solar:stars-bold'
+            : rating >= 7
+              ? 'ic:round-check-circle'
+              : rating >= 4 && rating < 7
+                ? 'ic:baseline-sentiment-dissatisfied'
+                : 'ic:outline-mood-bad'
       }`"
       class="h-4 w-4"
     />
     {{
       rating >= 9
         ? $t("mranking.masterpiece")
-        : rating >= 7
-        ? $t("mranking.good")
-        : rating >= 4 && rating < 7
-        ? $t("mranking.mixed")
-        : $t("mranking.poor")
+        : rating >= 8 && rating < 9
+          ? $t("mranking.perfect")
+          : rating >= 7
+            ? $t("mranking.good")
+            : rating >= 4 && rating < 7
+              ? $t("mranking.mixed")
+              : $t("mranking.poor")
     }}
   </span>
 </template>
