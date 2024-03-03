@@ -174,12 +174,18 @@ useHead({
             :data="data"
             @openReview="openReview"
             :reviewData="reviewData"
+            :teaser="getTeaser"
+            @watchTrailer="trailerModal = true"
           />
         </EntertainmentBody>
         <EntertainmentDetailsTopCrew :data="data" />
       </div>
     </EntertainmentContainer>
-    <EntertainmentButtonGroupMobile :id="data.localId" />
+    <EntertainmentButtonGroupMobile
+      :id="data.localId"
+      :teaser="getTeaser"
+      @watchTrailer="trailerModal = true"
+    />
 
     <div class="container mx-auto mb-28 mt-12 px-0 lg:-mt-28 2xl:-mt-36">
       <div class="flex flex-col-reverse items-stretch gap-4 lg:flex-row">
@@ -207,8 +213,6 @@ useHead({
         <EntertainmentDetailsSidebar
           class="static top-14 w-full self-start px-4 lg:sticky lg:min-w-[300px] lg:max-w-[300px]"
           :data="data"
-          :teaser="getTeaser"
-          @watchTrailer="trailerModal = true"
         />
       </div>
 

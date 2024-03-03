@@ -1,4 +1,4 @@
-import type { IHomeResponse, IUser } from "~/types"
+import type { IHomeResponse } from "~/types"
 import { defineStore } from "pinia"
 
 export const useHomeStore = defineStore("home", {

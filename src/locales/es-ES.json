@@ -228,8 +228,10 @@
       "good": "Un contenido que disfrutarás viendo.",
       "masterpiece": "A los maestros les gustó mucho este contenido. \nPor eso es una obra maestra.",
       "mixed": "Un entretenimiento que te confundirá cuando lo veas.",
-      "poor": "Los maestros piensan que es mediocre. \nPor lo tanto, no recomendamos verlo."
-    }
+      "poor": "Los maestros piensan que es mediocre. \nPor lo tanto, no recomendamos verlo.",
+      "perfect": "Un contenido que es casi perfecto. \nEs muy recomendable."
+    },
+    "perfect": "Perfecto"
   },
   "review_modal": {
     "title": "Hacer una reseña",

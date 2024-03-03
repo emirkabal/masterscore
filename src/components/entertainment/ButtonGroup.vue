@@ -2,16 +2,17 @@
 import type { ReviewData, TMDBData } from "~/types"
 import { useUserStore } from "~/store/user"
 import type { ApplicationEvents } from "~/plugins/event-bus"
-const { $event, $listen, $dispatch } = useNuxtApp()
+const { $listen, $dispatch } = useNuxtApp()
 const { user, isLoggedIn } = useUserStore()
 const cooldown = ref(false)
 const props = defineProps<{
   data?: TMDBData
   reviewData?: ReviewData
+  teaser?: string
   loading?: boolean
 }>()
 
-const emits = defineEmits(["openReview"])
+const emits = defineEmits(["openReview", "watchTrailer"])
 
 const likes = ref(0)
 
@@ -153,6 +154,14 @@ onUnmounted(() => {
     >
       <Icon name="ic:round-bookmark-add" v-if="!userAddedWatchlist" class="h-7 w-7" />
       <Icon name="ic:round-bookmark-remove" v-else class="h-7 w-7" />
+    </button>
+    <button
+      v-if="teaser"
+      @click="$emit('watchTrailer')"
+      class="flex items-center gap-x-1 px-2 font-semibold transition-opacity hover:opacity-75"
+    >
+      <Icon name="ic:round-play-arrow" class="h-7 w-7" />
+      {{ $t("entertainment.watch_trailer") }}
     </button>
   </div>
 </template>

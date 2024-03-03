@@ -228,8 +228,10 @@
       "good": "Un contenu que vous prendrez plaisir à regarder.",
       "masterpiece": "Les maîtres ont vraiment, beaucoup aimé ce contenu. \nC'est pourquoi c'est un chef-d'œuvre.",
       "mixed": "Un divertissement qui vous déroutera lorsque vous le regarderez.",
-      "poor": "Les maîtres trouvent ça médiocre. \nNous vous déconseillons donc de le regarder."
-    }
+      "poor": "Les maîtres trouvent ça médiocre. \nNous vous déconseillons donc de le regarder.",
+      "perfect": "Un contenu presque parfait. \nC'est fortement recommandé."
+    },
+    "perfect": "Parfait"
   },
   "review_modal": {
     "title": "Faire une critique",
