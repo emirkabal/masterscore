@@ -201,7 +201,7 @@ const externalScores = computed(() => {
         <strong>{{ $t("entertainment.sidebar.revenue") }}</strong>
         <span
           :class="{
-            'text-brand font-semibold': revenue !== '-'
+            'font-semibold text-brand': revenue !== '-'
           }"
           >{{ revenue }}</span
         >

@@ -6,7 +6,7 @@ const award = useLocalStorage("easteregg", 0)
 
 <template>
   <div v-if="award >= 20" class="w-full max-w-xs text-center">
-    <IconsAward class="text-brand mx-auto h-auto w-20" />
+    <IconsAward class="mx-auto h-auto w-20 text-brand" />
     <p class="font-maven font-semibold">
       Congratulations! <br />
       You won the

@@ -93,7 +93,7 @@ const test = ref(false)
                 <Icon
                   v-if="comment.author.verified"
                   name="material-symbols:verified-rounded"
-                  class="text-brand h-5 w-5 flex-shrink-0"
+                  class="h-5 w-5 flex-shrink-0 text-brand"
               /></NuxtLink>
               <ScoreCircle :score="comment.rating" />
               <p

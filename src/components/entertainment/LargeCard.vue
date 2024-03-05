@@ -21,7 +21,7 @@ const { data } = defineProps<{
       v-if="showVerified"
       class="m absolute right-0 top-0 -m-1.5 flex h-10 w-10 items-center justify-center rounded-full bg-gray-950 p-1"
     >
-      <Icon name="material-symbols:verified-rounded" class="text-brand h-6 w-6" />
+      <Icon name="material-symbols:verified-rounded" class="h-6 w-6 text-brand" />
     </div>
     <div v-if="data.poster">
       <MasterImage

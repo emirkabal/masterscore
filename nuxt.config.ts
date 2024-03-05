@@ -3,6 +3,7 @@ import icons from "./config/icons"
 import i18n from "./config/modules/i18n"
 import { version } from "./package.json"
 
+const isDev = process.env.NODE_ENV === "development"
 export default defineNuxtConfig({
   srcDir: "src/",
   ssr: false,
@@ -23,14 +24,15 @@ export default defineNuxtConfig({
     ],
     "nuxt-headlessui",
 
-    "@nuxtjs/device",
+    [
+      "@nuxtjs/device",
+      {
+        refreshOnResize: true
+      }
+    ],
     "@vite-pwa/nuxt",
     "nuxt-icon"
   ],
-
-  device: {
-    refreshOnResize: true
-  },
 
   css: [
     "vue3-emoji-picker/css",
@@ -43,16 +45,13 @@ export default defineNuxtConfig({
   ],
 
   routeRules: {
-    "/**": {
-      isr: true
-    },
-    "/api/**": {
-      cors: true,
-      isr: false
-    }
+    "/**": isDev ? {} : { cache: { swr: true, maxAge: 120, staleMaxAge: 60, headersOnly: true } }
   },
 
   nitro: {
+    routeRules: {
+      "/**": { isr: false }
+    },
     plugins: ["~/server/db/index.ts"]
   },
 

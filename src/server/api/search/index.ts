@@ -9,8 +9,8 @@ export default defineEventHandler(async (event) => {
   const limit = isNaN(queryLimit as any)
     ? 5
     : parseInt(queryLimit as any) > 20
-    ? 20
-    : parseInt(queryLimit as any)
+      ? 20
+      : parseInt(queryLimit as any)
 
   const lang = getISO(getCookie(event, "locale"))
   const data: {

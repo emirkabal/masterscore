@@ -127,7 +127,7 @@ $listen("refresh:entertainment", () => {
           <h1 class="text-2xl font-bold">
             {{ $t("home.top_rated") }}
           </h1>
-          <span class="text-brand font-maven text-2xl font-black">m</span>
+          <span class="font-maven text-2xl font-black text-brand">m</span>
         </div>
         <EntertainmentSlider
           :data="top_rated"

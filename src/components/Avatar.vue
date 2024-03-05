@@ -80,7 +80,7 @@ watch(imageLoading, () => {
     >
       <Icon
         name="material-symbols:verified-rounded"
-        class="text-brand h-6 w-6"
+        class="h-6 w-6 text-brand"
         :class="{
           'h-4 w-4': minimize
         }"

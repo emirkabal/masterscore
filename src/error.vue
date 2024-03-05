@@ -24,7 +24,7 @@ const handleError = () => {
       class="absolute left-0 top-0 z-10 h-screen w-full bg-gradient-to-r from-black/90 backdrop-blur-md"
     ></div>
     <div class="absolute bottom-0 left-0 z-20 m-12">
-      <span class="text-brand select-none font-maven text-4xl font-black">m</span>
+      <span class="select-none font-maven text-4xl font-black text-brand">m</span>
     </div>
     <div class="z-20 w-fit max-w-2xl p-12">
       <h1 class="mb-2 text-4xl font-bold">{{ error?.statusCode }}</h1>

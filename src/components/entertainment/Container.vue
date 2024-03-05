@@ -17,7 +17,7 @@ const colors = computed(() => {
 <template>
   <div v-if="loading">
     <div
-      class="skeleton-effect relative h-full min-h-[900px] w-full bg-gray-100 lg:h-[90vh] lg:min-h-[780px] dark:bg-gray-900"
+      class="skeleton-effect relative h-full min-h-[900px] w-full bg-gray-100 dark:bg-gray-900 lg:h-[90vh] lg:min-h-[780px]"
       :style="{
         background: `linear-gradient(
             rgba(15, 23, 42, 1) 0%,
