@@ -6,7 +6,7 @@ defineProps<{
 </script>
 
 <template>
-  <section class="py-2 font-sans">
+  <section class="py-2">
     <h4 class="mb-2 text-base font-semibold uppercase tracking-tight text-gray-200/30">
       {{ title }}
     </h4>

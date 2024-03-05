@@ -101,16 +101,8 @@ const localName = computed(() => {
   }
 })
 
-const imdbScore = computed(() => {
-  return (
-    (props.data && props.data.localData.info.ratings?.imdb) ||
-    (props.data && props.data.localData.info.ratings?.tmdb) ||
-    (props.data && props.data.vote_average)
-  )
-})
-
-const rtScore = computed(() => {
-  return props.data && props.data.localData.info.ratings?.rotten_tomatoes
+const externalScores = computed(() => {
+  return props.data.localData.info.ratings
 })
 </script>
 
@@ -171,7 +163,7 @@ const rtScore = computed(() => {
         }"
         :to="$route.path"
       />
-      <p v-if="originalName && originalName !== $getTitle(props.data)">
+      <p v-if="originalName && originalName !== $getTitle(data)">
         <strong>{{ $t("entertainment.sidebar.original_name") }}</strong>
         <span
           >{{ originalName
@@ -200,7 +192,7 @@ const rtScore = computed(() => {
         <strong>{{ $t("entertainment.sidebar.budget") }}</strong>
         <span
           :class="{
-            'font-semibold text-blue-800': budget !== '-'
+            'font-semibold text-orange-200': budget !== '-'
           }"
           >{{ budget }}</span
         >
@@ -209,16 +201,47 @@ const rtScore = computed(() => {
         <strong>{{ $t("entertainment.sidebar.revenue") }}</strong>
         <span
           :class="{
-            'font-semibold text-green-800': revenue !== '-'
+            'text-brand font-semibold': revenue !== '-'
           }"
           >{{ revenue }}</span
         >
       </p>
-      <div v-if="props.data?.imdb_id || rtScore">
+      <div
+        v-if="
+          externalScores?.imdb ||
+          externalScores?.rotten_tomatoes ||
+          externalScores?.metacritic ||
+          externalScores?.tmdb
+        "
+      >
         <strong>{{ $t("entertainment.sidebar.other") }}</strong>
-        <div class="flex w-fit gap-2">
-          <IMDBLink v-if="props.data?.imdb_id" :imdb="props.data?.imdb_id" :score="imdbScore" />
-          <RottenTomatoes v-if="rtScore" :score="rtScore" />
+        <div class="flex w-fit flex-wrap gap-2">
+          <ExternalScore
+            v-if="externalScores.imdb"
+            platform="imdb"
+            :to="
+              data.external_ids?.imdb_id &&
+              `https://www.imdb.com/title/${data.external_ids?.imdb_id}`
+            "
+            :score="externalScores.imdb"
+          />
+          <ExternalScore
+            v-if="externalScores.rotten_tomatoes"
+            platform="rotten"
+            :score="`${externalScores.rotten_tomatoes}%`"
+          />
+          <ExternalScore
+            v-if="externalScores.metacritic"
+            platform="metacritic"
+            :score="externalScores.metacritic"
+          />
+          <ExternalScore
+            v-if="externalScores.tmdb"
+            platform="tmdb"
+            :score="externalScores.tmdb"
+            :to="`https://www.themoviedb.org/${data.localData.type}/${data.id}`"
+          />
+          <!-- <RottenTomatoes v-if="rtScore" :score="rtScore" /> -->
         </div>
       </div>
       <a

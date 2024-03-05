@@ -7,7 +7,7 @@ const userStore = useUserStore()
 const loading = ref(true)
 const { isMobileOrTablet } = useDevice()
 
-if (route.path === "/" || route.path.startsWith("/details/person/")) {
+if (route.path === "/" || route.path.startsWith("/person/")) {
   loading.value = false
 }
 userStore.init()

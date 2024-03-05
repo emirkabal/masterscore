@@ -12,7 +12,7 @@ const getRandomMovie = async () => {
     headers: generateHeaders()
   })
 
-  useRouter().push(`/details/movie/${data.id}?feature=random`)
+  useRouter().push(`/movie/${data.id}?feature=random`)
 }
 </script>
 <template>

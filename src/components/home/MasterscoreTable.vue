@@ -1,7 +1,5 @@
 <script setup>
 import { useLocalStorage } from "@vueuse/core"
-import IMDB from "~/components/IMDB.vue"
-import RottenTomatoes from "~/components/RottenTomatoes.vue"
 const headers = [
   { text: "Rank", value: "rank", sortable: true, width: 40 },
   {
@@ -22,8 +20,7 @@ const headers = [
     width: 80
   },
   { text: "c", value: "reviewsCount", sortable: true, width: 80 },
-  { text: "Rating", value: "average", sortable: true, width: 80 },
-  { text: "Other Ratings", value: "otherRatings", sortable: false, width: 1 }
+  { text: "Rating", value: "average", sortable: true, width: 80 }
 ]
 
 const items = ref([])
@@ -122,7 +119,7 @@ watch([listType, disableReviewRequirement], () => {
       <template #item-entertainment.info.title="{ entertainment }">
         <NuxtLink
           class="flex items-center gap-2 text-lg font-semibold hover:underline"
-          :to="`/details/${entertainment.type}/${entertainment.id}`"
+          :to="`/${entertainment.type}/${entertainment.id}`"
         >
           <img
             :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${entertainment.info.poster}`"
@@ -146,16 +143,6 @@ watch([listType, disableReviewRequirement], () => {
         <div class="flex items-center justify-center gap-2">
           <ScoreCircle class="text-sm" :score="average" />
           <EntertainmentMRanking :rating="average.toFixed(1)" />
-        </div>
-      </template>
-      <template #item-otherRatings="{ rating }">
-        <div class="flex justify-start gap-2 px-2">
-          <component v-if="rating.imdb" :is="IMDB" :score="rating.imdb" />
-          <component
-            v-if="rating.rotten_tomatoes"
-            :is="RottenTomatoes"
-            :score="rating.rotten_tomatoes"
-          />
         </div>
       </template>
     </EasyDataTable>

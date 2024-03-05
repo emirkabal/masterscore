@@ -106,6 +106,9 @@ dependencies:
     version: 1.1.8(typescript@5.3.3)
 
 devDependencies:
+  '@fontsource/inter':
+    specifier: ^5.0.17
+    version: 5.0.17
   '@nuxt/devtools':
     specifier: ^1.0.8
     version: 1.0.8(nuxt@3.10.3)(rollup@4.12.0)(vite@5.1.4)
@@ -1956,6 +1959,10 @@ packages:
       - '@vue/composition-api'
       - vue
     dev: false
+
+  /@fontsource/inter@5.0.17:
+    resolution: {integrity: sha512-2meBGx1kt7u5LwzGc5Sz5rka6ZDrydg6nT3x6Wkt310vHXUchIywrO8pooWMzZdHYcyFY/cv4lEpJZgMD94bCg==}
+    dev: true
 
   /@fontsource/maven-pro@5.0.16:
     resolution: {integrity: sha512-dy7jikSZdh53FHpI85tjg9W7us4DDEnC0w3YWeWJ0rTxIva6vbslbxuNlG3DtTopbcgSs9NVh/Jifwej/l75Tw==}

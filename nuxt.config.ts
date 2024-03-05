@@ -22,23 +22,23 @@ export default defineNuxtConfig({
       }
     ],
     "nuxt-headlessui",
-    [
-      "@nuxtjs/device",
-      {
-        refreshOnResize: true
-      }
-    ],
+
+    "@nuxtjs/device",
     "@vite-pwa/nuxt",
     "nuxt-icon"
   ],
 
+  device: {
+    refreshOnResize: true
+  },
+
   css: [
     "vue3-emoji-picker/css",
-    "@fontsource/maven-pro/400.css",
-    "@fontsource/maven-pro/500.css",
+    "@fontsource/inter/400.css",
+    "@fontsource/inter/600.css",
+    "@fontsource/inter/800.css",
     "@fontsource/maven-pro/600.css",
     "@fontsource/maven-pro/700.css",
-    "@fontsource/maven-pro/800.css",
     "@fontsource/maven-pro/900.css"
   ],
 

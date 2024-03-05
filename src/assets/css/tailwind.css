@@ -67,29 +67,34 @@
     --input:215 27.9% 16.9%;
     --ring:216 12.2% 83.9%;
   }
+
+
+  html {
+    @apply scroll-smooth font-inter antialiased;
+  }
+  
+  body {
+    @apply bg-gray-950 text-white;
+  }
+  
+  ::-webkit-scrollbar {
+    @apply h-2 w-2 bg-transparent;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-900 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-800 transition-colors hover:bg-gray-700;
+  }
+
+
 }
 
 
 
-html {
-  @apply scroll-smooth ;
-}
 
-body {
-  @apply bg-gray-950 text-white antialiased;
-}
-
-::-webkit-scrollbar {
-  @apply h-2 w-2 bg-transparent;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-gray-900 rounded-full;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-gray-800 transition-colors hover:bg-gray-700;
-}
 
 .twemojiParse {
   @apply !inline-block;

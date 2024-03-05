@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = withDefaults(
+withDefaults(
   defineProps<{
     score: number
   }>(),
@@ -7,21 +7,21 @@ const props = withDefaults(
     score: 0
   }
 )
-
-const generateStroke = computed(() => {
-  return `stroke-dasharray: ${props.score * 10}, 100;`
-})
-
-const strokeColor = computed(() => {
-  return props.score >= 5 ? "stroke-yellow-500" : "stroke-red-500"
-})
 </script>
 
 <template>
   <div
-    v-if="props.score > 0"
-    class="rounded bg-gray-400/40 px-2 text-lg font-semibold !text-white backdrop-blur-md"
+    v-if="score > 0"
+    :class="{
+      'bg-brand/40 text-yellow-300 backdrop-blur-sm': score >= 9,
+      'bg-yellow-300 text-black': score >= 8 && score < 9,
+      'bg-green-600 text-gray-50': score >= 7 && score < 8,
+      'bg-gray-400/40 text-white backdrop-blur-sm': score >= 5 && score < 7,
+      'bg-red-500 text-red-950': score < 5
+    }"
+    class="flex h-6 items-center gap-x-1 rounded-full px-2 !text-sm font-semibold shadow-lg"
   >
-    {{ score.toFixed(1).replace(".0", "") }}
+    <span>{{ score.toFixed(1).replace(".0", "") }}</span>
+    <Logo :small="true" class="h-3 w-3 !text-current" />
   </div>
 </template>

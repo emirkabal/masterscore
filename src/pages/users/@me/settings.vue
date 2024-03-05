@@ -41,7 +41,7 @@ const isUsernameChangeAvailable = computed(() => {
 const uploadFiles = (e) => {
   if (!e.target.files && !e.target.files[0]) return
   const file = e.target.files[0]
-  if (file.size > 1000000) {
+  if (file.size > 100000000) {
     error.value = "File size is too big"
     return
   } else {
@@ -93,18 +93,14 @@ const submit = async (e) => {
   }
 
   if (avatar.value) {
-    postData.files = {
-      avatar: {
-        name: avatar.value.name,
-        type: avatar.value.type || "image/png",
-        size: avatar.value.size,
-        file: (await getBase64(avatar.value)).replace("application/octet-stream", "image/png")
-      }
-    }
+    postData.avatar = (await getBase64(avatar.value)).replace(
+      "application/octet-stream",
+      "image/png"
+    )
   }
 
   if (avatarHandle.value === "remove") {
-    postData.avatar = "remove"
+    postData.avatar = ""
     user.avatar = null
   }
 

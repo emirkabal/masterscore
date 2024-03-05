@@ -127,7 +127,7 @@ $listen("refresh:entertainment", () => {
           <h1 class="text-2xl font-bold">
             {{ $t("home.top_rated") }}
           </h1>
-          <span class="font-maven text-2xl font-black text-yellow-500">m</span>
+          <span class="text-brand font-maven text-2xl font-black">m</span>
         </div>
         <EntertainmentSlider
           :data="top_rated"
@@ -138,7 +138,10 @@ $listen("refresh:entertainment", () => {
         />
       </section>
       <section class="relative z-10 space-y-8" v-for="genre in genres" :key="genre.id">
-        <NuxtLink :to="`/discover?genres=${genre.id}`" class="flex items-center gap-x-4 px-[4vw]">
+        <NuxtLink
+          :to="`/discover?genres=${genre.id}`"
+          class="flex w-fit items-center gap-x-4 pl-[4vw]"
+        >
           <h3 class="text-2xl font-bold">
             {{ $t("genres." + genre.name) }}
           </h3>

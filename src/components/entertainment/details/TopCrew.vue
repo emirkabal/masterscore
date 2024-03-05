@@ -69,7 +69,7 @@ const localizedJobs = (job: string) => {
         class="rounded-xl bg-gray-900/40 px-4 py-2 lg:bg-transparent lg:px-0"
       >
         <NuxtLink
-          :to="`/details/person/${member.id}`"
+          :to="`/person/${member.id}`"
           class="font-semibold transition-colors hover:text-white/80"
         >
           {{ member.name }}

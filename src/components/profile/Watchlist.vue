@@ -49,7 +49,7 @@ const removeItem = async (id: any) => {
     <div class="flex flex-col gap-6" v-else>
       <div v-for="entertainment in watchlist.items" :key="entertainment._id">
         <div class="flex items-start overflow-hidden rounded">
-          <NuxtLink :to="`/details/${entertainment.type}/${entertainment.id}`">
+          <NuxtLink :to="`/${entertainment.type}/${entertainment.id}`">
             <MasterImage
               v-if="entertainment.info.poster"
               :source="$timage(entertainment.info.poster, 'w92')"
@@ -60,7 +60,7 @@ const removeItem = async (id: any) => {
           <div class="min-w-0">
             <div class="flex items-center gap-2">
               <NuxtLink
-                :to="`/details/${entertainment.type}/${entertainment.id}`"
+                :to="`/${entertainment.type}/${entertainment.id}`"
                 class="line-clamp-1 font-semibold hover:underline"
               >
                 {{ entertainment.info.title }}

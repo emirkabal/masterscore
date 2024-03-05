@@ -79,7 +79,7 @@ watch(
     </button>
     <div v-if="loading" class="flex items-start py-8" v-for="i in 8" :key="i">
       <div
-        class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 md:h-14 md:w-14 dark:bg-gray-900"
+        class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 dark:bg-gray-900 md:h-14 md:w-14"
       ></div>
       <div class="ml-4 flex w-full flex-col">
         <div class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"></div>
@@ -96,7 +96,7 @@ watch(
       v-intersection-observer="i === activities.length - 1 ? onIntersectionObserver : () => {}"
       :key="activity._id"
     >
-      <NuxtLink :to="`/users/@${activity.author.username}`">
+      <NuxtLink :to="`/users/${activity.author.username}`">
         <Avatar
           :username="activity.author.username"
           :avatar="activity.author.avatar"
@@ -104,15 +104,15 @@ watch(
           class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
         />
       </NuxtLink>
-      <div class="-mt-1.5 flex w-full min-w-0 flex-col">
+      <div class="flex w-full min-w-0 flex-col">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
             <div class="flex items-center gap-x-1 font-semibold">
-              <span class="line-clamp-1 break-all">@{{ activity.author.username }}</span>
+              <span class="line-clamp-1 break-all">{{ activity.author.username }}</span>
               <Icon
                 v-if="activity.author.verified"
                 name="material-symbols:verified-rounded"
-                class="h-5 w-5 flex-shrink-0 text-yellow-500"
+                class="text-brand h-5 w-5 flex-shrink-0"
               />
             </div>
             <span
@@ -125,14 +125,9 @@ watch(
             </span>
           </div>
         </div>
-        <ReviewContent
-          v-if="activity.review"
-          :review="activity.review"
-          :skip-info="true"
-          class="-mt-0.5"
-        />
+        <ReviewContent v-if="activity.review" :review="activity.review" :skip-info="true" />
         <EntertainmentCard
-          :to="`/details/${activity.entertainment.type}/${activity.entertainment.id}`"
+          :to="`/${activity.entertainment.type}/${activity.entertainment.id}`"
           :entertainment="activity.entertainment"
           :score="activity.review?.rating"
           :title="activity.type"

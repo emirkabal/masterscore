@@ -175,7 +175,17 @@ const providers = [
   { name: "TOD", logo: "/eXxCDzaz4F7bkkgkZ8p6AbNQ8Dk.jpg" },
   { name: "Crunchyroll", logo: "/8Gt1iClBlzTeQs8WQm8UrCoIxnQ.jpg" },
   { name: "Shahid VIP", logo: "/uurfHKuprPDeKfIs7FYd5lQzw0L.jpg" },
-  { name: "TV+", logo: "/c8ryDZroFQtuyRVPBwXq5PLpTWV.jpg" }
+  { name: "TV+", logo: "/c8ryDZroFQtuyRVPBwXq5PLpTWV.jpg" },
+  { name: "Videoload", logo: "/dKh2TJ9lTWV0UIcDQGMnMyQ8AIN.jpg" },
+  { name: "Netflix basic with Ads", logo: "/kICQccvOh8AIBMHGkBXJ047xeHN.jpg" },
+  { name: "Microsoft Store", logo: "/5vfrJQgNe9UnHVgVNAwZTy0Jo9o.jpg" },
+  { name: "maxdome Store", logo: "/9lFSDdj10l7QAXyTZPDWuwkKJT3.jpg" },
+  { name: "MagentaTV", logo: "/lrEigPPAhggq02q53uM8vdWAIUX.jpg" },
+  { name: "WOW", logo: "/9r5zFWuYnwjzO1JrNjSbLQwUc3P.jpg" },
+  { name: "Sky Go", logo: "/1UrT2H9x6DuQ9ytNhsSCUFtTUwS.jpg" },
+  { name: "Amazon Video", logo: "/seGSXajazLMCKGB5hnRCidtjay1.jpg" },
+  { name: "YouTube", logo: "/pTnn5JwWr4p3pG8H6VrpiQo7Vs0.jpg" },
+  { name: "YouTube Premium", logo: "/rMb93u1tBeErSYLv79zSTR07UdO.jpg" }
 ]
 
 export default defineNuxtPlugin(() => {

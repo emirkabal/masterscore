@@ -82,9 +82,7 @@ watch(props, fetch)
         <h3 v-else>{{ $getTitle(meta) }}</h3>
       </div>
 
-      <div
-        class="mb-8 flex justify-between whitespace-nowrap font-sans text-xl font-medium text-gray-200"
-      >
+      <div class="mb-8 flex justify-between whitespace-nowrap text-xl font-medium text-gray-200">
         <span>
           {{ details.runtime }}
         </span>
@@ -95,9 +93,7 @@ watch(props, fetch)
           <span>
             {{ details.score }}
           </span>
-          <div class="h-5 w-10 rounded bg-yellow-400">
-            <IconsImdb class="fill-black" />
-          </div>
+          <IconsImdb class="h-6 w-10 fill-yellow-400" />
         </div>
       </div>
 
@@ -119,19 +115,19 @@ watch(props, fetch)
         <PagesDiscoverDetailsTags
           v-if="details.cast?.length"
           :title="$t('discover.cast')"
-          :tags="details.cast.map((i) => ({ name: i.name, url: `/details/person/${i.id}` }))"
+          :tags="details.cast.map((i) => ({ name: i.name, url: `/person/${i.id}` }))"
         />
 
         <PagesDiscoverDetailsTags
           v-if="details.createdBy"
           :title="$t('jobs.creator')"
-          :tags="[{ name: details.createdBy.name, url: `/details/person/${details.createdBy.id}` }]"
+          :tags="[{ name: details.createdBy.name, url: `/person/${details.createdBy.id}` }]"
         />
 
         <PagesDiscoverDetailsTags
           v-if="details.director"
           :title="$t('jobs.director')"
-          :tags="[{ name: details.director.name, url: `/details/person/${details.director.id}` }]"
+          :tags="[{ name: details.director.name, url: `/person/${details.director.id}` }]"
         />
       </div>
     </ScrollArea>

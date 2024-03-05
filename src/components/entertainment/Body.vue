@@ -93,17 +93,19 @@ useHead({
     </div>
   </div>
   <div v-else-if="data && !loading">
-    <div
-      class="flex flex-wrap items-center justify-center gap-x-4 text-center lg:justify-start lg:text-left"
-    >
-      <h1 class="text-2xl font-semibold tracking-tight text-white lg:text-4xl">
-        {{ title }}
-      </h1>
-      <ScoreCircle v-if="rating" :score="rating" class="lg:mt-1" />
+    <div class="flex items-center justify-center gap-x-2 lg:justify-start">
+      <ScoreCircle v-if="rating" :score="rating" />
+      <EntertainmentMRanking :rating="rating" />
     </div>
 
+    <h1
+      class="my-2 text-center text-2xl font-semibold tracking-tight text-white lg:text-left lg:text-4xl"
+    >
+      {{ title }}
+    </h1>
+
     <div
-      class="my-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-white/80 lg:justify-start"
+      class="mb-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-white/80 lg:justify-start"
     >
       <h2
         v-if="contentRating && contentRating !== 'Not Rated'"
@@ -115,7 +117,6 @@ useHead({
       >
         {{ contentRating || "NR" }}
       </h2>
-      <EntertainmentMRanking :rating="rating" />
 
       <h2 class="font-semibold md:ml-0.5">
         {{ releaseDate }}

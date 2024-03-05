@@ -15,9 +15,10 @@ module.exports = {
     },
     extend: {
       aspectRatio: {
-        'poster': '2/3',
+        poster: "2/3"
       },
       colors: {
+        brand: "#eab308",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -81,7 +82,8 @@ module.exports = {
         }
       },
       fontFamily: {
-        maven: ["Maven Pro", "sans-serif"]
+        maven: ["Maven Pro", "sans-serif"],
+        inter: ["Inter", "sans-serif"]
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

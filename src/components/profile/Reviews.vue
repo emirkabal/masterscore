@@ -14,7 +14,7 @@ defineProps<{
       <div v-for="i in 10" :key="i">
         <div class="flex items-start">
           <div
-            class="skeleton-effect mr-4 h-16 w-10 rounded bg-gray-300 md:h-24 md:w-16 dark:bg-gray-900"
+            class="skeleton-effect mr-4 h-16 w-10 rounded bg-gray-300 dark:bg-gray-900 md:h-24 md:w-16"
           ></div>
 
           <div class="flex flex-col gap-2">
@@ -32,7 +32,7 @@ defineProps<{
     <div class="flex flex-col gap-6" v-else>
       <div v-for="review in reviews.items" :key="review._id">
         <div class="flex items-start overflow-hidden rounded">
-          <NuxtLink :to="`/details/${review.entertainment.type}/${review.entertainment.id}`">
+          <NuxtLink :to="`/${review.entertainment.type}/${review.entertainment.id}`">
             <MasterImage
               v-if="review.entertainment.info.poster"
               :source="$timage(review.entertainment.info.poster, 'w92')"
@@ -42,7 +42,7 @@ defineProps<{
           <div class="min-w-0">
             <div class="flex items-center gap-2">
               <NuxtLink
-                :to="`/details/${review.entertainment.type}/${review.entertainment.id}`"
+                :to="`/${review.entertainment.type}/${review.entertainment.id}`"
                 class="line-clamp-1 font-semibold hover:underline"
               >
                 {{ review.entertainment.info.title }}

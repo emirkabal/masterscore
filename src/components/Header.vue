@@ -20,7 +20,7 @@ const isHeaderShown = computed(() => {
   return (
     scroll.y.value > 0 ||
     !(
-      route.name?.startsWith("details-type-id") ||
+      route.name?.startsWith("type-id") ||
       route.name?.startsWith("index") ||
       route.name?.startsWith("discover")
     )
@@ -74,15 +74,8 @@ $listen("searchbar:focus", (val) => {
               (!entertainment.bright && !isHeaderShown && isEntertainmentPage) ||
               ($route.name === 'index' && !isHeaderShown)
           }"
-          ><span
-            class="text-yellow-500 transition"
-            :class="{
-              '!text-yellow-500': !entertainment.bright && isEntertainmentPage && !isHeaderShown,
-              '!text-yellow-300': entertainment.bright && isEntertainmentPage && !isHeaderShown
-            }"
-            >m</span
-          ><span class="hidden md:inline-block">asterscore</span></NuxtLink
-        >
+          ><Logo class="h-4 w-auto lg:h-5" :small="!$device.isDesktop"
+        /></NuxtLink>
       </div>
       <Searchbar
         :class="{

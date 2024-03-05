@@ -187,7 +187,7 @@ useHead({
         </div>
         <div class="details inline-block text-center md:ml-7 md:text-left">
           <div class="username mb-1 flex items-center gap-2 text-3xl font-semibold md:mt-24">
-            <span> @{{ user.username }} </span>
+            <span> {{ user.username }} </span>
             <Verified v-if="user.verified" />
           </div>
           <div

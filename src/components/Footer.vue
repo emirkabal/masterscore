@@ -11,17 +11,16 @@ isDark.value = true
     v-if="!$route.name?.startsWith('discover')"
     class="mt-4 w-full gap-24 border-t border-gray-800 bg-gray-900/30 py-16"
     :class="{
-      'mb-[59px] lg:mb-0':
-        $route.path.startsWith('/details/tv') || $route.path.startsWith('/details/movie')
+      'mb-[59px] lg:mb-0': $route.path.startsWith('/tv') || $route.path.startsWith('/movie')
     }"
   >
     <div
       class="max-w-8xl container mx-auto flex w-full flex-col-reverse justify-between gap-2 px-4 text-center md:flex-row md:text-left"
     >
       <div class="mx-auto flex flex-col md:mx-0">
-        <div>
+        <div class="mb-1 flex gap-x-2">
           <NuxtLink to="/">
-            <Logo class="text-2xl" />
+            <Logo />
           </NuxtLink>
           <span
             class="text-xs text-gray-200"

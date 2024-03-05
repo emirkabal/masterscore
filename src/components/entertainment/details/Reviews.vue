@@ -19,6 +19,8 @@ withDefaults(
     loading: false
   }
 )
+
+const test = ref(false)
 </script>
 
 <template>
@@ -29,7 +31,7 @@ withDefaults(
     >
       {{ $t("entertainment.reviews") }}
     </h1>
-    <div v-if="mranking?.good">
+    <!-- <div v-if="mranking?.good">
       <EntertainmentMRanking :rating="mranking.rating" class="w-fit" />
       <p class="text-gray-500 dark:text-gray-400">{{ $t("total") }}: {{ mranking.total }}</p>
       <p class="flex flex-wrap gap-x-4">
@@ -50,7 +52,7 @@ withDefaults(
           }}
         </span>
       </p>
-    </div>
+    </div> -->
     <div v-if="loading">
       <div class="skeleton-effect my-2 h-6 w-32 rounded bg-gray-300 dark:bg-gray-900"></div>
       <div class="flex items-center px-4 py-6" v-for="i in 4" :key="i">
@@ -66,8 +68,8 @@ withDefaults(
       </div>
     </div>
     <div v-else-if="data.length > 0">
-      <div class="space-y-8 divide-y dark:divide-gray-900">
-        <div v-for="comment in data" :key="comment._id" class="flex items-start pt-8">
+      <div class="flex flex-col gap-y-12">
+        <div v-for="comment in data" :key="comment._id" class="flex items-start gap-x-4 rounded-xl">
           <NuxtLink :to="`/users/@${comment.author.username}`">
             <Avatar
               :username="comment.author.username"
@@ -76,18 +78,24 @@ withDefaults(
               class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
             />
           </NuxtLink>
-          <div class="-mt-1.5 ml-4 flex w-full min-w-0 flex-col">
-            <div class="flex items-center gap-1">
+
+          <div class="flex w-full min-w-0 flex-col">
+            <!-- <span class="text-sm opacity-90">
+              {{ $t("entertainment.reviewed") }}: {{ comment.rating }}/10
+            </span> -->
+
+            <div class="flex items-center gap-x-1.5">
               <NuxtLink
-                :to="`/users/@${comment.author.username}`"
-                class="flex min-w-0 items-center gap-1 font-semibold hover:underline"
+                :to="`/users/${comment.author.username}`"
+                class="flex min-w-0 items-center gap-1 font-semibold transition hover:opacity-85"
               >
-                <span class="truncate break-words"> @{{ comment.author.username }} </span>
+                <span class="truncate break-words"> {{ comment.author.username }} </span>
                 <Icon
                   v-if="comment.author.verified"
                   name="material-symbols:verified-rounded"
-                  class="h-5 w-5 flex-shrink-0 text-yellow-500"
+                  class="text-brand h-5 w-5 flex-shrink-0"
               /></NuxtLink>
+              <ScoreCircle :score="comment.rating" />
               <p
                 class="line-clamp-1 flex-shrink-0 cursor-default break-words text-xs text-gray-500 dark:text-gray-300"
               >
@@ -97,19 +105,46 @@ withDefaults(
                   }"
                   v-text="$moment(comment.createdAt).locale($i18n.locale).calendar()"
                 ></span>
-                <span v-if="comment.createdAt !== comment.updatedAt" class="ml-1"
+                <span
+                  v-if="comment.createdAt !== comment.updatedAt"
+                  v-tooltip="{
+                    content: $moment(comment.updatedAt).locale($i18n.locale).format('LLLL')
+                  }"
+                  class="ml-1"
                   >({{ $t("edited") }})</span
                 >
               </p>
+
+              <!-- <EntertainmentMRanking :rating="comment.rating" class="w-fit" /> -->
             </div>
-            <span class="text-xs opacity-90">
-              {{ $t("entertainment.reviewed") }}: {{ comment.rating }}/10
-            </span>
+            <ReviewContent :review="comment" class="mt-1" />
 
-            <ReviewContent :review="comment" />
+            <div class="mt-2">
+              <div v-if="comment.content" class="flex gap-x-4">
+                <button
+                  v-if="!test"
+                  @click="test = true"
+                  class="flex h-8 w-8 items-center justify-center gap-x-1 rounded-full bg-gray-800 text-sm transition hover:bg-gray-700"
+                >
+                  <Icon name="ph:arrow-fat-up" />
+                  <!-- <Icon name="ph:arrow-fat-up-fill" /> -->
+                </button>
+                <button
+                  v-else
+                  @click="test = false"
+                  class="flex h-8 items-center justify-center gap-x-1 rounded-full bg-orange-500/20 px-2 text-sm font-semibold text-orange-700 transition hover:bg-orange-500/40"
+                >
+                  <!-- <Icon name="ph:arrow-fat-down" /> -->
+                  <Icon name="ph:arrow-fat-up-fill" />
+                  <!-- <Icon name="ph:arrow-fat-up" /> -->
+                  <span> 256 </span>
+                </button>
+              </div>
 
-            <div class="flex">
-              <div
+              <!-- <button v-if="comment.author._id === user?._id">
+                <Icon name="mdi:dots-horizontal" class="h-6 w-6 rotate-90 md:rotate-0" />
+              </button> -->
+              <!-- <div
                 v-if="comment.author._id === user?._id"
                 class="ml-auto mt-0 flex items-center gap-2 sm:ml-0 sm:mt-2"
               >
@@ -125,7 +160,7 @@ withDefaults(
                 >
                   <Icon name="ic:outline-delete-forever" class="h-4 w-4" />
                 </button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

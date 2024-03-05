@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { posterURL, rating, loading } = defineProps<{
+defineProps<{
   posterURL?: string
   rating?: number
   loading?: boolean

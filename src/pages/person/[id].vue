@@ -67,7 +67,6 @@ const getCrew = computed<Record<string, CreditsResult[]>>(() => {
     group[e].sort((a, b) => {
       if (a.year === "—") return -1
       return new Date(b.year).getTime() - new Date(a.year).getTime()
-      return 0
     })
   )
 
@@ -117,6 +116,7 @@ useHead({
       <p class="text-xl">Person not found</p>
     </div>
   </div>
+
   <div v-else class="pb-36 pt-20">
     <div class="container mx-auto mt-8 px-4">
       <div class="flex flex-col items-stretch justify-center gap-8 md:flex-row">
@@ -242,7 +242,7 @@ useHead({
                         <span class="mt-0.5 w-10 text-center font-maven">{{ movie.year }}</span>
                         <div>
                           <NuxtLink
-                            :to="`/details/${movie.media_type}/${movie.id}`"
+                            :to="`/${movie.media_type}/${movie.id}`"
                             class="text-lg font-semibold text-white hover:text-gray-200"
                             >{{ movie.title || movie.name }}</NuxtLink
                           >

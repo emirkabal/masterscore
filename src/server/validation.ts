@@ -10,20 +10,12 @@ export const UserSchema = Joi.object({
 export const UserPatchableSchema = Joi.object({
   username: Joi.string().alphanum().allow("").allow(null).min(3).max(16),
   about: Joi.string().allow(null).allow("").max(512),
-  banner: Joi.string().allow(null).allow("").max(128).uri(),
-  avatar: Joi.string().allow(null).allow("").max(128),
+  avatar: Joi.string().allow(null).allow("").max(2_000_000),
+  banner: Joi.string().allow(null).allow("").max(2_000_000),
   likes: Joi.array().items(Joi.string()),
   reviews: Joi.array().items(Joi.string()),
   watchlist: Joi.array().items(Joi.string()),
-  watcheds: Joi.array().items(Joi.string()),
-  files: Joi.object({
-    avatar: Joi.object({
-      file: Joi.string().uri().required(),
-      type: Joi.string().required(),
-      name: Joi.string().required(),
-      size: Joi.number().required()
-    })
-  })
+  watcheds: Joi.array().items(Joi.string())
 })
 
 export const ReviewSchema = Joi.object({
