@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { ReviewData, TMDBData } from "~/types"
+import type { CollapsedMedia } from "~/types"
 import { useDark, onClickOutside } from "@vueuse/core"
 const { isMobile } = useDevice()
 
 const isDark = useDark()
 
 const props = defineProps<{
-  data: TMDBData
-  reviewData: ReviewData
+  data: CollapsedMedia
+  reviewData: any
 }>()
 
 const emojiPicker = ref(null)

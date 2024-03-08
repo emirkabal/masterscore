@@ -106,7 +106,6 @@ const submit = async (e) => {
 
   const data = await $fetch("/api/users/me", {
     method: "PATCH",
-    headers: generateHeaders(),
     body: JSON.stringify(postData)
   })
 

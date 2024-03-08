@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { ProviderResults, TMDBData } from "~/types"
+import type { ProviderResults, CollapsedMedia } from "~/types"
 const { t, locale } = useI18n()
 const { $getTitle, $getOriginalTitle, $moment } = useNuxtApp()
 const { userAgent } = useDevice()
 const props = defineProps<{
-  data: TMDBData
+  data: CollapsedMedia
 }>()
 
 defineEmits(["watchTrailer"])
@@ -102,7 +102,7 @@ const localName = computed(() => {
 })
 
 const externalScores = computed(() => {
-  return props.data.localData.info.ratings
+  return props.data.media.scores
 })
 </script>
 
@@ -167,9 +167,7 @@ const externalScores = computed(() => {
         <strong>{{ $t("entertainment.sidebar.original_name") }}</strong>
         <span
           >{{ originalName
-          }}{{
-            originalName !== data.localData.info.title ? ` (${data.localData.info.title})` : ""
-          }}</span
+          }}{{ originalName !== data.media.title ? ` (${data.media.title})` : "" }}</span
         >
       </p>
       <p>
@@ -215,7 +213,7 @@ const externalScores = computed(() => {
         "
       >
         <strong>{{ $t("entertainment.sidebar.other") }}</strong>
-        <div class="flex w-fit flex-wrap gap-2">
+        <div class="mt-2 flex w-fit flex-wrap gap-2">
           <ExternalScore
             v-if="externalScores.imdb"
             platform="imdb"
@@ -239,7 +237,7 @@ const externalScores = computed(() => {
             v-if="externalScores.tmdb"
             platform="tmdb"
             :score="externalScores.tmdb"
-            :to="`https://www.themoviedb.org/${data.localData.type}/${data.id}`"
+            :to="`https://www.themoviedb.org/${data.media.type}/${data.id}`"
           />
           <!-- <RottenTomatoes v-if="rtScore" :score="rtScore" /> -->
         </div>
@@ -263,6 +261,6 @@ p strong {
   @apply block font-semibold;
 }
 p {
-  @apply block font-maven;
+  @apply block;
 }
 </style>

@@ -1,13 +1,7 @@
-import type { ErrorResponse, IUser } from "~/types"
-import fixUserNullables from "~/utils/fixUserNullables"
+import type { User } from "~/types"
 
 export default defineEventHandler(async (event) => {
-  if (!event.context.user) {
-    return { status: 401, message: "Unauthorized" } as ErrorResponse
-  }
+  if (!event.context.user) throw createError({ statusCode: 401, statusMessage: "Unauthorized" })
 
-  let user = event.context.user as IUser
-  user = fixUserNullables(user)
-
-  return user as IUser
+  return event.context.user
 })

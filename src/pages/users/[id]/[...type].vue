@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { onClickOutside, useClipboard } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
-import type { IEntertainment, IReview, IUser } from "~/types"
+import type { IEntertainment, IReview, User } from "~/types"
 
 const url = window.location.origin
 const { copy } = useClipboard()
 const { $moment } = useNuxtApp()
 const { params } = useRoute()
-const user = ref<Omit<IUser, "email" | "password">>()
+const user = ref<Omit<User, "email" | "password">>()
 const loading = ref(true)
 const selectedTab = ref(0)
 const isMenuOpen = ref(false)
@@ -44,9 +44,7 @@ const watchlist = reactive({
 })
 
 const fetchSummary = async () => {
-  const data = await $fetch(`/api/users/${user.value?._id}/summary`, {
-    headers: generateHeaders()
-  })
+  const data = await $fetch(`/api/users/${user.value?.id}/summary`)
   if ("status" in data) {
     return
   }
@@ -59,9 +57,7 @@ const fetchSummary = async () => {
 
 const fetchReviews = async () => {
   reviews.pending = true
-  const data = await $fetch(`/api/users/${user.value?._id}/reviews`, {
-    headers: generateHeaders()
-  })
+  const data = await $fetch(`/api/users/${user.value?._id}/reviews`, {})
   if ("status" in data) {
     return
   }
@@ -84,7 +80,6 @@ const fetchWatchlist = async () => {
 const adminRequest = async (body: any) => {
   await $fetch(`/api/admin/users/${user.value?._id}`, {
     method: "PATCH",
-    headers: generateHeaders(),
     body: JSON.stringify(body)
   })
 }
@@ -182,7 +177,7 @@ useHead({
           <Avatar
             :avatar="user?.avatar"
             :username="user.username"
-            class="h-[120px] w-[120px] rounded-full border-8 border-white align-top dark:border-gray-950 md:h-[160px] md:w-[160px]"
+            class="h-[120px] w-[120px] rounded-full border-8 border-white align-top md:h-[160px] md:w-[160px] dark:border-gray-950"
           />
         </div>
         <div class="details inline-block text-center md:ml-7 md:text-left">
@@ -224,7 +219,7 @@ useHead({
               <div v-show="isMenuOpen" @click="isMenuOpen = !isMenuOpen">
                 <HeadlessMenuItems
                   :static="true"
-                  class="absolute right-0 z-10 mt-2 w-56 origin-top-right translate-x-1/2 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-gray-900 dark:bg-gray-900 md:translate-x-0"
+                  class="absolute right-0 z-10 mt-2 w-56 origin-top-right translate-x-1/2 divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none md:translate-x-0 dark:divide-gray-900 dark:bg-gray-900"
                 >
                   <div class="px-1 py-1">
                     <div v-if="self?._id === '63f4dcf150582a1ca831f639'">

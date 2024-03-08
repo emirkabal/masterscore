@@ -3,8 +3,7 @@ import Joi from "joi"
 export const UserSchema = Joi.object({
   username: Joi.string().alphanum().min(3).max(16).required(),
   password: Joi.string().min(8).max(128).required(),
-  email: Joi.string().lowercase().email().required(),
-  inviteCode: Joi.string()
+  email: Joi.string().lowercase().email().required()
 })
 
 export const UserPatchableSchema = Joi.object({
@@ -21,7 +20,7 @@ export const UserPatchableSchema = Joi.object({
 export const ReviewSchema = Joi.object({
   id: Joi.string().required(),
   rating: Joi.number().min(0.5).max(10).required(),
-  review: Joi.string().allow(null).allow("").max(512),
+  content: Joi.string().allow(null).allow("").max(512),
   spoiler: Joi.boolean().allow(null)
 })
 

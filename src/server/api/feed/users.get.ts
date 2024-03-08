@@ -1,13 +1,12 @@
-import UserModel from "../../models/User.model"
+import prisma from "~/server/db/prisma"
 
 export default defineEventHandler(async (event) => {
-  const data = await UserModel.find({})
-    .sort({
-      createdAt: -1
-    })
-    .limit(40)
-    .select("username avatar")
-    .lean()
-
+  const data = await prisma.user.findMany({
+    take: 40,
+    select: {
+      username: true,
+      avatar: true
+    }
+  })
   return data
 })

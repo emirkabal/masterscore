@@ -30,7 +30,7 @@ const submit = async (event) => {
     useRouter().push("/")
   } catch (err) {
     loading.value = false
-    error.value = grabErrorMessage(err)
+    error.value = err.message || "An error occurred"
   }
 }
 </script>

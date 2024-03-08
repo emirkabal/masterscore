@@ -16,7 +16,6 @@ const username = ref("")
 const email = ref("")
 const password = ref("")
 const confirmPassword = ref("")
-const inviteCode = ref("")
 const error = ref("")
 const loading = ref(false)
 
@@ -25,8 +24,7 @@ const disabled = computed(() => {
     username.value.length === 0 ||
     email.value.length === 0 ||
     password.value.length === 0 ||
-    confirmPassword.value.length === 0 ||
-    inviteCode.value.length === 0
+    confirmPassword.value.length === 0
   )
 })
 
@@ -47,8 +45,7 @@ const submit = async (event) => {
       body: JSON.stringify({
         username: username.value.toLowerCase(),
         email: email.value.toLowerCase(),
-        password: password.value,
-        inviteCode: inviteCode.value
+        password: password.value
       })
     })
 
@@ -58,7 +55,7 @@ const submit = async (event) => {
     useRouter().push("/")
   } catch (err) {
     loading.value = false
-    error.value = grabErrorMessage(err)
+    error.value = err.message || "An error occurred"
   }
 }
 </script>
@@ -112,13 +109,13 @@ const submit = async (event) => {
           :title="$t('guest.form.confirm_password')"
           placeholder="••••••••••"
         />
-        <FormInput
+        <!-- <FormInput
           v-model="inviteCode"
           type="text"
           name="invite-code"
           :title="$t('guest.form.invite_code')"
           placeholder="MS-SCORE-998E7"
-        />
+        /> -->
         <FormButton class="w-full" type="submit" :loading="loading" :disabled="disabled">
           {{ $t("guest.sign_up") }}
         </FormButton>

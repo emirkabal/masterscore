@@ -1,0 +1,125 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("MONGO_URI")
+}
+
+model User {
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
+    username String @unique
+    email    String @unique
+    password String
+
+    verified Boolean @default(false)
+    about    String?
+    avatar   String?
+    banner   String?
+
+    reviews     Review[]
+    likes       Like[]
+    collections Collection[]
+
+    verified_at         DateTime?
+    username_changed_at DateTime?
+    created_at          DateTime  @default(now())
+    updated_at          DateTime  @updatedAt
+}
+
+model Media {
+    id           String  @id @default(auto()) @map("_id") @db.ObjectId
+    type         String
+    title        String
+    description  String
+    images       Images
+    release_date String
+    imdb_id      String?
+    tmdb_id      Int
+    rated        String
+    runtime      Int
+    scores       Scores
+
+    reviews     Review[]
+    likes       Like[]
+    collections CollectionMedia[]
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@unique([tmdb_id, type])
+}
+
+model Review {
+    id       String   @id @default(auto()) @map("_id") @db.ObjectId
+    content  String?
+    spoiler  Boolean?
+    rating   Float
+    media_id String   @db.ObjectId
+    user_id  String   @db.ObjectId
+
+    media Media @relation(fields: [media_id], references: [id])
+    user  User  @relation(fields: [user_id], references: [id])
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@unique([media_id, user_id])
+}
+
+model Like {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    user_id String @db.ObjectId
+    user    User   @relation(fields: [user_id], references: [id])
+
+    media_id String @db.ObjectId
+    media    Media  @relation(fields: [media_id], references: [id])
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@unique([user_id, media_id])
+}
+
+model Collection {
+    id          String @id @default(auto()) @map("_id") @db.ObjectId
+    name        String
+    description String
+
+    user_id String            @db.ObjectId
+    user    User              @relation(fields: [user_id], references: [id])
+    list    CollectionMedia[]
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+}
+
+model CollectionMedia {
+    id            String  @id @default(auto()) @map("_id") @db.ObjectId
+    note          String?
+    collection_id String  @db.ObjectId
+    media_id      String  @db.ObjectId
+
+    collection Collection @relation(fields: [collection_id], references: [id])
+    media      Media      @relation(fields: [media_id], references: [id])
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@unique([collection_id, media_id])
+}
+
+type Scores {
+    imdb            Float?
+    rotten_tomatoes Float?
+    metacritic      Float?
+    tmdb            Float?
+}
+
+type Images {
+    poster   String?
+    backdrop String?
+    logo     String?
+}

@@ -1,45 +1,258 @@
 import { H3Event } from "h3"
 
-export interface HistoryItem {
-  tmdbId: number
-  imdbId?: string
-  playlistId: number
-  type: string
-  title: string
-  poster: string
-  backdrop: string
-  currentTime: number
-  duration: number
-  series?: {
-    episode: number
-    season: number
-  }
-  playedAt: number
-}
-
-export interface IEntertainment {
-  _id?: string
+export interface User {
   id: string
+  username: string
+  email: string
+  password: string
+  verified: boolean
+  about?: string
+  avatar?: string
+  banner?: string
+  reviews: Review[]
+  likes: Like[]
+  collections: Collection[]
+  verified_at?: string
+  username_changed_at?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Review {
+  id: string
+  content: string
+  rating: number
+  media_id: string
+  user_id: string
+  media: Media
+  user: User
+  created_at: string
+  updated_at: string
+}
+
+export interface Like {
+  id: string
+  user_id: string
+  user: User
+  media_id: string
+  media: Media
+  created_at: string
+  updated_at: string
+}
+
+export interface Collection {
+  id: string
+  name: string
+  description: string
+  user_id: string
+  user: User
+  list: CollectionMedia[]
+  created_at: string
+  updated_at: string
+}
+
+export interface CollectionMedia {
+  id: string
+  note?: string
+  collection_id: string
+  media_id: string
+  collection: Collection
+  media: Media
+  created_at: string
+  updated_at: string
+}
+
+export interface Scores {
+  imdb?: number
+  rotten_tomatoes?: number
+  metacritic?: number
+  tmdb?: number
+}
+
+export interface Images {
+  poster?: string
+  backdrop?: string
+  logo?: string
+}
+
+export interface Media {
+  id: string
+  type: MediaType
+  title: string
+  description: string
+  images: Images
+  release_date: string
+  imdb_id: string
+  tmdb_id: number
+  rated: string
+  runtime: number
+  scores: Scores
+  reviews: Review[]
+  likes: Like[]
+  collections: CollectionMedia[]
+  created_at: string
+  updated_at: string
+}
+
+export type MediaType = "movie" | "tv"
+
+export type CollapsedMedia = TMDBMedia & {
+  media: Media & { score: number; _count: { likes: number; reviews: number } }
+}
+
+export interface TMDBMedia {
+  adult: boolean
+  backdrop_path: string
+  budget: number
+  homepage: string
+  id: number
+  imdb_id: string
+  original_language: string
+  original_title: string
+  overview: string
+  popularity: number
+  poster_path: string
+  release_date: string
+  revenue: number
+  runtime: number
+  status: string
+  tagline: string
+  title: string
+  video: boolean
+  vote_average: number
+  vote_count: number
+
+  //tv
+
+  first_air_date: string
+  last_air_date: string
+  name: string
+  original_name: string
+  number_of_episodes: number
+  number_of_seasons: number
+  languages: string[]
   type: string
-  info: {
-    title: string
-    description?: string
-    poster?: string
-    backdrop?: string
-    release_date: string
-    rated?: string
-    imbdId?: string
-    runtime?: number
-    ratings?: {
-      imdb?: number
-      tmdb?: number
-      rotten_tomatoes?: number
-      metacritic?: number
-    }
+  origin_country: string[]
+  in_production: boolean
+  episode_run_time: number[]
+
+  spoken_languages: SpokenLanguage[]
+  genres: TMDBGenre[]
+  production_companies: ProductionCompany[]
+  production_countries: ProductionCountry[]
+  networks: Network[]
+  seasons: Season[]
+  created_by: CreditsResult[]
+
+  belongs_to_collection: BelongsToCollection
+  last_episode_to_air: LNEpisodeToAir
+  next_episode_to_air: LNEpisodeToAir
+  videos: Videos
+  similar: TMDBSearchResults<TMDBResult>
+  credits: Credits
+
+  external_ids: ExternalIds
+  images: {
+    backdrops: TMDBImage[]
+    posters: TMDBImage[]
+    logos: TMDBImage[]
   }
 }
 
-export interface TMDBSearchResult {
+export interface TMDBImage {
+  aspect_ratio: number
+  file_path: string
+  height: number
+  iso_639_1: string
+  vote_average: number
+  vote_count: number
+  width: number
+}
+
+export interface ProductionCompany {
+  id: number
+  logo_path: string
+  name: string
+  origin_country: string
+}
+
+export interface ProductionCountry {
+  iso_3166_1: string
+  name: string
+}
+
+export interface SpokenLanguage {
+  english_name: string
+  iso_639_1: string
+  name: string
+}
+
+export interface BelongsToCollection {
+  id: number
+  name: string
+  poster_path: string
+  backdrop_path: string
+}
+
+export interface CreatedBy {
+  id: number
+  credit_id: string
+  name: string
+  gender: number
+  profile_path: string
+}
+
+export interface LNEpisodeToAir {
+  id: number
+  name: string
+  overview: string
+  vote_average: number
+  vote_count: number
+  air_date: string
+  episode_number: number
+  episode_type: string
+  production_code: string
+  runtime: number
+  season_number: number
+  show_id: number
+  still_path: string
+}
+
+export interface Videos {
+  results: VideoResult[]
+}
+
+export interface VideoResult {
+  iso_639_1: string
+  iso_3166_1: string
+  name: string
+  key: string
+  site: string
+  size: number
+  type: string
+  official: boolean
+  published_at: string
+  id: string
+}
+
+export interface Credits {
+  cast: CreditsResult[]
+  crew: CreditsResult[]
+}
+
+export interface TMDBGenre {
+  id: number
+  name: string
+}
+
+export interface TMDBSearchResults<T> {
+  results: T[]
+  page: number
+  total_results: number
+  total_pages: number
+}
+
+export interface TMDBResult {
   adult?: boolean
   backdrop_path?: string
   profile_path?: string
@@ -56,6 +269,7 @@ export interface TMDBSearchResult {
   title?: string
   name?: string
   video?: boolean
+  media_type?: string
   vote_average?: number
   vote_count?: number
 }
@@ -121,7 +335,7 @@ export interface Episode {
   guest_stars: CreditsResult[]
 }
 
-interface Network {
+export interface Network {
   id: number
   logo_path: string
   name: string
@@ -157,59 +371,6 @@ export interface EpisodeGroupsDetails {
   network?: Network
 }
 
-export type TMDBData = Partial<TMDBMovie> &
-  Partial<TMDBTV> & {
-    media_type: string
-    character?: string
-    localId: string
-    localData: IEntertainment
-    external_ids?: ExternalIDs
-    videos: {
-      results: VideoResult[]
-    }
-    credits: {
-      cast: CreditsResult[]
-      crew: CreditsResult[]
-    }
-    similar: {
-      results: TMDBSearchResult[]
-    }
-    alternative_titles: {
-      iso_3166_1: string
-      title: string
-      type: string
-    }[]
-    images: {
-      backdrops: {
-        aspect_ratio: number
-        file_path: string
-        height: number
-        iso_639_1: string
-        vote_average: number
-        vote_count: number
-        width: number
-      }[]
-      posters: {
-        aspect_ratio: number
-        file_path: string
-        height: number
-        iso_639_1: string
-        vote_average: number
-        vote_count: number
-        width: number
-      }[]
-      logos: {
-        aspect_ratio: number
-        file_path: string
-        height: number
-        iso_639_1: string
-        vote_average: number
-        vote_count: number
-        width: number
-      }[]
-    }
-  }
-
 export interface TMDBCollectionDetails {
   id: number
   name: string
@@ -217,139 +378,6 @@ export interface TMDBCollectionDetails {
   poster_path: string
   backdrop_path: string
   parts: TMDBSearchResult[]
-}
-export interface TMDBMovie {
-  adult?: boolean
-  backdrop_path?: string
-  belongs_to_collection?: {
-    id: number
-    name: string
-    poster_path: string
-    backdrop_path: string
-  }
-  budget?: number
-  genres?: {
-    id: number
-    name: string
-  }[]
-  homepage?: string
-  id: number
-
-  imdb_id?: string
-  original_language?: string
-  original_title?: string
-  overview?: string
-  popularity?: number
-  poster_path?: string
-  production_companies?: {
-    id: number
-    logo_path?: string
-    name: string
-    origin_country: string
-  }[]
-  production_countries?: {
-    iso_3166_1: string
-    name: string
-  }[]
-  release_date?: string
-  revenue?: number
-  runtime?: number
-  spoken_languages?: {
-    english_name: string
-    iso_639_1: string
-    name: string
-  }[]
-  status?: string
-  tagline?: string
-  title?: string
-  video?: boolean
-  vote_average?: number
-  vote_count?: number
-}
-
-export interface TMDBTV {
-  imdb_id?: string
-  backdrop_path?: string
-  created_by?: CreditsResult[]
-  episode_run_time?: number[]
-  first_air_date?: string
-  genres?: {
-    id: number
-    name: string
-  }[]
-  homepage?: string
-  id: number
-  in_production?: boolean
-  languages?: string[]
-  last_air_date?: string
-  last_episode_to_air?: {
-    air_date: string
-    episode_number: number
-    id: number
-    name: string
-    overview: string
-    production_code: string
-    season_number: number
-    still_path?: string
-    vote_average: number
-    vote_count: number
-  }
-  name?: string
-  networks?: {
-    name: string
-    id: number
-    logo_path?: string
-    origin_country: string
-  }[]
-  next_episode_to_air?: {
-    air_date: string
-    episode_number: number
-    id: number
-    name: string
-    overview: string
-    production_code: string
-    season_number: number
-    still_path?: string
-    vote_average: number
-    vote_count: number
-  }
-  number_of_episodes?: number
-  number_of_seasons?: number
-  origin_country?: string[]
-  original_language?: string
-  original_name?: string
-  overview?: string
-  popularity?: number
-  poster_path?: string
-  production_companies?: {
-    id: number
-    logo_path?: string
-    name: string
-    origin_country: string
-  }[]
-  production_countries?: {
-    iso_3166_1: string
-    name: string
-  }[]
-  seasons?: {
-    air_date: string
-    episode_count: number
-    id: number
-    name: string
-    overview: string
-    poster_path?: string
-    season_number: number
-  }[]
-  spoken_languages?: {
-    english_name: string
-    iso_639_1: string
-    name: string
-  }[]
-  status?: string
-  tagline?: string
-  type?: string
-  vote_average?: number
-  vote_count?: number
 }
 
 export interface TMDBPersonSalt {
@@ -372,7 +400,7 @@ export interface TMDBPersonSalt {
   }
 }
 
-export interface ExternalIDs {
+export interface ExternalIds {
   id: number
   imdb_id?: string
   facebook_id?: string
@@ -387,28 +415,7 @@ export interface ExternalIDs {
 }
 
 export type TMDBPerson = TMDBPersonSalt & {
-  external_ids?: ExternalIDs
-}
-
-export interface IUser {
-  _id?: string
-  email: string
-  username: string
-  password: string
-  verified: boolean
-  features: string[]
-  about?: string | null
-  banner?: string | null
-  avatar?: string | null
-  likes?: string[]
-  reviews?: string[]
-  watchlist?: string[]
-  watcheds?: string[]
-  following?: string[]
-  followers?: string[]
-  latestUsernameChange?: Date
-  createdAt: Date
-  updatedAt: Date
+  external_ids?: ExternalIds
 }
 
 export interface ProviderResults {
@@ -418,77 +425,6 @@ export interface ProviderResults {
     externalUrl: string
     androidTvUrl: string
   }[]
-}
-export interface TMDBWatchProviderDetails {
-  display_priority: number
-  logo_path: string
-  provider_id: number
-  provider_name: string
-}
-export interface TMDBWatchProvider {
-  id: number
-  results: {
-    TR: {
-      link: string
-      flatrate: TMDBWatchProviderDetails[]
-      buy: TMDBWatchProviderDetails[]
-      rent: TMDBWatchProviderDetails[]
-    }
-  }
-}
-
-export interface IActivity {
-  _id?: string
-  type: string
-  attribute?: string
-  entertainment: IEntertainment
-  author: string
-  createdAt: Date
-  updatedAt: Date
-}
-
-export interface IReview {
-  _id?: string
-  rating: number
-  content?: string
-  entertainment: IEntertainment
-  attribute?: string
-  rating: number
-  content?: string
-  author: Omit<IUser, "password">
-  createdAt: Date
-  updatedAt: Date
-}
-
-export interface TopRatedResult {
-  average: number
-  entertainment: IEntertainment
-  reviewsCount: number
-}
-
-export interface IHomeResponse {
-  recommendations: TMDBSearchResult[]
-  trending: TMDBsearchResult[]
-  top_rated: TopRatedResult[]
-}
-
-export interface ILike {
-  _id?: string
-  entertainment: IEntertainment
-  likes: number
-}
-
-export interface ErrorResponse {
-  status: number
-  message: string
-}
-
-export interface ReviewData {
-  count: number
-  rating: number
-  comment: string
-  spoiler: boolean
-  loading: boolean
 }
 
 export type PosterSizes = "w92" | "w154" | "w185" | "w342" | "w500" | "w780" | "original"
@@ -524,8 +460,39 @@ export type Genre =
   | "War"
   | "Western"
 
+export interface OMDBMedia {
+  Title: string
+  Year: string
+  Rated: string
+  Released: string
+  Runtime: string
+  Genre: string
+  Director: string
+  Writer: string
+  Actors: string
+  Plot: string
+  Language: string
+  Country: string
+  Awards: string
+  Poster: string
+  Ratings: {
+    Source: string
+    Value: string
+  }[]
+  Metascore: string
+  imdbRating: string
+  imdbVotes: string
+  imdbID: string
+  Type: string
+  DVD: string
+  BoxOffice: string
+  Production: string
+  Website: string
+  Response: string
+}
+
 export declare module "h3" {
   export interface H3EventContext {
-    user?: IUser
+    user?: User
   }
 }

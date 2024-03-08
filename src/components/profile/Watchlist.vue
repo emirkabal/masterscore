@@ -14,7 +14,6 @@ const emit = defineEmits(["remove"])
 const removeItem = async (id: any) => {
   $fetch(`/api/users/me/watchlist`, {
     method: "POST",
-    headers: generateHeaders(),
     body: JSON.stringify({
       id,
       type: "remove"
@@ -31,7 +30,7 @@ const removeItem = async (id: any) => {
       <div v-for="i in 10" :key="i">
         <div class="flex items-start">
           <div
-            class="skeleton-effect mr-4 h-16 w-10 rounded bg-gray-300 dark:bg-gray-900 md:h-24 md:w-16"
+            class="skeleton-effect mr-4 h-16 w-10 rounded bg-gray-300 md:h-24 md:w-16 dark:bg-gray-900"
           ></div>
 
           <div class="flex flex-col gap-2">

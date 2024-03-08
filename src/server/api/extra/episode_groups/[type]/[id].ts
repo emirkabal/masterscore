@@ -11,21 +11,21 @@ export default defineEventHandler(async (event) => {
   const lang = getISO(getCookie(event, "locale"))
 
   if (type === "groups") {
-    const data: EpisodeGroups = await $fetch(
+    const data = await $fetch<EpisodeGroups>(
       `https://api.themoviedb.org/3/tv/${id}/episode_groups?api_key=${config.TMDB_API_KEY}&language=${lang}`
     )
 
     return data
   } else if (type === "details") {
-    const data: EpisodeGroupsDetails = await $fetch(
+    const data = await $fetch<EpisodeGroupsDetails>(
       `https://api.themoviedb.org/3/tv/episode_group/${id}?api_key=${config.TMDB_API_KEY}&language=${lang}`
     )
 
     return data
   } else {
-    return createError({
+    throw createError({
       statusCode: 400,
-      message: "Invalid type"
+      statusMessage: "Invalid type"
     })
   }
 })

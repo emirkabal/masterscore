@@ -2,13 +2,23 @@
 import tinycolor from "tinycolor2"
 import { useStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
-const { $event, $listen, $colorthief, $getOriginalTitle, $getTitle } = useNuxtApp()
+const { $event, $listen, $colorthief } = useNuxtApp()
 const { params, query } = useRoute()
 const { feature } = query
 const flag = useStorage("debugMode", false)
-
 const { user, isLoggedIn } = useUserStore()
-const { data, pending, refresh, error } = useLazyFetch(`/api/tmdb/${params.id}?type=${params.type}`)
+
+const { data, pending, error } = await useAsyncData(
+  `getMedia-${params.type}-${params.id}`,
+  () => {
+    return getMedia(params.type, params.id)
+  },
+  {
+    lazy: true
+  }
+)
+
+if (error.value) throw error.value
 
 const trailerModal = ref(false)
 
@@ -17,7 +27,6 @@ const colors = reactive({
   gradient: [3, 50, 71]
 })
 
-const comments = ref([])
 const showDetailsDev = ref(false)
 
 const reviewData = reactive({
@@ -30,73 +39,16 @@ const reviewData = reactive({
   loading: true
 })
 const masterRating = ref(0)
-const backgroundBright = computed(() => {
-  // return tinycolor("rgb " + colors.background.join(" "))
-  //   .darken()
-  //   .isLight()
-  return false
-})
 const backgroundURL = computed(() => {
-  return data && data.value.backdrop_path
+  return data && data.value?.backdrop_path
     ? `https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${data.value.backdrop_path}`
     : undefined
 })
 const posterURL = computed(() => {
-  return data && data.value.poster_path
+  return data && data.value?.poster_path
     ? `https://image.tmdb.org/t/p/w300_and_h450_bestv2${data.value.poster_path}`
     : undefined
 })
-
-const fetchReviews = async () => {
-  reviewData.loading = true
-  const review = await $fetch(`/api/reviews/${data.value.localId}`, {
-    headers: generateHeaders()
-  })
-  if ("message" in review) {
-    return
-  }
-  comments.value = review.reviews
-  if (review.review && review.review.rating) {
-    reviewData.rating = review.review.rating
-    if (review.review.content) reviewData.comment = review.review.content
-    if (review.review.spoiler) reviewData.spoiler = true
-  }
-  reviewData.count = review.count
-  reviewData.good = review?.average?.good || 0
-  reviewData.poor = review?.average?.poor || 0
-  masterRating.value = review?.average?.rating || 0
-  reviewData.loading = false
-}
-
-const openReview = () => {
-  if (!isLoggedIn) {
-    return useRouter().push("/account/login")
-  }
-  $event("modal:review", true)
-}
-
-const deleteReview = async () => {
-  if (!isLoggedIn) {
-    return useRouter().push("/account/login")
-  }
-  if (user.reviews.includes(data.value.localId)) {
-    user.reviews = user.reviews.filter((e) => e !== data.value.localId)
-    reviewData.count -= 1
-  }
-
-  $event("modal:review", false)
-
-  reviewData.rating = 0.5
-  reviewData.comment = ""
-  await $fetch(`/api/reviews`, {
-    method: "DELETE",
-    body: JSON.stringify({
-      entertainment: data.value.localId
-    }),
-    headers: generateHeaders()
-  })
-  fetchReviews()
-}
 
 const getTeaser = computed(() => {
   if (!data.value.videos?.results?.length) return null
@@ -107,9 +59,8 @@ const getTeaser = computed(() => {
   return `https://youtu.be/${vid.key}`
 })
 
-watch(data, async () => {
-  if (error.value) return
-  if (posterURL.value && process.client) {
+const detectColor = () => {
+  if (process.client) {
     const image = new Image()
     image.setAttribute("crossOrigin", "Anonymous")
     image.src = posterURL.value
@@ -125,14 +76,10 @@ watch(data, async () => {
       console.log("error on image color analysis")
     }
   }
+}
 
-  fetchReviews()
-  $listen("entertainment:fetch:reviews", fetchReviews)
-
-  setTimeout(() => {
-    $event("entertainment:load", true)
-  }, 400)
-})
+detectColor()
+watch(data, detectColor)
 
 $listen("refresh:entertainment", () => {
   refresh()
@@ -147,9 +94,9 @@ useHead({
 <template>
   <EntertainmentLoading v-if="pending" />
   <div
-    v-else-if="data && reviewData"
+    v-else-if="data"
     :class="{
-      'font-mono': data.localId === '6413083c89dfe11b9d6c6dc4'
+      'font-mono': data.media.id === '6413083c89dfe11b9d6c6dc4'
     }"
   >
     <ScreenModal v-if="getTeaser" :modal="trailerModal" @close="trailerModal = false">
@@ -164,15 +111,9 @@ useHead({
         <EntertainmentPoster :poster-u-r-l="posterURL" />
       </div>
       <div class="w-full max-w-5xl">
-        <EntertainmentBody
-          :data="data"
-          :is-light="backgroundBright"
-          :rating="masterRating"
-          :reviewData="reviewData"
-        >
+        <EntertainmentBody :data="data" :rating="masterRating" :reviewData="reviewData">
           <EntertainmentButtonGroup
             :data="data"
-            @openReview="openReview"
             :reviewData="reviewData"
             :teaser="getTeaser"
             @watchTrailer="trailerModal = true"
@@ -182,7 +123,7 @@ useHead({
       </div>
     </EntertainmentContainer>
     <EntertainmentButtonGroupMobile
-      :id="data.localId"
+      :id="data.media.id"
       :teaser="getTeaser"
       @watchTrailer="trailerModal = true"
     />
@@ -197,18 +138,7 @@ useHead({
           <EntertainmentDetailsEpisodes v-if="data.seasons" :data="data" />
           <EntertainmentDetailsCast :data="data.credits" />
           <EntertainmentDetailsSimilar :data="data.similar" />
-          <EntertainmentDetailsReviews
-            :loading="reviewData.loading"
-            :data="comments"
-            :mranking="{
-              total: reviewData.count,
-              rating: masterRating,
-              good: reviewData.good,
-              poor: reviewData.poor
-            }"
-            @edit="openReview"
-            @remove="deleteReview"
-          />
+          <EntertainmentDetailsReviews :id="data.media.id" />
         </div>
         <EntertainmentDetailsSidebar
           class="static top-14 w-full self-start px-4 lg:sticky lg:min-w-[300px] lg:max-w-[300px]"
@@ -230,17 +160,6 @@ useHead({
           </ClientOnly>
         </div>
       </div>
-    </div>
-  </div>
-  <div v-else>
-    <div class="flex h-96 flex-col items-center justify-center">
-      <h1 class="text-4xl font-semibold">404</h1>
-      <p class="text-xl">Page not found</p>
-      <NuxtLink
-        to="/"
-        class="mt-4 rounded bg-white px-4 py-2 font-maven font-bold text-black hover:bg-gray-200"
-        >Go back to home</NuxtLink
-      >
     </div>
   </div>
 </template>

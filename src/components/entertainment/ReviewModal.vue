@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ReviewData, TMDBData } from "~/types"
+import type { CollapsedMedia } from "~/types"
 import { useUserStore } from "~/store/user"
 import { onClickOutside } from "@vueuse/core"
 const { isMobileOrTablet } = useDevice()
@@ -7,8 +7,8 @@ const { user, isLoggedIn } = useUserStore()
 const { $listen, $event } = useNuxtApp()
 
 const props = defineProps<{
-  data: TMDBData
-  reviewData: ReviewData
+  data: CollapsedMedia
+  reviewData: any
 }>()
 
 const modal = ref(false)
@@ -23,21 +23,16 @@ const submitReview = async () => {
   if (!isLoggedIn) {
     return useRouter().push("/account/login")
   }
-  if (user?.reviews && !user.reviews.includes(props.data.localId)) {
-    user.reviews.push(props.data.localId)
-    props.reviewData.count += 1
-  }
+
   modal.value = false
 
   await $fetch(`/api/reviews`, {
     method: "POST",
     body: JSON.stringify({
-      id: props.data.localId,
       rating: props.reviewData.rating,
       review: props.reviewData.comment,
       spoiler: props.reviewData.spoiler
-    }),
-    headers: generateHeaders()
+    })
   })
   $event("entertainment:fetch:reviews", true)
 }

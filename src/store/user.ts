@@ -1,12 +1,12 @@
-import type { IUser } from "~/types"
+import type { User } from "~/types"
 import { defineStore } from "pinia"
-import { generateHeaders } from "../utils/request"
 import { useLocalStorage } from "@vueuse/core"
+import { generateHeaders } from "~/composables/auth"
 
 export const useUserStore = defineStore("user", {
   state: () => {
     return {
-      user: undefined as Omit<IUser, "password"> | undefined,
+      user: undefined as Omit<User, "password"> | undefined,
       token: "",
       loading: false
     }
@@ -74,7 +74,7 @@ export const useUserStore = defineStore("user", {
         this.loading = false
         return
       }
-      this.user = data as unknown as Omit<IUser, "password">
+      this.user = data as unknown as Omit<User, "password">
       this.loading = false
     }
   }

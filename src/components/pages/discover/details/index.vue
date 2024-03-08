@@ -1,20 +1,20 @@
 <script lang="ts" setup>
-import type { TMDBData, TMDBSearchResult } from "~/types"
+import type { CollapsedMedia, TMDBResult } from "~/types"
 import { UseImage } from "@vueuse/components"
 const { $humanize, $tgenre } = useNuxtApp()
 const { locale } = useI18n()
 
-const props = defineProps<{ meta: TMDBSearchResult }>()
+const props = defineProps<{ meta: TMDBResult }>()
 const mediaType = props.meta.title ? "movie" : "tv"
 
 const data = reactive({
-  details: {} as TMDBData,
+  details: {} as CollapsedMedia,
   pending: true
 })
 
 const details = computed(() => {
   return {
-    logo: data.details?.images?.logos?.length && data.details?.images?.logos[0].file_path,
+    logo: data.details?.media?.images?.logo,
     runtime: $humanize(
       ((data && data.details?.runtime) ||
         (data && data.details?.episode_run_time && data.details?.episode_run_time[0]) ||
@@ -30,7 +30,7 @@ const details = computed(() => {
       }
     ),
     score:
-      data.details?.localData?.info?.ratings?.imdb ||
+      data.details?.media?.scores?.imdb ||
       (props.meta?.vote_average && props.meta.vote_average.toFixed(1)) ||
       "N/A",
     cast: data.details?.credits?.cast?.slice(0, 5),
@@ -41,10 +41,10 @@ const details = computed(() => {
 })
 
 const fetch = async () => {
-  data.details = {} as TMDBData
+  data.details = {} as CollapsedMedia
   data.pending = true
-  const res = await $fetch(`/api/tmdb/${props.meta.id}?type=${mediaType}`)
-  if ("id" in res) data.details = res
+  const res = await getMedia(mediaType, props.meta.id)
+  if (res) data.details = res
   data.pending = false
 }
 
@@ -132,6 +132,6 @@ watch(props, fetch)
       </div>
     </ScrollArea>
 
-    <PagesDiscoverDetailsButtonGroup :id="data.details.localId" />
+    <PagesDiscoverDetailsButtonGroup :id="data.details?.media?.id" />
   </div>
 </template>

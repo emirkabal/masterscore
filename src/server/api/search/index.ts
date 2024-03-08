@@ -1,6 +1,6 @@
-import type { ErrorResponse, IUser, TMDBSearchResult } from "~/types"
-import UserModel from "~/server/models/User.model"
 import getISO from "~/utils/getISO"
+import prisma from "../../db/prisma"
+import type { TMDBResult, TMDBSearchResults } from "~/types"
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
@@ -13,10 +13,7 @@ export default defineEventHandler(async (event) => {
       : parseInt(queryLimit as any)
 
   const lang = getISO(getCookie(event, "locale"))
-  const data: {
-    results: TMDBSearchResult[]
-    // @ts-ignore
-  } = await $fetch(
+  const data = await $fetch<TMDBSearchResults<TMDBResult>>(
     `https://api.themoviedb.org/3/search/multi?api_key=${config.TMDB_API_KEY}&language=${lang}&page=1&include_adult=false&query=${q}`
   )
 
@@ -29,16 +26,23 @@ export default defineEventHandler(async (event) => {
     .slice(0, limit)
 
   const persons = data.results
-    // @ts-ignore
     .filter((result) => result.media_type === "person" && result.profile_path)
     .slice(0, 3)
 
-  const users: IUser[] = await UserModel.find({
-    $or: [{ username: { $regex: q, $options: "i" } }]
+  const users = await prisma.user.findMany({
+    where: {
+      username: {
+        contains: q?.toString(),
+        mode: "insensitive"
+      }
+    },
+    select: {
+      username: true,
+      avatar: true,
+      verified: true
+    },
+    take: 3
   })
-    .limit(3)
-    .select("username avatar -_id")
-    .lean()
 
   return {
     status: 200,

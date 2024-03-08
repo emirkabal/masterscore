@@ -6,7 +6,7 @@ import { version } from "./package.json"
 const isDev = process.env.NODE_ENV === "development"
 export default defineNuxtConfig({
   srcDir: "src/",
-  ssr: false,
+  ssr: true,
   spaLoadingTemplate: "./app/spa-loading-template.html",
   devtools: {
     enabled: true
@@ -15,7 +15,6 @@ export default defineNuxtConfig({
     ["@nuxtjs/i18n", i18n],
     "@nuxt/image",
     "@pinia/nuxt",
-    "@nuxtjs/tailwindcss",
     [
       "shadcn-nuxt",
       {
@@ -35,6 +34,7 @@ export default defineNuxtConfig({
   ],
 
   css: [
+    "~/assets/css/main.css",
     "vue3-emoji-picker/css",
     "@fontsource/inter/400.css",
     "@fontsource/inter/600.css",
@@ -44,6 +44,14 @@ export default defineNuxtConfig({
     "@fontsource/maven-pro/900.css"
   ],
 
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+      ...(isDev ? {} : { cssnano: {} })
+    }
+  },
+
   routeRules: {
     "/**": isDev ? {} : { cache: { swr: true, maxAge: 120, staleMaxAge: 60, headersOnly: true } }
   },
@@ -51,16 +59,15 @@ export default defineNuxtConfig({
   nitro: {
     routeRules: {
       "/**": { isr: false }
-    },
-    plugins: ["~/server/db/index.ts"]
+    }
   },
 
   app: {
-    // pageTransition: { name: "slide" },
     head: {
       title: "Masterscore",
       htmlAttrs: {
-        lang: "en"
+        lang: "en",
+        class: "dark"
       },
       meta: [
         { charset: "utf-8" },
@@ -141,10 +148,6 @@ export default defineNuxtConfig({
     // }
   },
 
-  tailwindcss: {
-    viewer: false
-  },
-
   runtimeConfig: {
     MONGO_URI: process.env.MONGO_URI,
     TMDB_API_KEY: process.env.TMDB_API_KEY,
@@ -157,7 +160,8 @@ export default defineNuxtConfig({
     VERSION: version,
     public: {
       SOCKET_SERVER: process.env.SOCKET_SERVER,
-      SUPABASE_STORAGE_URL: process.env.SUPABASE_STORAGE_URL
+      SUPABASE_STORAGE_URL: process.env.SUPABASE_STORAGE_URL,
+      TMDB_API_TOKEN: process.env.TMDB_API_TOKEN
     }
   }
 })

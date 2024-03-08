@@ -1,27 +1,20 @@
-import type { ErrorResponse, IUser } from "~/types"
-import UserModel from "~/server/models/User.model"
-import fixUserNullables from "~/utils/fixUserNullables"
+import prisma from "~/server/db/prisma"
 
 export default defineEventHandler(async (event) => {
   const id = event.context.params?.id as string
-  if (!id) {
-    return { status: 400, message: "Missing id" } as ErrorResponse
-  }
+  if (!id) throw createError({ statusCode: 400, statusMessage: "Bad request" })
 
-  let user: Partial<IUser> | null = await UserModel.findOne({
-    username: {
-      $regex: new RegExp(`^${id}$`, "i")
+  const user = await prisma.user.findFirst({
+    where: {
+      username: {
+        equals: id,
+        mode: "insensitive"
+      }
     }
-  }).lean()
+  })
 
-  if (!user) {
-    return { status: 404, message: "User not found" } as ErrorResponse
-  }
+  if (!user) throw createError({ statusCode: 404, statusMessage: "User not found" })
+  const { password, email, ...customUser } = user
 
-  user = fixUserNullables(user)
-
-  delete user.password
-  delete user.email
-
-  return user as IUser
+  return customUser
 })

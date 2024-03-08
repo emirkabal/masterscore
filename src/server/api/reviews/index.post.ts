@@ -1,85 +1,65 @@
-import type { ErrorResponse } from "~/types"
-import ActivityModel from "~/server/models/Activity.model"
-import ReviewModel from "~/server/models/Review.model"
-import Entertainment from "~/server/models/Entertainment.model"
-import UserModel from "~/server/models/User.model"
-import grabUserWithoutPassword from "~/utils/grabUserWithoutPassword"
+import prisma from "~/server/db/prisma"
 import { ReviewSchema } from "~/server/validation"
 
 export default defineEventHandler(async (event) => {
-  if (!event.context.user) {
-    return { status: 401, message: "Unauthorized" } as ErrorResponse
-  }
+  if (!event.context.user) throw createError({ statusCode: 401, statusMessage: "Unauthorized" })
+
   const body = await readBody(event)
-  const { id, rating, review, spoiler } = body as {
+  const { id, rating, content, spoiler } = body as {
     id: string
     rating: number
-    review: string
+    content: string
     spoiler: boolean
   }
+
   if (!id)
-    return {
-      status: 400,
-      message: "Missing entertainment"
-    } as ErrorResponse
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Bad request"
+    })
 
   const { error } = ReviewSchema.validate(body)
-  if (error) return { status: 400, message: error.message } as ErrorResponse
+  if (error) throw createError({ statusCode: 400, statusMessage: error.message })
 
-  const user = grabUserWithoutPassword(event.context.user)
+  const user = event.context.user
 
-  const entertainment = await Entertainment.findById(id)
-  if (!entertainment)
-    return {
-      status: 404,
-      message: "Entertainment not found"
-    } as ErrorResponse
+  const media = await prisma.media.findUnique({
+    where: {
+      id
+    }
+  })
+  if (!media) throw createError({ statusCode: 404, statusMessage: "Media not found" })
 
-  const reviewData = await ReviewModel.findOneAndUpdate(
-    { entertainment: id, author: user._id },
-    {
-      $set: {
-        rating,
-        content: review || undefined,
-        spoiler: spoiler || undefined,
-        author: user._id,
-        entertainment: id
+  await prisma.review.upsert({
+    create: {
+      media: {
+        connect: {
+          id
+        }
       },
-      $unset: {
-        content: review ? undefined : 0,
-        spoiler: spoiler ? undefined : 0
+      user: {
+        connect: {
+          id: user.id
+        }
+      },
+      rating,
+      content,
+      spoiler
+    },
+
+    update: {
+      rating,
+      content,
+      spoiler
+    },
+
+    where: {
+      media_id_user_id: {
+        media_id: id,
+        user_id: user.id
       }
-    },
-    {
-      upsert: true,
-      new: true
     }
-  )
-  await ActivityModel.findOneAndUpdate(
-    {
-      entertainment: id,
-      author: user._id,
-      type: "review"
-    },
-    {
-      $set: {
-        type: "review",
-        attribute: rating,
-        entertainment: id,
-        review: reviewData._id,
-        author: user._id
-      }
-    },
-    {
-      upsert: true,
-      new: true
-    }
-  )
-  if (user.reviews && !user.reviews.map((e) => e.toString()).includes(id)) {
-    await UserModel.findByIdAndUpdate(user._id, {
-      $push: { reviews: id }
-    })
-  }
+  })
 
   return {
     status: 200,

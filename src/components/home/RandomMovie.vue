@@ -8,9 +8,7 @@ const props = defineProps({
 const loading = ref(false)
 const getRandomMovie = async () => {
   loading.value = true
-  const data = await $fetch("/api/extra/random/movie", {
-    headers: generateHeaders()
-  })
+  const data = await $fetch("/api/extra/random/movie", {})
 
   useRouter().push(`/movie/${data.id}?feature=random`)
 }

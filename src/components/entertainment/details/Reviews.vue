@@ -5,7 +5,19 @@ const { user } = useUserStore()
 const emits = defineEmits(["edit", "remove"])
 withDefaults(
   defineProps<{
-    data?: any[]
+    data?: {
+      _id: string
+      author: {
+        _id: string
+        username: string
+        avatar: string
+        verified: boolean
+      }
+      content: string
+      rating: number
+      createdAt: string
+      updatedAt: string
+    }[]
     loading?: boolean
     mranking?: {
       total: number
@@ -119,14 +131,14 @@ const test = ref(false)
             </div>
             <ReviewContent :review="comment" class="mt-1" />
 
-            <div class="mt-2">
+            <div class="mt-2 flex items-center justify-between">
               <div v-if="comment.content" class="flex gap-x-4">
                 <button
                   v-if="!test"
                   @click="test = true"
-                  class="flex h-8 w-8 items-center justify-center gap-x-1 rounded-full bg-gray-800 text-sm transition hover:bg-gray-700"
+                  class="flex items-center justify-center gap-x-1 rounded-full bg-gray-900/50 p-2 text-sm transition hover:bg-gray-900"
                 >
-                  <Icon name="ph:arrow-fat-up" />
+                  <Icon name="ph:arrow-fat-up" class="h-4 w-4" />
                   <!-- <Icon name="ph:arrow-fat-up-fill" /> -->
                 </button>
                 <button
@@ -141,26 +153,30 @@ const test = ref(false)
                 </button>
               </div>
 
-              <!-- <button v-if="comment.author._id === user?._id">
-                <Icon name="mdi:dots-horizontal" class="h-6 w-6 rotate-90 md:rotate-0" />
-              </button> -->
-              <!-- <div
-                v-if="comment.author._id === user?._id"
-                class="ml-auto mt-0 flex items-center gap-2 sm:ml-0 sm:mt-2"
-              >
-                <button
-                  @click="$emit('edit')"
-                  class="ml-auto rounded bg-white px-2 py-1 text-xs font-semibold shadow transition hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-zinc-700"
+              <DropdownMenu v-if="comment.author._id === user?._id">
+                <DropdownMenuTrigger
+                  as-child
+                  class="h-8 w-8 rounded-full transition hover:bg-gray-900"
                 >
-                  <Icon name="ic:round-edit" class="h-4 w-4" />
-                </button>
-                <button
-                  @click="$emit('remove')"
-                  class="ml-auto rounded bg-red-100 px-2 py-1 text-xs font-semibold text-red-500 shadow transition hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800"
-                >
-                  <Icon name="ic:outline-delete-forever" class="h-4 w-4" />
-                </button>
-              </div> -->
+                  <button>
+                    <Icon name="mdi:dots-horizontal" class="h-5 w-5" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent class="w-32">
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem @click="$emit('edit')">
+                      <Icon name="ic:round-edit" class="mr-2 h-5 w-5" />
+                      <span>Edit</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem class="text-red-400" @click="$emit('remove')">
+                      <Icon name="ic:outline-delete-forever" class="mr-2 h-5 w-5" />
+                      <span>Delete</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>

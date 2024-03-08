@@ -4,7 +4,7 @@ const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
   const id = event.context.params?.id
-  if (!id) return createError({ statusCode: 400, message: "missing id" })
+  if (!id) throw createError({ statusCode: 400, statusMessage: "missing id" })
 
   const lang = getISO(getCookie(event, "locale"))
   const data = await $fetch<TMDBPerson>(
@@ -12,9 +12,9 @@ export default defineEventHandler(async (event) => {
   ).catch(() => null)
 
   if (!data || data.adult)
-    return createError({
+    throw createError({
       statusCode: 404,
-      message: "Person not found or is an adult content"
+      statusMessage: "Person not found or is an adult content"
     })
 
   return data as TMDBPerson

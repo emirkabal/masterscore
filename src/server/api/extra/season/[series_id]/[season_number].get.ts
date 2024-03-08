@@ -7,13 +7,13 @@ export default defineEventHandler(async (event) => {
     season_number: string
   }
   if (isNaN(Number(series_id)) || isNaN(Number(season_number)))
-    return createError({
+    throw createError({
       statusCode: 400,
-      message: "Invalid series_id or season_number"
+      statusMessage: "Invalid series_id or season_number"
     })
 
   const lang = getISO(getCookie(event, "locale"))
-  const data: any = await $fetch(
+  const data = await $fetch(
     `https://api.themoviedb.org/3/tv/${series_id}/season/${season_number}?api_key=${config.TMDB_API_KEY}&language=${lang}`
   )
 

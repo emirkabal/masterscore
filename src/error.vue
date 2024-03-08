@@ -28,7 +28,7 @@ const handleError = () => {
     </div>
     <div class="z-20 w-fit max-w-2xl p-12">
       <h1 class="mb-2 text-4xl font-bold">{{ error?.statusCode }}</h1>
-      <p class="mb-8 text-lg text-gray-200">{{ error?.statusMessage }}</p>
+      <p class="mb-8 text-lg text-gray-200">{{ error.statusMessage }}</p>
       <button
         @click="handleError"
         class="w-full max-w-52 rounded bg-white px-4 py-2 font-maven font-bold text-black hover:bg-gray-200"

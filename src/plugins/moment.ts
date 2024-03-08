@@ -1,23 +1,20 @@
 import moment from "moment"
 import humanize from "humanize-duration"
-import "moment/dist/locale/tr"
-import "moment/dist/locale/de"
-import "moment/dist/locale/es"
-import "moment/dist/locale/fr"
-import "moment/dist/locale/ru"
-import "moment/dist/locale/sv"
-import "moment/dist/locale/hi"
-import "moment/dist/locale/pt"
-import "moment/dist/locale/ja"
-import "moment/dist/locale/da"
-import "moment/dist/locale/ko"
-import "moment/dist/locale/uk"
-import "moment/dist/locale/ar"
+import "moment/locale/tr"
+import "moment/locale/de"
+import "moment/locale/es"
+import "moment/locale/fr"
+import "moment/locale/ru"
+import "moment/locale/sv"
+import "moment/locale/hi"
+import "moment/locale/pt"
+import "moment/locale/ja"
+import "moment/locale/da"
+import "moment/locale/ko"
+import "moment/locale/uk"
+import "moment/locale/ar"
 
-import momentDurationFormatSetup from "moment-duration-format"
 export default defineNuxtPlugin((nuxtApp) => {
-  // @ts-ignore
-  momentDurationFormatSetup(moment)
   return {
     provide: {
       moment,

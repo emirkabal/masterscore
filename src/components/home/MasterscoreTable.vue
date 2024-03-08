@@ -37,9 +37,7 @@ const fetch = async () => {
   if (disableReviewRequirement.value)
     queries.append("disableReviewRequirement", disableReviewRequirement.value)
   if (listType.value !== "all") queries.append("type", listType.value)
-  const data = await $fetch("/api/reviews?" + queries.toString(), {
-    headers: generateHeaders()
-  })
+  const data = await $fetch("/api/reviews?" + queries.toString(), {})
   items.value = data.map((e, i) => {
     return {
       rank: i + 1,

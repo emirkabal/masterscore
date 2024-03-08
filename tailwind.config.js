@@ -3,8 +3,14 @@ const scrollbar = require("tailwind-scrollbar")({ nocompatible: true })
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
-
+  content: [
+    "./src/components/**/*.{js,vue,ts}",
+    "./src/layouts/**/*.vue",
+    "./src/pages/**/*.vue",
+    "./src/plugins/**/*.{js,ts}",
+    "./src/app.vue",
+    "./src/error.vue"
+  ],
   theme: {
     container: {
       center: true,

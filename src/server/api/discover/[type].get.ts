@@ -1,4 +1,4 @@
-import type { TMDBSearchResult } from "~/types"
+import type { TMDBResult, TMDBSearchResults } from "~/types"
 import getISO from "~/utils/getISO"
 
 const config = useRuntimeConfig()
@@ -32,12 +32,9 @@ export default defineEventHandler(async (event) => {
   if (with_keywords) params.append("with_keywords", with_keywords)
   if (without_keywords) params.append("without_keywords", without_keywords)
 
-  const data: {
-    results: TMDBSearchResult[]
-    total_pages: number
-    total_results: number
-    page: number
-  } = await $fetch(`https://api.themoviedb.org/3/discover/${type}?${params.toString()}`)
+  const data = await $fetch<TMDBSearchResults<TMDBResult>>(
+    `https://api.themoviedb.org/3/discover/${type}?${params.toString()}`
+  )
 
   return data
 })
