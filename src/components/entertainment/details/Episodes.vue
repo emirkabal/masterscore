@@ -181,23 +181,26 @@ watch(seasonData, () => {
                   :source="$timage(episode.still_path, 'w500')"
                 />
                 <div class="w-full">
-                  <div class="flex min-w-0 items-center gap-2 font-semibold">
+                  <div class="flex min-w-0 items-center gap-x-2 font-semibold">
                     <span class="line-clamp-1 text-xs md:text-xl">{{ episode.name }}</span>
                     <span
                       class="flex-shrink-0 text-xs text-gray-400 md:text-base dark:text-zinc-400"
                       >E-{{ episode.episode_number }}</span
                     >
                   </div>
-                  <div class="flex gap-2 text-xs font-semibold opacity-75 md:text-base">
+                  <div class="flex gap-x-2 text-xs opacity-75 md:text-base">
                     <p>
                       {{ $moment(episode.air_date).locale($i18n.locale).format("MMMM D, YYYY") }}
                     </p>
                     <p>
                       {{
-                        $moment
-                          .duration(episode.runtime, "minutes")
-                          .locale($i18n.locale)
-                          .format("h[h] m[m]")
+                        $humanize(episode.runtime * 60_000, {
+                          language: $i18n.locale,
+                          delimiter: " ",
+                          units: ["m"],
+                          maxDecimalPoints: 0,
+                          fallbacks: ["en"]
+                        })
                       }}
                     </p>
                   </div>

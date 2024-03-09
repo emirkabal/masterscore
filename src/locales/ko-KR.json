@@ -148,7 +148,8 @@
       "like": "좋다",
       "liked": "좋아요를 누른",
       "remove": "제거하다",
-      "save": "구하다"
+      "save": "구하다",
+      "unlike": "같지 않은"
     },
     "sidebar": {
       "belongs_to_collection": "컬렉션 소속",

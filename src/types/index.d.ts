@@ -9,9 +9,9 @@ export interface User {
   about?: string
   avatar?: string
   banner?: string
-  reviews: Review[]
-  likes: Like[]
-  collections: Collection[]
+  reviews: string[]
+  likes: string[]
+  collections: Collection<string>[]
   verified_at?: string
   username_changed_at?: string
   created_at: string
@@ -40,13 +40,15 @@ export interface Like {
   updated_at: string
 }
 
-export interface Collection {
+export interface Collection<T> {
   id: string
   name: string
-  description: string
+  description?: string
+  image?: string
+  private: boolean
   user_id: string
   user: User
-  list: CollectionMedia[]
+  list: T[]
   created_at: string
   updated_at: string
 }
@@ -427,7 +429,15 @@ export interface ProviderResults {
   }[]
 }
 
-export type PosterSizes = "w92" | "w154" | "w185" | "w342" | "w500" | "w780" | "original"
+export type PosterSizes =
+  | "w92"
+  | "w154"
+  | "w185"
+  | "w300_and_h450_bestv2"
+  | "w342"
+  | "w500"
+  | "w780"
+  | "original"
 export type BackdropSizes = "w300" | "w780" | "w1280" | "original"
 export type LogoSizes = "w45" | "w92" | "w154" | "w185" | "w300" | "w500" | "original"
 

@@ -2,15 +2,10 @@ import prisma from "~/server/db/prisma"
 import { ReviewSchema } from "~/server/validation"
 
 export default defineEventHandler(async (event) => {
-  if (!event.context.user) throw createError({ statusCode: 401, statusMessage: "Unauthorized" })
+  const { id } = event.context.params as { id: string }
 
-  const body = await readBody(event)
-  const { id, rating, content, spoiler } = body as {
-    id: string
-    rating: number
-    content: string
-    spoiler: boolean
-  }
+  const user = event.context.user
+  if (!user) throw createError({ statusCode: 401, statusMessage: "Unauthorized" })
 
   if (!id)
     throw createError({
@@ -18,10 +13,14 @@ export default defineEventHandler(async (event) => {
       statusMessage: "Bad request"
     })
 
+  const body = (await readBody(event)) as {
+    rating: number
+    content: string
+    spoiler: boolean
+  }
+
   const { error } = ReviewSchema.validate(body)
   if (error) throw createError({ statusCode: 400, statusMessage: error.message })
-
-  const user = event.context.user
 
   const media = await prisma.media.findUnique({
     where: {
@@ -29,6 +28,8 @@ export default defineEventHandler(async (event) => {
     }
   })
   if (!media) throw createError({ statusCode: 404, statusMessage: "Media not found" })
+
+  const { rating, content, spoiler } = body
 
   await prisma.review.upsert({
     create: {

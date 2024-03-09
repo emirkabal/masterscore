@@ -1,19 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import tinycolor from "tinycolor2"
 import { useStorage } from "@vueuse/core"
-import { useUserStore } from "~/store/user"
-const { $event, $listen, $colorthief } = useNuxtApp()
-const { params, query } = useRoute()
-const { feature } = query
+const { $colorthief, $timage } = useNuxtApp()
+const { params } = useRoute()
 const flag = useStorage("debugMode", false)
-const { user, isLoggedIn } = useUserStore()
 
-const { data, pending, error } = await useAsyncData(
-  `getMedia-${params.type}-${params.id}`,
-  () => {
-    return getMedia(params.type, params.id)
-  },
+const {
+  data: data,
+  pending,
+  error
+} = await useAsyncData(
+  `m:${params.type}${params.id}`,
+  () => getMedia(params.type as "movie" | "tv", params.id as string),
   {
+    deep: false,
     lazy: true
   }
 )
@@ -29,41 +29,25 @@ const colors = reactive({
 
 const showDetailsDev = ref(false)
 
-const reviewData = reactive({
-  count: 0,
-  rating: 0.5,
-  good: 0,
-  poor: 0,
-  comment: "",
-  spoiler: false,
-  loading: true
-})
 const masterRating = ref(0)
-const backgroundURL = computed(() => {
-  return data && data.value?.backdrop_path
-    ? `https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${data.value.backdrop_path}`
-    : undefined
-})
-const posterURL = computed(() => {
-  return data && data.value?.poster_path
-    ? `https://image.tmdb.org/t/p/w300_and_h450_bestv2${data.value.poster_path}`
-    : undefined
-})
+const backdrop = computed(() => $timage(data.value?.backdrop_path || "-", "w1280"))
+const poster = computed(() => $timage(data.value?.poster_path || "-", "w300_and_h450_bestv2"))
 
 const getTeaser = computed(() => {
-  if (!data.value.videos?.results?.length) return null
-  const vid = data.value.videos.results.find(
+  if (!data.value?.videos?.results?.length) return "-"
+  const vid = data.value?.videos.results.find(
     (e) => e.site === "YouTube" && (e.type === "Trailer" || e.type === "Teaser")
   )
-  if (!vid) return null
+  if (!vid) return "-"
   return `https://youtu.be/${vid.key}`
 })
 
 const detectColor = () => {
   if (process.client) {
+    console.log("detecting color", poster.value)
     const image = new Image()
     image.setAttribute("crossOrigin", "Anonymous")
-    image.src = posterURL.value
+    image.src = poster.value
     image.onload = () => {
       const dominantColor = $colorthief.getColor(image, {
         algorithm: "sqrt"
@@ -78,43 +62,53 @@ const detectColor = () => {
   }
 }
 
-detectColor()
-watch(data, detectColor)
-
-$listen("refresh:entertainment", () => {
-  refresh()
+onMounted(() => {
+  detectColor()
+})
+watch(data, () => {
+  detectColor()
 })
 
 useHead({
-  title: "...",
-  titleTemplate: "%s - Masterscore"
+  title: data.value?.title || data.value?.name
+})
+useSeoMeta({
+  title: data.value?.title || data.value?.name,
+  ogTitle: data.value?.title || data.value?.name,
+  description: data.value?.overview,
+  ogDescription: data.value?.overview,
+  ogImage: $timage(data.value?.poster_path || "-", "w300_and_h450_bestv2"),
+  ogType: params.type === "movie" ? "video.movie" : "video.tv_show",
+  twitterImage: $timage(data.value?.poster_path || "-", "w300_and_h450_bestv2"),
+  twitterCard: "summary_large_image",
+  twitterTitle: data.value?.title || data.value?.name,
+  twitterDescription: data.value?.overview
 })
 </script>
 
 <template>
-  <EntertainmentLoading v-if="pending" />
+  <EntertainmentLoading v-if="pending || !data" />
   <div
     v-else-if="data"
     :class="{
       'font-mono': data.media.id === '6413083c89dfe11b9d6c6dc4'
     }"
   >
-    <ScreenModal v-if="getTeaser" :modal="trailerModal" @close="trailerModal = false">
+    <!-- <ScreenModal v-if="getTeaser" :modal="trailerModal" @close="trailerModal = false">
       <iframe
         class="aspect-video h-auto w-full rounded-xl"
         :src="`https://www.youtube.com/embed/${getTeaser.split('/')[3]}?autoplay=1`"
       />
-    </ScreenModal>
-    <EntertainmentReviewModal :data="data" :reviewData="reviewData" />
-    <EntertainmentContainer :colors="colors" :background-u-r-l="backgroundURL" :feature="feature">
+    </ScreenModal> -->
+    <!-- <EntertainmentReviewModal :data="data" /> -->
+    <EntertainmentContainer :colors="colors" :backdrop="backdrop">
       <div class="relative">
-        <EntertainmentPoster :poster-u-r-l="posterURL" />
+        <EntertainmentPoster :poster="poster" />
       </div>
       <div class="w-full max-w-5xl">
-        <EntertainmentBody :data="data" :rating="masterRating" :reviewData="reviewData">
+        <EntertainmentBody :data="data" :rating="masterRating">
           <EntertainmentButtonGroup
             :data="data"
-            :reviewData="reviewData"
             :teaser="getTeaser"
             @watchTrailer="trailerModal = true"
           />
@@ -146,20 +140,20 @@ useHead({
         />
       </div>
 
-      <div v-if="flag">
-        <button
-          @click="showDetailsDev = !showDetailsDev"
-          class="font-semibod mt-8 rounded bg-white px-4 py-2 shadow dark:bg-gray-900"
-        >
-          {{ showDetailsDev ? "Hide" : "Show" }} details
-        </button>
-        <div v-if="showDetailsDev">
-          <p>{{ params.type }}: {{ params.id }}</p>
-          <ClientOnly>
+      <ClientOnly>
+        <div v-if="flag">
+          <button
+            @click="showDetailsDev = !showDetailsDev"
+            class="font-semibod mt-8 rounded bg-white px-4 py-2 shadow dark:bg-gray-900"
+          >
+            {{ showDetailsDev ? "Hide" : "Show" }} details
+          </button>
+          <div v-if="showDetailsDev">
+            <p>{{ params.type }}: {{ params.id }}</p>
             <JsonViewer :value="data" copyable sort expanded theme="jsonviewer" />
-          </ClientOnly>
+          </div>
         </div>
-      </div>
+      </ClientOnly>
     </div>
   </div>
 </template>

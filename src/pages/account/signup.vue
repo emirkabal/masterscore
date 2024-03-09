@@ -3,7 +3,7 @@ import { useUserStore } from "~/store/user"
 const { t } = useI18n()
 useHead({
   title: t("guest.sign_up"),
-  titleTemplate: "%s - Masterscore"
+  titleTemplate: "%s | Masterscore"
 })
 const userStore = useUserStore()
 
@@ -11,6 +11,9 @@ definePageMeta({
   middleware: ["noauth"],
   layout: "blank"
 })
+
+const route = useRoute()
+const goPath = route.query.r || "/"
 
 const username = ref("")
 const email = ref("")
@@ -29,7 +32,7 @@ const disabled = computed(() => {
 })
 
 if (userStore.isLoggedIn) {
-  useRouter().push("/")
+  useRouter().push(goPath)
 }
 
 const submit = async (event) => {
@@ -52,7 +55,7 @@ const submit = async (event) => {
     error.value = ""
     userStore.setToken(data.token)
     await userStore.getUserData()
-    useRouter().push("/")
+    useRouter().push(goPath)
   } catch (err) {
     loading.value = false
     error.value = err.message || "An error occurred"
@@ -123,9 +126,11 @@ const submit = async (event) => {
 
       <p class="mt-4 text-center !text-black">
         {{ $t("guest.already_have_account") }}
-        <NuxtLink to="/account/login" class="font-semibold text-blue-700 hover:underline">{{
-          $t("guest.sign_in")
-        }}</NuxtLink>
+        <NuxtLink
+          :to="`/account/login${goPath !== '/' ? `?r=${goPath}` : ''}`"
+          class="font-semibold text-blue-700 hover:underline"
+          >{{ $t("guest.sign_in") }}</NuxtLink
+        >
       </p>
     </div>
     <div class="fixed bottom-0 left-1/2 z-50 mb-4 block -translate-x-1/2 text-black md:hidden">

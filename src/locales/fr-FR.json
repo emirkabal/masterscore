@@ -147,7 +147,8 @@
       "like": "Comme",
       "liked": "Aimé",
       "remove": "Retirer",
-      "save": "Sauvegarder"
+      "save": "Sauvegarder",
+      "unlike": "Contrairement à"
     },
     "sidebar": {
       "belongs_to_collection": "Appartient à la collection",

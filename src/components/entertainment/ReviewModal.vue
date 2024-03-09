@@ -74,7 +74,7 @@ $listen("modal:review", (val) => {
       </button>
     </template>
   </Modal>
-  <BottomModal v-else :title="$t('review_modal.title')" :show="modal" @close="modal = false">
+  <Drawer v-else :title="$t('review_modal.title')" :show="modal" @close="modal = false">
     <template v-slot:body>
       <EntertainmentReviewModalInner :data="props.data" :reviewData="props.reviewData" />
     </template>
@@ -86,5 +86,5 @@ $listen("modal:review", (val) => {
         {{ $t("review_modal.submit") }}
       </button>
     </template>
-  </BottomModal>
+  </Drawer>
 </template>

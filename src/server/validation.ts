@@ -18,7 +18,6 @@ export const UserPatchableSchema = Joi.object({
 })
 
 export const ReviewSchema = Joi.object({
-  id: Joi.string().required(),
   rating: Joi.number().min(0.5).max(10).required(),
   content: Joi.string().allow(null).allow("").max(512),
   spoiler: Joi.boolean().allow(null)

@@ -147,7 +147,8 @@
       "like": "Tycka om",
       "liked": "Gillade",
       "remove": "Avlägsna",
-      "save": "Spara"
+      "save": "Spara",
+      "unlike": "Till skillnad från"
     },
     "sidebar": {
       "belongs_to_collection": "Tillhör kollektionen",

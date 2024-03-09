@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProviderResults, CollapsedMedia } from "~/types"
+import type { ProviderResults, CollapsedMedia, Media } from "~/types"
 const { t, locale } = useI18n()
 const { $getTitle, $getOriginalTitle, $moment } = useNuxtApp()
 const { userAgent } = useDevice()
@@ -20,7 +20,10 @@ const formatter = new Intl.NumberFormat("en-US", {
 const { data: providerData, pending: providerPending } = useLazyFetch<ProviderResults>(
   `https://watchhub.strem.io/stream/movie/${
     props.data.external_ids?.imdb_id || props.data.imdb_id
-  }.json`
+  }.json`,
+  {
+    server: false
+  }
 )
 
 const getDateDiff = (date: string) => {
@@ -151,16 +154,15 @@ const externalScores = computed(() => {
         class="w-full"
         v-if="data.belongs_to_collection"
         :title="$t('entertainment.sidebar.belongs_to_collection')"
-        :entertainment="{
-          id: '0',
-          type: '0',
-          info: {
-            release_date: '0',
+        :media="
+          {
             title: data.belongs_to_collection.name.replace(' Collection', '').replace('[Seri]', ''),
-            poster: data.belongs_to_collection.poster_path,
-            backdrop: data.belongs_to_collection.backdrop_path
-          }
-        }"
+            images: {
+              poster: data.belongs_to_collection.poster_path,
+              backdrop: data.belongs_to_collection.backdrop_path
+            }
+          } as Media
+        "
         :to="$route.path"
       />
       <p v-if="originalName && originalName !== $getTitle(data)">

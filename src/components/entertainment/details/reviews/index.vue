@@ -1,71 +1,38 @@
 <script setup lang="ts">
 import { useUserStore } from "~/store/user"
 
-const { user } = useUserStore()
-const emits = defineEmits(["edit", "remove"])
-withDefaults(
-  defineProps<{
-    data?: {
-      _id: string
-      author: {
-        _id: string
-        username: string
-        avatar: string
-        verified: boolean
-      }
-      content: string
-      rating: number
-      createdAt: string
-      updatedAt: string
-    }[]
-    loading?: boolean
-    mranking?: {
-      total: number
-      rating: number
-      good: number
-      poor: number
-    }
-  }>(),
-  {
-    data: () => [],
-    loading: false
-  }
-)
+const props = defineProps(["id"])
+
+const { data, pending, error, refresh } = useFetch(`/api/media/${props.id}/reviews`)
+
+const userStore = useUserStore()
 
 const test = ref(false)
+
+const review = reactive({
+  rating: 0.5,
+  content: "",
+  spoiler: false
+})
+
+const emits = defineEmits(["edit", "remove"])
+
+const submitReview = () => {
+  console.log("clicked")
+
+  reviewMedia(props.id, {
+    ...review
+  }).then(() => refresh)
+}
 </script>
 
 <template>
   <div class="px-4">
-    <h1
-      v-if="!loading"
-      class="my-4 border-l-4 border-yellow-500 pl-4 text-2xl font-bold tracking-wide"
-    >
+    <h1 class="my-4 border-l-4 border-yellow-500 pl-4 text-2xl font-bold tracking-wide">
       {{ $t("entertainment.reviews") }}
     </h1>
-    <!-- <div v-if="mranking?.good">
-      <EntertainmentMRanking :rating="mranking.rating" class="w-fit" />
-      <p class="text-gray-500 dark:text-gray-400">{{ $t("total") }}: {{ mranking.total }}</p>
-      <p class="flex flex-wrap gap-x-4">
-        <span class="text-green-500 dark:text-green-400">
-          {{
-            $t("mranking.reviewers_positive", [
-              mranking.good,
-              ((mranking.good * 100) / mranking.total).toFixed(2)
-            ])
-          }}
-        </span>
-        <span class="text-red-500 dark:text-red-400">
-          {{
-            $t("mranking.reviewers_negative", [
-              mranking.poor,
-              ((mranking.poor * 100) / mranking.total).toFixed(2)
-            ])
-          }}
-        </span>
-      </p>
-    </div> -->
-    <div v-if="loading">
+
+    <div v-if="pending || error">
       <div class="skeleton-effect my-2 h-6 w-32 rounded bg-gray-300 dark:bg-gray-900"></div>
       <div class="flex items-center px-4 py-6" v-for="i in 4" :key="i">
         <div
@@ -79,31 +46,86 @@ const test = ref(false)
         </div>
       </div>
     </div>
-    <div v-else-if="data.length > 0">
+    <div v-else>
       <div class="flex flex-col gap-y-12">
-        <div v-for="comment in data" :key="comment._id" class="flex items-start gap-x-4 rounded-xl">
-          <NuxtLink :to="`/users/@${comment.author.username}`">
+        <!-- review -->
+        <!-- <EntertainmentDetailsReviewsComment :data="data" /> -->
+        <div v-if="userStore.isLoggedIn && userStore.user" class="flex gap-x-4">
+          <Avatar
+            :username="userStore.user.username"
+            :avatar="userStore.user.avatar"
+            :square="userStore.user.verified"
+            class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
+          />
+          <div class="flex w-full flex-col gap-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <FormStarInput
+                :rating="review.rating"
+                @update:rating="(val: number) => (review.rating = val)"
+              />
+              <div
+                @click="
+                  () => {
+                    if (review.rating >= 9.6) review.rating = 10
+                  }
+                "
+              >
+                <StarRating
+                  :animate="true"
+                  :numberOfStars="10"
+                  :star-size="36"
+                  inactiveColor="#1f2937"
+                  starColor="#facc15"
+                  v-model="review.rating"
+                ></StarRating>
+              </div>
+            </div>
+            <div class="relative w-full">
+              <textarea
+                type="text"
+                :value="review.content"
+                :maxlength="512"
+                @input="(e: any) => (review.content = e.target.value)"
+                :placeholder="$t('review_modal.placeholder')"
+                class="h-11 w-full select-none resize-none rounded border border-gray-800 p-2 outline-none transition-all duration-100 focus:h-24 focus:outline-none focus:ring-1 focus:ring-gray-700 dark:bg-gray-900"
+                :class="{
+                  '!h-24': review.content.length > 0
+                }"
+              />
+            </div>
+            <button
+              @click="submitReview"
+              type="button"
+              class="self-end rounded-xl bg-brand px-4 py-2 font-semibold text-black transition hover:opacity-75"
+            >
+              Değerlendir
+            </button>
+          </div>
+        </div>
+
+        <div
+          v-for="comment in data?.reviews"
+          :key="comment.id"
+          class="flex items-start gap-x-4 rounded-xl"
+        >
+          <NuxtLink :to="`/users/@${comment.user.username}`">
             <Avatar
-              :username="comment.author.username"
-              :avatar="comment.author.avatar"
-              :square="comment.author.verified"
+              :username="comment.user.username"
+              :avatar="comment.user.avatar"
+              :square="comment.user.verified"
               class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
             />
           </NuxtLink>
 
           <div class="flex w-full min-w-0 flex-col">
-            <!-- <span class="text-sm opacity-90">
-              {{ $t("entertainment.reviewed") }}: {{ comment.rating }}/10
-            </span> -->
-
             <div class="flex items-center gap-x-1.5">
               <NuxtLink
-                :to="`/users/${comment.author.username}`"
+                :to="`/users/${comment.user.username}`"
                 class="flex min-w-0 items-center gap-1 font-semibold transition hover:opacity-85"
               >
-                <span class="truncate break-words"> {{ comment.author.username }} </span>
+                <span class="truncate break-words"> {{ comment.user.username }} </span>
                 <Icon
-                  v-if="comment.author.verified"
+                  v-if="comment.user.verified"
                   name="material-symbols:verified-rounded"
                   class="h-5 w-5 flex-shrink-0 text-brand"
               /></NuxtLink>
@@ -113,14 +135,14 @@ const test = ref(false)
               >
                 <span
                   v-tooltip="{
-                    content: $moment(comment.createdAt).locale($i18n.locale).format('LLLL')
+                    content: $moment(comment.created_at).locale($i18n.locale).format('LLLL')
                   }"
-                  v-text="$moment(comment.createdAt).locale($i18n.locale).calendar()"
+                  v-text="$moment(comment.created_at).locale($i18n.locale).calendar()"
                 ></span>
                 <span
-                  v-if="comment.createdAt !== comment.updatedAt"
+                  v-if="comment.created_at !== comment.updated_at"
                   v-tooltip="{
-                    content: $moment(comment.updatedAt).locale($i18n.locale).format('LLLL')
+                    content: $moment(comment.updated_at).locale($i18n.locale).format('LLLL')
                   }"
                   class="ml-1"
                   >({{ $t("edited") }})</span
@@ -153,7 +175,7 @@ const test = ref(false)
                 </button>
               </div>
 
-              <DropdownMenu v-if="comment.author._id === user?._id">
+              <DropdownMenu v-if="comment.user.id === userStore.user?.id">
                 <DropdownMenuTrigger
                   as-child
                   class="h-8 w-8 rounded-full transition hover:bg-gray-900"
@@ -182,10 +204,10 @@ const test = ref(false)
         </div>
       </div>
     </div>
-    <div v-else>
+    <!-- <div v-else>
       <p class="text-gray-500 dark:text-gray-400">
         {{ $t("entertainment.no_reviews") }}
       </p>
-    </div>
+    </div> -->
   </div>
 </template>

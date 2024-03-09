@@ -148,7 +148,8 @@
       "like": "Beğen",
       "liked": "Beğenildi",
       "save": "Kaydet",
-      "remove": "Çıkar"
+      "remove": "Çıkar",
+      "unlike": "Beğenmekten vazgeç"
     },
     "sidebar": {
       "belongs_to_collection": "Koleksiyon",

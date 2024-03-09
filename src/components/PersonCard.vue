@@ -19,9 +19,7 @@ const { data } = defineProps<{
         :source="$timage(data.profile_path || '-', 'w300')"
         class="h-32 w-[85px] rounded-lg md:h-[240px] md:w-[140px]"
       />
-      <div
-        class="mt-2 flex h-full w-full flex-col items-center justify-center pt-2 text-center font-maven"
-      >
+      <div class="mt-2 flex h-full w-full flex-col items-center justify-center pt-2 text-center">
         <p class="line-clamp-2 break-words text-xs font-semibold md:text-base">
           {{ data.name }}
         </p>

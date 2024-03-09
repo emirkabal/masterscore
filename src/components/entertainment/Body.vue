@@ -40,11 +40,6 @@ const releaseDate = computed(() => {
     .locale(locale.value)
     .format("YYYY")
 })
-
-useHead({
-  title,
-  titleTemplate: "%s - Masterscore"
-})
 </script>
 
 <template>

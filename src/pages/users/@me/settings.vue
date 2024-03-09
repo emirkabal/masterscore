@@ -8,7 +8,7 @@ definePageMeta({
 })
 useHead({
   title: "Settings",
-  titleTemplate: "%s - Masterscore"
+  titleTemplate: "%s | Masterscore"
 })
 
 const { user } = useUserStore()

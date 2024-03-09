@@ -14,17 +14,6 @@ const handleNotify = () => {
   router.push("/discover")
   notify.value = false
 }
-
-watch(
-  userStore,
-  () => {
-    console.log("user cum")
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-)
 </script>
 <template>
   <div>
@@ -34,7 +23,7 @@ watch(
         class="flex h-10 w-full items-center justify-center gap-x-4 bg-blue-700 text-sm text-white"
       >
         <p>
-          <i18n-t keypath="notify.template">
+          <i18n-t keypath="notify.template" scope="global">
             <template v-slot>
               <span class="font-semibold">
                 {{ $t("discover.title") }}
@@ -58,9 +47,9 @@ watch(
         <Loader />
       </div> -->
 
-      <main class="w-full">
-        <slot />
-      </main>
+      <div class="w-full">
+        <NuxtPage />
+      </div>
     </div>
     <Footer />
     <!-- PWA -->

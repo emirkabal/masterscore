@@ -103,7 +103,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       <Icon name="ic:round-search" class="pointer-events-none absolute left-2 top-[9px] h-6 w-6" />
       <div
         v-if="!focused"
-        class="pointer-events-none absolute right-2.5 top-2 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
+        class="pointer-events-none absolute right-2.5 top-2 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 lg:block dark:text-gray-400"
       >
         Ctrl K
       </div>
@@ -389,9 +389,9 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         </div>
       </div>
       <div
-        class="bottom-2 left-2.5 mt-4 hidden w-fit select-none space-x-2 text-center font-mono text-sm text-gray-800 dark:text-gray-400 lg:block"
+        class="bottom-2 left-2.5 mt-4 hidden w-fit select-none space-x-2 text-center font-mono text-sm text-gray-800 lg:block dark:text-gray-400"
       >
-        <i18n-t keypath="search.close">
+        <i18n-t keypath="search.close" scope="global">
           <template v-slot:key>
             <span class="rounded border border-gray-500 px-1 py-0.5">Esc</span>
           </template>

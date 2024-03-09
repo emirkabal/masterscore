@@ -30,12 +30,12 @@ const {
 const top_rated = computed(() => {
   return homeStore.top_rated.map((item) => {
     return {
-      id: item.entertainment.id,
-      media_type: item.entertainment.type,
-      title: item.entertainment.info.title,
-      poster_path: item.entertainment.info.poster,
-      backdrop_path: item.entertainment.info.backdrop,
-      vote_average: item.average
+      id: item.media.tmdb_id,
+      media_type: item.media.type,
+      title: item.media.title,
+      poster_path: item.media.images.poster,
+      backdrop_path: item.media.images.backdrop,
+      vote_average: item.score
     }
   })
 })

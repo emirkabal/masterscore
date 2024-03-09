@@ -148,7 +148,8 @@
       "like": "يحب",
       "liked": "احب",
       "remove": "يزيل",
-      "save": "يحفظ"
+      "save": "يحفظ",
+      "unlike": "على عكس"
     },
     "sidebar": {
       "belongs_to_collection": "ينتمي إلى مجموعة",

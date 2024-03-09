@@ -7,11 +7,13 @@ export default defineEventHandler(async (event) => {
     const token = event.node.req.headers.authorization.split(" ")[1]
     const decoded = jwt.decode(token) as { id: string } | null
     if (decoded) {
-      const user = await prisma.user.findUnique({
-        where: {
-          id: decoded.id
-        }
-      })
+      const user = await prisma.user
+        .findUnique({
+          where: {
+            id: decoded.id
+          }
+        })
+        .catch(() => null)
       if (user) {
         const secret = config.JWT_SECRET
         try {

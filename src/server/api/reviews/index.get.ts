@@ -7,49 +7,44 @@ export default defineEventHandler(async (event) => {
     disableReviewRequirement: boolean | undefined
   }
 
-  const t = await prisma.review.aggregateRaw({
-    pipeline: [
-      {
-        $group: {
-          _id: "$entertainment",
-          average: { $avg: "$rating" },
-          reviewsCount: { $sum: 1 }
+  const raw = await prisma.review.groupBy({
+    by: ["media_id"],
+    _avg: { rating: true },
+    _count: true,
+    having: {
+      rating: {
+        _count: {
+          gt: 0
         }
-      },
-      {
-        $project: {
-          _id: 1,
-          average: 1,
-          reviewsCount: 1
-        }
-      },
-      {
-        $lookup: {
-          from: "Entertainment",
-          localField: "_id",
-          foreignField: "_id",
-          as: "entertainment"
-        }
-      },
-      {
-        $unwind: "$entertainment"
-      },
-      (type && { $match: { "entertainment.type": type } }) || { $match: {} },
-      (!disableReviewRequirement && {
-        $match: {
-          reviewsCount: { $gt: 2 }
-        }
-      }) || { $match: {} },
-      {
-        $sort: {
-          average: -1
-        }
-      },
-      {
-        $limit: Number(limit) || 10
       }
-    ]
+    },
+    orderBy: {
+      _avg: {
+        rating: "desc"
+      }
+    },
+    take: 100
   })
 
-  return t
+  const reviews = await prisma.review.findMany({
+    where: {
+      media_id: {
+        in: raw.map((r) => r.media_id)
+      }
+    },
+    include: {
+      media: true
+    }
+  })
+
+  const result = raw.map((r) => {
+    const review = reviews.find((review) => review.media_id === r.media_id)
+    return {
+      media: review?.media,
+      score: r._avg.rating,
+      count: r._count
+    }
+  })
+
+  return result
 })

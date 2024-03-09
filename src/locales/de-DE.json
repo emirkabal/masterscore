@@ -148,7 +148,8 @@
       "like": "Wie",
       "liked": "Gefallen",
       "remove": "Entfernen",
-      "save": "Speichern"
+      "save": "Speichern",
+      "unlike": "nicht wie"
     },
     "sidebar": {
       "belongs_to_collection": "Gehört zur Sammlung",

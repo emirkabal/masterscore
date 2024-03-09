@@ -1,24 +1,20 @@
 <script setup lang="ts">
-import type { IEntertainment, IReview } from "~/types"
 import { useUrlSearchParams } from "@vueuse/core"
 import { vIntersectionObserver } from "@vueuse/components"
 import debounce from "lodash.debounce"
+import type { Media } from "~/types"
 const params = useUrlSearchParams("history")
 
-interface CustomIncomingData {
-  _id: string
-  type: "review" | "like" | "watchlist"
-  entertainment: IEntertainment
-  review?: IReview
-  attribute?: any
-  author: {
+type CustomIncomingData = {
+  id: string
+  user: {
     username: string
-    avatar?: string
+    avatar: any
     verified: boolean
   }
-  createdAt: Date
-  updatedAt: Date
-}
+  media: Media
+  created_at: string
+} & ({ type: "review"; content: string; rating: number } | { type: "like" })
 
 const loading = ref(true)
 const activities = ref<CustomIncomingData[]>([])
@@ -30,9 +26,7 @@ const pagination = reactive({
 
 const fetch = async () => {
   pagination.loading = true
-  const data = await $fetch<CustomIncomingData[]>(
-    `/api/activities?page=${pagination.page}&type=review,watchlist`
-  )
+  const data = await $fetch<CustomIncomingData[]>(`/api/feed/combined?page=${pagination.page}`)
   activities.value = [...activities.value, ...data]
   pagination.loading = false
   loading.value = false
@@ -79,7 +73,7 @@ watch(
     </button>
     <div v-if="loading" class="flex items-start py-8" v-for="i in 8" :key="i">
       <div
-        class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 dark:bg-gray-900 md:h-14 md:w-14"
+        class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 md:h-14 md:w-14 dark:bg-gray-900"
       ></div>
       <div class="ml-4 flex w-full flex-col">
         <div class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"></div>
@@ -94,13 +88,13 @@ watch(
       class="flex w-full items-start gap-4 border-b py-8 dark:border-gray-900"
       v-for="(activity, i) in activities"
       v-intersection-observer="i === activities.length - 1 ? onIntersectionObserver : () => {}"
-      :key="activity._id"
+      :key="activity.id"
     >
-      <NuxtLink :to="`/users/${activity.author.username}`">
+      <NuxtLink :to="`/users/${activity.user.username}`">
         <Avatar
-          :username="activity.author.username"
-          :avatar="activity.author.avatar"
-          :square="activity.author.verified"
+          :username="activity.user.username"
+          :avatar="activity.user.avatar"
+          :square="activity.user.verified"
           class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
         />
       </NuxtLink>
@@ -108,28 +102,32 @@ watch(
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
             <div class="flex items-center gap-x-1 font-semibold">
-              <span class="line-clamp-1 break-all">{{ activity.author.username }}</span>
+              <span class="line-clamp-1 break-all">{{ activity.user.username }}</span>
               <Icon
-                v-if="activity.author.verified"
+                v-if="activity.user.verified"
                 name="material-symbols:verified-rounded"
                 class="h-5 w-5 flex-shrink-0 text-brand"
               />
             </div>
             <span
               v-tooltip="{
-                content: $moment(activity.createdAt).locale($i18n.locale).format('LLLL')
+                content: $moment(activity.created_at).locale($i18n.locale).format('LLLL')
               }"
               class="flex-shrink-0 cursor-default text-xs text-gray-500 dark:text-gray-300"
             >
-              {{ $moment(activity.createdAt).locale($i18n.locale).calendar() }}
+              {{ $moment(activity.created_at).locale($i18n.locale).calendar() }}
             </span>
           </div>
         </div>
-        <ReviewContent v-if="activity.review" :review="activity.review" :skip-info="true" />
+        <ReviewContent
+          v-if="activity.type === 'review'"
+          :review="activity.content"
+          :skip-info="true"
+        />
         <EntertainmentCard
-          :to="`/${activity.entertainment.type}/${activity.entertainment.id}`"
-          :entertainment="activity.entertainment"
-          :score="activity.review?.rating"
+          :to="`/${activity.media.type}/${activity.media.tmdb_id}`"
+          :media="activity.media"
+          :score="activity.type === 'review' ? activity.rating : undefined"
           :title="activity.type"
         />
       </div>

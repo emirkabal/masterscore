@@ -138,7 +138,7 @@ onMounted(async () => {
 
   useHead({
     title: `@${user.value?.username}`,
-    titleTemplate: "%s - Masterscore"
+    titleTemplate: "%s | Masterscore"
   })
 })
 
@@ -148,7 +148,7 @@ definePageMeta({
 
 useHead({
   title: `...`,
-  titleTemplate: "%s - Masterscore"
+  titleTemplate: "%s | Masterscore"
 })
 </script>
 <template>

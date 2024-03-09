@@ -3,7 +3,7 @@ import { useUserStore } from "~/store/user"
 const { t } = useI18n()
 useHead({
   title: t("guest.sign_in"),
-  titleTemplate: "%s - Masterscore"
+  titleTemplate: "%s | Masterscore"
 })
 const userStore = useUserStore()
 
@@ -12,13 +12,16 @@ definePageMeta({
   layout: "blank"
 })
 
+const route = useRoute()
+const goPath = route.query.r || "/"
+
 const username = ref("")
 const password = ref("")
 const error = ref("")
 const loading = ref(false)
 
 if (userStore.isLoggedIn) {
-  useRouter().push("/")
+  useRouter().push(goPath)
 }
 
 const submit = async (event) => {
@@ -27,10 +30,10 @@ const submit = async (event) => {
   try {
     await userStore.login(username.value, password.value)
     error.value = ""
-    useRouter().push("/")
+    useRouter().push(goPath)
   } catch (err) {
     loading.value = false
-    error.value = err.message || "An error occurred"
+    error.value = err.statusMessage || "An error occurred"
   }
 }
 </script>
@@ -41,12 +44,13 @@ const submit = async (event) => {
       <div class="mt-32 rounded-3xl md:bg-white md:p-8">
         <div class="mb-4 text-center md:text-left">
           <Logo
-            class="absolute left-0 top-0 m-4 text-2xl text-black md:relative md:m-0 md:text-lg"
+            :black="true"
+            class="absolute left-0 top-0 m-4 text-2xl md:relative md:m-0 md:text-lg"
           />
           <h1 class="font-maven text-4xl font-black text-black">
             {{ $t("guest.sign_in") }}
           </h1>
-          <p v-if="error.length > 0" class="my-4 font-mono leading-4 text-red-600">
+          <p v-if="error.length > 0" class="my-4 leading-4 text-red-600">
             {{ error }}
           </p>
         </div>
@@ -70,9 +74,11 @@ const submit = async (event) => {
         </form>
         <p class="mt-3 text-center !text-black">
           {{ $t("guest.dont_have_account") }}
-          <NuxtLink :to="'/account/signup'" class="font-semibold text-blue-700 hover:underline">{{
-            $t("guest.sign_up")
-          }}</NuxtLink>
+          <NuxtLink
+            :to="`/account/signup${goPath !== '/' ? `?r=${goPath}` : ''}`"
+            class="font-semibold text-blue-700 hover:underline"
+            >{{ $t("guest.sign_up") }}</NuxtLink
+          >
         </p>
       </div>
     </div>

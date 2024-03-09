@@ -148,7 +148,8 @@
       "like": "Synes godt om",
       "liked": "Kunne lide",
       "remove": "Fjerne",
-      "save": "Gemme"
+      "save": "Gemme",
+      "unlike": "I modsætning til"
     },
     "sidebar": {
       "belongs_to_collection": "Tilhører samling",

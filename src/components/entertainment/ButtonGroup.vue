@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CollapsedMedia } from "~/types"
 import { useUserStore } from "~/store/user"
+const userStore = useUserStore()
 
 const props = defineProps<{
   data?: CollapsedMedia
@@ -29,23 +30,17 @@ const emits = defineEmits(["openReview", "watchTrailer"])
   </div>
   <div v-else-if="!loading && data" class="mb-4 hidden gap-2 text-lg lg:flex">
     <button
+      :disabled="userStore.isLoading"
+      type="button"
+      @click="likeMedia(data.media.id)"
       class="btn"
       :class="{
-        active: true
+        active: userStore.isLiked(data.media.id)
       }"
       v-tooltip="{
-        content: true ? $t('entertainment.buttons.reviewed') : $t('entertainment.buttons.review')
-      }"
-    >
-      <Icon name="ic:round-star" class="h-7 w-7" />
-    </button>
-    <button
-      class="btn"
-      :class="{
-        active: true
-      }"
-      v-tooltip="{
-        content: true ? $t('entertainment.buttons.liked') : $t('entertainment.buttons.like')
+        content: userStore.isLiked(data.media.id)
+          ? $t('entertainment.buttons.unlike')
+          : $t('entertainment.buttons.like')
       }"
     >
       <Icon name="ic:round-favorite" class="h-7 w-7" />
@@ -61,6 +56,7 @@ const emits = defineEmits(["openReview", "watchTrailer"])
       <Icon name="ic:round-bookmark-add" v-if="!true" class="h-7 w-7" />
       <Icon name="ic:round-bookmark-remove" v-else class="h-7 w-7" />
     </button>
+
     <button
       v-if="teaser"
       @click="$emit('watchTrailer')"
@@ -74,7 +70,7 @@ const emits = defineEmits(["openReview", "watchTrailer"])
 
 <style>
 .btn {
-  @apply flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-white p-2 transition-colors hover:bg-white hover:text-black;
+  @apply flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-white p-2 transition-colors hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:bg-white disabled:text-black disabled:opacity-30;
 }
 
 .btn.active {
