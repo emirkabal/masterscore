@@ -149,20 +149,20 @@
 }
 
 table {
-  @apply border-collapse border border-gray-200 bg-white dark:border-gray-900 dark:bg-gray-950;
+  @apply border-collapse border border-gray-900 bg-gray-950 ;
 }
 table th {
-  @apply border border-gray-200 dark:border-gray-800;
+  @apply border border-gray-800;
 }
 table td {
-  @apply border border-gray-200 dark:border-gray-800;
+  @apply border border-gray-800;
 }
 table tr:nth-child(even) {
-  @apply bg-gray-100 dark:bg-gray-900;
+  @apply bg-gray-900;
 }
 
 .vue3-easy-data-table {
-  @apply w-full overflow-x-auto rounded-lg bg-white shadow dark:bg-gray-900;
+  @apply w-full overflow-x-auto rounded-lg bg-gray-900 shadow;
 }
 
 /* Table container */
@@ -179,13 +179,13 @@ table tr:nth-child(even) {
   @apply bg-transparent;
 }
 .vue3-easy-data-table__main::-webkit-scrollbar-thumb {
-  @apply cursor-pointer bg-slate-300 transition hover:bg-slate-400  dark:bg-black;
+  @apply cursor-pointer bg-black transition hover:bg-slate-400  ;
 }
 
 /* Border cell */
 .vue3-easy-data-table .border-cell tr td,
 .vue3-easy-data-table .border-cell tr th {
-  @apply border-r border-slate-200 last:border-none dark:border-gray-900;
+  @apply border-r border-gray-900 last:border-none;
 }
 
 .vue3-easy-data-table .border-cell tr td.can-expand,
@@ -200,7 +200,7 @@ table tr:nth-child(even) {
 
 /* Teableheader row */
 .vue3-easy-data-table__header tr {
-  @apply border-b bg-slate-100 dark:bg-gray-900;
+  @apply border-b bg-gray-900;
 }
 
 /* Table header th tag */
@@ -211,14 +211,13 @@ table tr:nth-child(even) {
 /* Fixed header */
 
 .vue3-easy-data-table__main.fixed-header.show-shadow.table-fixed .shadow {
-  @apply border-r bg-white dark:bg-black;
+  @apply border-r bg-black;
 }
 
 /* table head sort icons */
 /* None */
 .vue3-easy-data-table__header tr th.sortable.none .sortType-icon {
-  @apply ml-3 inline-block -rotate-45 cursor-pointer border border-slate-400 p-1 transition duration-300 hover:bg-blue-400  
-dark:border-gray-800;
+  @apply ml-3 inline-block -rotate-45 cursor-pointer border border-gray-800 p-1 transition duration-300 hover:bg-blue-400;
 }
 /* Asce */
 .vue3-easy-data-table__header tr th.sortable.asc .sortType-icon {
@@ -244,7 +243,7 @@ p-1 transition duration-300;
 }
 /* Table body tr */
 .vue3-easy-data-table__body.row-alternation tr {
-  @apply transition even:bg-slate-50  hover:bg-slate-100 dark:even:bg-gray-900 dark:hover:bg-gray-800;
+  @apply transition even:bg-gray-900 hover:bg-gray-800;
 }
 
 /* Expand slot */
@@ -263,7 +262,7 @@ p-1 transition duration-300;
 /* Footer */
 
 .vue3-easy-data-table__footer {
-  @apply flex w-full flex-col items-start gap-5 border-t px-6 py-5 text-sm  dark:border-gray-900 lg:flex-row lg:items-center;
+  @apply flex w-full flex-col items-start gap-5 border-t px-6 py-5 text-sm border-gray-900 lg:flex-row lg:items-center;
 }
 
 /* Rows per page */
@@ -286,7 +285,7 @@ p-1 transition duration-300;
 }
 /* Selction dropdown */
 .vue3-easy-data-table__footer .select-items {
-  @apply hidden divide-y overflow-hidden rounded-md bg-white shadow-md transition duration-300 dark:bg-black;
+  @apply hidden divide-y overflow-hidden rounded-md bg-black shadow-md transition duration-300;
 }
 
 .vue3-easy-data-table__footer .select-items.show {
@@ -295,7 +294,7 @@ p-1 transition duration-300;
 
 /* Select items inside dropdown */
 .vue3-easy-data-table__footer .select-items.show li {
-  @apply cursor-pointer px-2 py-1 hover:bg-blue-300 dark:hover:bg-blue-900;
+  @apply cursor-pointer px-2 py-1 hover:bg-blue-900;
 }
 .vue3-easy-data-table__footer .select-items.show li.selected {
   @apply bg-blue-600 text-white;
@@ -366,12 +365,12 @@ before:h-5 before:w-5;
 /* JSON Viewer */
 
 .jsonviewer {
-  @apply rounded-lg border border-gray-200 bg-white font-mono text-gray-600 dark:border-zinc-700 dark:bg-gray-900 dark:text-gray-200;
+  @apply rounded-lg border  border-zinc-700 bg-gray-900 text-gray-200;
   white-space: nowrap;
   font-size: 14px;
 }
 .jsonviewer .jv-ellipsis {
-  @apply bg-gray-100 text-gray-500 dark:bg-gray-900 dark:text-gray-400;
+  @apply  bg-gray-900 text-gray-400;
   display: inline-block;
   line-height: 0.9;
   font-size: 0.9em;
@@ -385,10 +384,10 @@ before:h-5 before:w-5;
   color: #49b3ff;
 }
 .jsonviewer .jv-key {
-  @apply text-gray-700 dark:text-gray-300;
+  @apply text-gray-300;
 }
 .jsonviewer .jv-item.jv-array {
-  @apply text-gray-700 dark:text-gray-300;
+  @apply text-gray-300;
 }
 .jsonviewer .jv-item.jv-boolean {
   color: #fc1e70;
@@ -406,7 +405,7 @@ before:h-5 before:w-5;
   color: #fc1e70;
 }
 .jsonviewer .jv-item.jv-object {
-  @apply text-gray-700 dark:text-gray-300;
+  @apply text-gray-300;
 }
 .jsonviewer .jv-item.jv-undefined {
   color: #e08331;

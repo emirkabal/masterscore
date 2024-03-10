@@ -46,14 +46,14 @@ const releaseDate = computed(() => {
     <div>
       <div class="flex flex-col items-center lg:items-start">
         <div
-          class="skeleton-effect inline-block h-10 w-4/6 flex-shrink-0 rounded bg-gray-300 font-semibold leading-8 lg:leading-none dark:bg-gray-800"
+          class="skeleton-effect inline-block h-10 w-4/6 flex-shrink-0 rounded bg-gray-800 font-semibold leading-8 lg:leading-none"
         ></div>
         <div
           class="mt-2 flex w-full items-center justify-center gap-2 text-xs sm:text-sm lg:justify-start lg:text-lg"
         >
           <div
             v-for="i in 4"
-            class="skeleton-effect h-4 w-1/12 rounded bg-gray-300 pr-2 font-semibold dark:bg-gray-800"
+            class="skeleton-effect h-4 w-1/12 rounded bg-gray-800 pr-2 font-semibold"
           ></div>
         </div>
       </div>
@@ -61,24 +61,24 @@ const releaseDate = computed(() => {
         <slot />
       </div>
       <div class="mt-2.5 flex flex-col items-start gap-2">
-        <div class="skeleton-effect h-4 w-1/12 rounded bg-gray-300 dark:bg-gray-800"></div>
-        <div class="skeleton-effect h-4 w-10/12 rounded bg-gray-300 dark:bg-gray-800"></div>
-        <div class="skeleton-effect h-4 w-8/12 rounded bg-gray-300 dark:bg-gray-800"></div>
-        <div class="skeleton-effect h-4 w-6/12 rounded bg-gray-300 dark:bg-gray-800"></div>
-        <div class="skeleton-effect h-4 w-4/12 rounded bg-gray-300 dark:bg-gray-800"></div>
+        <div class="skeleton-effect h-4 w-1/12 rounded bg-gray-800"></div>
+        <div class="skeleton-effect h-4 w-10/12 rounded bg-gray-800"></div>
+        <div class="skeleton-effect h-4 w-8/12 rounded bg-gray-800"></div>
+        <div class="skeleton-effect h-4 w-6/12 rounded bg-gray-800"></div>
+        <div class="skeleton-effect h-4 w-4/12 rounded bg-gray-800"></div>
       </div>
       <div class="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <div class="w-full space-y-2">
-          <div class="skeleton-effect h-4 w-1/2 rounded bg-gray-300 dark:bg-gray-800"></div>
-          <div class="skeleton-effect h-4 w-1/4 rounded bg-gray-300 dark:bg-gray-800"></div>
+          <div class="skeleton-effect h-4 w-1/2 rounded bg-gray-800"></div>
+          <div class="skeleton-effect h-4 w-1/4 rounded bg-gray-800"></div>
         </div>
         <div class="w-full space-y-2">
-          <div class="skeleton-effect h-4 w-1/2 rounded bg-gray-300 dark:bg-gray-800"></div>
-          <div class="skeleton-effect h-4 w-1/4 rounded bg-gray-300 dark:bg-gray-800"></div>
+          <div class="skeleton-effect h-4 w-1/2 rounded bg-gray-800"></div>
+          <div class="skeleton-effect h-4 w-1/4 rounded bg-gray-800"></div>
         </div>
         <div class="w-full space-y-2">
-          <div class="skeleton-effect h-4 w-1/2 rounded bg-gray-300 dark:bg-gray-800"></div>
-          <div class="skeleton-effect h-4 w-1/4 rounded bg-gray-300 dark:bg-gray-800"></div>
+          <div class="skeleton-effect h-4 w-1/2 rounded bg-gray-800"></div>
+          <div class="skeleton-effect h-4 w-1/4 rounded bg-gray-800"></div>
         </div>
       </div>
     </div>

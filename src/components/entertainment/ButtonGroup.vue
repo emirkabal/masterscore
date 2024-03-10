@@ -23,9 +23,9 @@ const emits = defineEmits(["openReview", "watchTrailer"])
 <template>
   <div v-if="loading">
     <div class="flex flex-row gap-2">
-      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-800"></div>
-      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-800"></div>
-      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-800"></div>
+      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-800"></div>
+      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-800"></div>
+      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-800"></div>
     </div>
   </div>
   <div v-else-if="!loading && data" class="mb-4 hidden gap-2 text-lg lg:flex">

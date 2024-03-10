@@ -103,13 +103,13 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       <Icon name="ic:round-search" class="pointer-events-none absolute left-2 top-[9px] h-6 w-6" />
       <div
         v-if="!focused"
-        class="pointer-events-none absolute right-2.5 top-2 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-800 lg:block dark:text-gray-400"
+        class="pointer-events-none absolute right-2.5 top-2 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-400 lg:block"
       >
         Ctrl K
       </div>
       <input
         type="text"
-        class="h-full w-full rounded-lg border-none bg-white pl-10 shadow hover:ring focus:outline-none focus:ring-0 dark:bg-gray-950 dark:placeholder:text-gray-300"
+        class="h-full w-full rounded-lg border-none bg-gray-950 pl-10 shadow placeholder:text-gray-300 hover:ring focus:outline-none focus:ring-0"
         :class="{
           'rounded-bl-none rounded-br-none rounded-tl-2xl rounded-tr-2xl focus:ring-0 hover:focus:ring-0':
             focused
@@ -188,10 +188,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         "
       />
     </div>
-    <div
-      v-if="focused"
-      class="absolute z-20 w-full rounded-bl-2xl rounded-br-2xl bg-white p-4 dark:bg-gray-950"
-    >
+    <div v-if="focused" class="absolute z-20 w-full rounded-bl-2xl rounded-br-2xl bg-gray-950 p-4">
       <div class="flex justify-center" v-if="loading">
         <Loader class="scale-75" />
       </div>
@@ -200,57 +197,11 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           results.length === 0 && users.length === 0 && persons.length === 0 && search.length !== 0
         "
       >
-        <p class="text-center text-gray-500 dark:text-gray-300">
+        <p class="text-center text-gray-300">
           {{ $t("search.no_results") }}
         </p>
       </div>
       <div v-else-if="search.length === 0" class="select-none space-y-2">
-        <!-- <div v-if="history.length === 0">
-          <p class="text-center text-gray-500 dark:text-gray-300">
-            {{ $t("search.no_recent_searches") }}
-          </p>
-        </div>
-        <div v-else>
-          <div v-for="(item, i) in history" :key="'history-' + i">
-            <a
-              tabindex="-1"
-              @click="
-                (e) => {
-                  search = item
-                  loading = true
-                  searchResults()
-                }
-              "
-              @mouseenter="selectedIndex = i"
-              :data-index="i"
-              :class="{
-                'bg-gray-100 dark:bg-gray-900': i === selectedIndex,
-                'bg-white dark:bg-gray-950': i !== selectedIndex
-              }"
-              class="flex items-center justify-between rounded-2xl px-2 py-1"
-            >
-              <span class="flex w-full cursor-pointer items-center opacity-80">
-                <Icon
-                  name="ic:round-history"
-                  class="mr-2 inline-block h-5 w-5"
-                />
-                {{ item }}
-              </span>
-              <Icon
-                name="ic:round-close"
-                class="ml-2 inline-block cursor-pointer text-gray-500 transition-colors hover:text-red-500 dark:text-gray-300 dark:hover:text-red-500"
-                @click="
-                  (e) => {
-                    e.stopPropagation()
-                    removeHistoryItem(i)
-                  }
-                "
-              />
-            </a>
-          </div>
-        </div> -->
-
-        <!-- <hr class="dark:opacity-25" /> -->
         <div v-for="(route, i) in routes" :key="route.name">
           <button
             tabindex="-1"
@@ -263,8 +214,8 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             @mouseenter="selectedIndex = i + history.length"
             :data-index="i + history.length"
             :class="{
-              'bg-gray-100 dark:bg-gray-900': i + history.length === selectedIndex,
-              'bg-white dark:bg-gray-950': i + history.length !== selectedIndex
+              'bg-gray-900': i + history.length === selectedIndex,
+              'bg-gray-950': i + history.length !== selectedIndex
             }"
             class="inline-flex w-full items-center justify-between rounded-2xl px-2 py-1"
           >
@@ -277,7 +228,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       </div>
       <div v-else>
         <div v-if="results.length !== 0">
-          <div class="mb-2 font-bold text-gray-500 dark:text-gray-300">
+          <div class="mb-2 font-bold text-gray-300">
             {{ $t("search.movies_and_tv_shows") }}
           </div>
 
@@ -289,8 +240,8 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               @click="removeFocus(true)"
               :data-index="i"
               :class="{
-                'bg-gray-100 dark:bg-gray-900': i === selectedIndex,
-                'bg-white dark:bg-gray-950': i !== selectedIndex
+                'bg-gray-900': i === selectedIndex,
+                'bg-gray-950': i !== selectedIndex
               }"
             >
               <div class="flex w-full items-center">
@@ -309,7 +260,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
                   <p class="truncate text-ellipsis font-bold">
                     {{ $getTitle(result) }}
                   </p>
-                  <p class="text-gray-500 dark:text-gray-300">
+                  <p class="text-gray-300">
                     {{ (result.first_air_date || result.release_date || "-").split("-")[0] }}
                   </p>
                 </div>
@@ -318,7 +269,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           </div>
         </div>
         <div v-if="persons.length !== 0">
-          <div class="mb-2 font-bold text-gray-500 dark:text-gray-300">
+          <div class="mb-2 font-bold text-gray-300">
             {{ $t("search.persons") }}
           </div>
           <div v-for="(person, i) in persons" :key="`person-${i}`">
@@ -329,8 +280,8 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               :data-index="i + results.length"
               :class="{
-                'bg-gray-100 dark:bg-gray-900': i + results.length === selectedIndex,
-                'bg-white dark:bg-gray-950': i + results.length !== selectedIndex
+                'bg-gray-900': i + results.length === selectedIndex,
+                'bg-gray-950': i + results.length !== selectedIndex
               }"
             >
               <div class="flex w-full items-center">
@@ -355,7 +306,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           </div>
         </div>
         <div v-if="users.length !== 0">
-          <div class="mb-2 font-bold text-gray-500 dark:text-gray-300">
+          <div class="mb-2 font-bold text-gray-300">
             {{ $t("search.users") }}
           </div>
           <div v-for="(user, i) in users" :key="`user-${i}`">
@@ -366,9 +317,8 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               :data-index="i + results.length"
               :class="{
-                'bg-gray-100 dark:bg-gray-900':
-                  i + (results.length + persons.length) === selectedIndex,
-                'bg-white dark:bg-gray-950': i + (results.length + persons.length) !== selectedIndex
+                'bg-gray-900': i + (results.length + persons.length) === selectedIndex,
+                'bg-gray-950': i + (results.length + persons.length) !== selectedIndex
               }"
             >
               <div class="flex w-full items-center">
@@ -387,7 +337,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
         </div>
       </div>
       <div
-        class="bottom-2 left-2.5 mt-4 hidden w-fit select-none space-x-2 text-center font-mono text-sm text-gray-800 lg:block dark:text-gray-400"
+        class="bottom-2 left-2.5 mt-4 hidden w-fit select-none space-x-2 text-center font-mono text-sm text-gray-400 lg:block"
       >
         <i18n-t keypath="search.close" scope="global">
           <template v-slot:key>

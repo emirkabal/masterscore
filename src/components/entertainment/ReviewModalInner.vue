@@ -77,15 +77,10 @@ const onSelectEmoji = (emoji: any) => {
           :maxlength="512"
           @input="(e: any) => (props.reviewData.comment = e.target.value)"
           :placeholder="$t('review_modal.placeholder')"
-          class="h-32 w-full select-none resize-none rounded border-gray-400 p-2 focus:outline-none focus:ring-1 focus:ring-gray-700 dark:border-gray-700 dark:bg-gray-800"
+          class="h-32 w-full select-none resize-none rounded border-gray-700 bg-gray-800 p-2 focus:outline-none focus:ring-1 focus:ring-gray-700"
         />
-        <div
-          class="absolute bottom-0 right-0 z-10 m-2 rounded text-sm text-gray-500 dark:text-gray-300"
-        >
-          <button
-            @click="isEmojiSelector = !isEmojiSelector"
-            class="p-1 hover:bg-gray-50 dark:hover:bg-zinc-600"
-          >
+        <div class="absolute bottom-0 right-0 z-10 m-2 rounded text-sm text-gray-300">
+          <button @click="isEmojiSelector = !isEmojiSelector" class="p-1 hover:bg-zinc-600">
             <Icon name="ic:outline-emoji-emotions" class="h-8 w-8" />
           </button>
         </div>

@@ -9,16 +9,12 @@ defineProps<{
 }>()
 </script>
 <template>
-  <div v-if="loading" class="skeleton-effect flex-shrink-0 bg-gray-300 dark:bg-gray-900"></div>
+  <div v-if="loading" class="skeleton-effect flex-shrink-0 bg-gray-900"></div>
   <div v-else class="flex flex-shrink-0 items-center justify-center overflow-hidden">
-    <span
-      v-if="imageLoading && !noImage"
-      class="skeleton-effect h-full w-full bg-gray-400 dark:bg-gray-900"
-    >
-    </span>
+    <span v-if="imageLoading && !noImage" class="skeleton-effect h-full w-full bg-gray-900"> </span>
     <div
       v-if="noImage"
-      class="flex h-full w-full flex-col items-center justify-center gap-2 bg-gray-900 text-gray-400 dark:text-zinc-500"
+      class="flex h-full w-full flex-col items-center justify-center gap-2 bg-gray-900 text-zinc-500"
     >
       <Icon name="ic:outline-image-not-supported" color="white" size="36" />
     </div>

@@ -48,7 +48,7 @@ defineProps<{
           :maxlength="512"
           @input="(e: any) => (review.content = e.target.value)"
           :placeholder="$t('review_modal.placeholder')"
-          class="h-11 w-full select-none resize-none rounded border border-gray-800 p-2 outline-none transition-all duration-100 focus:h-28 focus:outline-none focus:ring-1 focus:ring-gray-700 dark:bg-gray-900"
+          class="h-11 w-full select-none resize-none rounded border border-gray-800 bg-gray-900 p-2 outline-none transition-all duration-100 focus:h-28 focus:outline-none focus:ring-1 focus:ring-gray-700"
           :class="{
             '!h-28': review.content.length > 0
           }"

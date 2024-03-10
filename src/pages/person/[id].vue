@@ -207,7 +207,7 @@ useHead({
               <button
                 v-if="isBig && !revealBio"
                 @click="revealBio = !revealBio"
-                class="5 group absolute bottom-0 right-0 w-full bg-gradient-to-l from-white text-right dark:from-gray-950"
+                class="5 group absolute bottom-0 right-0 w-full bg-gradient-to-l from-gray-950 text-right"
               >
                 <span class="font-semibold group-hover:opacity-75">{{
                   $t("person.read_more")
@@ -264,7 +264,7 @@ useHead({
           <div v-if="flag">
             <button
               @click="showDetailsDev = !showDetailsDev"
-              class="font-semibod mt-8 rounded bg-white px-4 py-2 shadow dark:bg-gray-900"
+              class="font-semibod mt-8 rounded bg-gray-900 px-4 py-2 shadow"
             >
               {{ showDetailsDev ? "Hide" : "Show" }} details
             </button>

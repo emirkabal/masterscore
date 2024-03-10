@@ -62,11 +62,11 @@ const cast = computed(() => {
       {{ $t("entertainment.top-billed-cast") }}
     </h1>
     <div v-if="loading || !data" class="space-y-2">
-      <div class="skeleton-effect my-2 h-6 w-32 rounded bg-gray-300 dark:bg-gray-900"></div>
+      <div class="skeleton-effect my-2 h-6 w-32 rounded bg-gray-900"></div>
       <div class="flex gap-2 overflow-x-hidden">
         <div class="flex flex-col" v-for="i in 8" :key="i">
           <div
-            class="skeleton-effect h-32 w-[100px] rounded bg-gray-300 dark:bg-gray-900 md:h-[240px] md:w-[140px]"
+            class="skeleton-effect h-32 w-[100px] rounded bg-gray-900 md:h-[240px] md:w-[140px]"
           ></div>
         </div>
       </div>
@@ -88,7 +88,7 @@ const cast = computed(() => {
         <button @click="allModal = true" class="my-2 ml-4 text-lg opacity-90">Show more..</button>
         <ScreenModal :modal="allModal" @close="allModal = false">
           <div
-            class="h-full max-h-[550px] w-full max-w-[1200px] overflow-hidden rounded-xl bg-gray-200 p-2 dark:bg-gray-900 md:max-h-[780px] md:p-4"
+            class="h-full max-h-[550px] w-full max-w-[1200px] overflow-hidden rounded-xl bg-gray-900 p-2 md:max-h-[780px] md:p-4"
           >
             <div class="h-full max-h-[780px] overflow-auto">
               <div v-for="(item, i) in crew" :key="'crew-' + i">
@@ -114,7 +114,7 @@ const cast = computed(() => {
       </div>
     </div>
     <div v-else>
-      <p class="text-center text-gray-500 dark:text-gray-400">No cast found</p>
+      <p class="text-center text-gray-400">No cast found</p>
     </div>
   </section>
 </template>

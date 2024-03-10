@@ -38,7 +38,7 @@ watch(
     >
       <div
         ref="modal"
-        class="relative h-full w-full overflow-hidden overflow-y-auto rounded-2xl scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-rounded-2xl scrollbar-thumb-rounded-full dark:bg-gray-900 md:min-w-[460px] lg:h-auto lg:max-h-full lg:max-w-[512px]"
+        class="relative h-full w-full overflow-hidden overflow-y-auto rounded-2xl bg-gray-900 scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-rounded-2xl scrollbar-thumb-rounded-full md:min-w-[460px] lg:h-auto lg:max-h-full lg:max-w-[512px]"
       >
         <div
           class="flex select-none items-center justify-between px-4 pb-2 pt-4 text-xl font-semibold"

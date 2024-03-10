@@ -27,7 +27,7 @@ const showTooltip = (e: MouseEvent) => {
       </template>
       <template v-slot:footer>
         <button
-          class="flex h-12 w-full select-none items-center justify-center rounded-full border border-black px-4 py-2 text-base font-semibold hover:opacity-75 dark:border-white"
+          class="flex h-12 w-full select-none items-center justify-center rounded-full border border-white px-4 py-2 text-base font-semibold hover:opacity-75"
           @click="modal = false"
         >
           Got it

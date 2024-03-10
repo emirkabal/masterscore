@@ -135,7 +135,7 @@ watch(
     >
       <div
         ref="modal"
-        class="w-full transform-gpu rounded-tl-3xl rounded-tr-3xl bg-white px-2 pb-3 will-change-transform dark:bg-gray-900"
+        class="w-full transform-gpu rounded-tl-3xl rounded-tr-3xl bg-gray-900 px-2 pb-3 will-change-transform"
         :class="{
           'transition-transform': inAnimation
         }"
@@ -145,7 +145,7 @@ watch(
           @touchend="touchEnd"
           class="flex w-full cursor-default items-center justify-center pb-4 pt-2"
         >
-          <span class="h-1.5 w-10 rounded-full bg-gray-300 dark:bg-gray-700"></span>
+          <span class="h-1.5 w-10 rounded-full bg-gray-700"></span>
         </button>
         <div class="ml-0.5 flex items-center justify-between px-4 text-xl font-bold">
           <span>{{ props.title }}</span>
@@ -153,7 +153,7 @@ watch(
         <div class="px-4 py-4">
           <slot name="body"></slot>
         </div>
-        <div class="flex w-full justify-center px-4 pb-4 dark:border-gray-800">
+        <div class="flex w-full justify-center border-gray-800 px-4 pb-4">
           <slot name="footer"></slot>
         </div>
       </div>

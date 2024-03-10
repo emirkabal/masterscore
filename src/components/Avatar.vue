@@ -50,7 +50,7 @@ watch(imageLoading, () => {
 <template>
   <div
     v-if="loading"
-    class="skeleton-effect flex-shrink-0 bg-gray-300 dark:bg-gray-900"
+    class="skeleton-effect flex-shrink-0 bg-gray-900"
     :class="{
       'rounded-full': !square,
       'rounded-lg': square
@@ -58,19 +58,15 @@ watch(imageLoading, () => {
   ></div>
   <div
     v-else
-    class="relative flex flex-shrink-0 items-center justify-center bg-gray-200 dark:bg-gray-800"
+    class="relative flex flex-shrink-0 items-center justify-center bg-gray-800"
     :class="{
-      'outline outline-4 outline-gray-300 dark:outline-zinc-700': border,
+      'outline outline-4 outline-zinc-700': border,
       'rounded-full': !square,
       'rounded-lg': square,
       'overflow-hidden': loading || imageLoading
     }"
   >
-    <span
-      class="skeleton-effect h-full w-full bg-gray-400 dark:bg-gray-900"
-      v-if="imageLoading && !loading"
-    >
-    </span>
+    <span class="skeleton-effect h-full w-full bg-gray-900" v-if="imageLoading && !loading"> </span>
     <div
       v-if="verified"
       class="m absolute bottom-0 right-0 -m-1.5 flex h-10 w-10 items-center justify-center rounded-full bg-gray-950 p-1"

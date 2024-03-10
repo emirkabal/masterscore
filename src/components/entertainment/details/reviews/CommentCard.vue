@@ -52,9 +52,7 @@ const isMe = computed(() => props.comment.user.id === props.user?.id)
             class="h-5 w-5 flex-shrink-0 text-brand"
         /></NuxtLink>
         <ScoreCircle :score="comment.rating" />
-        <p
-          class="line-clamp-1 flex-shrink-0 cursor-default break-words text-xs text-gray-500 dark:text-gray-300"
-        >
+        <p class="line-clamp-1 flex-shrink-0 cursor-default break-words text-xs text-gray-300">
           <span
             v-tooltip="{
               content: $moment(comment.created_at).locale($i18n.locale).format('LLLL')

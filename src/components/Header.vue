@@ -53,7 +53,7 @@ $listen("searchbar:focus", (val) => {
     class="absolute top-0 z-30 flex h-16 w-full items-center justify-between px-4 transition-all md:px-6"
     :class="{
       hidden: isHeaderHidden,
-      '!fixed bg-gray-50 dark:bg-gray-900': isHeaderShown
+      '!fixed bg-gray-900': isHeaderShown
     }"
   >
     <div class="flex w-full items-center justify-between">
@@ -116,7 +116,7 @@ $listen("searchbar:focus", (val) => {
             <div v-show="isMenuOpen" @click="isMenuOpen = !isMenuOpen">
               <HeadlessMenuItems
                 :static="true"
-                class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md border bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-gray-900 dark:border-gray-800 dark:bg-gray-950"
+                class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-900 rounded-md border border-gray-800 bg-gray-950 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
               >
                 <div class="flex items-center gap-x-1 px-3 py-2">
                   <span class="block tracking-tight text-gray-200">{{
@@ -131,7 +131,7 @@ $listen("searchbar:focus", (val) => {
                 <div class="px-1 py-1">
                   <HeadlessMenuItem>
                     <NuxtLink
-                      class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
+                      class="block rounded-lg p-2 hover:bg-gray-900"
                       :to="`/${userStore.user.username}`"
                       >{{ $t("header.user.profile") }}</NuxtLink
                     >
@@ -139,24 +139,22 @@ $listen("searchbar:focus", (val) => {
 
                   <HeadlessMenuItem>
                     <NuxtLink
-                      class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
+                      class="block rounded-lg p-2 hover:bg-gray-900"
                       :to="`/${userStore.user.username}/reviews`"
                       >{{ $t("header.user.reviews") }}</NuxtLink
                     >
                   </HeadlessMenuItem>
                   <HeadlessMenuItem>
-                    <NuxtLink
-                      class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
-                      to="/settings"
-                      >{{ $t("header.user.settings") }}</NuxtLink
-                    >
+                    <NuxtLink class="block rounded-lg p-2 hover:bg-gray-900" to="/settings">{{
+                      $t("header.user.settings")
+                    }}</NuxtLink>
                   </HeadlessMenuItem>
                 </div>
                 <div class="px-1 py-1">
                   <HeadlessMenuItem>
                     <a
                       @click="userStore.logout"
-                      class="block cursor-pointer rounded-lg p-2 font-semibold text-red-700 hover:bg-red-200 dark:hover:bg-red-200/10"
+                      class="block cursor-pointer rounded-lg p-2 font-semibold text-red-700 hover:bg-red-200/10"
                     >
                       {{ $t("header.user.logout") }}
                     </a>
