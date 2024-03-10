@@ -7,13 +7,13 @@ export const useUserStore = defineStore("user", {
   state: () => {
     return {
       user: undefined as Omit<User, "password"> | undefined,
-      token: "",
+      token: "" as string | null,
       loading: true
     }
   },
 
   hydrate: (state) => {
-    const token = useLocalStorage("token", "").value
+    const token = useLocalStorage("token", null).value
     if (!token) {
       console.log("token yoh")
       state.loading = false
@@ -44,8 +44,8 @@ export const useUserStore = defineStore("user", {
 
   actions: {
     async init() {
-      this.token = useLocalStorage("token", "").value
-      await this.getUserData().catch(() => {})
+      this.token = useLocalStorage("token", null).value
+      if (process.client && this.token) await this.getUserData().catch(() => {})
       this.loading = false
     },
 
@@ -94,7 +94,7 @@ export const useUserStore = defineStore("user", {
 
         this.user = data as unknown as Omit<User, "password">
       } catch (e: any) {
-        if (e?.statusCode === 401) this.removeToken()
+        if (e?.statusCode === 401 && this.token) this.removeToken()
       } finally {
         this.loading = false
       }
