@@ -32,8 +32,6 @@ export default defineEventHandler(async (event) => {
 
   const { likes, reviews } = _
 
-  console.log(likes, reviews)
-
   const related = likes[Math.floor(Math.random() * likes.length)].media
 
   const lang = getISO(getCookie(event, "locale"))

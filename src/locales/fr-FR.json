@@ -255,6 +255,9 @@
   },
   "notify": {
     "template": "{0} a été renouvelé !",
-    "button": "Emmène-moi là-bas"
-  }
+    "button": "Emmène-moi là-bas",
+    "text": "Découvrir"
+  },
+  "delete": "Supprimer",
+  "edit": "Modifier"
 }

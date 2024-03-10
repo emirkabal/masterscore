@@ -255,6 +255,9 @@
   },
   "notify": {
     "template": "{0} er blevet fornyet!",
-    "button": "Tag mig derhen"
-  }
+    "button": "Tag mig derhen",
+    "text": "Opdage"
+  },
+  "delete": "Slet",
+  "edit": "Redigere"
 }

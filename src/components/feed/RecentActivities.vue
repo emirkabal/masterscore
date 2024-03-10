@@ -90,7 +90,7 @@ watch(
       v-intersection-observer="i === activities.length - 1 ? onIntersectionObserver : () => {}"
       :key="activity.id"
     >
-      <NuxtLink :to="`/users/${activity.user.username}`">
+      <NuxtLink :to="`/${activity.user.username}`">
         <Avatar
           :username="activity.user.username"
           :avatar="activity.user.avatar"
@@ -119,9 +119,9 @@ watch(
             </span>
           </div>
         </div>
-        <ReviewContent
+        <EntertainmentDetailsReviewsContent
           v-if="activity.type === 'review'"
-          :review="activity.content"
+          :review="activity"
           :skip-info="true"
         />
         <EntertainmentCard

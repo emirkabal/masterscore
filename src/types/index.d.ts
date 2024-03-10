@@ -6,6 +6,7 @@ export interface User {
   email: string
   password: string
   verified: boolean
+  display_name?: string
   about?: string
   avatar?: string
   banner?: string
@@ -16,6 +17,14 @@ export interface User {
   username_changed_at?: string
   created_at: string
   updated_at: string
+}
+
+export type APIUser = Omit<User, "password" | "email"> & {
+  _count: {
+    reviews: number
+    likes: number
+    collections: number
+  }
 }
 
 export interface Review {

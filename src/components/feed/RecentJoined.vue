@@ -17,7 +17,7 @@ const { data, pending } = await useLazyFetch<
         <Avatar :loading="true" username="hello" class="my-3 h-16 w-16" />
       </SwiperSlide>
       <SwiperSlide v-else v-for="user in data" :key="user._id">
-        <NuxtLink :to="`/users/@${user.username}`" class="my-3 transition-opacity hover:opacity-75">
+        <NuxtLink :to="`/${user.username}`" class="my-3 transition-opacity hover:opacity-75">
           <Avatar class="h-16 w-16" :username="user.username" :avatar="user.avatar" />
         </NuxtLink>
       </SwiperSlide>

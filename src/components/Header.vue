@@ -118,16 +118,21 @@ $listen("searchbar:focus", (val) => {
                 :static="true"
                 class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md border bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:divide-gray-900 dark:border-gray-800 dark:bg-gray-950"
               >
-                <div class="px-1 py-1">
-                  <span class="block px-2 py-1 italic tracking-tight"
-                    >@{{ userStore.user.username }}</span
-                  >
+                <div class="flex items-center gap-x-1 px-3 py-2">
+                  <span class="block tracking-tight text-gray-200">{{
+                    userStore.user.username
+                  }}</span>
+                  <Icon
+                    v-if="userStore.user.verified"
+                    name="material-symbols:verified-rounded"
+                    class="h-5 w-5 flex-shrink-0 text-brand"
+                  />
                 </div>
                 <div class="px-1 py-1">
                   <HeadlessMenuItem>
                     <NuxtLink
                       class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
-                      to="/users/@me"
+                      :to="`/${userStore.user.username}`"
                       >{{ $t("header.user.profile") }}</NuxtLink
                     >
                   </HeadlessMenuItem>
@@ -135,21 +140,14 @@ $listen("searchbar:focus", (val) => {
                   <HeadlessMenuItem>
                     <NuxtLink
                       class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
-                      to="/users/@me/watchlist"
-                      >{{ $t("header.user.watchlist") }}</NuxtLink
-                    >
-                  </HeadlessMenuItem>
-                  <HeadlessMenuItem>
-                    <NuxtLink
-                      class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
-                      to="/users/@me/reviews"
+                      :to="`/${userStore.user.username}/reviews`"
                       >{{ $t("header.user.reviews") }}</NuxtLink
                     >
                   </HeadlessMenuItem>
                   <HeadlessMenuItem>
                     <NuxtLink
                       class="block rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
-                      to="/users/@me/settings"
+                      to="/settings"
                       >{{ $t("header.user.settings") }}</NuxtLink
                     >
                   </HeadlessMenuItem>

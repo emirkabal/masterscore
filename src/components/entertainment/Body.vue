@@ -7,7 +7,6 @@ const { data, isLight, loading } = defineProps<{
   data?: CollapsedMedia
   isLight?: boolean
   loading?: boolean
-  rating?: number
   reviewData?: any
 }>()
 const title = computed(() => {
@@ -85,9 +84,12 @@ const releaseDate = computed(() => {
     </div>
   </div>
   <div v-else-if="data && !loading">
-    <div class="flex items-center justify-center gap-x-2 lg:justify-start">
-      <ScoreCircle v-if="rating" :score="rating" />
-      <EntertainmentMRanking :rating="rating" />
+    <div
+      class="flex items-center justify-center gap-x-2 lg:justify-start"
+      v-if="data.media.score !== -1"
+    >
+      <ScoreCircle :score="data.media.score" />
+      <EntertainmentMRanking :rating="data.media.score" />
     </div>
 
     <h1

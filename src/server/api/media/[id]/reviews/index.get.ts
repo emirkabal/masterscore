@@ -14,6 +14,23 @@ export default eventHandler(async (event) => {
 
   if (!media) throw createError({ statusCode: 404, statusMessage: "Media not found" })
 
+  const select = {
+    id: true,
+    rating: true,
+    content: true,
+    spoiler: true,
+    user: {
+      select: {
+        id: true,
+        username: true,
+        avatar: true,
+        verified: true
+      }
+    },
+    created_at: true,
+    updated_at: true
+  }
+
   const [by_me, reviews] = await Promise.all([
     event.context.user?.id
       ? prisma.review.findUnique({
@@ -22,29 +39,32 @@ export default eventHandler(async (event) => {
               media_id: media.id,
               user_id: event.context.user?.id
             }
-          }
+          },
+          select
         })
       : Promise.resolve(null),
     prisma.review.findMany({
       where: {
-        media_id: media.id
+        media_id: media.id,
+        NOT: {
+          user_id: event.context.user?.id
+        }
       },
-      select: {
-        id: true,
-        rating: true,
-        content: true,
-        spoiler: true,
-        user: {
-          select: {
-            id: true,
-            username: true,
-            avatar: true,
-            verified: true
+
+      select,
+      orderBy: [
+        {
+          user: {
+            verified: "desc"
           }
         },
-        created_at: true,
-        updated_at: true
-      }
+        {
+          content: "desc"
+        },
+        {
+          created_at: "desc"
+        }
+      ]
     })
   ])
   return {

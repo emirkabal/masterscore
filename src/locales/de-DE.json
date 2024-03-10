@@ -255,6 +255,9 @@
   },
   "notify": {
     "template": "{0} wurde erneuert!",
-    "button": "Bring mich dahin"
-  }
+    "button": "Bring mich dahin",
+    "text": "Entdecken"
+  },
+  "delete": "Löschen",
+  "edit": "Bearbeiten"
 }

@@ -1,22 +1,26 @@
 <script setup lang="ts">
 import tinycolor from "tinycolor2"
 import { useStorage } from "@vueuse/core"
+
+definePageMeta({
+  validate: ({ params }) => ["movie", "tv"].includes(params.type as string)
+})
+
 const { $colorthief, $timage } = useNuxtApp()
 const { params } = useRoute()
 const flag = useStorage("debugMode", false)
+
+const route = useRoute()
+const type = computed(() => route.params.type as "movie" | "tv")
+const id = computed(() => route.params.id as string)
 
 const {
   data: data,
   pending,
   error
-} = await useAsyncData(
-  `m:${params.type}${params.id}`,
-  () => getMedia(params.type as "movie" | "tv", params.id as string),
-  {
-    deep: false,
-    lazy: true
-  }
-)
+} = await useAsyncData(`m:${type.value}${id.value}`, () => getMedia(type.value, id.value), {
+  lazy: true
+})
 
 if (error.value) throw error.value
 
@@ -29,9 +33,8 @@ const colors = reactive({
 
 const showDetailsDev = ref(false)
 
-const masterRating = ref(0)
 const backdrop = computed(() => $timage(data.value?.backdrop_path || "-", "w1280"))
-const poster = computed(() => $timage(data.value?.poster_path || "-", "w300_and_h450_bestv2"))
+const poster = computed(() => $timage(data.value?.poster_path || "-", "w300"))
 
 const getTeaser = computed(() => {
   if (!data.value?.videos?.results?.length) return "-"
@@ -61,29 +64,45 @@ const detectColor = () => {
     }
   }
 }
+const title = computed(() =>
+  data.value
+    ? (data.value?.title || data.value?.name) +
+      " - " +
+      (data.value?.release_date || data.value?.first_air_date || "2000-").split("-")[0]
+    : "..."
+)
+const description = computed(() => data.value?.overview)
+const updateSeo = () => {
+  useHead({
+    title: title.value,
+    meta: [
+      ...(description.value
+        ? [
+            {
+              hid: "description",
+              name: "description",
+              content: description.value
+            }
+          ]
+        : []),
+      {
+        property: "og:image",
+        content: $timage(data.value?.poster_path || "-", "w300")
+      }
+    ]
+  })
+}
 
 onMounted(() => {
   detectColor()
 })
+
 watch(data, () => {
   detectColor()
+  updateSeo()
 })
 
-useHead({
-  title: data.value?.title || data.value?.name
-})
-useSeoMeta({
-  title: data.value?.title || data.value?.name,
-  ogTitle: data.value?.title || data.value?.name,
-  description: data.value?.overview,
-  ogDescription: data.value?.overview,
-  ogImage: $timage(data.value?.poster_path || "-", "w300_and_h450_bestv2"),
-  ogType: params.type === "movie" ? "video.movie" : "video.tv_show",
-  twitterImage: $timage(data.value?.poster_path || "-", "w300_and_h450_bestv2"),
-  twitterCard: "summary_large_image",
-  twitterTitle: data.value?.title || data.value?.name,
-  twitterDescription: data.value?.overview
-})
+updateSeo()
 </script>
 
 <template>
@@ -106,7 +125,7 @@ useSeoMeta({
         <EntertainmentPoster :poster="poster" />
       </div>
       <div class="w-full max-w-5xl">
-        <EntertainmentBody :data="data" :rating="masterRating">
+        <EntertainmentBody :data="data">
           <EntertainmentButtonGroup
             :data="data"
             :teaser="getTeaser"
@@ -125,6 +144,7 @@ useSeoMeta({
     <div class="container mx-auto mb-28 mt-12 px-0 lg:-mt-28 2xl:-mt-36">
       <div class="flex flex-col-reverse items-stretch gap-4 lg:flex-row">
         <div class="relative min-w-0 flex-1 space-y-10 lg:space-y-16">
+          <EntertainmentDetailsReviews :ctx="data" />
           <EntertainmentDetailsCollection
             v-if="data.belongs_to_collection"
             :data="data.belongs_to_collection"
@@ -132,7 +152,6 @@ useSeoMeta({
           <EntertainmentDetailsEpisodes v-if="data.seasons" :data="data" />
           <EntertainmentDetailsCast :data="data.credits" />
           <EntertainmentDetailsSimilar :data="data.similar" />
-          <EntertainmentDetailsReviews :id="data.media.id" />
         </div>
         <EntertainmentDetailsSidebar
           class="static top-14 w-full self-start px-4 lg:sticky lg:min-w-[300px] lg:max-w-[300px]"

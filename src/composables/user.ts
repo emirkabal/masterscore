@@ -47,12 +47,11 @@ export const reviewMedia = async (
   const { user } = useUserStore()
   if (!user) return useRouter().push("/account/login?r=" + encodeURIComponent(useRoute().fullPath))
 
+  const { rating, content, spoiler } = context
   const data = await $fetch(`/api/media/${mediaId}/reviews`, {
     method: "post",
     headers: generateHeaders(),
-    body: JSON.stringify({
-      ...context
-    })
+    body: JSON.stringify({ rating, content, spoiler })
   })
 
   return data

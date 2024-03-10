@@ -168,9 +168,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
             } else if (selectedIndex < results.length + persons.length) {
               $router.push(`/person/${persons[selectedIndex - results.length].id}`)
             } else if (selectedIndex < results.length + persons.length + users.length) {
-              $router.push(
-                `/users/${users[selectedIndex - results.length - persons.length].username}`
-              )
+              $router.push(`/${users[selectedIndex - results.length - persons.length].username}`)
             }
             selectedIndex = 0
             removeFocus(true)
@@ -362,7 +360,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           </div>
           <div v-for="(user, i) in users" :key="`user-${i}`">
             <NuxtLink
-              :to="`/users/@${user.username}`"
+              :to="`/${user.username}`"
               @mouseenter="selectedIndex = i + results.length + persons.length"
               @click="removeFocus(true)"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"

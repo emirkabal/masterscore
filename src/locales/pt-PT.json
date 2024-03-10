@@ -255,6 +255,9 @@
   },
   "notify": {
     "template": "{0} foi renovado!",
-    "button": "Leve-me lá"
-  }
+    "button": "Leve-me lá",
+    "text": "Descobrir"
+  },
+  "delete": "Excluir",
+  "edit": "Editar"
 }

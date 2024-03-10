@@ -257,5 +257,7 @@
     "text": "Keşfet",
     "template": "{0} yenilendi!",
     "button": "Beni oraya götür"
-  }
+  },
+  "delete": "Kaldır",
+  "edit": "Düzenle"
 }

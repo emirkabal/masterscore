@@ -1,9 +1,16 @@
 <script setup lang="ts">
 import { useUserStore } from "~/store/user"
+import type { CollapsedMedia } from "~/types"
+const props = defineProps<{
+  ctx: CollapsedMedia
+}>()
 
-const props = defineProps(["id"])
+const { data, pending, error, refresh } = useLazyFetch(`/api/media/${props.ctx.media.id}/reviews`, {
+  server: false,
+  headers: generateHeaders()
+})
 
-const { data, pending, error, refresh } = useFetch(`/api/media/${props.id}/reviews`)
+if (error.value) throw error.value
 
 const userStore = useUserStore()
 
@@ -12,29 +19,35 @@ const test = ref(false)
 const review = reactive({
   rating: 0.5,
   content: "",
-  spoiler: false
+  spoiler: false,
+  pending: false,
+  editing: false
 })
 
 const emits = defineEmits(["edit", "remove"])
 
-const submitReview = () => {
+const submitReview = async () => {
   console.log("clicked")
 
-  reviewMedia(props.id, {
+  review.pending = true
+  await reviewMedia(props.ctx.media.id, {
     ...review
-  }).then(() => refresh)
+  })
+
+  refresh()
+  review.pending = false
+  if (review.editing) review.editing = false
 }
 </script>
 
 <template>
-  <div class="px-4">
+  <section class="px-4" id="reviews">
     <h1 class="my-4 border-l-4 border-yellow-500 pl-4 text-2xl font-bold tracking-wide">
       {{ $t("entertainment.reviews") }}
     </h1>
 
     <div v-if="pending || error">
-      <div class="skeleton-effect my-2 h-6 w-32 rounded bg-gray-300 dark:bg-gray-900"></div>
-      <div class="flex items-center px-4 py-6" v-for="i in 4" :key="i">
+      <div class="flex items-center py-6" v-for="i in 4" :key="i">
         <div
           class="skeleton-effect h-14 w-14 flex-shrink-0 rounded-full bg-gray-300 dark:bg-gray-900"
         ></div>
@@ -50,164 +63,45 @@ const submitReview = () => {
       <div class="flex flex-col gap-y-12">
         <!-- review -->
         <!-- <EntertainmentDetailsReviewsComment :data="data" /> -->
-        <div v-if="userStore.isLoggedIn && userStore.user" class="flex gap-x-4">
-          <Avatar
-            :username="userStore.user.username"
-            :avatar="userStore.user.avatar"
-            :square="userStore.user.verified"
-            class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
-          />
-          <div class="flex w-full flex-col gap-y-2">
-            <div class="flex flex-wrap items-center gap-2">
-              <FormStarInput
-                :rating="review.rating"
-                @update:rating="(val: number) => (review.rating = val)"
-              />
-              <div
-                @click="
-                  () => {
-                    if (review.rating >= 9.6) review.rating = 10
-                  }
-                "
-              >
-                <StarRating
-                  :animate="true"
-                  :numberOfStars="10"
-                  :star-size="36"
-                  inactiveColor="#1f2937"
-                  starColor="#facc15"
-                  v-model="review.rating"
-                ></StarRating>
-              </div>
-            </div>
-            <div class="relative w-full">
-              <textarea
-                type="text"
-                :value="review.content"
-                :maxlength="512"
-                @input="(e: any) => (review.content = e.target.value)"
-                :placeholder="$t('review_modal.placeholder')"
-                class="h-11 w-full select-none resize-none rounded border border-gray-800 p-2 outline-none transition-all duration-100 focus:h-24 focus:outline-none focus:ring-1 focus:ring-gray-700 dark:bg-gray-900"
-                :class="{
-                  '!h-24': review.content.length > 0
-                }"
-              />
-            </div>
-            <button
-              @click="submitReview"
-              type="button"
-              class="self-end rounded-xl bg-brand px-4 py-2 font-semibold text-black transition hover:opacity-75"
-            >
-              Değerlendir
-            </button>
-          </div>
-        </div>
+        <EntertainmentDetailsReviewsCommentCard
+          v-if="data?.by_me && !review.editing && userStore.user"
+          :comment="data.by_me as any"
+          :user="userStore.user as any"
+          :edit="true"
+          @edit="
+            () => {
+              review.content = data?.by_me?.content ?? ''
+              review.rating = data?.by_me?.rating ?? 0.5
+              review.spoiler = data?.by_me?.spoiler ?? false
+              review.editing = true
+            }
+          "
+          @delete="
+            () => {
+              review.content = ''
+              review.rating = 0.5
+              review.spoiler = false
+              deleteReview(ctx.media.id)
+              refresh()
+            }
+          "
+        />
 
-        <div
+        <EntertainmentDetailsReviewsReviewForm
+          v-if="userStore.isLoggedIn && userStore.user"
+          :by_me="!!data?.by_me"
+          :user="userStore.user"
+          :review="review"
+          @submit="submitReview"
+        />
+
+        <EntertainmentDetailsReviewsCommentCard
           v-for="comment in data?.reviews"
           :key="comment.id"
-          class="flex items-start gap-x-4 rounded-xl"
-        >
-          <NuxtLink :to="`/users/@${comment.user.username}`">
-            <Avatar
-              :username="comment.user.username"
-              :avatar="comment.user.avatar"
-              :square="comment.user.verified"
-              class="h-10 w-10 flex-shrink-0 md:h-14 md:w-14"
-            />
-          </NuxtLink>
-
-          <div class="flex w-full min-w-0 flex-col">
-            <div class="flex items-center gap-x-1.5">
-              <NuxtLink
-                :to="`/users/${comment.user.username}`"
-                class="flex min-w-0 items-center gap-1 font-semibold transition hover:opacity-85"
-              >
-                <span class="truncate break-words"> {{ comment.user.username }} </span>
-                <Icon
-                  v-if="comment.user.verified"
-                  name="material-symbols:verified-rounded"
-                  class="h-5 w-5 flex-shrink-0 text-brand"
-              /></NuxtLink>
-              <ScoreCircle :score="comment.rating" />
-              <p
-                class="line-clamp-1 flex-shrink-0 cursor-default break-words text-xs text-gray-500 dark:text-gray-300"
-              >
-                <span
-                  v-tooltip="{
-                    content: $moment(comment.created_at).locale($i18n.locale).format('LLLL')
-                  }"
-                  v-text="$moment(comment.created_at).locale($i18n.locale).calendar()"
-                ></span>
-                <span
-                  v-if="comment.created_at !== comment.updated_at"
-                  v-tooltip="{
-                    content: $moment(comment.updated_at).locale($i18n.locale).format('LLLL')
-                  }"
-                  class="ml-1"
-                  >({{ $t("edited") }})</span
-                >
-              </p>
-
-              <!-- <EntertainmentMRanking :rating="comment.rating" class="w-fit" /> -->
-            </div>
-            <ReviewContent :review="comment" class="mt-1" />
-
-            <div class="mt-2 flex items-center justify-between">
-              <div v-if="comment.content" class="flex gap-x-4">
-                <button
-                  v-if="!test"
-                  @click="test = true"
-                  class="flex items-center justify-center gap-x-1 rounded-full bg-gray-900/50 p-2 text-sm transition hover:bg-gray-900"
-                >
-                  <Icon name="ph:arrow-fat-up" class="h-4 w-4" />
-                  <!-- <Icon name="ph:arrow-fat-up-fill" /> -->
-                </button>
-                <button
-                  v-else
-                  @click="test = false"
-                  class="flex h-8 items-center justify-center gap-x-1 rounded-full bg-orange-500/20 px-2 text-sm font-semibold text-orange-700 transition hover:bg-orange-500/40"
-                >
-                  <!-- <Icon name="ph:arrow-fat-down" /> -->
-                  <Icon name="ph:arrow-fat-up-fill" />
-                  <!-- <Icon name="ph:arrow-fat-up" /> -->
-                  <span> 256 </span>
-                </button>
-              </div>
-
-              <DropdownMenu v-if="comment.user.id === userStore.user?.id">
-                <DropdownMenuTrigger
-                  as-child
-                  class="h-8 w-8 rounded-full transition hover:bg-gray-900"
-                >
-                  <button>
-                    <Icon name="mdi:dots-horizontal" class="h-5 w-5" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent class="w-32">
-                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem @click="$emit('edit')">
-                      <Icon name="ic:round-edit" class="mr-2 h-5 w-5" />
-                      <span>Edit</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem class="text-red-400" @click="$emit('remove')">
-                      <Icon name="ic:outline-delete-forever" class="mr-2 h-5 w-5" />
-                      <span>Delete</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
-        </div>
+          :comment="comment as any"
+          :user="userStore.user as any"
+        />
       </div>
     </div>
-    <!-- <div v-else>
-      <p class="text-gray-500 dark:text-gray-400">
-        {{ $t("entertainment.no_reviews") }}
-      </p>
-    </div> -->
-  </div>
+  </section>
 </template>

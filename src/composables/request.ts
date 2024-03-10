@@ -1,4 +1,12 @@
-import type { CollapsedMedia, Media, MediaType, TMDBMedia, TMDBPerson } from "~/types"
+import type {
+  APIUser,
+  CollapsedMedia,
+  Media,
+  MediaType,
+  TMDBMedia,
+  TMDBPerson,
+  User
+} from "~/types"
 import { LRUCache } from "lru-cache"
 import getISO from "~/utils/getISO"
 
@@ -67,7 +75,7 @@ export const getPerson = async (id: string | number) => {
   const key = `person:${id}`
   const cached = cache.get(key)
 
-  if (cached) return Promise.resolve(cached)
+  if (cached) return Promise.resolve(cached as TMDBPerson)
 
   return new Promise<TMDBPerson>(async (resolve, reject) => {
     try {
@@ -77,6 +85,23 @@ export const getPerson = async (id: string | number) => {
 
       cache.set(key, person)
       resolve(person)
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+export const getUser = async (username: string) => {
+  const key = `user:${username}`
+  const cached = cache.get(key)
+
+  if (cached) return Promise.resolve(cached as APIUser)
+
+  return new Promise<APIUser>(async (resolve, reject) => {
+    try {
+      const user = await $fetch<APIUser>(`/api/users/${username}`)
+      cache.set(key, user)
+      resolve(user)
     } catch (e) {
       reject(e)
     }

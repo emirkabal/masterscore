@@ -257,5 +257,7 @@
     "text": "Discover",
     "template": "{0} has been renewed!",
     "button": "Take me there"
-  }
+  },
+  "edit": "Edit",
+  "delete": "Delete"
 }

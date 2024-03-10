@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     having: {
       rating: {
         _count: {
-          gt: 0
+          gte: disableReviewRequirement ? 0 : 3
         }
       }
     },
@@ -23,7 +23,16 @@ export default defineEventHandler(async (event) => {
         rating: "desc"
       }
     },
-    take: 100
+    ...(type
+      ? {
+          where: {
+            media: {
+              type: type
+            }
+          }
+        }
+      : {}),
+    take: limit ? Math.min(limit, 100) : 20
   })
 
   const reviews = await prisma.review.findMany({

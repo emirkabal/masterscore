@@ -255,6 +255,9 @@
   },
   "notify": {
     "template": "{0} har förnyats!",
-    "button": "Ta mig dit"
-  }
+    "button": "Ta mig dit",
+    "text": "Upptäck"
+  },
+  "delete": "Radera",
+  "edit": "Redigera"
 }
