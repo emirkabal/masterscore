@@ -2,97 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-  
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-  
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-  
-    --primary: 220.9 39.3% 11%;
-    --primary-foreground: 210 20% 98%;
-  
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
-  
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-  
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
-  
-    --destructive: 0 84.2% 60.2%;
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
+
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
-  
-    --border:220 13% 91%;
-    --input:220 13% 91%;
-    --ring:224 71.4% 4.1%;
+
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 215 13.8% 34.1%;
     --radius: 0.5rem;
   }
-   
-  .dark {
-    --background:224 71.4% 4.1%;
-    --foreground:210 20% 98%;
-  
-    --card:224 71.4% 4.1%;
-    --card-foreground:210 20% 98%;
-  
-    --popover:224 71.4% 4.1%;
-    --popover-foreground:210 20% 98%;
-  
-    --primary:210 20% 98%;
-    --primary-foreground:220.9 39.3% 11%;
-  
-    --secondary:215 27.9% 16.9%;
-    --secondary-foreground:210 20% 98%;
-  
-    --muted:215 27.9% 16.9%;
-    --muted-foreground:217.9 10.6% 64.9%;
-  
-    --accent:215 27.9% 16.9%;
-    --accent-foreground:210 20% 98%;
-  
-    --destructive:0 62.8% 30.6%;
-    --destructive-foreground:210 20% 98%;
-  
-    --border:215 27.9% 16.9%;
-    --input:215 27.9% 16.9%;
-    --ring:216 12.2% 83.9%;
-  }
-
 
   html {
     @apply scroll-smooth font-inter antialiased;
   }
-  
+
   body {
     @apply bg-gray-950 text-white;
   }
-  
+
   ::-webkit-scrollbar {
     @apply h-2 w-2 bg-transparent;
   }
-  
+
   ::-webkit-scrollbar-track {
-    @apply bg-gray-900 rounded-full;
+    @apply rounded-full bg-gray-900;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     @apply rounded-full bg-gray-800 transition-colors hover:bg-gray-700;
   }
-
-
 }
-
-
-
-
 
 .twemojiParse {
   @apply !inline-block;
@@ -104,19 +65,19 @@
     animation: skeleton-fade 1s infinite;
   }
   .text-shadow {
-    text-shadow: 1px 1px rgba(0,0,0,0.4);
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.4);
   }
 }
 
 @keyframes skeleton-fade {
   0% {
-    opacity: .8;
+    opacity: 0.8;
   }
   50% {
     opacity: 1;
   }
   100% {
-    opacity: .8;
+    opacity: 0.8;
   }
 }
 
@@ -149,20 +110,20 @@
 }
 
 table {
-  @apply border-collapse border border-gray-200 bg-white dark:border-gray-900 dark:bg-gray-950;
+  @apply border-collapse border border-gray-900 bg-gray-950;
 }
 table th {
-  @apply border border-gray-200 dark:border-gray-800;
+  @apply border border-gray-800;
 }
 table td {
-  @apply border border-gray-200 dark:border-gray-800;
+  @apply border border-gray-800;
 }
 table tr:nth-child(even) {
-  @apply bg-gray-100 dark:bg-gray-900;
+  @apply bg-gray-900;
 }
 
 .vue3-easy-data-table {
-  @apply w-full overflow-x-auto rounded-lg bg-white shadow dark:bg-gray-900;
+  @apply w-full overflow-x-auto rounded-lg bg-gray-900 shadow;
 }
 
 /* Table container */
@@ -179,13 +140,13 @@ table tr:nth-child(even) {
   @apply bg-transparent;
 }
 .vue3-easy-data-table__main::-webkit-scrollbar-thumb {
-  @apply cursor-pointer bg-slate-300 transition hover:bg-slate-400  dark:bg-black;
+  @apply cursor-pointer bg-black transition hover:bg-slate-400;
 }
 
 /* Border cell */
 .vue3-easy-data-table .border-cell tr td,
 .vue3-easy-data-table .border-cell tr th {
-  @apply border-r border-slate-200 last:border-none dark:border-gray-900;
+  @apply border-r border-gray-900 last:border-none;
 }
 
 .vue3-easy-data-table .border-cell tr td.can-expand,
@@ -200,7 +161,7 @@ table tr:nth-child(even) {
 
 /* Teableheader row */
 .vue3-easy-data-table__header tr {
-  @apply border-b bg-slate-100 dark:bg-gray-900;
+  @apply border-b bg-gray-900;
 }
 
 /* Table header th tag */
@@ -211,18 +172,17 @@ table tr:nth-child(even) {
 /* Fixed header */
 
 .vue3-easy-data-table__main.fixed-header.show-shadow.table-fixed .shadow {
-  @apply border-r bg-white dark:bg-black;
+  @apply border-r bg-black;
 }
 
 /* table head sort icons */
 /* None */
 .vue3-easy-data-table__header tr th.sortable.none .sortType-icon {
-  @apply ml-3 inline-block -rotate-45 cursor-pointer border border-slate-400 p-1 transition duration-300 hover:bg-blue-400  
-dark:border-gray-800;
+  @apply ml-3 inline-block -rotate-45 cursor-pointer border border-gray-800 p-1 transition duration-300 hover:bg-blue-400;
 }
 /* Asce */
 .vue3-easy-data-table__header tr th.sortable.asc .sortType-icon {
-  @apply ml-3 inline-block -rotate-45 cursor-pointer border-t-2 border-r-2 border-blue-600  
+  @apply ml-3 inline-block -rotate-45 cursor-pointer border-r-2 border-t-2 border-blue-600  
 p-1 transition duration-300;
 }
 /* Desc */
@@ -244,7 +204,7 @@ p-1 transition duration-300;
 }
 /* Table body tr */
 .vue3-easy-data-table__body.row-alternation tr {
-  @apply transition even:bg-slate-50  hover:bg-slate-100 dark:even:bg-gray-900 dark:hover:bg-gray-800;
+  @apply transition even:bg-gray-900 hover:bg-gray-800;
 }
 
 /* Expand slot */
@@ -254,7 +214,7 @@ p-1 transition duration-300;
 
 /* Expand Icon  */
 .expand-icon {
-  @apply inline-block -rotate-45 cursor-pointer border-t border-r border-slate-500  p-1 transition duration-300;
+  @apply inline-block -rotate-45 cursor-pointer border-r border-t border-slate-500  p-1 transition duration-300;
 }
 .expand-icon.expanding {
   @apply rotate-[225deg] border-blue-600 bg-blue-600;
@@ -263,7 +223,7 @@ p-1 transition duration-300;
 /* Footer */
 
 .vue3-easy-data-table__footer {
-  @apply flex w-full flex-col items-start gap-5 border-t px-6 py-5 text-sm  dark:border-gray-900 lg:flex-row lg:items-center;
+  @apply flex w-full flex-col items-start gap-5 border-t border-gray-900 px-6 py-5 text-sm lg:flex-row lg:items-center;
 }
 
 /* Rows per page */
@@ -286,7 +246,7 @@ p-1 transition duration-300;
 }
 /* Selction dropdown */
 .vue3-easy-data-table__footer .select-items {
-  @apply hidden divide-y overflow-hidden rounded-md bg-white shadow-md transition duration-300 dark:bg-black;
+  @apply hidden divide-y overflow-hidden rounded-md bg-black shadow-md transition duration-300;
 }
 
 .vue3-easy-data-table__footer .select-items.show {
@@ -295,7 +255,7 @@ p-1 transition duration-300;
 
 /* Select items inside dropdown */
 .vue3-easy-data-table__footer .select-items.show li {
-  @apply cursor-pointer px-2 py-1 hover:bg-blue-300 dark:hover:bg-blue-900;
+  @apply cursor-pointer px-2 py-1 hover:bg-blue-900;
 }
 .vue3-easy-data-table__footer .select-items.show li.selected {
   @apply bg-blue-600 text-white;
@@ -307,10 +267,10 @@ p-1 transition duration-300;
 }
 /* Button items */
 .buttons-pagination .item.button {
-  @apply flex h-7 w-7 cursor-pointer items-center rounded justify-center text-xs transition;
+  @apply flex h-7 w-7 cursor-pointer items-center justify-center rounded text-xs transition;
 }
 .buttons-pagination .item.button.active {
-  @apply bg-gray-800  text-white ;
+  @apply bg-gray-800  text-white;
 }
 
 /* Page index */
@@ -321,11 +281,11 @@ p-1 transition duration-300;
 /* Paging arrows */
 .previous-page__click-button,
 .next-page__click-button {
-  @apply my-0 mx-1 hidden cursor-pointer lg:block;
+  @apply mx-1 my-0 hidden cursor-pointer lg:block;
 }
 .previous-page__click-button .arrow,
 .next-page__click-button .arrow {
-  @apply inline-block h-2 w-2 border-t-2 border-l-2 border-slate-400;
+  @apply inline-block h-2 w-2 border-l-2 border-t-2 border-slate-400;
 }
 .previous-page__click-button .arrow.arrow-left,
 .next-page__click-button .arrow.arrow-left {
@@ -366,12 +326,12 @@ before:h-5 before:w-5;
 /* JSON Viewer */
 
 .jsonviewer {
-  @apply rounded-lg border border-gray-200 bg-white font-mono text-gray-600 dark:border-zinc-700 dark:bg-gray-900 dark:text-gray-200;
+  @apply rounded-lg border border-zinc-700 bg-gray-900 font-mono text-gray-200;
   white-space: nowrap;
   font-size: 14px;
 }
 .jsonviewer .jv-ellipsis {
-  @apply bg-gray-100 text-gray-500 dark:bg-gray-900 dark:text-gray-400;
+  @apply bg-gray-900 text-gray-400;
   display: inline-block;
   line-height: 0.9;
   font-size: 0.9em;
@@ -385,10 +345,10 @@ before:h-5 before:w-5;
   color: #49b3ff;
 }
 .jsonviewer .jv-key {
-  @apply text-gray-700 dark:text-gray-300;
+  @apply text-gray-300;
 }
 .jsonviewer .jv-item.jv-array {
-  @apply text-gray-700 dark:text-gray-300;
+  @apply text-gray-300;
 }
 .jsonviewer .jv-item.jv-boolean {
   color: #fc1e70;
@@ -406,7 +366,7 @@ before:h-5 before:w-5;
   color: #fc1e70;
 }
 .jsonviewer .jv-item.jv-object {
-  @apply text-gray-700 dark:text-gray-300;
+  @apply text-gray-300;
 }
 .jsonviewer .jv-item.jv-undefined {
   color: #e08331;
@@ -425,16 +385,13 @@ before:h-5 before:w-5;
   background: #999;
 }
 
-
 .cropper-bg {
   @apply !bg-gray-900;
   background-image: none !important;
 }
 
-
-
 .v-popper__popper .v-popper__inner {
-  @apply !bg-gray-950 border border-gray-900;
+  @apply border border-gray-900 !bg-gray-950;
 }
 
 .v-popper__popper .v-popper__arrow-inner {
@@ -444,5 +401,3 @@ before:h-5 before:w-5;
 .v-popper__popper .v-popper__arrow-outer {
   @apply invisible;
 }
-
-

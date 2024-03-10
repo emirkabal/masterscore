@@ -22,11 +22,10 @@ onClickOutside(modal, () => {
 watch(
   () => props.show,
   (val) => {
-    if (val) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "auto"
-    }
+    setTimeout(() => {
+      if (val) document.body.style.overflow = "hidden"
+      else document.body.style.overflow = "auto"
+    }, 500)
   }
 )
 </script>
@@ -34,11 +33,11 @@ watch(
   <Transition name="fade">
     <div
       v-if="props.show"
-      class="bg-black-500/10 fixed inset-0 left-0 top-0 z-50 m-auto flex h-full min-h-0 w-full items-center justify-center shadow-2xl backdrop-blur md:px-0 lg:px-4 lg:py-8"
+      class="bg-black-500/10 fixed inset-0 left-0 top-0 z-50 m-auto flex h-full min-h-0 w-full items-center justify-center shadow-2xl backdrop-blur md:px-4 md:py-8"
     >
       <div
         ref="modal"
-        class="relative h-full w-full overflow-hidden overflow-y-auto rounded-2xl scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-rounded-2xl scrollbar-thumb-rounded-full dark:bg-gray-900 md:min-w-[460px] lg:h-auto lg:max-h-full lg:max-w-[512px]"
+        class="relative h-full w-full overflow-hidden overflow-y-auto rounded-2xl bg-gray-900 scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-rounded-2xl scrollbar-thumb-rounded-full md:h-auto md:max-h-full md:min-w-[460px] md:max-w-[512px]"
       >
         <div
           class="flex select-none items-center justify-between px-4 pb-2 pt-4 text-xl font-semibold"
@@ -55,7 +54,7 @@ watch(
           <slot name="body"></slot>
         </div>
         <div
-          class="absolute bottom-0 left-0 flex w-full justify-end space-x-2 bg-gray-950 p-6 lg:relative"
+          class="absolute bottom-0 left-0 flex w-full justify-end space-x-2 bg-gray-950 p-6 md:relative"
         >
           <slot name="footer"></slot>
         </div>

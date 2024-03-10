@@ -8,15 +8,7 @@ export type ApplicationEvents = {
   "entertainment:load": boolean
   "entertainment:fetch:reviews": boolean
   "entertainment:fetch:likes": boolean
-  "entertainment:handle:button": "like" | "watchlist" | "review" | ["watch", string | number]
-  "entertainment:watch": [
-    string,
-    {
-      episode_number: string | number
-      season_number: string | number
-    }
-  ]
-  "entertainment:watch-feature-mismatch": void
+  "entertainment:handle:button": "like" | "review"
   "refresh:entertainment": void
   "searchbar:focus": boolean
   "core:player": {

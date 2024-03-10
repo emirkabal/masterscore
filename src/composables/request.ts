@@ -3,8 +3,11 @@ import type {
   CollapsedMedia,
   Media,
   MediaType,
+  TMDBCollectionDetails,
   TMDBMedia,
   TMDBPerson,
+  TMDBResult,
+  TMDBSearchResults,
   User
 } from "~/types"
 import { LRUCache } from "lru-cache"
@@ -52,7 +55,7 @@ export function getMedia(type: MediaType, id: string | number) {
           }
         >(`/api/media/${id}/sync?type=${type}`),
         _tmdb(`/${type}/${id}`, {
-          append_to_response: "external_ids,videos,credits,similar"
+          append_to_response: "external_ids,videos,credits,recommendations"
         }) as Promise<TMDBMedia>
       ])
 
@@ -85,6 +88,58 @@ export const getPerson = async (id: string | number) => {
 
       cache.set(key, person)
       resolve(person)
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+export const getDiscover = async (
+  type: MediaType,
+  options: {
+    with_genres?: string
+    without_genres?: string
+    with_keywords?: string
+    without_keywords?: string
+    sort_by?: "popularity.desc" | "release_date.desc" | "vote_average.desc"
+    page?: number | string
+  }
+) => {
+  const key = `discover:${type}:${JSON.stringify(options)}`
+  const cached = cache.get(key)
+  if (cached) return Promise.resolve(cached as TMDBSearchResults<TMDBResult>)
+
+  if (!options.page) options.page = "1"
+  if (!options.sort_by) options.sort_by = "popularity.desc"
+
+  return new Promise<TMDBSearchResults<TMDBResult>>(async (resolve, reject) => {
+    try {
+      const data = (await _tmdb(`/${type}/popular`, {
+        include_adult: "false",
+        include_video: "false",
+        ...options
+      })) as TMDBSearchResults<TMDBResult>
+
+      cache.set(key, data)
+
+      resolve(data)
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+export const getCollection = async (id: string | number) => {
+  const key = `collection:${id}`
+  const cached = cache.get(key)
+
+  if (cached) return Promise.resolve(cached as TMDBCollectionDetails)
+
+  return new Promise<TMDBCollectionDetails>(async (resolve, reject) => {
+    try {
+      const collection = (await _tmdb(`/collection/${id}`)) as TMDBCollectionDetails
+      cache.set(key, collection)
+      resolve(collection)
     } catch (e) {
       reject(e)
     }

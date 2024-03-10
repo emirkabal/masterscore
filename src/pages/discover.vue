@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TMDBSearchResult } from "~/types"
+import type { TMDBResult } from "~/types"
 import { vInfiniteScroll } from "@vueuse/components"
 
 const { t } = useI18n()
@@ -8,9 +8,9 @@ const { $tfiltergenres } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
 
-const content = ref<TMDBSearchResult[]>([])
+const content = ref<TMDBResult[]>([])
 const select = ref<number>(0)
-const selected = computed(() => content.value[select.value])
+const selected = computed(() => content.value[select.value]) as ComputedRef<TMDBResult>
 const queryRef = toRef(route, "query")
 
 const config = reactive({
@@ -78,11 +78,9 @@ const search = async () => {
 
   config.pending = true
 
-  const data = await $fetch(`/api/discover/${config.type}`, {
-    params: {
-      with_genres: config.genres.join(","),
-      page: config.page
-    }
+  const data = await getDiscover(config.type as "movie" | "tv", {
+    with_genres: config.genres.join(","),
+    page: config.page
   })
 
   content.value = [...content.value, ...data.results]

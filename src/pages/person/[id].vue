@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useStorage } from "@vueuse/core"
+import { useLocalStorage } from "@vueuse/core"
 import type { CreditsResult } from "~/types"
 const { params } = useRoute()
 const { $moment, $listen } = useNuxtApp()
 const { t, locale } = useI18n()
 const revealBio = ref(false)
 const showDetailsDev = ref(false)
-const flag = useStorage("debugMode", false)
+const flags = useLocalStorage("preferences", {} as any)
 
 const { data, pending, error, refresh } = await useAsyncData(
   `Person-${params.id}`,
@@ -207,7 +207,7 @@ useHead({
               <button
                 v-if="isBig && !revealBio"
                 @click="revealBio = !revealBio"
-                class="5 group absolute bottom-0 right-0 w-full bg-gradient-to-l from-white text-right dark:from-gray-950"
+                class="5 group absolute bottom-0 right-0 w-full bg-gradient-to-l from-gray-950 text-right"
               >
                 <span class="font-semibold group-hover:opacity-75">{{
                   $t("person.read_more")
@@ -261,10 +261,10 @@ useHead({
             </div>
           </div>
 
-          <div v-if="flag">
+          <div v-if="flags.debug_mode">
             <button
               @click="showDetailsDev = !showDetailsDev"
-              class="font-semibod mt-8 rounded bg-white px-4 py-2 shadow dark:bg-gray-900"
+              class="font-semibod mt-8 rounded bg-gray-900 px-4 py-2 shadow"
             >
               {{ showDetailsDev ? "Hide" : "Show" }} details
             </button>

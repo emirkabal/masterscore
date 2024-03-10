@@ -67,25 +67,25 @@ watch(
     <button
       @click="reset"
       v-if="params.page !== '1' && activities.length === 10"
-      class="fixed bottom-0 left-0 right-0 z-10 origin-center rounded bg-gray-200 px-2 py-1 font-semibold transition-colors hover:bg-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800"
+      class="fixed bottom-0 left-0 right-0 z-10 origin-center rounded bg-gray-900 px-2 py-1 font-semibold transition-colors hover:bg-gray-800"
     >
       Reset Page
     </button>
     <div v-if="loading" class="flex items-start py-8" v-for="i in 8" :key="i">
       <div
-        class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 md:h-14 md:w-14 dark:bg-gray-900"
+        class="skeleton-effect h-10 w-10 flex-shrink-0 rounded-full bg-gray-900 md:h-14 md:w-14"
       ></div>
       <div class="ml-4 flex w-full flex-col">
-        <div class="skeleton-effect h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"></div>
-        <div class="skeleton-effect mt-1 h-2 w-1/2 rounded bg-gray-300 dark:bg-gray-900"></div>
-        <div class="skeleton-effect mt-1 h-2 w-1/3 rounded bg-gray-300 dark:bg-gray-900"></div>
-        <div class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-300 dark:bg-gray-900"></div>
-        <div class="skeleton-effect mt-1 h-14 w-32 rounded bg-gray-300 dark:bg-gray-900"></div>
+        <div class="skeleton-effect h-2 w-1/4 rounded bg-gray-900"></div>
+        <div class="skeleton-effect mt-1 h-2 w-1/2 rounded bg-gray-900"></div>
+        <div class="skeleton-effect mt-1 h-2 w-1/3 rounded bg-gray-900"></div>
+        <div class="skeleton-effect mt-1 h-2 w-1/4 rounded bg-gray-900"></div>
+        <div class="skeleton-effect mt-1 h-14 w-32 rounded bg-gray-900"></div>
       </div>
     </div>
     <div
       v-else
-      class="flex w-full items-start gap-4 border-b py-8 dark:border-gray-900"
+      class="flex w-full items-start gap-4 border-b border-gray-900 py-8"
       v-for="(activity, i) in activities"
       v-intersection-observer="i === activities.length - 1 ? onIntersectionObserver : () => {}"
       :key="activity.id"
@@ -113,7 +113,7 @@ watch(
               v-tooltip="{
                 content: $moment(activity.created_at).locale($i18n.locale).format('LLLL')
               }"
-              class="flex-shrink-0 cursor-default text-xs text-gray-500 dark:text-gray-300"
+              class="flex-shrink-0 cursor-default text-xs text-gray-300"
             >
               {{ $moment(activity.created_at).locale($i18n.locale).calendar() }}
             </span>

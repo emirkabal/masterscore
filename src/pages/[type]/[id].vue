@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import tinycolor from "tinycolor2"
-import { useStorage } from "@vueuse/core"
+import { useLocalStorage } from "@vueuse/core"
 
 definePageMeta({
   validate: ({ params }) => ["movie", "tv"].includes(params.type as string)
@@ -8,7 +8,7 @@ definePageMeta({
 
 const { $colorthief, $timage } = useNuxtApp()
 const { params } = useRoute()
-const flag = useStorage("debugMode", false)
+const flags = useLocalStorage("preferences", {} as any)
 
 const route = useRoute()
 const type = computed(() => route.params.type as "movie" | "tv")
@@ -34,7 +34,7 @@ const colors = reactive({
 const showDetailsDev = ref(false)
 
 const backdrop = computed(() => $timage(data.value?.backdrop_path || "-", "w1280"))
-const poster = computed(() => $timage(data.value?.poster_path || "-", "w300"))
+const poster = computed(() => $timage(data.value?.poster_path || "-", "w300_and_h450_bestv2"))
 
 const getTeaser = computed(() => {
   if (!data.value?.videos?.results?.length) return "-"
@@ -110,13 +110,12 @@ updateSeo()
       'font-mono': data.media.id === '6413083c89dfe11b9d6c6dc4'
     }"
   >
-    <!-- <ScreenModal v-if="getTeaser" :modal="trailerModal" @close="trailerModal = false">
+    <ScreenModal v-if="getTeaser" :modal="trailerModal" @close="trailerModal = false">
       <iframe
         class="aspect-video h-auto w-full rounded-xl"
         :src="`https://www.youtube.com/embed/${getTeaser.split('/')[3]}?autoplay=1`"
       />
-    </ScreenModal> -->
-    <!-- <EntertainmentReviewModal :data="data" /> -->
+    </ScreenModal>
     <EntertainmentContainer :colors="colors" :backdrop="backdrop">
       <div class="relative">
         <EntertainmentPoster :poster="poster" />
@@ -141,14 +140,14 @@ updateSeo()
     <div class="container mx-auto mb-28 mt-12 px-0 lg:-mt-28 2xl:-mt-36">
       <div class="flex flex-col-reverse items-stretch gap-4 lg:flex-row">
         <div class="relative min-w-0 flex-1 space-y-10 lg:space-y-16">
-          <EntertainmentDetailsReviews :ctx="data" />
           <EntertainmentDetailsCollection
             v-if="data.belongs_to_collection"
             :data="data.belongs_to_collection"
           />
           <EntertainmentDetailsEpisodes v-if="data.seasons" :data="data" />
           <EntertainmentDetailsCast :data="data.credits" />
-          <EntertainmentDetailsSimilar :data="data.similar" />
+          <EntertainmentDetailsSimilar :data="data.recommendations" />
+          <EntertainmentDetailsReviews :ctx="data" />
         </div>
         <EntertainmentDetailsSidebar
           class="static top-14 w-full self-start px-4 lg:sticky lg:min-w-[300px] lg:max-w-[300px]"
@@ -157,10 +156,10 @@ updateSeo()
       </div>
 
       <ClientOnly>
-        <div v-if="flag">
+        <div v-if="flags.debug_mode">
           <button
             @click="showDetailsDev = !showDetailsDev"
-            class="font-semibod mt-8 rounded bg-white px-4 py-2 shadow dark:bg-gray-900"
+            class="font-semibod mt-8 rounded bg-gray-900 px-4 py-2 shadow"
           >
             {{ showDetailsDev ? "Hide" : "Show" }} details
           </button>

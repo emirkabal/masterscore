@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import type { CollapsedMedia } from "~/types"
-import { useDark, onClickOutside } from "@vueuse/core"
-const { isMobile } = useDevice()
-
-const isDark = useDark()
+import { onClickOutside } from "@vueuse/core"
 
 const props = defineProps<{
-  data: CollapsedMedia
-  reviewData: any
+  review: any
 }>()
 
 const emojiPicker = ref(null)
@@ -18,7 +13,7 @@ onClickOutside(emojiPicker, () => {
 })
 
 const onSelectEmoji = (emoji: any) => {
-  props.reviewData.comment += emoji.i
+  props.review.content += emoji.i
 }
 </script>
 
@@ -28,25 +23,25 @@ const onSelectEmoji = (emoji: any) => {
       <p class="mb-2 flex items-center text-lg font-semibold tracking-tight">
         {{ $t("review_modal.rating") }}
       </p>
-      <div class="flex flex-wrap items-center gap-2">
+      <div class="flex flex-wrap items-center gap-x-2 md:gap-x-6">
         <FormStarInput
-          :rating="props.reviewData.rating"
-          @update:rating="(val: number) => (props.reviewData.rating = val)"
+          :rating="review.rating"
+          @update:rating="(val: number) => (review.rating = val)"
         />
         <div
           @click="
             () => {
-              if (props.reviewData.rating >= 9.6) props.reviewData.rating = 10
+              if (review.rating >= 9.6) review.rating = 10
             }
           "
         >
           <StarRating
             :animate="true"
             :numberOfStars="10"
-            :star-size="isMobile ? 30 : 36"
+            :star-size="34"
             inactiveColor="#1f2937"
             starColor="#facc15"
-            v-model="props.reviewData.rating"
+            v-model="review.rating"
           ></StarRating>
         </div>
       </div>
@@ -64,7 +59,7 @@ const onSelectEmoji = (emoji: any) => {
             class="absolute right-0 z-20"
             :display-recent="true"
             :native="true"
-            :theme="isDark ? 'dark' : 'light'"
+            theme="dark"
             @select="onSelectEmoji"
           />
         </Transition>
@@ -73,34 +68,29 @@ const onSelectEmoji = (emoji: any) => {
       <div class="relative">
         <textarea
           type="text"
-          :value="props.reviewData.comment"
+          :value="review.content"
           :maxlength="512"
-          @input="(e: any) => (props.reviewData.comment = e.target.value)"
+          @input="(e: any) => (review.content = e.target.value)"
           :placeholder="$t('review_modal.placeholder')"
-          class="h-32 w-full select-none resize-none rounded border-gray-400 p-2 focus:outline-none focus:ring-1 focus:ring-gray-700 dark:border-gray-700 dark:bg-gray-800"
+          class="h-32 w-full select-none resize-none rounded border-gray-700 bg-gray-800 p-2 focus:outline-none focus:ring-1 focus:ring-gray-700"
         />
-        <div
-          class="absolute bottom-0 right-0 z-10 m-2 rounded text-sm text-gray-500 dark:text-gray-300"
-        >
-          <button
-            @click="isEmojiSelector = !isEmojiSelector"
-            class="p-1 hover:bg-gray-50 dark:hover:bg-zinc-600"
-          >
+        <div class="absolute bottom-0 right-0 z-10 m-2 rounded text-sm text-gray-300">
+          <button @click="isEmojiSelector = !isEmojiSelector" class="p-1 hover:bg-zinc-600">
             <Icon name="ic:outline-emoji-emotions" class="h-8 w-8" />
           </button>
         </div>
       </div>
-      <div class="flex items-center gap-2" v-if="props.reviewData.comment.trim().length > 0">
+      <div class="flex items-center gap-2" v-if="review.content.trim().length > 0">
         <HeadlessSwitch
           id="spoiler"
-          v-model="props.reviewData.spoiler"
-          :class="props.reviewData.spoiler ? 'bg-blue-700' : 'bg-teal-700'"
+          v-model="review.spoiler"
+          :class="review.spoiler ? 'bg-blue-700' : 'bg-teal-700'"
           class="relative inline-flex h-[18px] w-[32px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
         >
           <span class="sr-only">Use setting</span>
           <span
             aria-hidden="true"
-            :class="props.reviewData.spoiler ? 'translate-x-3.5' : 'translate-x-0'"
+            :class="review.spoiler ? 'translate-x-3.5' : 'translate-x-0'"
             class="pointer-events-none inline-block h-[14px] w-[14px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
           />
         </HeadlessSwitch>

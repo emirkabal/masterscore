@@ -1,9 +1,6 @@
 <script setup>
-import { useDark } from "@vueuse/core"
-const isDark = useDark()
 const version = useAppConfig().version
 const date = useAppConfig().buildDate
-isDark.value = true
 </script>
 
 <template>

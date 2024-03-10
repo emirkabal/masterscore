@@ -68,8 +68,7 @@ export default defineNuxtConfig({
     head: {
       title: "Masterscore",
       htmlAttrs: {
-        lang: "en",
-        class: "dark"
+        lang: "en"
       },
       meta: [
         { charset: "utf-8" },

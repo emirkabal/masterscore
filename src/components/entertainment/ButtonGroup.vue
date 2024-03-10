@@ -3,6 +3,8 @@ import type { CollapsedMedia } from "~/types"
 import { useUserStore } from "~/store/user"
 const userStore = useUserStore()
 
+const { $event, $listen, $dispatch } = useNuxtApp()
+
 const props = defineProps<{
   data?: CollapsedMedia
   teaser?: string
@@ -11,21 +13,30 @@ const props = defineProps<{
 
 const emits = defineEmits(["openReview", "watchTrailer"])
 
-// onMounted(() => {
-//   $listen("entertainment:handle:button", handleEvents)
-// })
+const handleEvents = (type: string) => {
+  if (!props.data?.media) return
+  if (type === "review") {
+    $event("modal:review", true)
+  } else if (type === "like") {
+    likeMedia(props.data?.media.id)
+  }
+}
 
-// onUnmounted(() => {
-//   $dispatch("entertainment:handle:button", handleEvents)
-// })
+onMounted(() => {
+  $listen("entertainment:handle:button", handleEvents)
+})
+
+onUnmounted(() => {
+  $dispatch("entertainment:handle:button", handleEvents)
+})
 </script>
 
 <template>
   <div v-if="loading">
     <div class="flex flex-row gap-2">
-      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-800"></div>
-      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-800"></div>
-      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-800"></div>
+      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-800"></div>
+      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-800"></div>
+      <div class="skeleton-effect h-10 w-10 rounded-full bg-gray-800"></div>
     </div>
   </div>
   <div v-else-if="!loading && data" class="mb-4 hidden gap-2 text-lg lg:flex">

@@ -30,7 +30,7 @@ const value = computed({
         v-bind="$attrs"
         class="border px-4 py-2"
         :class="{
-          'w-full select-none resize-none rounded  border-gray-400 focus:ring-1 focus:ring-gray-700 disabled:opacity-75 dark:border-gray-700 dark:bg-gray-800':
+          'w-full select-none resize-none rounded  border-gray-700 bg-gray-800 focus:ring-1 focus:ring-gray-700 disabled:opacity-75':
             variant === 'general',
           'border-1 block w-full rounded-lg border-gray-300 bg-transparent px-2.5 py-3 text-sm text-gray-900 placeholder:opacity-70 focus:border-yellow-500 focus:outline-none focus:ring-0':
             variant !== 'general',

@@ -56,17 +56,14 @@ watch(imageLoading, () => {
 <template>
   <NuxtLink
     :to="to"
-    class="group mt-1 flex w-fit min-w-0 items-center gap-x-2 rounded-lg bg-gray-500 p-2 dark:bg-gray-900"
+    class="group mt-1 flex w-fit min-w-0 items-center gap-x-2 rounded-lg bg-gray-900 p-2"
     :style="{
       background: imageLoading
         ? ''
         : `linear-gradient(135deg, rgba(${colors.background[0]}, ${colors.background[1]}, ${colors.background[2]}, 1) 0%, rgba(${colors.gradient[0]}, ${colors.gradient[1]}, ${colors.gradient[2]}, 1) 100%)`
     }"
   >
-    <span
-      class="skeleton-effect h-12 w-8 flex-shrink-0 rounded bg-gray-400 dark:bg-gray-800"
-      v-if="imageLoading"
-    >
+    <span class="skeleton-effect h-12 w-8 flex-shrink-0 rounded bg-gray-800" v-if="imageLoading">
     </span>
     <nuxt-img
       ref="nuxtImageRefence"

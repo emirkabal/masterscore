@@ -1,22 +1,20 @@
 <script lang="ts" setup>
+type User = {
+  id: string
+  username: string
+  avatar?: string | null
+  verified: boolean
+}
+
 const props = defineProps<{
-  user?: {
-    id: string
-    username: string
-    avatar: string
-    verified: boolean
-  }
+  user?: User
   comment: {
-    user: {
-      id: string
-      username: string
-      avatar: string
-      verified: boolean
-    }
+    user: User
     rating: number
+    content?: string | null
+    spoiler?: boolean | null
     created_at: string
     updated_at: string
-    content: string
   }
 }>()
 
@@ -27,7 +25,7 @@ const isMe = computed(() => props.comment.user.id === props.user?.id)
   <div
     class="relative flex items-start gap-x-4 rounded-xl"
     :class="{
-      'bg-brand/10 px-4 pt-6': isMe
+      'bg-brand/15 px-4 pt-6': isMe
     }"
   >
     <NuxtLink :to="`/${comment.user.username}`">
@@ -52,9 +50,7 @@ const isMe = computed(() => props.comment.user.id === props.user?.id)
             class="h-5 w-5 flex-shrink-0 text-brand"
         /></NuxtLink>
         <ScoreCircle :score="comment.rating" />
-        <p
-          class="line-clamp-1 flex-shrink-0 cursor-default break-words text-xs text-gray-500 dark:text-gray-300"
-        >
+        <p class="line-clamp-1 flex-shrink-0 cursor-default break-words text-xs text-gray-300">
           <span
             v-tooltip="{
               content: $moment(comment.created_at).locale($i18n.locale).format('LLLL')

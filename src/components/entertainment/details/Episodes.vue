@@ -100,9 +100,8 @@ watch(seasonData, () => {
         "
         class="cursor-pointer rounded border p-4 transition-colors duration-75"
         :class="{
-          'border-gray-600 dark:border-gray-400': seasonData[item.id].show,
-          'hover:border-gray-600 dark:border-gray-800 hover:dark:border-gray-400':
-            !seasonData[item.id].show
+          ' border-gray-400': seasonData[item.id].show,
+          'border-gray-800 hover:border-gray-400': !seasonData[item.id].show
         }"
       >
         <div
@@ -118,7 +117,7 @@ watch(seasonData, () => {
           >
           <span
             v-if="!seasonData[item.id].show"
-            class="mr-auto flex-shrink-0 text-xs text-gray-400 md:text-sm dark:text-zinc-400"
+            class="mr-auto flex-shrink-0 text-xs text-zinc-400 md:text-sm"
             >{{
               $t("entertainment.n_episodes", {
                 n: item.episode_count
@@ -147,14 +146,11 @@ watch(seasonData, () => {
             <div class="cursor-text" @click="(e) => e.stopPropagation()">
               <div class="flex min-w-0 items-center gap-2">
                 <span class="line-clamp-1 font-semibold md:text-xl">{{ item.name }}</span>
-                <span
-                  class="flex-shrink-0 text-xs text-gray-400 md:mt-0.5 md:text-base dark:text-zinc-400"
-                  >{{
-                    $t("entertainment.n_episodes", {
-                      n: item.episode_count
-                    })
-                  }}</span
-                >
+                <span class="flex-shrink-0 text-xs text-zinc-400 md:mt-0.5 md:text-base">{{
+                  $t("entertainment.n_episodes", {
+                    n: item.episode_count
+                  })
+                }}</span>
               </div>
               <p class="text-xs font-semibold opacity-75 md:text-base">
                 {{ $moment(item.air_date).locale($i18n.locale).format("MMMM D, YYYY") }}
@@ -173,7 +169,7 @@ watch(seasonData, () => {
                 v-else
                 v-for="episode in seasonData[item.id].episodes"
                 :key="episode.id"
-                class="flex cursor-pointer select-none items-center gap-2 rounded-lg p-2 transition-colors hover:bg-gray-200 md:gap-4 hover:dark:bg-gray-900"
+                class="flex cursor-pointer select-none items-center gap-2 rounded-lg p-2 transition-colors hover:bg-gray-900 md:gap-4"
               >
                 <MasterImage
                   v-if="episode.still_path"
@@ -183,8 +179,7 @@ watch(seasonData, () => {
                 <div class="w-full">
                   <div class="flex min-w-0 items-center gap-x-2 font-semibold">
                     <span class="line-clamp-1 text-xs md:text-xl">{{ episode.name }}</span>
-                    <span
-                      class="flex-shrink-0 text-xs text-gray-400 md:text-base dark:text-zinc-400"
+                    <span class="flex-shrink-0 text-xs text-zinc-400 md:text-base"
                       >E-{{ episode.episode_number }}</span
                     >
                   </div>

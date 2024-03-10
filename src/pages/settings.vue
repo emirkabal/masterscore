@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { useUserStore } from "~/store/user"
-const { user, isLoggedIn } = useUserStore()
+const { user } = useUserStore()
 
 const settings = reactive({
   account: {
-    username: user?.username || ""
+    username: user?.username || "",
+    about: user?.about || "",
+    email: user?.email || ""
   }
 })
 </script>
@@ -16,8 +18,9 @@ const settings = reactive({
         <div class="hidden lg:block">
           <span class="text-sm font-bold uppercase tracking-wide text-gray-500"> Ayarlar </span>
         </div>
-        <div>
+        <div class="space-y-12">
           <PagesSettingsPartsAccount :settings="settings" />
+          <PagesSettingsPartsPreferences />
         </div>
       </div>
     </div>

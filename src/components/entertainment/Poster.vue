@@ -10,7 +10,7 @@ defineProps<{
   <div class="relative flex-shrink-0">
     <div v-if="loading">
       <div
-        class="skeleton-effect flex h-[336px] w-56 items-center justify-center rounded-2xl bg-gray-300 text-xl font-semibold lg:h-[450px] lg:w-[300px] dark:bg-gray-800"
+        class="skeleton-effect flex h-[336px] w-56 items-center justify-center rounded-2xl bg-gray-800 text-xl font-semibold lg:h-[450px] lg:w-[300px]"
       ></div>
     </div>
     <div v-else>
