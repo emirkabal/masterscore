@@ -50,7 +50,7 @@ export function getMedia(type: MediaType, id: string | number) {
             }
             score: number
           }
-        >(`/api/sync/${id}?type=${type}`),
+        >(`/api/media/${id}/sync?type=${type}`),
         _tmdb(`/${type}/${id}`, {
           append_to_response: "external_ids,videos,credits,similar"
         }) as Promise<TMDBMedia>

@@ -47,7 +47,6 @@ const getTeaser = computed(() => {
 
 const detectColor = () => {
   if (process.client) {
-    console.log("detecting color", poster.value)
     const image = new Image()
     image.setAttribute("crossOrigin", "Anonymous")
     image.src = poster.value
@@ -59,9 +58,7 @@ const detectColor = () => {
       const gradient = Object.values(tinycolor(dominantColor.rgb).darken(45).toRgb())
       colors.gradient = gradient
     }
-    image.onerror = () => {
-      console.log("error on image color analysis")
-    }
+    image.onerror = () => {}
   }
 }
 const title = computed(() =>

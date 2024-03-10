@@ -27,8 +27,6 @@ const review = reactive({
 const emits = defineEmits(["edit", "remove"])
 
 const submitReview = async () => {
-  console.log("clicked")
-
   review.pending = true
   await reviewMedia(props.ctx.media.id, {
     ...review

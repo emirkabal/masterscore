@@ -34,7 +34,5 @@ export default defineEventHandler(async (event) => {
     }
   })
 
-  console.log(score)
-
   return { ...media, score: score._avg?.rating || -1 }
 })

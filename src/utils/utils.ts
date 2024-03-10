@@ -11,7 +11,7 @@ export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
   const config = useRuntimeConfig()
 
   const cache = await redis.get(`${config.VERSION}:${type}:${tmdb_id}`)
-  // if (cache) return cache as Media & { _count: { likes: number; reviews: number } }
+  if (cache) return cache as Media & { _count: { likes: number; reviews: number } }
 
   const tmdb = await $fetch<TMDBMedia>(`https://api.themoviedb.org/3/${type}/${tmdb_id}`, {
     params: {
