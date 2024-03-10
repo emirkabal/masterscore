@@ -15,7 +15,6 @@ export const useUserStore = defineStore("user", {
   hydrate: (state) => {
     const token = useLocalStorage("token", null).value
     if (!token) {
-      console.log("token yoh")
       state.loading = false
     }
     state.token = token

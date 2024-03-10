@@ -40,6 +40,7 @@ const crew = computed<CreditsResult[]>(() => {
       return 0
     })
     .filter((e, i, a) => a.findIndex((x) => x.id === e.id) === i)
+    .slice(0, 6)
 })
 
 const localizedJobs = (job: string) => {

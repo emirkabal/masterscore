@@ -1,7 +1,7 @@
 {
   "name": "masterscore",
   "description": "Masterscore is a movie and TV review website with unbiased reviews, recommendations, and ratings on various genres. Find your next favorite show or movie with us!",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
