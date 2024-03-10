@@ -55,7 +55,7 @@ const isDisabled = computed(() => {
 })
 
 const changeSelect = (index: number) => {
-  if (index === select.value) return router.push(`/details/${type.value}/${selected.value.id}`)
+  if (index === select.value) return router.push(`/${type.value}/${selected.value.id}`)
   select.value = index
 }
 
@@ -127,7 +127,7 @@ watch(queryRef, () => {
 
 useHead({
   title: t("discover.title"),
-  titleTemplate: "%s - Masterscore"
+  titleTemplate: "%s | Masterscore"
 })
 </script>
 

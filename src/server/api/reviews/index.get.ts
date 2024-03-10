@@ -1,5 +1,4 @@
-import type { IEntertainment } from "~/types"
-import ReviewModel from "../../models/Review.model"
+import prisma from "~/server/db/prisma"
 
 export default defineEventHandler(async (event) => {
   const { limit, type, disableReviewRequirement } = getQuery(event) as {
@@ -8,48 +7,53 @@ export default defineEventHandler(async (event) => {
     disableReviewRequirement: boolean | undefined
   }
 
-  const average: {
-    _id: string
-    average: number
-    entertainment: IEntertainment
-  }[] = await ReviewModel.aggregate([
-    {
-      $group: {
-        _id: "$entertainment",
-        average: { $avg: "$rating" },
-        reviewsCount: { $sum: 1 }
+  const raw = await prisma.review.groupBy({
+    by: ["media_id"],
+    _avg: { rating: true },
+    _count: true,
+    having: {
+      rating: {
+        _count: {
+          gte: disableReviewRequirement ? 0 : 3
+        }
       }
     },
-    {
-      $project: {
-        _id: 1,
-        average: 1,
-        reviewsCount: 1
+    orderBy: {
+      _avg: {
+        rating: "desc"
       }
     },
-    {
-      $lookup: {
-        from: "entertainments",
-        localField: "_id",
-        foreignField: "_id",
-        as: "entertainment"
-      }
-    },
-    {
-      $unwind: "$entertainment"
-    },
-    (type && { $match: { "entertainment.type": type } }) || { $match: {} },
-    (!disableReviewRequirement && {
-      $match: {
-        reviewsCount: { $gt: 2 }
-      }
-    }) || { $match: {} },
-    {
-      $sort: {
-        average: -1
-      }
-    }
-  ]).limit(Number(limit) || 10)
+    ...(type
+      ? {
+          where: {
+            media: {
+              type: type
+            }
+          }
+        }
+      : {}),
+    take: limit ? Math.min(limit, 100) : 20
+  })
 
-  return average
+  const reviews = await prisma.review.findMany({
+    where: {
+      media_id: {
+        in: raw.map((r) => r.media_id)
+      }
+    },
+    include: {
+      media: true
+    }
+  })
+
+  const result = raw.map((r) => {
+    const review = reviews.find((review) => review.media_id === r.media_id)
+    return {
+      media: review?.media,
+      score: r._avg.rating,
+      count: r._count
+    }
+  })
+
+  return result
 })

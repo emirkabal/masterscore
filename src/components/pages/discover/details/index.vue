@@ -1,20 +1,20 @@
 <script lang="ts" setup>
-import type { TMDBData, TMDBSearchResult } from "~/types"
+import type { CollapsedMedia, TMDBResult } from "~/types"
 import { UseImage } from "@vueuse/components"
 const { $humanize, $tgenre } = useNuxtApp()
 const { locale } = useI18n()
 
-const props = defineProps<{ meta: TMDBSearchResult }>()
+const props = defineProps<{ meta: TMDBResult }>()
 const mediaType = props.meta.title ? "movie" : "tv"
 
 const data = reactive({
-  details: {} as TMDBData,
+  details: {} as CollapsedMedia,
   pending: true
 })
 
 const details = computed(() => {
   return {
-    logo: data.details?.images?.logos?.length && data.details?.images?.logos[0].file_path,
+    logo: data.details?.media?.images?.logo,
     runtime: $humanize(
       ((data && data.details?.runtime) ||
         (data && data.details?.episode_run_time && data.details?.episode_run_time[0]) ||
@@ -30,7 +30,7 @@ const details = computed(() => {
       }
     ),
     score:
-      data.details?.localData?.info?.ratings?.imdb ||
+      data.details?.media?.scores?.imdb ||
       (props.meta?.vote_average && props.meta.vote_average.toFixed(1)) ||
       "N/A",
     cast: data.details?.credits?.cast?.slice(0, 5),
@@ -41,10 +41,10 @@ const details = computed(() => {
 })
 
 const fetch = async () => {
-  data.details = {} as TMDBData
+  data.details = {} as CollapsedMedia
   data.pending = true
-  const res = await $fetch(`/api/tmdb/${props.meta.id}?type=${mediaType}`)
-  if ("id" in res) data.details = res
+  const res = await getMedia(mediaType, props.meta.id)
+  if (res) data.details = res
   data.pending = false
 }
 
@@ -82,9 +82,7 @@ watch(props, fetch)
         <h3 v-else>{{ $getTitle(meta) }}</h3>
       </div>
 
-      <div
-        class="mb-8 flex justify-between whitespace-nowrap font-sans text-xl font-medium text-gray-200"
-      >
+      <div class="mb-8 flex justify-between whitespace-nowrap text-xl font-medium text-gray-200">
         <span>
           {{ details.runtime }}
         </span>
@@ -95,9 +93,7 @@ watch(props, fetch)
           <span>
             {{ details.score }}
           </span>
-          <div class="h-5 w-10 rounded bg-yellow-400">
-            <IconsImdb class="fill-black" />
-          </div>
+          <IconsImdb class="h-6 w-10 fill-yellow-400" />
         </div>
       </div>
 
@@ -119,23 +115,23 @@ watch(props, fetch)
         <PagesDiscoverDetailsTags
           v-if="details.cast?.length"
           :title="$t('discover.cast')"
-          :tags="details.cast.map((i) => ({ name: i.name, url: `/details/person/${i.id}` }))"
+          :tags="details.cast.map((i) => ({ name: i.name, url: `/person/${i.id}` }))"
         />
 
         <PagesDiscoverDetailsTags
           v-if="details.createdBy"
           :title="$t('jobs.creator')"
-          :tags="[{ name: details.createdBy.name, url: `/details/person/${details.createdBy.id}` }]"
+          :tags="[{ name: details.createdBy.name, url: `/person/${details.createdBy.id}` }]"
         />
 
         <PagesDiscoverDetailsTags
           v-if="details.director"
           :title="$t('jobs.director')"
-          :tags="[{ name: details.director.name, url: `/details/person/${details.director.id}` }]"
+          :tags="[{ name: details.director.name, url: `/person/${details.director.id}` }]"
         />
       </div>
     </ScrollArea>
 
-    <PagesDiscoverDetailsButtonGroup :id="data.details.localId" />
+    <PagesDiscoverDetailsButtonGroup :id="data.details?.media?.id" />
   </div>
 </template>

@@ -10,7 +10,7 @@ watch($router.currentRoute, () => {
 <template>
   <div>
     <VitePwaManifest />
-    <!-- <NuxtLoadingIndicator /> -->
+    <NuxtLoadingIndicator />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

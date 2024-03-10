@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import type { TMDBData, Episode, Season } from "~/types"
-const { $event } = useNuxtApp()
+import type { CollapsedMedia, Episode, Season } from "~/types"
 
 interface SeasonData {
   [key: string]: Season & {
@@ -12,7 +11,7 @@ interface SeasonData {
 }
 
 const props = defineProps<{
-  data: TMDBData
+  data: CollapsedMedia
 }>()
 
 const seasonsComputed = computed(() => {
@@ -46,7 +45,9 @@ const totalEpisodes = computed(() => {
 })
 
 const getSeason = async (key: string, season_number: number) => {
-  const data = await $fetch(`/api/extra/season/${props.data.id}/${season_number}`)
+  const data = await $fetch<{ episodes: Episode[] }>(
+    `/api/extra/season/${props.data.id}/${season_number}`
+  )
   seasonData[key].episodes = data.episodes
 }
 
@@ -117,7 +118,7 @@ watch(seasonData, () => {
           >
           <span
             v-if="!seasonData[item.id].show"
-            class="mr-auto flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:text-sm"
+            class="mr-auto flex-shrink-0 text-xs text-gray-400 md:text-sm dark:text-zinc-400"
             >{{
               $t("entertainment.n_episodes", {
                 n: item.episode_count
@@ -147,7 +148,7 @@ watch(seasonData, () => {
               <div class="flex min-w-0 items-center gap-2">
                 <span class="line-clamp-1 font-semibold md:text-xl">{{ item.name }}</span>
                 <span
-                  class="flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:mt-0.5 md:text-base"
+                  class="flex-shrink-0 text-xs text-gray-400 md:mt-0.5 md:text-base dark:text-zinc-400"
                   >{{
                     $t("entertainment.n_episodes", {
                       n: item.episode_count
@@ -172,7 +173,7 @@ watch(seasonData, () => {
                 v-else
                 v-for="episode in seasonData[item.id].episodes"
                 :key="episode.id"
-                class="flex cursor-pointer select-none items-center gap-2 rounded-lg p-2 transition-colors hover:bg-gray-200 hover:dark:bg-gray-900 md:gap-4"
+                class="flex cursor-pointer select-none items-center gap-2 rounded-lg p-2 transition-colors hover:bg-gray-200 md:gap-4 hover:dark:bg-gray-900"
               >
                 <MasterImage
                   v-if="episode.still_path"
@@ -180,23 +181,26 @@ watch(seasonData, () => {
                   :source="$timage(episode.still_path, 'w500')"
                 />
                 <div class="w-full">
-                  <div class="flex min-w-0 items-center gap-2 font-semibold">
+                  <div class="flex min-w-0 items-center gap-x-2 font-semibold">
                     <span class="line-clamp-1 text-xs md:text-xl">{{ episode.name }}</span>
                     <span
-                      class="flex-shrink-0 text-xs text-gray-400 dark:text-zinc-400 md:text-base"
+                      class="flex-shrink-0 text-xs text-gray-400 md:text-base dark:text-zinc-400"
                       >E-{{ episode.episode_number }}</span
                     >
                   </div>
-                  <div class="flex gap-2 text-xs font-semibold opacity-75 md:text-base">
+                  <div class="flex gap-x-2 text-xs opacity-75 md:text-base">
                     <p>
                       {{ $moment(episode.air_date).locale($i18n.locale).format("MMMM D, YYYY") }}
                     </p>
                     <p>
                       {{
-                        $moment
-                          .duration(episode.runtime, "minutes")
-                          .locale($i18n.locale)
-                          .format("h[h] m[m]")
+                        $humanize(episode.runtime * 60_000, {
+                          language: $i18n.locale,
+                          delimiter: " ",
+                          units: ["m"],
+                          maxDecimalPoints: 0,
+                          fallbacks: ["en"]
+                        })
                       }}
                     </p>
                   </div>

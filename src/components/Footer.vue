@@ -11,17 +11,16 @@ isDark.value = true
     v-if="!$route.name?.startsWith('discover')"
     class="mt-4 w-full gap-24 border-t border-gray-800 bg-gray-900/30 py-16"
     :class="{
-      'mb-[59px] lg:mb-0':
-        $route.path.startsWith('/details/tv') || $route.path.startsWith('/details/movie')
+      'mb-[59px] lg:mb-0': $route.path.startsWith('/tv') || $route.path.startsWith('/movie')
     }"
   >
     <div
       class="max-w-8xl container mx-auto flex w-full flex-col-reverse justify-between gap-2 px-4 text-center md:flex-row md:text-left"
     >
       <div class="mx-auto flex flex-col md:mx-0">
-        <div>
+        <div class="mb-1 flex w-full justify-center gap-x-2 md:justify-start">
           <NuxtLink to="/">
-            <Logo class="text-2xl" />
+            <Logo />
           </NuxtLink>
           <span
             class="text-xs text-gray-200"
@@ -35,7 +34,7 @@ isDark.value = true
           {{ $t("footer.about") }}
         </p>
         <p class="max-w-xs pb-6 text-xs opacity-50">
-          <i18n-t keypath="footer.tmdb_text">
+          <i18n-t keypath="footer.tmdb_text" scope="global">
             <template v-slot:provider>
               <a href="https://www.themoviedb.org/" rel="noopener noreferrer" target="_blank">
                 <IconsTMDB class="-mt-0.5 inline h-2 w-auto" />
@@ -48,15 +47,15 @@ isDark.value = true
           &copy; {{ new Date().getFullYear() }} Masterscore
         </p>
         <a
-          class="flex items-center justify-center gap-x-3 pt-4 text-xs tracking-tight opacity-90 hover:opacity-100 sm:hidden"
+          class="flex items-center justify-center gap-x-3 pt-4 text-xs tracking-tight opacity-90 hover:opacity-100 md:hidden"
           href="https://emirkabal.com"
           >created by <IconsEKLogo class="inline h-6 w-auto"
         /></a>
       </div>
-      <div class="flex flex-col items-center justify-center sm:items-end sm:justify-between">
+      <div class="flex flex-col items-center justify-center md:items-end md:justify-between">
         <LangSwitcher />
         <a
-          class="group hidden items-center gap-x-3 text-xs tracking-tight opacity-90 hover:opacity-100 sm:flex"
+          class="group hidden items-center gap-x-3 text-xs tracking-tight opacity-90 hover:opacity-100 md:flex"
           href="https://emirkabal.com"
           >created by
           <IconsEKLogo

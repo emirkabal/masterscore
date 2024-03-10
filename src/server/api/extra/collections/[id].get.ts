@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
 
   const lang = getISO(getCookie(event, "locale"))
 
-  const data: TMDBCollectionDetails = await $fetch(
+  const data = await $fetch<TMDBCollectionDetails>(
     `https://api.themoviedb.org/3/collection/${id}?api_key=${config.TMDB_API_KEY}&language=${lang}`
   )
 

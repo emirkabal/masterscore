@@ -146,7 +146,7 @@ watch(iframeLoaded, () => {
             Play Trailer
           </button>
           <NuxtLink
-            :to="`/details/movie/${data.id}`"
+            :to="`/movie/${data.id}`"
             class="inset-0 flex h-12 w-full items-center gap-4 rounded bg-white/10 px-4 py-2 text-xl font-bold text-white shadow-xl backdrop-blur transition-colors hover:bg-white/20 md:w-fit"
           >
             <IconsInfo class="h-8 w-8" />

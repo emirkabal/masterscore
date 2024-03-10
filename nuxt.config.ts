@@ -3,9 +3,10 @@ import icons from "./config/icons"
 import i18n from "./config/modules/i18n"
 import { version } from "./package.json"
 
+const isDev = process.env.NODE_ENV === "development"
 export default defineNuxtConfig({
   srcDir: "src/",
-  ssr: false,
+  ssr: true,
   spaLoadingTemplate: "./app/spa-loading-template.html",
   devtools: {
     enabled: true
@@ -14,7 +15,6 @@ export default defineNuxtConfig({
     ["@nuxtjs/i18n", i18n],
     "@nuxt/image",
     "@pinia/nuxt",
-    "@nuxtjs/tailwindcss",
     [
       "shadcn-nuxt",
       {
@@ -22,6 +22,7 @@ export default defineNuxtConfig({
       }
     ],
     "nuxt-headlessui",
+
     [
       "@nuxtjs/device",
       {
@@ -33,35 +34,42 @@ export default defineNuxtConfig({
   ],
 
   css: [
+    "~/assets/css/main.css",
     "vue3-emoji-picker/css",
-    "@fontsource/maven-pro/400.css",
-    "@fontsource/maven-pro/500.css",
+    "@fontsource/inter/400.css",
+    "@fontsource/inter/600.css",
+    "@fontsource/inter/800.css",
     "@fontsource/maven-pro/600.css",
     "@fontsource/maven-pro/700.css",
-    "@fontsource/maven-pro/800.css",
     "@fontsource/maven-pro/900.css"
   ],
 
-  routeRules: {
-    "/**": {
-      isr: true
-    },
-    "/api/**": {
-      cors: true,
-      isr: false
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+      ...(isDev ? {} : { cssnano: {} })
     }
   },
 
+  routeRules: {
+    "/**": isDev ? {} : { cache: { swr: true, maxAge: 120, staleMaxAge: 60, headersOnly: true } },
+    "/account/**": { ssr: false },
+    "/settings": { ssr: false }
+  },
+
   nitro: {
-    plugins: ["~/server/db/index.ts"]
+    routeRules: {
+      "/**": { isr: false }
+    }
   },
 
   app: {
-    // pageTransition: { name: "slide" },
     head: {
       title: "Masterscore",
       htmlAttrs: {
-        lang: "en"
+        lang: "en",
+        class: "dark"
       },
       meta: [
         { charset: "utf-8" },
@@ -142,10 +150,6 @@ export default defineNuxtConfig({
     // }
   },
 
-  tailwindcss: {
-    viewer: false
-  },
-
   runtimeConfig: {
     MONGO_URI: process.env.MONGO_URI,
     TMDB_API_KEY: process.env.TMDB_API_KEY,
@@ -158,7 +162,8 @@ export default defineNuxtConfig({
     VERSION: version,
     public: {
       SOCKET_SERVER: process.env.SOCKET_SERVER,
-      SUPABASE_STORAGE_URL: process.env.SUPABASE_STORAGE_URL
+      SUPABASE_STORAGE_URL: process.env.SUPABASE_STORAGE_URL,
+      TMDB_API_TOKEN: process.env.TMDB_API_TOKEN
     }
   }
 })

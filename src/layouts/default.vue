@@ -4,13 +4,9 @@ import { useUserStore } from "~/store/user"
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
-const loading = ref(true)
 const { isMobileOrTablet } = useDevice()
 
-if (route.path === "/" || route.path.startsWith("/details/person/")) {
-  loading.value = false
-}
-userStore.init()
+if (process.client) userStore.init()
 
 const notify = useLocalStorage("notify-discover-restored", true)
 
@@ -18,53 +14,41 @@ const handleNotify = () => {
   router.push("/discover")
   notify.value = false
 }
-
-watch(
-  userStore,
-  () => {
-    if (userStore.loading === false) {
-      loading.value = false
-    }
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-)
 </script>
 <template>
   <div>
-    <div
-      v-if="notify && route.path !== '/discover' && !isMobileOrTablet"
-      class="flex h-10 w-full items-center justify-center gap-x-4 bg-blue-700 text-sm text-white"
-    >
-      <p>
-        <i18n-t keypath="notify.template">
-          <template v-slot>
-            <span class="font-semibold">
-              {{ $t("discover.title") }}
-            </span>
-          </template>
-        </i18n-t>
-      </p>
-      <button
-        @click="handleNotify"
-        class="rounded border px-2 py-1 font-semibold transition hover:bg-white hover:text-background"
+    <ClientOnly>
+      <div
+        v-if="notify && route.path !== '/discover' && !isMobileOrTablet"
+        class="flex h-10 w-full items-center justify-center gap-x-4 bg-blue-700 text-sm text-white"
       >
-        {{ $t("notify.button") }}
-      </button>
-    </div>
+        <p>
+          <i18n-t keypath="notify.template" scope="global">
+            <template v-slot>
+              <span class="font-semibold">
+                {{ $t("discover.title") }}
+              </span>
+            </template>
+          </i18n-t>
+        </p>
+        <button
+          @click="handleNotify"
+          class="rounded border px-2 py-1 font-semibold transition hover:bg-white hover:text-background"
+        >
+          {{ $t("notify.button") }}
+        </button>
+      </div>
+    </ClientOnly>
     <div class="relative min-h-screen">
       <Header />
-      <div
-        v-if="loading"
+      <!-- <div
         class="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-gray-900"
       >
         <Loader />
-      </div>
+      </div> -->
 
-      <div class="w-full" v-else>
-        <slot />
+      <div class="w-full">
+        <NuxtPage />
       </div>
     </div>
     <Footer />

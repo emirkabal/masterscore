@@ -32,10 +32,10 @@ export const upload = async (
       }
     }
 
-    if (blob.size > 1000000) {
+    if (blob.size > 2000000) {
       return {
         status: 400,
-        message: "Please upload an image less than 1mb",
+        message: "Please upload an image less than 2mb",
         isSupabaseError: false
       }
     }

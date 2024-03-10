@@ -77,7 +77,7 @@ const slideTo = (index: number) => {
                 <div
                   class="text flex flex-wrap items-center gap-3 text-sm font-semibold lg:text-lg"
                 >
-                  <ScoreCircle class="text-sm lg:text-lg" :score="item.vote_average" />
+                  <ScoreCircle :score="item.vote_average" />
                   <div class="flex flex-wrap gap-2">
                     <NuxtLink
                       v-for="genre in item.genre_ids"
@@ -99,7 +99,7 @@ const slideTo = (index: number) => {
               </p>
               <div>
                 <NuxtLink
-                  :to="`/details/${item.media_type}/${item.id}`"
+                  :to="`/${item.media_type}/${item.id}`"
                   class="inline-block rounded border-2 border-white px-4 py-1.5 text-lg font-bold transition-opacity hover:opacity-75 lg:border-4 lg:px-6 lg:py-3"
                 >
                   {{ $t("home.more_info") }}

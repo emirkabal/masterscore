@@ -1,14 +1,13 @@
-import type { IHomeResponse, TMDBSearchResult } from "~/types"
 import getISO from "~/utils/getISO"
 
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
   const lang = getISO(getCookie(event, "locale"))
-  const result: IHomeResponse = {
-    recommendations: [],
-    trending: [],
-    top_rated: []
+  const result = {
+    recommendations: [] as any,
+    trending: [] as any,
+    top_rated: [] as any
   }
 
   if (event.context.user) {
@@ -16,7 +15,7 @@ export default defineEventHandler(async (event) => {
       headers: {
         authorization: event.node.req.headers.authorization as string
       }
-    })
+    }).catch(() => ({}))
     if ("results" in data) {
       result.recommendations = data.results
     }

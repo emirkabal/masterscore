@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { IEntertainment } from "~/types"
 import tinycolor from "tinycolor2"
+import type { Media } from "~/types"
 const { $colorthief } = useNuxtApp()
 const { t } = useI18n()
 
 const props = defineProps<{
   to: string
-  entertainment: IEntertainment
+  media: Media
   title: string
   score?: number
 }>()
@@ -27,7 +27,7 @@ const colors = reactive({
 })
 
 const posterUrl = computed(() => {
-  return "https://image.tmdb.org/t/p/w200" + props.entertainment.info.poster
+  return "https://image.tmdb.org/t/p/w200" + props.media.images.poster
 })
 
 const nuxtImageRefence = ref()
@@ -72,7 +72,7 @@ watch(imageLoading, () => {
       ref="nuxtImageRefence"
       :src="posterUrl"
       loading="lazy"
-      :alt="entertainment.info.title"
+      :alt="media.title"
       @load="imageLoading = false"
       :onload="() => (imageLoading = false)"
       class="h-12 w-8 rounded"
@@ -93,7 +93,7 @@ watch(imageLoading, () => {
         {{ getActivityTitle(title) }} {{ score && `${score}/10` }}
       </span>
       <span class="line-clamp-1 break-all">
-        {{ entertainment.info.title }}
+        {{ media.title }}
       </span>
     </div>
   </NuxtLink>

@@ -1,30 +1,51 @@
-import type { IUser } from "~/types"
+import type { User } from "~/types"
 import { defineStore } from "pinia"
-import { generateHeaders } from "../utils/request"
 import { useLocalStorage } from "@vueuse/core"
+import { generateHeaders } from "~/composables/user"
 
 export const useUserStore = defineStore("user", {
   state: () => {
     return {
-      user: undefined as Omit<IUser, "password"> | undefined,
+      user: undefined as Omit<User, "password"> | undefined,
       token: "",
-      loading: false
+      loading: true
     }
+  },
+
+  hydrate: (state) => {
+    const token = useLocalStorage("token", "").value
+    if (!token) {
+      console.log("token yoh")
+      state.loading = false
+    }
+    state.token = token
   },
 
   getters: {
     isLoggedIn: (state) => !!state.token,
-    isLoading: (state) => state.loading,
-    hasToken: (state) => !!state.token
+    isLoading: (state) => !!state.loading,
+
+    isLiked: (state) => (mediaId: string) => {
+      return state.user?.likes.includes(mediaId)
+    },
+    isReviewed: (state) => (mediaId: string) => {
+      return state.user?.reviews.includes(mediaId)
+    },
+    isAddedToAnyCollection: (state) => (mediaId: string) => {
+      return state.user?.collections.some((collection) => collection.list.includes(mediaId))
+    },
+    isAddedToCollection: (state) => (mediaId: string, collectionId: string) => {
+      const collection = state.user?.collections.find(
+        (collection) => collection.id === collectionId
+      )
+      return collection?.list.includes(mediaId)
+    }
   },
 
   actions: {
     async init() {
-      const token = useLocalStorage("token", null).value
-      if (token && !this.token) {
-        this.token = token
-        await this.getUserData().catch(() => {})
-      }
+      this.token = useLocalStorage("token", "").value
+      await this.getUserData().catch(() => {})
       this.loading = false
     },
 
@@ -66,16 +87,17 @@ export const useUserStore = defineStore("user", {
 
     async getUserData() {
       this.loading = true
-      const data = await $fetch("/api/users/me", {
-        headers: generateHeaders()
-      })
-      if ("status" in data) {
-        this.removeToken()
+      try {
+        const data = await $fetch("/api/users/me", {
+          headers: generateHeaders()
+        })
+
+        this.user = data as unknown as Omit<User, "password">
+      } catch (e: any) {
+        if (e?.statusCode === 401) this.removeToken()
+      } finally {
         this.loading = false
-        return
       }
-      this.user = data as unknown as Omit<IUser, "password">
-      this.loading = false
     }
   }
 })

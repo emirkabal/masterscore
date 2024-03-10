@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { ProviderResults, TMDBData } from "~/types"
+import type { ProviderResults, CollapsedMedia, Media } from "~/types"
 const { t, locale } = useI18n()
 const { $getTitle, $getOriginalTitle, $moment } = useNuxtApp()
 const { userAgent } = useDevice()
 const props = defineProps<{
-  data: TMDBData
+  data: CollapsedMedia
 }>()
 
 defineEmits(["watchTrailer"])
@@ -20,7 +20,10 @@ const formatter = new Intl.NumberFormat("en-US", {
 const { data: providerData, pending: providerPending } = useLazyFetch<ProviderResults>(
   `https://watchhub.strem.io/stream/movie/${
     props.data.external_ids?.imdb_id || props.data.imdb_id
-  }.json`
+  }.json`,
+  {
+    server: false
+  }
 )
 
 const getDateDiff = (date: string) => {
@@ -101,16 +104,8 @@ const localName = computed(() => {
   }
 })
 
-const imdbScore = computed(() => {
-  return (
-    (props.data && props.data.localData.info.ratings?.imdb) ||
-    (props.data && props.data.localData.info.ratings?.tmdb) ||
-    (props.data && props.data.vote_average)
-  )
-})
-
-const rtScore = computed(() => {
-  return props.data && props.data.localData.info.ratings?.rotten_tomatoes
+const externalScores = computed(() => {
+  return props.data.media.scores
 })
 </script>
 
@@ -159,25 +154,22 @@ const rtScore = computed(() => {
         class="w-full"
         v-if="data.belongs_to_collection"
         :title="$t('entertainment.sidebar.belongs_to_collection')"
-        :entertainment="{
-          id: '0',
-          type: '0',
-          info: {
-            release_date: '0',
+        :media="
+          {
             title: data.belongs_to_collection.name.replace(' Collection', '').replace('[Seri]', ''),
-            poster: data.belongs_to_collection.poster_path,
-            backdrop: data.belongs_to_collection.backdrop_path
-          }
-        }"
+            images: {
+              poster: data.belongs_to_collection.poster_path,
+              backdrop: data.belongs_to_collection.backdrop_path
+            }
+          } as Media
+        "
         :to="$route.path"
       />
-      <p v-if="originalName && originalName !== $getTitle(props.data)">
+      <p v-if="originalName && originalName !== $getTitle(data)">
         <strong>{{ $t("entertainment.sidebar.original_name") }}</strong>
         <span
           >{{ originalName
-          }}{{
-            originalName !== data.localData.info.title ? ` (${data.localData.info.title})` : ""
-          }}</span
+          }}{{ originalName !== data.media.title ? ` (${data.media.title})` : "" }}</span
         >
       </p>
       <p>
@@ -200,7 +192,7 @@ const rtScore = computed(() => {
         <strong>{{ $t("entertainment.sidebar.budget") }}</strong>
         <span
           :class="{
-            'font-semibold text-blue-800': budget !== '-'
+            'font-semibold text-orange-200': budget !== '-'
           }"
           >{{ budget }}</span
         >
@@ -209,16 +201,47 @@ const rtScore = computed(() => {
         <strong>{{ $t("entertainment.sidebar.revenue") }}</strong>
         <span
           :class="{
-            'font-semibold text-green-800': revenue !== '-'
+            'font-semibold text-brand': revenue !== '-'
           }"
           >{{ revenue }}</span
         >
       </p>
-      <div v-if="props.data?.imdb_id || rtScore">
+      <div
+        v-if="
+          externalScores?.imdb ||
+          externalScores?.rotten_tomatoes ||
+          externalScores?.metacritic ||
+          externalScores?.tmdb
+        "
+      >
         <strong>{{ $t("entertainment.sidebar.other") }}</strong>
-        <div class="flex w-fit gap-2">
-          <IMDBLink v-if="props.data?.imdb_id" :imdb="props.data?.imdb_id" :score="imdbScore" />
-          <RottenTomatoes v-if="rtScore" :score="rtScore" />
+        <div class="mt-2 flex w-fit flex-wrap gap-2">
+          <ExternalScore
+            v-if="externalScores.imdb"
+            platform="imdb"
+            :to="
+              data.external_ids?.imdb_id &&
+              `https://www.imdb.com/title/${data.external_ids?.imdb_id}`
+            "
+            :score="externalScores.imdb"
+          />
+          <ExternalScore
+            v-if="externalScores.rotten_tomatoes"
+            platform="rotten"
+            :score="`${externalScores.rotten_tomatoes}%`"
+          />
+          <ExternalScore
+            v-if="externalScores.metacritic"
+            platform="metacritic"
+            :score="externalScores.metacritic"
+          />
+          <ExternalScore
+            v-if="externalScores.tmdb"
+            platform="tmdb"
+            :score="externalScores.tmdb"
+            :to="`https://www.themoviedb.org/${data.media.type}/${data.id}`"
+          />
+          <!-- <RottenTomatoes v-if="rtScore" :score="rtScore" /> -->
         </div>
       </div>
       <a
@@ -240,6 +263,6 @@ p strong {
   @apply block font-semibold;
 }
 p {
-  @apply block font-maven;
+  @apply block;
 }
 </style>

@@ -1,81 +1,70 @@
-import type { ErrorResponse, IEntertainment, IReview, IUser } from "~/types"
-import { Document } from "mongoose"
-import UserModel from "~/server/models/User.model"
-import ReviewModel from "~/server/models/Review.model"
-import EntertainmentModel from "~/server/models/Entertainment.model"
-import ActivityModel from "~/server/models/Activity.model"
+import { getUser } from "~/server/utils"
+import prisma from "~/server/db/prisma"
 
 export default defineEventHandler(async (event) => {
   const { id } = event.context.params as { id: string }
-  if (!id) return { status: 400, message: "Missing author" } as ErrorResponse
+  if (!id) throw createError({ statusCode: 400, statusMessage: "Bad request" })
 
-  const user: Document<IUser> | null = await UserModel.findById(id)
-  if (!user) return { status: 404, message: "User not found" } as ErrorResponse
+  const user = await getUser(id)
+  if (!user) throw createError({ statusCode: 404, statusMessage: "User not found" })
 
-  const featured: IReview[] = await ReviewModel.find({
-    author: id
-  })
-    .populate({
-      path: "entertainment",
-      model: EntertainmentModel,
-      select: "id type info.title info.poster"
-    })
-    .sort({ rating: -1 })
-    .limit(10)
-    .lean()
+  const select = {
+    id: true,
+    media: {
+      select: {
+        title: true,
+        tmdb_id: true,
+        type: true,
+        images: {
+          select: {
+            poster: true
+          }
+        }
+      }
+    },
+    created_at: true
+  }
 
-  const reviews = (
-    await ActivityModel.find({
-      author: id,
-      type: "review"
-    })
-      .select("entertainment createdAt -_id")
-      .populate({
-        path: "entertainment",
-        model: EntertainmentModel,
-        select: "id type info.title info.poster"
+  const [featured, last_reviews, last_likes] = await prisma
+    .$transaction([
+      prisma.review.findMany({
+        where: {
+          user_id: user.id
+        },
+        orderBy: {
+          rating: "desc"
+        },
+        select,
+        take: 10
+      }),
+      prisma.review.findMany({
+        where: {
+          user_id: user.id
+        },
+        orderBy: {
+          created_at: "desc"
+        },
+        select,
+        take: 10
+      }),
+      prisma.like.findMany({
+        where: {
+          user_id: user.id
+        },
+        orderBy: {
+          created_at: "desc"
+        },
+        select,
+        take: 10
       })
-      .sort({ createdAt: -1 })
-      .limit(10)
-      .lean()
-  ).map((e) => e.entertainment) as IEntertainment[]
-
-  const likes = (
-    await ActivityModel.find({
-      author: id,
-      type: "like"
+    ])
+    .catch(() => {
+      throw createError({ statusCode: 500, statusMessage: "dumbass" })
     })
-      .select("entertainment createdAt -_id")
-      .populate({
-        path: "entertainment",
-        model: EntertainmentModel,
-        select: "id type info.title info.poster"
-      })
-      .sort({ createdAt: -1 })
-      .limit(10)
-      .lean()
-  ).map((e) => e.entertainment) as IEntertainment[]
-
-  const watchlist = (
-    await ActivityModel.find({
-      author: id,
-      type: "watchlist"
-    })
-      .select("entertainment createdAt -_id")
-      .populate({
-        path: "entertainment",
-        model: EntertainmentModel,
-        select: "id type info.title info.poster"
-      })
-      .sort({ createdAt: -1 })
-      .limit(10)
-      .lean()
-  ).map((e) => e.entertainment) as IEntertainment[]
 
   return {
     featured,
-    reviews,
-    likes,
-    watchlist
+    last_reviews,
+    last_likes
   }
 })

@@ -164,15 +164,11 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               }
               return
             } else if (selectedIndex < results.length) {
-              $router.push(
-                `/details/${results[selectedIndex].media_type}/${results[selectedIndex].id}`
-              )
+              $router.push(`/${results[selectedIndex].media_type}/${results[selectedIndex].id}`)
             } else if (selectedIndex < results.length + persons.length) {
-              $router.push(`/details/person/${persons[selectedIndex - results.length].id}`)
+              $router.push(`/person/${persons[selectedIndex - results.length].id}`)
             } else if (selectedIndex < results.length + persons.length + users.length) {
-              $router.push(
-                `/users/${users[selectedIndex - results.length - persons.length].username}`
-              )
+              $router.push(`/${users[selectedIndex - results.length - persons.length].username}`)
             }
             selectedIndex = 0
             removeFocus(true)
@@ -287,7 +283,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
 
           <div v-for="(result, i) in results" :key="i">
             <NuxtLink
-              :to="`/details/${result.media_type}/${result.id}`"
+              :to="`/${result.media_type}/${result.id}`"
               @mouseenter="selectedIndex = i"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               @click="removeFocus(true)"
@@ -327,7 +323,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           </div>
           <div v-for="(person, i) in persons" :key="`person-${i}`">
             <NuxtLink
-              :to="`/details/person/${person.id}`"
+              :to="`/person/${person.id}`"
               @mouseenter="selectedIndex = i + results.length"
               @click="removeFocus(true)"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
@@ -364,7 +360,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
           </div>
           <div v-for="(user, i) in users" :key="`user-${i}`">
             <NuxtLink
-              :to="`/users/@${user.username}`"
+              :to="`/${user.username}`"
               @mouseenter="selectedIndex = i + results.length + persons.length"
               @click="removeFocus(true)"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
@@ -393,7 +389,7 @@ onKeyStroke(["Control", "K", "k"], (e) => {
       <div
         class="bottom-2 left-2.5 mt-4 hidden w-fit select-none space-x-2 text-center font-mono text-sm text-gray-800 lg:block dark:text-gray-400"
       >
-        <i18n-t keypath="search.close">
+        <i18n-t keypath="search.close" scope="global">
           <template v-slot:key>
             <span class="rounded border border-gray-500 px-1 py-0.5">Esc</span>
           </template>

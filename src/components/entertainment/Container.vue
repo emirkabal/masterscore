@@ -4,8 +4,7 @@ const props = defineProps<{
     background: number[]
     gradient: number[]
   }
-  backgroundURL?: string
-  feature?: string
+  backdrop?: string
   loading?: boolean
 }>()
 
@@ -26,9 +25,6 @@ const colors = computed(() => {
           )`
       }"
     >
-      <div v-if="feature" class="fixed bottom-0 right-0 z-10 m-2 shadow-2xl lg:absolute lg:m-4">
-        <HomeRandomMovie :collapsed="true" />
-      </div>
       <div class="h-full w-full">
         <EntertainmentContainerInner>
           <slot />
@@ -40,12 +36,9 @@ const colors = computed(() => {
     v-else-if="colors"
     class="h-full min-h-[900px] w-full bg-cover bg-center bg-no-repeat lg:h-[90vh] lg:min-h-[780px]"
     :style="{
-      'background-image': props.backgroundURL ? `url(${props.backgroundURL})` : 'none'
+      'background-image': backdrop ? `url(${backdrop})` : 'none'
     }"
   >
-    <div v-if="feature" class="fixed bottom-0 right-0 z-10 m-2 shadow-2xl lg:absolute lg:m-4">
-      <HomeRandomMovie :collapsed="true" />
-    </div>
     <div
       class="h-full w-full"
       :style="{

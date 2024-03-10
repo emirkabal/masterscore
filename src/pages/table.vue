@@ -1,7 +1,7 @@
 <script setup>
 useHead({
   title: "Table",
-  titleTemplate: "%s - Masterscore"
+  titleTemplate: "%s | Masterscore"
 })
 </script>
 <template>

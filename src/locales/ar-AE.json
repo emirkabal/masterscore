@@ -148,7 +148,8 @@
       "like": "يحب",
       "liked": "احب",
       "remove": "يزيل",
-      "save": "يحفظ"
+      "save": "يحفظ",
+      "unlike": "على عكس"
     },
     "sidebar": {
       "belongs_to_collection": "ينتمي إلى مجموعة",
@@ -254,6 +255,9 @@
   },
   "notify": {
     "template": "تم تجديد {0}!",
-    "button": "خذني هناك"
-  }
+    "button": "خذني هناك",
+    "text": "يكتشف"
+  },
+  "delete": "يمسح",
+  "edit": "يحرر"
 }

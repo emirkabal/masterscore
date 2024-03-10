@@ -148,7 +148,8 @@
       "like": "Wie",
       "liked": "Gefallen",
       "remove": "Entfernen",
-      "save": "Speichern"
+      "save": "Speichern",
+      "unlike": "nicht wie"
     },
     "sidebar": {
       "belongs_to_collection": "Gehört zur Sammlung",
@@ -254,6 +255,9 @@
   },
   "notify": {
     "template": "{0} wurde erneuert!",
-    "button": "Bring mich dahin"
-  }
+    "button": "Bring mich dahin",
+    "text": "Entdecken"
+  },
+  "delete": "Löschen",
+  "edit": "Bearbeiten"
 }

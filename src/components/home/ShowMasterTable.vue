@@ -7,7 +7,7 @@
       class="z-10 max-w-3xl px-4 text-center !text-white transition-all group-hover:!text-black md:px-16 md:text-left"
     >
       <h1 class="font-maven text-4xl font-bold">
-        <span class="text-yellow-500 group-hover:text-black">m</span>aster table
+        <span class="text-brand group-hover:text-black">m</span>aster table
       </h1>
       <p class="text-lg leading-6 opacity-75">
         Master table is a feature that shows the top 100 movies and TV shows based on user reviews.
