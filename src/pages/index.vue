@@ -53,7 +53,8 @@ const genres = useState("genres", () =>
       "Family",
       "Animation",
       "Adventure",
-      "Action"
+      "Action",
+      "Horror"
     ],
     "movie"
   ).map((e) => {
@@ -63,7 +64,10 @@ const genres = useState("genres", () =>
 
 const onIntersectionObserver = async ([{ isIntersecting }], genre) => {
   if (isIntersecting && genre.pending && !refreshing.value) {
-    const data = await getDiscover("movie", { with_genres: genre.id })
+    const data = await getDiscover("movie", {
+      with_genres: genre.id,
+      page: Math.floor(Math.random() * 3) + 1
+    })
     genre.pending = false
     genre.data = data.results
   }

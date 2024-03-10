@@ -114,9 +114,10 @@ export const getDiscover = async (
 
   return new Promise<TMDBSearchResults<TMDBResult>>(async (resolve, reject) => {
     try {
-      const data = (await _tmdb(`/${type}/popular`, {
+      const data = (await _tmdb(`/discover/${type}`, {
         include_adult: "false",
         include_video: "false",
+        without_keywords: "210024",
         ...options
       })) as TMDBSearchResults<TMDBResult>
 
