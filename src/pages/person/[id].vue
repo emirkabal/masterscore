@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useStorage } from "@vueuse/core"
+import { useLocalStorage } from "@vueuse/core"
 import type { CreditsResult } from "~/types"
 const { params } = useRoute()
 const { $moment, $listen } = useNuxtApp()
 const { t, locale } = useI18n()
 const revealBio = ref(false)
 const showDetailsDev = ref(false)
-const flag = useStorage("debugMode", false)
+const flags = useLocalStorage("preferences", {} as any)
 
 const { data, pending, error, refresh } = await useAsyncData(
   `Person-${params.id}`,
@@ -261,7 +261,7 @@ useHead({
             </div>
           </div>
 
-          <div v-if="flag">
+          <div v-if="flags.debug_mode">
             <button
               @click="showDetailsDev = !showDetailsDev"
               class="font-semibod mt-8 rounded bg-gray-900 px-4 py-2 shadow"

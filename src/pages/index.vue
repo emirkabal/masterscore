@@ -63,11 +63,7 @@ const genres = useState("genres", () =>
 
 const onIntersectionObserver = async ([{ isIntersecting }], genre) => {
   if (isIntersecting && genre.pending && !refreshing.value) {
-    const data = await $fetch("/api/discover/movie", {
-      params: {
-        with_genres: genre.id
-      }
-    })
+    const data = await getDiscover("movie", { with_genres: genre.id })
     genre.pending = false
     genre.data = data.results
   }

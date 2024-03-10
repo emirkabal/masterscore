@@ -26,6 +26,9 @@ dependencies:
   '@upstash/redis':
     specifier: ^1.28.4
     version: 1.28.4
+  '@vee-validate/zod':
+    specifier: ^4.12.6
+    version: 4.12.6(vue@3.4.21)
   '@vueuse/components':
     specifier: ^10.8.0
     version: 10.9.0(vue@3.4.21)
@@ -89,6 +92,9 @@ dependencies:
   tinycolor2:
     specifier: ^1.6.0
     version: 1.6.0
+  vee-validate:
+    specifier: ^4.12.6
+    version: 4.12.6(vue@3.4.21)
   vue-picture-cropper:
     specifier: ^0.7.0
     version: 0.7.0(vue@3.4.21)
@@ -98,6 +104,9 @@ dependencies:
   vue3-emoji-picker:
     specifier: ^1.1.8
     version: 1.1.8(typescript@5.4.2)
+  zod:
+    specifier: ^3.22.4
+    version: 3.22.4
 
 devDependencies:
   '@fontsource/inter':
@@ -3440,6 +3449,16 @@ packages:
     resolution: {integrity: sha512-UalkSAny/dz1m8giEhD3Y5ru1o+CPHI32wFyS3MyzDzj2TRvEN+lTw+mPwi20ojk0H2gs8TBW3qsrvwuLLy+pA==}
     dependencies:
       crypto-js: 4.2.0
+
+  /@vee-validate/zod@4.12.6(vue@3.4.21):
+    resolution: {integrity: sha512-LCP/hBWRyOgciwxVYvh4UrowVOJT/v5rJvUKCqEn+4ccx3bNtjVlOI4OvA6T1esg7LvmgseQiNQRxUvE2Pn9ng==}
+    dependencies:
+      type-fest: 4.12.0
+      vee-validate: 4.12.6(vue@3.4.21)
+      zod: 3.22.4
+    transitivePeerDependencies:
+      - vue
+    dev: false
 
   /@vercel/nft@0.26.4:
     resolution: {integrity: sha512-j4jCOOXke2t8cHZCIxu1dzKLHLcFmYzC3yqAK6MfZznOL1QIJKd0xcFsXK3zcqzU7ScsE2zWkiMMNHGMHgp+FA==}
@@ -8895,6 +8914,11 @@ packages:
     engines: {node: '>=14.16'}
     dev: true
 
+  /type-fest@4.12.0:
+    resolution: {integrity: sha512-5Y2/pp2wtJk8o08G0CMkuFPCO354FGwk/vbidxrdhRGZfd0tFnb4Qb8anp9XxXriwBgVPjdWbKpGl4J9lJY2jQ==}
+    engines: {node: '>=16'}
+    dev: false
+
   /typed-array-buffer@1.0.2:
     resolution: {integrity: sha512-gEymJYKZtKXzzBzM4jqa9w6Q1Jjm7x2d+sh19AdsD4wqnMPDYyvwpsIc2Q/835kHuo3BEQ7CjelGhfTsoBb2MQ==}
     engines: {node: '>= 0.4'}
@@ -9250,6 +9274,16 @@ packages:
     dependencies:
       builtins: 5.0.1
     dev: true
+
+  /vee-validate@4.12.6(vue@3.4.21):
+    resolution: {integrity: sha512-EKM3YHy8t1miPh30d5X6xOrfG/Ctq0nbN4eMpCK7ezvI6T98/S66vswP+ihL4QqAK/k5KqreWOxof09+JG7N/A==}
+    peerDependencies:
+      vue: ^3.3.11
+    dependencies:
+      '@vue/devtools-api': 6.6.1
+      type-fest: 4.12.0
+      vue: 3.4.21(typescript@5.4.2)
+    dev: false
 
   /vite-node@1.3.1(@types/node@20.11.25):
     resolution: {integrity: sha512-azbRrqRxlWTJEVbzInZCTchx0X69M/XPTCz4H+TLvlTcR/xH/3hkRqhOakT41fMJCMzXTu4UvegkZiEoJAWvng==}
@@ -9901,3 +9935,7 @@ packages:
       compress-commons: 5.0.3
       readable-stream: 3.6.2
     dev: true
+
+  /zod@3.22.4:
+    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: false

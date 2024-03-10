@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import type { TMDBSearchResult } from "~/types"
+import type { TMDBResult, TMDBSearchResults } from "~/types"
 
-const props = defineProps<{
-  data?: {
-    results: TMDBSearchResult[]
-  }
+defineProps<{
+  data?: TMDBSearchResults<TMDBResult>
   loading?: boolean
 }>()
 

@@ -160,6 +160,7 @@ export interface TMDBMedia {
   next_episode_to_air: LNEpisodeToAir
   videos: Videos
   similar: TMDBSearchResults<TMDBResult>
+  recommendations: TMDBSearchResults<TMDBResult>
   credits: Credits
 
   external_ids: ExternalIds

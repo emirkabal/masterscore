@@ -1,22 +1,20 @@
 <script lang="ts" setup>
+type User = {
+  id: string
+  username: string
+  avatar?: string | null
+  verified: boolean
+}
+
 const props = defineProps<{
-  user?: {
-    id: string
-    username: string
-    avatar: string
-    verified: boolean
-  }
+  user?: User
   comment: {
-    user: {
-      id: string
-      username: string
-      avatar: string
-      verified: boolean
-    }
+    user: User
     rating: number
+    content?: string | null
+    spoiler?: boolean | null
     created_at: string
     updated_at: string
-    content: string
   }
 }>()
 
@@ -27,7 +25,7 @@ const isMe = computed(() => props.comment.user.id === props.user?.id)
   <div
     class="relative flex items-start gap-x-4 rounded-xl"
     :class="{
-      'bg-brand/10 px-4 pt-6': isMe
+      'bg-brand/15 px-4 pt-6': isMe
     }"
   >
     <NuxtLink :to="`/${comment.user.username}`">

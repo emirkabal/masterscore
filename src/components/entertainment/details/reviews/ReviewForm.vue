@@ -8,8 +8,8 @@ defineProps<{
 
 <template>
   <div
-    v-if="(by_me && review.editing) || !by_me"
-    class="flex gap-x-4"
+    v-if="user && ((by_me && review.editing) || !by_me)"
+    class="hidden gap-x-4 lg:flex"
     :class="review.pending && 'pointer-events-none opacity-25'"
   >
     <Avatar

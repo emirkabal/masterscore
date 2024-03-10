@@ -118,11 +118,10 @@ watchEffect(() => {
 watch(
   () => props.show,
   (val) => {
-    if (val) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "auto"
-    }
+    setTimeout(() => {
+      if (val) document.body.style.overflow = "hidden"
+      else document.body.style.overflow = "auto"
+    }, 500)
   }
 )
 </script>
