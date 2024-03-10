@@ -52,6 +52,7 @@
     "@types/humanize-duration": "^3.27.4",
     "@upstash/redis": "^1.28.4",
     "@vee-validate/zod": "^4.12.6",
+    "@vercel/analytics": "^1.2.2",
     "@vueuse/components": "^10.8.0",
     "@vueuse/core": "^10.8.0",
     "bcrypt": "^5.1.1",
