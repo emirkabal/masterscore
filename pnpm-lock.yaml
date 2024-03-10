@@ -29,6 +29,9 @@ dependencies:
   '@vee-validate/zod':
     specifier: ^4.12.6
     version: 4.12.6(vue@3.4.21)
+  '@vercel/analytics':
+    specifier: ^1.2.2
+    version: 1.2.2
   '@vueuse/components':
     specifier: ^10.8.0
     version: 10.9.0(vue@3.4.21)
@@ -3458,6 +3461,20 @@ packages:
       zod: 3.22.4
     transitivePeerDependencies:
       - vue
+    dev: false
+
+  /@vercel/analytics@1.2.2:
+    resolution: {integrity: sha512-X0rctVWkQV1e5Y300ehVNqpOfSOufo7ieA5PIdna8yX/U7Vjz0GFsGf4qvAhxV02uQ2CVt7GYcrFfddXXK2Y4A==}
+    peerDependencies:
+      next: '>= 13'
+      react: ^18 || ^19
+    peerDependenciesMeta:
+      next:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      server-only: 0.0.1
     dev: false
 
   /@vercel/nft@0.26.4:
@@ -8217,6 +8234,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
+    dev: false
 
   /set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
