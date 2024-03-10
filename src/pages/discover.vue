@@ -127,7 +127,7 @@ watch(queryRef, () => {
 
 useHead({
   title: t("discover.title"),
-  titleTemplate: "%s - Masterscore"
+  titleTemplate: "%s | Masterscore"
 })
 </script>
 

@@ -1,62 +1,64 @@
-import type { ErrorResponse, IEntertainment, IUser, TMDBSearchResult } from "~/types"
-import EntertainmentModel from "~/server/models/Entertainment.model"
-import UserModel from "~/server/models/User.model"
+import prisma from "~/server/db/prisma"
+import type { TMDBResult, TMDBSearchResults } from "~/types"
 import getISO from "~/utils/getISO"
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
-  if (!event.context.user) {
-    return { status: 401, message: "Unauthorized" } as ErrorResponse
-  }
+  const user = event.context.user
+  if (!user) throw createError({ statusCode: 401, statusMessage: "Unauthorized" })
 
-  const user = event.context.user as IUser
-  if (!user.likes || user.likes.length === 0) {
-    return { status: 400, message: "You have no likes." } as ErrorResponse
-  }
+  if (!user.likes?.length)
+    throw createError({ statusCode: 400, statusMessage: "You don't have any liked entertainment" })
 
-  // @ts-ignore:2322
-  const { likes, reviews }: { likes: IEntertainment[]; reviews: IEntertainment[] } =
-    await UserModel.findById(user._id)
-      .populate({
-        path: "likes",
-        model: EntertainmentModel,
-        select: "id type info.title -_id"
-      })
-      .populate({
-        path: "reviews",
-        model: EntertainmentModel,
-        select: "id type info.title -_id"
-      })
-      .select("likes reviews -_id")
-      .lean()
+  const _ = await prisma.user.findUniqueOrThrow({
+    where: {
+      id: user.id
+    },
+    include: {
+      likes: {
+        include: {
+          media: true
+        }
+      },
+      reviews: {
+        include: {
+          media: true
+        }
+      }
+    }
+  })
 
-  const releatedEntertainment = likes[Math.floor(Math.random() * likes.length)]
+  if (!_) throw createError({ statusCode: 404, statusMessage: "User not found" })
+
+  const { likes, reviews } = _
+
+  const related = likes[Math.floor(Math.random() * likes.length)].media
 
   const lang = getISO(getCookie(event, "locale"))
-  const data = await $fetch<{
-    releated: IEntertainment
-    results: TMDBSearchResult[]
-  }>(
-    `https://api.themoviedb.org/3/${releatedEntertainment.type}/${releatedEntertainment.id}/recommendations?api_key=${config.TMDB_API_KEY}&language=${lang}`
+  const data = await $fetch<TMDBSearchResults<TMDBResult>>(
+    `https://api.themoviedb.org/3/${related.type}/${related.tmdb_id}/recommendations?api_key=${config.TMDB_API_KEY}&language=${lang}`
   )
 
-  data.releated = releatedEntertainment
   data.results = data.results.filter((result) => result.poster_path && result.backdrop_path)
   likes.forEach((like) => {
     data.results = data.results.filter(
-      (result) => !(result.id?.toString() === like.id.toString() && result.media_type === like.type)
+      (result) =>
+        !(
+          result.id?.toString() === like.media.tmdb_id.toString() &&
+          result.media_type === like.media.type
+        )
     )
   })
 
   reviews.forEach((review) => {
     data.results = data.results.filter(
       (result) =>
-        !(result.id?.toString() === review.id.toString() && result.media_type === review.type)
+        !(
+          result.id?.toString() === review.media.tmdb_id.toString() &&
+          result.media_type === review.media.type
+        )
     )
   })
 
-  return data as {
-    releated: IEntertainment
-    results: TMDBSearchResult[]
-  }
+  return { related, results: data }
 })

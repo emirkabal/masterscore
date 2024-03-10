@@ -26,8 +26,7 @@ const handleWatchlist = async () => {
     body: JSON.stringify({
       id: props.id,
       type: inWatchlist.value ? "add" : "remove"
-    }),
-    headers: generateHeaders()
+    })
   })
 }
 </script>

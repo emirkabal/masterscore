@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import type { TMDBData } from "~/types"
+import type { CollapsedMedia } from "~/types"
 const { $moment, $humanize, $getTitle } = useNuxtApp()
 const { locale } = useI18n()
 
 const { data, isLight, loading } = defineProps<{
-  data?: TMDBData
+  data?: CollapsedMedia
   isLight?: boolean
   loading?: boolean
-  rating?: number
   reviewData?: any
 }>()
 const title = computed(() => {
@@ -18,17 +17,14 @@ const overview = computed(() => {
 })
 
 const contentRating = computed(() => {
-  return data && data.localData.info.rated
+  return data && data.media.rated
 })
 
 const genres = computed(() => {
   return data && data.genres
 })
 const runtime = computed(() => {
-  const ms =
-    ((data && data.runtime) || (data && data.episode_run_time && data.episode_run_time[0]) || 45) *
-    60 *
-    1000
+  const ms = ((data && data.runtime) || (data && data.episode_run_time?.[0]) || 0 || 45) * 60 * 1000
   return $humanize(ms, {
     language: locale.value,
     delimiter: " ",
@@ -43,11 +39,6 @@ const releaseDate = computed(() => {
     .locale(locale.value)
     .format("YYYY")
 })
-
-useHead({
-  title,
-  titleTemplate: "%s - Masterscore"
-})
 </script>
 
 <template>
@@ -55,7 +46,7 @@ useHead({
     <div>
       <div class="flex flex-col items-center lg:items-start">
         <div
-          class="skeleton-effect inline-block h-10 w-4/6 flex-shrink-0 rounded bg-gray-300 font-semibold leading-8 dark:bg-gray-800 lg:leading-none"
+          class="skeleton-effect inline-block h-10 w-4/6 flex-shrink-0 rounded bg-gray-300 font-semibold leading-8 lg:leading-none dark:bg-gray-800"
         ></div>
         <div
           class="mt-2 flex w-full items-center justify-center gap-2 text-xs sm:text-sm lg:justify-start lg:text-lg"
@@ -93,9 +84,12 @@ useHead({
     </div>
   </div>
   <div v-else-if="data && !loading">
-    <div class="flex items-center justify-center gap-x-2 lg:justify-start">
-      <ScoreCircle v-if="rating" :score="rating" />
-      <EntertainmentMRanking :rating="rating" />
+    <div
+      class="flex items-center justify-center gap-x-2 lg:justify-start"
+      v-if="data.media.score !== -1"
+    >
+      <ScoreCircle :score="data.media.score" />
+      <EntertainmentMRanking :rating="data.media.score" />
     </div>
 
     <h1

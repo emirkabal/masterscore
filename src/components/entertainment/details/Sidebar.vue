@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { ProviderResults, TMDBData } from "~/types"
+import type { ProviderResults, CollapsedMedia, Media } from "~/types"
 const { t, locale } = useI18n()
 const { $getTitle, $getOriginalTitle, $moment } = useNuxtApp()
 const { userAgent } = useDevice()
 const props = defineProps<{
-  data: TMDBData
+  data: CollapsedMedia
 }>()
 
 defineEmits(["watchTrailer"])
@@ -20,7 +20,10 @@ const formatter = new Intl.NumberFormat("en-US", {
 const { data: providerData, pending: providerPending } = useLazyFetch<ProviderResults>(
   `https://watchhub.strem.io/stream/movie/${
     props.data.external_ids?.imdb_id || props.data.imdb_id
-  }.json`
+  }.json`,
+  {
+    server: false
+  }
 )
 
 const getDateDiff = (date: string) => {
@@ -102,7 +105,7 @@ const localName = computed(() => {
 })
 
 const externalScores = computed(() => {
-  return props.data.localData.info.ratings
+  return props.data.media.scores
 })
 </script>
 
@@ -151,25 +154,22 @@ const externalScores = computed(() => {
         class="w-full"
         v-if="data.belongs_to_collection"
         :title="$t('entertainment.sidebar.belongs_to_collection')"
-        :entertainment="{
-          id: '0',
-          type: '0',
-          info: {
-            release_date: '0',
+        :media="
+          {
             title: data.belongs_to_collection.name.replace(' Collection', '').replace('[Seri]', ''),
-            poster: data.belongs_to_collection.poster_path,
-            backdrop: data.belongs_to_collection.backdrop_path
-          }
-        }"
+            images: {
+              poster: data.belongs_to_collection.poster_path,
+              backdrop: data.belongs_to_collection.backdrop_path
+            }
+          } as Media
+        "
         :to="$route.path"
       />
       <p v-if="originalName && originalName !== $getTitle(data)">
         <strong>{{ $t("entertainment.sidebar.original_name") }}</strong>
         <span
           >{{ originalName
-          }}{{
-            originalName !== data.localData.info.title ? ` (${data.localData.info.title})` : ""
-          }}</span
+          }}{{ originalName !== data.media.title ? ` (${data.media.title})` : "" }}</span
         >
       </p>
       <p>
@@ -215,7 +215,7 @@ const externalScores = computed(() => {
         "
       >
         <strong>{{ $t("entertainment.sidebar.other") }}</strong>
-        <div class="flex w-fit flex-wrap gap-2">
+        <div class="mt-2 flex w-fit flex-wrap gap-2">
           <ExternalScore
             v-if="externalScores.imdb"
             platform="imdb"
@@ -239,7 +239,7 @@ const externalScores = computed(() => {
             v-if="externalScores.tmdb"
             platform="tmdb"
             :score="externalScores.tmdb"
-            :to="`https://www.themoviedb.org/${data.localData.type}/${data.id}`"
+            :to="`https://www.themoviedb.org/${data.media.type}/${data.id}`"
           />
           <!-- <RottenTomatoes v-if="rtScore" :score="rtScore" /> -->
         </div>
@@ -263,6 +263,6 @@ p strong {
   @apply block font-semibold;
 }
 p {
-  @apply block font-maven;
+  @apply block;
 }
 </style>

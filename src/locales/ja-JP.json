@@ -148,7 +148,8 @@
       "like": "のように",
       "liked": "気に入った",
       "remove": "取り除く",
-      "save": "保存"
+      "save": "保存",
+      "unlike": "とは異なり"
     },
     "sidebar": {
       "belongs_to_collection": "コレクションに属する",
@@ -254,6 +255,9 @@
   },
   "notify": {
     "template": "{0} が更新されました!",
-    "button": "私をそこへ連れていって"
-  }
+    "button": "私をそこへ連れていって",
+    "text": "発見する"
+  },
+  "delete": "消去",
+  "edit": "編集"
 }

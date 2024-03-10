@@ -1,8 +1,8 @@
-import UserModel from "~/server/models/User.model"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import type { IUser } from "~/types"
+import type { User } from "~/types"
 import { LoginSchema } from "~/server/validation"
+import prisma from "~/server/db/prisma"
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
@@ -10,42 +10,47 @@ export default defineEventHandler(async (event) => {
   const { error } = LoginSchema.validate(body)
 
   if (error)
-    return createError({
-      status: 400,
+    throw createError({
+      statusCode: 400,
       message: error.message
     })
 
-  const user: IUser | null = await UserModel.findOne({
-    $or: [
-      {
-        username: body.username
-      },
-      {
-        email: body.username
-      },
-      {
-        username: new RegExp(`^${body.username}$`, "i")
-      }
-    ]
-  }).lean()
+  const user = await prisma.user.findFirst({
+    where: {
+      OR: [
+        {
+          username: body.username
+        },
+        {
+          email: body.username
+        },
+        {
+          username: {
+            contains: body.username,
+            mode: "insensitive"
+          }
+        }
+      ]
+    }
+  })
 
   if (!user)
-    return createError({
-      status: 400,
-      message: "Username or password invalid."
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Username or password invalid."
     })
 
   const valid = bcrypt.compareSync(body.password, user.password)
   if (!valid)
-    return createError({
-      status: 400,
-      message: "Username or password invalid."
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Username or password invalid."
     })
 
-  const secret = config.JWT_SECRET + user.password
+  const secret = config.JWT_SECRET
   const token = jwt.sign(
     {
-      id: user._id,
+      id: user.id,
       email: user.email
     },
     secret

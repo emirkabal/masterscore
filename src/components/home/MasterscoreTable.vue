@@ -4,23 +4,23 @@ const headers = [
   { text: "Rank", value: "rank", sortable: true, width: 40 },
   {
     text: "Entertainment",
-    value: "entertainment.info.title",
+    value: "media.title",
     sortable: true
   },
   {
     text: "Release Date",
-    value: "entertainment.info.release_date",
+    value: "media.release_date",
     sortable: true,
     width: 120
   },
   {
     text: "Runtime",
-    value: "entertainment.info.runtime",
+    value: "media.runtime",
     sortable: true,
     width: 80
   },
-  { text: "c", value: "reviewsCount", sortable: true, width: 80 },
-  { text: "Rating", value: "average", sortable: true, width: 80 }
+  { text: "Reviewers", value: "count", sortable: true, width: 80 },
+  { text: "Rating", value: "score", sortable: true, width: 80 }
 ]
 
 const items = ref([])
@@ -37,14 +37,11 @@ const fetch = async () => {
   if (disableReviewRequirement.value)
     queries.append("disableReviewRequirement", disableReviewRequirement.value)
   if (listType.value !== "all") queries.append("type", listType.value)
-  const data = await $fetch("/api/reviews?" + queries.toString(), {
-    headers: generateHeaders()
-  })
+  const data = await $fetch("/api/reviews?" + queries.toString(), {})
   items.value = data.map((e, i) => {
     return {
       rank: i + 1,
-      ...e,
-      rating: e.entertainment.info.ratings
+      ...e
     }
   })
   pending.value = false
@@ -116,33 +113,44 @@ watch([listType, disableReviewRequirement], () => {
       <template #item-rank="{ rank }">
         <span class="w-full text-center text-lg">#{{ rank }}</span>
       </template>
-      <template #item-entertainment.info.title="{ entertainment }">
+      <template #item-media.title="{ media }">
         <NuxtLink
           class="flex items-center gap-2 text-lg font-semibold hover:underline"
-          :to="`/${entertainment.type}/${entertainment.id}`"
+          :to="`/${media.type}/${media.tmdb_id}`"
         >
           <img
-            :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${entertainment.info.poster}`"
+            :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${media.images.poster}`"
             class="h-10 w-auto rounded-md shadow-md"
           />
-          {{ entertainment.info.title }}
+          {{ media.title }}
         </NuxtLink>
       </template>
-      <template #item-entertainment.info.release_date="item">
-        {{ $moment(item.entertainment.info.release_date).locale($i18n.locale).format("YYYY") }}
+      <template #item-media.release_date="{ media }">
+        {{ $moment(media.release_date).locale($i18n.locale).format("YYYY") }}
       </template>
-      <template #item-entertainment.info.runtime="item">
+      <template #item-media.runtime="{ media }">
         {{
-          $moment
-            .duration(item.entertainment.info.runtime, "minutes")
-            .locale($i18n.locale)
-            .format("h[h] m[m]")
+          $humanize(media.runtime * 60_000, {
+            language: $i18n.locale,
+            delimiter: " ",
+            units: ["m"],
+            maxDecimalPoints: 0,
+            fallbacks: ["en"]
+          })
         }}
       </template>
-      <template #item-average="{ average }">
-        <div class="flex items-center justify-center gap-2">
-          <ScoreCircle class="text-sm" :score="average" />
-          <EntertainmentMRanking :rating="average.toFixed(1)" />
+      <template #item-count="{ count }">
+        <div
+          class="mx-auto flex h-6 w-fit items-center justify-center rounded-full bg-gray-800 px-4 text-gray-300"
+        >
+          <Icon name="ic:round-supervisor-account" class="h-4 w-4" />
+          {{ count }}
+        </div>
+      </template>
+      <template #item-score="{ score }">
+        <div class="flex items-center justify-center gap-2 whitespace-nowrap">
+          <ScoreCircle class="text-sm" :score="score" />
+          <EntertainmentMRanking :rating="score.toFixed(1)" />
         </div>
       </template>
     </EasyDataTable>

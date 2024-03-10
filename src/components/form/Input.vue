@@ -47,6 +47,7 @@ const value = computed({
         v-if="reveal"
         @click="revealed = !revealed"
         type="button"
+        tabindex="-1"
         class="absolute bottom-0 right-2.5 top-0 my-auto flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-gray-50"
       >
         <Icon

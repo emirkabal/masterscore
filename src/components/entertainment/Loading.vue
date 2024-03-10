@@ -14,7 +14,7 @@
         <div class="relative min-w-0 flex-1 space-y-10 lg:space-y-16">
           <EntertainmentDetailsCast :loading="true" />
           <EntertainmentDetailsSimilar :loading="true" />
-          <EntertainmentDetailsReviews :loading="true" />
+          <!-- <EntertainmentDetailsReviews :loading="true" /> -->
         </div>
         <div class="static top-14 w-full self-start lg:sticky lg:min-w-[300px] lg:max-w-[300px]">
           <div class="mt-12 flex items-center justify-center">

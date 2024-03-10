@@ -3,7 +3,7 @@ import { useUserStore } from "~/store/user"
 const { t } = useI18n()
 useHead({
   title: t("guest.sign_up"),
-  titleTemplate: "%s - Masterscore"
+  titleTemplate: "%s | Masterscore"
 })
 const userStore = useUserStore()
 
@@ -12,11 +12,13 @@ definePageMeta({
   layout: "blank"
 })
 
+const route = useRoute()
+const goPath = route.query.r || "/"
+
 const username = ref("")
 const email = ref("")
 const password = ref("")
 const confirmPassword = ref("")
-const inviteCode = ref("")
 const error = ref("")
 const loading = ref(false)
 
@@ -25,13 +27,12 @@ const disabled = computed(() => {
     username.value.length === 0 ||
     email.value.length === 0 ||
     password.value.length === 0 ||
-    confirmPassword.value.length === 0 ||
-    inviteCode.value.length === 0
+    confirmPassword.value.length === 0
   )
 })
 
 if (userStore.isLoggedIn) {
-  useRouter().push("/")
+  useRouter().push(goPath)
 }
 
 const submit = async (event) => {
@@ -47,18 +48,17 @@ const submit = async (event) => {
       body: JSON.stringify({
         username: username.value.toLowerCase(),
         email: email.value.toLowerCase(),
-        password: password.value,
-        inviteCode: inviteCode.value
+        password: password.value
       })
     })
 
     error.value = ""
     userStore.setToken(data.token)
     await userStore.getUserData()
-    useRouter().push("/")
+    useRouter().push(goPath)
   } catch (err) {
     loading.value = false
-    error.value = grabErrorMessage(err)
+    error.value = err.message || "An error occurred"
   }
 }
 </script>
@@ -112,13 +112,13 @@ const submit = async (event) => {
           :title="$t('guest.form.confirm_password')"
           placeholder="••••••••••"
         />
-        <FormInput
+        <!-- <FormInput
           v-model="inviteCode"
           type="text"
           name="invite-code"
           :title="$t('guest.form.invite_code')"
           placeholder="MS-SCORE-998E7"
-        />
+        /> -->
         <FormButton class="w-full" type="submit" :loading="loading" :disabled="disabled">
           {{ $t("guest.sign_up") }}
         </FormButton>
@@ -126,9 +126,11 @@ const submit = async (event) => {
 
       <p class="mt-4 text-center !text-black">
         {{ $t("guest.already_have_account") }}
-        <NuxtLink to="/account/login" class="font-semibold text-blue-700 hover:underline">{{
-          $t("guest.sign_in")
-        }}</NuxtLink>
+        <NuxtLink
+          :to="`/account/login${goPath !== '/' ? `?r=${goPath}` : ''}`"
+          class="font-semibold text-blue-700 hover:underline"
+          >{{ $t("guest.sign_in") }}</NuxtLink
+        >
       </p>
     </div>
     <div class="fixed bottom-0 left-1/2 z-50 mb-4 block -translate-x-1/2 text-black md:hidden">

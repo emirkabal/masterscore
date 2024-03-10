@@ -147,7 +147,8 @@
       "like": "Como",
       "liked": "Apreciado",
       "remove": "Eliminar",
-      "save": "Ahorrar"
+      "save": "Ahorrar",
+      "unlike": "A diferencia de"
     },
     "sidebar": {
       "belongs_to_collection": "Pertenece a la colección",
@@ -254,6 +255,9 @@
   },
   "notify": {
     "template": "¡{0} ha sido renovado!",
-    "button": "Llévame allí"
-  }
+    "button": "Llévame allí",
+    "text": "Descubrir"
+  },
+  "delete": "Borrar",
+  "edit": "Editar"
 }

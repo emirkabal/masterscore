@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { IEntertainment, TMDBData, TMDBSearchResult, CreditsResult } from "~/types"
+import type { CollapsedMedia, CreditsResult, Media, TMDBResult } from "~/types"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { FreeMode, Navigation } from "swiper/modules"
 import { useEventListener } from "@vueuse/core"
 import "swiper/css"
 
 defineProps<{
-  data?: TMDBSearchResult[] | TMDBData[] | IEntertainment[] | CreditsResult[]
+  data?: TMDBResult[] | CollapsedMedia[] | Media[] | CreditsResult[]
   showRatings?: boolean
   itemSize?: "default" | "large"
   fixedMediaType?: "movie" | "tv"
@@ -14,12 +14,12 @@ defineProps<{
   loading?: boolean
 }>()
 
-const vw = window.innerWidth
+const vw = window?.innerWidth
 const px = vw / 100
 const vw4 = ref(px * 4)
 
 useEventListener("resize", () => {
-  const vw = window.innerWidth
+  const vw = window?.innerWidth
   const px = vw / 100
   vw4.value = px * 4
 })
@@ -51,9 +51,9 @@ useEventListener("resize", () => {
       <SwiperSlide v-else v-for="item in data" :key="item.id">
         <EntertainmentSliderCard
           :image="
-            ('info' in item && item.info.poster) || ('poster_path' in item && item.poster_path)
+            ('tmdb_id' in item && item.images.poster) || ('poster_path' in item && item.poster_path)
               ? $timage(
-                  ('info' in item && item.info.poster) ||
+                  ('tmdb_id' in item && item.images.poster) ||
                     ('poster_path' in item && item.poster_path) ||
                     '',
                   'w342'
@@ -61,7 +61,11 @@ useEventListener("resize", () => {
               : 'loading'
           "
           :id="item.id"
-          :media_type="('info' in item ? item.type : item.media_type) || fixedMediaType || 'movie'"
+          :media_type="
+            ('tmdb_id' in item ? item.type : 'media_type' in item ? item.media_type : null) ||
+            fixedMediaType ||
+            'movie'
+          "
           :size="itemSize"
           :rating="showRatings && 'vote_average' in item ? item.vote_average : undefined"
         />

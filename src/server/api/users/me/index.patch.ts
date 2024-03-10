@@ -1,78 +1,58 @@
-import type { ErrorResponse, IUser } from "~/types"
-import UserModel from "~/server/models/User.model"
 import { UserPatchableSchema } from "~/server/validation"
 import { upload, remove } from "~/utils/fileManager"
 import { getBlob } from "~/utils/utils"
+import prisma from "~/server/db/prisma"
 
 export default defineEventHandler(async (event) => {
-  if (!event.context.user) {
-    return { status: 401, message: "Unauthorized" } as ErrorResponse
-  }
+  if (!event.context.user) throw createError({ statusCode: 401, statusMessage: "Unauthorized" })
 
   const body = await readBody(event)
 
   const { error } = UserPatchableSchema.validate(body)
-  if (error) {
-    return { status: 400, message: error.message } as ErrorResponse
-  }
+  if (error) throw createError({ statusCode: 400, statusMessage: error.message })
 
-  const user: Partial<IUser> | null = await UserModel.findById(event.context.user._id).lean()
+  const user = await prisma.user.findUnique({
+    where: {
+      id: event.context.user.id
+    }
+  })
+  if (!user) throw createError({ statusCode: 404, statusMessage: "User not found" })
 
-  if (!user) {
-    return { status: 404, message: "User not found" } as ErrorResponse
-  }
-
-  if (user.latestUsernameChange && body.username) {
-    const timeSinceLastChange = new Date().getTime() - user.latestUsernameChange.getTime()
+  if (user.username_changed_at && body.username) {
+    const timeSinceLastChange = new Date().getTime() - user.username_changed_at.getTime()
     if (timeSinceLastChange < 1000 * 60 * 60 * 24 * 7) {
-      return {
-        status: 400,
-        message: "You can only change your username once a week."
-      } as ErrorResponse
+      throw createError({
+        statusCode: 400,
+        statusMessage: "You can only change your username once a week."
+      })
     }
   }
 
   if (body.username) {
-    const usernameExists = await UserModel.findOne({
-      username: body.username
-    }).lean()
+    const usernameExists = await prisma.user.findFirst({
+      where: {
+        username: {
+          equals: body.username,
+          mode: "insensitive"
+        }
+      }
+    })
+
     if (usernameExists) {
-      return {
-        status: 400,
-        message: "Username already exists."
-      } as ErrorResponse
+      throw createError({
+        statusCode: 400,
+        statusMessage: "Username is already taken"
+      })
     }
   }
 
   if (body.username) {
     user.username = body.username
-    user.latestUsernameChange = new Date()
+    user.username_changed_at = new Date()
   }
 
   user.about = body.about || null
   user.banner = body.banner || null
-
-  // if (body.files && body.files.avatar) {
-  //   if (user.avatar) {
-  //     await remove("avatars/" + user.avatar)
-  //     user.avatar = null
-  //   }
-
-  //   const res = await fetch(body.files.avatar.file)
-  //   const blob = await res.blob()
-
-  //   const message = await upload(blob)
-  //   if (message.data) {
-  //     user.avatar = message.data
-  //   } else {
-  //     return message
-  //   }
-  // }
-
-  // if (user.avatar && body.avatar === "remove") {
-  //   await remove("avatars/" + user.avatar)
-  //   user.avatar = null
-  // }
 
   if (typeof body.avatar === "string") {
     if (!body.avatar.length && user.avatar) {
@@ -89,7 +69,12 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  await UserModel.findByIdAndUpdate(event.context.user._id, user)
+  await prisma.user.update({
+    where: {
+      id: user.id
+    },
+    data: user
+  })
 
   return {
     status: 200,

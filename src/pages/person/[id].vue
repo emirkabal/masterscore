@@ -1,15 +1,24 @@
 <script setup lang="ts">
 import { useStorage } from "@vueuse/core"
-import type { CreditsResult, TMDBPerson } from "~/types"
+import type { CreditsResult } from "~/types"
 const { params } = useRoute()
 const { $moment, $listen } = useNuxtApp()
 const { t, locale } = useI18n()
 const revealBio = ref(false)
 const showDetailsDev = ref(false)
 const flag = useStorage("debugMode", false)
-const { data, pending, refresh } = useLazyFetch<null | TMDBPerson>(
-  `/api/person/details/${params.id}`
+
+const { data, pending, error, refresh } = await useAsyncData(
+  `Person-${params.id}`,
+  () => {
+    return getPerson(params.id as string)
+  },
+  {
+    lazy: true
+  }
 )
+
+if (error.value) throw error.value
 
 const name = computed(() => {
   return data.value?.name || "..."
@@ -38,22 +47,19 @@ const isBig = computed(() => {
 
 const getCrew = computed<Record<string, CreditsResult[]>>(() => {
   if (!data.value?.combined_credits?.crew?.length) return {}
-  const group = data.value.combined_credits.crew.reduce((acc, movie) => {
-    // @ts-ignore
+  const group = data.value.combined_credits.crew.reduce((acc: any, movie: any) => {
     if (!acc[movie.department]) acc[movie.department] = []
     movie.year = (movie.release_date || movie.first_air_date)?.split("-")[0] || "—"
-    // @ts-ignore
     acc[movie.department].push(movie)
     return acc
   }, {})
 
-  // @ts-ignore
   group.Acting = data.value.combined_credits.cast
-    .map((e) => {
+    .map((e: any) => {
       e.year = (e.release_date || e.first_air_date)?.split("-")[0] || "—"
       return e
     })
-    .sort((a, b) => {
+    .sort((a: any, b: any) => {
       if (!a.release_date && !a.first_air_date) return -1
       else if (a.release_date && b.release_date)
         return new Date(b.release_date).getTime() - new Date(a.release_date).getTime()
@@ -63,8 +69,7 @@ const getCrew = computed<Record<string, CreditsResult[]>>(() => {
     })
 
   Object.keys(group).forEach((e) =>
-    // @ts-ignore
-    group[e].sort((a, b) => {
+    group[e].sort((a: any, b: any) => {
       if (a.year === "—") return -1
       return new Date(b.year).getTime() - new Date(a.year).getTime()
     })
@@ -79,9 +84,7 @@ const departmentTitles = computed(() => {
   return Object.keys(group).sort((a, b) => {
     if (a === personDepartment) return -1
     else if (b === personDepartment) return 1
-    // @ts-ignore
     else if (group[a].length > group[b].length) return -1
-    // @ts-ignore
     else if (group[a].length < group[b].length) return 1
     return 0
   })
@@ -103,7 +106,7 @@ $listen("refresh:entertainment", () => {
 
 useHead({
   title: name,
-  titleTemplate: "%s - Masterscore"
+  titleTemplate: "%s | Masterscore"
 })
 </script>
 <template>
@@ -171,7 +174,7 @@ useHead({
                 {{ !data.deathday ? `(${$t("person.age", { n: age })})` : "" }}
               </p>
               <p v-if="data.deathday">
-                <strong>{{ $t("deathday") }}</strong>
+                <strong>{{ $t("person.deathday") }}</strong>
                 {{ data.deathday }} ({{ $t("person.age", { n: age }) }})
               </p>
               <p v-if="data.place_of_birth">

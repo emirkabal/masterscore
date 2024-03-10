@@ -1,7 +1,7 @@
-import UserModel from "~/server/models/User.model"
 import { UserSchema } from "~/server/validation"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import prisma from "~/server/db/prisma"
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
@@ -9,51 +9,51 @@ export default defineEventHandler(async (event) => {
 
   const { error } = UserSchema.validate(body)
   if (error)
-    return createError({
-      status: 400,
-      message: error.message
+    throw createError({
+      statusCode: 400,
+      statusMessage: error.message
     })
 
-  if (!body.inviteCode)
-    return createError({
-      status: 400,
-      message: "Invite code is required"
-    })
-
-  if (body.inviteCode !== config.INVITE_CODE)
-    return createError({
-      status: 400,
-      message: "Invalid invite code"
-    })
-
-  const exists = await UserModel.findOne({
-    $or: [
-      {
-        username: body.username
-      },
-      {
-        username: new RegExp(`^${body.username}$`, "i")
-      },
-      {
-        email: body.email
-      }
-    ]
-  }).lean()
+  const exists = await prisma.user.findFirst({
+    where: {
+      OR: [
+        {
+          username: {
+            equals: body.username,
+            mode: "insensitive"
+          }
+        },
+        {
+          email: {
+            equals: body.email,
+            mode: "insensitive"
+          }
+        }
+      ]
+    }
+  })
 
   if (exists)
-    return createError({
-      status: 400,
-      message: "Email or username already exists"
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Email or username already exists"
     })
 
   const salt = bcrypt.genSaltSync(10)
   const hash = bcrypt.hashSync(body.password, salt)
 
-  const user = await UserModel.create({ ...body, password: hash })
-  const secret = config.JWT_SECRET + hash
+  const user = await prisma.user.create({
+    data: {
+      username: body.username,
+      email: body.email,
+      password: hash
+    }
+  })
+
+  const secret = config.JWT_SECRET
   const token = jwt.sign(
     {
-      id: user._id,
+      id: user.id,
       email: user.email
     },
     secret
