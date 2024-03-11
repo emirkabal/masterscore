@@ -116,7 +116,20 @@
     "update_profile": "프로필 업데이트",
     "back_to_profile": "프로필로 돌아가기",
     "preferences": "환경 설정",
-    "debug_mode": "디버그 모드"
+    "debug_mode": "디버그 모드",
+    "account": "계정",
+    "change": "변화",
+    "debug_mode_alt": "디버깅 목적으로 추가 정보를 표시합니다.",
+    "profile": "프로필",
+    "props": {
+      "avatar": "화신",
+      "banner": "배너",
+      "display_name": "이름 표시하기"
+    },
+    "reset": "초기화",
+    "save_text": "저장되지 않은 변경사항이 있습니다.",
+    "use_old_review_modal": "이전 검토 모달 사용",
+    "use_old_review_modal_alt": "새 검토 모달 대신 이전 검토 모달을 사용하십시오. \n이는 향후 제거될 예정입니다."
   },
   "footer": {
     "about": "영화 및 TV 프로그램에 대한 편향되지 않은 리뷰의 궁극적인 출처. 다음 좋아할 만한 엔터테인먼트를 발견하세요!",

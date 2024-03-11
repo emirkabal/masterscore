@@ -97,6 +97,24 @@ export const useUserStore = defineStore("user", {
       } finally {
         this.loading = false
       }
+    },
+
+    async waitForUser() {
+      return new Promise((resolve) => {
+        const interval = setInterval(() => {
+          if (!this.token) {
+            clearInterval(interval)
+            resolve(false)
+          } else if (this.user) {
+            clearInterval(interval)
+            resolve(true)
+          }
+        }, 100)
+        setTimeout(() => {
+          clearInterval(interval)
+          resolve(false)
+        }, 5000)
+      })
     }
   }
 })

@@ -54,7 +54,7 @@ watch(
           <slot name="body"></slot>
         </div>
         <div
-          class="absolute bottom-0 left-0 flex w-full justify-end space-x-2 bg-gray-950 p-6 md:relative"
+          class="absolute bottom-0 left-0 flex w-full justify-end space-x-2 border-t border-border bg-gray-900 p-6 md:relative"
         >
           <slot name="footer"></slot>
         </div>

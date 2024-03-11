@@ -15,7 +15,7 @@ const handleChange = (key: any, value: boolean) => {
 <template>
   <section id="settings-preferences">
     <h3 class="mb-9 border-b border-gray-800 pb-4 text-2xl font-bold text-white lg:text-3xl">
-      Preferences
+      {{ $t("settings.preferences") }}
     </h3>
     <div class="space-y-4">
       <FormField name="debug_mode">
@@ -23,8 +23,8 @@ const handleChange = (key: any, value: boolean) => {
           class="flex flex-row items-center justify-between rounded-lg border border-border p-4"
         >
           <div class="space-y-0.5">
-            <FormLabel class="text-base"> Debug Mode </FormLabel>
-            <FormDescription> Show additional information for debugging purposes. </FormDescription>
+            <FormLabel class="text-base"> {{ $t("settings.debug_mode") }} </FormLabel>
+            <FormDescription> {{ $t("settings.debug_mode_alt") }} </FormDescription>
           </div>
           <FormControl>
             <Switch
@@ -39,9 +39,9 @@ const handleChange = (key: any, value: boolean) => {
           class="flex flex-row items-center justify-between rounded-lg border border-border p-4"
         >
           <div class="space-y-0.5">
-            <FormLabel class="text-base"> Use Old Review Modal </FormLabel>
+            <FormLabel class="text-base"> {{ $t("settings.use_old_review_modal") }} </FormLabel>
             <FormDescription>
-              Use the old review modal instead of the new one. This will be removed in the future.
+              {{ $t("settings.use_old_review_modal_alt") }}
             </FormDescription>
           </div>
           <FormControl>

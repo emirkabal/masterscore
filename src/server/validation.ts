@@ -7,14 +7,11 @@ export const UserSchema = Joi.object({
 })
 
 export const UserPatchableSchema = Joi.object({
+  display_name: Joi.string().allow("").allow(null).max(32),
   username: Joi.string().alphanum().allow("").allow(null).min(3).max(16),
   about: Joi.string().allow(null).allow("").max(512),
   avatar: Joi.string().allow(null).allow("").max(2_000_000),
-  banner: Joi.string().allow(null).allow("").max(2_000_000),
-  likes: Joi.array().items(Joi.string()),
-  reviews: Joi.array().items(Joi.string()),
-  watchlist: Joi.array().items(Joi.string()),
-  watcheds: Joi.array().items(Joi.string())
+  banner: Joi.string().allow(null).allow("").max(2_000_000)
 })
 
 export const ReviewSchema = Joi.object({

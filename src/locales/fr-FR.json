@@ -115,7 +115,20 @@
     "update_profile": "Mise à jour du profil",
     "back_to_profile": "Retour au profil",
     "preferences": "Préférences",
-    "debug_mode": "Mode débogage"
+    "debug_mode": "Mode débogage",
+    "account": "Compte",
+    "change": "Changement",
+    "debug_mode_alt": "Afficher des informations supplémentaires à des fins de débogage.",
+    "profile": "Profil",
+    "props": {
+      "avatar": "Avatar",
+      "banner": "Bannière",
+      "display_name": "Afficher un nom"
+    },
+    "reset": "Réinitialiser",
+    "save_text": "Il y a des modifications non enregistrées.",
+    "use_old_review_modal": "Utiliser l'ancien modal d'évaluation",
+    "use_old_review_modal_alt": "Utilisez l'ancien modal de révision au lieu du nouveau. \nCela sera supprimé à l’avenir."
   },
   "footer": {
     "about": "Votre source ultime de critiques impartiales de films et d'émissions de télévision. Découvrez votre prochain divertissement préféré !",

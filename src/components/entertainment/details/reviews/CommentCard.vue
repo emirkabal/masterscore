@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 type User = {
   id: string
+  display_name?: string
   username: string
   avatar?: string | null
   verified: boolean
@@ -43,7 +44,9 @@ const isMe = computed(() => props.comment.user.id === props.user?.id)
           :to="`/${comment.user.username}`"
           class="flex min-w-0 items-center gap-1 font-semibold transition hover:opacity-85"
         >
-          <span class="truncate break-words"> {{ comment.user.username }} </span>
+          <span class="truncate break-words">
+            {{ comment.user.display_name ?? comment.user.username }}
+          </span>
           <Icon
             v-if="comment.user.verified"
             name="material-symbols:verified-rounded"

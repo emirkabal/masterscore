@@ -116,7 +116,20 @@
     "update_profile": "Update Profile",
     "back_to_profile": "Back to Profile",
     "preferences": "Preferences",
-    "debug_mode": "Debug Mode"
+    "debug_mode": "Debug Mode",
+    "debug_mode_alt": "Show additional information for debugging purposes.",
+    "use_old_review_modal": "Use Old Review Modal",
+    "use_old_review_modal_alt": "Use the old review modal instead of the new one. This will be removed in the future.",
+    "profile": "Profile",
+    "account": "Account",
+    "change": "Change",
+    "props": {
+      "avatar": "Avatar",
+      "banner": "Banner",
+      "display_name": "Display name"
+    },
+    "reset": "Reset",
+    "save_text": "There are unsaved changes."
   },
   "footer": {
     "about": "Your ultimate source for unbiased movie and TV show reviews. Discover your next favorite entertainment!",

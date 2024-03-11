@@ -37,6 +37,7 @@ export default defineEventHandler(async (event) => {
       }
     },
     select: {
+      display_name: true,
       username: true,
       avatar: true,
       verified: true

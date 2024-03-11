@@ -16,6 +16,7 @@ export const remove = async (filename: string) => {
 }
 
 export const upload = async (
+  path: "avatars" | "banners",
   blob: Blob
 ): Promise<{
   status: number
@@ -42,7 +43,7 @@ export const upload = async (
 
     const filename = md5(`${Date.now()}${blob.type}`)
 
-    const { error } = await supabase.storage.from("assets").upload("avatars/" + filename, blob, {
+    const { error } = await supabase.storage.from("assets").upload(`${path}/${filename}`, blob, {
       cacheControl: "3600",
       upsert: false,
       contentType: blob.type

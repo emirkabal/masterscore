@@ -8,6 +8,7 @@ const params = useUrlSearchParams("history")
 type CustomIncomingData = {
   id: string
   user: {
+    display_name?: string
     username: string
     avatar: any
     verified: boolean
@@ -101,14 +102,19 @@ watch(
       <div class="flex w-full min-w-0 flex-col">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1">
-            <div class="flex items-center gap-x-1 font-semibold">
-              <span class="line-clamp-1 break-all">{{ activity.user.username }}</span>
+            <NuxtLink
+              :to="`/${activity.user.username}`"
+              class="flex items-center gap-x-1 font-semibold"
+            >
+              <span class="line-clamp-1 break-all">{{
+                activity.user.display_name ?? activity.user.username
+              }}</span>
               <Icon
                 v-if="activity.user.verified"
                 name="material-symbols:verified-rounded"
                 class="h-5 w-5 flex-shrink-0 text-brand"
               />
-            </div>
+            </NuxtLink>
             <span
               v-tooltip="{
                 content: $moment(activity.created_at).locale($i18n.locale).format('LLLL')

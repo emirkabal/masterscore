@@ -161,7 +161,7 @@ export default defineNuxtConfig({
     VERSION: version,
     public: {
       SOCKET_SERVER: process.env.SOCKET_SERVER,
-      SUPABASE_STORAGE_URL: process.env.SUPABASE_STORAGE_URL,
+      SUPABASE_STORAGE_URL: process.env.SUPABASE_URL + "/storage/v1/object/public/assets/",
       TMDB_API_TOKEN: process.env.TMDB_API_TOKEN
     }
   }

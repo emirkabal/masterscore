@@ -22,7 +22,11 @@ const defaultAvatar = computed(() => {
 })
 
 const avatar = computed(() => {
-  return props.avatar ? `${config.public.SUPABASE_STORAGE_URL}${props.avatar}` : defaultAvatar.value
+  return props.avatar
+    ? props.avatar.length > 250
+      ? props.avatar
+      : `${config.public.SUPABASE_STORAGE_URL}avatars/${props.avatar}`
+    : defaultAvatar.value
 })
 
 const isAlpha = ref(false)

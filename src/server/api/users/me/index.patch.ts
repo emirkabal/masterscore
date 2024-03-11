@@ -18,17 +18,16 @@ export default defineEventHandler(async (event) => {
   })
   if (!user) throw createError({ statusCode: 404, statusMessage: "User not found" })
 
-  if (user.username_changed_at && body.username) {
-    const timeSinceLastChange = new Date().getTime() - user.username_changed_at.getTime()
-    if (timeSinceLastChange < 1000 * 60 * 60 * 24 * 7) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: "You can only change your username once a week."
-      })
+  if (body.username && body.username !== user.username) {
+    if (user.username_changed_at) {
+      const timeSinceLastChange = new Date().getTime() - user.username_changed_at.getTime()
+      if (timeSinceLastChange < 1000 * 60 * 60 * 24 * 7)
+        throw createError({
+          statusCode: 400,
+          statusMessage: "You can only change your username once a week."
+        })
     }
-  }
 
-  if (body.username) {
     const usernameExists = await prisma.user.findFirst({
       where: {
         username: {
@@ -38,31 +37,45 @@ export default defineEventHandler(async (event) => {
       }
     })
 
-    if (usernameExists) {
+    if (usernameExists)
       throw createError({
         statusCode: 400,
-        statusMessage: "Username is already taken"
+        statusMessage: "Username already taken."
       })
-    }
-  }
 
-  if (body.username) {
     user.username = body.username
     user.username_changed_at = new Date()
   }
 
+  user.display_name = body.display_name || null
   user.about = body.about || null
-  user.banner = body.banner || null
 
-  if (typeof body.avatar === "string") {
+  if (typeof body.avatar === "string" && body.avatar !== user.avatar) {
     if (!body.avatar.length && user.avatar) {
       await remove("avatars/" + user.avatar)
       user.avatar = null
     } else {
+      if (user.avatar) await remove("avatars/" + user.avatar)
       const blob = await getBlob(body.avatar)
-      const message = await upload(blob)
+      const message = await upload("avatars", blob)
       if (message.data) {
         user.avatar = message.data
+      } else {
+        return message
+      }
+    }
+  }
+
+  if (typeof body.banner === "string" && body.banner !== user.banner) {
+    if (!body.banner.length && user.banner) {
+      await remove("banners/" + user.banner)
+      user.banner = null
+    } else {
+      if (user.banner) await remove("banners/" + user.banner)
+      const blob = await getBlob(body.banner)
+      const message = await upload("banners", blob)
+      if (message.data) {
+        user.banner = message.data
       } else {
         return message
       }
@@ -73,12 +86,21 @@ export default defineEventHandler(async (event) => {
     where: {
       id: user.id
     },
-    data: user
+    data: {
+      display_name: user.display_name,
+      username: user.username,
+      about: user.about,
+      avatar: user.avatar,
+      banner: user.banner,
+      username_changed_at: user.username_changed_at
+    }
   })
+
+  const { password, ...userWithoutPassword } = user
 
   return {
     status: 200,
     message: "User updated successfully",
-    data: user
+    data: userWithoutPassword
   }
 })

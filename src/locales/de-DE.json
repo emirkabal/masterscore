@@ -116,7 +116,20 @@
     "update_profile": "Profil aktualisieren",
     "back_to_profile": "Zurück zum Profil",
     "preferences": "Einstellungen",
-    "debug_mode": "Debug-Modus"
+    "debug_mode": "Debug-Modus",
+    "account": "Konto",
+    "change": "Ändern",
+    "debug_mode_alt": "Zusätzliche Informationen zu Debugging-Zwecken anzeigen.",
+    "profile": "Profil",
+    "props": {
+      "avatar": "Benutzerbild",
+      "banner": "Banner",
+      "display_name": "Anzeigename"
+    },
+    "reset": "Zurücksetzen",
+    "save_text": "Es gibt nicht gespeicherte Änderungen.",
+    "use_old_review_modal": "Verwenden Sie das alte Bewertungsmodal",
+    "use_old_review_modal_alt": "Verwenden Sie das alte Bewertungsmodal anstelle des neuen. \nDies wird in Zukunft entfernt."
   },
   "footer": {
     "about": "Ihre ultimative Quelle für unvoreingenommene Film- und Serienbewertungen. Entdecken Sie Ihr nächstes Lieblingsunterhaltung!",

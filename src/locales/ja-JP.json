@@ -116,7 +116,20 @@
     "update_profile": "プロフィールを更新",
     "back_to_profile": "プロフィールに戻る",
     "preferences": "設定",
-    "debug_mode": "デバッグモード"
+    "debug_mode": "デバッグモード",
+    "account": "アカウント",
+    "change": "変化",
+    "debug_mode_alt": "デバッグ目的で追加情報を表示します。",
+    "profile": "プロフィール",
+    "props": {
+      "avatar": "アバター",
+      "banner": "バナー",
+      "display_name": "表示名"
+    },
+    "reset": "リセット",
+    "save_text": "未保存の変更があります。",
+    "use_old_review_modal": "古いレビューモーダルを使用する",
+    "use_old_review_modal_alt": "新しいレビュー モーダルの代わりに古いレビュー モーダルを使用してください。\nこれは将来削除される予定です。"
   },
   "footer": {
     "about": "映画とテレビ番組の公正なレビューの究極の情報源。次のお気に入りのエンターテイメントを見つけてください！",

@@ -2,11 +2,11 @@ import { H3Event } from "h3"
 
 export interface User {
   id: string
+  display_name?: string
   username: string
   email: string
   password: string
   verified: boolean
-  display_name?: string
   about?: string
   avatar?: string
   banner?: string

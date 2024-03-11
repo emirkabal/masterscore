@@ -87,6 +87,7 @@ export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
         select: {
           user: {
             select: {
+              display_name: true,
               username: true,
               avatar: true
             }

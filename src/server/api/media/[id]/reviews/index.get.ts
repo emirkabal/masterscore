@@ -22,6 +22,7 @@ export default eventHandler(async (event) => {
     user: {
       select: {
         id: true,
+        display_name: true,
         username: true,
         avatar: true,
         verified: true

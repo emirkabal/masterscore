@@ -18,6 +18,25 @@ export const hasToken = () => {
   return !!localStorage.getItem("token")
 }
 
+export const patchUser = async (context: {
+  display_name?: string
+  username?: string
+  about?: string
+  avatar?: string
+  banner?: string
+}) => {
+  const userStore = useUserStore()
+  const res = await $fetch("/api/users/me", {
+    method: "patch",
+    headers: generateHeaders(),
+    body: JSON.stringify(context)
+  })
+  if (typeof res.data === "object") {
+    // @ts-ignore
+    userStore.user = { ...userStore.user, ...res.data }
+  }
+}
+
 export const likeMedia = async (mediaId: string) => {
   const { user } = useUserStore()
   if (!user) return useRouter().push("/account/login?r=" + encodeURIComponent(useRoute().fullPath))

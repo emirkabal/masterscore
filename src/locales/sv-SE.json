@@ -115,7 +115,20 @@
     "update_profile": "Uppdatera profil",
     "back_to_profile": "Tillbaka till profil",
     "preferences": "Inställningar",
-    "debug_mode": "Felsökningsläge"
+    "debug_mode": "Felsökningsläge",
+    "account": "konto",
+    "change": "Förändra",
+    "debug_mode_alt": "Visa ytterligare information för felsökningsändamål.",
+    "profile": "Profil",
+    "props": {
+      "avatar": "Avatar",
+      "banner": "Baner",
+      "display_name": "Visningsnamn"
+    },
+    "reset": "Återställa",
+    "save_text": "Det finns ändringar som inte har sparats.",
+    "use_old_review_modal": "Använd Old Review Modal",
+    "use_old_review_modal_alt": "Använd den gamla recensionsmetoden istället för den nya. \nDetta kommer att tas bort i framtiden."
   },
   "footer": {
     "about": "Din ultimata källa för opartiska recensioner av filmer och TV-program. Upptäck din nästa favoritunderhållning!",

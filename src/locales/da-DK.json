@@ -116,7 +116,20 @@
     "update_profile": "Opdater profil",
     "back_to_profile": "Tilbage til profil",
     "preferences": "Præferencer",
-    "debug_mode": "Debug-tilstand"
+    "debug_mode": "Debug-tilstand",
+    "account": "Konto",
+    "change": "Lave om",
+    "debug_mode_alt": "Vis yderligere oplysninger til fejlretningsformål.",
+    "profile": "Profil",
+    "props": {
+      "avatar": "Avatar",
+      "banner": "Banner",
+      "display_name": "Vist navn"
+    },
+    "reset": "Nulstil",
+    "save_text": "Der er ikke-gemte ændringer.",
+    "use_old_review_modal": "Brug Old Review Modal",
+    "use_old_review_modal_alt": "Brug den gamle gennemgangsmodal i stedet for den nye. \nDette vil blive fjernet i fremtiden."
   },
   "footer": {
     "about": "Din ultimative kilde til upartiske anmeldelser af film og tv-shows. Opdag dit næste yndlingsunderholdning!",

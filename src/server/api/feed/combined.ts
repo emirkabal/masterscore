@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
       include: {
         user: {
           select: {
+            display_name: true,
             username: true,
             avatar: true,
             verified: true
@@ -44,6 +45,7 @@ export default defineEventHandler(async (event) => {
       include: {
         user: {
           select: {
+            display_name: true,
             username: true,
             avatar: true,
             verified: true
