@@ -1,5 +1,5 @@
 import prisma from "~/server/db/prisma"
-import { getSyncedMedia } from "~/utils/utils"
+import { getSyncedMedia } from "~/server/utils"
 
 export default defineEventHandler(async (event) => {
   const tmdb_id = event.context.params?.id ? parseInt(event.context.params.id) : null

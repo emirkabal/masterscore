@@ -58,7 +58,7 @@ const submit = async (event) => {
     useRouter().push(goPath)
   } catch (err) {
     loading.value = false
-    error.value = err.message || "An error occurred"
+    error.value = err.statusMessage || "An error occurred"
   }
 }
 </script>
