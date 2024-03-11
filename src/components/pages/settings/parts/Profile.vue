@@ -61,6 +61,8 @@ bannerInput.onChange((files) => {
 const cancelCropping = () => {
   image[image.type].show = false
   image[image.type].file = null
+  avatarInput.reset()
+  bannerInput.reset()
 }
 
 const cropped = (type: "avatar" | "banner", v: string) => {

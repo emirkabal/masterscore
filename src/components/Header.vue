@@ -22,7 +22,8 @@ const isHeaderShown = computed(() => {
     !(
       route.name?.startsWith("type-id") ||
       route.name?.startsWith("index") ||
-      route.name?.startsWith("discover")
+      route.name?.startsWith("discover") ||
+      route.name?.startsWith("settings")
     )
   )
 })

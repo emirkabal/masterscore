@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useMediaQuery } from "@vueuse/core"
+import { createReusableTemplate, useMediaQuery } from "@vueuse/core"
 import VuePictureCropper, { cropper } from "vue-picture-cropper"
 const isDesktop = useMediaQuery("(min-width: 768px)")
 
@@ -8,7 +8,7 @@ const props = defineProps<{
   show: boolean
   file?: File
 }>()
-
+const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 const emits = defineEmits(["cropped", "cancel"])
 
 const getBase64 = (file: File) => {
@@ -33,27 +33,30 @@ const save = async () => {
 </script>
 
 <template>
+  <DefineTemplate>
+    <VuePictureCropper
+      :boxStyle="{
+        width: '100%',
+        height: '100%',
+        maxHeight: 'calc(100vh - 200px)',
+        backgroundColor: '#000'
+      }"
+      :img="preview"
+      :options="{
+        viewMode: 2,
+        dragMode: 'move',
+        aspectRatio: type === 'avatar' ? 1 : 3
+      }"
+      :preset-mode="{
+        mode: 'fixedSize',
+        width: type === 'avatar' ? 512 : 1024,
+        height: type === 'avatar' ? 512 : 256
+      }"
+    />
+  </DefineTemplate>
   <Modal v-if="isDesktop" title="Crop" :show="show" @close="$emit('cancel')">
     <template v-slot:body>
-      <VuePictureCropper
-        :boxStyle="{
-          width: '100%',
-          height: '100%',
-          maxHeight: 'calc(100vh - 200px)',
-          backgroundColor: '#000'
-        }"
-        :img="preview"
-        :options="{
-          viewMode: 2,
-          dragMode: 'move',
-          aspectRatio: type === 'avatar' ? 1 : 3
-        }"
-        :preset-mode="{
-          mode: 'fixedSize',
-          width: type === 'avatar' ? 512 : 1024,
-          height: type === 'avatar' ? 512 : 256
-        }"
-      />
+      <ReuseTemplate />
     </template>
     <template v-slot:footer>
       <Button variant="ghost" @click="$emit('cancel')"> İptal </Button>
@@ -62,25 +65,7 @@ const save = async () => {
   </Modal>
   <Drawer v-else title="Crop" :show="show" @close="$emit('cancel')">
     <template v-slot:body>
-      <VuePictureCropper
-        :boxStyle="{
-          width: '100%',
-          height: '100%',
-          maxHeight: 'calc(100vh - 200px)',
-          backgroundColor: '#000'
-        }"
-        :img="preview"
-        :options="{
-          viewMode: 2,
-          dragMode: 'move',
-          aspectRatio: type === 'avatar' ? 1 : 3
-        }"
-        :preset-mode="{
-          mode: 'fixedSize',
-          width: type === 'avatar' ? 512 : 1024,
-          height: type === 'avatar' ? 512 : 256
-        }"
-      />
+      <ReuseTemplate />
     </template>
     <template v-slot:footer>
       <Button @click="save" class="w-full"> Kaydet </Button>

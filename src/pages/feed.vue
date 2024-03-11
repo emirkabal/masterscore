@@ -1,6 +1,6 @@
 <template>
-  <div class="mx-auto my-28 max-w-[842px] space-y-12">
+  <section class="mx-auto max-w-[842px] space-y-12 py-28">
     <FeedRecentJoined />
     <FeedRecentActivities />
-  </div>
+  </section>
 </template>

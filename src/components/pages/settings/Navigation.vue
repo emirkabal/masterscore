@@ -54,19 +54,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <ul class="space-y-4">
-      <li
-        v-for="tab in tabs"
-        :key="tab.id"
-        @click="goTo(tab.id)"
-        :class="[
-          tab.active ? 'bg-blue-700/10 text-white' : 'text-gray-500',
-          'block cursor-pointer rounded-lg px-4 py-2 text-lg font-semibold tracking-tight'
-        ]"
-      >
-        {{ tab.name }}
-      </li>
-    </ul>
-  </div>
+  <ul class="space-y-4">
+    <li
+      v-for="tab in tabs"
+      :key="tab.id"
+      @click="goTo(tab.id)"
+      :class="[
+        tab.active ? 'bg-gray-900/60 text-white' : 'text-gray-500',
+        'block cursor-pointer rounded-lg px-4 py-2 text-lg font-semibold tracking-tight'
+      ]"
+    >
+      {{ tab.name }}
+    </li>
+  </ul>
 </template>

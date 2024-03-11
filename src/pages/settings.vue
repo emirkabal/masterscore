@@ -47,7 +47,7 @@ watch(settings, () => {
     <div class="mx-auto w-[1300px] max-w-full px-8 pb-96 pt-36 sm:px-16">
       <div class="grid gap-12 lg:grid-cols-[280px,1fr]">
         <div class="sticky top-24 hidden h-fit lg:block">
-          <span class="text-sm font-bold uppercase tracking-wide text-gray-500">
+          <span class="pl-4 text-sm font-bold uppercase tracking-wide text-gray-500">
             {{ $t("settings.title") }}
           </span>
           <div class="mt-4 space-y-4">
