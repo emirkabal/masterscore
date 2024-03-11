@@ -2,6 +2,7 @@ import { UserSchema } from "~/server/validation"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import prisma from "~/server/db/prisma"
+import { isBannedUsername } from "~/server/utils"
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
@@ -14,14 +15,19 @@ export default defineEventHandler(async (event) => {
       statusMessage: error.message
     })
 
+  const username = body.username.toLowerCase()
+
+  if (isBannedUsername(username))
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Username is not allowed."
+    })
+
   const exists = await prisma.user.findFirst({
     where: {
       OR: [
         {
-          username: {
-            equals: body.username,
-            mode: "insensitive"
-          }
+          username
         },
         {
           email: {
@@ -44,7 +50,7 @@ export default defineEventHandler(async (event) => {
 
   const user = await prisma.user.create({
     data: {
-      username: body.username,
+      username,
       email: body.email,
       password: hash
     }

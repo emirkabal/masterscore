@@ -227,7 +227,7 @@ useHead({
             />
             <div v-if="getCrew">
               <div v-for="(department, i) in departmentTitles" :key="i">
-                <div class="mt-4">
+                <div class="mt-4" v-if="getCrew[department].length">
                   <h3 class="pb-2 text-2xl font-bold tracking-wide">
                     {{ $t(`person.departments.${department}`) }}
                   </h3>

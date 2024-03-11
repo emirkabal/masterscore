@@ -6,11 +6,7 @@ const config = useRuntimeConfig()
 export default defineEventHandler(async (event) => {
   const { q, limit: queryLimit } = getQuery(event)
 
-  const limit = isNaN(queryLimit as any)
-    ? 5
-    : parseInt(queryLimit as any) > 20
-      ? 20
-      : parseInt(queryLimit as any)
+  const limit = Math.min(parseInt(queryLimit as string), 3) || 3
 
   const lang = getISO(getCookie(event, "locale"))
   const data = await $fetch<TMDBSearchResults<TMDBResult>>(
@@ -31,10 +27,10 @@ export default defineEventHandler(async (event) => {
 
   const users = await prisma.user.findMany({
     where: {
-      username: {
-        contains: q?.toString(),
-        mode: "insensitive"
-      }
+      OR: [
+        { username: { contains: q?.toString(), mode: "insensitive" } },
+        { display_name: { contains: q?.toString(), mode: "insensitive" } }
+      ]
     },
     select: {
       display_name: true,

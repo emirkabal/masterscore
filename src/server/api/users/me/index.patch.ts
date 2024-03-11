@@ -1,6 +1,6 @@
 import { UserPatchableSchema } from "~/server/validation"
 import { upload, remove } from "~/utils/fileManager"
-import { getBlob } from "~/utils/utils"
+import { getBlob, isBannedUsername } from "~/server/utils"
 import prisma from "~/server/db/prisma"
 
 export default defineEventHandler(async (event) => {
@@ -28,6 +28,12 @@ export default defineEventHandler(async (event) => {
         })
     }
 
+    if (isBannedUsername(body.username))
+      throw createError({
+        statusCode: 400,
+        statusMessage: "Username is not allowed."
+      })
+
     const usernameExists = await prisma.user.findFirst({
       where: {
         username: {
@@ -43,7 +49,7 @@ export default defineEventHandler(async (event) => {
         statusMessage: "Username already taken."
       })
 
-    user.username = body.username
+    user.username = body.username.toLowerCase()
     user.username_changed_at = new Date()
   }
 

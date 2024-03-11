@@ -322,14 +322,16 @@ onKeyStroke(["Control", "K", "k"], (e) => {
               }"
             >
               <div class="flex w-full items-center">
-                <Avatar
-                  :username="user.username"
-                  :avatar="user.avatar"
-                  class="h-10 w-10"
-                  :border="true"
-                />
-                <div class="ml-2 max-w-sm">
-                  <p class="truncate text-ellipsis font-bold">@{{ user.username }}</p>
+                <Avatar :username="user.username" :avatar="user.avatar" class="h-10 w-10" />
+                <div class="ml-2 flex max-w-sm items-center gap-x-1">
+                  <p class="truncate text-ellipsis font-bold">
+                    {{ user.display_name ?? user.username }}
+                  </p>
+                  <Icon
+                    v-if="user.verified"
+                    name="material-symbols:verified-rounded"
+                    class="h-5 w-5 flex-shrink-0 text-brand"
+                  />
                 </div>
               </div>
             </NuxtLink>

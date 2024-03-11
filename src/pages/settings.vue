@@ -55,8 +55,8 @@ watch(settings, () => {
           </div>
         </div>
         <div class="space-y-24" id="tabs">
-          <PagesSettingsPartsAccount :settings="settings" />
-          <PagesSettingsPartsProfile :settings="settings" />
+          <PagesSettingsPartsAccount v-if="userStore.isLoggedIn" :settings="settings" />
+          <PagesSettingsPartsProfile v-if="userStore.isLoggedIn" :settings="settings" />
           <PagesSettingsPartsPreferences />
         </div>
       </div>
