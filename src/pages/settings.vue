@@ -45,7 +45,7 @@ watch(settings, () => {
 
 <template>
   <div class="bg-gradient-to-tr from-gray-950 via-gray-950 via-65% to-[#232054]">
-    <div class="mx-auto w-[1300px] max-w-full px-8 pb-96 pt-36 sm:px-16">
+    <div class="mx-auto w-[1300px] max-w-full px-4 py-24 sm:px-16 lg:pb-96 lg:pt-36">
       <div class="grid gap-12 lg:grid-cols-[280px,1fr]">
         <div class="sticky top-24 hidden h-fit lg:block">
           <span class="pl-4 text-sm font-bold uppercase tracking-wide text-gray-500">
@@ -55,7 +55,7 @@ watch(settings, () => {
             <PagesSettingsNavigation />
           </div>
         </div>
-        <div class="space-y-24" id="tabs">
+        <div class="space-y-14 lg:space-y-24" id="tabs">
           <PagesSettingsPartsAccount v-if="userStore.isLoggedIn" :settings="settings" />
           <PagesSettingsPartsProfile v-if="userStore.isLoggedIn" :settings="settings" />
           <PagesSettingsPartsPreferences />

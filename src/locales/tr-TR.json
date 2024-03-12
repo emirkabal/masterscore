@@ -122,8 +122,8 @@
     "account": "Hesap",
     "props": {
       "display_name": "Görünen ad",
-      "avatar": "Profil fotoğrafı",
-      "banner": "Afiş fotoğrafı"
+      "avatar": "Avatar",
+      "banner": "Profil afişi"
     },
     "change": "Değiştir",
     "debug_mode_alt": "Hata ayıklama amacıyla ek bilgileri gösterin.",

@@ -4,8 +4,6 @@ import { useFileDialog } from "@vueuse/core"
 
 const config = useRuntimeConfig()
 
-const userStore = useUserStore()
-
 const props = defineProps<{
   settings: any
 }>()
@@ -84,12 +82,12 @@ const cropped = (type: "avatar" | "banner", v: string) => {
     <h3 class="mb-9 border-b border-gray-800 pb-4 text-2xl font-bold text-white lg:text-3xl">
       {{ $t("settings.profile") }}
     </h3>
-    <div class="w-full space-y-6 rounded-xl border border-gray-800 bg-gray-900/40 p-4 md:p-12">
-      <div>
-        <span class="mb-2 block text-lg font-semibold tracking-tight text-white">
-          {{ $t("settings.props.avatar") }}
-        </span>
-        <div class="flex justify-between gap-x-4">
+    <div class="w-full space-y-12 rounded-xl border border-gray-800 bg-gray-900/40 p-4 md:p-12">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="mb-2 block text-lg font-semibold tracking-tight text-white">
+            {{ $t("settings.props.avatar") }}
+          </span>
           <div class="flex gap-x-2">
             <Button @click="avatarInput.open"> {{ $t("settings.change") }} </Button>
             <Button
@@ -100,18 +98,18 @@ const cropped = (type: "avatar" | "banner", v: string) => {
               {{ $t("delete") }}
             </Button>
           </div>
-          <Avatar
-            :username="settings.account.username"
-            :avatar="settings.account.avatar"
-            class="h-14 w-14"
-          />
         </div>
+        <Avatar
+          :username="settings.account.username"
+          :avatar="settings.account.avatar"
+          class="h-14 w-14"
+        />
       </div>
-      <div>
-        <span class="mb-2 block text-lg font-semibold tracking-tight text-white">
-          {{ $t("settings.props.banner") }}
-        </span>
-        <div class="flex justify-between gap-x-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="mb-2 block text-lg font-semibold tracking-tight text-white">
+            {{ $t("settings.props.banner") }}
+          </span>
           <div class="flex gap-x-2">
             <Button @click="bannerInput.open"> {{ $t("settings.change") }} </Button>
             <Button
@@ -122,16 +120,18 @@ const cropped = (type: "avatar" | "banner", v: string) => {
               {{ $t("delete") }}
             </Button>
           </div>
-          <img
-            v-if="banner"
-            :src="banner"
-            :draggable="false"
-            class="h-14 w-24 rounded-lg border border-border bg-gray-900 object-cover"
-          />
-          <div
-            v-else
-            class="flex h-14 w-24 items-center justify-center rounded-lg border border-border bg-gray-900"
-          ></div>
+        </div>
+        <img
+          v-if="banner"
+          :src="banner"
+          :draggable="false"
+          class="h-14 w-24 rounded-lg border border-border bg-gray-900 object-cover"
+        />
+        <div
+          v-else
+          class="flex h-14 w-24 items-center justify-center rounded-lg border border-border bg-gray-900"
+        >
+          <Icon name="ic:round-photo" class="h-6 w-6 text-gray-500" />
         </div>
       </div>
       <div>

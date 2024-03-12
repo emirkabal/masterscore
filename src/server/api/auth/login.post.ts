@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import type { User } from "~/types"
 import { LoginSchema } from "~/server/validation"
 import prisma from "~/server/db/prisma"
 const config = useRuntimeConfig()
@@ -51,7 +50,7 @@ export default defineEventHandler(async (event) => {
   const token = jwt.sign(
     {
       id: user.id,
-      email: user.email
+      revision: user.revision
     },
     secret
   )

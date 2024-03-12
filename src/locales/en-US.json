@@ -125,7 +125,7 @@
     "change": "Change",
     "props": {
       "avatar": "Avatar",
-      "banner": "Banner",
+      "banner": "Profile banner",
       "display_name": "Display name"
     },
     "reset": "Reset",

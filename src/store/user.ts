@@ -100,6 +100,7 @@ export const useUserStore = defineStore("user", {
     },
 
     async waitForUser() {
+      if (process.server) return Promise.resolve(false)
       return new Promise((resolve) => {
         const interval = setInterval(() => {
           if (!this.token) {

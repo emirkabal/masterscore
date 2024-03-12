@@ -47,12 +47,14 @@ export default defineEventHandler(async (event) => {
 
   const salt = bcrypt.genSaltSync(10)
   const hash = bcrypt.hashSync(body.password, salt)
+  const revision = Math.floor((Math.random() * Date.now()) / 1000)
 
   const user = await prisma.user.create({
     data: {
       username,
       email: body.email,
-      password: hash
+      password: hash,
+      revision
     }
   })
 
@@ -60,7 +62,7 @@ export default defineEventHandler(async (event) => {
   const token = jwt.sign(
     {
       id: user.id,
-      email: user.email
+      revision: user.revision
     },
     secret
   )

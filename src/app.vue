@@ -5,14 +5,19 @@ watch($router.currentRoute, () => {
   document.body.style.overflow = "auto"
   $event("modal:trailer", false)
 })
+let interval
 
 onMounted(() => {
-  if (!process.client) return
-  setInterval(() => {
-    const modal = document.querySelector(".modal")
-    if (modal) document.body.style.overflow = "hidden"
-    else document.body.style.overflow = "auto"
-  }, 300)
+  if (process.client) {
+    interval = setInterval(() => {
+      const modal = document.querySelector(".modal")
+      document.body.style.overflow = modal ? "hidden" : "auto"
+    }, 300)
+  }
+})
+
+onUnmounted(() => {
+  if (interval) clearInterval(interval)
 })
 </script>
 
