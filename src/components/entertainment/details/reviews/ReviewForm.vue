@@ -55,23 +55,22 @@ defineProps<{
         />
       </div>
       <div class="flex items-center justify-end gap-x-2">
-        <button
+        <Button
+          variant="ghost"
           v-if="by_me && review.editing"
           @click="review.editing = false"
           :disabled="review.pending"
-          type="button"
-          class="self-end rounded-xl px-4 py-2 font-semibold transition hover:opacity-75"
         >
           {{ $t("cancel") }}
-        </button>
-        <button
+        </Button>
+        <Button
           @click="$emit('submit')"
           type="button"
           :disabled="review.pending"
-          class="self-end rounded-xl bg-brand px-4 py-2 font-semibold text-black transition hover:opacity-75"
+          class="self-end bg-brand font-semibold transition hover:bg-brand/90"
         >
           {{ $t("review_modal.review") }}
-        </button>
+        </Button>
       </div>
     </div>
   </div>

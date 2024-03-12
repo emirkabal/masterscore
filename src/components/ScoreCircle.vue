@@ -19,10 +19,10 @@ withDefaults(
       'bg-gray-400/40 text-white backdrop-blur-sm': score >= 5 && score < 7,
       'bg-red-500 text-red-950': score < 5
     }"
-    class="flex h-6 items-center gap-x-0.5 rounded-full pl-1.5 pr-2 !text-sm font-semibold shadow-lg"
+    class="flex h-6 select-none items-center gap-x-0.5 rounded-full px-2 !text-sm font-bold shadow-lg"
   >
-    <Icon name="material-symbols:star-rate-rounded" class="h-4 w-4" />
-    <span class="leading-none">{{ score.toFixed(1).replace(".0", "") }}</span>
+    <Icon name="material-symbols:star-rounded" class="-ml-[0.1px] h-4 w-4" />
+    <span class="pr-0.5 font-maven leading-none">{{ score.toFixed(1).replace(".0", "") }}</span>
     <!-- <Logo :small="true" class="h-3 w-3 !text-current" /> -->
   </div>
 </template>

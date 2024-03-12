@@ -16,6 +16,7 @@ const settings = reactive({
 
 let defaultSettings = JSON.stringify(settings)
 
+const pending = ref(false)
 const showSave = ref(false)
 
 const reset = () => {
@@ -23,6 +24,7 @@ const reset = () => {
 }
 
 const submit = () => {
+  pending.value = true
   patchUser(settings.account)
     .then(() => {
       defaultSettings = JSON.stringify(settings)
@@ -30,6 +32,9 @@ const submit = () => {
     })
     .catch((err) => {
       alert(err.statusMessage)
+    })
+    .finally(() => {
+      pending.value = false
     })
 }
 
@@ -60,17 +65,27 @@ watch(settings, () => {
           <PagesSettingsPartsPreferences />
         </div>
       </div>
-      <div v-if="showSave" class="fixed bottom-12 left-1/2 z-10 w-full -translate-x-1/2 sm:w-fit">
-        <div
-          class="flex flex-wrap items-center justify-between gap-x-8 gap-y-4 rounded-lg border border-border bg-gray-900 p-2"
-        >
-          <span class="sm:whitespace-nowrap"> {{ $t("settings.save_text") }} </span>
-          <div class="flex gap-x-2 text-sm">
-            <Button variant="ghost" @click="reset">{{ $t("settings.reset") }}</Button>
-            <Button @click="submit"> {{ $t("entertainment.buttons.save") }} </Button>
+      <Transition
+        enter-from-class="opacity-0 translate-y-4"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 translate-y-4"
+        enter-active-class="transition duration-300 ease-out"
+        leave-active-class="transition duration-300 ease-in"
+      >
+        <div v-if="showSave" class="fixed bottom-12 left-1/2 z-10 w-full -translate-x-1/2 sm:w-fit">
+          <div
+            class="flex flex-wrap items-center justify-between gap-x-8 gap-y-4 rounded-lg border border-border bg-gray-900 p-2"
+          >
+            <span class="sm:whitespace-nowrap"> {{ $t("settings.save_text") }} </span>
+            <Spinner v-if="pending" class="py-1 pl-8" />
+            <div v-else class="flex gap-x-2 text-sm">
+              <Button variant="ghost" @click="reset">{{ $t("settings.reset") }}</Button>
+              <Button @click="submit"> {{ $t("entertainment.buttons.save") }} </Button>
+            </div>
           </div>
         </div>
-      </div>
+      </Transition>
     </div>
   </div>
 </template>
