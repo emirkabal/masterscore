@@ -19,9 +19,7 @@ const {
 } = await useAsyncData(
   "home",
   () => {
-    return $fetch("/api/extra/home", {
-      headers: generateHeaders()
-    })
+    return $fetch("/api/extra/home")
   },
   {
     lazy: true,

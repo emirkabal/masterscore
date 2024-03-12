@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import type { TMDBResult } from "~/types"
 import { Swiper as SwiperType } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
 import { Autoplay, EffectFade, Parallax } from "swiper/modules"
-import type { TMDBSearchResult } from "~/types"
 import "swiper/css"
 import "swiper/css/effect-fade"
+type Custom = TMDBResult & { score?: number }
 const props = defineProps<{
-  data: TMDBSearchResult[]
+  data: Custom[]
 }>()
 
 const filtered = computed(() => {
@@ -77,7 +78,7 @@ const slideTo = (index: number) => {
                 <div
                   class="text flex flex-wrap items-center gap-3 text-sm font-semibold lg:text-lg"
                 >
-                  <ScoreCircle :score="item.vote_average" />
+                  <ScoreCircle :score="item.score || item.vote_average" />
                   <div class="flex flex-wrap gap-2">
                     <NuxtLink
                       v-for="genre in item.genre_ids"
