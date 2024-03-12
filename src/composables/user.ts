@@ -38,19 +38,18 @@ export const patchUser = async (context: {
 }
 
 export const likeMedia = async (mediaId: string) => {
-  const { user } = useUserStore()
+  const { user, isLiked } = useUserStore()
   if (!user) return useRouter().push("/account/login?r=" + encodeURIComponent(useRoute().fullPath))
 
-  const data = await $fetch(`/api/media/${mediaId}/like`, {
+  const liked = isLiked(mediaId)
+
+  if (liked) user.likes = user.likes.filter((id) => id !== mediaId)
+  else user.likes.push(mediaId)
+
+  const data = await $fetch(`/api/media/${mediaId}/like/${liked ? "unlike" : "like"}`, {
     method: "patch",
     headers: generateHeaders()
   })
-
-  if (!data.liked) {
-    user.likes = user?.likes.filter((id) => id !== mediaId)
-  } else {
-    user.likes.push(mediaId)
-  }
 
   return data
 }

@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <div
     v-if="user && ((by_me && review.editing) || !by_me)"
-    class="hidden gap-x-4 lg:flex"
+    class="hidden gap-x-4 md:flex"
     :class="review.pending && 'pointer-events-none opacity-25'"
   >
     <Avatar

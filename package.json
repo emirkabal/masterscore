@@ -76,7 +76,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tinycolor2": "^1.6.0",
     "vee-validate": "^4.12.6",
-    "vue-picture-cropper": "^0.7.0",
+    "vue-advanced-cropper": "^2.8.8",
     "vue3-easy-data-table": "^1.5.47",
     "vue3-emoji-picker": "^1.1.8",
     "zod": "^3.22.4"

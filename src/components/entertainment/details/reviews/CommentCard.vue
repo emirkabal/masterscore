@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 type User = {
   id: string
-  display_name?: string
+  display_name?: string | null
   username: string
   avatar?: string | null
   verified: boolean

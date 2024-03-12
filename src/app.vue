@@ -5,6 +5,14 @@ watch($router.currentRoute, () => {
   document.body.style.overflow = "auto"
   $event("modal:trailer", false)
 })
+watchEffect(() => {
+  if (!process.client) return
+  setInterval(() => {
+    const modal = document.querySelector(".modal")
+    if (modal) document.body.style.overflow = "hidden"
+    else document.body.style.overflow = "auto"
+  }, 300)
+})
 </script>
 
 <template>

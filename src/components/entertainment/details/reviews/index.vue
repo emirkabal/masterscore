@@ -52,9 +52,6 @@ const submitReview = async () => {
   refresh()
   review.pending = false
   if (review.editing) review.editing = false
-
-  //
-  document.body.style.overflow = "auto"
 }
 </script>
 

@@ -39,11 +39,7 @@ const submit = () => {
 }
 
 watch(settings, () => {
-  if (JSON.stringify(settings) !== defaultSettings) {
-    showSave.value = true
-  } else {
-    showSave.value = false
-  }
+  showSave.value = JSON.stringify(settings) !== defaultSettings
 })
 </script>
 

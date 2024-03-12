@@ -2,11 +2,15 @@
 const imageLoading = ref(true)
 const noImage = ref(false)
 
-defineProps<{
+const props = defineProps<{
   source: string
   zIndex?: number
   loading?: boolean
 }>()
+
+const source = computed(() => {
+  return props.source.endsWith("-") ? "" : props.source
+})
 </script>
 <template>
   <div v-if="loading" class="skeleton-effect flex-shrink-0 bg-gray-900"></div>

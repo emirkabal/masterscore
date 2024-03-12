@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import { Cropper } from "vue-advanced-cropper"
+import "vue-advanced-cropper/dist/style.css"
+import "vue-advanced-cropper/dist/theme.compact.css"
 import { createReusableTemplate, useMediaQuery } from "@vueuse/core"
-import VuePictureCropper, { cropper } from "vue-picture-cropper"
 const isDesktop = useMediaQuery("(min-width: 768px)")
 
 const props = defineProps<{
@@ -11,47 +13,43 @@ const props = defineProps<{
 const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 const emits = defineEmits(["cropped", "cancel"])
 
-const getBase64 = (file: File) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () =>
-      resolve(
-        reader.result?.toString().replace("application/octet-stream", props?.file?.type as string)
-      )
-    reader.onerror = (error) => reject(error)
-  })
-}
-
+const cropper = ref()
 const preview = computed(() => props.file && URL.createObjectURL(props.file))
+
 const save = async () => {
-  const cropped = await cropper?.getFile()
-  if (!cropped) return
-  const base64 = await getBase64(cropped)
+  const { canvas } = cropper.value.getResult()
+  const base64 = canvas.toDataURL(props.file?.type)
+  console.log(base64)
   emits("cropped", props.type, base64)
 }
 </script>
 
 <template>
   <DefineTemplate>
-    <VuePictureCropper
-      :boxStyle="{
-        width: '100%',
-        height: '100%',
-        maxHeight: 'calc(100vh - 200px)',
-        backgroundColor: '#000'
+    <Cropper
+      ref="cropper"
+      background-class="ms-cropper-background"
+      foreground-class="ms-cropper-foreground"
+      :src="preview"
+      :transitions="false"
+      :debounce="false"
+      :stencil-props="{
+        handlers: {},
+        movable: false,
+        scalable: false,
+        resizable: false,
+        aspectRatio: type === 'avatar' ? 1 : 2.5 / 1
       }"
-      :img="preview"
-      :options="{
-        viewMode: 2,
-        dragMode: 'move',
-        aspectRatio: type === 'avatar' ? 1 : 3
+      :canvas="{
+        width: type === 'avatar' ? 512 : 1200,
+        height: type === 'avatar' ? 512 : 600
       }"
-      :preset-mode="{
-        mode: 'fixedSize',
-        width: type === 'avatar' ? 512 : 1024,
-        height: type === 'avatar' ? 512 : 256
+      :resize-image="{
+        adjustStencil: false
       }"
+      :min-width="128"
+      :min-height="128"
+      image-restriction="stencil"
     />
   </DefineTemplate>
   <Modal v-if="isDesktop" title="Crop" :show="show" @close="$emit('cancel')">
@@ -72,3 +70,12 @@ const save = async () => {
     </template>
   </Drawer>
 </template>
+
+<style>
+.ms-cropper-background {
+  @apply bg-gray-800;
+}
+.ms-cropper-foreground {
+  @apply bg-gray-800;
+}
+</style>

@@ -19,21 +19,12 @@ onKeyStroke("Escape", () => {
 onClickOutside(modal, () => {
   emits("close")
 })
-watch(
-  () => props.show,
-  (val) => {
-    setTimeout(() => {
-      if (val) document.body.style.overflow = "hidden"
-      else document.body.style.overflow = "auto"
-    }, 500)
-  }
-)
 </script>
 <template>
   <Transition name="fade">
     <div
       v-if="props.show"
-      class="bg-black-500/10 fixed inset-0 left-0 top-0 z-50 m-auto flex h-full min-h-0 w-full items-center justify-center shadow-2xl backdrop-blur md:px-4 md:py-8"
+      class="modal bg-black-500/10 fixed inset-0 left-0 top-0 z-50 m-auto flex h-full min-h-0 w-full items-center justify-center shadow-2xl backdrop-blur md:px-4 md:py-8"
     >
       <div
         ref="modal"
