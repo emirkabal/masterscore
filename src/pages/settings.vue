@@ -27,6 +27,10 @@ const submit = () => {
   pending.value = true
   patchUser(settings.account)
     .then(() => {
+      Object.keys(settings.account).forEach((e) => {
+        // @ts-ignore
+        settings.account[e] = userStore.user[e]
+      })
       defaultSettings = JSON.stringify(settings)
       showSave.value = false
     })

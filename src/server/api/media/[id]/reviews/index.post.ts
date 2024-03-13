@@ -1,5 +1,5 @@
+import { z } from "zod"
 import prisma from "~/server/db/prisma"
-import { ReviewSchema } from "~/server/validation"
 
 export default defineEventHandler(async (event) => {
   const { id } = event.context.params as { id: string }
@@ -13,14 +13,14 @@ export default defineEventHandler(async (event) => {
       statusMessage: "Bad request"
     })
 
-  const body = (await readBody(event)) as {
-    rating: number
-    content: string
-    spoiler: boolean
-  }
-
-  const { error } = ReviewSchema.validate(body)
-  if (error) throw createError({ statusCode: 400, statusMessage: error.message })
+  const body = await readValidatedBody(
+    event,
+    z.object({
+      rating: z.number().min(0.5).max(10),
+      content: z.string().max(512).nullable().optional(),
+      spoiler: z.boolean().nullable().optional()
+    }).parse
+  )
 
   const media = await prisma.media.findUnique({
     where: {

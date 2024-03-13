@@ -1,4 +1,6 @@
 <script setup>
+import { useForm } from "vee-validate"
+import { toTypedSchema } from "@vee-validate/zod"
 import { useUserStore } from "~/store/user"
 const { t } = useI18n()
 useHead({
@@ -15,40 +17,31 @@ definePageMeta({
 const route = useRoute()
 const goPath = route.query.r || "/"
 
-const username = ref("")
-const email = ref("")
-const password = ref("")
-const confirmPassword = ref("")
 const error = ref("")
 const loading = ref(false)
-
-const disabled = computed(() => {
-  return (
-    username.value.length === 0 ||
-    email.value.length === 0 ||
-    password.value.length === 0 ||
-    confirmPassword.value.length === 0
-  )
-})
 
 if (userStore.isLoggedIn) {
   useRouter().push(goPath)
 }
 
-const submit = async (event) => {
-  event.preventDefault()
-  if (password.value !== confirmPassword.value)
-    return (error.value = t("guest.form.passwords_not_match"))
-  else error.value = ""
+const formSchema = toTypedSchema(SignupSchema)
+const form = useForm({
+  validationSchema: formSchema
+})
+
+const onSubmit = form.handleSubmit(async (values) => {
+  if (values.password !== values.confirm_password)
+    return form.setFieldError("confirm_password", "Passwords do not match")
 
   loading.value = true
   try {
-    const data = await $fetch("/api/auth/signup", {
+    const data = await $fetch("/api/account/signup", {
       method: "POST",
       body: JSON.stringify({
-        username: username.value.toLowerCase(),
-        email: email.value.toLowerCase(),
-        password: password.value
+        username: values.username.toLowerCase(),
+        email: values.email.toLowerCase(),
+        password: values.password,
+        confirm_password: values.confirm_password
       })
     })
 
@@ -60,7 +53,7 @@ const submit = async (event) => {
     loading.value = false
     error.value = err.statusMessage || "An error occurred"
   }
-}
+})
 </script>
 
 <template>
@@ -69,7 +62,7 @@ const submit = async (event) => {
       class="z-20 w-full max-w-xl rounded-3xl drop-shadow-none md:bg-white md:p-8 md:drop-shadow-2xl"
     >
       <h1 class="text-center">
-        <Logo class="text-4xl !text-black" />
+        <Logo class="mx-auto w-20" :black="true" />
       </h1>
       <p class="text-center font-maven text-lg font-black !text-black">
         {{ $t("guest.create_account") }}
@@ -77,49 +70,63 @@ const submit = async (event) => {
       <p v-if="error.length > 0" class="text-center text-red-600">
         {{ error }}
       </p>
-      <form @submit="submit" class="mt-2 space-y-4 !text-black">
-        <FormInput
-          v-model="username"
-          type="text"
-          name="username"
-          autocomplete="name"
-          :title="$t('guest.form.username')"
-          placeholder="john"
-        />
-        <FormInput
-          v-model="email"
-          type="email"
-          name="email"
-          autocomplete="email"
-          :title="$t('guest.form.email')"
-          placeholder="john@doe.com"
-        />
-        <FormInput
-          v-model="password"
-          type="password"
-          name="new-password"
-          autocomplete="new-password"
-          :reveal="true"
-          :title="$t('guest.form.password')"
-          placeholder="••••••••••"
-        />
-        <FormInput
-          v-model="confirmPassword"
-          type="password"
-          name="confirm-password"
-          autocomplete="new-password"
-          :reveal="true"
-          :title="$t('guest.form.confirm_password')"
-          placeholder="••••••••••"
-        />
-        <!-- <FormInput
-          v-model="inviteCode"
-          type="text"
-          name="invite-code"
-          :title="$t('guest.form.invite_code')"
-          placeholder="MS-SCORE-998E7"
-        /> -->
-        <FormButton class="w-full" type="submit" :loading="loading" :disabled="disabled">
+
+      <form @submit="onSubmit" class="mt-2 space-y-4">
+        <FormField v-slot="{ componentField }" name="username">
+          <FormItem>
+            <FormLabel class="font-semibold text-black">{{ $t("guest.form.username") }}</FormLabel>
+            <FormControl>
+              <FormInput type="text" placeholder="john.doe" v-bind="componentField" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="email">
+          <FormItem>
+            <FormLabel class="font-semibold text-black">{{ $t("guest.form.email") }}</FormLabel>
+            <FormControl>
+              <FormInput type="email" placeholder="john@doe.com" v-bind="componentField" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="password">
+          <FormItem>
+            <FormLabel class="font-semibold text-black">{{ $t("guest.form.password") }}</FormLabel>
+            <FormControl>
+              <FormInput
+                type="password"
+                autocomplete="new-password"
+                placeholder="••••••••••"
+                :reveal="true"
+                v-bind="componentField"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="confirm_password">
+          <FormItem>
+            <FormLabel class="font-semibold text-black">{{
+              $t("guest.form.confirm_password")
+            }}</FormLabel>
+            <FormControl>
+              <FormInput
+                type="password"
+                autocomplete="new-password"
+                placeholder="••••••••••"
+                :reveal="true"
+                v-bind="componentField"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormButton type="submit" class="w-full" :loading="loading">
           {{ $t("guest.sign_up") }}
         </FormButton>
       </form>

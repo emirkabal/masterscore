@@ -1,5 +1,4 @@
 import prisma from "~/server/db/prisma"
-import { getUser } from "~/server/utils"
 
 export default defineEventHandler(async (event) => {
   const id = event.context.params?.id as string

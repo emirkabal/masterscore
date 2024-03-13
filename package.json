@@ -61,7 +61,6 @@
     "fast-average-color": "^9.4.0",
     "floating-vue": "5.2.2",
     "humanize-duration": "^3.31.0",
-    "joi": "^17.12.2",
     "jsonwebtoken": "^9.0.2",
     "lodash.debounce": "^4.0.8",
     "lru-cache": "^10.2.0",

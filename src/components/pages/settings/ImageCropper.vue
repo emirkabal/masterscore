@@ -19,7 +19,6 @@ const preview = computed(() => props.file && URL.createObjectURL(props.file))
 const save = async () => {
   const { canvas } = cropper.value.getResult()
   const base64 = canvas.toDataURL(props.file?.type)
-  console.log(base64)
   emits("cropped", props.type, base64)
 }
 </script>
@@ -28,6 +27,7 @@ const save = async () => {
   <DefineTemplate>
     <Cropper
       ref="cropper"
+      class="ms-cropper"
       background-class="ms-cropper-background"
       foreground-class="ms-cropper-foreground"
       :src="preview"
@@ -72,6 +72,9 @@ const save = async () => {
 </template>
 
 <style>
+.ms-cropper {
+  @apply !max-h-96 lg:!max-h-full;
+}
 .ms-cropper-background {
   @apply bg-gray-800;
 }

@@ -20,11 +20,8 @@ export default defineEventHandler(async (event) => {
         const secret = config.JWT_SECRET
         try {
           const valid = jwt.verify(token, secret)
-          if (valid) {
-            const { password, ...passwordLess } = user
-            // @ts-ignore
-            event.context.user = passwordLess
-          }
+          // @ts-ignore
+          if (valid) event.context.user = user
         } catch (e) {}
       }
     }

@@ -1,4 +1,6 @@
 <script setup>
+import { useForm } from "vee-validate"
+import { toTypedSchema } from "@vee-validate/zod"
 import { useUserStore } from "~/store/user"
 const { t } = useI18n()
 useHead({
@@ -15,8 +17,6 @@ definePageMeta({
 const route = useRoute()
 const goPath = route.query.r || "/"
 
-const username = ref("")
-const password = ref("")
 const error = ref("")
 const loading = ref(false)
 
@@ -24,18 +24,22 @@ if (userStore.isLoggedIn) {
   useRouter().push(goPath)
 }
 
-const submit = async (event) => {
-  event.preventDefault()
+const formSchema = toTypedSchema(LoginSchema)
+const form = useForm({
+  validationSchema: formSchema
+})
+
+const onSubmit = form.handleSubmit(async (values) => {
   loading.value = true
   try {
-    await userStore.login(username.value, password.value)
+    await userStore.login(values.username, values.password)
     error.value = ""
     useRouter().push(goPath)
   } catch (err) {
     loading.value = false
     error.value = err.statusMessage || "An error occurred"
   }
-}
+})
 </script>
 
 <template>
@@ -47,14 +51,48 @@ const submit = async (event) => {
             :black="true"
             class="absolute left-0 top-0 m-4 text-2xl md:relative md:m-0 md:text-lg"
           />
-          <h1 class="font-maven text-4xl font-black text-black">
+          <h1 class="mt-4 font-maven text-4xl font-black text-black">
             {{ $t("guest.sign_in") }}
           </h1>
           <p v-if="error.length > 0" class="my-4 leading-4 text-red-600">
             {{ error }}
           </p>
         </div>
-        <form @submit="submit" class="mt-2 space-y-4 !text-black">
+
+        <form @submit="onSubmit" class="mt-2 space-y-4">
+          <FormField v-slot="{ componentField }" name="username">
+            <FormItem>
+              <FormLabel class="font-semibold text-black">{{
+                $t("guest.form.email_or_username")
+              }}</FormLabel>
+              <FormControl>
+                <FormInput type="text" placeholder="john@doe.com" v-bind="componentField" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <FormField v-slot="{ componentField }" name="password">
+            <FormItem>
+              <FormLabel class="font-semibold text-black">{{
+                $t("guest.form.password")
+              }}</FormLabel>
+              <FormControl>
+                <FormInput
+                  type="password"
+                  placeholder="••••••••••"
+                  :reveal="true"
+                  v-bind="componentField"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+          <FormButton type="submit" class="w-full" :loading="loading">
+            {{ $t("guest.sign_in") }}
+          </FormButton>
+        </form>
+
+        <!-- <form @submit="submit" class="mt-2 space-y-4 !text-black">
           <FormInput
             v-model="username"
             type="text"
@@ -71,7 +109,7 @@ const submit = async (event) => {
           <FormButton class="w-full" type="submit" :loading="loading">
             {{ $t("guest.sign_in") }}
           </FormButton>
-        </form>
+        </form> -->
         <p class="mt-3 text-center !text-black">
           {{ $t("guest.dont_have_account") }}
           <NuxtLink

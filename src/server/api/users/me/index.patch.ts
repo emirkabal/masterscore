@@ -1,4 +1,4 @@
-import { UserPatchableSchema } from "~/server/validation"
+import { UserPatchableSchema } from "~/utils/validation"
 import { upload, remove } from "~/utils/fileManager"
 import { getBlob, isBannedUsername } from "~/server/utils"
 import prisma from "~/server/db/prisma"
@@ -6,10 +6,7 @@ import prisma from "~/server/db/prisma"
 export default defineEventHandler(async (event) => {
   if (!event.context.user) throw createError({ statusCode: 401, statusMessage: "Unauthorized" })
 
-  const body = await readBody(event)
-
-  const { error } = UserPatchableSchema.validate(body)
-  if (error) throw createError({ statusCode: 400, statusMessage: error.message })
+  const body = await readValidatedBody(event, UserPatchableSchema.parse)
 
   const user = await prisma.user.findUnique({
     where: {
@@ -102,7 +99,7 @@ export default defineEventHandler(async (event) => {
     }
   })
 
-  const { password, ...userWithoutPassword } = user
+  const { password, revision, ...userWithoutPassword } = user
 
   return {
     status: 200,

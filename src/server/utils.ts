@@ -42,6 +42,9 @@ export const isBannedUsername = (username: string) => {
   ].includes(username.toLowerCase())
 }
 
+export const randomNumber = (min: number, max: number) =>
+  Math.floor(Math.random() * (max - min + 1) + min)
+
 export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
   const config = useRuntimeConfig()
 

@@ -7,8 +7,7 @@ import type {
   TMDBMedia,
   TMDBPerson,
   TMDBResult,
-  TMDBSearchResults,
-  User
+  TMDBSearchResults
 } from "~/types"
 import { LRUCache } from "lru-cache"
 import getISO from "~/utils/getISO"

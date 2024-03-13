@@ -513,6 +513,6 @@ export interface OMDBMedia {
 
 export declare module "h3" {
   export interface H3EventContext {
-    user?: User
+    user?: User & { revision: number; password: string }
   }
 }

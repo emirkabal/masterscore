@@ -1,19 +1,12 @@
-import { UserSchema } from "~/server/validation"
+import { SignupSchema } from "~/utils/validation"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import prisma from "~/server/db/prisma"
-import { isBannedUsername } from "~/server/utils"
+import { isBannedUsername, randomNumber } from "~/server/utils"
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
-
-  const { error } = UserSchema.validate(body)
-  if (error)
-    throw createError({
-      statusCode: 400,
-      statusMessage: error.message
-    })
+  const body = await readValidatedBody(event, SignupSchema.parse)
 
   const username = body.username.toLowerCase()
 
@@ -47,7 +40,7 @@ export default defineEventHandler(async (event) => {
 
   const salt = bcrypt.genSaltSync(10)
   const hash = bcrypt.hashSync(body.password, salt)
-  const revision = Math.floor((Math.random() * Date.now()) / 1000)
+  const revision = randomNumber(100000, 999999)
 
   const user = await prisma.user.create({
     data: {

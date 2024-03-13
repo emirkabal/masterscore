@@ -59,7 +59,7 @@ export const useUserStore = defineStore("user", {
     },
 
     async login(username: string, password: string) {
-      const data = await $fetch("/api/auth/login", {
+      const data = await $fetch("/api/account/login", {
         method: "POST",
         body: JSON.stringify({
           username,

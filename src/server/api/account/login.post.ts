@@ -1,18 +1,12 @@
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import { LoginSchema } from "~/server/validation"
 import prisma from "~/server/db/prisma"
+import { LoginSchema } from "~/utils/validation"
+
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
-  const { error } = LoginSchema.validate(body)
-
-  if (error)
-    throw createError({
-      statusCode: 400,
-      message: error.message
-    })
+  const body = await readValidatedBody(event, LoginSchema.parse)
 
   const user = await prisma.user.findFirst({
     where: {
