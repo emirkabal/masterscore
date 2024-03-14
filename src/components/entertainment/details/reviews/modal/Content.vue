@@ -38,7 +38,7 @@ const onSelectEmoji = (emoji: any) => {
           <StarRating
             :animate="true"
             :numberOfStars="10"
-            :star-size="34"
+            :star-size="32"
             inactiveColor="#1f2937"
             starColor="#facc15"
             v-model="review.rating"

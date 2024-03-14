@@ -69,6 +69,7 @@ watch(imageLoading, () => {
       'rounded-lg': square,
       'overflow-hidden': loading || imageLoading
     }"
+    v-bind="$attrs"
   >
     <span class="skeleton-effect h-full w-full bg-gray-900" v-if="imageLoading && !loading"> </span>
     <div

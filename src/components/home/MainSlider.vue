@@ -71,9 +71,9 @@ const slideTo = (index: number) => {
                 data-swiper-parallax="-200"
                 data-swiper-parallax-duration="800"
               >
-                <h1 class="text-xl font-bold tracking-tight lg:text-5xl">
+                <h2 class="text-xl font-bold tracking-tight lg:text-5xl">
                   {{ $getTitle(item) }}
-                </h1>
+                </h2>
 
                 <div
                   class="text flex flex-wrap items-center gap-3 text-sm font-semibold lg:text-lg"

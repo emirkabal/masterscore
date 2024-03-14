@@ -4,6 +4,7 @@ import type {
   CollapsedMedia,
   Media,
   MediaType,
+  Review,
   TMDBCollectionDetails,
   TMDBMedia,
   TMDBPerson,
@@ -141,6 +142,23 @@ export const getCollection = async (id: string | number) => {
       const collection = (await _tmdb(`/collection/${id}`)) as TMDBCollectionDetails
       cache.set(key, collection)
       resolve(collection)
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+export const getHome = async () => {
+  const key = `home`
+  const cached = cache.get(key)
+
+  if (cached) return Promise.resolve(cached as { trending: TMDBResult[]; top_rated: Review[] })
+
+  return new Promise<{ trending: TMDBResult[]; top_rated: Review[] }>(async (resolve, reject) => {
+    try {
+      const data = await $fetch<{ trending: TMDBResult[]; top_rated: Review[] }>("/api/extra/home")
+      cache.set(key, data)
+      resolve(data)
     } catch (e) {
       reject(e)
     }

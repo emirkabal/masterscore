@@ -9,7 +9,7 @@ const props = defineProps<{
 }>()
 
 const source = computed(() => {
-  return props.source.endsWith("-") ? "" : props.source
+  return props.source.endsWith("-") ? "#" : props.source
 })
 </script>
 <template>

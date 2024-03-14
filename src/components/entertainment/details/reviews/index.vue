@@ -74,8 +74,14 @@ const submitReview = async () => {
     </div>
     <div v-else>
       <div class="flex flex-col gap-y-12">
-        <!-- review -->
-        <!-- <EntertainmentDetailsReviewsComment :data="data" /> -->
+        <span
+          v-if="userStore.user && (!isDesktop || flags.use_old_review_modal)"
+          @click="() => (flags.use_old_review_modal = !flags.use_old_review_modal)"
+          class="cursor-pointer hover:underline"
+        >
+          Disable old review modal
+        </span>
+
         <EntertainmentDetailsReviewsCommentCard
           v-if="data?.by_me && !review.editing && userStore.user"
           :comment="data.by_me"
@@ -97,12 +103,19 @@ const submitReview = async () => {
           @submit="submitReview"
         />
         <EntertainmentDetailsReviewsReviewForm
-          v-if="isDesktop"
+          v-if="isDesktop && !flags.use_old_review_modal"
           :by_me="!!data?.by_me"
           :user="userStore.user"
           :review="review"
           @submit="submitReview"
         />
+        <Button
+          v-if="userStore.user && !data?.by_me && (!isDesktop || flags.use_old_review_modal)"
+          @click="edit"
+          class="w-fit"
+        >
+          {{ $t("review_modal.review") }}
+        </Button>
 
         <EntertainmentDetailsReviewsCommentCard
           v-for="comment in data?.reviews"

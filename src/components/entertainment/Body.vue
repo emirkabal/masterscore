@@ -16,6 +16,10 @@ const overview = computed(() => {
   return data && data.overview
 })
 
+const tagline = computed(() => {
+  return data && data.tagline
+})
+
 const contentRating = computed(() => {
   return data && data.media.rated
 })
@@ -134,9 +138,11 @@ const releaseDate = computed(() => {
 
     <section class="mt-2" v-if="overview?.length">
       <h2 class="font-semibold tracking-tight">{{ $t("profile.summary") }}</h2>
+
       <p class="line-clamp-4 text-base text-white/80">
         {{ overview }}
       </p>
+      <span v-if="tagline" class="text-sm italic opacity-75">~ {{ tagline }}</span>
     </section>
   </div>
 </template>
