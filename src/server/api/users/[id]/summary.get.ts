@@ -34,7 +34,10 @@ export default defineEventHandler(async (event) => {
         orderBy: {
           rating: "desc"
         },
-        select,
+        select: {
+          rating: true,
+          ...select
+        },
         take: 10
       }),
       prisma.review.findMany({
@@ -44,7 +47,10 @@ export default defineEventHandler(async (event) => {
         orderBy: {
           created_at: "desc"
         },
-        select,
+        select: {
+          rating: true,
+          ...select
+        },
         take: 10
       }),
       prisma.like.findMany({

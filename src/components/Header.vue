@@ -1,11 +1,11 @@
 <script setup>
 import { useUserStore } from "~/store/user"
-import { onClickOutside, useWindowScroll } from "@vueuse/core"
+import { onClickOutside, useScroll } from "@vueuse/core"
 const isMenuOpen = ref(false)
 const isHeaderHidden = ref(false)
 const { $listen } = useNuxtApp()
 const route = useRoute()
-const scroll = useWindowScroll()
+const scroll = useScroll(window)
 const menuRef = ref(null)
 const searchFocus = ref(false)
 onClickOutside(menuRef, () => {
@@ -16,17 +16,24 @@ const entertainment = reactive({
   bright: false,
   loaded: false
 })
+const top = ref(false)
+
 const isHeaderShown = computed(() => {
-  return (
-    scroll.y.value > 0 ||
-    !(
-      route.name?.startsWith("type-id") ||
-      route.name?.startsWith("index") ||
-      route.name?.startsWith("discover") ||
-      route.name?.startsWith("settings")
-    )
-  )
+  return top.value
 })
+
+const isBottomAndHidden = computed(() => {
+  return scroll.y.value > 0 && !isHeaderShown.value
+})
+
+watch(
+  () => scroll.y.value,
+  () => {
+    if (scroll.y.value === 0) top.value = false
+    else if (scroll.directions.top) top.value = true
+    else if (scroll.directions.bottom) top.value = false
+  }
+)
 
 const isEntertainmentPage = computed(() => {
   return entertainment.loaded
@@ -54,7 +61,8 @@ $listen("searchbar:focus", (val) => {
     class="absolute top-0 z-30 flex h-16 w-full items-center justify-between px-4 transition-all md:px-6"
     :class="{
       hidden: isHeaderHidden,
-      '!fixed bg-gray-900': isHeaderShown
+      'enter-animation !fixed  bg-gray-900': isHeaderShown,
+      '!fixed  -top-14': isBottomAndHidden
     }"
   >
     <div class="flex w-full items-center justify-between">
@@ -175,3 +183,18 @@ $listen("searchbar:focus", (val) => {
     </div>
   </header>
 </template>
+
+<style scoped>
+@keyframes enter {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.enter-animation {
+  animation: enter 0.2s ease-out;
+}
+</style>

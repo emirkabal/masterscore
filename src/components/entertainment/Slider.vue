@@ -60,7 +60,7 @@ useEventListener("resize", () => {
                 )
               : 'loading'
           "
-          :id="item.id"
+          :id="('tmdb_id' in item && item.tmdb_id) || item.id"
           :media_type="
             ('tmdb_id' in item ? item.type : 'media_type' in item ? item.media_type : null) ||
             fixedMediaType ||

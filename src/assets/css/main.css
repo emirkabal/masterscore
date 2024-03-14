@@ -60,6 +60,9 @@
 }
 
 @layer components {
+  .preffered-background {
+    @apply bg-gradient-to-tr from-gray-950 via-gray-950 via-25% to-[#232054] bg-fixed;
+  }
   .skeleton-effect {
     @apply relative isolate overflow-hidden;
     animation: skeleton-fade 1s infinite;

@@ -1,11 +1,12 @@
 <script setup>
+const { t } = useI18n()
 useHead({
-  title: "Table",
-  titleTemplate: "%s | Masterscore"
+  title: t("header.table"),
+  titleTemplate: "%s - Masterscore"
 })
 </script>
 <template>
-  <div>
-    <HomeMasterscoreTable class="my-24" />
+  <div class="preffered-background">
+    <HomeMasterscoreTable class="h-full py-24" />
   </div>
 </template>

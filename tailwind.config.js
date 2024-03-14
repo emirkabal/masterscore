@@ -21,7 +21,8 @@ module.exports = {
     },
     extend: {
       aspectRatio: {
-        poster: "2/3"
+        poster: "2/3",
+        banner: "2.5/1"
       },
       colors: {
         brand: "#eab308",

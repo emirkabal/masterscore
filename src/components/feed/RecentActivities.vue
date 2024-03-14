@@ -88,7 +88,6 @@ watch(
       v-else
       class="flex w-full items-start gap-4 border-b border-gray-900 py-8"
       v-for="(activity, i) in activities"
-      v-intersection-observer="i === activities.length - 1 ? onIntersectionObserver : () => {}"
       :key="activity.id"
     >
       <NuxtLink :to="`/${activity.user.username}`">
@@ -138,6 +137,7 @@ watch(
         />
       </div>
     </div>
+    <div class="h-1 w-1" v-intersection-observer="onIntersectionObserver"></div>
     <div
       class="my-10 flex justify-center opacity-0"
       :class="{

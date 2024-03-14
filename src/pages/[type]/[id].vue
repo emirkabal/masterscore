@@ -64,14 +64,16 @@ const detectColor = () => {
 const title = computed(() =>
   data.value
     ? (data.value?.title || data.value?.name) +
-      " - " +
-      (data.value?.release_date || data.value?.first_air_date || "2000-").split("-")[0]
+      (data.value?.release_date || data.value?.first_air_date
+        ? ` (${new Date(data.value?.release_date || data.value?.first_air_date).getFullYear()})`
+        : "")
     : "..."
 )
 const description = computed(() => data.value?.overview)
 const updateSeo = () => {
   useHead({
     title: title.value,
+    titleTemplate: "%s - Masterscore",
     meta: [
       ...(description.value
         ? [

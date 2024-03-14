@@ -106,7 +106,7 @@ $listen("refresh:entertainment", () => {
 
 useHead({
   title: name,
-  titleTemplate: "%s | Masterscore"
+  titleTemplate: "%s - Masterscore"
 })
 </script>
 <template>
@@ -120,7 +120,7 @@ useHead({
     </div>
   </div>
 
-  <div v-else class="pb-36 pt-20">
+  <div v-else class="preffered-background pb-36 pt-20">
     <div class="container mx-auto mt-8 px-4">
       <div class="flex flex-col items-stretch justify-center gap-8 md:flex-row">
         <div class="w-full md:min-w-[300px] md:max-w-[300px]">
@@ -207,7 +207,7 @@ useHead({
               <button
                 v-if="isBig && !revealBio"
                 @click="revealBio = !revealBio"
-                class="5 group absolute bottom-0 right-0 w-full bg-gradient-to-l from-gray-950 text-right"
+                class="5 group absolute bottom-0 right-0 w-full bg-gradient-to-l from-gray-900/100 text-right"
               >
                 <span class="font-semibold group-hover:opacity-75">{{
                   $t("person.read_more")

@@ -27,6 +27,12 @@ export type APIUser = Omit<User, "password" | "email"> & {
   }
 }
 
+export interface APISummary {
+  featured: Review[]
+  last_reviews: Review[]
+  last_likes: Like[]
+}
+
 export interface Review {
   id: string
   content: string

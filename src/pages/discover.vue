@@ -125,14 +125,12 @@ watch(queryRef, () => {
 
 useHead({
   title: t("discover.title"),
-  titleTemplate: "%s | Masterscore"
+  titleTemplate: "%s - Masterscore"
 })
 </script>
 
 <template>
-  <main
-    class="h-screen select-none bg-gradient-to-tr from-gray-950 via-gray-950 via-25% to-[#232054]"
-  >
+  <main class="preffered-background h-screen select-none">
     <section class="flex h-full w-full pt-20">
       <div class="h-full w-full px-6">
         <div class="flex w-full gap-x-4 pr-8">

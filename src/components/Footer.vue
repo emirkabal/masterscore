@@ -6,7 +6,7 @@ const date = useAppConfig().buildDate
 <template>
   <footer
     v-if="!$route.name?.startsWith('discover')"
-    class="mt-4 w-full gap-24 border-t border-gray-800 bg-gray-900/30 py-16"
+    class="w-full gap-24 border-t border-gray-800 bg-gray-900/30 py-16"
     :class="{
       'mb-[59px] lg:mb-0': $route.path.startsWith('/tv') || $route.path.startsWith('/movie')
     }"

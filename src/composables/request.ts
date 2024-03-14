@@ -1,4 +1,5 @@
 import type {
+  APISummary,
   APIUser,
   CollapsedMedia,
   Media,
@@ -155,6 +156,23 @@ export const getUser = async (username: string) => {
   return new Promise<APIUser>(async (resolve, reject) => {
     try {
       const user = await $fetch<APIUser>(`/api/users/${username}`)
+      cache.set(key, user)
+      resolve(user)
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+export const getUserSummary = async (username: string) => {
+  const key = `usersum:${username}`
+  const cached = cache.get(key)
+
+  if (cached) return Promise.resolve(cached as APISummary)
+
+  return new Promise<APISummary>(async (resolve, reject) => {
+    try {
+      const user = await $fetch<APISummary>(`/api/users/${username}/summary`)
       cache.set(key, user)
       resolve(user)
     } catch (e) {

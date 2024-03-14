@@ -59,11 +59,11 @@ watch([listType, disableReviewRequirement], () => {
 
 <template>
   <div v-if="firstLoad">
-    <div class="flex h-64 items-center justify-center">
+    <div class="flex h-screen items-center justify-center">
       <Spinner color="#000" />
     </div>
   </div>
-  <div class="container mx-auto my-12 px-4 md:px-24" v-else>
+  <div class="container mx-auto px-4 md:px-24" v-else>
     <div class="flex items-center justify-between">
       <h1 class="block border-l-4 border-blue-700 pl-2 text-2xl font-bold tracking-wide">
         Masterscore Table

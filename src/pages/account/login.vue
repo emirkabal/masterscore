@@ -5,7 +5,7 @@ import { useUserStore } from "~/store/user"
 const { t } = useI18n()
 useHead({
   title: t("guest.sign_in"),
-  titleTemplate: "%s | Masterscore"
+  titleTemplate: "%s - Masterscore"
 })
 const userStore = useUserStore()
 
