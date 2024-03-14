@@ -1,6 +1,11 @@
 import type { Media, MediaType, OMDBMedia, Scores, TMDBMedia } from "~/types"
 import prisma from "./db/prisma"
-import redis from "~/utils/redis"
+import { LRUCache } from "lru-cache"
+
+const cache = new LRUCache<string, any>({
+  max: 200,
+  ttl: 60 * 60 * 2000
+})
 
 export const getUser = (id: string) =>
   prisma.user
@@ -48,8 +53,8 @@ export const randomNumber = (min: number, max: number) =>
 export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
   const config = useRuntimeConfig()
 
-  const cache = await redis.get(`${config.VERSION}:${type}:${tmdb_id}`)
-  if (cache) return cache as Media & { _count: { likes: number; reviews: number } }
+  const cached = await cache.get(`${config.VERSION}:${type}:${tmdb_id}`)
+  if (cached) return cached as Media & { _count: { likes: number; reviews: number } }
 
   const tmdb = await $fetch<TMDBMedia>(`https://api.themoviedb.org/3/${type}/${tmdb_id}`, {
     params: {
@@ -135,9 +140,7 @@ export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
     }
   })
 
-  await redis.set(`${config.VERSION}:${type}:${tmdb_id}`, media, {
-    ex: 60 * 60 * 24
-  })
+  await cache.set(`${config.VERSION}:${type}:${tmdb_id}`, media)
 
   return media
 }
