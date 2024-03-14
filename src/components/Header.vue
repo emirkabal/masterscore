@@ -62,7 +62,7 @@ $listen("searchbar:focus", (val) => {
     :class="{
       hidden: isHeaderHidden,
       'enter-animation !fixed  bg-gray-900': isHeaderShown,
-      '!fixed  -top-14': isBottomAndHidden
+      '!fixed !-top-14': isBottomAndHidden
     }"
   >
     <div class="flex w-full items-center justify-between">

@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <section class="space-y-12">
+  <section class="mt-12 space-y-12">
     <div v-if="summary.featured.length">
       <h3 class="mb-4 text-xl font-semibold md:text-2xl">
         {{ $t("profile.featured_entertainments") }}
@@ -25,7 +25,7 @@ defineProps<{
       />
     </div>
 
-    <div v-if="summary.last_reviews.length > 0">
+    <div v-if="summary.last_reviews.length">
       <h3 class="mb-4 text-xl font-semibold md:text-2xl">
         {{ $t("profile.latest_reviews") }}
       </h3>
@@ -42,7 +42,7 @@ defineProps<{
       />
     </div>
 
-    <div v-if="summary.last_likes.length > 0">
+    <div v-if="summary.last_likes.length">
       <h3 class="mb-4 text-xl font-semibold md:text-2xl">
         {{ $t("profile.latest_likes") }}
       </h3>

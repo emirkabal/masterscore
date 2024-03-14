@@ -15,11 +15,11 @@ useHead({
 </script>
 
 <template>
-  <section class="preffered-background">
+  <section class="preffered-background min-h-screen">
     <div class="mx-auto max-w-6xl px-4 py-24">
       <PagesUserCard :user="user" />
 
-      <div v-if="user.about" class="mb-12 mt-8 rounded border-l-4 border-l-yellow-500 p-2 pl-6">
+      <div v-if="user.about" class="mt-8 rounded border-l-4 border-l-yellow-500 p-2 pl-6">
         <h2 class="font-semibold">
           {{ $t("settings.about") }}
         </h2>
