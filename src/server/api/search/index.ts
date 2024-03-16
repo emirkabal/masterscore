@@ -27,6 +27,7 @@ export default defineEventHandler(async (event) => {
 
   const users = await prisma.user.findMany({
     where: {
+      suspended: false,
       OR: [
         { username: { contains: q?.toString(), mode: "insensitive" } },
         { display_name: { contains: q?.toString(), mode: "insensitive" } }

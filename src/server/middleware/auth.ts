@@ -17,6 +17,8 @@ export default defineEventHandler(async (event) => {
       if (user) {
         if (user.revision !== decoded.revision)
           throw createError({ statusCode: 401, statusMessage: "Unauthorized" })
+        if (user.suspended)
+          throw createError({ statusCode: 403, statusMessage: "User has been suspended" })
         const secret = config.JWT_SECRET
         try {
           const valid = jwt.verify(token, secret)

@@ -47,8 +47,11 @@ export default eventHandler(async (event) => {
     prisma.review.findMany({
       where: {
         media_id: media.id,
-        NOT: {
-          user_id: event.context.user?.id
+        user: {
+          id: {
+            not: event.context.user?.id
+          },
+          suspended: false
         }
       },
 

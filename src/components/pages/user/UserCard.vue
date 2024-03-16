@@ -24,7 +24,7 @@ const bannerUri = computed(() =>
     />
     <div
       v-else
-      class="aspect-banner max-h-96 w-full rounded-3xl bg-gradient-to-tl from-yellow-400 from-10% to-yellow-600"
+      class="aspect-banner max-h-24 w-full rounded-3xl bg-gradient-to-tl from-yellow-400 from-10% to-yellow-600"
     ></div>
   </div>
   <div class="user -mt-20 flex flex-col items-center md:flex-row md:pl-5">

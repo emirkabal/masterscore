@@ -57,7 +57,7 @@ $listen("searchbar:focus", (val) => {
 </script>
 
 <template>
-  <header
+  <nav
     class="absolute top-0 z-30 flex h-16 w-full items-center justify-between px-4 transition-all md:px-6"
     :class="{
       hidden: isHeaderHidden,
@@ -97,7 +97,7 @@ $listen("searchbar:focus", (val) => {
           'w-0 opacity-0 md:w-auto md:opacity-100': searchFocus
         }"
       >
-        <div v-if="userStore.isLoading" class="flex gap-2">
+        <div v-if="userStore.token && userStore.isLoading" class="flex gap-2">
           <Spinner />
         </div>
         <HeadlessMenu
@@ -181,7 +181,7 @@ $listen("searchbar:focus", (val) => {
         >
       </div>
     </div>
-  </header>
+  </nav>
 </template>
 
 <style scoped>

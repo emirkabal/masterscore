@@ -7,9 +7,14 @@ const username = computed(() => route.params.username as string)
 const flags = useLocalStorage("preferences", {} as any)
 
 const [user, summary] = await Promise.all([getUser(username.value), getUserSummary(username.value)])
+if (!user)
+  throw createError({
+    statusCode: 404,
+    message: "User not found"
+  })
 
 useHead({
-  title: user.display_name || user.username,
+  title: user.display_name ? `${user.display_name} (${user.username})` : user.username,
   titleTemplate: "%s - Masterscore"
 })
 </script>

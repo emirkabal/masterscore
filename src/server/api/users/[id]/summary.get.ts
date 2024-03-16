@@ -8,6 +8,9 @@ export default defineEventHandler(async (event) => {
   const user = await getUser(id)
   if (!user) throw createError({ statusCode: 404, statusMessage: "User not found" })
 
+  if (user.suspended)
+    throw createError({ statusCode: 403, statusMessage: "User has been suspended" })
+
   const select = {
     id: true,
     media: {

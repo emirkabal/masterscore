@@ -93,6 +93,11 @@ export const useUserStore = defineStore("user", {
 
         this.user = data as unknown as Omit<User, "password">
       } catch (e: any) {
+        if (e.statusCode === 403) {
+          localStorage.setItem("suspended", "1")
+          this.removeToken()
+          return
+        }
         if (e?.statusCode === 401 && this.token) this.removeToken()
       } finally {
         this.loading = false

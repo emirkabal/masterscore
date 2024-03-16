@@ -1,14 +1,16 @@
+import { z } from "zod"
 import prisma from "~/server/db/prisma"
 
 export default defineEventHandler(async (event) => {
-  if (!event.context.user) {
+  const user = event.context.user
+  if (!user) {
     throw createError({
       statusCode: 401,
       statusMessage: "Unauthorized"
     })
   }
 
-  if (event.context.user.id?.toString() !== "63f4dcf150582a1ca831f639")
+  if (user.id !== "63f4dcf150582a1ca831f639")
     throw createError({
       statusCode: 403,
       statusMessage: "Forbidden"
@@ -16,31 +18,37 @@ export default defineEventHandler(async (event) => {
 
   const id = event.context.params?.id as string
 
-  const body: {
-    verified?: boolean
-  } = await readBody(event)
+  const body = await readValidatedBody(
+    event,
+    z.object({
+      verified: z.boolean().optional(),
+      suspended: z.boolean().optional()
+    }).parse
+  )
 
-  const user = await prisma.user.findUnique({
+  const target = await prisma.user.findUnique({
     where: {
-      id
+      username: id
     }
   })
 
-  if (!user) throw createError({ statusCode: 404, statusMessage: "User not found" })
+  if (!target) throw createError({ statusCode: 404, statusMessage: "User not found" })
 
-  if (body.verified !== undefined) {
-    user.verified = body.verified
-    if (user.verified) user.verified_at = new Date()
-    else user.verified_at = null
+  if (typeof body.verified !== "undefined") {
+    target.verified = body.verified
+    target.verified_at = target.verified ? new Date() : null
   }
+
+  if (typeof body.suspended !== "undefined") target.suspended = body.suspended
 
   await prisma.user.update({
     where: {
-      id
+      username: id
     },
     data: {
-      verified: user.verified,
-      verified_at: user.verified_at
+      suspended: target.suspended,
+      verified: target.verified,
+      verified_at: target.verified_at
     }
   })
 

@@ -13,6 +13,11 @@ export default defineEventHandler(async (event) => {
       orderBy: {
         created_at: "desc"
       },
+      where: {
+        user: {
+          suspended: false
+        }
+      },
       include: {
         user: {
           select: {
@@ -41,6 +46,11 @@ export default defineEventHandler(async (event) => {
       skip: (page - 1) * limit,
       orderBy: {
         created_at: "desc"
+      },
+      where: {
+        user: {
+          suspended: false
+        }
       },
       include: {
         user: {

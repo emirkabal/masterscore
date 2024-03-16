@@ -18,9 +18,13 @@ export default defineEventHandler(async (event) => {
       }
     }
   })
+
   if (!user) throw createError({ statusCode: 404, statusMessage: "User not found" })
 
-  const { password, email, revision, ...customUser } = user
+  if (user.suspended)
+    throw createError({ statusCode: 403, statusMessage: "User has been suspended" })
+
+  const { password, email, revision, suspended, ...customUser } = user
 
   return customUser
 })

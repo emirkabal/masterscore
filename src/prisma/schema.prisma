@@ -8,12 +8,13 @@ datasource db {
 }
 
 model User {
-    id       String  @id @default(auto()) @map("_id") @db.ObjectId
-    username String  @unique
-    email    String  @unique
-    password String
-    verified Boolean @default(false)
-    revision Int
+    id        String  @id @default(auto()) @map("_id") @db.ObjectId
+    username  String  @unique
+    email     String  @unique
+    password  String
+    verified  Boolean @default(false)
+    suspended Boolean @default(false)
+    revision  Int
 
     display_name String?
     about        String?

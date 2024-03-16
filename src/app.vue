@@ -1,4 +1,6 @@
 <script setup>
+import { useLocalStorage } from "@vueuse/core"
+
 const { $router, $event } = useNuxtApp()
 
 watch($router.currentRoute, () => {
@@ -22,13 +24,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div>
-    <VitePwaManifest />
-    <NuxtLoadingIndicator />
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </div>
+  <VitePwaManifest />
+  <NuxtLoadingIndicator />
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
 
 <style>

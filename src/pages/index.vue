@@ -10,10 +10,13 @@ useHead({
 
 const refreshing = ref(false)
 
-const home = await getHome()
+const { data: home, pending } = await useAsyncData(() => getHome(), {
+  lazy: true,
+  server: false
+})
 
 const top_rated = computed(() => {
-  return home.top_rated.map((item) => {
+  return home.value.top_rated.map((item) => {
     return {
       id: item.media.tmdb_id,
       media_type: item.media.type,
@@ -68,7 +71,10 @@ $listen("refresh:entertainment", () => {
 })
 </script>
 <template>
-  <section class="relative bg-gray-950">
+  <div v-if="pending" class="grid h-screen place-items-center">
+    <Spinner />
+  </div>
+  <section v-else class="relative bg-gray-950">
     <HomeMainSlider :data="home.trending" />
     <div class="relative mx-auto mb-24 space-y-12">
       <section v-if="home.trending.length" class="relative z-10 -mt-20 space-y-8">

@@ -41,7 +41,6 @@ onUnmounted(() => {
   </div>
   <div v-else-if="!loading && data" class="mb-4 hidden gap-2 text-lg lg:flex">
     <button
-      :disabled="userStore.isLoading"
       type="button"
       @click="likeMedia(data.media.id)"
       class="btn"
