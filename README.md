@@ -1,42 +1,51 @@
-# Nuxt 3 Minimal Starter
+![Logo](https://i.imgur.com/rvpg6dA.png)
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# Masterscore
 
-## Setup
+Your ultimate source for unbiased movie and TV show reviews. Discover your next favorite entertainment! Built with Nuxt & TMDB API!
 
-Make sure to install the dependencies:
+**Features:**
 
-```bash
-# yarn
-yarn install
+- Movie, tv show and person pages
+- Discover page supports filtrable genres
+- User profile pages (about, avatar, banner, etc.)
+- Review and Like any media
+- Feed for see the other users activity
+- Multi language support (14 languages, 3/4's translated with DeepL & Google Translate)
+- Collection/List system (planned)
 
-# npm
-npm install
+## Contrubition
 
-# pnpm
-pnpm install
-```
+We welcome contributions from the community! If you have ideas for improvements or find any issues, please open an [issue](https://github.com/emirkabal/masterscore/issues) or submit a pull request.
 
-## Development Server
+1. **Clone the repository:**
 
-Start the development server on http://localhost:3000
+   ```bash
+   git clone https://github.com/emirkabal/masterscore
+   ```
 
-```bash
-npm run dev
-```
+2. **Navigate to the project directory:**
 
-## Production
+   ```bash
+   cd masterscore
+   ```
 
-Build the application for production:
+3. **Install dependencies:**
 
-```bash
-npm run build
-```
+   ```bash
+   pnpm install
+   ```
 
-Locally preview production build:
+4. **Start the development server**
 
-```bash
-npm run preview
-```
+   ```bash
+   pnpm run dev
+   ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Support
+
+For support, email me@emirkabal.com.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
