@@ -39,25 +39,52 @@ const date = useAppConfig().buildDate
             </template>
           </i18n-t>
         </p>
-
         <p class="max-w-xs text-sm text-gray-300">
           &copy; {{ new Date().getFullYear() }} Masterscore
         </p>
-        <a
-          class="flex items-center justify-center gap-x-3 pt-4 text-xs tracking-tight opacity-90 hover:opacity-100 md:hidden"
-          href="https://emirkabal.com"
-          >created by <IconsEKLogo class="inline h-6 w-auto"
-        /></a>
+
+        <div class="mt-12 flex flex-wrap items-center justify-center gap-4 gap-y-2 md:hidden">
+          <IconsVercel />
+
+          <a
+            class="flex items-center justify-center gap-x-3 text-xs tracking-tight opacity-90 hover:opacity-100"
+            href="https://emirkabal.com"
+            >created by <IconsEKLogo class="inline h-6 w-auto"
+          /></a>
+
+          <a
+            class="flex items-center justify-center gap-x-2 text-xs tracking-tight opacity-90 hover:opacity-100"
+            href="https://github.com/emirkabal/masterscore"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon name="mdi:github" class="h-8 w-8" />
+            Open Source
+          </a>
+        </div>
       </div>
       <div class="flex flex-col items-center justify-center md:items-end md:justify-between">
         <LangSwitcher />
-        <a
-          class="group hidden items-center gap-x-3 text-xs tracking-tight opacity-90 hover:opacity-100 md:flex"
-          href="https://emirkabal.com"
-          >created by
-          <IconsEKLogo
-            class="inline h-6 w-auto transform-gpu transition-transform group-hover:-rotate-90"
-        /></a>
+        <div class="hidden items-center gap-x-4 md:flex">
+          <IconsVercel />
+
+          <a
+            class="flex items-center gap-x-2 text-xs tracking-tight opacity-90 hover:opacity-100"
+            href="https://github.com/emirkabal/masterscore"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon name="mdi:github" class="h-8 w-8" />
+            Open Source
+          </a>
+          <a
+            class="group hidden items-center gap-x-3 text-xs tracking-tight opacity-90 hover:opacity-100 md:flex"
+            href="https://emirkabal.com"
+            >created by
+            <IconsEKLogo
+              class="inline h-6 w-auto transform-gpu transition-transform group-hover:-rotate-90"
+          /></a>
+        </div>
       </div>
     </div>
   </footer>

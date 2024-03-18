@@ -2,7 +2,9 @@
 
 # Masterscore
 
-Your ultimate source for unbiased movie and TV show reviews. Discover your next favorite entertainment! Built with Nuxt & TMDB API!
+Your ultimate source for unbiased movie and TV show reviews. Discover your next favorite entertainment!
+
+💖 A TMDB client built with Nuxt!
 
 **Features:**
 
@@ -13,6 +15,8 @@ Your ultimate source for unbiased movie and TV show reviews. Discover your next 
 - Feed for see the other users activity
 - Multi language support (14 languages, 3/4's translated with DeepL & Google Translate)
 - Collection/List system (planned)
+
+🔗 Visit at https://masterscore.org
 
 ## Contrubition
 
@@ -46,6 +50,7 @@ We welcome contributions from the community! If you have ideas for improvements 
 
 For support, email me@emirkabal.com.
 
-## License
+## Credits
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+![tmdb logo](https://github.com/emirkabal/masterscore/blob/master/src/public/icons/tmdb-long.svg)
+The data displayed of movies, tv shows and persons come from [The Movie Database](https://www.themoviedb.org)

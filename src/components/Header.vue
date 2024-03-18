@@ -4,7 +4,6 @@ import { onClickOutside, useScroll } from "@vueuse/core"
 const isMenuOpen = ref(false)
 const isHeaderHidden = ref(false)
 const { $listen } = useNuxtApp()
-const route = useRoute()
 const scroll = useScroll(window)
 const menuRef = ref(null)
 const searchFocus = ref(false)
@@ -175,9 +174,9 @@ $listen("searchbar:focus", (val) => {
         </HeadlessMenu>
         <NuxtLink
           v-else
-          to="/account/login"
+          to="/account/signup"
           class="w-full flex-grow items-center rounded bg-yellow-500 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-600"
-          >{{ $t("guest.sign_in") }}</NuxtLink
+          >{{ $t("guest.sign_up") }}</NuxtLink
         >
       </div>
     </div>

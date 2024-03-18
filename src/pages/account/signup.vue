@@ -5,7 +5,13 @@ import { useUserStore } from "~/store/user"
 const { t } = useI18n()
 useHead({
   title: t("guest.sign_up"),
-  titleTemplate: "%s - Masterscore"
+  titleTemplate: "%s - Masterscore",
+  link: [
+    {
+      rel: "canonical",
+      href: "https://masterscore.org/account/signup"
+    }
+  ]
 })
 const userStore = useUserStore()
 
