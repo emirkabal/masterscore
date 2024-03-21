@@ -64,7 +64,6 @@ const editModal = reactive({
 })
 
 const submitReview = async () => {
-  console.log("submitReview", reviews.selected)
   if (!reviews.selected) return
   editModal.pending = true
 
@@ -80,6 +79,18 @@ const submitReview = async () => {
 
   reviews.selected = null
   editModal.pending = false
+}
+
+const openDialog = (event: any, review: Review) => {
+  reviews.selected = review
+  editModal.rating = review.rating
+  editModal.content = review.content ?? ""
+  editModal.spoiler = review.spoiler ?? false
+  editModal.show = !editModal.show
+
+  const rect = event.target.getBoundingClientRect()
+  editModal.x = rect.x
+  editModal.y = rect.y
 }
 
 watch(
@@ -206,20 +217,7 @@ useHead({
             </time>
             <button
               v-if="isMe"
-              @click="
-                ($event) => {
-                  editModal.rating = review.rating
-                  editModal.content = review.content
-                  editModal.spoiler = review.spoiler
-                  editModal.show = !editModal.show
-                  reviews.selected = review
-
-                  // @ts-ignore
-                  const rect = $event.target.getBoundingClientRect()
-                  editModal.x = rect.x
-                  editModal.y = rect.y
-                }
-              "
+              @click="($event) => openDialog($event, review)"
               class="absolute bottom-0 right-0 h-7 w-7 rounded-full transition hover:bg-gray-900"
             >
               <Icon name="mdi:dots-horizontal" class="h-6 w-6" />
