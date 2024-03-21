@@ -9,7 +9,10 @@ export default defineEventHandler(async (event) => {
     event,
     z.object({
       limit: z.string().optional().default("10"),
-      page: z.string().optional().default("1")
+      page: z.string().optional().default("1"),
+      sort_key: z.string().optional().default("created_at"),
+      sort_by: z.string().optional().default("desc"),
+      content: z.string().optional().default("1")
     }).parse
   )
 
@@ -20,28 +23,22 @@ export default defineEventHandler(async (event) => {
     take: limit,
     skip: (page - 1) * limit,
     orderBy: {
-      created_at: "desc"
+      [query.sort_key]: query.sort_by
     },
     where: {
       user: {
         username: id,
         suspended: false
-      }
+      },
+      content: query.content === "1" ? { not: "" } : undefined
     },
     include: {
-      user: {
-        select: {
-          display_name: true,
-          username: true,
-          avatar: true,
-          verified: true
-        }
-      },
       media: {
         select: {
           title: true,
           type: true,
           tmdb_id: true,
+          release_date: true,
           images: {
             select: {
               poster: true

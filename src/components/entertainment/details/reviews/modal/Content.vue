@@ -72,7 +72,7 @@ const onSelectEmoji = (emoji: any) => {
           :maxlength="512"
           @input="(e: any) => (review.content = e.target.value)"
           :placeholder="$t('review_modal.placeholder')"
-          class="h-32 w-full select-none resize-none rounded border-gray-700 bg-gray-800 p-2 focus:outline-none focus:ring-1 focus:ring-gray-700"
+          class="h-32 w-full select-none resize-none rounded border-gray-700 bg-gray-950/50 p-2 focus:outline-none focus:ring-1 focus:ring-gray-700"
         />
         <div class="absolute bottom-0 right-0 z-10 m-2 rounded text-sm text-gray-300">
           <button @click="isEmojiSelector = !isEmojiSelector" class="p-1 hover:bg-zinc-600">

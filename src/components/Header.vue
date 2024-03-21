@@ -174,9 +174,9 @@ $listen("searchbar:focus", (val) => {
         </HeadlessMenu>
         <NuxtLink
           v-else
-          to="/account/signup"
+          to="/account/login"
           class="w-full flex-grow items-center rounded bg-yellow-500 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-600"
-          >{{ $t("guest.sign_up") }}</NuxtLink
+          >{{ $t("guest.sign_in") }}</NuxtLink
         >
       </div>
     </div>

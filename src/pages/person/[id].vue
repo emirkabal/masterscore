@@ -126,7 +126,7 @@ useHead({
         <div class="w-full md:min-w-[300px] md:max-w-[300px]">
           <MasterImage
             :source="$timage(data.profile_path || '-', 'w500')"
-            class="mx-auto h-96 max-w-[300px] rounded-lg shadow-lg md:mx-0 md:h-[450px]"
+            class="mx-auto h-96 max-w-[300px] rounded-lg md:mx-0 md:h-[450px]"
           />
           <h1 class="mt-2 block text-center text-3xl font-bold tracking-wide md:hidden">
             {{ name }}
@@ -156,7 +156,7 @@ useHead({
                 ><Icon name="line-md:instagram" class="h-8 w-8"
               /></a>
             </div>
-            <h2 class="mb-4 text-2xl font-semibold tracking-tighter">
+            <h2 class="my-4 text-2xl font-semibold tracking-tighter">
               {{ $t("person.personal_info") }}
             </h2>
             <div class="personal space-y-2">

@@ -69,8 +69,6 @@ const isMe = computed(() => props.comment.user.id === props.user?.id)
             >({{ $t("edited") }})</span
           >
         </p>
-
-        <!-- <EntertainmentMRanking :rating="comment.rating" class="w-fit" /> -->
       </div>
       <EntertainmentDetailsReviewsContent :review="comment" class="mt-1" />
 

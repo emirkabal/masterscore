@@ -18,7 +18,7 @@ const { data, pending, error, refresh } = useLazyFetch(`/api/media/${props.ctx.m
 if (error.value) throw error.value
 
 const userStore = useUserStore()
-if (!userStore.user) userStore.waitForUser().then((v) => v && refresh())
+userStore.waitForUser().then((v) => v && refresh())
 
 const review = reactive({
   rating: 0.5,

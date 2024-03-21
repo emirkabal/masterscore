@@ -10,9 +10,17 @@ defineProps<{
 <template>
   <section class="mt-12 space-y-12">
     <div v-if="summary.featured.length">
-      <h3 class="mb-4 text-xl font-semibold tracking-tight md:text-2xl">
-        {{ $t("profile.featured_entertainments") }}
-      </h3>
+      <div class="mb-4 flex items-center gap-x-4">
+        <h3 class="text-xl font-semibold tracking-tight md:text-2xl">
+          {{ $t("profile.featured_entertainments") }}
+        </h3>
+        <NuxtLink
+          :to="`/${user.username}/reviews?sort=rating-desc`"
+          class="text-sm font-semibold tracking-tight text-gray-500 transition hover:text-gray-300"
+        >
+          {{ $t("see-all") }}
+        </NuxtLink>
+      </div>
       <EntertainmentSlider
         :data="
           summary.featured.map((e) => {

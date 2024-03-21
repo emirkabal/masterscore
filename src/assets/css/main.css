@@ -43,7 +43,7 @@
   }
 
   ::-webkit-scrollbar {
-    @apply h-2 w-2 bg-transparent;
+    @apply h-2 w-[7px] bg-transparent;
   }
 
   ::-webkit-scrollbar-track {

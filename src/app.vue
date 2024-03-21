@@ -13,7 +13,8 @@ onMounted(() => {
   if (process.client) {
     interval = setInterval(() => {
       const modal = document.querySelector(".modal")
-      document.body.style.overflow = modal ? "hidden" : "auto"
+      const popover = document.querySelector("[data-radix-popper-content-wrapper]")
+      document.body.style.overflow = modal || popover ? "hidden" : "auto"
     }, 300)
   }
 })

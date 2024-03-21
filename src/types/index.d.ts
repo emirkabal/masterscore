@@ -37,6 +37,7 @@ export interface Review {
   id: string
   content: string
   rating: number
+  spoiler: boolean
   media_id: string
   user_id: string
   media: Media
