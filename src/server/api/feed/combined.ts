@@ -1,10 +1,17 @@
+import { z } from "zod"
 import prisma from "~/server/db/prisma"
 
 export default defineEventHandler(async (event) => {
-  const query = getQuery(event)
+  const query = await getValidatedQuery(
+    event,
+    z.object({
+      limit: z.string().optional().default("10"),
+      page: z.string().optional().default("1")
+    }).parse
+  )
 
-  const limit = query.limit ? parseInt(query.limit as string) : 10
-  const page = query.page ? parseInt(query.page as string) : 1
+  const limit = Math.min(parseInt(query.limit), 50)
+  const page = Math.max(parseInt(query.page), 1)
 
   const [likes, reviews] = await prisma.$transaction([
     prisma.like.findMany({

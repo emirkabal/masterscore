@@ -35,7 +35,7 @@ useHead({
         </p>
       </div>
 
-      <PagesUserSummary :summary="summary" />
+      <PagesUserSummary :user="user" :summary="summary" />
 
       <ClientOnly v-if="flags.debug_mode">
         <div class="py-24">
