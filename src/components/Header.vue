@@ -1,15 +1,18 @@
 <script setup>
 import { useUserStore } from "~/store/user"
 import { onClickOutside, useScroll } from "@vueuse/core"
+
 const isMenuOpen = ref(false)
 const isHeaderHidden = ref(false)
 const { $listen } = useNuxtApp()
 const scroll = useScroll(window)
 const menuRef = ref(null)
 const searchFocus = ref(false)
+
 onClickOutside(menuRef, () => {
   isMenuOpen.value = false
 })
+
 const userStore = useUserStore()
 const entertainment = reactive({
   bright: false,
@@ -74,7 +77,7 @@ $listen("searchbar:focus", (val) => {
         <NuxtLink
           to="/"
           @click="entertainment.bright = false"
-          class="select-none font-maven text-2xl font-black transition hover:opacity-75"
+          class="flex select-none font-maven text-2xl font-black transition hover:opacity-75"
           :class="{
             'drop-shadow-md': isEntertainmentPage && !isHeaderShown,
             'text-black': entertainment.bright && !isHeaderShown && isEntertainmentPage,
@@ -82,8 +85,10 @@ $listen("searchbar:focus", (val) => {
               (!entertainment.bright && !isHeaderShown && isEntertainmentPage) ||
               ($route.name === 'index' && !isHeaderShown)
           }"
-          ><Logo class="h-4 w-auto lg:h-5" :small="!$device.isDesktop"
-        /></NuxtLink>
+        >
+          <span class="text-brand"> m </span>
+          <span class="hidden lg:block">asterscore</span>
+        </NuxtLink>
       </div>
       <Searchbar
         :class="{
