@@ -13,7 +13,7 @@ Your ultimate source for unbiased movie and TV show reviews. Discover your next 
 - User profile pages (about, avatar, banner, etc.)
 - Review and Like any media
 - Feed for see the other users activity
-- Multi language support (14 languages, 3/4's translated with DeepL & Google Translate)
+- Multi language support (14 languages, mostly translated with DeepL and Google Translate)
 - Collection/List system (planned)
 
 🔗 Visit at https://masterscore.org
