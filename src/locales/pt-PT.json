@@ -137,7 +137,8 @@
   "home": {
     "recommended": "Recomendados",
     "top_rated": "Mais Bem Avaliados",
-    "more_info": "Mais Informações"
+    "more_info": "Mais Informações",
+    "trending": "Tendências desta semana"
   },
   "entertainment": {
     "watch_trailer": "Assistir ao Trailer",

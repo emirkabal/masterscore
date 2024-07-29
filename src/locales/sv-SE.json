@@ -137,7 +137,8 @@
   "home": {
     "recommended": "Rekommenderad",
     "top_rated": "Högsta betyg",
-    "more_info": "Mer information"
+    "more_info": "Mer information",
+    "trending": "Trendigt den här veckan"
   },
   "entertainment": {
     "watch_trailer": "Se trailer",

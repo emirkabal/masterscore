@@ -8,9 +8,11 @@ export default defineNuxtConfig({
   srcDir: "src/",
   ssr: true,
   spaLoadingTemplate: "./app/spa-loading-template.html",
+
   devtools: {
     enabled: true
   },
+
   modules: [
     ["@nuxtjs/i18n", i18n],
     "@nuxt/image",
@@ -30,7 +32,7 @@ export default defineNuxtConfig({
       }
     ],
     "@vite-pwa/nuxt",
-    "nuxt-icon"
+    "@nuxt/icon"
   ],
 
   css: [
@@ -102,10 +104,12 @@ export default defineNuxtConfig({
       ]
     }
   },
+
   appConfig: {
     buildDate: new Date().toISOString(),
     version
   },
+
   pwa: {
     registerType: "autoUpdate",
     srcDir: "src/",
@@ -164,5 +168,7 @@ export default defineNuxtConfig({
       SUPABASE_STORAGE_URL: process.env.SUPABASE_URL + "/storage/v1/object/public/assets/",
       TMDB_API_TOKEN: process.env.TMDB_API_TOKEN
     }
-  }
+  },
+
+  compatibilityDate: "2024-07-27"
 })

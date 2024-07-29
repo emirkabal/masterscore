@@ -138,7 +138,8 @@
   "home": {
     "recommended": "추천",
     "top_rated": "최고 평점",
-    "more_info": "자세히 보기"
+    "more_info": "자세히 보기",
+    "trending": "이번주 트렌드"
   },
   "entertainment": {
     "watch_trailer": "트레일러 시청",

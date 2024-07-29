@@ -63,7 +63,8 @@ module.exports = {
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)"
+        sm: "calc(var(--radius) - 4px)",
+        "4xl": "calc(var(--radius) * 4)"
       },
       keyframes: {
         "accordion-down": {

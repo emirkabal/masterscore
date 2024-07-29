@@ -138,7 +138,8 @@
   "home": {
     "recommended": "Рекомендовано",
     "top_rated": "Найкраще з оцінок",
-    "more_info": "Докладніше"
+    "more_info": "Докладніше",
+    "trending": "У тренді цього тижня"
   },
   "entertainment": {
     "watch_trailer": "Переглянути трейлер",

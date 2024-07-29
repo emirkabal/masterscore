@@ -1,4 +1,5 @@
 import type {
+  APICountedMediaSummary,
   APISummary,
   APIUser,
   CollapsedMedia,
@@ -148,15 +149,24 @@ export const getCollection = async (id: string | number) => {
   })
 }
 
+type HomeResult = {
+  trending: TMDBResult[]
+  top_rated: Review[]
+  top_commented: APICountedMediaSummary[]
+  top_liked: APICountedMediaSummary[]
+}
+
 export const getHome = async () => {
   const key = `home`
   const cached = cache.get(key)
 
-  if (cached) return Promise.resolve(cached as { trending: TMDBResult[]; top_rated: Review[] })
+  if (cached) return Promise.resolve(cached as HomeResult)
 
-  return new Promise<{ trending: TMDBResult[]; top_rated: Review[] }>(async (resolve, reject) => {
+  return new Promise<HomeResult>(async (resolve, reject) => {
     try {
-      const data = await $fetch<{ trending: TMDBResult[]; top_rated: Review[] }>("/api/extra/home")
+      const data = await $fetch<HomeResult>("/api/extra/home", {
+        headers: useRequestHeaders()
+      })
       cache.set(key, data)
       resolve(data)
     } catch (e) {

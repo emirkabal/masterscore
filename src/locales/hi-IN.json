@@ -137,7 +137,8 @@
   "home": {
     "recommended": "अनुशंसित",
     "top_rated": "टॉप रेटेड",
-    "more_info": "और जानकारी"
+    "more_info": "और जानकारी",
+    "trending": "इस सप्ताह ट्रेंडिंग में है"
   },
   "entertainment": {
     "watch_trailer": "ट्रेलर देखें",

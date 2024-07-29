@@ -138,7 +138,8 @@
   "home": {
     "recommended": "Önerilenler",
     "top_rated": "En Çok Puan Alanlar",
-    "more_info": "İncele"
+    "more_info": "Görüntüle",
+    "trending": "Bu hafta popüler"
   },
   "entertainment": {
     "watch_trailer": "Fragmanı İzle",

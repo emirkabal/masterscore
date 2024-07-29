@@ -138,7 +138,8 @@
   "home": {
     "recommended": "موصى به",
     "top_rated": "الأعلى تقييمًا",
-    "more_info": "مزيد من المعلومات"
+    "more_info": "مزيد من المعلومات",
+    "trending": "تتجه هذا الأسبوع"
   },
   "entertainment": {
     "watch_trailer": "شاهد الإعلان",

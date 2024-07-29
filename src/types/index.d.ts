@@ -33,6 +33,11 @@ export interface APISummary {
   last_likes: Like[]
 }
 
+export interface APICountedMediaSummary {
+  media: Media
+  count: number
+}
+
 export interface Review {
   id: string
   content: string
@@ -292,6 +297,8 @@ export interface TMDBResult {
   vote_average?: number
   vote_count?: number
 }
+
+export type TMDBSearchResultsResponse = TMDBSearchResults<TMDBResult>
 
 export interface CreditsResult {
   adult: boolean

@@ -10,9 +10,8 @@ useHead({
 
 const refreshing = ref(false)
 
-const { data: home, pending } = await useAsyncData(() => getHome(), {
-  lazy: true,
-  server: false
+const { data: home, status } = await useAsyncData(() => getHome(), {
+  lazy: true
 })
 
 const top_rated = computed(() => {
@@ -70,60 +69,122 @@ $listen("refresh:entertainment", () => {
   }, 1000)
 })
 </script>
+
 <template>
-  <div v-if="pending" class="grid h-screen place-items-center">
-    <Spinner />
-  </div>
-  <section v-else class="relative bg-gray-950">
-    <HomeMainSlider :data="home.trending" />
-    <div class="relative mx-auto mb-24 space-y-12">
-      <section v-if="home.trending.length" class="relative z-10 -mt-20 space-y-8">
-        <div class="flex h-10 items-center gap-x-4">
-          <h3 class="pl-[4vw] text-2xl font-bold">
-            {{ $t("home.recommended") }}
-          </h3>
+  <div class="preffered-background">
+    <div class="mx-auto max-w-[1600px] px-4 py-24">
+      <div v-if="status === 'success'">
+        <div class="h-[640px] w-full">
+          <HomeMainSlider :data="home.trending" />
         </div>
-        <EntertainmentSlider
-          :data="home.trending.slice(6, 20)"
-          :fixed-media-type="'movie'"
-          :item-size="'large'"
-          :offset="'auto'"
-        />
-      </section>
-      <section class="relative z-10 space-y-8">
-        <div class="flex items-center gap-4 px-[4vw]">
-          <h3 class="text-2xl font-bold">
-            {{ $t("home.top_rated") }}
-          </h3>
-          <span class="font-maven text-2xl font-black text-brand">m</span>
+
+        <div class="space-y-4 py-12">
+          <div class="mb-6 flex h-10 items-center justify-between gap-x-4">
+            <h3 class="text-4xl font-bold tracking-tight">En çok puan alanlar</h3>
+            <NuxtLink to="/table" class="text-sm font-semibold text-gray-300 hover:text-white">
+              {{ $t("home.view_all") }}
+            </NuxtLink>
+          </div>
+          <EntertainmentSlider
+            :data="top_rated"
+            :fixed-media-type="'movie'"
+            :item-size="'default'"
+            :offset="0"
+            :show-ratings="true"
+          />
         </div>
-        <EntertainmentSlider
-          :data="top_rated"
-          :fixed-media-type="'movie'"
-          :item-size="'large'"
-          :offset="'auto'"
-          :show-ratings="true"
-        />
-      </section>
-      <section class="relative z-10 space-y-8" v-for="genre in genres" :key="genre.id">
-        <NuxtLink
-          :to="`/discover?genres=${genre.id}`"
-          class="flex w-fit items-center gap-x-4 pl-[4vw]"
+
+        <div class="mt-8 flex gap-6">
+          <div class="h-full w-full">
+            <h3 class="text-3xl font-bold tracking-tight">Yakın zamanda ilgi çekenler</h3>
+            <div class="mt-6 grid gap-6">
+              <HomeCard
+                v-for="hero in home.trending.slice(6, 17)"
+                :key="hero.id"
+                :to="`${hero.media_type}/${hero.id}`"
+                :poster="hero.poster_path"
+                :title="$getTitle(hero)"
+                :subtitle="$getYear(hero).toString()"
+              />
+            </div>
+          </div>
+          <div class="flex w-full flex-col gap-12">
+            <div class="h-full w-full">
+              <h3 class="text-3xl font-bold tracking-tight">En çok beğenilenler</h3>
+              <div class="mt-6 grid grid-cols-2 gap-6">
+                <HomeCard
+                  v-for="hero in home.top_liked"
+                  :key="hero.id"
+                  :to="`${hero.media.type}/${hero.media.tmdb_id}`"
+                  :poster="hero.media.images.poster"
+                  :title="hero.media.title"
+                  :subtitle="`${hero.count} beğeni`"
+                />
+              </div>
+            </div>
+            <div class="h-full w-full">
+              <h3 class="text-3xl font-bold tracking-tight">En çok yorum toplayanlar</h3>
+              <div class="mt-6 grid grid-cols-2 gap-6">
+                <HomeCard
+                  v-for="hero in home.top_commented"
+                  :key="hero.media.id"
+                  :to="`${hero.media.type}/${hero.media.tmdb_id}`"
+                  :poster="hero.media.images.poster"
+                  :title="$getTitle(hero.media)"
+                  :subtitle="`${hero.count} yorum`"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="relative my-24 flex items-center justify-between overflow-hidden rounded-3xl bg-fuchsia-500 bg-gradient-to-r from-fuchsia-800 from-25% px-16 py-24"
         >
-          <h3 class="text-2xl font-bold">
-            {{ $t("genres." + genre.name) }}
-          </h3>
-          <Icon name="ic:round-chevron-right" class="mt-1 h-7 w-auto" />
-        </NuxtLink>
-        <EntertainmentSlider
-          v-intersection-observer="(e) => onIntersectionObserver(e, genre)"
-          :loading="genre.pending"
-          :data="genre.data"
-          :fixed-media-type="'movie'"
-          :item-size="'large'"
-          :offset="'auto'"
-        />
-      </section>
+          <div class="space-y-4">
+            <h3 class="text-3xl font-semibold">Bir birinden farklı içeriklere göz at</h3>
+            <NuxtLink
+              to="/discover"
+              class="flex w-fit items-center gap-2 rounded-xl bg-white px-4 py-2 text-lg font-semibold text-black transition-opacity hover:opacity-75"
+            >
+              <Icon name="ic:round-explore" size="24" />
+              {{ $t("discover.title") }}
+            </NuxtLink>
+          </div>
+          <div class="absolute -right-32 top-6 select-none">
+            <div class="flex max-w-5xl flex-wrap gap-4">
+              <MasterImage
+                class="aspect-poster h-48 rounded-3xl"
+                v-for="hero in home.trending"
+                :key="hero.id"
+                :source="$timage(hero.poster_path, 'w154')"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 flex gap-6">
+          <div class="h-96 w-full rounded-3xl bg-gray-700"></div>
+          <div class="h-96 w-full rounded-3xl bg-gray-700"></div>
+        </div>
+        <div class="mt-8 flex gap-6">
+          <div class="h-96 w-full rounded-3xl bg-gray-700"></div>
+          <div class="h-96 w-full rounded-3xl bg-gray-700"></div>
+        </div>
+      </div>
+      <div v-else>
+        <div class="skeleton-effect h-[640px] w-full rounded-3xl bg-gray-900"></div>
+
+        <div class="mt-8 flex gap-6">
+          <div class="skeleton-effect h-96 w-full rounded-3xl bg-gray-900"></div>
+          <div class="skeleton-effect h-96 w-full rounded-3xl bg-gray-900"></div>
+        </div>
+
+        <div class="mt-8 flex gap-6">
+          <div class="skeleton-effect h-96 w-full rounded-3xl bg-gray-900"></div>
+          <div class="skeleton-effect h-96 w-full rounded-3xl bg-gray-900"></div>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
 </template>

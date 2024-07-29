@@ -138,7 +138,8 @@
   "home": {
     "recommended": "おすすめ",
     "top_rated": "トップ評価",
-    "more_info": "詳細情報"
+    "more_info": "詳細情報",
+    "trending": "今週のトレンド"
   },
   "entertainment": {
     "watch_trailer": "予告編を見る",

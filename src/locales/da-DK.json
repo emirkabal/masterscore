@@ -138,7 +138,8 @@
   "home": {
     "recommended": "Anbefalet",
     "top_rated": "Topkarakter",
-    "more_info": "Mere info"
+    "more_info": "Mere info",
+    "trending": "Trending i denne uge"
   },
   "entertainment": {
     "watch_trailer": "Se trailer",

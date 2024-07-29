@@ -138,7 +138,8 @@
   "home": {
     "recommended": "Recommended",
     "top_rated": "Top Rated",
-    "more_info": "More Info"
+    "more_info": "View",
+    "trending": "Trending this week"
   },
   "entertainment": {
     "watch_trailer": "Watch Trailer",
