@@ -34,7 +34,12 @@ export interface APISummary {
 }
 
 export interface APICountedMediaSummary {
-  media: Media
+  data: Media
+  count: number
+}
+
+export interface APICountedUserSummary {
+  data: User
   count: number
 }
 

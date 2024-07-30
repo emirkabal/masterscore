@@ -139,7 +139,20 @@
     "recommended": "おすすめ",
     "top_rated": "トップ評価",
     "more_info": "詳細情報",
-    "trending": "今週のトレンド"
+    "trending": "今週のトレンド",
+    "recent_highlights": "最も注目されている",
+    "most_liked": "最も気に入った",
+    "most_commented": "最もコメントが多かった",
+    "hero_discover": {
+      "title": "もっと映画を調べる"
+    },
+    "users_most_commented": "最も貢献した作家",
+    "users_most_masters": "最もマスターされた",
+    "users_most_liked": "一番気に入ってくれた人たち",
+    "likes": "{0} 件の「いいね！」",
+    "comments": "{0} 件のコメント",
+    "reviews": "{0} スコア",
+    "join_us": "参加してコミュニティの一員になりませんか"
   },
   "entertainment": {
     "watch_trailer": "予告編を見る",

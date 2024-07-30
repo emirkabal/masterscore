@@ -136,9 +136,22 @@
   },
   "home": {
     "recommended": "Recomendados",
-    "top_rated": "Mais Bem Avaliados",
+    "top_rated": "Mais bem avaliados",
     "more_info": "Mais Informações",
-    "trending": "Tendências desta semana"
+    "trending": "Tendências desta semana",
+    "recent_highlights": "Mais em destaque",
+    "most_liked": "O mais adorado",
+    "most_commented": "Mais comentado",
+    "hero_discover": {
+      "title": "Descubra mais filmes"
+    },
+    "users_most_commented": "Escritores mais contribuintes",
+    "users_most_masters": "Mais dominado",
+    "users_most_liked": "Aqueles que mais gostaram",
+    "likes": "{0} curtidas",
+    "comments": "{0 comentários",
+    "reviews": "{0} pontuações",
+    "join_us": "Junte-se a nós e faça parte da comunidade"
   },
   "entertainment": {
     "watch_trailer": "Assistir ao Trailer",

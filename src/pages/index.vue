@@ -1,16 +1,20 @@
 <script setup>
-import { vIntersectionObserver } from "@vueuse/components"
 import { getHome } from "~/composables/request"
-const { $tfiltergenres, $listen } = useNuxtApp()
+const { $listen } = useNuxtApp()
+import { useUserStore } from "~/store/user"
+
+const userStore = useUserStore()
 
 useHead({
   title: "Masterscore",
   titleTemplate: "%s"
 })
 
-const refreshing = ref(false)
-
-const { data: home, status } = await useAsyncData(() => getHome(), {
+const {
+  data: home,
+  status,
+  refresh
+} = await useAsyncData(() => getHome(), {
   lazy: true
 })
 
@@ -27,46 +31,8 @@ const top_rated = computed(() => {
   })
 })
 
-const genres = useState("genres", () =>
-  $tfiltergenres(
-    [
-      "Comedy",
-      "Crime",
-      "Science Fiction",
-      "Fantasy",
-      "Drama",
-      "Family",
-      "Animation",
-      "Adventure",
-      "Action",
-      "Horror"
-    ],
-    "movie"
-  ).map((e) => {
-    return { data: [], pending: true, ...e }
-  })
-)
-
-const onIntersectionObserver = async ([{ isIntersecting }], genre) => {
-  if (isIntersecting && genre.pending && !refreshing.value) {
-    const data = await getDiscover("movie", {
-      with_genres: genre.id,
-      page: Math.floor(Math.random() * 3) + 1
-    })
-    genre.pending = false
-    genre.data = data.results
-  }
-}
-
 $listen("refresh:entertainment", () => {
-  refreshing.value = true
   refresh()
-  genres.value.forEach((genre) => {
-    genre.pending = true
-  })
-  setTimeout(() => {
-    refreshing.value = false
-  }, 1000)
 })
 </script>
 
@@ -79,10 +45,10 @@ $listen("refresh:entertainment", () => {
         </div>
 
         <div class="space-y-4 py-12">
-          <div class="mb-6 flex h-10 items-center justify-between gap-x-4">
-            <h3 class="text-4xl font-bold tracking-tight">En çok puan alanlar</h3>
+          <div class="mb-6 flex h-10 items-center gap-x-6">
+            <h3 class="text-4xl font-bold tracking-tight">{{ $t("home.top_rated") }}</h3>
             <NuxtLink to="/table" class="text-sm font-semibold text-gray-300 hover:text-white">
-              {{ $t("home.view_all") }}
+              {{ $t("see-all") }}
             </NuxtLink>
           </div>
           <EntertainmentSlider
@@ -94,12 +60,12 @@ $listen("refresh:entertainment", () => {
           />
         </div>
 
-        <div class="mt-8 flex gap-6">
+        <div class="mt-8 flex gap-12">
           <div class="h-full w-full">
-            <h3 class="text-3xl font-bold tracking-tight">Yakın zamanda ilgi çekenler</h3>
-            <div class="mt-6 grid gap-6">
-              <HomeCard
-                v-for="hero in home.trending.slice(6, 17)"
+            <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.recent_highlights") }}</h3>
+            <div class="mt-6 grid grid-cols-2 gap-8">
+              <HomeMediaCard
+                v-for="hero in home.trending.slice(0, 20)"
                 :key="hero.id"
                 :to="`${hero.media_type}/${hero.id}`"
                 :poster="hero.poster_path"
@@ -108,30 +74,30 @@ $listen("refresh:entertainment", () => {
               />
             </div>
           </div>
-          <div class="flex w-full flex-col gap-12">
-            <div class="h-full w-full">
-              <h3 class="text-3xl font-bold tracking-tight">En çok beğenilenler</h3>
+          <div class="flex w-full flex-col justify-between">
+            <div class="w-full">
+              <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.most_liked") }}</h3>
               <div class="mt-6 grid grid-cols-2 gap-6">
-                <HomeCard
+                <HomeMediaCard
                   v-for="hero in home.top_liked"
-                  :key="hero.id"
-                  :to="`${hero.media.type}/${hero.media.tmdb_id}`"
-                  :poster="hero.media.images.poster"
-                  :title="hero.media.title"
-                  :subtitle="`${hero.count} beğeni`"
+                  :key="hero.data.id"
+                  :to="`${hero.data.type}/${hero.data.tmdb_id}`"
+                  :poster="hero.data.images.poster"
+                  :title="hero.data.title"
+                  :subtitle="$t('home.likes', [hero.count])"
                 />
               </div>
             </div>
-            <div class="h-full w-full">
-              <h3 class="text-3xl font-bold tracking-tight">En çok yorum toplayanlar</h3>
+            <div class="w-full">
+              <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.most_commented") }}</h3>
               <div class="mt-6 grid grid-cols-2 gap-6">
-                <HomeCard
+                <HomeMediaCard
                   v-for="hero in home.top_commented"
-                  :key="hero.media.id"
-                  :to="`${hero.media.type}/${hero.media.tmdb_id}`"
-                  :poster="hero.media.images.poster"
-                  :title="$getTitle(hero.media)"
-                  :subtitle="`${hero.count} yorum`"
+                  :key="hero.data.id"
+                  :to="`${hero.data.type}/${hero.data.tmdb_id}`"
+                  :poster="hero.data.images.poster"
+                  :title="$getTitle(hero.data)"
+                  :subtitle="$t('home.comments', [hero.count])"
                 />
               </div>
             </div>
@@ -142,7 +108,9 @@ $listen("refresh:entertainment", () => {
           class="relative my-24 flex items-center justify-between overflow-hidden rounded-3xl bg-fuchsia-500 bg-gradient-to-r from-fuchsia-800 from-25% px-16 py-24"
         >
           <div class="space-y-4">
-            <h3 class="text-3xl font-semibold">Bir birinden farklı içeriklere göz at</h3>
+            <h3 class="max-w-lg text-3xl font-bold leading-relaxed">
+              {{ $t("home.hero_discover.title") }}
+            </h3>
             <NuxtLink
               to="/discover"
               class="flex w-fit items-center gap-2 rounded-xl bg-white px-4 py-2 text-lg font-semibold text-black transition-opacity hover:opacity-75"
@@ -155,7 +123,7 @@ $listen("refresh:entertainment", () => {
             <div class="flex max-w-5xl flex-wrap gap-4">
               <MasterImage
                 class="aspect-poster h-48 rounded-3xl"
-                v-for="hero in home.trending"
+                v-for="hero in home.trending.slice(0, 14)"
                 :key="hero.id"
                 :source="$timage(hero.poster_path, 'w154')"
               />
@@ -163,13 +131,75 @@ $listen("refresh:entertainment", () => {
           </div>
         </div>
 
-        <div class="mt-8 flex gap-6">
-          <div class="h-96 w-full rounded-3xl bg-gray-700"></div>
-          <div class="h-96 w-full rounded-3xl bg-gray-700"></div>
+        <div class="mt-8 flex gap-12">
+          <div class="h-full w-full">
+            <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.users_most_commented") }}</h3>
+            <div class="mt-6 grid grid-cols-2 gap-8">
+              <HomeUserCard
+                v-for="user in home.users_most_commented.slice(0, 14)"
+                :key="user.data.id"
+                :to="`${user.data.username}`"
+                :user="user.data"
+                :subtitle="$t('home.comments', [user.count])"
+              />
+            </div>
+          </div>
+          <div class="flex w-full flex-col justify-between">
+            <div class="w-full">
+              <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.users_most_masters") }}</h3>
+              <div class="mt-6 grid grid-cols-2 gap-6">
+                <HomeUserCard
+                  v-for="user in home.users_most_reviewed.slice(0, 6)"
+                  :key="user.data.id"
+                  :to="`${user.data.username}`"
+                  :user="user.data"
+                  :subtitle="$t('home.reviews', [user.count])"
+                />
+              </div>
+            </div>
+            <div class="w-full">
+              <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.users_most_liked") }}</h3>
+              <div class="mt-6 grid grid-cols-2 gap-6">
+                <HomeUserCard
+                  v-for="user in home.users_most_liked.slice(0, 6)"
+                  :key="user.data.id"
+                  :to="`${user.data.username}`"
+                  :user="user.data"
+                  :subtitle="$t('home.likes', [user.count])"
+                />
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="mt-8 flex gap-6">
-          <div class="h-96 w-full rounded-3xl bg-gray-700"></div>
-          <div class="h-96 w-full rounded-3xl bg-gray-700"></div>
+
+        <!-- join us -->
+        <div
+          v-if="!userStore.isLoggedIn"
+          class="relative my-24 flex items-center justify-between overflow-hidden rounded-3xl bg-gradient-to-l from-yellow-500 from-25% to-yellow-800 px-16 py-24"
+        >
+          <div class="space-y-4">
+            <h3 class="max-w-lg text-3xl font-bold leading-relaxed">
+              {{ $t("home.join_us") }}
+            </h3>
+            <NuxtLink
+              to="/account/signup"
+              class="flex w-fit items-center gap-2 rounded-xl bg-white px-4 py-2 text-lg font-semibold text-black transition-opacity hover:opacity-75"
+            >
+              <Icon name="ic:round-person-add" size="24" />
+              {{ $t("guest.sign_up") }}
+            </NuxtLink>
+          </div>
+          <div class="absolute -right-32 -top-8 rotate-[8.85deg] select-none">
+            <div class="flex max-w-5xl flex-wrap gap-4">
+              <Avatar
+                class="aspect-square h-36 rounded-3xl"
+                v-for="user in home.users_most_reviewed"
+                :key="user.data.id"
+                :username="user.data.username"
+                :avatar="user.data.avatar"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div v-else>

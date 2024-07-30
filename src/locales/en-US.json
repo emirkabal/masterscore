@@ -137,9 +137,22 @@
   },
   "home": {
     "recommended": "Recommended",
-    "top_rated": "Top Rated",
+    "top_rated": "Top rated",
     "more_info": "View",
-    "trending": "Trending this week"
+    "trending": "Trending this week",
+    "hero_discover": {
+      "title": "Find out more movies & series and enlarge your mind"
+    },
+    "users_most_commented": "Most contributing writers",
+    "users_most_masters": "Most mastered",
+    "users_most_liked": "Those who liked it the most",
+    "recent_highlights": "Most featured",
+    "most_liked": "Most liked",
+    "most_commented": "Most commented",
+    "likes": "{0} likes",
+    "comments": "{0} comments",
+    "reviews": "{0} scores",
+    "join_us": "Join us and be part of the community"
   },
   "entertainment": {
     "watch_trailer": "Watch Trailer",

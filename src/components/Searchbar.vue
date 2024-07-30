@@ -2,6 +2,7 @@
 import debounce from "lodash.debounce"
 import { onKeyStroke, useStorage } from "@vueuse/core"
 const { $event } = useNuxtApp()
+const { isApple } = useDevice()
 const search = ref("")
 const loading = ref(false)
 const results = ref([])
@@ -75,6 +76,10 @@ const focus = () => {
   inputElement.value.focus()
 }
 
+const key = computed(() => {
+  return isApple.value ? "⌘" : "Ctrl"
+})
+
 watch(focused, () => {
   $event("searchbar:focus", focused.value)
 })
@@ -100,16 +105,19 @@ onKeyStroke(["Control", "K", "k"], (e) => {
     </Transition>
 
     <div class="relative z-20 h-10 w-full">
-      <Icon name="ic:round-search" class="pointer-events-none absolute left-2 top-[9px] h-6 w-6" />
+      <Icon
+        name="ic:round-search"
+        class="pointer-events-none absolute left-3.5 top-[9px] h-6 w-6"
+      />
       <div
         v-if="!focused"
-        class="pointer-events-none absolute right-2.5 top-2 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-400 lg:block"
+        class="pointer-events-none absolute right-3.5 top-2 hidden select-none space-x-2 rounded border border-gray-500 px-1 py-0.5 text-center font-mono text-sm text-gray-400 lg:block"
       >
-        Ctrl K
+        {{ key }} K
       </div>
       <input
         type="text"
-        class="h-full w-full rounded-lg border-none bg-gray-950 pl-10 shadow placeholder:text-gray-300 hover:ring focus:outline-none focus:ring-0"
+        class="h-full w-full rounded-full border-none bg-gray-950 pl-12 shadow placeholder:text-gray-300 hover:ring focus:outline-none focus:ring-0"
         :class="{
           'rounded-bl-none rounded-br-none rounded-tl-2xl rounded-tr-2xl focus:ring-0 hover:focus:ring-0':
             focused

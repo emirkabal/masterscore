@@ -139,7 +139,20 @@
     "recommended": "추천",
     "top_rated": "최고 평점",
     "more_info": "자세히 보기",
-    "trending": "이번주 트렌드"
+    "trending": "이번주 트렌드",
+    "recent_highlights": "가장 많이 추천된",
+    "most_liked": "가장 좋아하는",
+    "most_commented": "댓글이 가장 많이 달린",
+    "hero_discover": {
+      "title": "더 많은 영화를 알아보세요"
+    },
+    "users_most_commented": "최다 공헌 작가",
+    "users_most_masters": "가장 숙달된",
+    "users_most_liked": "가장 좋아해주신 분들은",
+    "likes": "좋아요 {0}개",
+    "comments": "댓글 {0}개",
+    "reviews": "{0} 점수",
+    "join_us": "우리와 함께 커뮤니티의 일원이 되어보세요"
   },
   "entertainment": {
     "watch_trailer": "트레일러 시청",

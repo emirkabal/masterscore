@@ -21,6 +21,11 @@ export const getTopMediaByReviewsContent = async () => {
   if (cached) return cached
 
   const raw = await prisma.review.groupBy({
+    where: {
+      content: {
+        not: null
+      }
+    },
     by: ["media_id"],
     _count: {
       media_id: true
@@ -42,9 +47,9 @@ export const getTopMediaByReviewsContent = async () => {
   })
 
   const topMedia = raw.map((r) => {
-    const media = medias.find((media) => media.id === r.media_id)
+    const data = medias.find((media) => media.id === r.media_id)
     return {
-      media,
+      data,
       count: r._count.media_id
     }
   })
@@ -82,9 +87,9 @@ export const getTopMediaByLikes = async () => {
   })
 
   const topMedia = raw.map((r) => {
-    const media = medias.find((media) => media.id === r.media_id)
+    const data = medias.find((media) => media.id === r.media_id)
     return {
-      media,
+      data,
       count: r._count.media_id
     }
   })
@@ -163,6 +168,113 @@ export const getTopMediaByReviews = async ({
   })
 
   return topMedia
+}
+
+export const getMostReviewedUsers = async ({ comment }: { comment?: boolean }) => {
+  const key = `most-reviewed-users:${comment}`
+
+  const cached = cache.get(key)
+  if (cached) return cached
+
+  const raw = await prisma.review.groupBy({
+    by: ["user_id"],
+    ...(comment === true
+      ? {
+          where: {
+            content: {
+              not: null
+            }
+          }
+        }
+      : undefined),
+    _count: {
+      id: true
+    },
+    orderBy: {
+      _count: {
+        id: "desc"
+      }
+    },
+    take: 20
+  })
+
+  const users = await prisma.user.findMany({
+    where: {
+      id: {
+        in: raw.map((r) => r.user_id)
+      }
+    },
+    select: {
+      id: true,
+      username: true,
+      verified: true,
+      suspended: true,
+      display_name: true,
+      avatar: true
+    }
+  })
+
+  const topUsers = raw.map((r) => {
+    const data = users.find((user) => user.id === r.user_id)
+    return {
+      data,
+      count: r._count.id
+    }
+  })
+
+  cache.set(key, topUsers, {
+    ttl: 10 * 60 * 1000
+  })
+
+  return topUsers
+}
+
+export const getMostLikedUsers = async () => {
+  const cached = cache.get("most-liked-users")
+  if (cached) return cached
+
+  const raw = await prisma.like.groupBy({
+    by: ["user_id"],
+    _count: {
+      id: true
+    },
+    orderBy: {
+      _count: {
+        id: "desc"
+      }
+    },
+    take: 20
+  })
+
+  const users = await prisma.user.findMany({
+    where: {
+      id: {
+        in: raw.map((r) => r.user_id)
+      }
+    },
+    select: {
+      id: true,
+      username: true,
+      verified: true,
+      suspended: true,
+      display_name: true,
+      avatar: true
+    }
+  })
+
+  const topUsers = raw.map((r) => {
+    const data = users.find((user) => user.id === r.user_id)
+    return {
+      data,
+      count: r._count.id
+    }
+  })
+
+  cache.set("most-liked-users", topUsers, {
+    ttl: 10 * 60 * 1000
+  })
+
+  return topUsers
 }
 
 export const getBlob = async (url: string) => {

@@ -1,5 +1,6 @@
 import type {
   APICountedMediaSummary,
+  APICountedUserSummary,
   APISummary,
   APIUser,
   CollapsedMedia,
@@ -154,6 +155,9 @@ type HomeResult = {
   top_rated: Review[]
   top_commented: APICountedMediaSummary[]
   top_liked: APICountedMediaSummary[]
+  users_most_commented: APICountedUserSummary[]
+  users_most_reviewed: APICountedUserSummary[]
+  users_most_liked: APICountedUserSummary[]
 }
 
 export const getHome = async () => {

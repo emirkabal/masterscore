@@ -138,7 +138,20 @@
     "recommended": "अनुशंसित",
     "top_rated": "टॉप रेटेड",
     "more_info": "और जानकारी",
-    "trending": "इस सप्ताह ट्रेंडिंग में है"
+    "trending": "इस सप्ताह ट्रेंडिंग में है",
+    "recent_highlights": "सर्वाधिक विशेष रुप से प्रदर्शित",
+    "most_liked": "सबसे ज्यादा पसंद",
+    "most_commented": "अधिकांश टिप्पणी",
+    "hero_discover": {
+      "title": "और फिल्में खोजें"
+    },
+    "users_most_commented": "सर्वाधिक योगदान देने वाले लेखक",
+    "users_most_masters": "सबसे अधिक महारत हासिल है",
+    "users_most_liked": "जिन्हें ये सबसे ज्यादा पसंद आया",
+    "likes": "{0} पसंद है",
+    "comments": "{शून्य टिप्पणियां",
+    "reviews": "{0} स्कोर",
+    "join_us": "हमसे जुड़ें और समुदाय का हिस्सा बनें"
   },
   "entertainment": {
     "watch_trailer": "ट्रेलर देखें",

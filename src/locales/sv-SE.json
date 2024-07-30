@@ -138,7 +138,20 @@
     "recommended": "Rekommenderad",
     "top_rated": "Högsta betyg",
     "more_info": "Mer information",
-    "trending": "Trendigt den här veckan"
+    "trending": "Trendigt den här veckan",
+    "recent_highlights": "Mest utvalda",
+    "most_liked": "Mest gillat",
+    "most_commented": "De flesta kommenterade",
+    "hero_discover": {
+      "title": "Ta reda på fler filmer"
+    },
+    "users_most_commented": "Mest bidragande skribenter",
+    "users_most_masters": "Mest behärskade",
+    "users_most_liked": "De som gillade det mest",
+    "likes": "{0} gillar",
+    "comments": "{0} kommentarer",
+    "reviews": "{0} poäng",
+    "join_us": "Gå med oss ​​och bli en del av gemenskapen"
   },
   "entertainment": {
     "watch_trailer": "Se trailer",

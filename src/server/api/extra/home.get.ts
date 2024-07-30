@@ -1,5 +1,6 @@
-import prisma from "~/server/db/prisma"
 import {
+  getMostLikedUsers,
+  getMostReviewedUsers,
   getTopMediaByLikes,
   getTopMediaByReviews,
   getTopMediaByReviewsContent
@@ -15,7 +16,10 @@ export default defineEventHandler(async (event) => {
     trending: [] as any,
     top_rated: [] as any,
     top_commented: [] as any,
-    top_liked: [] as any
+    top_liked: [] as any,
+    users_most_commented: [] as any,
+    users_most_reviewed: [] as any,
+    users_most_liked: [] as any
   }
 
   const trending = await $fetch<TMDBSearchResultsResponse>(
@@ -41,6 +45,11 @@ export default defineEventHandler(async (event) => {
   result.top_rated = await getTopMediaByReviews({ limit: 20 })
   result.top_liked = await getTopMediaByLikes()
   result.top_commented = await getTopMediaByReviewsContent()
+
+  result.users_most_commented = await getMostReviewedUsers({ comment: true })
+  result.users_most_reviewed = await getMostReviewedUsers({ comment: false })
+
+  result.users_most_liked = await getMostLikedUsers()
 
   return result
 })

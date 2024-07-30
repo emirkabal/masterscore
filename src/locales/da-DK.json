@@ -139,7 +139,20 @@
     "recommended": "Anbefalet",
     "top_rated": "Topkarakter",
     "more_info": "Mere info",
-    "trending": "Trending i denne uge"
+    "trending": "Trending i denne uge",
+    "recent_highlights": "Mest fremhævede",
+    "most_liked": "Mest kunne lide",
+    "most_commented": "De fleste kommenterede",
+    "hero_discover": {
+      "title": "Find ud af flere film"
+    },
+    "users_most_commented": "Mest bidragende forfattere",
+    "users_most_masters": "Mest mestrede",
+    "users_most_liked": "Dem der kunne lide det mest",
+    "likes": "{0} synes godt om",
+    "comments": "{0} kommentarer",
+    "reviews": "{0} scoringer",
+    "join_us": "Slut dig til os og bliv en del af fællesskabet"
   },
   "entertainment": {
     "watch_trailer": "Se trailer",

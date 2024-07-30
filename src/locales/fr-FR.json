@@ -138,7 +138,20 @@
     "recommended": "Recommandé",
     "top_rated": "Mieux notée",
     "more_info": "Plus d'informations",
-    "trending": "Tendance cette semaine"
+    "trending": "Tendance cette semaine",
+    "recent_highlights": "Les plus présentés",
+    "most_liked": "Le plus aimé",
+    "most_commented": "Le plus commenté",
+    "hero_discover": {
+      "title": "Découvrez plus de films"
+    },
+    "users_most_commented": "Auteurs les plus contributeurs",
+    "users_most_masters": "Le plus maîtrisé",
+    "users_most_liked": "Ceux qui ont le plus aimé",
+    "likes": "{0} j'aime",
+    "comments": "{0 commentaire",
+    "reviews": "{0} scores",
+    "join_us": "Rejoignez-nous et faites partie de la communauté"
   },
   "entertainment": {
     "watch_trailer": "Voir la bande-annonce",
