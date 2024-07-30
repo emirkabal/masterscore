@@ -25,7 +25,7 @@ defineProps<{
       :class="{
         '3xl:h-[500px] 3xl:w-[342px] h-[135px] w-[90px] rounded-xl sm:h-[300px] sm:w-[199.98px] lg:h-[400px] lg:w-[266.65px]':
           size === 'large',
-        'h-40 w-[100px] rounded-lg lg:h-[300px] lg:w-[200px]': size !== 'large'
+        'h-40 w-[100px] rounded-4xl lg:h-[300px] lg:w-[200px]': size !== 'large'
       }"
     />
     <ScoreCircle

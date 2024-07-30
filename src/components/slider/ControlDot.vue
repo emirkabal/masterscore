@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
+  color?: string
   active?: boolean
   value: number
 }>()
@@ -23,7 +24,7 @@ onMounted(updateValues)
 watch(() => props.value, updateValues)
 </script>
 <template>
-  <div>
+  <div :style="{ '--progress-color': props.color }">
     <slot />
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -52,13 +53,13 @@ watch(() => props.value, updateValues)
 }
 
 .progress-dot-inner {
-  fill: #fff;
+  fill: var(--progress-color, #fff);
   opacity: 0.7;
   transition: opacity 0.2s ease-in-out;
 }
 
 .progress-dot-outer-overlay {
-  stroke: #fff;
+  stroke: var(--progress-color, #fff);
 }
 
 svg:hover .progress-dot-inner {

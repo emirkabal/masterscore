@@ -137,8 +137,22 @@
   },
   "home": {
     "recommended": "Önerilenler",
-    "top_rated": "En Çok Puan Alanlar",
-    "more_info": "İncele"
+    "top_rated": "En çok puan alanlar",
+    "more_info": "Görüntüle",
+    "trending": "Bu hafta popüler",
+    "recent_highlights": "Yakın zamanda ilgi çekenler",
+    "most_liked": "En çok beğenilenler",
+    "most_commented": "En çok yorum yapılanlar",
+    "users_most_commented": "En çok katkı sağlayan yazarlar",
+    "users_most_masters": "En çok masterlayanlar",
+    "users_most_liked": "En çok beğenenler",
+    "hero_discover": {
+      "title": "Daha fazla film & dizi keşfedin ve zihninizi genişletin"
+    },
+    "likes": "{0} beğeni",
+    "comments": "{0} yorum",
+    "reviews": "{0} puanlama",
+    "join_us": "Bize katılın ve topluluğun bir parçası olun"
   },
   "entertainment": {
     "watch_trailer": "Fragmanı İzle",

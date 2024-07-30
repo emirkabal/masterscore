@@ -137,8 +137,22 @@
   },
   "home": {
     "recommended": "Empfohlen",
-    "top_rated": "Top Bewertet",
-    "more_info": "Mehr Info"
+    "top_rated": "Top bewertet",
+    "more_info": "Mehr Info",
+    "trending": "Diese Woche im Trend",
+    "recent_highlights": "Am häufigsten vorgestellt",
+    "most_liked": "Am meisten gemocht",
+    "most_commented": "Am meisten kommentiert",
+    "hero_discover": {
+      "title": "Erfahren Sie mehr über Filme"
+    },
+    "users_most_commented": "Die meisten beitragenden Autoren",
+    "users_most_masters": "Am meisten gemeistert",
+    "users_most_liked": "Diejenigen, denen es am besten gefallen hat",
+    "likes": "{0} gefällt",
+    "comments": "{0} Kommentare",
+    "reviews": "{0} Punkte",
+    "join_us": "Treten Sie uns bei und werden Sie Teil der Community"
   },
   "entertainment": {
     "watch_trailer": "Trailer ansehen",

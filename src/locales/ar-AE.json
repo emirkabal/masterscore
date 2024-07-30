@@ -138,7 +138,21 @@
   "home": {
     "recommended": "موصى به",
     "top_rated": "الأعلى تقييمًا",
-    "more_info": "مزيد من المعلومات"
+    "more_info": "مزيد من المعلومات",
+    "trending": "تتجه هذا الأسبوع",
+    "recent_highlights": "الأكثر تميزا",
+    "most_liked": "الأكثر إعجابا",
+    "most_commented": "الأكثر تعليقا",
+    "hero_discover": {
+      "title": "اكتشف المزيد من الأفلام"
+    },
+    "users_most_commented": "معظم الكتاب المساهمين",
+    "users_most_masters": "الأكثر إتقانا",
+    "users_most_liked": "أولئك الذين أحبوا ذلك أكثر",
+    "likes": "{0} إعجاب",
+    "comments": "{0} تعليق",
+    "reviews": "{0} نتيجة",
+    "join_us": "انضم إلينا وكن جزءًا من المجتمع"
   },
   "entertainment": {
     "watch_trailer": "شاهد الإعلان",
