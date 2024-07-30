@@ -60,7 +60,7 @@ $listen("refresh:entertainment", () => {
           />
         </div>
 
-        <div class="mt-8 flex gap-12">
+        <div class="mt-8 flex flex-col gap-12 md:flex-row">
           <div class="h-full w-full">
             <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.recent_highlights") }}</h3>
             <div class="mt-6 grid grid-cols-2 gap-8">
@@ -74,7 +74,7 @@ $listen("refresh:entertainment", () => {
               />
             </div>
           </div>
-          <div class="flex w-full flex-col justify-between">
+          <div class="flex w-full flex-col justify-between gap-12">
             <div class="w-full">
               <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.most_liked") }}</h3>
               <div class="mt-6 grid grid-cols-2 gap-6">
@@ -107,19 +107,19 @@ $listen("refresh:entertainment", () => {
         <div
           class="relative my-24 flex items-center justify-between overflow-hidden rounded-3xl bg-fuchsia-500 bg-gradient-to-r from-fuchsia-800 from-25% px-16 py-24"
         >
-          <div class="space-y-4">
+          <div class="z-10 space-y-4">
             <h3 class="max-w-lg text-3xl font-bold leading-relaxed">
               {{ $t("home.hero_discover.title") }}
             </h3>
             <NuxtLink
               to="/discover"
-              class="flex w-fit items-center gap-2 rounded-xl bg-white px-4 py-2 text-lg font-semibold text-black transition-opacity hover:opacity-75"
+              class="flex w-full items-center gap-2 rounded-xl bg-white px-4 py-2 text-lg font-semibold text-black transition-opacity hover:opacity-75 md:w-fit"
             >
               <Icon name="ic:round-explore" size="24" />
               {{ $t("discover.title") }}
             </NuxtLink>
           </div>
-          <div class="absolute -right-32 top-6 select-none">
+          <div class="absolute -right-96 top-6 hidden select-none md:block 2xl:-right-32">
             <div class="flex max-w-5xl flex-wrap gap-4">
               <MasterImage
                 class="aspect-poster h-48 rounded-3xl"
@@ -131,7 +131,7 @@ $listen("refresh:entertainment", () => {
           </div>
         </div>
 
-        <div class="mt-8 flex gap-12">
+        <div class="mt-8 flex flex-col gap-12 lg:flex-row">
           <div class="h-full w-full">
             <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.users_most_commented") }}</h3>
             <div class="mt-6 grid grid-cols-2 gap-8">
@@ -144,7 +144,7 @@ $listen("refresh:entertainment", () => {
               />
             </div>
           </div>
-          <div class="flex w-full flex-col justify-between">
+          <div class="flex w-full flex-col justify-between gap-12">
             <div class="w-full">
               <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.users_most_masters") }}</h3>
               <div class="mt-6 grid grid-cols-2 gap-6">
@@ -177,19 +177,21 @@ $listen("refresh:entertainment", () => {
           v-if="!userStore.isLoggedIn"
           class="relative my-24 flex items-center justify-between overflow-hidden rounded-3xl bg-gradient-to-l from-yellow-500 from-25% to-yellow-800 px-16 py-24"
         >
-          <div class="space-y-4">
+          <div class="z-10 space-y-4">
             <h3 class="max-w-lg text-3xl font-bold leading-relaxed">
               {{ $t("home.join_us") }}
             </h3>
             <NuxtLink
               to="/account/signup"
-              class="flex w-fit items-center gap-2 rounded-xl bg-white px-4 py-2 text-lg font-semibold text-black transition-opacity hover:opacity-75"
+              class="flex w-full items-center gap-2 rounded-xl bg-white px-4 py-2 text-lg font-semibold text-black transition-opacity hover:opacity-75 md:w-fit"
             >
               <Icon name="ic:round-person-add" size="24" />
               {{ $t("guest.sign_up") }}
             </NuxtLink>
           </div>
-          <div class="absolute -right-32 -top-8 rotate-[8.85deg] select-none">
+          <div
+            class="absolute -right-96 -top-8 hidden rotate-[8.85deg] select-none md:block 2xl:-right-32"
+          >
             <div class="flex max-w-5xl flex-wrap gap-4">
               <Avatar
                 class="aspect-square h-36 rounded-3xl"
