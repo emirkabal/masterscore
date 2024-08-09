@@ -146,11 +146,11 @@ const onSubmit = form.handleSubmit(async (values) => {
         >
       </p>
     </div>
-    <div class="fixed bottom-0 left-1/2 z-50 mb-4 block -translate-x-1/2 text-black md:hidden">
-      <LangSwitcher :light="true" />
+    <div class="fixed bottom-0 left-1/2 z-50 mb-4 block -translate-x-1/2 md:hidden">
+      <LangSwitcher />
     </div>
     <div class="absolute bottom-0 right-0 z-50 mb-4 mr-12 hidden md:block">
-      <LangSwitcher :light="true" />
+      <LangSwitcher />
     </div>
     <div
       class="absolute right-0 top-0 z-10 hidden h-screen w-full bg-gradient-to-b from-yellow-600/80 backdrop-blur-sm md:block"

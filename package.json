@@ -21,6 +21,7 @@
     "@nuxtjs/device": "^3.1.1",
     "@nuxtjs/i18n": "8.3.1",
     "@prisma/client": "5.17.0",
+    "@tailwindcss/typography": "^0.5.14",
     "@types/bcrypt": "^5.0.2",
     "@types/color-thief-node": "^1.0.4",
     "@types/jsonwebtoken": "^9.0.5",
@@ -49,7 +50,6 @@
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
     "@supabase/supabase-js": "^2.39.7",
-    "@tailwindcss/forms": "^0.5.7",
     "@types/humanize-duration": "^3.27.4",
     "@upstash/redis": "^1.28.4",
     "@vee-validate/zod": "^4.12.6",
