@@ -77,7 +77,9 @@ const date = useAppConfig().buildDate
               >
             </li>
             <li>
-              <NuxtLink to="https://x.com/masterscore" external target="_blank">Twitter</NuxtLink>
+              <NuxtLink to="https://x.com/masterscoreorg" external target="_blank"
+                >Twitter</NuxtLink
+              >
             </li>
           </ul>
         </div>
