@@ -12,7 +12,7 @@ const date = useAppConfig().buildDate
     }"
   >
     <div
-      class="max-w-8xl container mx-auto flex w-full flex-col-reverse justify-between gap-2 px-4 text-center md:flex-row md:text-left"
+      class="max-w-8xl container mx-auto flex w-full flex-col items-center justify-between gap-12 px-4 text-center md:flex-row md:text-left"
     >
       <div class="mx-auto flex flex-col md:mx-0">
         <div class="mb-1 flex w-full justify-center gap-x-2 md:justify-start">
@@ -42,50 +42,58 @@ const date = useAppConfig().buildDate
         <p class="max-w-xs text-sm text-gray-300">
           &copy; {{ new Date().getFullYear() }} Masterscore
         </p>
-
-        <div class="mt-12 flex flex-wrap items-center justify-center gap-4 gap-y-2 md:hidden">
-          <IconsVercel />
-
-          <a
-            class="flex items-center justify-center gap-x-3 text-xs tracking-tight opacity-90 hover:opacity-100"
-            href="https://emirkabal.com"
-            >created by <IconsEKLogo class="inline h-6 w-auto"
-          /></a>
-
-          <a
-            class="flex items-center justify-center gap-x-2 text-xs tracking-tight opacity-90 hover:opacity-100"
-            href="https://github.com/emirkabal/masterscore"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon name="mdi:github" class="h-8 w-8" />
-            Open Source
-          </a>
+        <a
+          class="group mt-2 flex items-center justify-center gap-x-3 text-xs tracking-tight opacity-75 hover:opacity-100 md:justify-start"
+          href="https://emirkabal.com"
+          >created by
+          <IconsEKLogo
+            class="inline h-5 w-auto transform-gpu transition-transform group-hover:-rotate-90"
+        /></a>
+      </div>
+      <div class="flex flex-grow flex-wrap justify-around gap-12">
+        <div class="space-y-2">
+          <h6 class="font-medium">Pages</h6>
+          <ul class="links">
+            <li><NuxtLink to="/">Home</NuxtLink></li>
+            <li><NuxtLink to="/discover">Discover</NuxtLink></li>
+            <li><NuxtLink to="/feed">Feed</NuxtLink></li>
+            <li><NuxtLink to="/table">Table</NuxtLink></li>
+          </ul>
+        </div>
+        <div class="space-y-2">
+          <h6 class="font-medium">Legal</h6>
+          <ul class="links">
+            <li><NuxtLink to="/terms">Terms of Service</NuxtLink></li>
+            <li><NuxtLink to="/privacy">Privacy Policy</NuxtLink></li>
+            <li><NuxtLink to="/cookie">Cookie Policy</NuxtLink></li>
+          </ul>
+        </div>
+        <div class="space-y-2">
+          <h6 class="font-medium">Social</h6>
+          <ul class="links">
+            <li>
+              <NuxtLink to="https://github.com/emirkabal/masterscore" external target="_blank"
+                >Github</NuxtLink
+              >
+            </li>
+            <li>
+              <NuxtLink to="https://x.com/masterscore" external target="_blank">Twitter</NuxtLink>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="flex flex-col items-center justify-center md:items-end md:justify-between">
+      <div class="flex flex-col justify-end">
         <LangSwitcher />
-        <div class="hidden items-center gap-x-4 md:flex">
-          <IconsVercel />
-
-          <a
-            class="flex items-center gap-x-2 text-xs tracking-tight opacity-90 hover:opacity-100"
-            href="https://github.com/emirkabal/masterscore"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon name="mdi:github" class="h-8 w-8" />
-            Open Source
-          </a>
-          <a
-            class="group hidden items-center gap-x-3 text-xs tracking-tight opacity-90 hover:opacity-100 md:flex"
-            href="https://emirkabal.com"
-            >created by
-            <IconsEKLogo
-              class="inline h-6 w-auto transform-gpu transition-transform group-hover:-rotate-90"
-          /></a>
-        </div>
       </div>
     </div>
   </footer>
 </template>
+
+<style scoped>
+.links {
+  @apply space-y-1.5;
+}
+.links li {
+  @apply cursor-pointer opacity-75 hover:opacity-100;
+}
+</style>
