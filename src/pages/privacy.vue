@@ -1,17 +1,17 @@
 <template>
-  <div class="prose prose-invert mx-auto py-32 text-2xl">
+  <div class="prose prose-invert mx-auto py-32 text-2xl prose-a:no-underline">
     <div>
       <p class="inline-block border-b-4 border-yellow-500 text-4xl tracking-tight">
         <strong>Privacy Policy</strong>
       </p>
       <p><strong>1. Introduction</strong></p>
       <p>
-        Welcome to Masterscore.org (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). We are
+        Welcome to masterscore.org (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). We are
         committed to protecting and respecting your privacy. This Privacy Policy explains how we
         collect, use, disclose, and safeguard your information when you visit our website
-        <a href="https://masterscore.org">https://masterscore.org</a> (the &quot;Site&quot;). Please
-        read this policy carefully. If you do not agree with the terms of this privacy policy,
-        please do not access the Site.
+        <NuxtLink to="/">https://masterscore.org</NuxtLink> (the &quot;Site&quot;). Please read this
+        policy carefully. If you do not agree with the terms of this privacy policy, please do not
+        access the Site.
       </p>
       <p><strong>2. Information We Collect</strong></p>
       <p><strong>2.1 Personal Data</strong></p>
@@ -23,9 +23,8 @@
       </ul>
       <p>Personal data may include:</p>
       <ul>
-        <li>Name</li>
+        <li>Username</li>
         <li>Email address</li>
-        <li>Phone number</li>
         <li>Any other information you choose to provide</li>
       </ul>
       <p><strong>2.2 Usage Data</strong></p>
@@ -42,8 +41,8 @@
       <p>
         We use cookies and similar tracking technologies to track activity and store certain
         information. Cookies are small data files that are placed on your device. You can manage
-        your cookie preferences through your browser settings. For more information, see our [Cookie
-        Policy].
+        your cookie preferences through your browser settings. For more information, see our
+        <NuxtLink to="/cookie">Cookie Policy</NuxtLink>.
       </p>
       <p><strong>3. How We Use Your Information</strong></p>
       <p>We use the information we collect for various purposes, including:</p>

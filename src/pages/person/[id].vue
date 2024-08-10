@@ -110,7 +110,7 @@ useHead({
 })
 </script>
 <template>
-  <div v-if="pending" class="flex items-center justify-center">
+  <div v-if="pending" class="preffered-background flex min-h-screen items-center justify-center">
     <Loader class="my-36" />
   </div>
   <div v-else-if="!data || 'status' in data">
@@ -120,7 +120,7 @@ useHead({
     </div>
   </div>
 
-  <div v-else class="preffered-background pb-36 pt-20">
+  <div v-else class="preffered-background min-h-screen pb-36 pt-20">
     <div class="container mx-auto mt-8 px-4">
       <div class="flex flex-col items-stretch justify-center gap-8 md:flex-row">
         <div class="w-full md:min-w-[300px] md:max-w-[300px]">
