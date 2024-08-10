@@ -3,7 +3,7 @@
 <template>
   <footer
     v-if="!$route.name?.startsWith('discover')"
-    class="flex w-full flex-1 flex-col flex-wrap gap-16 border-t border-primary-foreground bg-gray-900/5 px-6 py-16 sm:px-24 xl:px-48 2xl:max-h-[686px] 2xl:flex-row 2xl:gap-x-48"
+    class="flex w-full flex-1 flex-col flex-wrap gap-16 border-t border-primary-foreground bg-gray-900/5 px-6 py-16 sm:px-24 xl:px-48 2xl:max-h-[690px] 2xl:flex-row 2xl:gap-x-48"
   >
     <div class="flex w-full max-w-[400px] flex-col gap-y-6">
       <div class="flex gap-6">

@@ -1,5 +1,5 @@
 <template>
-  <div class="prose prose-invert mx-auto py-32 text-2xl prose-a:no-underline">
+  <div class="prose prose-invert mx-auto py-32 prose-a:no-underline">
     <div>
       <p class="inline-block border-b-4 border-yellow-500 text-4xl tracking-tight">
         <strong>Privacy Policy</strong>
