@@ -2,7 +2,7 @@
 import debounce from "lodash.debounce"
 import { onKeyStroke, useStorage } from "@vueuse/core"
 const { $event } = useNuxtApp()
-const { isApple } = useDevice()
+const { isMacOS } = useDevice()
 const search = ref("")
 const loading = ref(false)
 const results = ref([])
@@ -77,15 +77,16 @@ const focus = () => {
 }
 
 const key = computed(() => {
-  return isApple.value ? "⌘" : "Ctrl"
+  return isMacOS ? "⌘" : "Ctrl"
 })
 
 watch(focused, () => {
   $event("searchbar:focus", focused.value)
 })
 
-onKeyStroke(["Control", "K", "k"], (e) => {
-  if (!e.ctrlKey || e.code !== "KeyK") return
+onKeyStroke(["Control", "Cmd", "K", "k"], (e) => {
+  if (!isMacOS && (!e.ctrlKey || e.code !== "KeyK")) return
+  if (isMacOS && (!e.metaKey || e.code !== "KeyK")) return
   e.preventDefault()
   if (focused.value) {
     removeFocus()

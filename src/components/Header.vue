@@ -21,7 +21,7 @@ const entertainment = reactive({
 const top = ref(false)
 
 const isHeaderShown = computed(() => {
-  return top.value
+  return top.value || searchFocus.value
 })
 
 const isBottomAndHidden = computed(() => {
@@ -63,7 +63,7 @@ $listen("searchbar:focus", (val) => {
     class="absolute top-0 z-30 flex h-16 w-full items-center justify-between px-4 transition-all md:px-6"
     :class="{
       hidden: isHeaderHidden,
-      'enter-animation !fixed  bg-gray-900': isHeaderShown,
+      'enter-animation !fixed bg-gray-900': isHeaderShown,
       '!fixed !-top-14': isBottomAndHidden
     }"
   >

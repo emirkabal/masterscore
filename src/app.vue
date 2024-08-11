@@ -10,7 +10,7 @@ watch($router.currentRoute, () => {
 let interval
 
 onMounted(() => {
-  if (process.client) {
+  if (import.meta.client) {
     interval = setInterval(() => {
       const modal = document.querySelector(".modal")
       const popover = document.querySelector("[data-radix-popper-content-wrapper]")

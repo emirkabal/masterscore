@@ -38,7 +38,7 @@ $listen("refresh:entertainment", () => {
 
 <template>
   <div class="preffered-background">
-    <div class="mx-auto max-w-[1600px] px-4 py-24">
+    <div class="mx-auto max-w-[1600px] px-4 py-24 md:px-14">
       <div v-if="status === 'success'">
         <div class="h-[640px] w-full">
           <HomeMainSlider :data="home.trending" />

@@ -28,9 +28,7 @@ useHead({
         <h2 class="font-semibold">
           {{ $t("settings.about") }}
         </h2>
-        <p
-          class="line-clamp-5 truncate whitespace-pre-wrap break-words text-gray-500 dark:text-gray-100"
-        >
+        <p class="line-clamp-5 truncate whitespace-pre-wrap break-words text-gray-100">
           {{ user.about }}
         </p>
       </div>
