@@ -250,7 +250,7 @@ useHead({
                         <span class="mt-0.5 w-10 text-center font-maven">{{ movie.year }}</span>
                         <div>
                           <NuxtLink
-                            :to="`/${movie.media_type}/${movie.id}`"
+                            :to="$tlink(movie)"
                             class="text-lg font-semibold text-white hover:text-gray-200"
                             >{{ movie.title || movie.name }}</NuxtLink
                           >

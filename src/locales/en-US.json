@@ -129,7 +129,8 @@
       "display_name": "Display name"
     },
     "reset": "Reset",
-    "save_text": "There are unsaved changes."
+    "save_text": "There are unsaved changes.",
+    "about_placeholder": "Fill out this section about yourself"
   },
   "footer": {
     "about": "Your ultimate source for unbiased movie and TV show reviews. Discover your next favorite entertainment!",

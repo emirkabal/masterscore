@@ -2,6 +2,8 @@
 import { useUserStore } from "~/store/user"
 import { useFileDialog } from "@vueuse/core"
 
+const userStore = useUserStore()
+
 const config = useRuntimeConfig()
 
 const props = defineProps<{
@@ -141,7 +143,7 @@ const cropped = (type: "avatar" | "banner", v: string) => {
         <Textarea
           class="h-10 w-full"
           v-model="settings.account.about"
-          placeholder="i want to be happy"
+          :placeholder="userStore.user?.about || $t('settings.about_placeholder')"
         />
       </div>
     </div>

@@ -129,7 +129,8 @@
     "reset": "Nulstil",
     "save_text": "Der er ikke-gemte ændringer.",
     "use_old_review_modal": "Brug Old Review Modal",
-    "use_old_review_modal_alt": "Brug den gamle gennemgangsmodal i stedet for den nye. \nDette vil blive fjernet i fremtiden."
+    "use_old_review_modal_alt": "Brug den gamle gennemgangsmodal i stedet for den nye. \nDette vil blive fjernet i fremtiden.",
+    "about_placeholder": "Udfyld dette afsnit om dig selv"
   },
   "footer": {
     "about": "Din ultimative kilde til upartiske anmeldelser af film og tv-shows. Opdag dit næste yndlingsunderholdning!",

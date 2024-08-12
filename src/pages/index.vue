@@ -67,7 +67,7 @@ $listen("refresh:entertainment", () => {
               <HomeMediaCard
                 v-for="hero in home.trending.slice(0, 20)"
                 :key="hero.id"
-                :to="`${$tlink(hero)}`"
+                :to="$tlink(hero)"
                 :poster="hero.poster_path"
                 :title="$getTitle(hero)"
                 :subtitle="$getYear(hero).toString()"
@@ -81,7 +81,7 @@ $listen("refresh:entertainment", () => {
                 <HomeMediaCard
                   v-for="hero in home.top_liked"
                   :key="hero.data.id"
-                  :to="`${hero.data.type}/${hero.data.tmdb_id}`"
+                  :to="$tlink(hero.data)"
                   :poster="hero.data.images.poster"
                   :title="hero.data.title"
                   :subtitle="$t('home.likes', [hero.count])"
@@ -94,7 +94,7 @@ $listen("refresh:entertainment", () => {
                 <HomeMediaCard
                   v-for="hero in home.top_commented"
                   :key="hero.data.id"
-                  :to="`${hero.data.type}/${hero.data.tmdb_id}`"
+                  :to="$tlink(hero.data)"
                   :poster="hero.data.images.poster"
                   :title="$getTitle(hero.data)"
                   :subtitle="$t('home.comments', [hero.count])"

@@ -129,7 +129,8 @@
     "debug_mode_alt": "Hata ayıklama amacıyla ek bilgileri gösterin.",
     "profile": "Profil",
     "use_old_review_modal": "Eski değerlendirme kutusunu kullan",
-    "use_old_review_modal_alt": "Yenisi yerine eski değerlendirme kutusunu kullanın. \nBu gelecekte kaldırılacaktır."
+    "use_old_review_modal_alt": "Yenisi yerine eski değerlendirme kutusunu kullanın. \nBu gelecekte kaldırılacaktır.",
+    "about_placeholder": "Kendinizle ilgili bu bölümü doldurun"
   },
   "footer": {
     "about": "Tarafsız film ve dizi incelemeleri için son nokta. Sonraki favori içeriğinizi keşfedin!",

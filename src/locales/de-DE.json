@@ -129,7 +129,8 @@
     "reset": "Zurücksetzen",
     "save_text": "Es gibt nicht gespeicherte Änderungen.",
     "use_old_review_modal": "Verwenden Sie das alte Bewertungsmodal",
-    "use_old_review_modal_alt": "Verwenden Sie das alte Bewertungsmodal anstelle des neuen. \nDies wird in Zukunft entfernt."
+    "use_old_review_modal_alt": "Verwenden Sie das alte Bewertungsmodal anstelle des neuen. \nDies wird in Zukunft entfernt.",
+    "about_placeholder": "Füllen Sie diesen Abschnitt über sich selbst aus"
   },
   "footer": {
     "about": "Ihre ultimative Quelle für unvoreingenommene Film- und Serienbewertungen. Entdecken Sie Ihr nächstes Lieblingsunterhaltung!",

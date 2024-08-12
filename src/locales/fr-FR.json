@@ -128,7 +128,8 @@
     "reset": "Réinitialiser",
     "save_text": "Il y a des modifications non enregistrées.",
     "use_old_review_modal": "Utiliser l'ancien modal d'évaluation",
-    "use_old_review_modal_alt": "Utilisez l'ancien modal de révision au lieu du nouveau. \nCela sera supprimé à l’avenir."
+    "use_old_review_modal_alt": "Utilisez l'ancien modal de révision au lieu du nouveau. \nCela sera supprimé à l’avenir.",
+    "about_placeholder": "Remplissez cette section sur vous-même"
   },
   "footer": {
     "about": "Votre source ultime de critiques impartiales de films et d'émissions de télévision. Découvrez votre prochain divertissement préféré !",

@@ -128,7 +128,8 @@
     "reset": "Reiniciar",
     "save_text": "Hay cambios no guardados.",
     "use_old_review_modal": "Utilice el modo de revisión anterior",
-    "use_old_review_modal_alt": "Utilice el modo de revisión anterior en lugar del nuevo. \nEsto se eliminará en el futuro."
+    "use_old_review_modal_alt": "Utilice el modo de revisión anterior en lugar del nuevo. \nEsto se eliminará en el futuro.",
+    "about_placeholder": "Complete esta sección sobre usted"
   },
   "footer": {
     "about": "Tu fuente definitiva de críticas imparciales de películas y programas de televisión. Descubre tu próximo entretenimiento favorito.",

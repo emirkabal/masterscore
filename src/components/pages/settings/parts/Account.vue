@@ -46,7 +46,7 @@ const isUsernameChangeDisabled = computed(() => {
       </div>
       <div class="flex items-center justify-between">
         <div>
-          <span class="block text-base font-semibold text-white md:text-lg"> E-posta </span>
+          <span class="block text-base font-semibold text-white md:text-lg"> Email </span>
           <p class="mt-1 text-xs leading-4 text-muted-foreground sm:text-sm md:text-base">
             {{ userStore.user?.email }}
           </p>
@@ -57,9 +57,9 @@ const isUsernameChangeDisabled = computed(() => {
       </div>
       <div class="flex items-center justify-between">
         <div>
-          <span class="block text-base font-semibold text-white md:text-lg"> Şifre </span>
+          <span class="block text-base font-semibold text-white md:text-lg"> Password </span>
           <p class="mt-1 text-xs leading-4 text-muted-foreground sm:text-sm md:text-base">
-            Hesabınızın şifresini değiştirin.
+            Change your account password
           </p>
         </div>
         <Button>

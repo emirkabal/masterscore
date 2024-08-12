@@ -128,7 +128,8 @@
     "reset": "Reiniciar",
     "save_text": "Existem alterações não salvas.",
     "use_old_review_modal": "Usar modal de revisão antigo",
-    "use_old_review_modal_alt": "Use o antigo modal de revisão em vez do novo. \nIsso será removido no futuro."
+    "use_old_review_modal_alt": "Use o antigo modal de revisão em vez do novo. \nIsso será removido no futuro.",
+    "about_placeholder": "Preencha esta secção sobre si"
   },
   "footer": {
     "about": "Sua fonte definitiva para avaliações imparciais de filmes e programas de TV. Descubra sua próxima diversão favorita!",

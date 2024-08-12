@@ -128,7 +128,8 @@
     "reset": "Återställa",
     "save_text": "Det finns ändringar som inte har sparats.",
     "use_old_review_modal": "Använd Old Review Modal",
-    "use_old_review_modal_alt": "Använd den gamla recensionsmetoden istället för den nya. \nDetta kommer att tas bort i framtiden."
+    "use_old_review_modal_alt": "Använd den gamla recensionsmetoden istället för den nya. \nDetta kommer att tas bort i framtiden.",
+    "about_placeholder": "Fyll i det här avsnittet om dig själv"
   },
   "footer": {
     "about": "Din ultimata källa för opartiska recensioner av filmer och TV-program. Upptäck din nästa favoritunderhållning!",
