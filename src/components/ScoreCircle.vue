@@ -13,7 +13,7 @@ withDefaults(
   <div
     v-if="score > 0"
     :class="{
-      'bg-brand/40 text-yellow-300 backdrop-blur-sm': score >= 9,
+      'border border-brand bg-black/40 text-brand backdrop-blur-sm': score >= 9,
       'bg-yellow-300 text-black': score >= 8 && score < 9,
       'bg-green-600 text-gray-50': score >= 7 && score < 8,
       'bg-gray-400/40 text-white backdrop-blur-sm': score >= 5 && score < 7,

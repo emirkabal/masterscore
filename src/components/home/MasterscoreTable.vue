@@ -116,7 +116,7 @@ watch([listType, disableReviewRequirement], () => {
       <template #item-media.title="{ media }">
         <NuxtLink
           class="flex items-center gap-2 text-lg font-semibold hover:underline"
-          :to="`/${media.type}/${media.tmdb_id}`"
+          :to="$tlink(media)"
         >
           <img
             :src="`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${media.images.poster}`"

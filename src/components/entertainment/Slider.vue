@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CollapsedMedia, CreditsResult, Media, TMDBResult } from "~/types"
 import { Swiper, SwiperSlide } from "swiper/vue"
-import { FreeMode, Navigation } from "swiper/modules"
+import { FreeMode, Mousewheel, Navigation } from "swiper/modules"
 import { useEventListener } from "@vueuse/core"
 import "swiper/css"
 
@@ -27,7 +27,7 @@ useEventListener("resize", () => {
 <template>
   <div class="relative">
     <Swiper
-      :modules="[Navigation, FreeMode]"
+      :modules="[Navigation, FreeMode, Mousewheel]"
       :slidesPerView="'auto'"
       :spaceBetween="10"
       :slidesPerGroup="2"
@@ -38,6 +38,10 @@ useEventListener("resize", () => {
         sticky: false,
         momentumBounce: false,
         minimumVelocity: 0.1
+      }"
+      :mousewheel="{
+        enabled: true,
+        forceToAxis: true
       }"
       :navigation="{
         enabled: true,
@@ -60,12 +64,7 @@ useEventListener("resize", () => {
                 )
               : 'loading'
           "
-          :id="('tmdb_id' in item && item.tmdb_id) || item.id"
-          :media_type="
-            ('tmdb_id' in item ? item.type : 'media_type' in item ? item.media_type : null) ||
-            fixedMediaType ||
-            'movie'
-          "
+          :to="$tlink(item)"
           :size="itemSize"
           :rating="showRatings && 'vote_average' in item ? item.vote_average : undefined"
         />

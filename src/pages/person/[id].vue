@@ -8,10 +8,12 @@ const revealBio = ref(false)
 const showDetailsDev = ref(false)
 const flags = useLocalStorage("preferences", {} as any)
 
-const { data, pending, error, refresh } = await useAsyncData(
-  `Person-${params.id}`,
+const id = computed(() => (params.id as string).split("-").pop() as string)
+
+const { data, status, error, refresh } = await useAsyncData(
+  `Person-${id.value}`,
   () => {
-    return getPerson(params.id as string)
+    return getPerson(id.value)
   },
   {
     lazy: true
@@ -110,7 +112,10 @@ useHead({
 })
 </script>
 <template>
-  <div v-if="pending" class="preffered-background flex min-h-screen items-center justify-center">
+  <div
+    v-if="status === 'pending'"
+    class="preffered-background flex min-h-screen items-center justify-center"
+  >
     <Loader class="my-36" />
   </div>
   <div v-else-if="!data || 'status' in data">

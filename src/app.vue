@@ -1,6 +1,4 @@
 <script setup>
-import { useLocalStorage } from "@vueuse/core"
-
 const { $router, $event } = useNuxtApp()
 
 watch($router.currentRoute, () => {

@@ -4,6 +4,7 @@ import { vIntersectionObserver } from "@vueuse/components"
 import debounce from "lodash.debounce"
 import type { Media } from "~/types"
 const params = useUrlSearchParams("history")
+const { $moment, $tlink } = useNuxtApp()
 
 type CustomIncomingData = {
   id: string
@@ -130,7 +131,7 @@ watch(
           :skip-info="true"
         />
         <EntertainmentCard
-          :to="`/${activity.media.type}/${activity.media.tmdb_id}`"
+          :to="$tlink(activity.media)"
           :media="activity.media"
           :score="activity.type === 'review' ? activity.rating : undefined"
           :title="activity.type"

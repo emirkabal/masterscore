@@ -3,7 +3,7 @@ import type { Review } from "~/types"
 import { vIntersectionObserver } from "@vueuse/components"
 import { useUserStore } from "~/store/user"
 
-const { $event } = useNuxtApp()
+const { $event, $timage, $tlink } = useNuxtApp()
 const userStore = useUserStore()
 const route = useRoute()
 
@@ -175,7 +175,7 @@ useHead({
             <Spinner />
           </div>
 
-          <NuxtLink :to="`/${review.media.type}/${review.media.tmdb_id}`">
+          <NuxtLink :to="$tlink(review.media)">
             <MasterImage
               :source="$timage(review.media.images.poster || '-', 'w300')"
               :alt="review.media.title"
@@ -189,7 +189,7 @@ useHead({
           <div class="relative w-full">
             <div class="flex w-full flex-wrap justify-between gap-x-4 gap-y-1">
               <h3 class="line-clamp-1 text-base font-semibold tracking-tight md:text-xl">
-                <NuxtLink :to="`/${review.media.type}/${review.media.tmdb_id}`">
+                <NuxtLink :to="$tlink(review.media)">
                   {{ review.media.title }}
                 </NuxtLink>
                 <span class="ml-2 text-gray-300"

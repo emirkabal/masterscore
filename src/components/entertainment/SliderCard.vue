@@ -1,8 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   loading?: boolean
-  id?: string | number
-  media_type?: string
+  to?: string
   image?: string
   rating?: number
   size?: "default" | "large"
@@ -10,7 +9,7 @@ defineProps<{
 </script>
 <template>
   <NuxtLink
-    :to="`/${media_type}/${id}`"
+    :to="to"
     class="relative h-full w-full bg-cover bg-center bg-no-repeat transition-opacity hover:opacity-90"
     :class="{
       'skeleton-effect pointer-events-none relative': loading,

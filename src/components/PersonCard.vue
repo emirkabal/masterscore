@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { $timage, $tlink } = useNuxtApp()
 const { data } = defineProps<{
   data: {
     id: number
@@ -12,7 +13,7 @@ const { data } = defineProps<{
 <template>
   <NuxtLink
     class="flex w-full max-w-[100px] flex-shrink-0 select-none snap-start flex-col transition-opacity hover:opacity-75 md:max-w-[140px]"
-    :to="`/person/${data.id}`"
+    :to="$tlink({ type: 'person', ...data })"
   >
     <div class="flex w-full flex-col items-center justify-center rounded">
       <MasterImage

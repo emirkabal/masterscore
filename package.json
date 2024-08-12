@@ -70,6 +70,7 @@
     "moment": "^2.30.1",
     "pinia": "^2.1.7",
     "radix-vue": "^1.4.8",
+    "slugify": "^1.6.6",
     "swiper": "^11.0.6",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",

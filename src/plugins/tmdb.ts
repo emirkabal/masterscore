@@ -4,8 +4,11 @@ import type {
   LogoSizes,
   PosterSizes,
   CollapsedMedia,
-  TMDBResult
+  TMDBResult,
+  TMDBMedia,
+  Media
 } from "~/types"
+import { slugify } from "@/lib/utils"
 
 const genres = [
   {
@@ -191,6 +194,21 @@ const providers = [
 export default defineNuxtPlugin(() => {
   return {
     provide: {
+      tlink: (
+        media:
+          | Media
+          | TMDBMedia
+          | TMDBResult
+          | { type: "movie" | "tv" | "person"; id: string | number; title?: string; name?: string }
+      ) => {
+        if ("tmdb_id" in media) {
+          return `/${media.type}/${slugify(media.title)}-${media.tmdb_id}`
+        } else if ("type" in media) {
+          return `/${media.type}/${slugify(media.title! || media.name!)}-${media.id}`
+        } else {
+          return `/${media.media_type}/${slugify(media.title! || media.name!)}-${media.id}`
+        }
+      },
       timage: (path: string, size: PosterSizes | BackdropSizes | LogoSizes) => {
         return `https://image.tmdb.org/t/p/${size}${path}`
       },

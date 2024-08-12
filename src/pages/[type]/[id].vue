@@ -12,11 +12,11 @@ const flags = useLocalStorage("preferences", {} as any)
 
 const route = useRoute()
 const type = computed(() => route.params.type as "movie" | "tv")
-const id = computed(() => route.params.id as string)
+const id = computed(() => (route.params.id as string).split("-").pop() as string)
 
 const {
   data: data,
-  pending,
+  status,
   error
 } = await useAsyncData(`m:${type.value}${id.value}`, () => getMedia(type.value, id.value), {
   lazy: true
@@ -105,7 +105,7 @@ updateSeo()
 </script>
 
 <template>
-  <EntertainmentLoading v-if="pending || !data" />
+  <EntertainmentLoading v-if="status === 'pending' || !data" />
   <div
     v-else-if="data"
     :class="{

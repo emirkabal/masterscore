@@ -21,7 +21,7 @@ const entertainment = reactive({
 const top = ref(false)
 
 const isHeaderShown = computed(() => {
-  return top.value || searchFocus.value
+  return top.value || (searchFocus.value && scroll.y.value > 0)
 })
 
 const isBottomAndHidden = computed(() => {

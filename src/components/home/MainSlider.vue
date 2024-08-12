@@ -2,7 +2,7 @@
 import type { TMDBResult } from "~/types"
 import { Swiper as SwiperType } from "swiper"
 import { Swiper, SwiperSlide } from "swiper/vue"
-import { Autoplay, EffectFade, Parallax } from "swiper/modules"
+import { Autoplay, EffectFade, Mousewheel, Parallax } from "swiper/modules"
 import tinycolor from "tinycolor2"
 import "swiper/css"
 import "swiper/css/effect-fade"
@@ -79,13 +79,17 @@ const slideTo = (index: number) => {
       class="skeleton-effect skeleton-effect absolute h-full w-full bg-gray-900"
     ></div>
     <Swiper
-      :modules="[Autoplay, EffectFade, Parallax]"
+      :modules="[Autoplay, EffectFade, Parallax, Mousewheel]"
       :slides-per-view="1"
       :effect="'fade'"
       :loop="true"
       :parallax="true"
       :autoplay="{
         delay: 5000
+      }"
+      :mousewheel="{
+        enabled: true,
+        forceToAxis: true
       }"
       @swiper="onSwiper"
       @slide-change="slideChange"
@@ -162,7 +166,7 @@ const slideTo = (index: number) => {
               </p>
               <div>
                 <NuxtLink
-                  :to="`/${item.media_type}/${item.id}`"
+                  :to="$tlink(item)"
                   class="inline-block rounded-full bg-white px-4 py-2 text-lg font-semibold tracking-wide text-black transition-colors hover:bg-gray-200"
                   :class="{
                     '!bg-black !text-white hover:!bg-black/80': colors?.[index]?.light

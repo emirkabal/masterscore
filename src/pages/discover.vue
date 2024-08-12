@@ -3,7 +3,7 @@ import type { TMDBResult } from "~/types"
 import { vInfiniteScroll } from "@vueuse/components"
 
 const { t } = useI18n()
-const { $tfiltergenres } = useNuxtApp()
+const { $tfiltergenres, $tlink } = useNuxtApp()
 
 const router = useRouter()
 const route = useRoute()
@@ -55,7 +55,15 @@ const isDisabled = computed(() => {
 })
 
 const changeSelect = (index: number) => {
-  if (index === select.value) return router.push(`/${type.value}/${selected.value.id}`)
+  // if (index === select.value) return router.push(`/${type.value}/${selected.value.id}`)
+  if (index === select.value)
+    return router.push(
+      $tlink({
+        title: selected.value.title || selected.value.name,
+        id: selected.value.id,
+        type: type.value
+      })
+    )
   select.value = index
 }
 

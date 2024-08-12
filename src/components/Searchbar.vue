@@ -1,7 +1,7 @@
 <script setup>
 import debounce from "lodash.debounce"
 import { onKeyStroke, useStorage } from "@vueuse/core"
-const { $event } = useNuxtApp()
+const { $event, $tlink } = useNuxtApp()
 const { isMacOS } = useDevice()
 const search = ref("")
 const loading = ref(false)
@@ -173,9 +173,9 @@ onKeyStroke(["Control", "Cmd", "K", "k"], (e) => {
               }
               return
             } else if (selectedIndex < results.length) {
-              $router.push(`/${results[selectedIndex].media_type}/${results[selectedIndex].id}`)
+              $router.push($tlink(results[selectedIndex]))
             } else if (selectedIndex < results.length + persons.length) {
-              $router.push(`/person/${persons[selectedIndex - results.length].id}`)
+              $router.push($tlink({ type: 'person', ...persons[selectedIndex - results.length] }))
             } else if (selectedIndex < results.length + persons.length + users.length) {
               $router.push(`/${users[selectedIndex - results.length - persons.length].username}`)
             }
@@ -243,7 +243,7 @@ onKeyStroke(["Control", "Cmd", "K", "k"], (e) => {
 
           <div v-for="(result, i) in results" :key="i">
             <NuxtLink
-              :to="`/${result.media_type}/${result.id}`"
+              :to="$tlink(result)"
               @mouseenter="selectedIndex = i"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"
               @click="removeFocus(true)"
@@ -283,7 +283,7 @@ onKeyStroke(["Control", "Cmd", "K", "k"], (e) => {
           </div>
           <div v-for="(person, i) in persons" :key="`person-${i}`">
             <NuxtLink
-              :to="`/person/${person.id}`"
+              :to="$tlink({ type: 'person', ...person })"
               @mouseenter="selectedIndex = i + results.length"
               @click="removeFocus(true)"
               class="block w-full overflow-hidden rounded-lg p-1.5 transition-colors"

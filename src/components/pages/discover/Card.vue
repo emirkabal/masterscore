@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { TMDBSearchResult } from "~/types"
+import type { TMDBResult } from "~/types"
+const { $timage, $getTitle } = useNuxtApp()
 
 defineProps<{
-  meta: TMDBSearchResult
+  meta: TMDBResult
   selected: boolean
 }>()
 </script>
@@ -11,7 +12,7 @@ defineProps<{
     <div
       class="relative aspect-poster overflow-hidden rounded-3xl ring-gray-200 group-hover:ring-4"
       :class="{
-        'ring-4 ': selected
+        'ring-4': selected
       }"
     >
       <MasterImage

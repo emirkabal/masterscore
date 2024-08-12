@@ -67,7 +67,7 @@ $listen("refresh:entertainment", () => {
               <HomeMediaCard
                 v-for="hero in home.trending.slice(0, 20)"
                 :key="hero.id"
-                :to="`${hero.media_type}/${hero.id}`"
+                :to="`${$tlink(hero)}`"
                 :poster="hero.poster_path"
                 :title="$getTitle(hero)"
                 :subtitle="$getYear(hero).toString()"

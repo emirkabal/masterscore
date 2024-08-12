@@ -20,7 +20,7 @@ defineProps<{
                 : $t('mranking.tooltips.poor')
     }"
     :class="{
-      'bg-brand/40 font-maven !font-black !text-yellow-300 ': rating >= 9,
+      'border border-brand !bg-black/40 !text-brand backdrop-blur-sm': rating >= 9,
       'bg-yellow-300 font-maven !font-semibold !text-black': rating >= 8 && rating < 9,
       'bg-green-600': rating >= 7 && rating < 8,
       'bg-gray-500': rating >= 5 && rating < 7,

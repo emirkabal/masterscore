@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { SwiperSlide } from "swiper/vue"
 
-const { data, pending } = await useLazyFetch<
+const { data, status } = await useLazyFetch<
   {
     _id: string
     username: string
@@ -13,7 +13,7 @@ const { data, pending } = await useLazyFetch<
 <template>
   <section>
     <EntertainmentSlider :offset="16">
-      <SwiperSlide v-if="pending" v-for="i in 15" :key="i">
+      <SwiperSlide v-if="status === 'pending'" v-for="i in 15" :key="i">
         <Avatar :loading="true" username="hello" class="my-3 h-16 w-16" />
       </SwiperSlide>
       <SwiperSlide v-else v-for="user in data" :key="user._id">
