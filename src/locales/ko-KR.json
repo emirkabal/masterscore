@@ -134,7 +134,14 @@
   },
   "footer": {
     "about": "영화 및 TV 프로그램에 대한 편향되지 않은 리뷰의 궁극적인 출처. 다음 좋아할 만한 엔터테인먼트를 발견하세요!",
-    "tmdb_text": "영화, TV 프로그램 및 인물에 대한 데이터는 {provider}에서 제공됩니다."
+    "tmdb_text": "영화, TV 프로그램 및 인물에 대한 데이터는 {provider}에서 제공됩니다.",
+    "legal": "합법적인",
+    "pages": "페이지",
+    "contact": "연락하다",
+    "support": "지원하다",
+    "dmca-takedown": "DMCA 게시 중단",
+    "social": "사회의",
+    "all-rights-reserved": "모든 권리 보유."
   },
   "home": {
     "recommended": "추천",
@@ -288,5 +295,10 @@
   },
   "delete": "삭제",
   "edit": "편집하다",
-  "see-all": "모두 보기"
+  "see-all": "모두 보기",
+  "legal": {
+    "privacy-policy": "개인 정보 보호 정책",
+    "terms-of-service": "서비스 약관",
+    "cookie-policy": "쿠키 정책"
+  }
 }

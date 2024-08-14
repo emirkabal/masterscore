@@ -134,7 +134,14 @@
   },
   "footer": {
     "about": "Ihre ultimative Quelle für unvoreingenommene Film- und Serienbewertungen. Entdecken Sie Ihr nächstes Lieblingsunterhaltung!",
-    "tmdb_text": "Die angezeigten Daten zu Filmen, Fernsehsendungen und Personen stammen von {provider}"
+    "tmdb_text": "Die angezeigten Daten zu Filmen, Fernsehsendungen und Personen stammen von {provider}",
+    "legal": "Legal",
+    "pages": "Seiten",
+    "contact": "Kontakt",
+    "support": "Unterstützung",
+    "dmca-takedown": "DMCA-Takedown",
+    "social": "Sozial",
+    "all-rights-reserved": "Alle Rechte vorbehalten."
   },
   "home": {
     "recommended": "Empfohlen",
@@ -288,5 +295,10 @@
   },
   "delete": "Löschen",
   "edit": "Bearbeiten",
-  "see-all": "Alles sehen"
+  "see-all": "Alles sehen",
+  "legal": {
+    "privacy-policy": "Datenschutzrichtlinie",
+    "terms-of-service": "Nutzungsbedingungen",
+    "cookie-policy": "Cookie-Richtlinie"
+  }
 }

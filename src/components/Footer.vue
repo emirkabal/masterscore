@@ -32,36 +32,50 @@
       </p>
     </div>
     <div class="flex flex-wrap justify-between gap-8 sm:gap-16 2xl:w-[calc(100%_-_400px_-_12rem)]">
-      <div class="space-y-6">
-        <h6 class="text-sm font-medium text-muted-foreground">Pages</h6>
-        <ul class="links">
-          <li><NuxtLink to="/">Home</NuxtLink></li>
-          <li><NuxtLink to="/discover">Discover</NuxtLink></li>
-          <li><NuxtLink to="/feed">Feed</NuxtLink></li>
-          <li><NuxtLink to="/table">Table</NuxtLink></li>
-        </ul>
-      </div>
-      <div class="space-y-6">
-        <h6 class="text-sm font-medium text-muted-foreground">Legal</h6>
-        <ul class="links">
-          <li><NuxtLink to="/privacy">Privacy Policy</NuxtLink></li>
-          <li><NuxtLink to="/terms">Terms of Service</NuxtLink></li>
-          <li><NuxtLink to="/cookie">Cookie Policy</NuxtLink></li>
-        </ul>
-      </div>
-      <div class="space-y-6">
-        <h6 class="text-sm font-medium text-muted-foreground">Contact</h6>
+      <div class="min-w-[130px] space-y-6">
+        <h6 class="text-sm font-medium text-muted-foreground">{{ $t("footer.pages") }}</h6>
         <ul class="links">
           <li>
-            <a href="mailto:support@masterscore.org">Support</a>
+            <NuxtLink to="/">{{ $t("header.home") }}</NuxtLink>
           </li>
           <li>
-            <a href="mailto:dmca@masterscore.org">DMCA Takedown</a>
+            <NuxtLink to="/discover">{{ $t("discover.title") }}</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/feed">{{ $t("header.feed") }}</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/table">{{ $t("header.table") }}</NuxtLink>
           </li>
         </ul>
       </div>
-      <div class="space-y-6">
-        <h6 class="text-sm font-medium text-muted-foreground">Social</h6>
+      <div class="min-w-[130px] space-y-6">
+        <h6 class="text-sm font-medium text-muted-foreground">{{ $t("footer.legal") }}</h6>
+        <ul class="links">
+          <li>
+            <NuxtLink to="/privacy">{{ $t("legal.privacy-policy") }}</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/terms">{{ $t("legal.terms-of-service") }}</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/cookie">{{ $t("legal.cookie-policy") }}</NuxtLink>
+          </li>
+        </ul>
+      </div>
+      <div class="min-w-[130px] space-y-6">
+        <h6 class="text-sm font-medium text-muted-foreground">{{ $t("footer.contact") }}</h6>
+        <ul class="links">
+          <li>
+            <a href="mailto:support@masterscore.org">{{ $t("footer.support") }}</a>
+          </li>
+          <li>
+            <a href="mailto:dmca@masterscore.org">{{ $t("footer.dmca-takedown") }}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="min-w-[130px] space-y-6">
+        <h6 class="text-sm font-medium text-muted-foreground">{{ $t("footer.social") }}</h6>
         <ul class="links">
           <li>
             <NuxtLink to="https://github.com/emirkabal/masterscore" external target="_blank"
@@ -77,7 +91,7 @@
     <div class="h-[1px] w-full bg-primary-foreground lg:mt-24"></div>
     <div class="flex w-full flex-col items-center justify-between gap-4 sm:flex-row">
       <p class="text-sm text-muted-foreground">
-        &copy; {{ new Date().getFullYear() }} Masterscore. All rights reserved.
+        &copy; {{ new Date().getFullYear() }} Masterscore. {{ $t("footer.all-rights-reserved") }}
       </p>
       <LangSwitcher />
     </div>

@@ -134,7 +134,14 @@
   },
   "footer": {
     "about": "Tarafsız film ve dizi incelemeleri için son nokta. Sonraki favori içeriğinizi keşfedin!",
-    "tmdb_text": "Görüntülenen film, dizi ve kişi verileri {provider}'den gelmektedir."
+    "tmdb_text": "Görüntülenen film, dizi ve kişi verileri {provider}'den gelmektedir.",
+    "legal": "Yasal",
+    "pages": "Sayfalar",
+    "contact": "İletişim",
+    "support": "Destek",
+    "dmca-takedown": "DMCA Bildiri",
+    "social": "Sosyal",
+    "all-rights-reserved": "Tüm hakları saklıdır."
   },
   "home": {
     "recommended": "Önerilenler",
@@ -288,5 +295,10 @@
   },
   "delete": "Kaldır",
   "edit": "Düzenle",
-  "see-all": "Hepsini gör"
+  "see-all": "Hepsini gör",
+  "legal": {
+    "privacy-policy": "Gizlilik Politikası",
+    "terms-of-service": "Hizmet Şartları",
+    "cookie-policy": "Çerez Politikası"
+  }
 }

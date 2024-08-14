@@ -180,7 +180,7 @@ const slideTo = (index: number) => {
         </div>
       </SwiperSlide>
       <div class="pointer-events-none absolute top-0 z-10 h-full w-full">
-        <div class="absolute bottom-36 left-[4vw] flex gap-2">
+        <div class="absolute bottom-24 left-[4vw] flex gap-2 sm:bottom-36">
           <SliderControlDot
             v-for="i in filtered.length"
             :key="i"

@@ -134,7 +134,14 @@
   },
   "footer": {
     "about": "Your ultimate source for unbiased movie and TV show reviews. Discover your next favorite entertainment!",
-    "tmdb_text": "The data displayed of movies, tv shows and persons come from {provider}"
+    "tmdb_text": "The data displayed of movies, tv shows and persons come from {provider}",
+    "contact": "Contact",
+    "support": "Support",
+    "dmca-takedown": "DMCA Takedown",
+    "social": "Social",
+    "legal": "Legal",
+    "pages": "Pages",
+    "all-rights-reserved": "All rights reserved."
   },
   "home": {
     "recommended": "Recommended",
@@ -288,5 +295,10 @@
   },
   "edit": "Edit",
   "delete": "Delete",
-  "see-all": "See all"
+  "see-all": "See all",
+  "legal": {
+    "privacy-policy": "Privacy Policy",
+    "terms-of-service": "Terms of Service",
+    "cookie-policy": "Cookie Policy"
+  }
 }

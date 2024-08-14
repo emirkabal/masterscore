@@ -133,7 +133,14 @@
   },
   "footer": {
     "about": "Votre source ultime de critiques impartiales de films et d'émissions de télévision. Découvrez votre prochain divertissement préféré !",
-    "tmdb_text": "Les données affichées sur les films, les émissions de télévision et les personnes proviennent du {provider}."
+    "tmdb_text": "Les données affichées sur les films, les émissions de télévision et les personnes proviennent du {provider}.",
+    "legal": "Légal",
+    "pages": "Pages",
+    "contact": "Contact",
+    "support": "Soutien",
+    "dmca-takedown": "Retrait DMCA",
+    "social": "Sociale",
+    "all-rights-reserved": "Tous droits réservés."
   },
   "home": {
     "recommended": "Recommandé",
@@ -288,5 +295,10 @@
   },
   "delete": "Supprimer",
   "edit": "Modifier",
-  "see-all": "Voir tout"
+  "see-all": "Voir tout",
+  "legal": {
+    "privacy-policy": "politique de confidentialité",
+    "terms-of-service": "Conditions d'utilisation",
+    "cookie-policy": "Politique en matière de cookies"
+  }
 }

@@ -134,7 +134,14 @@
   },
   "footer": {
     "about": "映画とテレビ番組の公正なレビューの究極の情報源。次のお気に入りのエンターテイメントを見つけてください！",
-    "tmdb_text": "映画、テレビ番組、および人物に関するデータは、{provider}から提供されています。"
+    "tmdb_text": "映画、テレビ番組、および人物に関するデータは、{provider}から提供されています。",
+    "legal": "法律上の",
+    "pages": "ページ",
+    "contact": "接触",
+    "support": "サポート",
+    "dmca-takedown": "DMCA削除",
+    "social": "社交",
+    "all-rights-reserved": "無断転載を禁じます。"
   },
   "home": {
     "recommended": "おすすめ",
@@ -288,5 +295,10 @@
   },
   "delete": "消去",
   "edit": "編集",
-  "see-all": "すべてを見る"
+  "see-all": "すべてを見る",
+  "legal": {
+    "privacy-policy": "プライバシーポリシー",
+    "terms-of-service": "利用規約",
+    "cookie-policy": "クッキーポリシー"
+  }
 }

@@ -133,7 +133,14 @@
   },
   "footer": {
     "about": "Din ultimata källa för opartiska recensioner av filmer och TV-program. Upptäck din nästa favoritunderhållning!",
-    "tmdb_text": "De data som visas för filmer, TV-program och personer kommer från {provider}"
+    "tmdb_text": "De data som visas för filmer, TV-program och personer kommer från {provider}",
+    "legal": "Rättslig",
+    "pages": "Sidor",
+    "contact": "Kontakta",
+    "support": "Stöd",
+    "dmca-takedown": "DMCA-borttagning",
+    "social": "Social",
+    "all-rights-reserved": "Alla rättigheter reserverade."
   },
   "home": {
     "recommended": "Rekommenderad",
@@ -288,5 +295,10 @@
   },
   "delete": "Radera",
   "edit": "Redigera",
-  "see-all": "Se allt"
+  "see-all": "Se allt",
+  "legal": {
+    "privacy-policy": "Sekretesspolicy",
+    "terms-of-service": "Användarvillkor",
+    "cookie-policy": "Cookiepolicy"
+  }
 }

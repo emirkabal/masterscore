@@ -133,7 +133,14 @@
   },
   "footer": {
     "about": "Sua fonte definitiva para avaliações imparciais de filmes e programas de TV. Descubra sua próxima diversão favorita!",
-    "tmdb_text": "Os dados exibidos de filmes, programas de TV e pessoas são fornecidos por {provider}"
+    "tmdb_text": "Os dados exibidos de filmes, programas de TV e pessoas são fornecidos por {provider}",
+    "legal": "Legal",
+    "pages": "Páginas",
+    "contact": "Contacto",
+    "support": "Apoio",
+    "dmca-takedown": "Remoção DMCA",
+    "social": "Social",
+    "all-rights-reserved": "Todos os direitos reservados."
   },
   "home": {
     "recommended": "Recomendados",
@@ -288,5 +295,10 @@
   },
   "delete": "Excluir",
   "edit": "Editar",
-  "see-all": "Ver tudo"
+  "see-all": "Ver tudo",
+  "legal": {
+    "privacy-policy": "política de Privacidade",
+    "terms-of-service": "Termos de Serviço",
+    "cookie-policy": "Política de Cookies"
+  }
 }

@@ -134,7 +134,14 @@
   },
   "footer": {
     "about": "Din ultimative kilde til upartiske anmeldelser af film og tv-shows. Opdag dit næste yndlingsunderholdning!",
-    "tmdb_text": "Dataene vist for film, tv-shows og personer kommer fra {provider}"
+    "tmdb_text": "Dataene vist for film, tv-shows og personer kommer fra {provider}",
+    "legal": "Legal",
+    "pages": "Sider",
+    "contact": "Kontakte",
+    "support": "Støtte",
+    "dmca-takedown": "DMCA fjernelse",
+    "social": "Social",
+    "all-rights-reserved": "Alle rettigheder forbeholdes."
   },
   "home": {
     "recommended": "Anbefalet",
@@ -288,5 +295,10 @@
   },
   "delete": "Slet",
   "edit": "Redigere",
-  "see-all": "Se alt"
+  "see-all": "Se alt",
+  "legal": {
+    "privacy-policy": "Privatlivspolitik",
+    "terms-of-service": "Servicevilkår",
+    "cookie-policy": "Cookiepolitik"
+  }
 }

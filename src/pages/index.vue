@@ -46,7 +46,9 @@ $listen("refresh:entertainment", () => {
 
         <div class="space-y-4 py-12">
           <div class="mb-6 flex h-10 items-center gap-x-6">
-            <h3 class="text-4xl font-bold tracking-tight">{{ $t("home.top_rated") }}</h3>
+            <h3 class="text-2xl font-bold tracking-tight sm:text-4xl">
+              {{ $t("home.top_rated") }}
+            </h3>
             <NuxtLink to="/table" class="text-sm font-semibold text-gray-300 hover:text-white">
               {{ $t("see-all") }}
             </NuxtLink>
@@ -62,8 +64,10 @@ $listen("refresh:entertainment", () => {
 
         <div class="mt-8 flex flex-col gap-12 md:flex-row">
           <div class="h-full w-full">
-            <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.recent_highlights") }}</h3>
-            <div class="mt-6 grid grid-cols-2 gap-8">
+            <h3 class="text-2xl font-bold tracking-tight sm:text-3xl">
+              {{ $t("home.recent_highlights") }}
+            </h3>
+            <div class="mt-6 grid gap-8 sm:grid-cols-2">
               <HomeMediaCard
                 v-for="hero in home.trending.slice(0, 20)"
                 :key="hero.id"
@@ -76,8 +80,10 @@ $listen("refresh:entertainment", () => {
           </div>
           <div class="flex w-full flex-col justify-between gap-12">
             <div class="w-full">
-              <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.most_liked") }}</h3>
-              <div class="mt-6 grid grid-cols-2 gap-6">
+              <h3 class="text-2xl font-bold tracking-tight sm:text-3xl">
+                {{ $t("home.most_liked") }}
+              </h3>
+              <div class="mt-6 grid gap-6 sm:grid-cols-2">
                 <HomeMediaCard
                   v-for="hero in home.top_liked"
                   :key="hero.data.id"
@@ -89,8 +95,10 @@ $listen("refresh:entertainment", () => {
               </div>
             </div>
             <div class="w-full">
-              <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.most_commented") }}</h3>
-              <div class="mt-6 grid grid-cols-2 gap-6">
+              <h3 class="text-2xl font-bold tracking-tight sm:text-3xl">
+                {{ $t("home.most_commented") }}
+              </h3>
+              <div class="mt-6 grid gap-6 sm:grid-cols-2">
                 <HomeMediaCard
                   v-for="hero in home.top_commented"
                   :key="hero.data.id"
@@ -108,7 +116,7 @@ $listen("refresh:entertainment", () => {
           class="relative my-24 flex items-center justify-between overflow-hidden rounded-3xl bg-fuchsia-500 bg-gradient-to-r from-fuchsia-800 from-25% px-16 py-24"
         >
           <div class="z-10 space-y-4">
-            <h3 class="max-w-lg text-3xl font-bold leading-relaxed">
+            <h3 class="max-w-lg text-2xl font-bold leading-relaxed sm:text-3xl">
               {{ $t("home.hero_discover.title") }}
             </h3>
             <NuxtLink
@@ -133,8 +141,10 @@ $listen("refresh:entertainment", () => {
 
         <div class="mt-8 flex flex-col gap-12 lg:flex-row">
           <div class="h-full w-full">
-            <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.users_most_commented") }}</h3>
-            <div class="mt-6 grid grid-cols-2 gap-8">
+            <h3 class="text-2xl font-bold tracking-tight sm:text-3xl">
+              {{ $t("home.users_most_commented") }}
+            </h3>
+            <div class="mt-6 grid gap-8 sm:grid-cols-2">
               <HomeUserCard
                 v-for="user in home.users_most_commented.slice(0, 14)"
                 :key="user.data.id"
@@ -146,8 +156,10 @@ $listen("refresh:entertainment", () => {
           </div>
           <div class="flex w-full flex-col justify-between gap-12">
             <div class="w-full">
-              <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.users_most_masters") }}</h3>
-              <div class="mt-6 grid grid-cols-2 gap-6">
+              <h3 class="text-2xl font-bold tracking-tight sm:text-3xl">
+                {{ $t("home.users_most_masters") }}
+              </h3>
+              <div class="mt-6 grid gap-6 sm:grid-cols-2">
                 <HomeUserCard
                   v-for="user in home.users_most_reviewed.slice(0, 6)"
                   :key="user.data.id"
@@ -158,8 +170,10 @@ $listen("refresh:entertainment", () => {
               </div>
             </div>
             <div class="w-full">
-              <h3 class="text-3xl font-bold tracking-tight">{{ $t("home.users_most_liked") }}</h3>
-              <div class="mt-6 grid grid-cols-2 gap-6">
+              <h3 class="text-2xl font-bold tracking-tight sm:text-3xl">
+                {{ $t("home.users_most_liked") }}
+              </h3>
+              <div class="mt-6 grid gap-6 sm:grid-cols-2">
                 <HomeUserCard
                   v-for="user in home.users_most_liked.slice(0, 6)"
                   :key="user.data.id"
@@ -178,7 +192,7 @@ $listen("refresh:entertainment", () => {
           class="relative my-24 flex items-center justify-between overflow-hidden rounded-3xl bg-gradient-to-l from-yellow-500 from-25% to-yellow-800 px-16 py-24"
         >
           <div class="z-10 space-y-4">
-            <h3 class="max-w-lg text-3xl font-bold leading-relaxed">
+            <h3 class="max-w-lg text-xl font-bold leading-relaxed sm:text-3xl">
               {{ $t("home.join_us") }}
             </h3>
             <NuxtLink
