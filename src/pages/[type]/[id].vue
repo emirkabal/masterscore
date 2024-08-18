@@ -46,7 +46,7 @@ const getTeaser = computed(() => {
 })
 
 const detectColor = () => {
-  if (process.client) {
+  if (import.meta.client) {
     const image = new Image()
     image.setAttribute("crossOrigin", "Anonymous")
     image.src = poster.value
@@ -71,24 +71,18 @@ const title = computed(() =>
 )
 const description = computed(() => data.value?.overview)
 const updateSeo = () => {
-  useHead({
+  useSeoMeta({
     title: title.value,
     titleTemplate: "%s - Masterscore",
-    meta: [
-      ...(description.value
-        ? [
-            {
-              hid: "description",
-              name: "description",
-              content: description.value
-            }
-          ]
-        : []),
-      {
-        property: "og:image",
-        content: $timage(data.value?.poster_path || "-", "w300")
-      }
-    ]
+    description: description.value,
+    ogImage: $timage(data.value?.poster_path || "-", "w300"),
+    ogTitle: title.value,
+    ogDescription: description.value,
+    twitterCard: "summary_large_image",
+    twitterImage: $timage(data.value?.poster_path || "-", "w300"),
+    twitterTitle: title.value,
+    twitterDescription: description.value,
+    ogUrl: `https://masterscore.org/${params.type}/${params.id}`
   })
 }
 

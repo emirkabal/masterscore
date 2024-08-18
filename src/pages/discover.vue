@@ -59,7 +59,7 @@ const changeSelect = (index: number) => {
   if (index === select.value)
     return router.push(
       $tlink({
-        title: selected.value.title || selected.value.name,
+        title: selected.value.title || selected.value.name || "",
         id: selected.value.id,
         type: type.value
       })

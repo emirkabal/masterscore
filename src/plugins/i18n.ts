@@ -1,7 +1,7 @@
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook("i18n:localeSwitched", ({ newLocale }) => {
     nuxtApp.vueApp.$nuxt.$event("refresh:entertainment")
-    if (process.client) {
+    if (import.meta.client) {
       window.scrollTo(0, 0)
     }
   })

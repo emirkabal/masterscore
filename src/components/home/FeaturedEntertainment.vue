@@ -50,7 +50,7 @@ const setMute = (bool: boolean) => {
   }
 }
 
-if (process.client && isDesktop) {
+if (import.meta.client && isDesktop) {
   window.addEventListener("message", function (msg) {
     try {
       const data = JSON.parse(msg.data)

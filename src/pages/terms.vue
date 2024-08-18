@@ -1,8 +1,22 @@
+<script setup>
+const { t } = useI18n()
+
+const title = t("legal.terms-of-service")
+useSeoMeta({
+  title,
+  titleTemplate: "%s - Masterscore",
+  ogTitle: title,
+  twitterCard: "summary",
+  twitterTitle: title,
+  ogUrl: "https://masterscore.org/terms"
+})
+</script>
+
 <template>
   <div class="prose prose-invert mx-auto py-32 prose-a:no-underline">
     <div>
       <p class="inline-block border-b-4 border-yellow-500 text-4xl tracking-tight">
-        <strong>Terms of Service</strong>
+        <strong>{{ $t("legal.terms-of-service") }}</strong>
       </p>
       <p><strong>1. Acceptance of Terms</strong></p>
       <p>

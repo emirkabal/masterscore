@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { useUserStore } from "~/store/user"
+
+const { t } = useI18n()
 const userStore = useUserStore()
 
 await userStore.waitForUser()
@@ -44,6 +46,16 @@ const submit = () => {
 
 watch(settings, () => {
   showSave.value = JSON.stringify(settings) !== defaultSettings
+})
+
+const title = t("settings.title")
+useSeoMeta({
+  title,
+  titleTemplate: "%s - Masterscore",
+  ogTitle: title,
+  twitterCard: "summary",
+  twitterTitle: title,
+  ogUrl: "https://masterscore.org/settings"
 })
 </script>
 

@@ -13,9 +13,17 @@ if (!user)
     message: "User not found"
   })
 
-useHead({
-  title: user.display_name ? `${user.display_name} (${user.username})` : user.username,
-  titleTemplate: "%s - Masterscore"
+const title = user.display_name ? `${user.display_name} (${user.username})` : user.username
+useSeoMeta({
+  title,
+  titleTemplate: "%s - Masterscore",
+  description: user.about,
+  ogTitle: title,
+  ogDescription: user.about,
+  twitterCard: "summary",
+  twitterTitle: title,
+  twitterDescription: user.about,
+  ogUrl: `https://masterscore.org/${user.username}`
 })
 </script>
 

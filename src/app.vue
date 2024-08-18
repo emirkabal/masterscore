@@ -20,6 +20,22 @@ onMounted(() => {
 onUnmounted(() => {
   if (interval) clearInterval(interval)
 })
+
+const title = "Masterscore"
+const description =
+  "Masterscore is a movie and TV review website with unbiased reviews, recommendations, and ratings on various genres. Find your next favorite show or movie with us!"
+
+useSeoMeta({
+  title,
+  description,
+  titleTemplate: "%s - Masterscore",
+  ogTitle: title,
+  ogDescription: description,
+  twitterCard: "summary",
+  twitterTitle: title,
+  twitterDescription: description,
+  ogUrl: "https://masterscore.org"
+})
 </script>
 
 <template>
