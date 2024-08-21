@@ -140,7 +140,7 @@ const likedBy = computed(() => {
       <slot />
     </div>
 
-    <section v-if="data.media.likes.length" class="-mt-0.5 mb-3">
+    <section v-if="data.media.likes?.length" class="-mt-0.5 mb-3">
       <div class="flex items-center space-x-1">
         <div v-for="(people, i) in data.media.likes">
           <NuxtLink
