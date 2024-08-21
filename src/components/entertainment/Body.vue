@@ -43,6 +43,10 @@ const releaseDate = computed(() => {
     .locale(locale.value)
     .format("YYYY")
 })
+
+const likedBy = computed(() => {
+  return (data && data.media._count.likes - data.media.likes.length) ?? 0
+})
 </script>
 
 <template>
@@ -135,6 +139,30 @@ const releaseDate = computed(() => {
     <div class="mb-4">
       <slot />
     </div>
+
+    <section v-if="data.media.likes.length" class="-mt-0.5 mb-3">
+      <div class="flex items-center space-x-1">
+        <div v-for="(people, i) in data.media.likes">
+          <NuxtLink
+            :to="`/${people.user.username}`"
+            class="flex items-center space-x-1"
+            v-tooltip="people.user.display_name || people.user.username"
+          >
+            <Avatar
+              class="h-7 w-7 border-2 border-brand/80"
+              :class="{
+                '-ml-2.5': i !== 0
+              }"
+              :avatar="people.user.avatar"
+              :username="people.user.username"
+            />
+          </NuxtLink>
+        </div>
+        <p class="pl-2 text-white/80" v-if="likedBy > 0">
+          {{ $t("entertainment.liked_by", [likedBy]) }}
+        </p>
+      </div>
+    </section>
 
     <section class="mt-2" v-if="overview?.length">
       <h2 class="font-semibold tracking-tight">{{ $t("profile.summary") }}</h2>

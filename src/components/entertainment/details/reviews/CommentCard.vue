@@ -5,6 +5,7 @@ type User = {
   username: string
   avatar?: string | null
   verified: boolean
+  flags: number
 }
 
 const props = defineProps<{
@@ -51,7 +52,13 @@ const isMe = computed(() => props.comment.user.id === props.user?.id)
             v-if="comment.user.verified"
             name="material-symbols:verified-rounded"
             class="h-5 w-5 flex-shrink-0 text-brand"
-        /></NuxtLink>
+          />
+          <Logo
+            :small="true"
+            v-if="comment.user.flags === 1"
+            class="h-4 w-4 flex-shrink-0 text-brand"
+          />
+        </NuxtLink>
         <ScoreCircle :score="comment.rating" />
         <p class="line-clamp-1 flex-shrink-0 cursor-default break-words text-xs text-gray-300">
           <span
@@ -65,7 +72,7 @@ const isMe = computed(() => props.comment.user.id === props.user?.id)
             v-tooltip="{
               content: $moment(comment.updated_at).locale($i18n.locale).format('LLLL')
             }"
-            class="ml-1"
+            class="ml-1 hidden sm:inline-block"
             >({{ $t("edited") }})</span
           >
         </p>

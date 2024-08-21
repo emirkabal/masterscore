@@ -18,7 +18,7 @@ import getISO from "~/utils/getISO"
 
 const cache = new LRUCache<string, any>({
   max: 200,
-  ttl: 60 * 60 * 2000
+  ttl: import.meta.dev ? 1 : 60 * 60 * 2000
 })
 
 function _tmdb(url: string, params: Record<string, string | number | boolean | undefined> = {}) {

@@ -211,7 +211,8 @@
       "likes": "likes",
       "reviews": "reviews"
     },
-    "top-billed-cast": "Top Billed Cast"
+    "top-billed-cast": "Top Billed Cast",
+    "liked_by": "and +{0} other people liked this"
   },
   "discover": {
     "title": "Discover",
@@ -275,7 +276,8 @@
     "rating": "Rating",
     "submit": "Submit",
     "comment": "Comment",
-    "placeholder": "Write a review..."
+    "placeholder": "Write a review...",
+    "contains_spoiler": "My review contains spoilers"
   },
   "cancel": "Cancel",
   "go-to-bottom": "go to bottom",

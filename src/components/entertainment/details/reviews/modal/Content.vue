@@ -80,22 +80,18 @@ const onSelectEmoji = (emoji: any) => {
           </button>
         </div>
       </div>
-      <div class="flex items-center gap-2" v-if="review.content.trim().length > 0">
-        <HeadlessSwitch
+      <div class="my-2 flex items-center space-x-2" v-if="review.content.trim().length > 0">
+        <Checkbox
           id="spoiler"
-          v-model="review.spoiler"
-          :class="review.spoiler ? 'bg-blue-700' : 'bg-teal-700'"
-          class="relative inline-flex h-[18px] w-[32px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+          @update:checked="(e) => (review.spoiler = e)"
+          :checked="review.spoiler"
+          class="text-sm"
+        />
+        <label
+          for="spoiler"
+          class="select-none text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          <span class="sr-only">Use setting</span>
-          <span
-            aria-hidden="true"
-            :class="review.spoiler ? 'translate-x-3.5' : 'translate-x-0'"
-            class="pointer-events-none inline-block h-[14px] w-[14px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
-          />
-        </HeadlessSwitch>
-        <label for="spoiler" class="cursor-pointer select-none opacity-80">
-          My comment contains spoilers
+          {{ $t("review_modal.contains_spoiler") }}
         </label>
       </div>
     </div>

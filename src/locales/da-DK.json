@@ -211,7 +211,8 @@
       "likes": "synes godt om",
       "reviews": "anmeldelser"
     },
-    "top-billed-cast": "Top Billed Cast"
+    "top-billed-cast": "Top Billed Cast",
+    "liked_by": "og {0} andre personer kunne lide dette"
   },
   "discover": {
     "title": "Opdag",
@@ -275,7 +276,8 @@
     "rating": "Bedømmelse",
     "submit": "Indsend",
     "comment": "Kommentar",
-    "placeholder": "Skriv en anmeldelse..."
+    "placeholder": "Skriv en anmeldelse...",
+    "contains_spoiler": "Min anmeldelse indeholder spoilere"
   },
   "cancel": "Afbestille",
   "go-to-bottom": "gå til bunds",

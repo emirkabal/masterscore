@@ -3,7 +3,8 @@ import type { MediaType } from "~/types"
 
 export default defineEventHandler(async (event) => {
   const { ids } = event.context.params as { ids: string }
-  const { type } = getQuery(event) as { type: MediaType }
+  const query = getQuery(event)
+  const { type, need_reviews } = query as { type: MediaType; need_reviews?: boolean }
 
   const list = ids.split(",").map(Number)
   if (!list.length || list.length > 100) return []
@@ -11,6 +12,7 @@ export default defineEventHandler(async (event) => {
   const [scores, related] = await Promise.all([
     prisma.review.groupBy({
       by: "media_id",
+
       where: {
         media: {
           tmdb_id: {
@@ -21,6 +23,13 @@ export default defineEventHandler(async (event) => {
       },
       _avg: {
         rating: true
+      },
+      having: {
+        rating: {
+          _count: {
+            gte: need_reviews ? 3 : 0
+          }
+        }
       }
     }),
     prisma.media.findMany({

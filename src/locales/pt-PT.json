@@ -210,7 +210,8 @@
       "likes": "curtidas",
       "reviews": "avaliações"
     },
-    "top-billed-cast": "Elenco mais faturado"
+    "top-billed-cast": "Elenco mais faturado",
+    "liked_by": "e {0} outras pessoas gostaram disto"
   },
   "genres": {
     "Comedy": "Comédia",
@@ -275,7 +276,8 @@
     "rating": "Classificação",
     "submit": "Enviar",
     "comment": "Comentário",
-    "placeholder": "Escreva uma avaliação..."
+    "placeholder": "Escreva uma avaliação...",
+    "contains_spoiler": "A minha crítica contém spoilers"
   },
   "cancel": "Cancelar",
   "go-to-bottom": "vá para o fundo",

@@ -53,6 +53,7 @@ const bannerUri = computed(() =>
         <div class="username mb-1 flex items-center gap-2 text-3xl font-semibold md:mt-24">
           <h1>{{ user.display_name || user.username }}</h1>
           <Verified v-if="user.verified" />
+          <Staff :small="true" v-if="user.flags === 1" />
         </div>
         <h2 v-if="user.display_name" class="opacity-75">{{ user.username }}</h2>
       </div>

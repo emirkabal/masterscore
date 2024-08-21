@@ -341,6 +341,11 @@ onKeyStroke(["Control", "Cmd", "K", "k"], (e) => {
                     name="material-symbols:verified-rounded"
                     class="h-5 w-5 flex-shrink-0 text-brand"
                   />
+                  <Logo
+                    :small="true"
+                    v-if="user.flags === 1"
+                    class="h-4 w-4 flex-shrink-0 text-brand"
+                  />
                 </div>
               </div>
             </NuxtLink>

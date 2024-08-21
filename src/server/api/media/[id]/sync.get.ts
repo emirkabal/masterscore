@@ -27,7 +27,10 @@ export default defineEventHandler(async (event) => {
 
   const score = await prisma.review.aggregate({
     where: {
-      media_id: media.id
+      media_id: media.id,
+      user: {
+        suspended: false
+      }
     },
     _avg: {
       rating: true

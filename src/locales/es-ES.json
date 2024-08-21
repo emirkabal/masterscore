@@ -210,7 +210,8 @@
       "likes": "le gusta",
       "reviews": "reseñas"
     },
-    "top-billed-cast": "Elenco más facturado"
+    "top-billed-cast": "Elenco más facturado",
+    "liked_by": "y a {0} otras personas les gustó esto"
   },
   "discover": {
     "title": "Descubre",
@@ -275,7 +276,8 @@
     "rating": "Calificación",
     "submit": "Enviar",
     "comment": "Comentario",
-    "placeholder": "Escribe una reseña..."
+    "placeholder": "Escribe una reseña...",
+    "contains_spoiler": "Mi reseña contiene spoilers."
   },
   "cancel": "Cancelar",
   "go-to-bottom": "ir al fondo",

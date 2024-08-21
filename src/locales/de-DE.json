@@ -211,7 +211,8 @@
       "likes": "likes",
       "reviews": "bewertungen"
     },
-    "top-billed-cast": "Top-Besetzung"
+    "top-billed-cast": "Top-Besetzung",
+    "liked_by": "und {0} anderen Leuten hat das gefallen"
   },
   "genres": {
     "Comedy": "Komödie",
@@ -275,7 +276,8 @@
     "rating": "Bewertung",
     "submit": "Absenden",
     "comment": "Kommentar",
-    "placeholder": "Schreiben Sie eine Bewertung..."
+    "placeholder": "Schreiben Sie eine Bewertung...",
+    "contains_spoiler": "Meine Rezension enthält Spoiler"
   },
   "cancel": "Stornieren",
   "go-to-bottom": "nach unten gehen",

@@ -8,6 +8,7 @@ defineProps<{
     username: string
     avatar: string
     verified: boolean
+    flags: number
   }
 }>()
 </script>
@@ -30,6 +31,7 @@ defineProps<{
           name="material-symbols:verified-rounded"
           class="size-4 flex-shrink-0 text-brand sm:size-6"
         />
+        <Logo :small="true" v-if="user.flags === 1" class="h-4 w-4 flex-shrink-0 text-brand" />
       </div>
       <p class="text-sm tracking-tight opacity-75 sm:text-lg">{{ subtitle }}</p>
     </div>

@@ -13,6 +13,7 @@ type CustomIncomingData = {
     username: string
     avatar: any
     verified: boolean
+    flags: number
   }
   media: Media
   created_at: string
@@ -113,6 +114,11 @@ watch(
                 v-if="activity.user.verified"
                 name="material-symbols:verified-rounded"
                 class="h-5 w-5 flex-shrink-0 text-brand"
+              />
+              <Logo
+                :small="true"
+                v-if="activity.user.flags === 1"
+                class="h-4 w-4 flex-shrink-0 text-brand"
               />
             </NuxtLink>
             <span

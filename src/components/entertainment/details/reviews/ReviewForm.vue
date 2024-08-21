@@ -33,7 +33,7 @@ const focused = ref(false)
           :placeholder="$t('review_modal.placeholder')"
           class="h-11 w-full select-none resize-none rounded border border-gray-800 bg-gray-900 p-2 outline-none ring-gray-700 transition-all duration-300 focus:h-28 focus:outline-none focus:ring-1"
           :class="{
-            '!h-28 ': review.editing || focused
+            '!h-28': review.editing || focused
           }"
           @focus="() => (focused = true)"
         />
@@ -47,26 +47,42 @@ const focused = ref(false)
         leave-to-class="opacity-0 bottom-4"
       >
         <div v-if="focused || review.editing" class="flex items-center justify-between">
-          <div class="flex flex-wrap items-center gap-x-4">
-            <FormStarInput
-              :rating="review.rating"
-              @update:rating="(val: number) => (review.rating = val)"
-            />
-            <div
-              @click="
-                () => {
-                  if (review.rating >= 9.6) review.rating = 10
-                }
-              "
-            >
-              <StarRating
-                :animate="true"
-                :numberOfStars="10"
-                :star-size="32"
-                inactiveColor="#1f2937"
-                starColor="#facc15"
-                v-model="review.rating"
-              ></StarRating>
+          <div class="flex flex-col space-y-4">
+            <div class="flex items-center space-x-2">
+              <Checkbox
+                id="spoiler"
+                :checked="review.spoiler"
+                @update:checked="(e) => (review.spoiler = e)"
+                class="text-sm"
+              />
+              <label
+                for="spoiler"
+                class="select-none text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {{ $t("review_modal.contains_spoiler") }}
+              </label>
+            </div>
+            <div class="flex flex-wrap items-center gap-x-4">
+              <FormStarInput
+                :rating="review.rating"
+                @update:rating="(val: number) => (review.rating = val)"
+              />
+              <div
+                @click="
+                  () => {
+                    if (review.rating >= 9.6) review.rating = 10
+                  }
+                "
+              >
+                <StarRating
+                  :animate="true"
+                  :numberOfStars="10"
+                  :star-size="32"
+                  inactiveColor="#1f2937"
+                  starColor="#facc15"
+                  v-model="review.rating"
+                ></StarRating>
+              </div>
             </div>
           </div>
 

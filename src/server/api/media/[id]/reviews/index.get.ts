@@ -25,7 +25,8 @@ export default eventHandler(async (event) => {
         display_name: true,
         username: true,
         avatar: true,
-        verified: true
+        verified: true,
+        flags: true
       }
     },
     created_at: true,

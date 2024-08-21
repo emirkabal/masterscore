@@ -15,6 +15,7 @@ model User {
     verified  Boolean @default(false)
     suspended Boolean @default(false)
     revision  Int
+    flags     Int     @default(0)
 
     display_name String?
     about        String?
@@ -59,6 +60,7 @@ model Review {
     id       String   @id @default(auto()) @map("_id") @db.ObjectId
     content  String?
     spoiler  Boolean?
+    locale   String   @default("en-US")
     rating   Float
     user_id  String   @db.ObjectId
     media_id String   @db.ObjectId

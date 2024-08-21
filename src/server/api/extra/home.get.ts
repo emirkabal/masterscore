@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
   )
 
   const scores = await $fetch(
-    `/api/reviews/pick/${trending.results.map((r) => r.id).join(",")}?type=movie`
+    `/api/reviews/pick/${trending.results.map((r) => r.id).join(",")}?type=movie&need_reviews=true`
   )
   result.trending = trending.results.map((media) => {
     const rating = scores.find((s) => s.tmdb_id === media.id)

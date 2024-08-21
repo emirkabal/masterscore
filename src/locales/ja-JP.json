@@ -211,7 +211,8 @@
       "likes": "いいね",
       "reviews": "レビュー"
     },
-    "top-billed-cast": "人気のキャスト"
+    "top-billed-cast": "人気のキャスト",
+    "liked_by": "他に {0} 人がこれを気に入っています"
   },
   "discover": {
     "title": "発見",
@@ -275,7 +276,8 @@
     "rating": "評価",
     "submit": "提出",
     "comment": "コメント",
-    "placeholder": "レビューを書いてください..."
+    "placeholder": "レビューを書いてください...",
+    "contains_spoiler": "私のレビューにはネタバレが含まれています"
   },
   "cancel": "キャンセル",
   "go-to-bottom": "最下位に行く",
