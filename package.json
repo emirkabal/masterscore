@@ -8,7 +8,7 @@
     "dev:prepare": "nuxt prepare",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "prisma generate && nuxt prepare",
+    "postinstall": "pnpx prisma generate && nuxt prepare",
     "lint": "prettier --check ./src",
     "lint:fix": "prettier --write ./src"
   },
