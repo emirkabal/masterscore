@@ -6,9 +6,11 @@ RUN apk --no-cache add openssh openssl
 
 COPY . /app/
 
-RUN npm install
-RUN npm postinstall
-RUN npm run build
+RUN npm install -g pnpm
+
+RUN pnpm install
+RUN pnpm postinstall
+RUN pnpm run build
 
 EXPOSE 3000
 
