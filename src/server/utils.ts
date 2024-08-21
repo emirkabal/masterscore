@@ -367,8 +367,8 @@ export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
   }
 
   const data = {
-    title: tmdb.title || tmdb.name,
-    description: tmdb.overview,
+    title: tmdb.title || tmdb.name || "N/A",
+    description: tmdb.overview || "N/A",
     images,
     release_date: tmdb.release_date || tmdb.first_air_date || "N/A",
     imdb_id: tmdb?.external_ids?.imdb_id,
@@ -401,6 +401,11 @@ export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
       },
       likes: {
         take: 3,
+        where: {
+          user: {
+            suspended: false
+          }
+        },
         select: {
           user: {
             select: {
