@@ -353,7 +353,7 @@ export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
   }
 
   const omdb = await $fetch<OMDBMedia>(
-    `https://www.omdbapi.com/?i=${tmdb.external_ids.imdb_id}&apikey=189867f0`
+    `https://www.omdbapi.com/?i=${tmdb.external_ids?.imdb_id}&apikey=189867f0`
   ).catch(() => null)
 
   if (omdb?.Ratings?.length) {
@@ -371,7 +371,7 @@ export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
     description: tmdb.overview,
     images,
     release_date: tmdb.release_date || tmdb.first_air_date || "N/A",
-    imdb_id: tmdb.external_ids.imdb_id,
+    imdb_id: tmdb?.external_ids?.imdb_id,
     rated: omdb?.Rated || "N/A",
     runtime: tmdb.runtime || tmdb.episode_run_time?.[0] || 0,
     scores
