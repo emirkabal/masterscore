@@ -118,7 +118,7 @@ useHead({
   >
     <Loader class="my-36" />
   </div>
-  <div v-else-if="!data || 'status' in data">
+  <div v-else-if="!data">
     <div class="flex h-96 flex-col items-center justify-center">
       <h1 class="text-4xl font-semibold">404</h1>
       <p class="text-xl">Person not found</p>

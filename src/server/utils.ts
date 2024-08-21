@@ -401,11 +401,6 @@ export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
       },
       likes: {
         take: 3,
-        where: {
-          user: {
-            suspended: false
-          }
-        },
         select: {
           user: {
             select: {
