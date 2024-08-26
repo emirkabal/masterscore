@@ -68,7 +68,6 @@ $listen("refresh:entertainment", () => {
         <div v-if="!userStore.user?.verified || flags.debug_mode">
           <Adsbygoogle
             ad-slot="3387293625"
-            ad-format="auto"
             :style="{
               width: '100%',
               height: '120px'
@@ -157,7 +156,6 @@ $listen("refresh:entertainment", () => {
         <div v-if="!userStore.user?.verified || flags.debug_mode">
           <Adsbygoogle
             ad-slot="3387293625"
-            ad-format="auto"
             :style="{
               width: '100%',
               height: '120px'
