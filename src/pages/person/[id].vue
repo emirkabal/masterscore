@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useLocalStorage } from "@vueuse/core"
+import { useUserStore } from "~/store/user"
 import type { CreditsResult } from "~/types"
 const { params } = useRoute()
 const { $moment, $listen } = useNuxtApp()
@@ -7,6 +8,8 @@ const { t, locale } = useI18n()
 const revealBio = ref(false)
 const showDetailsDev = ref(false)
 const flags = useLocalStorage("preferences", {} as any)
+
+const userStore = useUserStore()
 
 const id = computed(() => (params.id as string).split("-").pop() as string)
 
@@ -230,6 +233,20 @@ useHead({
               :item-size="'default'"
               :offset="0"
             />
+
+            <!-- AD CONTAINER -->
+            <Adsbygoogle
+              v-if="!userStore.user?.verified || flags.debug_mode"
+              ad-slot="3387293625"
+              ad-format="auto"
+              :ad-full-width-responsive="true"
+              :style="{
+                width: '100%',
+                height: '90px',
+                margin: '36px 0'
+              }"
+            />
+
             <div v-if="getCrew">
               <div v-for="(department, i) in departmentTitles" :key="i">
                 <div class="mt-4" v-if="getCrew[department].length">

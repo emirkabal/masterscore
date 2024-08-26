@@ -11,6 +11,9 @@ importers:
 
   .:
     dependencies:
+      '@nuxtjs/google-adsense':
+        specifier: ^3.0.0
+        version: 3.0.0(magicast@0.3.4)(rollup@4.19.0)(vue@3.4.34(typescript@5.5.4))
       '@pinia/nuxt':
         specifier: ^0.5.1
         version: 0.5.2(magicast@0.3.4)(rollup@4.19.0)(typescript@5.5.4)(vue@3.4.34(typescript@5.5.4))
@@ -1479,6 +1482,9 @@ packages:
 
   '@nuxtjs/device@3.1.1':
     resolution: {integrity: sha512-wHTziEevt1hdgePQwPhEedWW3COalhP0YGVB+sGLqSrKujX8vdz7lcBFB01KIftpaP8kY5H8pssibNaJbxGcYw==}
+
+  '@nuxtjs/google-adsense@3.0.0':
+    resolution: {integrity: sha512-fR1rbj6mnfBCWMkVSocPUYX11rGzTwSs1v2sajG6wtXGjXLGRjJSFKSynYHdwO3V4o4xRvtve0W/Db96eiTKmA==}
 
   '@nuxtjs/i18n@8.3.1':
     resolution: {integrity: sha512-VHnnjFTTep2oC5++61WY06y4c/h943NyHQh1CRUJQvjsdbGSMX3WQjMGk+X05a3pyPFN70aq0YbgtsEoEoTEjQ==}
@@ -6798,6 +6804,18 @@ snapshots:
       - magicast
       - rollup
       - supports-color
+
+  '@nuxtjs/google-adsense@3.0.0(magicast@0.3.4)(rollup@4.19.0)(vue@3.4.34(typescript@5.5.4))':
+    dependencies:
+      '@nuxt/kit': 3.12.4(magicast@0.3.4)(rollup@4.19.0)
+      '@vueuse/core': 10.11.0(vue@3.4.34(typescript@5.5.4))
+      defu: 6.1.4
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - magicast
+      - rollup
+      - supports-color
+      - vue
 
   '@nuxtjs/i18n@8.3.1(magicast@0.3.4)(rollup@4.19.0)(vue@3.4.34(typescript@5.5.4))':
     dependencies:

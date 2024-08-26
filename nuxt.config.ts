@@ -32,7 +32,15 @@ export default defineNuxtConfig({
       }
     ],
     "@vite-pwa/nuxt",
-    "@nuxt/icon"
+    "@nuxt/icon",
+    [
+      "@nuxtjs/google-adsense",
+      {
+        id: "ca-pub-4879579032863674",
+        onPageLoad: true,
+        pageLevelAds: false
+      }
+    ]
   ],
 
   css: [

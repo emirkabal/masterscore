@@ -55,10 +55,12 @@
   }
 }
 
+ins[data-adtest] {
+  @apply relative bg-blue-500 text-white after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:content-['AD\_CONTAINER'];
+}
 .twemojiParse {
   @apply !inline-block;
 }
-
 @layer components {
   .preffered-background {
     @apply bg-gradient-to-tr from-gray-950 via-gray-950 via-25% to-[#232054] bg-fixed;

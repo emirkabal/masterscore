@@ -1,9 +1,11 @@
 <script setup>
+import { useLocalStorage } from "@vueuse/core"
 import { getHome } from "~/composables/request"
 const { $listen } = useNuxtApp()
 import { useUserStore } from "~/store/user"
 
 const userStore = useUserStore()
+const flags = useLocalStorage("preferences", {})
 
 useHead({
   title: "Masterscore",
@@ -59,6 +61,19 @@ $listen("refresh:entertainment", () => {
             :item-size="'default'"
             :offset="0"
             :show-ratings="true"
+          />
+        </div>
+
+        <!-- AD CONTAINER -->
+        <div v-if="!userStore.user?.verified || flags.debug_mode">
+          <Adsbygoogle
+            ad-slot="3387293625"
+            ad-format="auto"
+            :ad-full-width-responsive="true"
+            :style="{
+              width: '100%',
+              height: '90px'
+            }"
           />
         </div>
 
@@ -137,6 +152,19 @@ $listen("refresh:entertainment", () => {
               />
             </div>
           </div>
+        </div>
+
+        <!-- AD CONTAINER -->
+        <div v-if="!userStore.user?.verified || flags.debug_mode">
+          <Adsbygoogle
+            ad-slot="3387293625"
+            ad-format="auto"
+            :ad-full-width-responsive="true"
+            :style="{
+              width: '100%',
+              height: '90px'
+            }"
+          />
         </div>
 
         <div class="mt-8 flex flex-col gap-12 lg:flex-row">
