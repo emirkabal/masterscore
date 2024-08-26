@@ -238,9 +238,10 @@ useHead({
             <Adsbygoogle
               v-if="!userStore.user?.verified || flags.debug_mode"
               ad-slot="3387293625"
+              ad-format="auto"
               :style="{
                 width: '100%',
-                height: '90px',
+                height: '120px',
                 margin: '36px 0'
               }"
             />
