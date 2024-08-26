@@ -149,8 +149,6 @@ updateSeo()
           <div v-if="!userStore.user?.verified || flags.debug_mode" class="pl-4 pr-4 lg:pr-0">
             <Adsbygoogle
               ad-slot="3387293625"
-              ad-format="auto"
-              :ad-full-width-responsive="true"
               :style="{
                 width: '100%',
                 height: '90px'
