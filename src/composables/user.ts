@@ -1,7 +1,7 @@
 import { useUserStore } from "~/store/user"
 
 export const generateHeaders = (headers?: Record<string, string>) => {
-  if (!process.client) return {}
+  if (!import.meta.client) return {}
 
   if (!headers) {
     headers = {}
@@ -14,7 +14,7 @@ export const generateHeaders = (headers?: Record<string, string>) => {
 }
 
 export const hasToken = () => {
-  if (!process.client) return false
+  if (!import.meta.client) return false
   return !!localStorage.getItem("token")
 }
 

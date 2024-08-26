@@ -1,8 +1,22 @@
+<script setup>
+const { t } = useI18n()
+
+const title = t("legal.privacy-policy")
+useSeoMeta({
+  title,
+  titleTemplate: "%s - Masterscore",
+  ogTitle: title,
+  twitterCard: "summary",
+  twitterTitle: title,
+  ogUrl: "https://masterscore.org/privacy"
+})
+</script>
+
 <template>
   <div class="prose prose-invert mx-auto py-32 prose-a:no-underline">
     <div>
       <p class="inline-block border-b-4 border-yellow-500 text-4xl tracking-tight">
-        <strong>Privacy Policy</strong>
+        <strong>{{ $t("legal.privacy-policy") }}</strong>
       </p>
       <p><strong>1. Introduction</strong></p>
       <p>

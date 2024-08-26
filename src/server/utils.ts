@@ -1,10 +1,9 @@
 import type { Media, MediaType, OMDBMedia, Scores, TMDBMedia } from "~/types"
 import prisma from "./db/prisma"
 import { LRUCache } from "lru-cache"
-
 const cache = new LRUCache<string, any>({
   max: 200,
-  ttl: 60 * 60 * 2000
+  ttl: import.meta.dev ? 1 : 60 * 60 * 2000
 })
 
 export const getUser = (id: string) =>
@@ -131,15 +130,18 @@ export const getTopMediaByReviews = async ({
         rating: "desc"
       }
     },
-    ...(type
-      ? {
-          where: {
+    where: {
+      ...(type
+        ? {
             media: {
               type: type
             }
           }
-        }
-      : {}),
+        : {}),
+      user: {
+        suspended: false
+      }
+    },
     take: limit ? Math.min(limit, 100) : 20
   })
 
@@ -178,15 +180,18 @@ export const getMostReviewedUsers = async ({ comment }: { comment?: boolean }) =
 
   const raw = await prisma.review.groupBy({
     by: ["user_id"],
-    ...(comment === true
-      ? {
-          where: {
+    where: {
+      user: {
+        suspended: false
+      },
+      ...(comment === true
+        ? {
             content: {
               not: null
             }
           }
-        }
-      : undefined),
+        : {})
+    },
     _count: {
       id: true
     },
@@ -208,6 +213,7 @@ export const getMostReviewedUsers = async ({ comment }: { comment?: boolean }) =
       id: true,
       username: true,
       verified: true,
+      flags: true,
       suspended: true,
       display_name: true,
       avatar: true
@@ -243,6 +249,11 @@ export const getMostLikedUsers = async () => {
         id: "desc"
       }
     },
+    where: {
+      user: {
+        suspended: false
+      }
+    },
     take: 20
   })
 
@@ -256,6 +267,7 @@ export const getMostLikedUsers = async () => {
       id: true,
       username: true,
       verified: true,
+      flags: true,
       suspended: true,
       display_name: true,
       avatar: true
@@ -304,7 +316,8 @@ export const isBannedUsername = (username: string) => {
     "faq",
     "master",
     "masterscore",
-    "emirkabal"
+    "emirkabal",
+    "cookie"
   ].includes(username.toLowerCase())
 }
 
@@ -340,7 +353,7 @@ export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
   }
 
   const omdb = await $fetch<OMDBMedia>(
-    `https://www.omdbapi.com/?i=${tmdb.external_ids.imdb_id}&apikey=189867f0`
+    `https://www.omdbapi.com/?i=${tmdb.external_ids?.imdb_id}&apikey=189867f0`
   ).catch(() => null)
 
   if (omdb?.Ratings?.length) {
@@ -354,11 +367,11 @@ export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
   }
 
   const data = {
-    title: tmdb.title || tmdb.name,
-    description: tmdb.overview,
+    title: tmdb.title || tmdb.name || "N/A",
+    description: tmdb.overview || "N/A",
     images,
     release_date: tmdb.release_date || tmdb.first_air_date || "N/A",
-    imdb_id: tmdb.external_ids.imdb_id,
+    imdb_id: tmdb?.external_ids?.imdb_id,
     rated: omdb?.Rated || "N/A",
     runtime: tmdb.runtime || tmdb.episode_run_time?.[0] || 0,
     scores
@@ -388,6 +401,11 @@ export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
       },
       likes: {
         take: 3,
+        where: {
+          user: {
+            suspended: false
+          }
+        },
         select: {
           user: {
             select: {

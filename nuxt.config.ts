@@ -24,7 +24,6 @@ export default defineNuxtConfig({
       }
     ],
     "nuxt-headlessui",
-
     [
       "@nuxtjs/device",
       {
@@ -40,7 +39,9 @@ export default defineNuxtConfig({
         onPageLoad: true,
         pageLevelAds: false
       }
-    ]
+    ],
+    "@nuxtjs/tailwindcss",
+    "shadcn-nuxt"
   ],
 
   css: [
@@ -174,7 +175,8 @@ export default defineNuxtConfig({
     public: {
       SOCKET_SERVER: process.env.SOCKET_SERVER,
       SUPABASE_STORAGE_URL: process.env.SUPABASE_URL + "/storage/v1/object/public/assets/",
-      TMDB_API_TOKEN: process.env.TMDB_API_TOKEN
+      TMDB_API_TOKEN: process.env.TMDB_API_TOKEN,
+      IS_DEV: isDev
     }
   },
 

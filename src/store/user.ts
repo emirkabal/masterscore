@@ -21,6 +21,7 @@ export const useUserStore = defineStore("user", {
   },
 
   getters: {
+    isMe: (state) => (id: string) => state.user?.id === id,
     isLoggedIn: (state) => !!state.token,
     isLoading: (state) => !!state.loading,
 
@@ -44,7 +45,7 @@ export const useUserStore = defineStore("user", {
   actions: {
     async init() {
       this.token = useLocalStorage("token", null).value
-      if (process.client && this.token) await this.getUserData().catch(() => {})
+      if (import.meta.client && this.token) await this.getUserData().catch(() => {})
       this.loading = false
     },
 

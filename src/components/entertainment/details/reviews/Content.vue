@@ -22,8 +22,8 @@ defineProps<{
       v-show="review?.spoiler && !review.spoilerRevealed"
       @click="review.spoilerRevealed = true"
       v-if="review?.content && review?.spoiler"
-      class="absolute left-1/2 top-1/2 flex h-full w-full -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded bg-red-400/40 p-2 px-2 py-0.5 text-center font-maven font-bold transition-all duration-200 ease-in-out group-hover:bg-red-400/60"
-      >Spoiler <span class="ml-2 font-thin">click here to reveal</span></span
+      class="absolute left-1/2 top-1/2 flex h-full w-full -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded bg-brand/80 p-2 px-2 py-0.5 text-center font-maven text-sm font-bold transition-all duration-200 ease-in-out group-hover:bg-brand/60"
+      >Spoiler</span
     >
     <p class="italic tracking-tight opacity-75" v-if="!review?.content && !skipInfo">
       {{ $t("no_comment_for_this_review") }}

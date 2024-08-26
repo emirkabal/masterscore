@@ -55,7 +55,7 @@ watch(seasonData, () => {
   Object.keys(seasonData).forEach((key) => {
     if (seasonData[key].show) {
       if (seasonData[key].episodes.length === 0) getSeason(key, seasonData[key].season_number)
-      if (process.client) {
+      if (import.meta.client) {
         const item = document.querySelector(`[aria-details="${key}"]`)
         if (item) {
           setTimeout(() => {
@@ -100,7 +100,7 @@ watch(seasonData, () => {
         "
         class="cursor-pointer rounded border p-4 transition-colors duration-75"
         :class="{
-          ' border-gray-400': seasonData[item.id].show,
+          'border-gray-400': seasonData[item.id].show,
           'border-gray-800 hover:border-gray-400': !seasonData[item.id].show
         }"
       >

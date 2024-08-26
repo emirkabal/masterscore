@@ -210,7 +210,8 @@
       "likes": "gillar",
       "reviews": "recensioner"
     },
-    "top-billed-cast": "Top Billed Cast"
+    "top-billed-cast": "Top Billed Cast",
+    "liked_by": "och {0} andra personer gillade detta"
   },
   "discover": {
     "title": "Upptäck",
@@ -275,7 +276,8 @@
     "rating": "Betyg",
     "submit": "Skicka",
     "comment": "Kommentar",
-    "placeholder": "Skriv en recension..."
+    "placeholder": "Skriv en recension...",
+    "contains_spoiler": "Min recension innehåller spoilers"
   },
   "cancel": "Annullera",
   "go-to-bottom": "gå till botten",

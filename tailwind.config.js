@@ -1,17 +1,13 @@
 const animate = require("tailwindcss-animate")
-const scrollbar = require("tailwind-scrollbar")({ nocompatible: true })
 const typography = require("@tailwindcss/typography")
+const scrollbar = require("tailwind-scrollbar")({ nocompatible: true })
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/components/**/*.{js,vue,ts}",
-    "./src/layouts/**/*.vue",
-    "./src/pages/**/*.vue",
-    "./src/plugins/**/*.{js,ts}",
-    "./src/app.vue",
-    "./src/error.vue"
-  ],
+  darkMode: ["class"],
+  safelist: ["dark"],
+  prefix: "",
+
   theme: {
     container: {
       center: true,
@@ -21,6 +17,10 @@ module.exports = {
       }
     },
     extend: {
+      fontFamily: {
+        maven: ["Maven Pro", "sans-serif"],
+        inter: ["Inter", "sans-serif"]
+      },
       aspectRatio: {
         poster: "2/3",
         banner: "2.5/1"
@@ -62,10 +62,11 @@ module.exports = {
         }
       },
       borderRadius: {
+        "4xl": "calc(var(--radius) * 4)",
+        xl: "calc(var(--radius) + 4px)",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-        "4xl": "calc(var(--radius) * 4)"
+        sm: "calc(var(--radius) - 4px)"
       },
       keyframes: {
         "accordion-down": {
@@ -83,16 +84,7 @@ module.exports = {
         "collapsible-up": {
           from: { height: "var(--radix-collapsible-content-height)" },
           to: { height: 0 }
-        },
-        shimmer: {
-          "100%": {
-            transform: "translateX(100%)"
-          }
         }
-      },
-      fontFamily: {
-        maven: ["Maven Pro", "sans-serif"],
-        inter: ["Inter", "sans-serif"]
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

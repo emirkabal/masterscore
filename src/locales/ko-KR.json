@@ -211,7 +211,8 @@
       "likes": "좋아요",
       "reviews": "리뷰"
     },
-    "top-billed-cast": "최고 청구 출연진"
+    "top-billed-cast": "최고 청구 출연진",
+    "liked_by": "외 {0}명이 이 글을 좋아했습니다."
   },
   "discover": {
     "title": "발견하기",
@@ -275,7 +276,8 @@
     "rating": "평점",
     "submit": "제출",
     "comment": "코멘트",
-    "placeholder": "리뷰를 작성하세요..."
+    "placeholder": "리뷰를 작성하세요...",
+    "contains_spoiler": "내 리뷰에는 스포일러가 포함되어 있습니다."
   },
   "cancel": "취소",
   "go-to-bottom": "맨 아래로 가다",

@@ -37,7 +37,8 @@ export default defineEventHandler(async (event) => {
       display_name: true,
       username: true,
       avatar: true,
-      verified: true
+      verified: true,
+      flags: true
     },
     take: 3
   })

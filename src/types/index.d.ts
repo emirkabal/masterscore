@@ -12,6 +12,7 @@ export interface User {
   banner?: string
   reviews: string[]
   likes: string[]
+  flags: number
   collections: Collection<string>[]
   verified_at?: string
   username_changed_at?: string

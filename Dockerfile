@@ -3,12 +3,13 @@ FROM node:20-alpine
 WORKDIR /app
 
 RUN apk --no-cache add openssh openssl
-RUN npm i -g pnpm
 
 COPY . /app/
 
-RUN pnpm install && pnpm postinstall
+RUN npm install -g pnpm
 
+RUN pnpm install
+RUN pnpm postinstall
 RUN pnpm run build
 
 EXPOSE 3000

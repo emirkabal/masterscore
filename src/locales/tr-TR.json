@@ -211,7 +211,8 @@
       "likes": "beğeni",
       "reviews": "değerlendirme"
     },
-    "top-billed-cast": "Başrol Oyuncuları"
+    "top-billed-cast": "Başrol Oyuncuları",
+    "liked_by": "ve diğer +{0} kişi bunu beğendi"
   },
   "genres": {
     "Comedy": "Komedi",
@@ -275,7 +276,8 @@
     "rating": "Puan",
     "submit": "Gönder",
     "comment": "Yorum",
-    "placeholder": "Değerlendirme yapın..."
+    "placeholder": "Değerlendirme yapın...",
+    "contains_spoiler": "Değerlendirmem spoiler içeriyor"
   },
   "cancel": "İptal",
   "go-to-bottom": "aşağıya git",

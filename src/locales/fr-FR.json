@@ -210,7 +210,8 @@
       "likes": "aime",
       "reviews": "revues"
     },
-    "top-billed-cast": "Casting le plus facturé"
+    "top-billed-cast": "Casting le plus facturé",
+    "liked_by": "et {0} autres personnes ont aimé ça"
   },
   "genres": {
     "Comedy": "Comédie",
@@ -275,7 +276,8 @@
     "rating": "Note",
     "submit": "Soumettre",
     "comment": "Commentaire",
-    "placeholder": "Rédigez une critique..."
+    "placeholder": "Rédigez une critique...",
+    "contains_spoiler": "Mon avis contient des spoilers"
   },
   "cancel": "Annuler",
   "go-to-bottom": "aller en bas",

@@ -40,6 +40,12 @@ export default defineEventHandler(async (event) => {
       statusMessage: "Username or password invalid."
     })
 
+  if (user.suspended)
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Your account has been suspended."
+    })
+
   const secret = config.JWT_SECRET
   const token = jwt.sign(
     {

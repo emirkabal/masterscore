@@ -18,7 +18,7 @@ import getISO from "~/utils/getISO"
 
 const cache = new LRUCache<string, any>({
   max: 200,
-  ttl: 60 * 60 * 2000
+  ttl: import.meta.dev ? 1 : 60 * 60 * 2000
 })
 
 function _tmdb(url: string, params: Record<string, string | number | boolean | undefined> = {}) {
@@ -40,9 +40,12 @@ function _tmdb(url: string, params: Record<string, string | number | boolean | u
   })
 }
 
-export function getMedia(type: MediaType, id: string | number) {
-  const key = `${type}:${id}`
+export async function getMedia(type: MediaType, id: string | number) {
+  const locale = getISO(await useCookie("locale")?.value)
+
+  const key = `${locale}:${type}:${id}`
   const cached = cache.get(key)
+
   if (cached) return Promise.resolve(cached as CollapsedMedia)
 
   return new Promise<CollapsedMedia | null>(async (resolve, reject) => {
@@ -56,7 +59,9 @@ export function getMedia(type: MediaType, id: string | number) {
             }
             score: number
           }
-        >(`/api/media/${id}/sync?type=${type}`),
+        >(`/api/media/${id}/sync?type=${type}`, {
+          headers: useRequestHeaders()
+        }),
         _tmdb(`/${type}/${id}`, {
           append_to_response: "external_ids,videos,credits,recommendations"
         }) as Promise<TMDBMedia>
