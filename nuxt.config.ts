@@ -55,14 +55,6 @@ export default defineNuxtConfig({
     "@fontsource/maven-pro/900.css"
   ],
 
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-      ...(isDev ? {} : { cssnano: {} })
-    }
-  },
-
   routeRules: {
     "/**": isDev ? {} : { cache: { swr: true, maxAge: 120, staleMaxAge: 60, headersOnly: true } },
     "/account/**": { ssr: false },
