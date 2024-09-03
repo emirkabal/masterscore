@@ -1,11 +1,10 @@
 <script setup>
-import { useLocalStorage } from "@vueuse/core"
 import { getHome } from "~/composables/request"
 const { $listen } = useNuxtApp()
 import { useUserStore } from "~/store/user"
 
 const userStore = useUserStore()
-const flags = useLocalStorage("preferences", {})
+const preferences = usePreferences()
 
 useHead({
   title: "Masterscore",
@@ -65,7 +64,7 @@ $listen("refresh:entertainment", () => {
         </div>
 
         <!-- AD CONTAINER -->
-        <div v-if="!userStore.user?.verified || flags.debug_mode">
+        <div v-if="!userStore.user?.verified || preferences.debug_mode">
           <Adsbygoogle
             ad-slot="3387293625"
             :style="{
@@ -140,6 +139,9 @@ $listen("refresh:entertainment", () => {
               {{ $t("discover.title") }}
             </NuxtLink>
           </div>
+          <div
+            class="pointer-events-none absolute inset-0 z-[5] bg-gradient-to-r from-fuchsia-500 via-fuchsia-600 via-35% to-transparent to-75%"
+          ></div>
           <div class="absolute -right-96 top-6 hidden select-none md:block 2xl:-right-32">
             <div class="flex max-w-5xl flex-wrap gap-4">
               <MasterImage
@@ -150,17 +152,6 @@ $listen("refresh:entertainment", () => {
               />
             </div>
           </div>
-        </div>
-
-        <!-- AD CONTAINER -->
-        <div v-if="!userStore.user?.verified || flags.debug_mode">
-          <Adsbygoogle
-            ad-slot="3387293625"
-            :style="{
-              width: '100%',
-              height: '120px'
-            }"
-          />
         </div>
 
         <div class="mt-8 flex flex-col gap-12 lg:flex-row">
@@ -210,6 +201,18 @@ $listen("refresh:entertainment", () => {
           </div>
         </div>
 
+        <!-- AD CONTAINER -->
+        <div v-if="!userStore.user?.verified || preferences.debug_mode">
+          <Adsbygoogle
+            ad-slot="3387293625"
+            :style="{
+              width: '100%',
+              height: '120px',
+              marginTop: '96px'
+            }"
+          />
+        </div>
+
         <!-- join us -->
         <div
           v-if="!userStore.isLoggedIn"
@@ -242,6 +245,7 @@ $listen("refresh:entertainment", () => {
           </div>
         </div>
       </div>
+
       <div v-else>
         <div class="skeleton-effect h-[640px] w-full rounded-3xl bg-gray-900"></div>
 

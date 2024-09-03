@@ -191,6 +191,40 @@ const providers = [
   { name: "YouTube Premium", logo: "/rMb93u1tBeErSYLv79zSTR07UdO.jpg" }
 ]
 
+interface ITMDB {
+  tlink: (
+    media:
+      | Media
+      | TMDBMedia
+      | TMDBResult
+      | { type: "movie" | "tv" | "person"; id: string | number; title?: string; name?: string }
+  ) => string
+  timage: (path: string, size: PosterSizes | BackdropSizes | LogoSizes) => string
+  tgenre: (id: number | string) => string
+  tfiltergenres: (names: Genre[], support?: "movie" | "tv") => Genre[]
+  tgetgenre: (name: Genre) => Genre | undefined
+  tgenres: Genre[]
+  getTitle: (data: CollapsedMedia | TMDBResult) => string
+  getProvider: (name: string) => { name: string; logo: string } | undefined
+  getOriginalTitle: (data: CollapsedMedia | TMDBResult) => string
+  getYear: (item: CollapsedMedia | TMDBResult) => number | undefined
+}
+
+declare module "#app" {
+  interface NuxtApp {
+    $tlink: ITMDB["tlink"]
+    $timage: ITMDB["timage"]
+    $tgenre: ITMDB["tgenre"]
+    $tfiltergenres: ITMDB["tfiltergenres"]
+    $tgetgenre: ITMDB["tgetgenre"]
+    $tgenres: ITMDB["tgenres"]
+    $getTitle: ITMDB["getTitle"]
+    $getProvider: ITMDB["getProvider"]
+    $getOriginalTitle: ITMDB["getOriginalTitle"]
+    $getYear: ITMDB["getYear"]
+  }
+}
+
 export default defineNuxtPlugin(() => {
   return {
     provide: {

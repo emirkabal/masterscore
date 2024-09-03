@@ -38,10 +38,6 @@ Your ultimate source for unbiased movie and TV show reviews. Discover your next 
 
 ![profile2](https://github.com/emirkabal/masterscore/assets/28771692/0ef4aa15-b06a-46c3-895e-c0a6620e289d)
 
-
-
-
-
 ## Contrubition
 
 We welcome contributions from the community! If you have ideas for improvements or find any issues, please open an [issue](https://github.com/emirkabal/masterscore/issues) or submit a pull request.

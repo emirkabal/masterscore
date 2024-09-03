@@ -9,8 +9,13 @@ export default defineNuxtConfig({
   ssr: true,
   spaLoadingTemplate: "./app/spa-loading-template.html",
 
-  devtools: {
-    enabled: true
+  experimental: {
+    defaults: {
+      nuxtLink: {
+        prefetch: true,
+        prefetchOn: { visibility: false, interaction: true }
+      }
+    }
   },
 
   modules: [
@@ -24,24 +29,27 @@ export default defineNuxtConfig({
       }
     ],
     "nuxt-headlessui",
-    [
-      "@nuxtjs/device",
-      {
-        refreshOnResize: true
-      }
-    ],
+    "@nuxtjs/device",
     "@vite-pwa/nuxt",
     "@nuxt/icon",
+    "@nuxtjs/tailwindcss",
+    "shadcn-nuxt",
     [
       "@nuxtjs/google-adsense",
       {
         id: "ca-pub-4879579032863674",
-        onPageLoad: true,
-        pageLevelAds: false
+        onPageLoad: false,
+        pageLevelAds: false,
+        hideUnfilled: true
       }
     ],
-    "@nuxtjs/tailwindcss",
-    "shadcn-nuxt"
+    [
+      "@weareheavy/nuxt-cookie-consent",
+      {
+        provider: "cookiescript",
+        id: "2a625d68b2621b2bf35d1dfbe806ff40"
+      }
+    ]
   ],
 
   css: [
@@ -129,29 +137,6 @@ export default defineNuxtConfig({
       installPrompt: true,
       periodicSyncForUpdates: 20
     }
-    // workbox: {
-    //   navigateFallback: null,
-    //   globDirectory: ".vercel/output",
-    //   globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
-    //   globIgnores: ["**/node_modules/**"],
-    //   runtimeCaching: [
-    //     {
-    //       urlPattern: "/api/.*",
-    //       handler: "NetworkFirst",
-    //       method: "GET",
-    //       options: {
-    //         cacheName: "api-cache",
-    //         expiration: {
-    //           maxEntries: 100,
-    //           maxAgeSeconds: 60 * 60 * 24 * 7
-    //         },
-    //         cacheableResponse: {
-    //           statuses: [0, 200]
-    //         }
-    //       }
-    //     }
-    //   ]
-    // }
   },
 
   runtimeConfig: {
@@ -163,11 +148,11 @@ export default defineNuxtConfig({
     SUPABASE_KEY: process.env.SUPABASE_KEY,
     INVITE_CODE: process.env.INVITE_CODE,
     JWT_SECRET: process.env.JWT_SECRET,
-    VERSION: version,
     public: {
       SOCKET_SERVER: process.env.SOCKET_SERVER,
       SUPABASE_STORAGE_URL: process.env.SUPABASE_URL + "/storage/v1/object/public/assets/",
       TMDB_API_TOKEN: process.env.TMDB_API_TOKEN,
+      VERSION: version,
       IS_DEV: isDev
     }
   },

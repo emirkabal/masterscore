@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import tinycolor from "tinycolor2"
-import { useLocalStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
 
 definePageMeta({
@@ -9,7 +8,7 @@ definePageMeta({
 
 const { $colorthief, $timage } = useNuxtApp()
 const { params } = useRoute()
-const flags = useLocalStorage("preferences", {} as any)
+const preferences = usePreferences()
 
 const userStore = useUserStore()
 
@@ -146,7 +145,7 @@ updateSeo()
           <EntertainmentDetailsEpisodes v-if="data.seasons" :data="data" />
           <EntertainmentDetailsCast :data="data.credits" />
           <!-- AD CONTAINER -->
-          <div v-if="!userStore.user?.verified || flags.debug_mode" class="pl-4 pr-4 lg:pr-0">
+          <div v-if="!userStore.user?.verified || preferences.debug_mode" class="pl-4 pr-4 lg:pr-0">
             <Adsbygoogle
               ad-slot="3387293625"
               :style="{
@@ -165,7 +164,7 @@ updateSeo()
       </div>
 
       <ClientOnly>
-        <div v-if="flags.debug_mode">
+        <div v-if="preferences.debug_mode">
           <button
             @click="showDetailsDev = !showDetailsDev"
             class="font-semibod mt-8 rounded bg-gray-900 px-4 py-2 shadow"

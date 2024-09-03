@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { useLocalStorage } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
 import type { CreditsResult } from "~/types"
 const { params } = useRoute()
-const { $moment, $listen } = useNuxtApp()
+const { $moment, $timage, $listen, $tlink } = useNuxtApp()
 const { t, locale } = useI18n()
 const revealBio = ref(false)
 const showDetailsDev = ref(false)
-const flags = useLocalStorage("preferences", {} as any)
+const preferences = usePreferences()
 
 const userStore = useUserStore()
 
@@ -236,7 +235,7 @@ useHead({
 
             <!-- AD CONTAINER -->
             <Adsbygoogle
-              v-if="!userStore.user?.verified || flags.debug_mode"
+              v-if="!userStore.user?.verified || preferences.debug_mode"
               ad-slot="3387293625"
               :style="{
                 width: '100%',
@@ -281,7 +280,7 @@ useHead({
             </div>
           </div>
 
-          <div v-if="flags.debug_mode">
+          <div v-if="preferences.debug_mode">
             <button
               @click="showDetailsDev = !showDetailsDev"
               class="font-semibod mt-8 rounded bg-gray-900 px-4 py-2 shadow"

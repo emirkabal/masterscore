@@ -76,7 +76,7 @@ watch(imageLoading, () => {
       v-if="verified"
       class="m absolute bottom-0 right-0 -m-1.5 flex h-10 w-10 items-center justify-center rounded-full bg-gray-950 p-1"
       :class="{
-        'h-6 w-6 !bg-gray-900 ': minimize
+        'h-6 w-6 !bg-gray-900': minimize
       }"
     >
       <Icon

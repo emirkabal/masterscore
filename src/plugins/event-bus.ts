@@ -17,6 +17,20 @@ export type ApplicationEvents = {
   }
 }
 
+interface IEventBus {
+  event: (event: keyof ApplicationEvents, ...args: any[]) => void
+  listen: (event: keyof ApplicationEvents, callback: (...args: any[]) => void) => void
+  dispatch: (event: keyof ApplicationEvents, ...args: any[]) => void
+}
+
+declare module "#app" {
+  interface NuxtApp {
+    $event: IEventBus["event"]
+    $listen: IEventBus["listen"]
+    $dispatch: IEventBus["dispatch"]
+  }
+}
+
 export default defineNuxtPlugin(() => {
   const emitter = mitt<ApplicationEvents>()
 

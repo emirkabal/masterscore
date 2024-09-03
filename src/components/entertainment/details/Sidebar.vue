@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ProviderResults, CollapsedMedia, Media } from "~/types"
 const { t, locale } = useI18n()
-const { $getTitle, $getOriginalTitle, $moment } = useNuxtApp()
+const { $getTitle, $getOriginalTitle, $getProvider, $moment } = useNuxtApp()
 const { userAgent } = useDevice()
 const props = defineProps<{
   data: CollapsedMedia

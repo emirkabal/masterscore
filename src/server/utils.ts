@@ -327,7 +327,7 @@ export const randomNumber = (min: number, max: number) =>
 export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
   const config = useRuntimeConfig()
 
-  const cached = await cache.get(`${config.VERSION}:${type}:${tmdb_id}`)
+  const cached = await cache.get(`${config.public.VERSION}:${type}:${tmdb_id}`)
   if (cached) return cached as Media & { _count: { likes: number; reviews: number } }
 
   const tmdb = await $fetch<TMDBMedia>(`https://api.themoviedb.org/3/${type}/${tmdb_id}`, {
@@ -419,7 +419,7 @@ export async function getSyncedMedia(tmdb_id: number, type: MediaType) {
     }
   })
 
-  await cache.set(`${config.VERSION}:${type}:${tmdb_id}`, media)
+  await cache.set(`${config.public.VERSION}:${type}:${tmdb_id}`, media)
 
   return media
 }

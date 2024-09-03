@@ -1,10 +1,8 @@
 <script lang="ts" setup>
-import { useLocalStorage } from "@vueuse/core"
-
 const route = useRoute()
 const username = computed(() => route.params.username as string)
 
-const flags = useLocalStorage("preferences", {} as any)
+const preferences = usePreferences()
 
 const [user, summary] = await Promise.all([getUser(username.value), getUserSummary(username.value)])
 if (!user)
@@ -43,7 +41,7 @@ useSeoMeta({
 
       <PagesUserSummary :user="user" :summary="summary" />
 
-      <ClientOnly v-if="flags.debug_mode">
+      <ClientOnly v-if="preferences.debug_mode">
         <div class="py-24">
           <JsonViewer
             :value="{

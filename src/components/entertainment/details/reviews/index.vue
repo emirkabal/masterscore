@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import type { CollapsedMedia } from "~/types"
-import { useLocalStorage, useMediaQuery } from "@vueuse/core"
+import { useMediaQuery } from "@vueuse/core"
 import { useUserStore } from "~/store/user"
 
 const isDesktop = useMediaQuery("(min-width: 768px)")
-const flags = useLocalStorage("preferences", {} as any)
+const preferences = usePreferences()
 const { $event } = useNuxtApp()
 
 const props = defineProps<{
   ctx: CollapsedMedia
 }>()
 
-const { data, pending, error, refresh } = useLazyFetch(`/api/media/${props.ctx.media.id}/reviews`, {
+const { data, status, error, refresh } = useLazyFetch(`/api/media/${props.ctx.media.id}/reviews`, {
   headers: generateHeaders()
 })
 
@@ -39,7 +39,7 @@ watch(data, () => {
 const emits = defineEmits(["edit", "remove"])
 
 const edit = () => {
-  if (isDesktop.value && !flags.value.use_old_review_modal) review.editing = true
+  if (isDesktop.value && !preferences.value.use_old_review_modal) review.editing = true
   else $event("modal:review", true)
 }
 
@@ -61,7 +61,7 @@ const submitReview = async () => {
       {{ $t("entertainment.reviews") }}
     </h1>
 
-    <div v-if="pending || error">
+    <div v-if="status === 'pending'">
       <div class="flex items-center py-6" v-for="i in 4" :key="i">
         <div class="skeleton-effect h-14 w-14 flex-shrink-0 rounded-full bg-gray-900"></div>
         <div class="ml-4 flex w-full flex-col">
@@ -72,11 +72,14 @@ const submitReview = async () => {
         </div>
       </div>
     </div>
+    <div v-else-if="status === 'error'">
+      <p>Something went wrong</p>
+    </div>
     <div v-else>
       <div class="flex flex-col gap-y-12">
         <span
-          v-if="userStore.user && (!isDesktop || flags.use_old_review_modal)"
-          @click="() => (flags.use_old_review_modal = !flags.use_old_review_modal)"
+          v-if="userStore.user && (!isDesktop || preferences.use_old_review_modal)"
+          @click="() => (preferences.use_old_review_modal = !preferences.use_old_review_modal)"
           class="cursor-pointer hover:underline"
         >
           Disable old review modal
@@ -103,14 +106,14 @@ const submitReview = async () => {
           @submit="submitReview"
         />
         <EntertainmentDetailsReviewsReviewForm
-          v-if="isDesktop && !flags.use_old_review_modal"
+          v-if="isDesktop && !preferences.use_old_review_modal"
           :by_me="!!data?.by_me"
           :user="userStore.user"
           :review="review"
           @submit="submitReview"
         />
         <Button
-          v-if="userStore.user && !data?.by_me && (!isDesktop || flags.use_old_review_modal)"
+          v-if="userStore.user && !data?.by_me && (!isDesktop || preferences.use_old_review_modal)"
           @click="edit"
           class="w-fit"
         >
@@ -118,8 +121,9 @@ const submitReview = async () => {
         </Button>
 
         <EntertainmentDetailsReviewsCommentCard
-          v-for="comment in data?.reviews"
+          v-for="(comment, i) in data?.reviews"
           :key="comment.id"
+          :index="i"
           :comment="comment"
           :user="userStore.user"
         />

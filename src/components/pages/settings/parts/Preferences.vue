@@ -1,11 +1,5 @@
 <script lang="ts" setup>
-import { useLocalStorage } from "@vueuse/core"
-
-const preferences = useLocalStorage("preferences", {
-  debug_mode: false,
-  use_old_review_modal: false
-})
-
+const preferences = usePreferences()
 const handleChange = (key: any, value: boolean) => {
   // @ts-ignore
   preferences.value[key] = value
@@ -29,7 +23,7 @@ const handleChange = (key: any, value: boolean) => {
           <FormControl>
             <Switch
               :checked="preferences.debug_mode"
-              @update:checked="(v) => handleChange('debug_mode', v)"
+              @update:checked="(v: boolean) => handleChange('debug_mode', v)"
             />
           </FormControl>
         </FormItem>
@@ -47,7 +41,7 @@ const handleChange = (key: any, value: boolean) => {
           <FormControl>
             <Switch
               :checked="preferences.use_old_review_modal"
-              @update:checked="(v) => handleChange('use_old_review_modal', v)"
+              @update:checked="(v: boolean) => handleChange('use_old_review_modal', v)"
             />
           </FormControl>
         </FormItem>
