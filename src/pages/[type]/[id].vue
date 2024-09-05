@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import tinycolor from "tinycolor2"
-import { useUserStore } from "~/store/user"
 
 definePageMeta({
   validate: ({ params }) => ["movie", "tv"].includes(params.type as string)
@@ -9,8 +8,6 @@ definePageMeta({
 const { $colorthief, $timage } = useNuxtApp()
 const { params } = useRoute()
 const preferences = usePreferences()
-
-const userStore = useUserStore()
 
 const route = useRoute()
 const type = computed(() => route.params.type as "movie" | "tv")
@@ -144,16 +141,6 @@ updateSeo()
           />
           <EntertainmentDetailsEpisodes v-if="data.seasons" :data="data" />
           <EntertainmentDetailsCast :data="data.credits" />
-          <!-- AD CONTAINER -->
-          <div v-if="!userStore.user?.verified || preferences.debug_mode" class="pl-4 pr-4 lg:pr-0">
-            <Adsbygoogle
-              ad-slot="3387293625"
-              :style="{
-                width: '100%',
-                height: '120px'
-              }"
-            />
-          </div>
           <EntertainmentDetailsSimilar :data="data.recommendations" />
           <EntertainmentDetailsReviews :ctx="data" />
         </div>

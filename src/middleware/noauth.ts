@@ -1,5 +1,6 @@
 export default defineNuxtRouteMiddleware(async () => {
-  if (hasToken()) {
-    return navigateTo("/")
-  }
+  if (hasToken())
+    return navigateTo("/", {
+      replace: true
+    })
 })

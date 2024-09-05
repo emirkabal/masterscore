@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-const preferences = usePreferences()
 const { $moment } = useNuxtApp()
 
 type User = {
@@ -28,15 +27,6 @@ const isMe = computed(() => props.comment.user.id === props.user?.id)
 </script>
 
 <template>
-  <template v-if="index && (!user?.verified || preferences.debug_mode) && index % 2 === 0">
-    <Adsbygoogle
-      ad-slot="3387293625"
-      :style="{
-        width: '100%',
-        height: '120px'
-      }"
-    />
-  </template>
   <div
     class="relative flex items-start gap-x-4 rounded-xl"
     :class="{

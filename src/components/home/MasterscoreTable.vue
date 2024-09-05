@@ -1,5 +1,8 @@
 <script setup>
 import { useLocalStorage } from "@vueuse/core"
+import { Switch } from "@/components/ui/switch"
+import { Label } from "@/components/ui/label"
+
 const headers = [
   { text: "Rank", value: "rank", sortable: true, width: 40 },
   {
@@ -83,22 +86,12 @@ watch([listType, disableReviewRequirement], () => {
       </Select>
     </div>
     <div class="mb-4 flex items-center gap-2">
-      <HeadlessSwitch
+      <Switch
         id="disableReviewRequirement"
-        v-model="disableReviewRequirement"
-        :class="!disableReviewRequirement ? 'bg-blue-700' : 'bg-teal-700'"
-        class="relative inline-flex h-[18px] w-[32px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-      >
-        <span class="sr-only">Use setting</span>
-        <span
-          aria-hidden="true"
-          :class="!disableReviewRequirement ? 'translate-x-3.5' : 'translate-x-0'"
-          class="pointer-events-none inline-block h-[14px] w-[14px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out"
-        />
-      </HeadlessSwitch>
-      <label for="disableReviewRequirement" class="select-none opacity-80">
-        Show only entertainments with at least 3 reviews
-      </label>
+        :checked="disableReviewRequirement"
+        @update:checked="disableReviewRequirement = $event"
+      />
+      <Label for="disableReviewRequirement"> Disable masterscore review requirement </Label>
     </div>
 
     <EasyDataTable

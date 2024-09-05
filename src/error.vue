@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import type { NuxtError } from "#app"
-useRouter()
-
-defineProps<{
-  error: NuxtError
-}>()
+const error = useError()
+const config = useRuntimeConfig()
 
 const handleError = () => {
   clearError({
@@ -29,6 +25,10 @@ const handleError = () => {
     <div class="z-20 w-fit max-w-2xl p-12">
       <h1 class="mb-2 text-4xl font-bold">{{ error?.statusCode }}</h1>
       <p class="mb-8 text-lg text-gray-200">{{ error.statusMessage }}</p>
+      <div v-if="config.public.IS_DEV" class="my-8 border-2 border-yellow-500 bg-zinc-950 p-4">
+        <code class="text-xs text-yellow-100">#is_dev<br /></code>
+        <code class="text-red-500">{{ error.stack }}</code>
+      </div>
       <button
         @click="handleError"
         class="w-full max-w-52 rounded bg-white px-4 py-2 font-maven font-bold text-black hover:bg-gray-200"

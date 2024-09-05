@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useUserStore } from "~/store/user"
 import type { CreditsResult } from "~/types"
 const { params } = useRoute()
 const { $moment, $timage, $listen, $tlink } = useNuxtApp()
@@ -7,8 +6,6 @@ const { t, locale } = useI18n()
 const revealBio = ref(false)
 const showDetailsDev = ref(false)
 const preferences = usePreferences()
-
-const userStore = useUserStore()
 
 const id = computed(() => (params.id as string).split("-").pop() as string)
 
@@ -231,17 +228,6 @@ useHead({
               :fixed-media-type="'movie'"
               :item-size="'default'"
               :offset="0"
-            />
-
-            <!-- AD CONTAINER -->
-            <Adsbygoogle
-              v-if="!userStore.user?.verified || preferences.debug_mode"
-              ad-slot="3387293625"
-              :style="{
-                width: '100%',
-                height: '120px',
-                margin: '36px 0'
-              }"
             />
 
             <div v-if="getCrew">

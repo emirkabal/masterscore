@@ -33,23 +33,7 @@ export default defineNuxtConfig({
     "@vite-pwa/nuxt",
     "@nuxt/icon",
     "@nuxtjs/tailwindcss",
-    "shadcn-nuxt",
-    [
-      "@nuxtjs/google-adsense",
-      {
-        id: "ca-pub-4879579032863674",
-        onPageLoad: false,
-        pageLevelAds: false,
-        hideUnfilled: true
-      }
-    ],
-    [
-      "@weareheavy/nuxt-cookie-consent",
-      {
-        provider: "cookiescript",
-        id: "2a625d68b2621b2bf35d1dfbe806ff40"
-      }
-    ]
+    "shadcn-nuxt"
   ],
 
   css: [
@@ -65,7 +49,6 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/**": isDev ? {} : { cache: { swr: true, maxAge: 120, staleMaxAge: 60, headersOnly: true } },
-    "/account/**": { ssr: false },
     "/settings": { ssr: false }
   },
 

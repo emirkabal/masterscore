@@ -113,7 +113,7 @@ useHead({
 <template>
   <div class="preffered-background min-h-screen py-28">
     <div class="container mx-auto max-w-4xl">
-      <div class="flex items-center justify-between">
+      <div class="flex items-start justify-between">
         <PagesUserCard
           :user="user"
           :small="true"

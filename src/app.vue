@@ -1,25 +1,20 @@
 <script setup>
+import { useIntervalFn } from "@vueuse/core"
+
 const { $router, $event } = useNuxtApp()
 
 watch($router.currentRoute, () => {
   document.body.style.overflow = "auto"
   $event("modal:trailer", false)
 })
-let interval
 
-onMounted(() => {
+useIntervalFn(() => {
   if (import.meta.client) {
-    interval = setInterval(() => {
-      const modal = document.querySelector(".modal")
-      const popover = document.querySelector("[data-radix-popper-content-wrapper]")
-      document.body.style.overflow = modal || popover ? "hidden" : "auto"
-    }, 300)
+    const modal = document.querySelector(".modal")
+    const popover = document.querySelector("[data-radix-popper-content-wrapper]")
+    document.body.style.overflow = modal || popover ? "hidden" : "auto"
   }
-})
-
-onUnmounted(() => {
-  if (interval) clearInterval(interval)
-})
+}, 300)
 
 const title = "Masterscore"
 const description =
@@ -40,7 +35,7 @@ useSeoMeta({
 
 <template>
   <VitePwaManifest />
-  <NuxtLoadingIndicator />
+  <NuxtLoadingIndicator color="#eab308" />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>

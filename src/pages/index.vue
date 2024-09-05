@@ -63,17 +63,6 @@ $listen("refresh:entertainment", () => {
           />
         </div>
 
-        <!-- AD CONTAINER -->
-        <div v-if="!userStore.user?.verified || preferences.debug_mode">
-          <Adsbygoogle
-            ad-slot="3387293625"
-            :style="{
-              width: '100%',
-              height: '120px'
-            }"
-          />
-        </div>
-
         <div class="mt-8 flex flex-col gap-12 md:flex-row">
           <div class="h-full w-full">
             <h3 class="text-2xl font-bold tracking-tight sm:text-3xl">
@@ -199,18 +188,6 @@ $listen("refresh:entertainment", () => {
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- AD CONTAINER -->
-        <div v-if="!userStore.user?.verified || preferences.debug_mode">
-          <Adsbygoogle
-            ad-slot="3387293625"
-            :style="{
-              width: '100%',
-              height: '120px',
-              marginTop: '96px'
-            }"
-          />
         </div>
 
         <!-- join us -->
