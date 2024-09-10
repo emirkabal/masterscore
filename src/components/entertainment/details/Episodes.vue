@@ -125,7 +125,7 @@ watch(seasonData, () => {
             }}</span
           >
           <Icon
-            name="ic:round-chevron-left"
+            name="material-symbols:chevron-left-rounded"
             class="ml-auto h-6 w-6 flex-shrink-0 transition-transform md:h-8 md:w-8"
             :class="{
               'mt-6 rotate-[270deg]': seasonData[item.id].show,

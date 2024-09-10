@@ -124,7 +124,7 @@ $listen("refresh:entertainment", () => {
               to="/discover"
               class="flex w-full items-center gap-2 rounded-xl bg-white px-4 py-2 text-lg font-semibold text-black transition-opacity hover:opacity-75 md:w-fit"
             >
-              <Icon name="ic:round-explore" size="24" />
+              <Icon name="material-symbols:explore-rounded" size="24" />
               {{ $t("discover.title") }}
             </NuxtLink>
           </div>
@@ -203,7 +203,7 @@ $listen("refresh:entertainment", () => {
               to="/account/signup"
               class="flex w-full items-center gap-2 rounded-xl bg-white px-4 py-2 text-lg font-semibold text-black transition-opacity hover:opacity-75 md:w-fit"
             >
-              <Icon name="ic:round-person-add" size="24" />
+              <Icon name="material-symbols:person-add-rounded" size="24" />
               {{ $t("guest.sign_up") }}
             </NuxtLink>
           </div>

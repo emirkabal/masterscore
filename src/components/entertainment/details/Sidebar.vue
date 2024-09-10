@@ -251,7 +251,7 @@ const externalScores = computed(() => {
         target="_blank"
         class="flex items-center gap-1 text-gray-400 transition-colors hover:text-gray-300"
       >
-        <Icon name="ic:round-link" class="h-6 w-6" />
+        <Icon name="material-symbols:link-rounded" class="h-6 w-6" />
         <span>{{ $t("entertainment.sidebar.visit_website") }}</span>
       </a>
     </div>

@@ -11,7 +11,7 @@ defineProps<{
   <Popover>
     <PopoverTrigger as-child>
       <Button variant="outline">
-        <Icon name="mdi:filter" />
+        <Icon name="material-symbols:filter-alt" />
       </Button>
     </PopoverTrigger>
     <PopoverContent class="w-80">

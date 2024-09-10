@@ -52,7 +52,11 @@ const value = computed({
       >
         <Icon
           class="h-4 w-4 text-gray-900"
-          :name="revealed ? 'mdi:eye-off-outline' : 'mdi:eye-outline'"
+          :name="
+            revealed
+              ? 'material-symbols:visibility-off-outline-rounded'
+              : 'material-symbols:visibility-outline-rounded'
+          "
         />
       </button>
     </div>

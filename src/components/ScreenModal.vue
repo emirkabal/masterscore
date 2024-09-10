@@ -28,7 +28,7 @@ onClickOutside(slotEl, () => {
           @click="emits('close')"
           class="absolute -top-10 right-0 mb-1 opacity-50 transition-opacity hover:opacity-100"
         >
-          <Icon name="ic:round-close" class="h-8 w-8 text-white" />
+          <Icon name="material-symbols:close-rounded" class="h-8 w-8 text-white" />
         </button>
       </div>
     </div>

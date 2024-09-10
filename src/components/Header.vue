@@ -185,13 +185,17 @@ $listen("searchbar:focus", (val) => {
               </DropdownMenuGroup>
             </template>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Icon name="simple-line-icons:social-github" class="mr-2 h-4 w-4" />
-              <span>GitHub</span>
+            <DropdownMenuItem as-child>
+              <NuxtLink external to="https://github.com/emirkabal/masterscore" target="_blank">
+                <Icon name="simple-icons:github" class="mr-2 h-4 w-4" />
+                <span>GitHub</span>
+              </NuxtLink>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Icon name="material-symbols:support-agent" class="mr-2 h-4 w-4" />
-              <span>{{ $t("footer.support") }}</span>
+            <DropdownMenuItem as-child>
+              <NuxtLink external to="mailto:support@masterscore.org" target="_blank">
+                <Icon name="material-symbols:support-agent" class="mr-2 h-4 w-4" />
+                <span>{{ $t("footer.support") }}</span>
+              </NuxtLink>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem @click="userStore.logout">

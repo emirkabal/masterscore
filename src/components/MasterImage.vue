@@ -20,7 +20,7 @@ const source = computed(() => {
       v-if="noImage"
       class="flex h-full w-full flex-col items-center justify-center gap-2 bg-gray-900 text-zinc-500"
     >
-      <Icon name="ic:outline-image-not-supported" color="white" size="36" />
+      <Icon name="material-symbols:image-not-supported-outline-rounded" color="white" size="36" />
     </div>
     <nuxt-img
       v-else

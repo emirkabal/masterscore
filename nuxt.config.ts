@@ -9,6 +9,10 @@ export default defineNuxtConfig({
   ssr: true,
   spaLoadingTemplate: "./app/spa-loading-template.html",
 
+  devtools: {
+    enabled: false
+  },
+
   experimental: {
     defaults: {
       nuxtLink: {
@@ -28,7 +32,6 @@ export default defineNuxtConfig({
         componentDir: "src/components/ui"
       }
     ],
-    "nuxt-headlessui",
     "@nuxtjs/device",
     "@vite-pwa/nuxt",
     "@nuxt/icon",

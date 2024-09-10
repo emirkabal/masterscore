@@ -24,7 +24,7 @@ defineProps<{
       'bg-yellow-300 font-maven !font-semibold !text-black': rating >= 8 && rating < 9,
       'bg-green-600': rating >= 7 && rating < 8,
       'bg-gray-500': rating >= 5 && rating < 7,
-      'bg-red-500': rating < 5
+      'bg-red-500 !text-red-950': rating < 5
     }"
   >
     <Icon
@@ -34,10 +34,10 @@ defineProps<{
           : rating >= 8 && rating < 9
             ? 'solar:stars-bold'
             : rating >= 7
-              ? 'ic:round-check-circle'
+              ? 'material-symbols:sentiment-satisfied-outline-rounded'
               : rating >= 5 && rating < 7
-                ? 'ic:baseline-sentiment-dissatisfied'
-                : 'ic:outline-mood-bad'
+                ? 'material-symbols:sentiment-dissatisfied-outline-rounded'
+                : 'material-symbols:sentiment-extremely-dissatisfied-outline-rounded'
       }`"
       class="h-4 w-4"
     />

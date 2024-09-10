@@ -184,7 +184,7 @@ useHead({
             @click="reset"
             class="mx-auto mt-4 flex h-10 flex-shrink-0 items-center gap-x-2 rounded-full bg-popover px-4 font-medium text-gray-300 transition hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <Icon name="ic:round-tune" class="h-6 w-6" />
+            <Icon name="material-symbols:tune-rounded" class="h-6 w-6" />
             <span> {{ $t("discover.reset-filters") }} </span>
           </button>
         </div>

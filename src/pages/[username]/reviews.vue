@@ -144,7 +144,7 @@ useHead({
                 }
               "
             >
-              <Icon name="ic:round-edit" class="mr-2 h-5 w-5" />
+              <Icon name="material-symbols:edit-square-outline-rounded" class="mr-2 h-5 w-5" />
               <span>{{ $t("edit") }}</span>
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -157,7 +157,7 @@ useHead({
                 }
               "
             >
-              <Icon name="ic:outline-delete-forever" class="mr-2 h-5 w-5" />
+              <Icon name="material-symbols:delete-forever-outline-rounded" class="mr-2 h-5 w-5" />
               <span>{{ $t("delete") }}</span>
             </DropdownMenuItem>
           </DropdownMenuGroup>
@@ -220,7 +220,7 @@ useHead({
               @click="($event) => openDialog($event, review)"
               class="absolute bottom-0 right-0 h-7 w-7 rounded-full transition hover:bg-gray-900"
             >
-              <Icon name="mdi:dots-horizontal" class="h-6 w-6" />
+              <Icon name="material-symbols:more-horiz" class="h-6 w-6" />
             </button>
           </div>
         </div>

@@ -17,22 +17,22 @@ const routes = [
   {
     name: "header.home",
     path: "/",
-    icon: "tabler:home"
+    icon: "material-symbols:house-rounded"
   },
   {
     name: "header.feed",
     path: "/feed",
-    icon: "tabler:message-2"
+    icon: "material-symbols:rss-feed-rounded"
   },
   {
     name: "discover.title",
     path: "/discover",
-    icon: "ion:compass-outline"
+    icon: "material-symbols:explore-rounded"
   },
   {
     name: "header.table",
     path: "/table",
-    icon: "tabler:table-import"
+    icon: "material-symbols:backup-table-rounded"
   }
 ]
 
@@ -107,7 +107,7 @@ onKeyStroke(["Control", "Cmd", "K", "k"], (e) => {
 
     <div class="relative z-20 h-10 w-full">
       <Icon
-        name="ic:round-search"
+        name="material-symbols:search-rounded"
         class="pointer-events-none absolute left-3.5 top-[9px] h-6 w-6"
       />
       <div

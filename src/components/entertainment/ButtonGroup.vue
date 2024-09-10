@@ -53,7 +53,7 @@ onUnmounted(() => {
           : $t('entertainment.buttons.like')
       }"
     >
-      <Icon name="ic:round-favorite" class="h-7 w-7" />
+      <Icon name="material-symbols:favorite-rounded" class="h-7 w-7" />
     </button>
     <button
       class="btn"
@@ -63,8 +63,8 @@ onUnmounted(() => {
           : $t('entertainment.buttons.add_to_watchlist')
       }"
     >
-      <Icon name="ic:round-bookmark-add" v-if="!true" class="h-7 w-7" />
-      <Icon name="ic:round-bookmark-remove" v-else class="h-7 w-7" />
+      <Icon name="material-symbols:bookmark-added-rounded" v-if="!true" class="h-7 w-7" />
+      <Icon name="material-symbols:bookmark-add-outline-rounded" v-else class="h-7 w-7" />
     </button>
 
     <button
@@ -72,7 +72,7 @@ onUnmounted(() => {
       @click="$emit('watchTrailer')"
       class="flex items-center gap-x-1 px-2 font-semibold transition-opacity hover:opacity-75"
     >
-      <Icon name="ic:round-play-arrow" class="h-7 w-7" />
+      <Icon name="material-symbols:play-arrow-rounded" class="h-7 w-7" />
       {{ $t("entertainment.watch_trailer") }}
     </button>
   </div>

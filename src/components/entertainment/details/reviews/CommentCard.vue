@@ -104,17 +104,17 @@ const isMe = computed(() => props.comment.user.id === props.user?.id)
         <DropdownMenu v-if="isMe">
           <DropdownMenuTrigger as-child class="h-8 w-8 rounded-full transition hover:bg-gray-900">
             <button>
-              <Icon name="mdi:dots-horizontal" class="h-5 w-5" />
+              <Icon name="material-symbols:more-horiz" class="h-5 w-5" />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent class="w-32">
             <DropdownMenuGroup>
               <DropdownMenuItem @click="$emit('edit')">
-                <Icon name="ic:round-edit" class="mr-2 h-5 w-5" />
+                <Icon name="material-symbols:edit-square-outline-rounded" class="mr-2 h-5 w-5" />
                 <span>{{ $t("edit") }}</span>
               </DropdownMenuItem>
               <DropdownMenuItem class="text-red-400" @click="$emit('delete')">
-                <Icon name="ic:outline-delete-forever" class="mr-2 h-5 w-5" />
+                <Icon name="material-symbols:delete-forever-outline-rounded" class="mr-2 h-5 w-5" />
                 <span>{{ $t("delete") }}</span>
               </DropdownMenuItem>
             </DropdownMenuGroup>

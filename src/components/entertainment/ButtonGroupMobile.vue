@@ -29,7 +29,7 @@ $listen("modal:trailer", (val) => {
       @click="$emit('watchTrailer')"
       class="flex w-16 flex-col items-center justify-center"
     >
-      <Icon name="ic:round-play-arrow" class="h-7 w-7 text-gray-200" />
+      <Icon name="material-symbols:play-arrow-rounded" class="h-7 w-7 text-gray-200" />
       <span class="line-clamp-1 text-[10px] font-semibold tracking-tighter text-gray-300">
         {{ $t("entertainment.watch_trailer") }}
       </span>
@@ -38,8 +38,12 @@ $listen("modal:trailer", (val) => {
       @click="() => $event('entertainment:handle:button', 'review')"
       class="flex w-16 flex-col items-center justify-center"
     >
-      <Icon v-if="userStore.isReviewed(id)" name="ic:round-star" class="h-7 w-7 text-gray-200" />
-      <Icon v-else name="ic:round-star-outline" class="h-7 w-7 text-gray-200" />
+      <Icon
+        v-if="userStore.isReviewed(id)"
+        name="material-symbols:star-rounded"
+        class="h-7 w-7 text-gray-200"
+      />
+      <Icon v-else name="material-symbols:star-outline-rounded" class="h-7 w-7 text-gray-200" />
       <span class="line-clamp-1 text-[10px] font-semibold tracking-tighter text-gray-300">
         {{
           userStore.isReviewed(id)
@@ -52,8 +56,12 @@ $listen("modal:trailer", (val) => {
       @click="() => $event('entertainment:handle:button', 'like')"
       class="flex w-16 flex-col items-center justify-center"
     >
-      <Icon v-if="userStore.isLiked(id)" name="ic:round-favorite" class="h-7 w-7 text-gray-200" />
-      <Icon v-else name="ic:round-favorite-border" class="h-7 w-7 text-gray-200" />
+      <Icon
+        v-if="userStore.isLiked(id)"
+        name="material-symbols:favorite-rounded"
+        class="h-7 w-7 text-gray-200"
+      />
+      <Icon v-else name="material-symbols:favorite-outline-rounded" class="h-7 w-7 text-gray-200" />
       <span class="line-clamp-1 text-[10px] font-semibold tracking-tighter text-gray-300">
         {{
           userStore.isLiked(id)

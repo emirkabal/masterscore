@@ -34,7 +34,7 @@ const decrement = () => {
 </script>
 <template>
   <div class="flex w-fit items-center rounded border border-gray-800 bg-gray-900">
-    <Icon name="ic:baseline-star" class="ml-2 h-4 w-4" />
+    <Icon name="material-symbols:star-rate-rounded" class="ml-2 h-4 w-4" />
     <input
       type="text"
       class="mx-2 w-7 border-0 bg-transparent p-0 text-center font-semibold focus:outline-none focus:ring-0"
@@ -45,13 +45,13 @@ const decrement = () => {
         @click="increment"
         class="flex items-center self-center rounded px-2 py-1 hover:bg-gray-800"
       >
-        <Icon name="ic:baseline-keyboard-arrow-up" class="h-4 w-4" />
+        <Icon name="material-symbols:keyboard-arrow-up-rounded" class="h-4 w-4" />
       </button>
       <button
         @click="decrement"
         class="flex items-center self-center rounded px-2 py-1 hover:bg-gray-800"
       >
-        <Icon name="ic:baseline-keyboard-arrow-down" class="h-4 w-4" />
+        <Icon name="material-symbols:keyboard-arrow-down-rounded" class="h-4 w-4" />
       </button>
     </div>
   </div>

@@ -72,10 +72,10 @@ useEventListener("resize", () => {
       <slot />
 
       <div class="swiper-button-prev">
-        <Icon name="ic:round-chevron-left" class="h-10 w-10" />
+        <Icon name="material-symbols:chevron-left-rounded" class="h-10 w-10" />
       </div>
       <div class="swiper-button-next">
-        <Icon name="ic:round-chevron-right" class="h-10 w-10" />
+        <Icon name="material-symbols:chevron-right-rounded" class="h-10 w-10" />
       </div>
     </Swiper>
   </div>

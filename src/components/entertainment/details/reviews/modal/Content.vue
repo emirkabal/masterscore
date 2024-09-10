@@ -76,7 +76,7 @@ const onSelectEmoji = (emoji: any) => {
         />
         <div class="absolute bottom-0 right-0 z-10 m-2 rounded text-sm text-gray-300">
           <button @click="isEmojiSelector = !isEmojiSelector" class="p-1 hover:bg-zinc-600">
-            <Icon name="ic:outline-emoji-emotions" class="h-8 w-8" />
+            <Icon name="material-symbols:emoji-language-outline-rounded" class="h-8 w-8" />
           </button>
         </div>
       </div>

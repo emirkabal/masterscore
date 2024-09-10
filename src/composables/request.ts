@@ -18,7 +18,7 @@ import getISO from "~/utils/getISO"
 
 const cache = new LRUCache<string, any>({
   max: 200,
-  ttl: import.meta.dev ? 1 : 60 * 60 * 2000
+  ttl: 60 * 60 * 2000
 })
 
 function _tmdb(url: string, params: Record<string, string | number | boolean | undefined> = {}) {
@@ -63,7 +63,8 @@ export async function getMedia(type: MediaType, id: string | number) {
           headers: useRequestHeaders()
         }),
         _tmdb(`/${type}/${id}`, {
-          append_to_response: "external_ids,videos,credits,recommendations"
+          append_to_response: "external_ids,videos,credits,recommendations,images",
+          include_image_language: `${locale.split("-")[0]},null`
         }) as Promise<TMDBMedia>
       ])
 

@@ -14,7 +14,7 @@ const data = reactive({
 
 const details = computed(() => {
   return {
-    logo: data.details?.media?.images?.logo,
+    logo: data.details?.images?.logos?.[0]?.file_path ?? data.details?.media?.images?.logo,
     runtime: $humanize(
       ((data && data.details?.runtime) ||
         (data && data.details?.episode_run_time && data.details?.episode_run_time[0]) ||

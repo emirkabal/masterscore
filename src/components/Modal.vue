@@ -36,7 +36,7 @@ onClickOutside(modal, () => {
           <span>{{ props.title }}</span>
           <button @click="$emit('close')">
             <Icon
-              name="ic:round-close"
+              name="material-symbols:close-rounded"
               class="h-6 w-6 text-gray-600 transition-colors hover:text-gray-200 md:h-8 md:w-8"
             />
           </button>

@@ -50,7 +50,7 @@ const handleWatchlist = async () => {
     <button
       class="flex items-center rounded-full bg-gray-400/10 py-2 font-semibold hover:bg-gray-400/40"
     >
-      <Icon name="material-symbols:play-arrow-rounded" class="h-8 w-auto px-2 text-gray-200" />
+      <Icon name="material-symbols:play-arrow-rounded" class="mx-2 h-8 w-8 text-gray-200" />
       <span class="pr-4"> Play Trailer </span>
     </button>
   </div>

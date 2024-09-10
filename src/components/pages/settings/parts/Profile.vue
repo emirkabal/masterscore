@@ -133,7 +133,7 @@ const cropped = (type: "avatar" | "banner", v: string) => {
           v-else
           class="flex h-14 w-24 items-center justify-center rounded-lg border border-border bg-gray-900"
         >
-          <Icon name="ic:round-photo" class="h-6 w-6 text-gray-500" />
+          <Icon name="material-symbols:image-outline-rounded" class="h-6 w-6 text-gray-500" />
         </div>
       </div>
       <div>

@@ -136,7 +136,7 @@ watch([listType, disableReviewRequirement], () => {
         <div
           class="mx-auto flex h-6 w-fit items-center justify-center rounded-full bg-gray-800 px-4 text-gray-300"
         >
-          <Icon name="ic:round-supervisor-account" class="h-4 w-4" />
+          <Icon name="material-symbols:supervisor-account-outline-rounded" class="h-4 w-4" />
           {{ count }}
         </div>
       </template>

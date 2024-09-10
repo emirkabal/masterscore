@@ -149,7 +149,7 @@ useHead({
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 class="transition-opacity hover:opacity-75"
-                ><Icon name="line-md:twitter-x" class="h-8 w-8"
+                ><Icon name="simple-icons:x" class="h-8 w-8"
               /></a>
               <a
                 v-if="data.external_ids.instagram_id"
@@ -157,7 +157,7 @@ useHead({
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 class="transition-opacity hover:opacity-75"
-                ><Icon name="line-md:instagram" class="h-8 w-8"
+                ><Icon name="simple-icons:instagram" class="h-8 w-8"
               /></a>
             </div>
             <h2 class="my-4 text-2xl font-semibold tracking-tighter">
