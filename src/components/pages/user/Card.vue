@@ -54,6 +54,17 @@ const bannerUri = computed(() =>
           <h1>{{ user.display_name || user.username }}</h1>
           <Verified v-if="user.verified" />
           <Staff :small="true" v-if="user.flags === 1" />
+          <img
+            v-if="user.id === '63f4e59780cce678302b2ce3'"
+            v-tooltip="{
+              content: `Early supporter`,
+              html: true,
+              delay: 100
+            }"
+            src="~/assets/images/badges/early-supporter.png"
+            alt="early supporter"
+            class="size-8"
+          />
         </div>
         <h2 v-if="user.display_name" class="opacity-75">{{ user.username }}</h2>
       </div>
