@@ -10,20 +10,14 @@ export default defineNuxtConfig({
   spaLoadingTemplate: "./app/spa-loading-template.html",
 
   devtools: {
-    enabled: false
-  },
-
-  experimental: {
-    defaults: {
-      nuxtLink: {
-        prefetch: true,
-        prefetchOn: { visibility: false, interaction: true }
-      }
-    }
+    enabled: true
   },
 
   modules: [
+    "@nuxtjs/sitemap",
+    "@nuxtjs/robots",
     ["@nuxtjs/i18n", i18n],
+    "@nuxtjs/tailwindcss",
     "@nuxt/image",
     "@pinia/nuxt",
     [
@@ -34,9 +28,7 @@ export default defineNuxtConfig({
     ],
     "@nuxtjs/device",
     "@vite-pwa/nuxt",
-    "@nuxt/icon",
-    "@nuxtjs/tailwindcss",
-    "shadcn-nuxt"
+    "@nuxt/icon"
   ],
 
   css: [
@@ -123,6 +115,16 @@ export default defineNuxtConfig({
       installPrompt: true,
       periodicSyncForUpdates: 20
     }
+  },
+
+  site: {
+    url: "https://masterscore.org",
+    name: "Masterscore",
+    indexable: true
+  },
+
+  sitemap: {
+    sources: ["/api/__sitemap__/urls"]
   },
 
   runtimeConfig: {

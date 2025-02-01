@@ -1,3 +1,4 @@
+import { slugify } from "~/lib/utils"
 import type {
   BackdropSizes,
   Genre,
@@ -8,7 +9,6 @@ import type {
   TMDBMedia,
   Media
 } from "~/types"
-import { slugify } from "@/lib/utils"
 
 const genres = [
   {
@@ -153,7 +153,7 @@ const providers = [
   { name: "Netflix", logo: "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg" },
   { name: "blutv", logo: "/z3XAGCCbDD3KTZFvc96Ytr3XR56.jpg" },
   { name: "puhutv", logo: "/3namPdisFuyTbB8BX2PxT3OdVCG.jpg" },
-  { name: "Amazon Prime Video", logo: "/emthp39XA2YScoYL1p0sdbAH2WA.jpg" },
+  { name: "Amazon Prime", logo: "/emthp39XA2YScoYL1p0sdbAH2WA.jpg" },
   { name: "Google Play Movies", logo: "/tbEdFQDwx5LEVr8WpSeXQSIirVq.jpg" },
   { name: "Apple TV", logo: "/peURlLlr8jggOwK53fJ5wdQl05y.jpg" },
   { name: "MUBI", logo: "/bVR4Z1LCHY7gidXAJF5pMa4QrDS.jpg" },
@@ -192,23 +192,31 @@ const providers = [
 ]
 
 export default defineNuxtPlugin(() => {
+  const tlink = (item: any) => {
+    try {
+      if (!item) return "#"
+
+      const type =
+        item.media_type || ("tmdb_id" in item && item.type) || ("media" in item && item.media.type)
+
+      const id =
+        item.id || ("tmdb_id" in item && item.tmdb_id) || ("media" in item && item.media.tmdb_id)
+
+      const title =
+        item.title || item.name || ("media" in item && (item.media.title || item.media.name))
+
+      if (!type || !id) return "#"
+
+      return `/${type === "movie" ? "movie" : "tv"}/${slugify(title || "")}-${id}`
+    } catch (error) {
+      console.error("tlink error:", error)
+      return "#"
+    }
+  }
+
   return {
     provide: {
-      tlink: (
-        media:
-          | Media
-          | TMDBMedia
-          | TMDBResult
-          | { type: "movie" | "tv" | "person"; id: string | number; title?: string; name?: string }
-      ) => {
-        if ("tmdb_id" in media) {
-          return `/${media.type}/${slugify(media.title)}-${media.tmdb_id}`
-        } else if ("type" in media) {
-          return `/${media.type}/${slugify(media.title! || media.name!)}-${media.id}`
-        } else {
-          return `/${media.media_type}/${slugify(media.title! || media.name!)}-${media.id}`
-        }
-      },
+      tlink,
       timage: (path: string, size: PosterSizes | BackdropSizes | LogoSizes) => {
         return `https://image.tmdb.org/t/p/${size}${path}`
       },

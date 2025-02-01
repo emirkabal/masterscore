@@ -102,6 +102,7 @@ export default {
   detectBrowserLanguage: {
     useCookie: true,
     alwaysRedirect: true,
+
     cookieKey: "locale",
     fallbackLocale: "en",
     redirectOn: "all"

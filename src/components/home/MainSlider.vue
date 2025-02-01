@@ -7,11 +7,13 @@ import tinycolor from "tinycolor2"
 import "swiper/css"
 import "swiper/css/effect-fade"
 type Custom = TMDBResult & { score?: number }
+
+const { $colorthief, $timage } = useNuxtApp()
+
 const props = defineProps<{
   data: Custom[]
 }>()
 
-const { $colorthief, $timage } = useNuxtApp()
 
 const filtered = computed(() => {
   return props.data
@@ -102,16 +104,23 @@ const slideTo = (index: number) => {
       <SwiperSlide v-for="(item, index) in filtered" :key="item.id">
         <div
           class="h-[640px] bg-[length:1280px] bg-[right_calc(-200px)_center] bg-no-repeat lg:bg-[right_calc((-20%)-140px)_center]"
+          :class="{
+            '!bg-opacity-0': swiper?.realIndex !== index
+          }"
           :style="{
             backgroundImage: `url(${$timage(item.backdrop_path as string, 'w1280')})`
           }"
         >
           <div
             class="relative z-10 h-full w-full bg-gradient-to-r from-gray-950 from-40% to-gray-950/10"
+            :class="{
+              '!bg-opacity-0': swiper?.realIndex !== index
+            }"
             :style="{
-              background: colors?.[index]
-                ? `linear-gradient(90deg, ${colors?.[index]?.background} 40%, ${colors?.[index]?.gradient} 100%)`
-                : undefined
+              background:
+                colors?.[index] && swiper?.realIndex === index
+                  ? `linear-gradient(90deg, ${colors?.[index]?.background} 40%, ${colors?.[index]?.gradient} 100%)`
+                  : undefined
             }"
           >
             <div
@@ -138,10 +147,11 @@ const slideTo = (index: number) => {
                 </h2>
 
                 <div class="flex flex-wrap items-center gap-3 font-semibold">
-                  <ScoreCircle :score="item.score || item.vote_average" />
+                  <ScoreCircle :score="item.score || item.vote_average || 0" />
                   <div class="flex flex-wrap gap-2">
                     <NuxtLink
                       v-for="genre in item.genre_ids"
+                      :key="genre"
                       :to="`/discover?genres=${genre}&type=${item.media_type}`"
                       class="transition-colors hover:text-white/75"
                       :class="{

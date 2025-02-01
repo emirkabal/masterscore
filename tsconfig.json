@@ -2,8 +2,7 @@
   // https://nuxt.com/docs/guide/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "types": ["./src/types"],
-    "allowJs": true
+    "moduleResolution": "node"
   },
   "exclude": ["node_modules"]
 }
