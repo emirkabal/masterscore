@@ -14,6 +14,7 @@ export default defineNuxtConfig({
   },
 
   experimental: {
+    renderJsonPayloads: true,
     defaults: {
       nuxtLink: {
         prefetch: true,
@@ -63,6 +64,10 @@ export default defineNuxtConfig({
   },
 
   app: {
+    pageTransition: {
+      name: "page",
+      mode: "out-in"
+    },
     head: {
       title: "Masterscore",
       htmlAttrs: {

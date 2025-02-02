@@ -9,15 +9,9 @@ const preferences = usePreferences()
 
 const id = computed(() => (params.id as string).split("-").pop() as string)
 
-const { data, status, error, refresh } = await useAsyncData(
-  `Person-${id.value}`,
-  () => {
-    return getPerson(id.value)
-  },
-  {
-    lazy: true
-  }
-)
+const { data, status, error, refresh } = await useAsyncData(`Person-${id.value}`, () => {
+  return getPerson(id.value)
+})
 
 if (error.value) throw error.value
 
@@ -131,6 +125,7 @@ useHead({
           <MasterImage
             :source="$timage(data.profile_path || '-', 'w500')"
             class="mx-auto h-96 max-w-[300px] rounded-lg md:mx-0 md:h-[450px]"
+            :transition-name="`person-${data.id}`"
           />
           <h1 class="mt-2 block text-center text-3xl font-bold tracking-wide md:hidden">
             {{ name }}

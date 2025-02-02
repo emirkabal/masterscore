@@ -1,6 +1,5 @@
 import type { User } from "~/types"
 import { defineStore } from "pinia"
-import { useLocalStorage } from "@vueuse/core"
 import { generateHeaders } from "~/composables/user"
 
 export const useUserStore = defineStore("user", {
@@ -13,7 +12,7 @@ export const useUserStore = defineStore("user", {
   },
 
   hydrate: (state) => {
-    const token = useLocalStorage("token", null).value
+    const token = localStorage.getItem("token")
     if (!token) {
       state.loading = false
     }
@@ -44,19 +43,19 @@ export const useUserStore = defineStore("user", {
 
   actions: {
     async init() {
-      this.token = useLocalStorage("token", null).value
+      this.token = localStorage.getItem("token") || null
       if (import.meta.client && this.token) await this.getUserData().catch(() => {})
       this.loading = false
     },
 
     setToken(token: string) {
       this.token = token
-      useLocalStorage("token", token)
+      localStorage.setItem("token", token)
     },
 
     removeToken() {
       this.token = ""
-      useLocalStorage("token", null).value = null
+      localStorage.removeItem("token")
     },
 
     async login(username: string, password: string) {
@@ -106,7 +105,7 @@ export const useUserStore = defineStore("user", {
     },
 
     async waitForUser() {
-      if (process.server) return Promise.resolve(false)
+      if (import.meta.server) return Promise.resolve(false)
       return new Promise((resolve) => {
         const interval = setInterval(() => {
           if (!this.token) {

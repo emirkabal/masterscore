@@ -34,6 +34,10 @@
     --radius: 0.5rem;
   }
 
+  * {
+    @apply border-border;
+  }
+
   html {
     @apply scroll-smooth font-inter antialiased;
   }
@@ -43,25 +47,29 @@
   }
 
   ::-webkit-scrollbar {
-    @apply h-2 w-[7px] bg-transparent;
+    width: 5px;
   }
-
   ::-webkit-scrollbar-track {
-    @apply rounded-full bg-gray-900;
+    background: transparent;
   }
-
   ::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-gray-800 transition-colors hover:bg-gray-700;
+    background: hsl(var(--border));
+    border-radius: 5px;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  ins[data-adtest] {
+    @apply relative bg-blue-500 text-white after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:content-['AD\_CONTAINER'];
   }
 }
 
-ins[data-adtest] {
-  @apply relative bg-blue-500 text-white after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:content-['AD\_CONTAINER'];
-}
-.twemojiParse {
-  @apply !inline-block;
-}
 @layer components {
+  .twemojiParse {
+    @apply !inline-block;
+  }
   .preffered-background {
     @apply bg-gradient-to-tr from-gray-950 via-gray-950 via-25% to-[#232054] bg-fixed;
   }
@@ -86,32 +94,14 @@ ins[data-adtest] {
   }
 }
 
-.fade-enter-active {
-  animation: fade 250ms reverse;
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.2s;
 }
-.fade-leave-active {
-  animation: fade 250ms;
-}
-@keyframes fade {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 400ms;
-}
-.slide-enter-from {
-  opacity: 0;
-  transform: translate(-25px, 0);
-}
-.slide-leave-to {
-  opacity: 0;
-  transform: translate(25px, 0);
+.page-enter-from,
+.page-leave-to {
+  opacity: 0.4;
+  filter: blur(1rem);
 }
 
 table {

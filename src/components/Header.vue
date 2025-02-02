@@ -108,6 +108,7 @@ $listen("searchbar:focus", (val) => {
           'mx-4 md:mx-0': !searchFocus
         }"
       />
+
       <div
         class="flex flex-shrink-0"
         :class="{

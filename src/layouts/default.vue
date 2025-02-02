@@ -5,7 +5,9 @@ const userStore = useUserStore()
 if (import.meta.client) userStore.init()
 </script>
 <template>
-  <Header />
-  <NuxtPage />
+  <Header data-allow-mismatch />
+  <main data-allow-mismatch>
+    <slot />
+  </main>
   <Footer />
 </template>
