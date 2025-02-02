@@ -192,31 +192,23 @@ const providers = [
 ]
 
 export default defineNuxtPlugin(() => {
-  const tlink = (item: any) => {
-    try {
-      if (!item) return "#"
-
-      const type =
-        item.media_type || ("tmdb_id" in item && item.type) || ("media" in item && item.media.type)
-
-      const id =
-        item.id || ("tmdb_id" in item && item.tmdb_id) || ("media" in item && item.media.tmdb_id)
-
-      const title =
-        item.title || item.name || ("media" in item && (item.media.title || item.media.name))
-
-      if (!type || !id) return "#"
-
-      return `/${type === "movie" ? "movie" : "tv"}/${slugify(title || "")}-${id}`
-    } catch (error) {
-      console.error("tlink error:", error)
-      return "#"
-    }
-  }
-
   return {
     provide: {
-      tlink,
+      tlink: (
+        media:
+          | Media
+          | TMDBMedia
+          | TMDBResult
+          | { type: "movie" | "tv" | "person"; id: string | number; title?: string; name?: string }
+      ) => {
+        if ("tmdb_id" in media) {
+          return `/${media.type}/${slugify(media.title)}-${media.tmdb_id}`
+        } else if ("type" in media) {
+          return `/${media.type}/${slugify(media.title! || media.name!)}-${media.id}`
+        } else {
+          return `/${media.media_type}/${slugify(media.title! || media.name!)}-${media.id}`
+        }
+      },
       timage: (path: string, size: PosterSizes | BackdropSizes | LogoSizes) => {
         return `https://image.tmdb.org/t/p/${size}${path}`
       },

@@ -13,6 +13,15 @@ export default defineNuxtConfig({
     enabled: true
   },
 
+  experimental: {
+    defaults: {
+      nuxtLink: {
+        prefetch: true,
+        prefetchOn: { visibility: false, interaction: true }
+      }
+    }
+  },
+
   modules: [
     "@nuxtjs/sitemap",
     "@nuxtjs/robots",
