@@ -7,7 +7,7 @@ RUN bun install --frozen-lockfile
 
 RUN bun run build
 
-FROM node:20-slim as runner
+FROM node:20-bullseye as runner
 
 WORKDIR /app
 
