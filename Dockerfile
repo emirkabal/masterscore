@@ -1,19 +1,24 @@
-FROM oven/bun:latest as builder
+FROM node:20-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+ENV NODE_OPTIONS=--max-old-space-size=4096
 
+RUN npm install -g pnpm@9
+RUN apk --no-cache add g++ make python3
+
+COPY . /app
 WORKDIR /app
 
-COPY . ./
-RUN bun install --frozen-lockfile
 
-RUN bun run build
+FROM base AS install
 
-FROM node:20-bullseye as runner
+RUN pnpm install --frozen-lockfile
+RUN pnpm run build
 
-WORKDIR /app
+FROM base AS runner
 
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/.output ./.output
-
+COPY --from=install /app/package.json ./
+COPY --from=install /app/.output ./.output
 
 EXPOSE 3000
 ENTRYPOINT ["node", ".output/server/index.mjs"]
