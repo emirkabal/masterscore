@@ -16,7 +16,9 @@ WORKDIR /app
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/bun.lockb ./
 COPY --from=builder /app/.output ./.output
+COPY --from=builder /app/config ./config
 COPY --from=builder /app/nuxt.config.ts ./nuxt.config.ts
+
 
 EXPOSE 3000
 ENTRYPOINT ["node", ".output/server/index.mjs"]
