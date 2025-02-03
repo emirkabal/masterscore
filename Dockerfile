@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY package.json bun.lockb ./
 COPY nuxt.config.ts ./nuxt.config.ts
+COPY config ./config
 RUN bun install --frozen-lockfile
 COPY . .
 
