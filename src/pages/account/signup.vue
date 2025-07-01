@@ -57,7 +57,7 @@ const onSubmit = form.handleSubmit(async (values) => {
     useRouter().push(goPath)
   } catch (err) {
     loading.value = false
-    error.value = err.statusMessage || "An error occurred"
+    error.value = err.statusMessage || err.message || "An error occurred"
   }
 })
 </script>

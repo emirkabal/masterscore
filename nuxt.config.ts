@@ -54,7 +54,8 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/**": isDev ? {} : { cache: { swr: true, maxAge: 120, staleMaxAge: 60, headersOnly: true } },
-    "/settings": { ssr: false }
+    "/settings": { ssr: false },
+    "/**/reviews": { ssr: false }
   },
 
   nitro: {

@@ -79,7 +79,7 @@ $listen("refresh:entertainment", () => {
               />
             </div>
           </div>
-          <div class="flex w-full flex-col justify-between gap-12">
+          <div class="flex w-full flex-col justify-between gap-10">
             <div class="w-full">
               <h3 class="text-2xl font-bold tracking-tight sm:text-3xl">
                 {{ $t("home.most_liked") }}
