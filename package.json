@@ -87,6 +87,9 @@
     "vue3-emoji-picker": "^1.1.8",
     "zod": "^3.24.1"
   },
+  "pnpm": {
+    "neverBuiltDependencies": []
+  },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
   }

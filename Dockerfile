@@ -1,24 +1,28 @@
-FROM node:20-alpine AS base
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+FROM node:22-alpine AS builder
 ENV NODE_OPTIONS=--max-old-space-size=4096
 
-RUN npm install -g pnpm@9
-RUN apk --no-cache add g++ make python3
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-COPY . /app
 WORKDIR /app
 
 
-FROM base AS install
+COPY package.json pnpm-lock.yaml ./
 
-RUN pnpm install --frozen-lockfile
-RUN pnpm run build
 
-FROM base AS runner
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
-COPY --from=install /app/package.json ./
-COPY --from=install /app/.output ./.output
+COPY . .
+
+RUN pnpm postinstall
+RUN pnpm build
+
+
+FROM node:22-alpine AS runner
+
+WORKDIR /app
+
+COPY --from=builder /app/.output ./.output
+COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
-ENTRYPOINT ["node", ".output/server/index.mjs"]
+CMD ["node", ".output/server/index.mjs"]
