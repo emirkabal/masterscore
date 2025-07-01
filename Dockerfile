@@ -14,6 +14,7 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 COPY . .
 
 RUN pnpm postinstall
+RUN pnpm rebuild bcrypt
 RUN pnpm build
 
 
